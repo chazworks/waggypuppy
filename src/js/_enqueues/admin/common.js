@@ -6,7 +6,7 @@
 /* global columns, screenMeta */
 
 /**
- *  Adds common WordPress functionality to the window.
+ *  Adds common waggypuppy functionality to the window.
  *
  *  @param {jQuery} $        jQuery object.
  *  @param {Object} window   The window object.

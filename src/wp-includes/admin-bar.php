@@ -118,7 +118,7 @@ function wp_admin_bar_render()
 }
 
 /**
- * Adds the WordPress logo menu.
+ * Adds the waggypuppy logo menu.
  *
  * @since 3.3.0
  *
@@ -159,7 +159,7 @@ function wp_admin_bar_wp_menu($wp_admin_bar)
     $wp_admin_bar->add_node($wp_logo_menu_args);
 
     if ($about_url) {
-        // Add "About WordPress" link.
+        // Add "About waggypuppy" link.
         $wp_admin_bar->add_node(
             [
                 'parent' => 'wp-logo',

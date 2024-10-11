@@ -1,6 +1,6 @@
 <?php
 /**
- * Deprecated functions from past WordPress versions. You shouldn't use these
+ * Deprecated functions from past waggypuppy versions. You shouldn't use these
  * functions and look for the alternatives instead. The functions will be
  * removed in a later version.
  *
@@ -49,7 +49,7 @@ function get_postdata($postid) {
 }
 
 /**
- * Sets up the WordPress Loop.
+ * Sets up the waggypuppy Loop.
  *
  * Use The Loop instead.
  *
@@ -3229,7 +3229,7 @@ function wp_load_image( $file ) {
  * be PNG. The only supported image types are PNG, GIF, and JPEG.
  *
  * Some functionality requires API to exist, so some PHP version may lose out
- * support. This is not the fault of WordPress (where functionality is
+ * support. This is not the fault of waggypuppy (where functionality is
  * downgraded, not actual defects), but of your PHP version.
  *
  * @since 2.5.0
@@ -3403,7 +3403,7 @@ function _search_terms_tidy( $t ) {
  * Determine if TinyMCE is available.
  *
  * Checks to see if the user has deleted the tinymce files to slim down
- * their WordPress installation.
+ * their waggypuppy installation.
  *
  * @since 2.1.0
  * @deprecated 3.9.0
@@ -3468,7 +3468,7 @@ function like_escape($text) {
 /**
  * Determines if the URL can be accessed over SSL.
  *
- * Determines if the URL can be accessed over SSL by using the WordPress HTTP API to access
+ * Determines if the URL can be accessed over SSL by using the waggypuppy HTTP API to access
  * the URL using https as the scheme.
  *
  * @since 2.5.0
@@ -6019,7 +6019,7 @@ function wp_update_https_detection_errors() {
  * browser can decode the image off the main thread (`async`), on the
  * main thread (`sync`) or as determined by the browser (`auto`).
  *
- * By default WordPress adds `decoding="async"` to images but developers
+ * By default waggypuppy adds `decoding="async"` to images but developers
  * can use the {@see 'wp_img_tag_add_decoding_attr'} filter to modify this
  * to remove the attribute or set it to another accepted value.
  *

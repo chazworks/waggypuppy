@@ -8,7 +8,7 @@
  * @package WP
  */
 
-/** Make sure that the WordPress bootstrap has run before continuing. */
+/** Make sure that the waggypuppy bootstrap has run before continuing. */
 require __DIR__ . '/wp-load.php';
 
 // Redirect to HTTPS login if forced to use SSL.
@@ -697,7 +697,7 @@ switch ($action) {
                 <?php _e('Please verify that the <strong>administration email</strong> for this website is still correct.'); ?>
                 <?php
 
-                /* translators: URL to the WordPress help section about admin email. */
+                /* translators: URL to the waggypuppy help section about admin email. */
                 $admin_email_help_url = __('https://wp.org/documentation/article/settings-general-screen/#email-address');
 
                 $accessibility_text = sprintf(

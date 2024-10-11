@@ -1,6 +1,6 @@
 <?php
 /**
- * Misc WordPress Administration API.
+ * Misc waggypuppy Administration API.
  *
  * @package WP
  * @subpackage Administration
@@ -827,7 +827,7 @@ function set_screen_options()
 }
 
 /**
- * Checks if rewrite rule for WordPress already exists in the IIS 7+ configuration file.
+ * Checks if rewrite rule for waggypuppy already exists in the IIS 7+ configuration file.
  *
  * @since 2.8.0
  *
@@ -861,7 +861,7 @@ function iis7_rewrite_rule_exists($filename)
 }
 
 /**
- * Deletes WordPress rewrite rule from web.config file if it exists there.
+ * Deletes waggypuppy rewrite rule from web.config file if it exists there.
  *
  * @since 2.8.0
  *
@@ -901,7 +901,7 @@ function iis7_delete_rewrite_rule($filename)
 }
 
 /**
- * Adds WordPress rewrite rule to the IIS 7+ configuration file.
+ * Adds waggypuppy rewrite rule to the IIS 7+ configuration file.
  *
  * @since 2.8.0
  *
@@ -1625,7 +1625,7 @@ function _wp_privacy_settings_filter_draft_page_titles($title, $page)
  * @return array|false {
  *     Array of PHP version data. False on failure.
  *
- *     @type string $recommended_version The PHP version recommended by WordPress.
+ *     @type string $recommended_version The PHP version recommended by waggypuppy.
  *     @type string $minimum_version     The minimum required PHP version.
  *     @type bool   $is_supported        Whether the PHP version is actively supported.
  *     @type bool   $is_secure           Whether the PHP version receives security updates.
@@ -1666,7 +1666,7 @@ function wp_check_php_version()
 
     if (isset($response['is_acceptable']) && $response['is_acceptable']) {
         /**
-         * Filters whether the active PHP version is considered acceptable by WordPress.
+         * Filters whether the active PHP version is considered acceptable by waggypuppy.
          *
          * Returning false will trigger a PHP version warning to show up in the admin dashboard to administrators.
          *

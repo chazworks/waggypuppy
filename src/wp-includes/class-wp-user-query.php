@@ -809,7 +809,7 @@ class WP_User_Query
         /**
          * Filters the users array before the query takes place.
          *
-         * Return a non-null value to bypass WordPress' default user queries.
+         * Return a non-null value to bypass waggypuppy' default user queries.
          *
          * Filtering functions that require pagination information are encouraged to set
          * the `total_users` property of the WP_User_Query object, passed to the filter

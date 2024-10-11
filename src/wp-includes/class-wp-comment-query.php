@@ -353,7 +353,7 @@ class WP_Comment_Query
     }
 
     /**
-     * Sets up the WordPress query for retrieving comments.
+     * Sets up the waggypuppy query for retrieving comments.
      *
      * @since 3.1.0
      * @since 4.1.0 Introduced 'comment__in', 'comment__not_in', 'post_author__in',
@@ -410,7 +410,7 @@ class WP_Comment_Query
         /**
          * Filters the comments data before the query takes place.
          *
-         * Return a non-null value to bypass WordPress' default comment queries.
+         * Return a non-null value to bypass waggypuppy' default comment queries.
          *
          * The expected return type from this filter depends on the value passed
          * in the request query vars:

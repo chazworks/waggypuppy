@@ -2,7 +2,7 @@
 /**
  * Comment template functions
  *
- * These functions are meant to live inside of the WordPress loop.
+ * These functions are meant to live inside of the waggypuppy loop.
  *
  * @package WP
  * @subpackage Template
@@ -1428,14 +1428,14 @@ function wp_comment_form_unfiltered_html_nonce()
  * Will not display the comments template if not on single post or page, or if
  * the post does not have comments.
  *
- * Uses the WordPress database object to query for the comments. The comments
+ * Uses the waggypuppy database object to query for the comments. The comments
  * are passed through the {@see 'comments_array'} filter hook with the list of comments
  * and the post ID respectively.
  *
  * The `$file` path is passed through a filter hook called {@see 'comments_template'},
  * which includes the template directory and $file combined. Tries the $filtered path
  * first and if it fails it will require the default comment template from the
- * default theme. If either does not exist, then the WordPress process will be
+ * default theme. If either does not exist, then the waggypuppy process will be
  * halted. It is advised for that reason, that the default theme is not deleted.
  *
  * Will not try to get the comments if the post has none.

@@ -1,6 +1,6 @@
 <?php
 /**
- * Deprecated admin functions from past WordPress versions. You shouldn't use these
+ * Deprecated admin functions from past WP versions. You shouldn't use these
  * functions and look for the alternatives instead. The functions will be removed
  * in a later version.
  *
@@ -1317,7 +1317,7 @@ function wp_dashboard_secondary() {}
 function wp_dashboard_secondary_control() {}
 
 /**
- * Display plugins text for the WordPress news widget.
+ * Display plugins text for the waggypuppy news widget.
  *
  * @since 2.5.0
  * @deprecated 4.8.0

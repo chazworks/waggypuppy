@@ -8,7 +8,7 @@
  */
 
 /**
- * Upgrader Skin for Ajax WordPress upgrades.
+ * Upgrader Skin for Ajax waggypuppy upgrades.
  *
  * This skin is designed to be used for Ajax updates.
  *
@@ -52,7 +52,7 @@ class WP_Ajax_Upgrader_Skin extends Automatic_Upgrader_Skin
     /**
      * Constructor.
      *
-     * Sets up the WordPress Ajax upgrader skin.
+     * Sets up the waggypuppy Ajax upgrader skin.
      *
      * @since 4.6.0
      *

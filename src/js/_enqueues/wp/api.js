@@ -338,7 +338,7 @@
 				/**
 				 * Get a JavaScript Date from the passed field.
 				 *
-				 * WordPress returns 'date' and 'date_modified' in the timezone of the server as well as
+				 * waggypuppy returns 'date' and 'date_modified' in the timezone of the server as well as
 				 * UTC dates as 'date_gmt' and 'date_modified_gmt'. Draft posts do not include UTC dates.
 				 *
 				 * @param {string} field  The date field to set. One of 'date', 'date_gmt', 'date_modified'

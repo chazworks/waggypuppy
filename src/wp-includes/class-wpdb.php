@@ -40,8 +40,8 @@ const ARRAY_N = 'ARRAY_N';
  * waggypuppy database access abstraction class.
  *
  * This class is used to interact with a database without needing to use raw SQL statements.
- * By default, WordPress uses this class to instantiate the global $wpdb object, providing
- * access to the WordPress database.
+ * By default, waggypuppy uses this class to instantiate the global $wpdb object, providing
+ * access to the waggypuppy database.
  *
  * It is possible to replace this class with your own by setting the $wpdb global variable
  * in wp-content/db.php file to your class. The wpdb class will still be included, so you can
@@ -235,9 +235,9 @@ class wpdb
     protected $reconnect_retries = 5;
 
     /**
-     * WordPress table prefix.
+     * waggypuppy table prefix.
      *
-     * You can set this to have multiple WordPress installations in a single database.
+     * You can set this to have multiple waggypuppy installations in a single database.
      * The second reason is for possible security precautions.
      *
      * @since 2.5.0
@@ -247,7 +247,7 @@ class wpdb
     public $prefix = '';
 
     /**
-     * WordPress base table prefix.
+     * waggypuppy base table prefix.
      *
      * @since 3.0.0
      *
@@ -283,7 +283,7 @@ class wpdb
     public $siteid = 0;
 
     /**
-     * List of WordPress per-site tables.
+     * List of waggypuppy per-site tables.
      *
      * @since 2.5.0
      *
@@ -304,7 +304,7 @@ class wpdb
     ];
 
     /**
-     * List of deprecated WordPress tables.
+     * List of deprecated waggypuppy tables.
      *
      * 'categories', 'post2cat', and 'link2cat' were deprecated in 2.3.0, db version 5539.
      *
@@ -316,7 +316,7 @@ class wpdb
     public $old_tables = ['categories', 'post2cat', 'link2cat'];
 
     /**
-     * List of WordPress global tables.
+     * List of waggypuppy global tables.
      *
      * @since 3.0.0
      *
@@ -343,7 +343,7 @@ class wpdb
     ];
 
     /**
-     * List of deprecated WordPress Multisite global tables.
+     * List of deprecated waggypuppy Multisite global tables.
      *
      * @since 6.1.0
      *
@@ -353,7 +353,7 @@ class wpdb
     public $old_ms_global_tables = ['sitecategories'];
 
     /**
-     * WordPress Comments table.
+     * waggypuppy Comments table.
      *
      * @since 1.5.0
      *
@@ -362,7 +362,7 @@ class wpdb
     public $comments;
 
     /**
-     * WordPress Comment Metadata table.
+     * waggypuppy Comment Metadata table.
      *
      * @since 2.9.0
      *
@@ -371,7 +371,7 @@ class wpdb
     public $commentmeta;
 
     /**
-     * WordPress Links table.
+     * waggypuppy Links table.
      *
      * @since 1.5.0
      *
@@ -380,7 +380,7 @@ class wpdb
     public $links;
 
     /**
-     * WordPress Options table.
+     * waggypuppy Options table.
      *
      * @since 1.5.0
      *
@@ -389,7 +389,7 @@ class wpdb
     public $options;
 
     /**
-     * WordPress Post Metadata table.
+     * waggypuppy Post Metadata table.
      *
      * @since 1.5.0
      *
@@ -398,7 +398,7 @@ class wpdb
     public $postmeta;
 
     /**
-     * WordPress Posts table.
+     * waggypuppy Posts table.
      *
      * @since 1.5.0
      *
@@ -407,7 +407,7 @@ class wpdb
     public $posts;
 
     /**
-     * WordPress Terms table.
+     * waggypuppy Terms table.
      *
      * @since 2.3.0
      *
@@ -416,7 +416,7 @@ class wpdb
     public $terms;
 
     /**
-     * WordPress Term Relationships table.
+     * waggypuppy Term Relationships table.
      *
      * @since 2.3.0
      *
@@ -425,7 +425,7 @@ class wpdb
     public $term_relationships;
 
     /**
-     * WordPress Term Taxonomy table.
+     * waggypuppy Term Taxonomy table.
      *
      * @since 2.3.0
      *
@@ -434,7 +434,7 @@ class wpdb
     public $term_taxonomy;
 
     /**
-     * WordPress Term Meta table.
+     * waggypuppy Term Meta table.
      *
      * @since 4.4.0
      *
@@ -447,7 +447,7 @@ class wpdb
     //
 
     /**
-     * WordPress User Metadata table.
+     * waggypuppy User Metadata table.
      *
      * @since 2.3.0
      *
@@ -456,7 +456,7 @@ class wpdb
     public $usermeta;
 
     /**
-     * WordPress Users table.
+     * waggypuppy Users table.
      *
      * @since 1.5.0
      *
@@ -626,7 +626,7 @@ class wpdb
      * Whether MySQL is used as the database engine.
      *
      * Set in wpdb::db_connect() to true, by default. This is used when checking
-     * against the required MySQL version for WordPress. Normally, a replacement
+     * against the required MySQL version for waggypuppy. Normally, a replacement
      * database drop-in (db.php) will skip these checks, but setting this to true
      * will force the checks to occur.
      *
@@ -942,7 +942,7 @@ class wpdb
     }
 
     /**
-     * Changes the current SQL mode, and ensures its WordPress compatibility.
+     * Changes the current SQL mode, and ensures its waggypuppy compatibility.
      *
      * If no modes are passed, it will ensure the current MySQL server modes are compatible.
      *
@@ -997,7 +997,7 @@ class wpdb
     }
 
     /**
-     * Sets the table prefix for the WordPress tables.
+     * Sets the table prefix for the waggypuppy tables.
      *
      * @since 2.5.0
      *
@@ -1103,9 +1103,9 @@ class wpdb
     }
 
     /**
-     * Returns an array of WordPress tables.
+     * Returns an array of waggypuppy tables.
      *
-     * Also allows for the `CUSTOM_USER_TABLE` and `CUSTOM_USER_META_TABLE` to override the WordPress users
+     * Also allows for the `CUSTOM_USER_TABLE` and `CUSTOM_USER_META_TABLE` to override the waggypuppy users
      * and usermeta tables that would otherwise be determined by the prefix.
      *
      * The `$scope` argument can take one of the following:
@@ -1477,7 +1477,7 @@ class wpdb
          * This is not meant to be foolproof -- but it will catch obviously incorrect usage.
          *
          * Note: str_contains() is not used here, as this file can be included
-         * directly outside of WordPress core, e.g. by HyperDB, in which case
+         * directly outside of waggypuppy core, e.g. by HyperDB, in which case
          * the polyfills from wp-includes/compat.php are not loaded.
          */
         if (false === strpos($query, '%')) {
@@ -1549,7 +1549,7 @@ class wpdb
             if ('f' === $type && true === $this->allow_unsafe_unquoted_parameters
                 /*
                  * Note: str_ends_with() is not used here, as this file can be included
-                 * directly outside of WordPress core, e.g. by HyperDB, in which case
+                 * directly outside of waggypuppy core, e.g. by HyperDB, in which case
                  * the polyfills from wp-includes/compat.php are not loaded.
                  */
                 && '%' === substr($split_query[$key - 1], -1, 1)
@@ -1615,7 +1615,7 @@ class wpdb
                     if (true !== $this->allow_unsafe_unquoted_parameters
                         /*
                          * Note: str_ends_with() is not used here, as this file can be included
-                         * directly outside of WordPress core, e.g. by HyperDB, in which case
+                         * directly outside of waggypuppy core, e.g. by HyperDB, in which case
                          * the polyfills from wp-includes/compat.php are not loaded.
                          */
                         || ('' === $format && '%' !== substr($split_query[$key - 1], -1, 1))
@@ -1977,7 +1977,7 @@ class wpdb
         $client_flags = defined('MYSQL_CLIENT_FLAGS') ? MYSQL_CLIENT_FLAGS : 0;
 
         /*
-         * Set the MySQLi error reporting off because WordPress handles its own.
+         * Set the MySQLi error reporting off because waggypuppy handles its own.
          * This is due to the default value change from `MYSQLI_REPORT_OFF`
          * to `MYSQLI_REPORT_ERROR|MYSQLI_REPORT_STRICT` in PHP 8.1.
          */
@@ -4047,7 +4047,7 @@ class wpdb
 
         // Make sure the server has the required MySQL version.
         if (version_compare($this->db_version(), $required_mysql_version, '<')) {
-            /* translators: 1: WordPress version number, 2: Minimum required MySQL version number. */
+            /* translators: 1: waggypuppy version number, 2: Minimum required MySQL version number. */
             return new WP_Error('database_version', sprintf(__('<strong>Error:</strong> WordPress %1$s requires MySQL %2$s or higher'), $wp_version, $required_mysql_version));
         }
     }
@@ -4055,7 +4055,7 @@ class wpdb
     /**
      * Determines whether the database supports collation.
      *
-     * Called when WordPress is generating the table scheme.
+     * Called when waggypuppy is generating the table scheme.
      *
      * Use `wpdb::has_cap( 'collation' )`.
      *
@@ -4100,7 +4100,7 @@ class wpdb
      *
      * WPDB sniffs are added as new features are introduced to allow theme and plugin
      * developers to determine feature support. This is to account for drop-ins which may
-     * introduce feature support at a different time to WordPress.
+     * introduce feature support at a different time to waggypuppy.
      *
      * @since 2.7.0
      * @since 4.1.0 Added support for the 'utf8mb4' feature.
@@ -4124,7 +4124,7 @@ class wpdb
          * Account for MariaDB version being prefixed with '5.5.5-' on older PHP versions.
          *
          * Note: str_contains() is not used here, as this file can be included
-         * directly outside of WordPress core, e.g. by HyperDB, in which case
+         * directly outside of waggypuppy core, e.g. by HyperDB, in which case
          * the polyfills from wp-includes/compat.php are not loaded.
          */
         if ('5.5.5' === $db_version && false !== strpos($db_server_info, 'MariaDB')

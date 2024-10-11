@@ -41,7 +41,7 @@ function _usort_by_first_member($a, $b)
 }
 
 /**
- * Registers importer for WordPress.
+ * Registers importer for waggypuppy.
  *
  * @since 2.0.0
  *
@@ -154,7 +154,7 @@ function wp_get_popular_importers()
             ],
             'http://api.wp.org/core/importers/1.1/'
         );
-        $options = ['user-agent' => 'WordPress/' . wp_get_wp_version() . '; ' . home_url('/')];
+        $options = ['user-agent' => '__VAR_WP/' . wp_get_wp_version() . '; ' . home_url('/')];
 
         if (wp_http_supports(['ssl'])) {
             $url = set_url_scheme($url, 'https');
@@ -177,10 +177,10 @@ function wp_get_popular_importers()
         }
 
         foreach ($popular_importers['importers'] as &$importer) {
-			// phpcs:ignore __VAR_WP.WP.I18n.LowLevelTranslationFunction,WordPress.WP.I18n.NonSingularStringLiteralText
+			// phpcs:ignore __VAR_WP.WP.I18n.LowLevelTranslationFunction,__VAR_WP.WP.I18n.NonSingularStringLiteralText
             $importer['description'] = translate($importer['description']);
             if ('WordPress' !== $importer['name']) {
-				// phpcs:ignore __VAR_WP.WP.I18n.LowLevelTranslationFunction,WordPress.WP.I18n.NonSingularStringLiteralText
+				// phpcs:ignore __VAR_WP.WP.I18n.LowLevelTranslationFunction,__VAR_WP.WP.I18n.NonSingularStringLiteralText
                 $importer['name'] = translate($importer['name']);
             }
         }

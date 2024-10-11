@@ -6,10 +6,10 @@
  * @subpackage Administration
  */
 
-/** Load WordPress Bootstrap */
+/** Load waggypuppy Bootstrap */
 require_once __DIR__ . '/admin.php';
 
-/** Load WordPress dashboard API */
+/** Load waggypuppy dashboard API */
 require_once ABSPATH . 'wp-admin/includes/dashboard.php';
 
 wp_dashboard_setup();
@@ -93,8 +93,8 @@ if (is_blog_admin() && current_user_can('edit_posts')) {
 }
 
 $help .= '<p>' . sprintf(
-    /* translators: %s: WordPress Planet URL. */
-    __('<strong>WordPress Events and News</strong> &mdash; Upcoming events near you as well as the latest news from the official WordPress project and the <a href="%s">WordPress Planet</a>.'),
+    /* translators: %s: WP Planet URL. */
+    __('<strong>WP Events and News</strong> &mdash; Upcoming events near you as well as the latest news from the official __VAR_WP project and the <a href="%s">WordPress Planet</a>.'),
     __('https://planet.wp.org/')
 ) . '</p>';
 
@@ -109,13 +109,13 @@ $screen->add_help_tab(
 unset($help);
 
 $wp_version = get_bloginfo('version', 'display');
-/* translators: %s: WordPress version. */
+/* translators: %s: waggypuppy version. */
 $wp_version_text = sprintf(__('Version %s'), $wp_version);
 $is_dev_version  = preg_match('/alpha|beta|RC/', $wp_version);
 
 if (! $is_dev_version) {
     $version_url = sprintf(
-        /* translators: %s: WordPress version. */
+        /* translators: %s: waggypuppy version. */
         esc_url(__('https://wp.org/documentation/wordpress-version/version-%s/')),
         sanitize_title($wp_version)
     );

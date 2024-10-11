@@ -1,7 +1,7 @@
 <?php
 /**
  * Used to set up and fix common variables and include
- * the WordPress procedural and class library.
+ * the waggypuppy procedural and class library.
  *
  * Allows for some configuration in wp-config.php (see default-constants.php)
  *
@@ -9,14 +9,14 @@
  */
 
 /**
- * Stores the location of the WordPress directory of functions, classes, and core content.
+ * Stores the location of the waggypuppy directory of functions, classes, and core content.
  *
  * @since 1.0.0
  */
 const WPINC = 'wp-includes';
 
 /**
- * Version information for the current WordPress release.
+ * Version information for the current waggypuppy release.
  *
  * These can't be directly globalized in version.php. When updating,
  * include version.php from another installation and don't override
@@ -66,7 +66,7 @@ wp_initial_constants();
 // Register the shutdown handler for fatal errors as soon as possible.
 wp_register_fatal_error_handler();
 
-// WordPress calculates offsets from UTC.
+// waggypuppy calculates offsets from UTC.
 // phpcs:ignore __VAR_WP.DateTime.RestrictedFunctions.timezone_change_date_default_timezone_set
 date_default_timezone_set('UTC');
 
@@ -106,7 +106,7 @@ if (WP_CACHE && apply_filters('enable_loading_advanced_cache_dropin', true) && f
 // Define WP_LANG_DIR if not set.
 wp_set_lang_dir();
 
-// Load early WordPress files.
+// Load early waggypuppy files.
 require ABSPATH . WPINC . '/class-wp-list-util.php';
 require ABSPATH . WPINC . '/class-wp-token-map.php';
 require ABSPATH . WPINC . '/formatting.php';
@@ -142,7 +142,7 @@ $GLOBALS['table_prefix'] = $table_prefix;
 // Set the database table prefix and the format specifiers for database table columns.
 wp_set_wpdb_vars();
 
-// Start the WordPress object cache, or an external object cache if the drop-in is present.
+// Start the waggypuppy object cache, or an external object cache if the drop-in is present.
 wp_start_object_cache();
 
 // Attach the default filters.
@@ -160,7 +160,7 @@ if (is_multisite()) {
 
 register_shutdown_function('shutdown_action_hook');
 
-// Stop most of WordPress from being loaded if SHORTINIT is enabled.
+// Stop most of waggypuppy from being loaded if SHORTINIT is enabled.
 if (SHORTINIT) {
     return false;
 }
@@ -171,10 +171,10 @@ require_once ABSPATH . WPINC . '/class-wp-textdomain-registry.php';
 require_once ABSPATH . WPINC . '/class-wp-locale.php';
 require_once ABSPATH . WPINC . '/class-wp-locale-switcher.php';
 
-// Run the installer if WordPress is not installed.
+// Run the installer if waggypuppy is not installed.
 wp_not_installed();
 
-// Load most of WordPress.
+// Load most of waggypuppy.
 require ABSPATH . WPINC . '/class-wp-walker.php';
 require ABSPATH . WPINC . '/class-wp-ajax-response.php';
 require ABSPATH . WPINC . '/capabilities.php';
@@ -582,7 +582,7 @@ $GLOBALS['wp_the_query'] = new WP_Query();
 
 /**
  * Holds the reference to {@see $wp_the_query}.
- * Use this global for WordPress queries
+ * Use this global for waggypuppy queries
  *
  * @since 1.5.0
  *
@@ -591,7 +591,7 @@ $GLOBALS['wp_the_query'] = new WP_Query();
 $GLOBALS['wp_query'] = $GLOBALS['wp_the_query'];
 
 /**
- * Holds the WordPress Rewrite object for creating pretty URLs
+ * Holds the waggypuppy Rewrite object for creating pretty URLs
  *
  * @since 1.5.0
  *
@@ -691,7 +691,7 @@ WP_Site_Health::get_instance();
 $GLOBALS['wp']->init();
 
 /**
- * Fires after WordPress has finished loading but before any headers are sent.
+ * Fires after waggypuppy has finished loading but before any headers are sent.
  *
  * Most of WP is loaded at this stage, and the user is authenticated. WP continues
  * to load on the {@see 'init'} hook that follows (e.g. widgets), and many plugins instantiate

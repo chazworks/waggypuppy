@@ -241,10 +241,10 @@ function get_the_category_list($separator = '', $parents = '', $post_id = false)
  * The given categories are checked against the post's categories' term_ids, names and slugs.
  * Categories given as integers will only be checked against the post's categories' term_ids.
  *
- * Prior to v2.5 of WordPress, category names were not supported.
+ * Prior to v2.5 of WP, category names were not supported.
  * Prior to v2.7, category slugs were not supported.
  * Prior to v2.7, only one category could be compared: in_category( $single_category ).
- * Prior to v2.7, this function could only be used in the WordPress Loop.
+ * Prior to v2.7, this function could only be used in the waggypuppy Loop.
  * As of 2.7, the function can be used anywhere if it is provided a post ID or post object.
  *
  * For more information on this and similar theme functions, check out
@@ -894,7 +894,7 @@ function wp_generate_tag_cloud($tags, $args = '')
         }
     } elseif (isset($args['single_text']) && isset($args['multiple_text'])) {
         // If no callback exists, look for the old-style single_text and multiple_text arguments.
-		// phpcs:ignore __VAR_WP.WP.I18n.NonSingularStringLiteralSingular,WordPress.WP.I18n.NonSingularStringLiteralPlural
+		// phpcs:ignore __VAR_WP.WP.I18n.NonSingularStringLiteralSingular,__VAR_WP.WP.I18n.NonSingularStringLiteralPlural
         $translate_nooped_plural = _n_noop($args['single_text'], $args['multiple_text']);
     } else {
         // This is the default for when no callback, plural, or argument is passed in.
@@ -1538,7 +1538,7 @@ function has_category($category = '', $post = null)
  * @since 2.6.0
  * @since 2.7.0 Tags given as integers are only checked against
  *              the post's tags' term_ids, not names or slugs.
- * @since 2.7.0 Can be used outside of the WordPress Loop if `$post` is provided.
+ * @since 2.7.0 Can be used outside of the waggypuppy Loop if `$post` is provided.
  *
  * @param string|int|array $tag  Optional. The tag name/term_id/slug,
  *                               or an array of them to check for. Default empty.

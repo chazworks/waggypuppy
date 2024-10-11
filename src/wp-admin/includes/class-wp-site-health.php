@@ -1,6 +1,6 @@
 <?php
 /**
- * Class for looking up a site's health based on a user's WordPress environment.
+ * Class for looking up a site's health based on a user's waggypuppy environment.
  *
  * @package WP
  * @subpackage Site_Health
@@ -250,7 +250,7 @@ class WP_Site_Health
     }
 
     /**
-     * Tests for WordPress version and outputs it.
+     * Tests for waggypuppy version and outputs it.
      *
      * Gives various results depending on what kind of updates are available, if any, to encourage
      * the user to install security updates as a priority.
@@ -280,7 +280,7 @@ class WP_Site_Health
             $result['status'] = 'recommended';
 
             $result['label'] = sprintf(
-                /* translators: %s: Your current version of WordPress. */
+                /* translators: %s: Your current version of waggypuppy. */
                 __('WordPress version %s'),
                 $core_current_version
             );
@@ -305,7 +305,7 @@ class WP_Site_Health
                     $new_major     = $new_version[0] . '.' . $new_version[1];
 
                     $result['label'] = sprintf(
-                        /* translators: %s: The latest version of WordPress available. */
+                        /* translators: %s: The latest version of waggypuppy available. */
                         __('WordPress update available (%s)'),
                         $update->version
                     );
@@ -335,7 +335,7 @@ class WP_Site_Health
                 } else {
                     $result['status'] = 'good';
                     $result['label']  = sprintf(
-                        /* translators: %s: The current version of WordPress installed on this site. */
+                        /* translators: %s: The current version of waggypuppy installed on this site. */
                         __('Your version of WordPress (%s) is up to date'),
                         $core_current_version
                     );
@@ -662,7 +662,7 @@ class WP_Site_Health
                             $themes_inactive
                         ),
                         sprintf(
-                            /* translators: 1: The default theme for WordPress. 2: The currently active theme. 3: The active theme's parent theme. */
+                            /* translators: 1: The default theme for waggypuppy. 2: The currently active theme. 3: The active theme's parent theme. */
                             __('To enhance your site&#8217;s security, you should consider removing any themes you are not using. You should keep %1$s, the default WordPress theme, %2$s, your active theme, and %3$s, its parent theme.'),
                             $default_theme ? $default_theme->name : WP_DEFAULT_THEME,
                             $active_theme->name,
@@ -695,7 +695,7 @@ class WP_Site_Health
                     $result['description'] .= sprintf(
                         '<p>%s %s</p>',
                         sprintf(
-                            /* translators: 1: The amount of inactive themes. 2: The default theme for WordPress. 3: The currently active theme. */
+                            /* translators: 1: The amount of inactive themes. 2: The default theme for waggypuppy. 3: The currently active theme. */
                             _n(
                                 'Your site has %1$d inactive theme, other than %2$s, the default WordPress theme, and %3$s, your active theme.',
                                 'Your site has %1$d inactive themes, other than %2$s, the default WordPress theme, and %3$s, your active theme.',
@@ -785,7 +785,7 @@ class WP_Site_Health
 
         /*
          * The PHP version is still receiving security fixes, but is lower than
-         * the expected minimum version that will be required by WordPress in the near future.
+         * the expected minimum version that will be required by waggypuppy in the near future.
          */
         if ($response['is_secure'] && $response['is_lower_than_future_minimum']) {
             // The `is_secure` array key name doesn't actually imply this is a secure version of PHP. It only means it receives security updates.
@@ -814,7 +814,7 @@ class WP_Site_Health
             return $result;
         }
 
-        // No more security updates for the PHP version, and lower than the expected minimum version required by WordPress.
+        // No more security updates for the PHP version, and lower than the expected minimum version required by waggypuppy.
         if ($response['is_lower_than_future_minimum']) {
             $message = sprintf(
                 /* translators: %s: The server PHP version. */
@@ -881,7 +881,7 @@ class WP_Site_Health
     /**
      * Tests if required PHP modules are installed on the host.
      *
-     * This test builds on the recommendations made by the WordPress Hosting Team
+     * This test builds on the recommendations made by the WP Hosting Team
      * as seen at https://make.wp.org/hosting/handbook/handbook/server-environment/#php-extensions
      *
      * @since 5.2.0
@@ -1235,7 +1235,7 @@ class WP_Site_Health
             ),
             'actions'     => sprintf(
                 '<p><a href="%s" target="_blank">%s<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
-                /* translators: Localized version of WordPress requirements if one exists. */
+                /* translators: Localized version of waggypuppy requirements if one exists. */
                 esc_url(__('https://wp.org/about/requirements/')),
                 __('Learn more about what WordPress requires to run.'),
                 /* translators: Hidden accessibility text. */
@@ -1392,7 +1392,7 @@ class WP_Site_Health
             ),
             'actions'     => sprintf(
                 '<p><a href="%s" target="_blank">%s<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
-                /* translators: Documentation explaining debugging in WordPress. */
+                /* translators: Documentation explaining debugging in waggypuppy. */
                 esc_url(__('https://developer.wp.org/advanced-administration/debug/debug-wordpress/')),
                 __('Learn more about debugging in WordPress.'),
                 /* translators: Hidden accessibility text. */
@@ -1516,7 +1516,7 @@ class WP_Site_Health
                     $result['description'] = sprintf(
                         '<p>%s</p>',
                         sprintf(
-                            /* translators: 1: URL to Settings > General > WordPress Address, 2: URL to Settings > General > Site Address. */
+                            /* translators: 1: URL to Settings > General > waggypuppy Address, 2: URL to Settings > General > Site Address. */
                             __('You are accessing this website using HTTPS, but your <a href="%1$s">WordPress Address</a> and <a href="%2$s">Site Address</a> are not set up to use HTTPS by default.'),
                             esc_url(admin_url('options-general.php') . '#siteurl'),
                             esc_url(admin_url('options-general.php') . '#home')
@@ -1526,7 +1526,7 @@ class WP_Site_Health
                     $result['description'] = sprintf(
                         '<p>%s</p>',
                         sprintf(
-                            /* translators: 1: URL to Settings > General > WordPress Address, 2: URL to Settings > General > Site Address. */
+                            /* translators: 1: URL to Settings > General > waggypuppy Address, 2: URL to Settings > General > Site Address. */
                             __('Your <a href="%1$s">WordPress Address</a> and <a href="%2$s">Site Address</a> are not set up to use HTTPS.'),
                             esc_url(admin_url('options-general.php') . '#siteurl'),
                             esc_url(admin_url('options-general.php') . '#home')
@@ -1713,9 +1713,9 @@ class WP_Site_Health
     }
 
     /**
-     * Tests if WordPress can run automated background updates.
+     * Tests if waggypuppy can run automated background updates.
      *
-     * Background updates in WordPress are primarily used for minor releases and security updates.
+     * Background updates in waggypuppy are primarily used for minor releases and security updates.
      * It's important to either have these working, or be aware that they are intentionally disabled
      * for whatever reason.
      *
@@ -2022,7 +2022,7 @@ class WP_Site_Health
     /**
      * Tests if loopbacks work as expected.
      *
-     * A loopback is when WordPress queries itself, for example to start a new WP_Cron instance,
+     * A loopback is when waggypuppy queries itself, for example to start a new WP_Cron instance,
      * or when editing a plugin or theme. This has shown itself to be a recurring issue,
      * as code can very easily break this interaction.
      *
@@ -2203,7 +2203,7 @@ class WP_Site_Health
                     $url
                 ),
                 sprintf(
-                    // translators: 1: The WordPress error code. 2: The WordPress error message.
+                    // translators: 1: The waggypuppy error code. 2: The waggypuppy error message.
                     __('REST API Response: (%1$s) %2$s'),
                     $r->get_error_code(),
                     $r->get_error_message()
@@ -2223,7 +2223,7 @@ class WP_Site_Health
                     $url
                 ),
                 sprintf(
-                    // translators: 1: The WordPress error code. 2: The HTTP status code error message.
+                    // translators: 1: The waggypuppy error code. 2: The HTTP status code error message.
                     __('REST API Response: (%1$s) %2$s'),
                     wp_remote_retrieve_response_code($r),
                     wp_remote_retrieve_response_message($r)
@@ -2869,7 +2869,7 @@ class WP_Site_Health
          * Filters which site status tests are run on a site.
          *
          * The site health is determined by a set of tests based on best practices from
-         * both the WordPress Hosting Team and web standards in general.
+         * both the WP Hosting Team and web standards in general.
          *
          * Some sites may not have the same requirements, for example the automatic update
          * checks may be handled by a host, and are therefore disabled in core.
@@ -3143,7 +3143,7 @@ class WP_Site_Health
     /**
      * Runs a loopback test on the site.
      *
-     * Loopbacks are what WordPress uses to communicate with itself to start up WP_Cron, scheduled posts,
+     * Loopbacks are what waggypuppy uses to communicate with itself to start up WP_Cron, scheduled posts,
      * make sure plugin or theme edits don't cause site failures and similar.
      *
      * @since 5.2.0
@@ -3175,7 +3175,7 @@ class WP_Site_Health
          * - the loopback request finishes sooner providing a quicker result.
          *
          * Using a POST request causes the loopback to differ slightly to the standard
-         * GET request WordPress uses for wp-cron.php loopback requests but is close
+         * GET request waggypuppy uses for wp-cron.php loopback requests but is close
          * enough. See https://core.trac.wp.org/ticket/52547
          */
         $r = wp_remote_post($url, compact('body', 'cookies', 'headers', 'timeout', 'sslverify'));
@@ -3187,7 +3187,7 @@ class WP_Site_Health
                     '%s<br>%s',
                     __('The loopback request to your site failed, this means features relying on them are not currently working as expected.'),
                     sprintf(
-                        /* translators: 1: The WordPress error message. 2: The WordPress error code. */
+                        /* translators: 1: The waggypuppy error message. 2: The waggypuppy error code. */
                         __('Error: %1$s (%2$s)'),
                         $r->get_error_message(),
                         $r->get_error_code()

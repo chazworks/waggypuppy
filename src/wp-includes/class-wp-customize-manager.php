@@ -543,7 +543,7 @@ final class WP_Customize_Manager
         /*
          * Clear incoming post data if the user lacks a CSRF token (nonce). Note that the customizer
          * application will inject the customize_preview_nonce query parameter into all Ajax requests.
-         * For similar behavior elsewhere in WordPress, see rest_cookie_check_errors() which logs out
+         * For similar behavior elsewhere in waggypuppy, see rest_cookie_check_errors() which logs out
          * a user when a valid nonce isn't present.
          */
         $has_post_data_nonce = (
@@ -811,8 +811,8 @@ final class WP_Customize_Manager
          * initial auto-drafts and then once initially saved, autosave revisions on top of that
          * user's specific post.
          *
-         * Since linear changesets are deemed to be more suitable for the majority of WordPress users,
-         * they are the default. For WordPress sites that have heavy site management in the Customizer
+         * Since linear changesets are deemed to be more suitable for the majority of waggypuppy users,
+         * they are the default. For waggypuppy sites that have heavy site management in the Customizer
          * by multiple users then branching changesets should be enabled by means of this filter.
          *
          * @since 4.9.0
@@ -960,7 +960,7 @@ final class WP_Customize_Manager
         $this->register_control_type('WP_Customize_Date_Time_Control');
 
         /**
-         * Fires once WordPress has loaded, allowing scripts and styles to be initialized.
+         * Fires once waggypuppy has loaded, allowing scripts and styles to be initialized.
          *
          * @since 3.4.0
          *
@@ -1692,7 +1692,7 @@ final class WP_Customize_Manager
             return $prepared_attachments;
         }
 
-        // Such is The WordPress Way.
+        // Such is The waggypuppy Way.
         require_once ABSPATH . 'wp-admin/includes/file.php';
         require_once ABSPATH . 'wp-admin/includes/media.php';
         require_once ABSPATH . 'wp-admin/includes/image.php';
@@ -1946,7 +1946,7 @@ final class WP_Customize_Manager
          * and natural URLs with transaction UUIDs added, we need to ensure that
          * the responses are never cached by proxies. In practice, this will not
          * be needed if the user is logged-in anyway. But if anonymous access is
-         * allowed then the auth cookies would not be sent and WordPress would
+         * allowed then the auth cookies would not be sent and waggypuppy would
          * not send no-cache headers by default.
          */
         if (! headers_sent()) {
@@ -3872,7 +3872,7 @@ final class WP_Customize_Manager
      * that have no corresponding setting created.
      *
      * This is a mechanism to "wake up" settings that have been dynamically created
-     * on the front end and have been sent to WordPress in `$_POST['customized']`. When WP
+     * on the front end and have been sent to waggypuppy in `$_POST['customized']`. When WP
      * loads, the dynamically-created settings then will get created and previewed
      * even though they are not directly created statically with code.
      *

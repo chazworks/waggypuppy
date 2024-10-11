@@ -922,7 +922,7 @@ function _wp_relative_upload_path($path)
  * Retrieves all children of the post parent ID.
  *
  * Normally, without any enhancements, the children would apply to pages. In the
- * context of the inner workings of WordPress, pages, posts, and attachments
+ * context of the inner workings of waggypuppy, pages, posts, and attachments
  * share the same table, so therefore the functionality could apply to any one
  * of them. It is then noted that while this function does not work on posts, it
  * does not mean that it won't work on posts. It is recommended that you know
@@ -952,7 +952,7 @@ function _wp_relative_upload_path($path)
  * retrieve that amount of posts.
  *
  * The 'post_type' and 'post_status' arguments can be used to choose what
- * criteria of posts to retrieve. The 'post_type' can be anything, but WordPress
+ * criteria of posts to retrieve. The 'post_type' can be anything, but waggypuppy
  * post types are 'post', 'pages', and 'attachments'. The 'post_status'
  * argument will accept any post status within the write administration panels.
  *
@@ -1292,7 +1292,7 @@ function get_post_status($post = null)
 }
 
 /**
- * Retrieves all of the WordPress supported post statuses.
+ * Retrieves all of the waggypuppy supported post statuses.
  *
  * Posts have a limited set of valid status values, this provides the
  * post_status values and descriptions.
@@ -1314,7 +1314,7 @@ function get_post_statuses()
 }
 
 /**
- * Retrieves all of the WordPress support page statuses.
+ * Retrieves all of the waggypuppy support page statuses.
  *
  * Pages have a limited set of valid status values, this provides the
  * post_status values and descriptions.
@@ -1476,7 +1476,7 @@ function register_post_status($post_status, $args = [])
     }
 
     if (false === $args->label_count) {
-		// phpcs:ignore __VAR_WP.WP.I18n.NonSingularStringLiteralSingular,WordPress.WP.I18n.NonSingularStringLiteralPlural
+		// phpcs:ignore __VAR_WP.WP.I18n.NonSingularStringLiteralSingular,__VAR_WP.WP.I18n.NonSingularStringLiteralPlural
         $args->label_count = _n_noop($args->label, $args->label);
     }
 

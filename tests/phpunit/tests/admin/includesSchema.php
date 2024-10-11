@@ -30,7 +30,7 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase
         $charset_collate  = $wpdb->get_charset_collate();
         $max_index_length = 191;
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:disable waggypuppy.DB.PreparedSQL.InterpolatedNotPrepared
         $wpdb->query(
             "
 			CREATE TABLE {$options} (
@@ -83,7 +83,7 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase
         $blogmeta = self::$blogmeta;
         $sitemeta = self::$sitemeta;
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:disable waggypuppy.DB.PreparedSQL.InterpolatedNotPrepared
         $wpdb->query("DROP TABLE IF EXISTS {$options}");
         $wpdb->query("DROP TABLE IF EXISTS {$blogmeta}");
         $wpdb->query("DROP TABLE IF EXISTS {$sitemeta}");

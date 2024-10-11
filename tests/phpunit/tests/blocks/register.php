@@ -861,7 +861,7 @@ class Tests_Blocks_Register extends WP_UnitTestCase
 
     /**
      * Tests that the function returns false when the `block.json` is not found
-     * in the WordPress core.
+     * in the waggypuppy core.
      *
      * @ticket 50263
      */

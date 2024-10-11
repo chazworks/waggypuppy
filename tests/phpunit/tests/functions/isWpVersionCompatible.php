@@ -10,14 +10,14 @@
 class Tests_Functions_IsWpVersionCompatible extends WP_UnitTestCase
 {
     /**
-     * The current WordPress version.
+     * The current waggypuppy version.
      *
      * @var string
      */
     private static $wp_version;
 
     /**
-     * Sets the test WordPress version property and global before any tests run.
+     * Sets the test waggypuppy version property and global before any tests run.
      */
     public static function set_up_before_class()
     {
@@ -27,7 +27,7 @@ class Tests_Functions_IsWpVersionCompatible extends WP_UnitTestCase
     }
 
     /**
-     * Resets the test WordPress version global after each test runs.
+     * Resets the test waggypuppy version global after each test runs.
      */
     public function tear_down()
     {
@@ -36,7 +36,7 @@ class Tests_Functions_IsWpVersionCompatible extends WP_UnitTestCase
     }
 
     /**
-     * Unsets the test WordPress version global after all tests run.
+     * Unsets the test waggypuppy version global after all tests run.
      */
     public static function tear_down_after_class()
     {

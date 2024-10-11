@@ -261,7 +261,7 @@ class WP_Site_Query
     }
 
     /**
-     * Sets up the WordPress query for retrieving sites.
+     * Sets up the waggypuppy query for retrieving sites.
      *
      * @since 4.6.0
      *
@@ -316,7 +316,7 @@ class WP_Site_Query
         /**
          * Filters the site data before the get_sites query takes place.
          *
-         * Return a non-null value to bypass WordPress' default site queries.
+         * Return a non-null value to bypass waggypuppy' default site queries.
          *
          * The expected return type from this filter depends on the value passed
          * in the request query vars:

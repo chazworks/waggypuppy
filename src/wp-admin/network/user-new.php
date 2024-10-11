@@ -7,7 +7,7 @@
  * @since 3.1.0
  */
 
-/** Load WordPress Administration Bootstrap */
+/** Load waggypuppy Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 
 if (! current_user_can('create_users')) {

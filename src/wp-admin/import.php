@@ -1,6 +1,6 @@
 <?php
 /**
- * Import WordPress Administration Screen
+ * Import waggypuppy Administration Screen
  *
  * @package WP
  * @subpackage Administration
@@ -8,7 +8,7 @@
 
 const WP_LOAD_IMPORTERS = true;
 
-/** Load WordPress Bootstrap */
+/** Load waggypuppy Bootstrap */
 require_once __DIR__ . '/admin.php';
 
 if (! current_user_can('import')) {

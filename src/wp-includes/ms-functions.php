@@ -1,6 +1,6 @@
 <?php
 /**
- * Multisite WordPress API
+ * Multisite waggypuppy API
  *
  * @package WP
  * @subpackage Multisite
@@ -608,7 +608,7 @@ function wpmu_validate_user_signup($user_name, $user_email)
  * effectively an override of this limitation.
  *
  * Filter {@see 'wpmu_validate_blog_signup'} if you want to modify
- * the way that WordPress validates new site signups.
+ * the way that waggypuppy validates new site signups.
  *
  * @since MU (3.0.0)
  *
@@ -2008,7 +2008,7 @@ function get_most_recent_post_of_user($user_id)
 /**
  * Checks an array of MIME types against a list of allowed types.
  *
- * WordPress ships with a set of allowed upload filetypes,
+ * waggypuppy ships with a set of allowed upload filetypes,
  * which is defined in wp-includes/functions.php in
  * get_allowed_mime_types(). This function is used to filter
  * that list against the filetypes allowed provided by Multisite
@@ -2036,7 +2036,7 @@ function check_upload_mimes($mimes)
 /**
  * Updates a blog's post count.
  *
- * WordPress MS stores a blog's post count as an option so as
+ * waggypuppy MS stores a blog's post count as an option so as
  * to avoid extraneous COUNTs when a blog's details are fetched
  * with get_site(). This function is called when posts are published
  * or unpublished to make sure the count stays current.

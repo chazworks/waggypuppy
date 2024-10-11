@@ -24,7 +24,7 @@ window.wp = window.wp || {};
 		var compiled,
 			/*
 			 * Underscore's default ERB-style templates are incompatible with PHP
-			 * when asp_tags is enabled, so WordPress uses Mustache-inspired templating syntax.
+			 * when asp_tags is enabled, so waggypuppy uses Mustache-inspired templating syntax.
 			 *
 			 * @see trac ticket #22344.
 			 */
@@ -57,7 +57,7 @@ window.wp = window.wp || {};
 		/**
 		 * wp.ajax.post( [action], [data] )
 		 *
-		 * Sends a POST request to WordPress.
+		 * Sends a POST request to waggypuppy.
 		 *
 		 * @param {(string|Object)} action The slug of the action to fire in waggypuppy or options passed
 		 *                                 to jQuery.ajax.
@@ -74,7 +74,7 @@ window.wp = window.wp || {};
 		/**
 		 * wp.ajax.send( [action], [options] )
 		 *
-		 * Sends a POST request to WordPress.
+		 * Sends a POST request to waggypuppy.
 		 *
 		 * @param {(string|Object)} action  The slug of the action to fire in waggypuppy or options passed
 		 *                                  to jQuery.ajax.

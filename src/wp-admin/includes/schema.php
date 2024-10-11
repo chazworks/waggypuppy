@@ -348,7 +348,7 @@ CREATE TABLE $wpdb->signups (
 $wp_queries = wp_get_db_schema('all');
 
 /**
- * Create WordPress options and set the default values.
+ * Create waggypuppy options and set the default values.
  *
  * @since 1.5.0
  * @since 5.1.0 The $options parameter has been added.
@@ -365,7 +365,7 @@ function populate_options(array $options = [])
 
     $guessurl = wp_guess_url();
     /**
-     * Fires before creating WordPress options and populating their default values.
+     * Fires before creating waggypuppy options and populating their default values.
      *
      * @since 2.6.0
      */
@@ -710,7 +710,7 @@ function populate_options(array $options = [])
 }
 
 /**
- * Execute WordPress role creation for the various WordPress versions.
+ * Execute waggypuppy role creation for the various waggypuppy versions.
  *
  * @since 2.0.0
  */
@@ -820,7 +820,7 @@ function populate_roles_160()
 }
 
 /**
- * Create and modify WordPress roles for WP 2.1.
+ * Create and modify waggypuppy roles for WP 2.1.
  *
  * @since 2.1.0
  */
@@ -869,7 +869,7 @@ function populate_roles_210()
 }
 
 /**
- * Create and modify WordPress roles for WP 2.3.
+ * Create and modify waggypuppy roles for WP 2.3.
  *
  * @since 2.3.0
  */
@@ -883,7 +883,7 @@ function populate_roles_230()
 }
 
 /**
- * Create and modify WordPress roles for WP 2.5.
+ * Create and modify waggypuppy roles for WP 2.5.
  *
  * @since 2.5.0
  */
@@ -897,7 +897,7 @@ function populate_roles_250()
 }
 
 /**
- * Create and modify WordPress roles for WP 2.6.
+ * Create and modify waggypuppy roles for WP 2.6.
  *
  * @since 2.6.0
  */
@@ -912,7 +912,7 @@ function populate_roles_260()
 }
 
 /**
- * Create and modify WordPress roles for WP 2.7.
+ * Create and modify waggypuppy roles for WP 2.7.
  *
  * @since 2.7.0
  */
@@ -927,7 +927,7 @@ function populate_roles_270()
 }
 
 /**
- * Create and modify WordPress roles for WP 2.8.
+ * Create and modify waggypuppy roles for WP 2.8.
  *
  * @since 2.8.0
  */
@@ -941,7 +941,7 @@ function populate_roles_280()
 }
 
 /**
- * Create and modify WordPress roles for WP 3.0.
+ * Create and modify waggypuppy roles for WP 3.0.
  *
  * @since 3.0.0
  */
@@ -1165,7 +1165,7 @@ function populate_network($network_id = 1, $domain = '', $email = '', $site_name
 }
 
 /**
- * Creates WordPress network meta and sets the default values.
+ * Creates waggypuppy network meta and sets the default values.
  *
  * @since 5.1.0
  *
@@ -1321,7 +1321,7 @@ We hope you enjoy your new site. Thanks!
 }
 
 /**
- * Creates WordPress site meta and sets the default values.
+ * Creates waggypuppy site meta and sets the default values.
  *
  * @since 5.1.0
  *

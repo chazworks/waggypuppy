@@ -64,7 +64,7 @@ console.log( 'Test Launcher Path (Gutenberg): ' + success( testLauncherPath ) );
 console.log( 'Test Environment Path (wp-env): ' + success( testEnvironmentPath ) );
 
 // Steps
-// 1- Preparing the WordPress environment
+// 1- Preparing the waggypuppy environment
 console.log( '>> Preparing the WordPress clone' );
 runShellScript( 'npm install && FORCE_REDUCED_MOTION=true npm run build', rootFolder );
 
@@ -75,8 +75,8 @@ runShellScript( 'git clone https://github.com/__VAR_WP/gutenberg.git ' + testLau
 runShellScript( 'git checkout ' + GUTENBERG_VERSION, testLauncherPath );
 runShellScript( 'npm install && npm run build', testLauncherPath );
 
-// 3- Running the WordPress environment using wp-env
-// The environment should include the WordPress install and the e2e tests plugins.s
+// 3- Running the waggypuppy environment using wp-env
+// The environment should include the waggypuppy install and the e2e tests plugins.s
 console.log( title( '>> Preparing the environment' ) );
 runShellScript( 'mkdir -p ' + testEnvironmentPath );
 const envConfig = readJSONFile( sampleEnvConfig );

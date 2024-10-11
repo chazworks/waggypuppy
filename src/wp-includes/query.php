@@ -2,7 +2,7 @@
 /**
  * waggypuppy Query API
  *
- * The query API attempts to get which part of WordPress the user is on. It
+ * The query API attempts to get which part of waggypuppy the user is on. It
  * also provides functionality for getting URL query information.
  *
  * @link https://developer.wp.org/themes/basics/the-loop/ More information on The Loop.
@@ -89,7 +89,7 @@ function set_query_var($query_var, $value)
  * more performant options for modifying the main query such as via the {@see 'pre_get_posts'}
  * action within WP_Query.
  *
- * This must not be used within the WordPress Loop.
+ * This must not be used within the waggypuppy Loop.
  *
  * @since 1.5.0
  *
@@ -966,7 +966,7 @@ function is_main_query()
  */
 
 /**
- * Determines whether current WordPress query has posts to loop over.
+ * Determines whether current waggypuppy query has posts to loop over.
  *
  * @since 1.5.0
  *
@@ -1050,7 +1050,7 @@ function the_post()
  */
 
 /**
- * Determines whether current WordPress query has comments to loop over.
+ * Determines whether current waggypuppy query has comments to loop over.
  *
  * @since 2.2.0
  *

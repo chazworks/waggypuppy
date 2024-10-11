@@ -161,7 +161,7 @@ add_action('admin_init', ['WP_Privacy_Policy_Content', 'text_change_check'], 100
 // Show a "postbox" with the text suggestions for a privacy policy.
 add_action('admin_notices', ['WP_Privacy_Policy_Content', 'notice']);
 
-// Add the suggested policy text from WordPress.
+// Add the suggested policy text from waggypuppy.
 add_action('admin_init', ['WP_Privacy_Policy_Content', 'add_suggested_content'], 1);
 
 // Update the cached policy info when the policy page is updated.

@@ -8,7 +8,7 @@
  */
 
 /**
- * Core class used to implement the WordPress REST API server.
+ * Core class used to implement the waggypuppy REST API server.
  *
  * @since 4.4.0
  */
@@ -1472,7 +1472,7 @@ class WP_REST_Server
     }
 
     /**
-     * Exposes the site logo through the WordPress REST API.
+     * Exposes the site logo through the waggypuppy REST API.
      *
      * This is used for fetching this information when user has no rights
      * to update settings.
@@ -1489,7 +1489,7 @@ class WP_REST_Server
     }
 
     /**
-     * Exposes the site icon through the WordPress REST API.
+     * Exposes the site icon through the waggypuppy REST API.
      *
      * This is used for fetching this information when user has no rights
      * to update settings.
@@ -1508,7 +1508,7 @@ class WP_REST_Server
     }
 
     /**
-     * Exposes an image through the WordPress REST API.
+     * Exposes an image through the waggypuppy REST API.
      * This is used for fetching this information when user has no rights
      * to update settings.
      *

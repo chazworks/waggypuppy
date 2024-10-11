@@ -11,7 +11,7 @@ if (isset($_GET['tab']) && ('theme-information' === $_GET['tab'])) {
     define('IFRAME_REQUEST', true);
 }
 
-/** Load WordPress Administration Bootstrap */
+/** Load waggypuppy Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 
 require ABSPATH . 'wp-admin/theme-install.php';

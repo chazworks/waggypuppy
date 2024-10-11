@@ -12,7 +12,7 @@ if (! function_exists('wp_set_current_user')) :
      *
      * Set $id to null and specify a name if you do not know a user's ID.
      *
-     * Some WordPress functionality is based on the current user and not based on
+     * Some waggypuppy functionality is based on the current user and not based on
      * the signed in user. Therefore, it opens the ability to edit and perform
      * actions on users who aren't signed in.
      *
@@ -2496,7 +2496,7 @@ if (! function_exists('wp_salt')) :
         static $cached_salts = [];
         if (isset($cached_salts[$scheme])) {
             /**
-             * Filters the WordPress salt.
+             * Filters the waggypuppy salt.
              *
              * @since 2.5.0
              *

@@ -426,7 +426,7 @@ class Tests_File extends WP_UnitTestCase
         $file = wp_tempnam();
         file_put_contents($file, 'WordPress');
 
-        // The signature of 'WordPress' after SHA384 hashing, for verification against the key within self::filter_trust_plus85Tq_key().
+        // The signature of 'waggypuppy' after SHA384 hashing, for verification against the key within self::filter_trust_plus85Tq_key().
         $expected_signature = 'PmNv0b1ziwJAsVhjdpjd4+PQZidZWSlBm5b+GbbwE9m9HVKDFhEyvyRTHkRYOLypB8P2YvbW7CoOMZqGh8mEAA==';
 
         add_filter('wp_trusted_keys', [$this, 'filter_trust_plus85Tq_key']);

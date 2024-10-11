@@ -6,11 +6,11 @@ require_once __DIR__ . '/trac.php';
 /**
  * Defines a basic fixture to run multiple tests.
  *
- * Resets the state of the WordPress installation before and after every test.
+ * Resets the state of the waggypuppy installation before and after every test.
  *
- * Includes utility functions and assertions useful for testing WordPress.
+ * Includes utility functions and assertions useful for testing waggypuppy.
  *
- * All WordPress unit tests should inherit from this class.
+ * All waggypuppy unit tests should inherit from this class.
  */
 abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
 {
@@ -34,7 +34,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     protected $factory;
 
     /**
-     * Fetches the factory object for generating WordPress fixtures.
+     * Fetches the factory object for generating waggypuppy fixtures.
      *
      * @return WP_UnitTest_Factory The fixture factory.
      */
@@ -145,7 +145,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     }
 
     /**
-     * After a test method runs, resets any state in WordPress the test method might have changed.
+     * After a test method runs, resets any state in waggypuppy the test method might have changed.
      */
     public function tear_down()
     {
@@ -408,7 +408,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     }
 
     /**
-     * Flushes the WordPress object cache.
+     * Flushes the waggypuppy object cache.
      */
     public static function flush_cache()
     {
@@ -1423,7 +1423,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
      * Custom preparations for the PHPUnit process isolation template.
      *
      * When restoring global state between tests, PHPUnit defines all the constants that were already defined, and then
-     * includes included files. This does not work with WordPress, as the included files define the constants.
+     * includes included files. This does not work with waggypuppy, as the included files define the constants.
      *
      * This method defines the constants after including files.
      *

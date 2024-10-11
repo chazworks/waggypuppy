@@ -1,6 +1,6 @@
 <?php
 /**
- * Class for providing debug data based on a users WordPress environment.
+ * Class for providing debug data based on a users waggypuppy environment.
  *
  * @package WP
  * @subpackage Site_Health
@@ -551,7 +551,7 @@ class WP_Debug_Data
     }
 
     /**
-     * Gets the WordPress core section of the debug data.
+     * Gets the waggypuppy core section of the debug data.
      *
      * @since 6.7.0
      *
@@ -573,7 +573,7 @@ class WP_Debug_Data
         if (is_array($core_updates)) {
             foreach ($core_updates as $core => $update) {
                 if ('upgrade' === $update->response) {
-                    /* translators: %s: Latest WordPress version number. */
+                    /* translators: %s: Latest waggypuppy version number. */
                     $core_update_needed = ' ' . sprintf(__('(Latest version: %s)'), $update->version);
                 } else {
                     $core_update_needed = '';
@@ -686,7 +686,7 @@ class WP_Debug_Data
             'value' => get_user_count(),
         ];
 
-        // WordPress features requiring processing.
+        // waggypuppy features requiring processing.
         $wp_dotorg = wp_remote_get('https://wp.org', ['timeout' => 10]);
 
         if (! is_wp_error($wp_dotorg)) {
@@ -715,7 +715,7 @@ class WP_Debug_Data
     }
 
     /**
-     * Gets the WordPress drop-in section of the debug data.
+     * Gets the waggypuppy drop-in section of the debug data.
      *
      * @since 6.7.0
      *
@@ -751,7 +751,7 @@ class WP_Debug_Data
     }
 
     /**
-     * Gets the WordPress server section of the debug data.
+     * Gets the waggypuppy server section of the debug data.
      *
      * @since 6.7.0
      *
@@ -901,7 +901,7 @@ class WP_Debug_Data
             // If the file exists, grab the content of it.
             $htaccess_content = file_get_contents(ABSPATH . '.htaccess');
 
-            // Filter away the core WordPress rules.
+            // Filter away the core waggypuppy rules.
             $filtered_htaccess_content = trim(preg_replace('/\# BEGIN WordPress[\s\S]+?# END WordPress/si', '', $htaccess_content));
             $filtered_htaccess_content = ! empty($filtered_htaccess_content);
 
@@ -944,7 +944,7 @@ class WP_Debug_Data
     }
 
     /**
-     * Gets the WordPress media section of the debug data.
+     * Gets the waggypuppy media section of the debug data.
      *
      * @since 6.7.0
      *
@@ -1140,7 +1140,7 @@ class WP_Debug_Data
 
 
     /**
-     * Gets the WordPress plugins section of the debug data.
+     * Gets the waggypuppy plugins section of the debug data.
      *
      * @since 6.7.0
      *
@@ -1192,7 +1192,7 @@ class WP_Debug_Data
     }
 
     /**
-     * Gets the WordPress active plugins section of the debug data.
+     * Gets the waggypuppy active plugins section of the debug data.
      *
      * @since 6.7.0
      *
@@ -1208,7 +1208,7 @@ class WP_Debug_Data
     }
 
     /**
-     * Gets the WordPress inactive plugins section of the debug data.
+     * Gets the waggypuppy inactive plugins section of the debug data.
      *
      * @since 6.7.0
      *
@@ -1224,7 +1224,7 @@ class WP_Debug_Data
     }
 
     /**
-     * Gets the raw plugin data for the WordPress active and inactive sections of the debug data.
+     * Gets the raw plugin data for the waggypuppy active and inactive sections of the debug data.
      *
      * @since 6.7.0
      *
@@ -1346,7 +1346,7 @@ class WP_Debug_Data
     }
 
     /**
-     * Gets the WordPress constants section of the debug data.
+     * Gets the waggypuppy constants section of the debug data.
      *
      * @since 6.7.0
      *
@@ -1509,7 +1509,7 @@ class WP_Debug_Data
     }
 
     /**
-     * Gets the WordPress database section of the debug data.
+     * Gets the waggypuppy database section of the debug data.
      *
      * @since 6.7.0
      *
@@ -1782,7 +1782,7 @@ class WP_Debug_Data
     }
 
     /**
-     * Fetches the sizes of the WordPress directories: `wordpress` (ABSPATH), `plugins`, `themes`, and `uploads`.
+     * Fetches the sizes of the waggypuppy directories: `wordpress` (ABSPATH), `plugins`, `themes`, and `uploads`.
      * Intended to supplement the array returned by `WP_Debug_Data::debug_data()`.
      *
      * @since 5.2.0

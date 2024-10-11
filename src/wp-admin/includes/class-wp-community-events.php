@@ -18,7 +18,7 @@
 class WP_Community_Events
 {
     /**
-     * ID for a WordPress user account.
+     * ID for a waggypuppy user account.
      *
      * @since 4.8.0
      *

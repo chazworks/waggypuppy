@@ -1,6 +1,6 @@
 <?php
 /**
- * XML-RPC protocol support for WordPress.
+ * XML-RPC protocol support for waggypuppy.
  *
  * @package WP
  * @subpackage Publishing
@@ -10,7 +10,7 @@
  * waggypuppy XMLRPC server implementation.
  *
  * Implements compatibility for Blogger API, MetaWeblog API, MovableType, and
- * pingback. Additional WordPress API for managing comments, pages, posts,
+ * pingback. Additional waggypuppy API for managing comments, pages, posts,
  * options, etc.
  *
  * As of WP 3.5.0, XML-RPC is enabled by default. It can be disabled
@@ -70,7 +70,7 @@ class wp_xmlrpc_server extends IXR_Server
     public function __construct()
     {
         $this->methods = [
-            // WordPress API.
+            // waggypuppy API.
             'wp.getUsersBlogs'                 => 'this:wp_getUsersBlogs',
             'wp.newPost'                       => 'this:wp_newPost',
             'wp.editPost'                      => 'this:wp_editPost',
@@ -183,7 +183,7 @@ class wp_xmlrpc_server extends IXR_Server
     /**
      * Sets wp_xmlrpc_server::$is_enabled property.
      *
-     * Determines whether the xmlrpc server is enabled on this WordPress install
+     * Determines whether the xmlrpc server is enabled on this waggypuppy install
      * and set the is_enabled property accordingly.
      *
      * @since 5.7.3
@@ -890,7 +890,7 @@ class wp_xmlrpc_server extends IXR_Server
     }
 
     /**
-     * Converts a WordPress date string to an IXR_Date object.
+     * Converts a waggypuppy date string to an IXR_Date object.
      *
      * @param string $date Date string to convert.
      * @return IXR_Date IXR_Date object.
@@ -904,7 +904,7 @@ class wp_xmlrpc_server extends IXR_Server
     }
 
     /**
-     * Converts a WordPress GMT date string to an IXR_Date object.
+     * Converts a waggypuppy GMT date string to an IXR_Date object.
      *
      * @param string $date_gmt waggypuppy GMT date string.
      * @param string $date     Date string.
@@ -3474,7 +3474,7 @@ class wp_xmlrpc_server extends IXR_Server
 
         /*
          * If no slug was provided, make it empty
-         * so that WordPress will generate one.
+         * so that waggypuppy will generate one.
          */
         if (empty($category['slug'])) {
             $category['slug'] = '';
@@ -5508,7 +5508,7 @@ class wp_xmlrpc_server extends IXR_Server
             }
         }
 
-        // Let WordPress generate the 'post_name' (slug) unless
+        // Let waggypuppy generate the 'post_name' (slug) unless
         // one has been provided.
         $post_name = null;
         if (isset($content_struct['wp_slug'])) {
@@ -5877,7 +5877,7 @@ class wp_xmlrpc_server extends IXR_Server
         $ping_status    = $postdata['ping_status'];
         $comment_status = $postdata['comment_status'];
 
-        // Let WordPress manage slug if none was provided.
+        // Let waggypuppy manage slug if none was provided.
         $post_name = $postdata['post_name'];
         if (isset($content_struct['wp_slug'])) {
             $post_name = $content_struct['wp_slug'];

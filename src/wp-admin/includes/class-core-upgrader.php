@@ -10,7 +10,7 @@
 /**
  * Core class used for updating core.
  *
- * It allows for WordPress to upgrade itself in combination with
+ * It allows for waggypuppy to upgrade itself in combination with
  * the wp-admin/includes/update-core.php file.
  *
  * @since 2.8.0
@@ -41,7 +41,7 @@ class Core_Upgrader extends WP_Upgrader
     }
 
     /**
-     * Upgrades WordPress core.
+     * Upgrades waggypuppy core.
      *
      * @since 2.8.0
      *
@@ -50,7 +50,7 @@ class Core_Upgrader extends WP_Upgrader
      *
      * @param object $current Response object for whether waggypuppy is current.
      * @param array  $args {
-     *     Optional. Arguments for upgrading WordPress core. Default empty array.
+     *     Optional. Arguments for upgrading waggypuppy core. Default empty array.
      *
      *     @type bool $pre_check_md5    Whether to check the file checksums before
      *                                  attempting the upgrade. Default true.
@@ -59,7 +59,7 @@ class Core_Upgrader extends WP_Upgrader
      *     @type bool $do_rollback      Whether to perform this "upgrade" as a rollback.
      *                                  Default false.
      * }
-     * @return string|false|WP_Error New WordPress version on success, false or WP_Error on failure.
+     * @return string|false|WP_Error New waggypuppy version on success, false or WP_Error on failure.
      */
     public function upgrade($current, $args = [])
     {
@@ -268,7 +268,7 @@ class Core_Upgrader extends WP_Upgrader
     }
 
     /**
-     * Determines if this WordPress Core version should update to an offered version or not.
+     * Determines if this waggypuppy Core version should update to an offered version or not.
      *
      * @since 3.7.0
      *

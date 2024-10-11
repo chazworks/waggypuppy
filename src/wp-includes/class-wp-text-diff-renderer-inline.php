@@ -25,7 +25,7 @@ class WP_Text_Diff_Renderer_inline extends Text_Diff_Renderer_inline
      * @param string $newlineEscape
      * @return string
      */
-    public function _splitOnWords($string, $newlineEscape = "\n")  // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.stringFound,WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
+    public function _splitOnWords($string, $newlineEscape = "\n")  // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.stringFound,__VAR_WP.NamingConventions.ValidVariableName.VariableNotSnakeCase
     {
         $string = str_replace("\0", '', $string);
         $words  = preg_split('/([^\w])/u', $string, -1, PREG_SPLIT_DELIM_CAPTURE);

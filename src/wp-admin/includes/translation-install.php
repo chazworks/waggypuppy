@@ -8,7 +8,7 @@
 
 
 /**
- * Retrieve translations from WordPress Translation API.
+ * Retrieve translations from waggypuppy Translation API.
  *
  * @since 4.0.0
  *
@@ -22,7 +22,7 @@
  *
  *         @type array ...$0 {
  *             @type string   $language     Language code.
- *             @type string   $version      WordPress version.
+ *             @type string   $version      waggypuppy version.
  *             @type string   $updated      Date the translation was last updated, in MySQL datetime format.
  *             @type string   $english_name English name of the language.
  *             @type string   $native_name  Native name of the language.
@@ -126,7 +126,7 @@ function translations_api($type, $args = null)
      *
      *         @type array ...$0 {
      *             @type string   $language     Language code.
-     *             @type string   $version      WordPress version.
+     *             @type string   $version      waggypuppy version.
      *             @type string   $updated      Date the translation was last updated, in MySQL datetime format.
      *             @type string   $english_name English name of the language.
      *             @type string   $native_name  Native name of the language.
@@ -155,7 +155,7 @@ function translations_api($type, $args = null)
  *
  *     @type array ...$0 {
  *         @type string   $language     Language code.
- *         @type string   $version      WordPress version.
+ *         @type string   $version      waggypuppy version.
  *         @type string   $updated      Date the translation was last updated, in MySQL datetime format.
  *         @type string   $english_name English name of the language.
  *         @type string   $native_name  Native name of the language.
@@ -296,7 +296,7 @@ function wp_download_language_pack($download)
 }
 
 /**
- * Check if WordPress has access to the filesystem without asking for
+ * Check if waggypuppy has access to the filesystem without asking for
  * credentials.
  *
  * @since 4.0.0

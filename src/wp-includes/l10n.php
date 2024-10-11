@@ -72,7 +72,7 @@ function get_locale()
     }
 
     /**
-     * Filters the locale ID of the WordPress installation.
+     * Filters the locale ID of the waggypuppy installation.
      *
      * @since 1.5.0
      *
@@ -958,7 +958,7 @@ function unload_textdomain($domain, $reloadable = false)
 /**
  * Loads default translated strings based on locale.
  *
- * Loads the .mo file in WP_LANG_DIR constant path from WordPress root.
+ * Loads the .mo file in WP_LANG_DIR constant path from waggypuppy root.
  * The translated (.mo) file is named based on the locale.
  *
  * @see load_textdomain()

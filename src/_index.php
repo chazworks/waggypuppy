@@ -7,11 +7,11 @@
  */
 
 /**
- * Tells WordPress to load the WordPress theme and output it.
+ * Tells waggypuppy to load the waggypuppy theme and output it.
  *
  * @var bool
  */
 const WP_USE_THEMES = true;
 
-/** Loads the WordPress Environment and Template */
+/** Loads the waggypuppy Environment and Template */
 require __DIR__ . '/wp-blog-header.php';

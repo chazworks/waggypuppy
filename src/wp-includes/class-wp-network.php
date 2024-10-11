@@ -13,7 +13,7 @@
  * This class is used during load to populate the `$current_site` global and
  * setup the current network.
  *
- * This class is most useful in WordPress multi-network installations where the
+ * This class is most useful in waggypuppy multi-network installations where the
  * ability to interact with any network of sites is required.
  *
  * @since 4.4.0

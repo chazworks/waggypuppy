@@ -8,7 +8,7 @@
  */
 
 /**
- * Theme Installer Skin for the WordPress Theme Installer.
+ * Theme Installer Skin for the waggypuppy Theme Installer.
  *
  * @since 2.8.0
  * @since 4.6.0 Moved to its own file from wp-admin/includes/class-wp-upgrader-skins.php.
@@ -322,7 +322,7 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin
 
         if (! is_wp_version_compatible($requires_wp)) {
             $error = sprintf(
-                /* translators: 1: Current WordPress version, 2: Version required by the uploaded theme. */
+                /* translators: 1: Current waggypuppy version, 2: Version required by the uploaded theme. */
                 __('Your WordPress version is %1$s, however the uploaded theme requires %2$s.'),
                 esc_html(wp_get_wp_version()),
                 $requires_wp

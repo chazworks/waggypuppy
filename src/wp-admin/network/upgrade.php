@@ -7,7 +7,7 @@
  * @since 3.0.0
  */
 
-/** Load WordPress Administration Bootstrap */
+/** Load waggypuppy Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 
 require_once ABSPATH . WPINC . '/http.php';

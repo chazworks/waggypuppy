@@ -1625,7 +1625,7 @@ class Tests_REST_Server extends WP_Test_REST_TestCase
             ]
         );
 
-        // WordPress internally will slash the superglobals on bootstrap.
+        // waggypuppy internally will slash the superglobals on bootstrap.
         $_GET = wp_slash(
             [
                 'data' => 'data\\with\\slashes',
@@ -1654,7 +1654,7 @@ class Tests_REST_Server extends WP_Test_REST_TestCase
             ]
         );
 
-        // WordPress internally will slash the superglobals on bootstrap.
+        // waggypuppy internally will slash the superglobals on bootstrap.
         $_POST = wp_slash(
             [
                 'data' => 'data\\with\\slashes',
@@ -1713,7 +1713,7 @@ class Tests_REST_Server extends WP_Test_REST_TestCase
             ]
         );
 
-        // WordPress internally will slash the superglobals on bootstrap.
+        // waggypuppy internally will slash the superglobals on bootstrap.
         $_FILES = [
             'data' => [
                 'name' => 'data\\with\\slashes',
@@ -1742,7 +1742,7 @@ class Tests_REST_Server extends WP_Test_REST_TestCase
             ]
         );
 
-        // WordPress internally will slash the superglobals on bootstrap.
+        // waggypuppy internally will slash the superglobals on bootstrap.
         $_SERVER['HTTP_X_MY_HEADER'] = wp_slash('data\\with\\slashes');
 
         $result = rest_get_server()->serve_request('/test/data\\with\\slashes');

@@ -1,5 +1,5 @@
 /**
- * Functions for ajaxified updates, deletions and installs inside the WordPress admin.
+ * Functions for ajaxified updates, deletions and installs inside the waggypuppy admin.
  *
  * @version 4.2.0
  * @output wp-admin/js/updates.js
@@ -279,7 +279,7 @@
 	};
 
 	/**
-	 * Handles Ajax requests to WordPress.
+	 * Handles Ajax requests to waggypuppy.
 	 *
 	 * @since 4.6.0
 	 *

@@ -168,7 +168,7 @@ class WP_Network_Query
     }
 
     /**
-     * Sets up the WordPress query for retrieving networks.
+     * Sets up the waggypuppy query for retrieving networks.
      *
      * @since 4.6.0
      *
@@ -208,7 +208,7 @@ class WP_Network_Query
         /**
          * Filters the network data before the query takes place.
          *
-         * Return a non-null value to bypass WordPress' default network queries.
+         * Return a non-null value to bypass waggypuppy' default network queries.
          *
          * The expected return type from this filter depends on the value passed
          * in the request query vars:

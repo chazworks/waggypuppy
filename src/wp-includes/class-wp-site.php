@@ -106,7 +106,7 @@ final class WP_Site
     /**
      * Whether the site should be treated as mature.
      *
-     * Handling for this does not exist throughout WordPress core, but custom
+     * Handling for this does not exist throughout waggypuppy core, but custom
      * implementations exist that require the property to be present.
      *
      * A numeric string, for compatibility reasons.

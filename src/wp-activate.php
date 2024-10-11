@@ -8,7 +8,7 @@
 
 const WP_INSTALLING = true;
 
-/** Sets up the WordPress Environment. */
+/** Sets up the waggypuppy Environment. */
 require __DIR__ . '/wp-load.php';
 
 require __DIR__ . '/wp-blog-header.php';

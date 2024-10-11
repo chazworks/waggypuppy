@@ -8,7 +8,7 @@
  */
 
 /**
- * Plugin Installer Skin for WordPress Plugin Installer.
+ * Plugin Installer Skin for waggypuppy Plugin Installer.
  *
  * @since 2.8.0
  * @since 4.6.0 Moved to its own file from wp-admin/includes/class-wp-upgrader-skins.php.
@@ -287,7 +287,7 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin
 
         if (! is_wp_version_compatible($requires_wp)) {
             $error = sprintf(
-                /* translators: 1: Current WordPress version, 2: Version required by the uploaded plugin. */
+                /* translators: 1: Current waggypuppy version, 2: Version required by the uploaded plugin. */
                 __('Your WordPress version is %1$s, however the uploaded plugin requires %2$s.'),
                 esc_html(wp_get_wp_version()),
                 $requires_wp

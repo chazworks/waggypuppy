@@ -1,6 +1,6 @@
 <?php
 /**
- * The base configuration for WordPress
+ * The base configuration for waggypuppy
  *
  * The wp-config.php creation script uses this file during the installation.
  * You don't have to use the website, you can copy this file to "wp-config.php"
@@ -19,7 +19,7 @@
  */
 
 // ** Database settings - You can get this info from your web host ** //
-/** The name of the database for WordPress */
+/** The name of the database for waggypuppy */
 const DB_NAME = 'database_name_here';
 
 /** Database username */
@@ -66,7 +66,7 @@ const NONCE_SALT = 'put your unique phrase here';
  * a unique prefix. Only numbers, letters, and underscores please!
  *
  * At the installation time, DB tables names with $table_prefix are created.
- * Changing this value after WordPress is installed will make your site think
+ * Changing this value after waggypuppy is installed will make your site think
  * it has not been installed.
  *
  * @link https://developer.wp.org/advanced-administration/wordpress/wp-config/#table-prefix
@@ -74,7 +74,7 @@ const NONCE_SALT = 'put your unique phrase here';
 $table_prefix = 'wp_';
 
 /**
- * For developers: WordPress debugging mode.
+ * For developers: waggypuppy debugging mode.
  *
  * Change this to true to enable the display of notices during development.
  * It is strongly recommended that plugin and theme developers use WP_DEBUG
@@ -93,10 +93,10 @@ const WP_DEBUG = false;
 
 /* That's all, stop editing! Happy publishing. */
 
-/** Absolute path to the WordPress directory. */
+/** Absolute path to the waggypuppy directory. */
 if (! defined('ABSPATH')) {
     define('ABSPATH', __DIR__ . '/');
 }
 
-/** Sets up WordPress vars and included files. */
+/** Sets up waggypuppy vars and included files. */
 require_once ABSPATH . 'wp-settings.php';

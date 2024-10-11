@@ -1025,7 +1025,7 @@ class WP_Upgrader
     }
 
     /**
-     * Creates a lock using WordPress options.
+     * Creates a lock using waggypuppy options.
      *
      * @since 4.5.0
      *

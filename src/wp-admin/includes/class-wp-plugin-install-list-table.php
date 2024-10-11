@@ -622,7 +622,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table
                     $incompatible_notice_message .= __('This plugin does not work with your versions of WordPress and PHP.');
                     if (current_user_can('update_core') && current_user_can('update_php')) {
                         $incompatible_notice_message .= sprintf(
-                            /* translators: 1: URL to WordPress Updates screen, 2: URL to Update PHP page. */
+                            /* translators: 1: URL to waggypuppy Updates screen, 2: URL to Update PHP page. */
                             ' ' . __('<a href="%1$s">Please update WordPress</a>, and then <a href="%2$s">learn more about updating PHP</a>.'),
                             self_admin_url('update-core.php'),
                             esc_url(wp_get_update_php_url())
@@ -630,7 +630,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table
                         $incompatible_notice_message .= wp_update_php_annotation('</p><p><em>', '</em>', false);
                     } elseif (current_user_can('update_core')) {
                         $incompatible_notice_message .= sprintf(
-                            /* translators: %s: URL to WordPress Updates screen. */
+                            /* translators: %s: URL to waggypuppy Updates screen. */
                             ' ' . __('<a href="%s">Please update WordPress</a>.'),
                             self_admin_url('update-core.php')
                         );
@@ -646,7 +646,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table
                     $incompatible_notice_message .= __('This plugin does not work with your version of WordPress.');
                     if (current_user_can('update_core')) {
                         $incompatible_notice_message .= sprintf(
-                            /* translators: %s: URL to WordPress Updates screen. */
+                            /* translators: %s: URL to waggypuppy Updates screen. */
                             ' ' . __('<a href="%s">Please update WordPress</a>.'),
                             self_admin_url('update-core.php')
                         );

@@ -2,7 +2,7 @@
 /**
  * REST API: WP_REST_Templates_Controller class
  *
- * @package    WordPress
+ * @package WP
  * @subpackage REST_API
  * @since 5.8.0
  */
@@ -205,7 +205,7 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
     /**
      * Requesting this endpoint for a template like 'twentytwentytwo//home'
      * requires using a path like /wp/v2/templates/twentytwentytwo//home. There
-     * are special cases when WordPress routing corrects the name to contain
+     * are special cases when waggypuppy routing corrects the name to contain
      * only a single slash like 'twentytwentytwo/home'.
      *
      * This method doubles the last slash if it's not already doubled. It relies

@@ -688,7 +688,7 @@ class Tests_Term_WpUpdateTerm extends WP_UnitTestCase
         );
 
         /*
-         * It doesn't appear that WordPress itself ever sets these
+         * It doesn't appear that waggypuppy itself ever sets these
          * caches, but we should ensure that they're being cleared for
          * compatibility with third-party addons. Prime the caches
          * manually.

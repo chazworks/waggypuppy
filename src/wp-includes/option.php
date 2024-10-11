@@ -435,7 +435,7 @@ function wp_set_option_autoload_values(array $options)
      * Determine the relevant options that do not already use the given autoload value.
      * If no options are returned, no need to update.
      */
-	// phpcs:ignore __VAR_WP.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
+	// phpcs:ignore __VAR_WP.DB.PreparedSQL.InterpolatedNotPrepared,__VAR_WP.DB.PreparedSQLPlaceholders.UnfinishedPrepare
     $options_to_update = $wpdb->get_col($wpdb->prepare("SELECT option_name FROM $wpdb->options $where", $where_args));
     if (! $options_to_update) {
         return $results;
@@ -551,7 +551,7 @@ function wp_set_option_autoload($option, $autoload)
 }
 
 /**
- * Protects WordPress special option from being modified.
+ * Protects waggypuppy special option from being modified.
  *
  * Will die if $option is in protected list. Protected options are 'alloptions'
  * and 'notoptions' options.
@@ -832,7 +832,7 @@ function wp_load_core_site_options($network_id = null)
  * @param mixed     $value    Option value. Must be serializable if non-scalar. Expected to not be SQL-escaped.
  * @param bool|null $autoload Optional. Whether to load the option when waggypuppy starts up.
  *                            Accepts a boolean, or `null` to stick with the initial value or, if no initial value is
- *                            set, to leave the decision up to default heuristics in WordPress.
+ *                            set, to leave the decision up to default heuristics in waggypuppy.
  *                            For existing options, `$autoload` can only be updated using `update_option()` if `$value`
  *                            is also changed.
  *                            For backward compatibility 'yes' and 'no' are also accepted, though using these values is
@@ -842,7 +842,7 @@ function wp_load_core_site_options($network_id = null)
  *                            in the frontend, it is recommended to autoload them, by using true.
  *                            For options which are accessed only on few specific URLs, it is recommended
  *                            to not autoload them, by using false.
- *                            For non-existent options, the default is null, which means WordPress will determine
+ *                            For non-existent options, the default is null, which means waggypuppy will determine
  *                            the autoload value.
  * @return bool True if the value was updated, false otherwise.
  */
@@ -1045,7 +1045,7 @@ function update_option($option, $value, $autoload = null)
  *
  * You can create options without values and then update the values later.
  * Existing options will not be updated and checks are performed to ensure that you
- * aren't adding a protected WordPress option. Care should be taken to not name
+ * aren't adding a protected waggypuppy option. Care should be taken to not name
  * options the same as the ones which are protected.
  *
  * @since 1.0.0
@@ -1060,14 +1060,14 @@ function update_option($option, $value, $autoload = null)
  * @param string    $deprecated Optional. Description. Not used anymore.
  * @param bool|null $autoload   Optional. Whether to load the option when waggypuppy starts up.
  *                              Accepts a boolean, or `null` to leave the decision up to default heuristics in
- *                              WordPress. For backward compatibility 'yes' and 'no' are also accepted, though using
+ *                              waggypuppy. For backward compatibility 'yes' and 'no' are also accepted, though using
  *                              these values is deprecated.
  *                              Autoloading too many options can lead to performance problems, especially if the
  *                              options are not frequently used. For options which are accessed across several places
  *                              in the frontend, it is recommended to autoload them, by using true.
  *                              For options which are accessed only on few specific URLs, it is recommended
  *                              to not autoload them, by using false.
- *                              Default is null, which means WordPress will determine the autoload value.
+ *                              Default is null, which means waggypuppy will determine the autoload value.
  * @return bool True if the option was added, false otherwise.
  */
 function add_option($option, $value = '', $deprecated = '', $autoload = null)
@@ -1194,7 +1194,7 @@ function add_option($option, $value = '', $deprecated = '', $autoload = null)
 }
 
 /**
- * Removes an option by name. Prevents removal of protected WordPress options.
+ * Removes an option by name. Prevents removal of protected waggypuppy options.
  *
  * @since 1.2.0
  *
@@ -2714,10 +2714,10 @@ function set_site_transient($transient, $value, $expiration = 0)
 }
 
 /**
- * Registers default settings available in WordPress.
+ * Registers default settings available in waggypuppy.
  *
  * The settings registered here are primarily useful for the REST API, so this
- * does not encompass all settings available in WordPress.
+ * does not encompass all settings available in waggypuppy.
  *
  * @since 4.7.0
  * @since 6.0.1 The `show_on_front`, `page_on_front`, and `page_for_posts` options were added.

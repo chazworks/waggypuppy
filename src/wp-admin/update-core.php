@@ -70,10 +70,10 @@ function list_core_update($update)
     if (preg_match('/-\w+-\d+/', $update->current)) {
         // Retrieve the major version number.
         preg_match('/^\d+.\d+/', $update->current, $update_major);
-        /* translators: %s: WordPress version. */
+        /* translators: %s: waggypuppy version. */
         $submit = sprintf(__('Update to latest %s nightly'), $update_major[0]);
     } else {
-        /* translators: %s: WordPress version. */
+        /* translators: %s: waggypuppy version. */
         $submit = sprintf(__('Update to version %s'), $version_string);
     }
 
@@ -81,7 +81,7 @@ function list_core_update($update)
         $message = __('You can update to the latest nightly build manually:');
     } else {
         if ($current) {
-            /* translators: %s: WordPress version. */
+            /* translators: %s: waggypuppy version. */
             $submit      = sprintf(__('Re-install version %s'), $version_string);
             $form_action = 'update-core.php?action=do-core-reinstall';
         } else {
@@ -93,7 +93,7 @@ function list_core_update($update)
             }
 
             $version_url = sprintf(
-                /* translators: %s: WordPress version. */
+                /* translators: %s: waggypuppy version. */
                 esc_url(__('https://wp.org/documentation/wordpress-version/version-%s/')),
                 sanitize_title($update->current)
             );
@@ -112,7 +112,7 @@ function list_core_update($update)
 
             if (! $mysql_compat && ! $php_compat) {
                 $message = sprintf(
-                    /* translators: 1: URL to WordPress release notes, 2: WordPress version number, 3: Minimum required PHP version number, 4: Minimum required MySQL version number, 5: Current PHP version number, 6: Current MySQL version number. */
+                    /* translators: 1: URL to waggypuppy release notes, 2: waggypuppy version number, 3: Minimum required PHP version number, 4: Minimum required MySQL version number, 5: Current PHP version number, 6: Current MySQL version number. */
                     __('You cannot update because <a href="%1$s">WordPress %2$s</a> requires PHP version %3$s or higher and MySQL version %4$s or higher. You are running PHP version %5$s and MySQL version %6$s.'),
                     $version_url,
                     $update->current,
@@ -123,7 +123,7 @@ function list_core_update($update)
                 ) . $php_update_message;
             } elseif (! $php_compat) {
                 $message = sprintf(
-                    /* translators: 1: URL to WordPress release notes, 2: WordPress version number, 3: Minimum required PHP version number, 4: Current PHP version number. */
+                    /* translators: 1: URL to waggypuppy release notes, 2: waggypuppy version number, 3: Minimum required PHP version number, 4: Current PHP version number. */
                     __('You cannot update because <a href="%1$s">WordPress %2$s</a> requires PHP version %3$s or higher. You are running version %4$s.'),
                     $version_url,
                     $update->current,
@@ -132,7 +132,7 @@ function list_core_update($update)
                 ) . $php_update_message;
             } elseif (! $mysql_compat) {
                 $message = sprintf(
-                    /* translators: 1: URL to WordPress release notes, 2: WordPress version number, 3: Minimum required MySQL version number, 4: Current MySQL version number. */
+                    /* translators: 1: URL to waggypuppy release notes, 2: waggypuppy version number, 3: Minimum required MySQL version number, 4: Current MySQL version number. */
                     __('You cannot update because <a href="%1$s">WordPress %2$s</a> requires MySQL version %3$s or higher. You are running version %4$s.'),
                     $version_url,
                     $update->current,
@@ -141,7 +141,7 @@ function list_core_update($update)
                 );
             } else {
                 $message = sprintf(
-                    /* translators: 1: Installed WordPress version number, 2: URL to WordPress release notes, 3: New WordPress version number, including locale if necessary. */
+                    /* translators: 1: Installed waggypuppy version number, 2: URL to waggypuppy release notes, 3: New waggypuppy version number, including locale if necessary. */
                     __('You can update from WordPress %1$s to <a href="%2$s">WordPress %3$s</a> manually:'),
                     $wp_version,
                     $version_url,
@@ -187,7 +187,7 @@ function list_core_update($update)
     } elseif ('en_US' === $update->locale && 'en_US' !== get_locale() && (! $update->packages->partial && $wp_version === $update->partial_version)) {
         // Partial builds don't need language-specific warnings.
         echo '<p class="hint">' . sprintf(
-            /* translators: %s: WordPress version. */
+            /* translators: %s: waggypuppy version. */
             __('You are about to install WordPress %s <strong>in English (US)</strong>. There is a chance this update will break your translation. You may prefer to wait for the localized version to be released.'),
             'development' !== $update->response ? $update->current : ''
         ) . '</p>';
@@ -242,7 +242,7 @@ function dismissed_updates()
 }
 
 /**
- * Display upgrade WordPress for downloading latest or upgrading automatically form.
+ * Display upgrade waggypuppy for downloading latest or upgrading automatically form.
  *
  * @since 2.7.0
  */
@@ -261,7 +261,7 @@ function core_upgrade_preamble()
         echo '</h2>';
 
         $message = sprintf(
-            /* translators: 1: Documentation on WordPress backups, 2: Documentation on updating WordPress. */
+            /* translators: 1: Documentation on waggypuppy backups, 2: Documentation on updating waggypuppy. */
             __('<strong>Important:</strong> Before updating, please <a href="%1$s">back up your database and files</a>. For help with updates, visit the <a href="%2$s">Updating WordPress</a> documentation page.'),
             __('https://developer.wp.org/advanced-administration/security/backup/'),
             __('https://wp.org/documentation/article/updating-wordpress/')
@@ -293,7 +293,7 @@ function core_upgrade_preamble()
     } elseif (! $updates) {
         [$normalized_version] = explode('-', $wp_version);
         echo '<p>' . sprintf(
-            /* translators: 1: URL to About screen, 2: WordPress version. */
+            /* translators: 1: URL to About screen, 2: waggypuppy version. */
             __('<a href="%1$s">Learn more about WordPress %2$s</a>.'),
             esc_url(self_admin_url('about.php')),
             $normalized_version
@@ -304,7 +304,7 @@ function core_upgrade_preamble()
 }
 
 /**
- * Display WordPress auto-updates settings.
+ * Display waggypuppy auto-updates settings.
  *
  * @since 5.6.0
  */
@@ -530,21 +530,21 @@ function list_plugin_updates()
             }
         }
 
-        // Get plugin compat for running version of WordPress.
+        // Get plugin compat for running version of waggypuppy.
         if (isset($plugin_data->update->tested) && version_compare($plugin_data->update->tested, $cur_wp_version, '>=')) {
-            /* translators: %s: WordPress version. */
+            /* translators: %s: waggypuppy version. */
             $compat = '<br />' . sprintf(__('Compatibility with WordPress %s: 100%% (according to its author)'), $cur_wp_version);
         } else {
-            /* translators: %s: WordPress version. */
+            /* translators: %s: waggypuppy version. */
             $compat = '<br />' . sprintf(__('Compatibility with WordPress %s: Unknown'), $cur_wp_version);
         }
-        // Get plugin compat for updated version of WordPress.
+        // Get plugin compat for updated version of waggypuppy.
         if ($core_update_version) {
             if (isset($plugin_data->update->tested) && version_compare($plugin_data->update->tested, $core_update_version, '>=')) {
-                /* translators: %s: WordPress version. */
+                /* translators: %s: waggypuppy version. */
                 $compat .= '<br />' . sprintf(__('Compatibility with WordPress %s: 100%% (according to its author)'), $core_update_version);
             } else {
-                /* translators: %s: WordPress version. */
+                /* translators: %s: waggypuppy version. */
                 $compat .= '<br />' . sprintf(__('Compatibility with WordPress %s: Unknown'), $core_update_version);
             }
         }
@@ -707,7 +707,7 @@ function list_theme_updates()
             $compat .= '<br />' . __('This update does not work with your versions of WordPress and PHP.') . '&nbsp;';
             if (current_user_can('update_core') && current_user_can('update_php')) {
                 $compat .= sprintf(
-                    /* translators: 1: URL to WordPress Updates screen, 2: URL to Update PHP page. */
+                    /* translators: 1: URL to waggypuppy Updates screen, 2: URL to Update PHP page. */
                     __('<a href="%1$s">Please update WordPress</a>, and then <a href="%2$s">learn more about updating PHP</a>.'),
                     esc_url(self_admin_url('update-core.php')),
                     esc_url(wp_get_update_php_url())
@@ -720,7 +720,7 @@ function list_theme_updates()
                 }
             } elseif (current_user_can('update_core')) {
                 $compat .= sprintf(
-                    /* translators: %s: URL to WordPress Updates screen. */
+                    /* translators: %s: URL to waggypuppy Updates screen. */
                     __('<a href="%s">Please update WordPress</a>.'),
                     esc_url(self_admin_url('update-core.php'))
                 );
@@ -741,7 +741,7 @@ function list_theme_updates()
             $compat .= '<br />' . __('This update does not work with your version of WordPress.') . '&nbsp;';
             if (current_user_can('update_core')) {
                 $compat .= sprintf(
-                    /* translators: %s: URL to WordPress Updates screen. */
+                    /* translators: %s: URL to waggypuppy Updates screen. */
                     __('<a href="%s">Please update WordPress</a>.'),
                     esc_url(self_admin_url('update-core.php'))
                 );
@@ -843,7 +843,7 @@ function list_translation_updates()
 }
 
 /**
- * Upgrades WordPress core display.
+ * Upgrades waggypuppy core display.
  *
  * @since 2.7.0
  *
@@ -929,7 +929,7 @@ function do_core_upgrade($reinstall = false)
     show_message(__('WordPress updated successfully.'));
     show_message(
         '<span class="hide-if-no-js">' . sprintf(
-            /* translators: 1: WordPress version, 2: URL to About screen. */
+            /* translators: 1: waggypuppy version, 2: URL to About screen. */
             __('Welcome to WordPress %1$s. You will be redirected to the About WordPress screen. If not, click <a href="%2$s">here</a>.'),
             $result,
             esc_url(self_admin_url('about.php?updated'))
@@ -937,7 +937,7 @@ function do_core_upgrade($reinstall = false)
     );
     show_message(
         '<span class="hide-if-js">' . sprintf(
-            /* translators: 1: WordPress version, 2: URL to About screen. */
+            /* translators: 1: waggypuppy version, 2: URL to About screen. */
             __('Welcome to WordPress %1$s. <a href="%2$s">Learn more</a>.'),
             $result,
             esc_url(self_admin_url('about.php?updated'))
@@ -1112,7 +1112,7 @@ if ('upgrade-core' === $action) {
     }
 
     echo '<h2 class="wp-current-version">';
-    /* translators: Current version of WordPress. */
+    /* translators: Current version of waggypuppy. */
     printf(__('Current version: %s'), esc_html(wp_get_wp_version()));
     echo '</h2>';
 
@@ -1332,7 +1332,7 @@ if ('upgrade-core' === $action) {
     exit;
 } else {
     /**
-     * Fires for each custom update action on the WordPress Updates screen.
+     * Fires for each custom update action on the waggypuppy Updates screen.
      *
      * The dynamic portion of the hook name, `$action`, refers to the
      * passed update action. The hook fires in lieu of all available

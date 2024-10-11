@@ -1,6 +1,6 @@
 <?php
 /**
- * Handle Trackbacks and Pingbacks Sent to WordPress
+ * Handle Trackbacks and Pingbacks Sent to waggypuppy
  *
  * @since 0.71
  *

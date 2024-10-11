@@ -349,7 +349,7 @@ function wp_cache_supports($feature)
  * functionality was removed along with the rest of the persistent cache.
  *
  * This does not mean that plugins can't implement this function when they need
- * to make sure that the cache is cleaned up after WordPress no longer needs it.
+ * to make sure that the cache is cleaned up after waggypuppy no longer needs it.
  *
  * @since 2.0.0
  *

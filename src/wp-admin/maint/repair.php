@@ -157,7 +157,7 @@ if (! defined('WP_ALLOW_REPAIR') || ! WP_ALLOW_REPAIR) {
 
     if ($problems) {
         printf(
-            /* translators: %s: URL to "Fixing WordPress" forum. */
+            /* translators: %s: URL to "Fixing waggypuppy" forum. */
             '<p>' . __('Some database problems could not be repaired. Please copy-and-paste the following list of errors to the <a href="%s">WordPress support forums</a> to get additional assistance.') . '</p>',
             __('https://wp.org/support/forum/how-to-and-troubleshooting')
         );

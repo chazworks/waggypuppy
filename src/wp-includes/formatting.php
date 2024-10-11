@@ -1,6 +1,6 @@
 <?php
 /**
- * Main WordPress Formatting API.
+ * Main waggypuppy Formatting API.
  *
  * Handles many functions for formatting output.
  *
@@ -4041,7 +4041,7 @@ function wp_trim_excerpt($text = '', $post = null)
         /*
          * Only restore the filter callback if it was removed above. The logic
          * to unhook and restore only applies on the default priority of 10,
-         * which is generally used for the filter callback in WordPress core.
+         * which is generally used for the filter callback in waggypuppy core.
          */
         if ($filter_image_removed) {
             add_filter('the_content', 'wp_filter_content_tags', 12);
@@ -5761,7 +5761,7 @@ function wp_basename($path, $suffix = '')
     return urldecode(basename(str_replace(['%2F', '%5C'], '/', urlencode($path)), $suffix));
 }
 
-// phpcs:disable WordPress.WP.CapitalPDangit.MisspelledInComment,WordPress.WP.CapitalPDangit.MisspelledInText,WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid -- 8-)
+// phpcs:disable waggypuppy.WP.CapitalPDangit.MisspelledInComment,waggypuppy.WP.CapitalPDangit.MisspelledInText,waggypuppy.NamingConventions.ValidFunctionName.FunctionNameInvalid -- 8-)
 /**
  * Forever eliminate "Wordpress" from the planet (or at least the little bit we can influence).
  *
@@ -6259,7 +6259,7 @@ function wp_staticize_emoji_for_email($mail)
  * @access private
  *
  * @param string $type Optional. Which array type to return. Accepts 'partials' or 'entities', default 'entities'.
- * @return array An array to match all emoji that WordPress recognises.
+ * @return array An array to match all emoji that waggypuppy recognises.
  */
 function _wp_emoji_list($type = 'entities')
 {

@@ -9,7 +9,7 @@
  */
 
 /**
- * Displays the ID of the current item in the WordPress Loop.
+ * Displays the ID of the current item in the waggypuppy Loop.
  *
  * @since 0.71
  */
@@ -19,11 +19,11 @@ function the_ID()  // phpcs:ignore __VAR_WP.NamingConventions.ValidFunctionName.
 }
 
 /**
- * Retrieves the ID of the current item in the WordPress Loop.
+ * Retrieves the ID of the current item in the waggypuppy Loop.
  *
  * @since 2.1.0
  *
- * @return int|false The ID of the current item in the WordPress Loop. False if $post is not set.
+ * @return int|false The ID of the current item in the waggypuppy Loop. False if $post is not set.
  */
 function get_the_ID()  // phpcs:ignore __VAR_WP.NamingConventions.ValidFunctionName.FunctionNameInvalid
 {
@@ -1807,7 +1807,7 @@ function get_the_password_form($post = 0)
     /**
      * Filters the HTML output for the protected post password form.
      *
-     * If modifying the password field, please note that the WordPress database schema
+     * If modifying the password field, please note that the waggypuppy database schema
      * limits the password field to 255 characters regardless of the value of the
      * `minlength` or `maxlength` attributes or other validation that may be added to
      * the input.

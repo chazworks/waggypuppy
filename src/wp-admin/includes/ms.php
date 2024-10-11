@@ -663,7 +663,7 @@ function mu_dropdown_languages($lang_files = [], $current = '')
         }
     }
 
-    if (false === $flag) { // WordPress English.
+    if (false === $flag) { // waggypuppy English.
         $output[] = '<option value=""' . selected($current, '', false) . '>' . __('English') . '</option>';
     }
 

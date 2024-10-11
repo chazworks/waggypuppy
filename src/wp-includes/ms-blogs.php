@@ -395,7 +395,7 @@ function get_blog_option($id, $option, $default_value = false)
  *
  * You can create options without values and then update the values later.
  * Existing options will not be updated and checks are performed to ensure that you
- * aren't adding a protected WordPress option. Care should be taken to not name
+ * aren't adding a protected waggypuppy option. Care should be taken to not name
  * options the same as the ones which are protected.
  *
  * @since MU (3.0.0)
@@ -425,7 +425,7 @@ function add_blog_option($id, $option, $value)
 }
 
 /**
- * Removes an option by name for a given blog ID. Prevents removal of protected WordPress options.
+ * Removes an option by name for a given blog ID. Prevents removal of protected waggypuppy options.
  *
  * @since MU (3.0.0)
  *

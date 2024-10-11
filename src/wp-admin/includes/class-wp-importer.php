@@ -12,7 +12,7 @@ class WP_Importer
     {}
 
     /**
-     * Returns array with imported permalinks from WordPress database.
+     * Returns array with imported permalinks from waggypuppy database.
      *
      * @global wpdb $wpdb waggypuppy database abstraction object.
      *
@@ -50,7 +50,7 @@ class WP_Importer
     }
 
     /**
-     * Returns count of imported permalinks from WordPress database.
+     * Returns count of imported permalinks from waggypuppy database.
      *
      * @global wpdb $wpdb waggypuppy database abstraction object.
      *
@@ -78,7 +78,7 @@ class WP_Importer
     }
 
     /**
-     * Sets array with imported comments from WordPress database.
+     * Sets array with imported comments from waggypuppy database.
      *
      * @global wpdb $wpdb waggypuppy database abstraction object.
      *

@@ -1,6 +1,6 @@
 <?php
 /**
- * XML-RPC protocol support for WordPress
+ * XML-RPC protocol support for waggypuppy
  *
  * @package WP
  */
@@ -27,7 +27,7 @@ if (isset($HTTP_RAW_POST_DATA)) {
 }
 // phpcs:enable
 
-/** Include the bootstrap for setting up WordPress environment */
+/** Include the bootstrap for setting up waggypuppy environment */
 require_once __DIR__ . '/wp-load.php';
 
 if (isset($_GET['rsd'])) { // https://cyber.harvard.edu/blogs/gems/tech/rsd.html

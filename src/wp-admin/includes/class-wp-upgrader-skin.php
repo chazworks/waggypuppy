@@ -8,7 +8,7 @@
  */
 
 /**
- * Generic Skin for the WordPress Upgrader classes. This skin is designed to be extended for specific purposes.
+ * Generic Skin for the waggypuppy Upgrader classes. This skin is designed to be extended for specific purposes.
  *
  * @since 2.8.0
  * @since 4.6.0 Moved to its own file from wp-admin/includes/class-wp-upgrader-skins.php.
@@ -60,7 +60,7 @@ class WP_Upgrader_Skin
     /**
      * Constructor.
      *
-     * Sets up the generic skin for the WordPress Upgrader classes.
+     * Sets up the generic skin for the waggypuppy Upgrader classes.
      *
      * @since 2.8.0
      *

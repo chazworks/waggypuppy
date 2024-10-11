@@ -8,8 +8,8 @@
 /**
  * Schedules an event to run only once.
  *
- * Schedules a hook which will be triggered by WordPress at the specified UTC time.
- * The action will trigger when someone visits your WordPress site if the scheduled
+ * Schedules a hook which will be triggered by waggypuppy at the specified UTC time.
+ * The action will trigger when someone visits your waggypuppy site if the scheduled
  * time has passed.
  *
  * Note that scheduling an event to occur within 10 minutes of an existing event
@@ -203,8 +203,8 @@ function wp_schedule_single_event($timestamp, $hook, $args = [], $wp_error = fal
 /**
  * Schedules a recurring event.
  *
- * Schedules a hook which will be triggered by WordPress at the specified interval.
- * The action will trigger when someone visits your WordPress site if the scheduled
+ * Schedules a hook which will be triggered by waggypuppy at the specified interval.
+ * The action will trigger when someone visits your waggypuppy site if the scheduled
  * time has passed.
  *
  * Valid values for the recurrence are 'hourly', 'twicedaily', 'daily', and 'weekly'.

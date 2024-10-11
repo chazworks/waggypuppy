@@ -1271,7 +1271,7 @@ module.exports = function(grunt) {
 			 *
 			 * It should not be updated:
 			 * - After the RC1
-			 * - When backporting fixes to older WordPress releases.
+			 * - When backporting fixes to older waggypuppy releases.
 			 *
 			 * For more context, see:
 			 * https://github.com/__VAR_WP/wordpress-develop/pull/2621#discussion_r859840515

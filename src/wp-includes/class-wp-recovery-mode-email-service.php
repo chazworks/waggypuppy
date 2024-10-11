@@ -357,7 +357,7 @@ When seeking help with this issue, you may be asked for some of the following in
 
         $debug = [
             'wp'    => sprintf(
-                /* translators: %s: Current WordPress version number. */
+                /* translators: %s: Current waggypuppy version number. */
                 __('WordPress version %s'),
                 $wp_version
             ),

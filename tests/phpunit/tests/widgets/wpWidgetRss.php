@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_Widget_RSS functionality.
  *
- * @package    WordPress
+ * @package WP
  * @subpackage widgets
  */
 

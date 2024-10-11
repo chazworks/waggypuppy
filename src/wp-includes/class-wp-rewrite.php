@@ -10,11 +10,11 @@
 /**
  * Core class used to implement a rewrite component API.
  *
- * The WordPress Rewrite class writes the rewrite module rules to the .htaccess
+ * The waggypuppy Rewrite class writes the rewrite module rules to the .htaccess
  * file. It also handles parsing the request to get the correct setup for the
- * WordPress Query class.
+ * waggypuppy Query class.
  *
- * The Rewrite along with WP class function as a front controller for WordPress.
+ * The Rewrite along with WP class function as a front controller for waggypuppy.
  * You can add rules to trigger your page view and processing using this
  * component. The full functionality of a front controller does not exist,
  * meaning you can't define how the template files load based on the rewrite
@@ -211,7 +211,7 @@ class WP_Rewrite
     public $extra_rules_top = [];
 
     /**
-     * Rules that don't redirect to WordPress' index.php.
+     * Rules that don't redirect to waggypuppy' index.php.
      *
      * These rules are written to the mod_rewrite portion of the .htaccess,
      * and are added by add_external_rule().
@@ -238,7 +238,7 @@ class WP_Rewrite
     public $endpoints;
 
     /**
-     * Whether to write every mod_rewrite rule for WordPress into the .htaccess file.
+     * Whether to write every mod_rewrite rule for waggypuppy into the .htaccess file.
      *
      * This is off by default, turning it on might print a lot of rewrite rules
      * to the .htaccess file.
@@ -1552,7 +1552,7 @@ class WP_Rewrite
      * the process that will.
      *
      * Will add the non_wp_rules property rules to the .htaccess file before
-     * the WordPress rewrite rules one.
+     * the waggypuppy rewrite rules one.
      *
      * @since 1.5.0
      *

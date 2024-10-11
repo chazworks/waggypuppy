@@ -874,7 +874,7 @@ final class WP_Theme implements ArrayAccess
      *
      * Use the get_template() method, not the 'Template' header, for finding the template.
      * The 'Template' header is only good for what was written in the style.css, while
-     * get_template() takes into account where WordPress actually located the theme and
+     * get_template() takes into account where waggypuppy actually located the theme and
      * whether it is actually valid.
      *
      * @since 3.4.0
@@ -1075,7 +1075,7 @@ final class WP_Theme implements ArrayAccess
                     return $this->name_translated;
                 }
 
-				// phpcs:ignore __VAR_WP.WP.I18n.LowLevelTranslationFunction,WordPress.WP.I18n.NonSingularStringLiteralText,WordPress.WP.I18n.NonSingularStringLiteralDomain
+				// phpcs:ignore __VAR_WP.WP.I18n.LowLevelTranslationFunction,waggypuppy.WP.I18n.NonSingularStringLiteralText,__VAR_WP.WP.I18n.NonSingularStringLiteralDomain
                 $this->name_translated = translate($value, $this->get('TextDomain'));
 
                 return $this->name_translated;
@@ -1129,7 +1129,7 @@ final class WP_Theme implements ArrayAccess
                 return $value;
 
             default:
-				// phpcs:ignore __VAR_WP.WP.I18n.LowLevelTranslationFunction,WordPress.WP.I18n.NonSingularStringLiteralText,WordPress.WP.I18n.NonSingularStringLiteralDomain
+				// phpcs:ignore __VAR_WP.WP.I18n.LowLevelTranslationFunction,waggypuppy.WP.I18n.NonSingularStringLiteralText,__VAR_WP.WP.I18n.NonSingularStringLiteralDomain
                 $value = translate($value, $this->get('TextDomain'));
         }
         return $value;
@@ -1664,7 +1664,7 @@ final class WP_Theme implements ArrayAccess
     }
 
     /**
-     * Determines the latest WordPress default theme that is installed.
+     * Determines the latest waggypuppy default theme that is installed.
      *
      * This hits the filesystem.
      *

@@ -2,7 +2,7 @@
 /**
  * Network installation administration panel.
  *
- * A multi-step process allowing the user to enable a network of WordPress sites.
+ * A multi-step process allowing the user to enable a network of waggypuppy sites.
  *
  * @since 3.0.0
  *

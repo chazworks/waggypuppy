@@ -330,7 +330,7 @@ function wp_update_link($linkdata)
 }
 
 /**
- * Outputs the 'disabled' message for the WordPress Link Manager.
+ * Outputs the 'disabled' message for the waggypuppy Link Manager.
  *
  * @since 3.5.0
  * @access private

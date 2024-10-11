@@ -123,7 +123,7 @@ class WP_Themes_List_Table extends WP_List_Table
             if (current_user_can('install_themes')) {
                 printf(
                     /* translators: %s: URL to Add Themes screen. */
-                    __('You only have one theme installed right now. Live a little! You can choose from over 1,000 free themes in the WordPress Theme Directory at any time: just click on the <a href="%s">Install Themes</a> tab above.'),
+                    __('You only have one theme installed right now. Live a little! You can choose from over 1,000 free themes in the WP Theme Directory at any time: just click on the <a href="%s">Install Themes</a> tab above.'),
                     admin_url('theme-install.php')
                 );
 

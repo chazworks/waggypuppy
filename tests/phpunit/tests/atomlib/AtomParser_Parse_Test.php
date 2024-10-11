@@ -2,7 +2,7 @@
 /**
  * Unit tests covering AtomParser functionality.
  *
- * @package    WordPress
+ * @package WP
  * @subpackage AtomLib
  */
 

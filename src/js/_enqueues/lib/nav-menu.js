@@ -16,7 +16,7 @@
 	var api;
 
 	/**
-	 * Contains all the functions to handle WordPress navigation menus administration.
+	 * Contains all the functions to handle waggypuppy navigation menus administration.
 	 *
 	 * @namespace wpNavMenu
 	 */

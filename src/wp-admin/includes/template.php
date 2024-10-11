@@ -1,6 +1,6 @@
 <?php
 /**
- * Template WordPress Administration API.
+ * Template waggypuppy Administration API.
  *
  * A Big Mess. Also some neat functions that are nicely written.
  *

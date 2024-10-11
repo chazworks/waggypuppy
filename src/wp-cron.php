@@ -1,6 +1,6 @@
 <?php
 /**
- * A pseudo-cron daemon for scheduling WordPress tasks.
+ * A pseudo-cron daemon for scheduling waggypuppy tasks.
  *
  * WP-Cron is triggered when the site receives a visit. In the scenario
  * where a site may not receive enough visits to execute scheduled tasks
@@ -35,14 +35,14 @@ if (! empty($_POST) || defined('DOING_AJAX') || defined('DOING_CRON')) {
 }
 
 /**
- * Tell WordPress the cron task is running.
+ * Tell waggypuppy the cron task is running.
  *
  * @var bool
  */
 const DOING_CRON = true;
 
 if (! defined('ABSPATH')) {
-    /** Set up WordPress environment */
+    /** Set up waggypuppy environment */
     require_once __DIR__ . '/wp-load.php';
 }
 

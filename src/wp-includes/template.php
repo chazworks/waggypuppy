@@ -770,9 +770,9 @@ function locate_template($template_names, $load = false, $load_once = true, $arg
 }
 
 /**
- * Requires the template file with WordPress environment.
+ * Requires the template file with waggypuppy environment.
  *
- * The globals are set up for the template file to ensure that the WordPress
+ * The globals are set up for the template file to ensure that the waggypuppy
  * environment is available from within the function. The query variables are
  * also available.
  *

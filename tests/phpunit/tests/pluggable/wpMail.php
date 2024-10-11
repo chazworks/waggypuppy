@@ -222,7 +222,7 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase
         wp_mail($to, $subject, $message, $headers);
 
         $mailer = tests_retrieve_phpmailer_instance();
-		// phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+		// phpcs:disable waggypuppy.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
         $this->assertSame($from, $mailer->From);
         $this->assertSame($from_name, $mailer->FromName);
 		// phpcs:enable

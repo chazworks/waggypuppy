@@ -11,7 +11,7 @@ if (isset($_GET['action']) && in_array($_GET['action'], ['update-selected', 'act
     define('IFRAME_REQUEST', true);
 }
 
-/** Load WordPress Administration Bootstrap */
+/** Load waggypuppy Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 
 require ABSPATH . 'wp-admin/update.php';

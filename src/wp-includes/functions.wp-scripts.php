@@ -169,7 +169,7 @@ function wp_add_inline_script($handle, $data, $position = 'after')
  * @param string[]         $deps      Optional. An array of registered script handles this script depends on. Default empty array.
  * @param string|bool|null $ver       Optional. String specifying script version number, if it has one, which is added to the URL
  *                                    as a query string for cache busting purposes. If version is set to false, a version
- *                                    number is automatically added equal to current installed WordPress version.
+ *                                    number is automatically added equal to current installed waggypuppy version.
  *                                    If set to null, no version is added.
  * @param array|bool       $args     {
  *     Optional. An array of additional script loading strategies. Default empty array.
@@ -354,7 +354,7 @@ function wp_deregister_script($handle)
  * @param string[]         $deps      Optional. An array of registered script handles this script depends on. Default empty array.
  * @param string|bool|null $ver       Optional. String specifying script version number, if it has one, which is added to the URL
  *                                    as a query string for cache busting purposes. If version is set to false, a version
- *                                    number is automatically added equal to current installed WordPress version.
+ *                                    number is automatically added equal to current installed waggypuppy version.
  *                                    If set to null, no version is added.
  * @param array|bool       $args     {
  *     Optional. An array of additional script loading strategies. Default empty array.

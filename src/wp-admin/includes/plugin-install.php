@@ -71,7 +71,7 @@
  *         @type bool $sections          Whether to return the plugin readme sections: description, installation,
  *                                       FAQ, screenshots, other notes, and changelog. Default false.
  *         @type bool $tested            Whether to return the 'Compatible up to' value. Default true.
- *         @type bool $requires          Whether to return the required WordPress version. Default true.
+ *         @type bool $requires          Whether to return the required waggypuppy version. Default true.
  *         @type bool $requires_php      Whether to return the required PHP version. Default true.
  *         @type bool $rating            Whether to return the rating in percent and total number of ratings.
  *                                       Default true.
@@ -82,7 +82,7 @@
  *         @type bool $added             Whether to return the date when the plugin was added to the wp.org
  *                                       repository. Default true.
  *         @type bool $tags              Whether to return the assigned tags. Default true.
- *         @type bool $compatibility     Whether to return the WordPress compatibility list. Default true.
+ *         @type bool $compatibility     Whether to return the waggypuppy compatibility list. Default true.
  *         @type bool $homepage          Whether to return the plugin homepage link. Default true.
  *         @type bool $versions          Whether to return the list of all available versions. Default false.
  *         @type bool $donate_link       Whether to return the donation link. Default true.
@@ -232,7 +232,7 @@ function plugins_api($action, $args = [])
 }
 
 /**
- * Retrieves popular WordPress plugin tags.
+ * Retrieves popular waggypuppy plugin tags.
  *
  * @since 2.7.0
  *
@@ -852,7 +852,7 @@ function install_plugin_information()
         $compatible_wp_notice_message = __('<strong>Error:</strong> This plugin <strong>requires a newer version of WordPress</strong>.');
         if (current_user_can('update_core')) {
             $compatible_wp_notice_message .= sprintf(
-                /* translators: %s: URL to WordPress Updates screen. */
+                /* translators: %s: URL to waggypuppy Updates screen. */
                 ' ' . __('<a href="%s" target="_parent">Click here to update WordPress</a>.'),
                 esc_url(self_admin_url('update-core.php'))
             );

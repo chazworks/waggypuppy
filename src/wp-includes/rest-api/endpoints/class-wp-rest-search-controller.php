@@ -8,7 +8,7 @@
  */
 
 /**
- * Core class to search through all WordPress content via the REST API.
+ * Core class to search through all waggypuppy content via the REST API.
  *
  * @since 5.0.0
  *

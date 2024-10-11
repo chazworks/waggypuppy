@@ -255,7 +255,7 @@ function get_comments($args = '')
 }
 
 /**
- * Retrieves all of the WordPress supported comment statuses.
+ * Retrieves all of the waggypuppy supported comment statuses.
  *
  * Comments have a limited set of valid status values, this provides the comment
  * status values and descriptions.
@@ -2205,7 +2205,7 @@ function wp_throttle_comment_flood($block, $time_lastcomment, $time_newcomment)
  *
  * Filters new comment to ensure that the fields are sanitized and valid before
  * inserting comment into database. Calls {@see 'comment_post'} action with comment ID
- * and whether comment is approved by WordPress. Also has {@see 'preprocess_comment'}
+ * and whether comment is approved by waggypuppy. Also has {@see 'preprocess_comment'}
  * filter for processing the comment data before the function handles it.
  *
  * We use `REMOTE_ADDR` here directly. If you are behind a proxy, you should ensure
@@ -3186,7 +3186,7 @@ function pingback($content, $post)
              * @since 2.9.0
              *
              * @param string $concat_useragent    The user agent concatenated with ' -- waggypuppy/'
-             *                                    and the WordPress version.
+             *                                    and the waggypuppy version.
              * @param string $useragent           The useragent.
              * @param string $pingback_server_url The server URL being linked to.
              * @param string $pagelinkedto        URL of page linked to.

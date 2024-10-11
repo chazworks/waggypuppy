@@ -1,6 +1,6 @@
 <?php
 /**
- * Class for testing automatic updates in the WordPress code.
+ * Class for testing automatic updates in the waggypuppy code.
  *
  * @package WP
  * @subpackage Site_Health
@@ -206,7 +206,7 @@ class WP_Site_Health_Auto_Updates
     }
 
     /**
-     * Checks if WordPress is controlled by a VCS (Git, Subversion etc).
+     * Checks if waggypuppy is controlled by a VCS (Git, Subversion etc).
      *
      * @since 5.2.0
      *
@@ -362,7 +362,7 @@ class WP_Site_Health_Auto_Updates
 
         if (! $checksums) {
             $description = sprintf(
-                /* translators: %s: WordPress version. */
+                /* translators: %s: waggypuppy version. */
                 __("Couldn't retrieve a list of the checksums for WordPress %s."),
                 $wp_version
             );

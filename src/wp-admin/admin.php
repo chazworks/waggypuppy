@@ -7,7 +7,7 @@
  */
 
 /**
- * In WordPress Administration Screens
+ * In waggypuppy Administration Screens
  *
  * @since 2.3.2
  */

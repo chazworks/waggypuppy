@@ -1,6 +1,6 @@
 <?php
 /**
- * Canonical API to handle WordPress Redirecting
+ * Canonical API to handle waggypuppy Redirecting
  *
  * Based on "Permalink Redirect" from Scott Yang and "Enforce www. Preference"
  * by Mark Jaquith
@@ -23,7 +23,7 @@
  * or on POST requests.
  *
  * Will also attempt to find the correct link when a user enters a URL that does
- * not exist based on exact WordPress query. Will instead try to parse the URL
+ * not exist based on exact waggypuppy query. Will instead try to parse the URL
  * or query in an attempt to figure the correct page to go to.
  *
  * @since 2.3.0

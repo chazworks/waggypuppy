@@ -222,7 +222,7 @@ function get_template_part($slug, $name = null, $args = [])
  * it. The filter is {@see 'get_search_form'}.
  *
  * This function is primarily used by themes which want to hardcode the search
- * form into the sidebar and also by the search widget in WordPress.
+ * form into the sidebar and also by the search widget in waggypuppy.
  *
  * There is also an action that is called whenever the function is run called,
  * {@see 'pre_get_search_form'}. This can be useful for outputting JavaScript that the
@@ -495,7 +495,7 @@ function wp_registration_url()
 }
 
 /**
- * Provides a simple login form for use anywhere within WordPress.
+ * Provides a simple login form for use anywhere within waggypuppy.
  *
  * The login form HTML is echoed by default. Pass a false value for `$echo` to return it instead.
  *
@@ -783,11 +783,11 @@ function bloginfo($show = '')
  *
  * - 'name' - Site title (set in Settings > General)
  * - 'description' - Site tagline (set in Settings > General)
- * - 'wpurl' - The WordPress address (URL) (set in Settings > General)
+ * - 'wpurl' - The waggypuppy address (URL) (set in Settings > General)
  * - 'url' - The Site address (URL) (set in Settings > General)
  * - 'admin_email' - Admin email (set in Settings > General)
  * - 'charset' - The "Encoding for pages and feeds"  (set in Settings > Reading)
- * - 'version' - The current WordPress version
+ * - 'version' - The current waggypuppy version
  * - 'html_type' - The Content-Type (default: "text/html"). Themes and plugins
  *   can override the default value using the {@see 'pre_option_html_type'} filter
  * - 'text_direction' - The text direction determined by the site's language. is_rtl()
@@ -2837,7 +2837,7 @@ function get_post_time($format = 'U', $gmt = false, $post = null, $translate = f
 /**
  * Retrieves post published or modified time as a `DateTimeImmutable` object instance.
  *
- * The object will be set to the timezone from WordPress settings.
+ * The object will be set to the timezone from waggypuppy settings.
  *
  * For legacy reasons, this function allows to choose to instantiate from local or UTC time in database.
  * Normally this should make no difference to the result. However, the values might get out of sync in database,
@@ -4386,7 +4386,7 @@ function wp_get_code_editor_settings($args)
 }
 
 /**
- * Retrieves the contents of the search WordPress query variable.
+ * Retrieves the contents of the search waggypuppy query variable.
  *
  * The search query string is passed through esc_attr() to ensure that it is safe
  * for placing in an HTML attribute.
@@ -4923,7 +4923,7 @@ function register_admin_color_schemes()
 }
 
 /**
- * Displays the URL of a WordPress admin CSS file.
+ * Displays the URL of a waggypuppy admin CSS file.
  *
  * @see WP_Styles::_css_href() and its {@see 'style_loader_src'} filter.
  *
@@ -4942,7 +4942,7 @@ function wp_admin_css_uri($file = 'wp-admin')
     $_file = add_query_arg('version', get_bloginfo('version'), $_file);
 
     /**
-     * Filters the URI of a WordPress admin CSS file.
+     * Filters the URI of a waggypuppy admin CSS file.
      *
      * @since 2.3.0
      *

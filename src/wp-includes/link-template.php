@@ -466,7 +466,7 @@ function _get_page_link($post = false, $leavename = false, $sample = false)
 /**
  * Retrieves the permalink for an attachment.
  *
- * This can be used in the WordPress Loop or outside of it.
+ * This can be used in the waggypuppy Loop or outside of it.
  *
  * @since 2.0.0
  *
@@ -1466,7 +1466,7 @@ function get_preview_post_link($post = null, $query_args = [], $preview_link = '
 /**
  * Retrieves the edit post link for post.
  *
- * Can be used within the WordPress loop or outside of it. Can be used with
+ * Can be used within the waggypuppy loop or outside of it. Can be used with
  * pages, posts, attachments, revisions, global styles, templates, and template parts.
  *
  * @since 2.3.0
@@ -1575,7 +1575,7 @@ function edit_post_link($text = null, $before = '', $after = '', $post = 0, $css
 /**
  * Retrieves the delete posts link for post.
  *
- * Can be used within the WordPress loop or outside of it, with any post type.
+ * Can be used within the waggypuppy loop or outside of it, with any post type.
  *
  * @since 2.9.0
  *
@@ -3570,7 +3570,7 @@ function get_home_url($blog_id = null, $path = '', $scheme = null)
 }
 
 /**
- * Retrieves the URL for the current site where WordPress application files
+ * Retrieves the URL for the current site where waggypuppy application files
  * (e.g. wp-blog-header.php or the wp-admin/ folder) are accessible.
  *
  * Returns the 'site_url' option with the appropriate protocol, 'https' if
@@ -3589,7 +3589,7 @@ function site_url($path = '', $scheme = null)
 }
 
 /**
- * Retrieves the URL for a given site where WordPress application files
+ * Retrieves the URL for a given site where waggypuppy application files
  * (e.g. wp-blog-header.php or the wp-admin/ folder) are accessible.
  *
  * Returns the 'site_url' option with the appropriate protocol, 'https' if

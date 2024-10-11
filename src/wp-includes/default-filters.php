@@ -1,7 +1,7 @@
 <?php
 /**
  * Sets up the default filters and actions for most
- * of the WordPress hooks.
+ * of the waggypuppy hooks.
  *
  * This file is loaded very early in the bootstrap which
  * means many functions are not yet available and site
@@ -160,7 +160,7 @@ foreach (['comment_author', 'term_name', 'link_name', 'link_description', 'link_
     add_filter($filter, 'esc_html');
 }
 
-// Format WordPress.
+// Format waggypuppy.
 foreach (['the_content', 'the_title', 'wp_title', 'document_title'] as $filter) {
     add_filter($filter, 'capital_P_dangit', 11);
 }

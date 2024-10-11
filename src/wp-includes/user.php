@@ -293,7 +293,7 @@ function wp_authenticate_email_password($user, $email, $password)
 }
 
 /**
- * Authenticates the user using the WordPress auth cookie.
+ * Authenticates the user using the waggypuppy auth cookie.
  *
  * @since 2.8.0
  *
@@ -734,7 +734,7 @@ function get_user_option($option, $user = 0, $deprecated = '')
  *
  * User options are just like user metadata except that they have support for
  * global blog options. If the 'is_global' parameter is false, which it is by default,
- * it will prepend the WordPress table prefix to the option name.
+ * it will prepend the waggypuppy table prefix to the option name.
  *
  * Deletes the user option if $newvalue is empty.
  *
@@ -766,7 +766,7 @@ function update_user_option($user_id, $option_name, $newvalue, $is_global = fals
  *
  * User options are just like user metadata except that they have support for
  * global blog options. If the 'is_global' parameter is false, which it is by default,
- * it will prepend the WordPress table prefix to the option name.
+ * it will prepend the waggypuppy table prefix to the option name.
  *
  * @since 3.0.0
  *

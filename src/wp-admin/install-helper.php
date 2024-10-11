@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugins may load this file to gain access to special helper functions
- * for plugin installation. This file is not included by WordPress and it is
+ * for plugin installation. This file is not included by waggypuppy and it is
  * recommended, to prevent fatal errors, that this file is included using
  * require_once.
  *
@@ -36,7 +36,7 @@
  * @subpackage Plugin
  */
 
-/** Load WordPress Bootstrap */
+/** Load waggypuppy Bootstrap */
 require_once dirname(__DIR__) . '/wp-load.php';
 
 if (! function_exists('maybe_create_table')) :

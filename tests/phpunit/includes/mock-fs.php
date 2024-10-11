@@ -30,7 +30,7 @@ class WP_Filesystem_MockFS extends WP_Filesystem_Base
         }
         $folder = $this->find_folder($path);
 
-        // Perhaps the FTP folder is rooted at the WordPress installation.
+        // Perhaps the FTP folder is rooted at the waggypuppy installation.
         // Check for wp-includes folder in root, could have some false positives, but rare.
         if (! $folder && $this->is_dir('/wp-includes')) {
             $folder = '/';

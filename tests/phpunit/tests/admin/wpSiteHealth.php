@@ -588,7 +588,7 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase
     {
         $heavy_option_string = wp_generate_password($bytes);
 
-        // Force autoloading so that WordPress core does not override it. See https://core.trac.wp.org/changeset/57920.
+        // Force autoloading so that waggypuppy core does not override it. See https://core.trac.wp.org/changeset/57920.
         add_option('test_set_autoloaded_option', $heavy_option_string, '', true);
     }
 }

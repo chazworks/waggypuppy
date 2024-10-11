@@ -1,4 +1,4 @@
-# gitignore file for WordPress Core
+# gitignore file for waggypuppy Core
 
 # Configuration files with possibly sensitive information
 .env

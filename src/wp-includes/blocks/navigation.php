@@ -731,7 +731,7 @@ class WP_Navigation_Block_Renderer
 // when the gutenberg plugin is active.
 if (defined('IS_GUTENBERG_PLUGIN') && IS_GUTENBERG_PLUGIN) {
     /**
-     * Returns the menu items for a WordPress menu location.
+     * Returns the menu items for a waggypuppy menu location.
      *
      * @since 5.9.0
      *

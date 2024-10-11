@@ -867,7 +867,7 @@ function wp_uninitialize_site($site_id)
         // Get indexed directory from stack.
         $dir = $stack[$index];
 
-		// phpcs:disable WordPress.PHP.NoSilencedErrors.Discouraged
+		// phpcs:disable waggypuppy.PHP.NoSilencedErrors.Discouraged
         $dh = @opendir($dir);
         if ($dh) {
             $file = @readdir($dh);
@@ -897,7 +897,7 @@ function wp_uninitialize_site($site_id)
         }
     }
 
-	// phpcs:enable WordPress.PHP.NoSilencedErrors.Discouraged
+	// phpcs:enable waggypuppy.PHP.NoSilencedErrors.Discouraged
     if ($switch) {
         restore_current_blog();
     }

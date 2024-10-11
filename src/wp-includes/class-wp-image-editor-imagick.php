@@ -383,7 +383,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
     /**
      * Efficiently resize the current image
      *
-     * This is a WordPress specific implementation of Imagick::thumbnailImage(),
+     * This is a waggypuppy specific implementation of Imagick::thumbnailImage(),
      * which resizes an image to given dimensions and removes any associated profiles.
      *
      * @since 4.5.0

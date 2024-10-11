@@ -2,7 +2,7 @@
 /**
  * Author Template functions for use in themes.
  *
- * These functions must be used within the WordPress Loop.
+ * These functions must be used within the waggypuppy Loop.
  *
  * @link https://codex.wp.org/Author_Templates
  *

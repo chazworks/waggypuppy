@@ -7,12 +7,12 @@
  */
 
 /**
- * Checks WordPress version against the newest version.
+ * Checks waggypuppy version against the newest version.
  *
- * The WordPress version, PHP version, and locale is sent.
+ * The waggypuppy version, PHP version, and locale is sent.
  *
- * Checks against the WordPress server at api.wp.org. Will only check
- * if WordPress isn't installing.
+ * Checks against the waggypuppy server at api.wp.org. Will only check
+ * if waggypuppy isn't installing.
  *
  * @since 2.3.0
  *
@@ -61,7 +61,7 @@ function wp_version_check($extra_stats = [], $force_check = false)
     }
 
     /**
-     * Filters the locale requested for WordPress core translations.
+     * Filters the locale requested for waggypuppy core translations.
      *
      * @since 2.8.0
      *
@@ -154,15 +154,15 @@ function wp_version_check($extra_stats = [], $force_check = false)
      * @param array $query {
      *     Version check query arguments.
      *
-     *     @type string $version            WordPress version number.
+     *     @type string $version            waggypuppy version number.
      *     @type string $php                PHP version number.
      *     @type string $locale             The locale to retrieve updates for.
      *     @type string $mysql              MySQL version number.
      *     @type string $local_package      The value of the $wp_local_package global, when set.
-     *     @type int    $blogs              Number of sites on this WordPress installation.
-     *     @type int    $users              Number of users on this WordPress installation.
-     *     @type int    $multisite_enabled  Whether this WordPress installation uses Multisite.
-     *     @type int    $initial_db_version Database version of WordPress at time of installation.
+     *     @type int    $blogs              Number of sites on this waggypuppy installation.
+     *     @type int    $users              Number of users on this waggypuppy installation.
+     *     @type int    $multisite_enabled  Whether this waggypuppy installation uses Multisite.
+     *     @type int    $initial_db_version Database version of waggypuppy at time of installation.
      * }
      */
     $query = apply_filters('core_version_check_query_args', $query);
@@ -304,8 +304,8 @@ function wp_version_check($extra_stats = [], $force_check = false)
  *
  * A list of all plugins installed is sent to WP, along with the site locale.
  *
- * Checks against the WordPress server at api.wp.org. Will only check
- * if WordPress isn't installing.
+ * Checks against the waggypuppy server at api.wp.org. Will only check
+ * if waggypuppy isn't installing.
  *
  * @since 2.3.0
  *
@@ -491,7 +491,7 @@ function wp_update_plugins($extra_stats = [])
          *     @type string $version      The version of the plugin.
          *     @type string $url          The URL for details of the plugin.
          *     @type string $package      Optional. The update ZIP for the plugin.
-         *     @type string $tested       Optional. The version of WordPress the plugin is tested against.
+         *     @type string $tested       Optional. The version of waggypuppy the plugin is tested against.
          *     @type string $requires_php Optional. The version of PHP which the plugin requires.
          *     @type bool   $autoupdate   Optional. Whether the plugin should automatically update.
          *     @type array  $icons        Optional. Array of plugin icons.
@@ -530,7 +530,7 @@ function wp_update_plugins($extra_stats = [])
         $update->id     = $plugin_data['UpdateURI'];
         $update->plugin = $plugin_file;
 
-        // WordPress needs the version field specified as 'new_version'.
+        // waggypuppy needs the version field specified as 'new_version'.
         if (! isset($update->new_version)) {
             $update->new_version = $update->version;
         }
@@ -577,8 +577,8 @@ function wp_update_plugins($extra_stats = [])
  *
  * A list of all themes installed is sent to WP, along with the site locale.
  *
- * Checks against the WordPress server at api.wp.org. Will only check
- * if WordPress isn't installing.
+ * Checks against the waggypuppy server at api.wp.org. Will only check
+ * if waggypuppy isn't installing.
  *
  * @since 2.7.0
  *
@@ -775,7 +775,7 @@ function wp_update_themes($extra_stats = [])
          *     @type string $version      The version of the theme.
          *     @type string $url          The URL for details of the theme.
          *     @type string $package      Optional. The update ZIP for the theme.
-         *     @type string $tested       Optional. The version of WordPress the theme is tested against.
+         *     @type string $tested       Optional. The version of waggypuppy the theme is tested against.
          *     @type string $requires_php Optional. The version of PHP which the theme requires.
          *     @type bool   $autoupdate   Optional. Whether the theme should automatically update.
          *     @type array  $translations {
@@ -810,7 +810,7 @@ function wp_update_themes($extra_stats = [])
         // This should remain constant.
         $update->id = $theme_data['UpdateURI'];
 
-        // WordPress needs the version field specified as 'new_version'.
+        // waggypuppy needs the version field specified as 'new_version'.
         if (! isset($update->new_version)) {
             $update->new_version = $update->version;
         }
@@ -840,9 +840,9 @@ function wp_update_themes($extra_stats = [])
 }
 
 /**
- * Performs WordPress automatic background updates.
+ * Performs waggypuppy automatic background updates.
  *
- * Updates WordPress core plus any plugins and themes that have automatic updates enabled.
+ * Updates waggypuppy core plus any plugins and themes that have automatic updates enabled.
  *
  * @since 3.7.0
  */
@@ -943,7 +943,7 @@ function wp_get_update_data()
     $titles          = [];
 
     if ($counts['wordpress']) {
-        /* translators: %d: Number of available WordPress updates. */
+        /* translators: %d: Number of available waggypuppy updates. */
         $titles['wordpress'] = sprintf(__('%d WordPress Update'), $counts['wordpress']);
     }
 
@@ -968,14 +968,14 @@ function wp_get_update_data()
         'title'  => $update_title,
     ];
     /**
-     * Filters the returned array of update data for plugins, themes, and WordPress core.
+     * Filters the returned array of update data for plugins, themes, and waggypuppy core.
      *
      * @since 3.5.0
      *
      * @param array $update_data {
      *     Fetched update data.
      *
-     *     @type array   $counts       An array of counts for available plugin, theme, and WordPress updates.
+     *     @type array   $counts       An array of counts for available plugin, theme, and waggypuppy updates.
      *     @type string  $update_title Titles of available updates.
      * }
      * @param array $titles An array of update counts and UI strings for available updates.

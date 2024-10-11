@@ -439,7 +439,7 @@ class Tests_DB extends WP_UnitTestCase
     {
         global $wpdb;
 
-		// phpcs:ignore __VAR_WP.PHP.NoSilencedErrors.Discouraged,WordPress.DB.PreparedSQL
+		// phpcs:ignore __VAR_WP.PHP.NoSilencedErrors.Discouraged,__VAR_WP.DB.PreparedSQL
         $prepared = @$wpdb->prepare($query, ...$args);
         $this->assertSame($expected, $prepared);
     }

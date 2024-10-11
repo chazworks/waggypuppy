@@ -3,14 +3,14 @@
  * Bootstrap file for setting the ABSPATH constant
  * and loading the wp-config.php file. The wp-config.php
  * file will then load the wp-settings.php file, which
- * will then set up the WordPress environment.
+ * will then set up the waggypuppy environment.
  *
  * If the wp-config.php file is not found then an error
  * will be displayed asking the visitor to set up the
  * wp-config.php file.
  *
- * Will also search for wp-config.php in WordPress' parent
- * directory to allow the WordPress directory to remain
+ * Will also search for wp-config.php in waggypuppy' parent
+ * directory to allow the waggypuppy directory to remain
  * untouched.
  *
  * @package WP
@@ -39,10 +39,10 @@ if (function_exists('error_reporting')) {
 }
 
 /*
- * If wp-config.php exists in the WordPress root, or if it exists in the root and wp-settings.php
+ * If wp-config.php exists in the waggypuppy root, or if it exists in the root and wp-settings.php
  * doesn't, load wp-config.php. The secondary check for wp-settings.php has the added benefit
- * of avoiding cases where the current directory is a nested installation, e.g. / is WordPress(a)
- * and /blog/ is WordPress(b).
+ * of avoiding cases where the current directory is a nested installation, e.g. / is waggypuppy(a)
+ * and /blog/ is waggypuppy(b).
  *
  * If neither set of conditions is true, initiate loading the setup process.
  */

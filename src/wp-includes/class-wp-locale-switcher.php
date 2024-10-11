@@ -224,7 +224,7 @@ class WP_Locale_Switcher
     }
 
     /**
-     * Filters the locale of the WordPress installation.
+     * Filters the locale of the waggypuppy installation.
      *
      * @since 4.7.0
      *

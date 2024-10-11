@@ -84,7 +84,7 @@ function get_core_updates($options = [])
 }
 
 /**
- * Gets the best available (and enabled) Auto-Update for WordPress core.
+ * Gets the best available (and enabled) Auto-Update for waggypuppy core.
  *
  * If there's 1.2.3 and 1.3 on offer, it'll choose 1.3 if the installation allows it, else, 1.2.3.
  *
@@ -123,7 +123,7 @@ function find_core_auto_update()
 }
 
 /**
- * Gets and caches the checksums for the given version of WordPress.
+ * Gets and caches the checksums for the given version of waggypuppy.
  *
  * @since 3.7.0
  *
@@ -216,7 +216,7 @@ function undismiss_core_update($version, $locale)
 }
 
 /**
- * Finds the available update for WordPress core.
+ * Finds the available update for waggypuppy core.
  *
  * @since 2.7.0
  *
@@ -254,7 +254,7 @@ function find_core_update($version, $locale)
 function core_update_footer($msg = '')
 {
     if (! current_user_can('update_core')) {
-        /* translators: %s: WordPress version. */
+        /* translators: %s: waggypuppy version. */
         return sprintf(__('Version %s'), get_bloginfo('version', 'display'));
     }
 
@@ -276,7 +276,7 @@ function core_update_footer($msg = '')
 
     if ($is_development_version) {
         return sprintf(
-            /* translators: 1: WordPress version number, 2: URL to WordPress Updates screen. */
+            /* translators: 1: waggypuppy version number, 2: URL to waggypuppy Updates screen. */
             __('You are using a development version (%1$s). Cool! Please <a href="%2$s">stay updated</a>.'),
             get_bloginfo('version', 'display'),
             network_admin_url('update-core.php')
@@ -288,13 +288,13 @@ function core_update_footer($msg = '')
             return sprintf(
                 '<strong><a href="%s">%s</a></strong>',
                 network_admin_url('update-core.php'),
-                /* translators: %s: WordPress version. */
+                /* translators: %s: waggypuppy version. */
                 sprintf(__('Get Version %s'), $cur->current)
             );
 
         case 'latest':
         default:
-            /* translators: %s: WordPress version. */
+            /* translators: %s: waggypuppy version. */
             return sprintf(__('Version %s'), get_bloginfo('version', 'display'));
     }
 }
@@ -326,14 +326,14 @@ function update_nag()
     }
 
     $version_url = sprintf(
-        /* translators: %s: WordPress version. */
+        /* translators: %s: waggypuppy version. */
         esc_url(__('https://wp.org/documentation/wordpress-version/version-%s/')),
         sanitize_title($cur->current)
     );
 
     if (current_user_can('update_core')) {
         $msg = sprintf(
-            /* translators: 1: URL to WordPress release notes, 2: New WordPress version, 3: URL to network admin, 4: Accessibility text. */
+            /* translators: 1: URL to waggypuppy release notes, 2: New waggypuppy version, 3: URL to network admin, 4: Accessibility text. */
             __('<a href="%1$s">WordPress %2$s</a> is available! <a href="%3$s" aria-label="%4$s">Please update now</a>.'),
             $version_url,
             $cur->current,
@@ -342,7 +342,7 @@ function update_nag()
         );
     } else {
         $msg = sprintf(
-            /* translators: 1: URL to WordPress release notes, 2: New WordPress version. */
+            /* translators: 1: URL to waggypuppy release notes, 2: New waggypuppy version. */
             __('<a href="%1$s">WordPress %2$s</a> is available! Please notify the site administrator.'),
             $version_url,
             $cur->current
@@ -360,7 +360,7 @@ function update_nag()
 }
 
 /**
- * Displays WordPress version and active theme in the 'At a Glance' dashboard widget.
+ * Displays waggypuppy version and active theme in the 'At a Glance' dashboard widget.
  *
  * @since 2.5.0
  */
@@ -381,7 +381,7 @@ function update_right_now_message()
             $msg .= sprintf(
                 '<a href="%s" class="button" aria-describedby="wp-version">%s</a> ',
                 network_admin_url('update-core.php'),
-                /* translators: %s: WordPress version number, or 'Latest' string. */
+                /* translators: %s: waggypuppy version number, or 'Latest' string. */
                 sprintf(__('Update to %s'), $cur->current ? $cur->current : __('Latest'))
             );
         }
@@ -621,8 +621,8 @@ function wp_plugin_update_row($file, $plugin_data)
          *     @type string[] $icons        An array of plugin icon URLs.
          *     @type string[] $banners      An array of plugin banner URLs.
          *     @type string[] $banners_rtl  An array of plugin RTL banner URLs.
-         *     @type string   $requires     The version of WordPress which the plugin requires.
-         *     @type string   $tested       The version of WordPress the plugin is tested against.
+         *     @type string   $requires     The version of waggypuppy which the plugin requires.
+         *     @type string   $tested       The version of waggypuppy the plugin is tested against.
          *     @type string   $requires_php The version of PHP which the plugin requires.
          * }
          */
@@ -784,7 +784,7 @@ function wp_theme_update_row($theme_key, $theme)
             );
             if (current_user_can('update_core') && current_user_can('update_php')) {
                 printf(
-                    /* translators: 1: URL to WordPress Updates screen, 2: URL to Update PHP page. */
+                    /* translators: 1: URL to waggypuppy Updates screen, 2: URL to Update PHP page. */
                     ' ' . __('<a href="%1$s">Please update WordPress</a>, and then <a href="%2$s">learn more about updating PHP</a>.'),
                     self_admin_url('update-core.php'),
                     esc_url(wp_get_update_php_url())
@@ -792,7 +792,7 @@ function wp_theme_update_row($theme_key, $theme)
                 wp_update_php_annotation('</p><p><em>', '</em>');
             } elseif (current_user_can('update_core')) {
                 printf(
-                    /* translators: %s: URL to WordPress Updates screen. */
+                    /* translators: %s: URL to waggypuppy Updates screen. */
                     ' ' . __('<a href="%s">Please update WordPress</a>.'),
                     self_admin_url('update-core.php')
                 );
@@ -812,7 +812,7 @@ function wp_theme_update_row($theme_key, $theme)
             );
             if (current_user_can('update_core')) {
                 printf(
-                    /* translators: %s: URL to WordPress Updates screen. */
+                    /* translators: %s: URL to waggypuppy Updates screen. */
                     ' ' . __('<a href="%s">Please update WordPress</a>.'),
                     self_admin_url('update-core.php')
                 );
@@ -896,7 +896,7 @@ function maintenance_nag()
 
     if (current_user_can('update_core')) {
         $msg = sprintf(
-            /* translators: %s: URL to WordPress Updates screen. */
+            /* translators: %s: URL to waggypuppy Updates screen. */
             __('An automated WordPress update has failed to complete - <a href="%s">please attempt the update again now</a>.'),
             'update-core.php'
         );

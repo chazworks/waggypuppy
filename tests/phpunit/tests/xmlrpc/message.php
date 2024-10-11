@@ -2,7 +2,7 @@
 /**
  * Unit tests covering IXR_Message functionality.
  *
- * @package    WordPress
+ * @package WP
  * @subpackage IXR
  */
 

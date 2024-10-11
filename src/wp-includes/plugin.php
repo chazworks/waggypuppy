@@ -57,7 +57,7 @@ if (! isset($wp_current_filter)) {
 /**
  * Adds a callback function to a filter hook.
  *
- * WordPress offers filter hooks to allow plugins to modify
+ * waggypuppy offers filter hooks to allow plugins to modify
  * various types of internal data at runtime.
  *
  * A plugin can modify data by binding a callback to a filter hook. When the filter
@@ -430,7 +430,7 @@ function did_filter($hook_name)
 /**
  * Adds a callback function to an action hook.
  *
- * Actions are the hooks that the WordPress core launches at specific points
+ * Actions are the hooks that the waggypuppy core launches at specific points
  * during execution, or when specific events occur. Plugins can specify that
  * one or more of its PHP functions are executed at these points, using the
  * Action API.

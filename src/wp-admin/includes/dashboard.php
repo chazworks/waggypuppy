@@ -89,7 +89,7 @@ function wp_dashboard_setup()
         wp_add_dashboard_widget('dashboard_quick_press', $quick_draft_title, 'wp_dashboard_quick_press');
     }
 
-    // WordPress Events and News.
+    // WP Events and News.
     wp_add_dashboard_widget('dashboard_primary', __('WordPress Events and News'), 'wp_dashboard_events_news');
 
     if (is_network_admin()) {
@@ -1534,7 +1534,7 @@ function wp_print_community_events_templates()
 }
 
 /**
- * 'WordPress Events and News' dashboard widget.
+ * 'WP Events and News' dashboard widget.
  *
  * @since 2.7.0
  * @since 4.8.0 Removed popular plugins feed.
@@ -1545,7 +1545,7 @@ function wp_dashboard_primary()
         'news'   => [
 
             /**
-             * Filters the primary link URL for the 'WordPress Events and News' dashboard widget.
+             * Filters the primary link URL for the 'WP Events and News' dashboard widget.
              *
              * @since 2.5.0
              *
@@ -1554,7 +1554,7 @@ function wp_dashboard_primary()
             'link'         => apply_filters('dashboard_primary_link', __('https://wp.org/news/')),
 
             /**
-             * Filters the primary feed URL for the 'WordPress Events and News' dashboard widget.
+             * Filters the primary feed URL for the 'WP Events and News' dashboard widget.
              *
              * @since 2.3.0
              *
@@ -1563,7 +1563,7 @@ function wp_dashboard_primary()
             'url'          => apply_filters('dashboard_primary_feed', __('https://wp.org/news/feed/')),
 
             /**
-             * Filters the primary link title for the 'WordPress Events and News' dashboard widget.
+             * Filters the primary link title for the 'WP Events and News' dashboard widget.
              *
              * @since 2.3.0
              *
@@ -1578,7 +1578,7 @@ function wp_dashboard_primary()
         'planet' => [
 
             /**
-             * Filters the secondary link URL for the 'WordPress Events and News' dashboard widget.
+             * Filters the secondary link URL for the 'WP Events and News' dashboard widget.
              *
              * @since 2.3.0
              *
@@ -1591,7 +1591,7 @@ function wp_dashboard_primary()
             ),
 
             /**
-             * Filters the secondary feed URL for the 'WordPress Events and News' dashboard widget.
+             * Filters the secondary feed URL for the 'WP Events and News' dashboard widget.
              *
              * @since 2.3.0
              *
@@ -1604,7 +1604,7 @@ function wp_dashboard_primary()
             ),
 
             /**
-             * Filters the secondary link title for the 'WordPress Events and News' dashboard widget.
+             * Filters the secondary link title for the 'WP Events and News' dashboard widget.
              *
              * @since 2.3.0
              *
@@ -1613,7 +1613,7 @@ function wp_dashboard_primary()
             'title'        => apply_filters('dashboard_secondary_title', __('Other WordPress News')),
 
             /**
-             * Filters the number of secondary link items for the 'WordPress Events and News' dashboard widget.
+             * Filters the number of secondary link items for the 'WP Events and News' dashboard widget.
              *
              * @since 4.4.0
              *
@@ -1630,7 +1630,7 @@ function wp_dashboard_primary()
 }
 
 /**
- * Displays the WordPress events and news feeds.
+ * Displays the WP events and news feeds.
  *
  * @since 3.8.0
  * @since 4.8.0 Removed popular plugins feed.
@@ -1895,7 +1895,7 @@ function wp_dashboard_php_nag()
         if ($response['is_lower_than_future_minimum']) {
             $message = sprintf(
                 /* translators: %s: The server PHP version. */
-                __('Your site is running on an outdated version of PHP (%s), which does not receive security updates and soon will not be supported by WordPress. Ensure that PHP is updated on your server as soon as possible. Otherwise you will not be able to upgrade WordPress.'),
+                __('Your site is running on an outdated version of PHP (%s), which does not receive security updates and soon will not be supported by waggypuppy. Ensure that PHP is updated on your server as soon as possible. Otherwise you will not be able to upgrade waggypuppy.'),
                 PHP_VERSION
             );
         } else {
@@ -1908,7 +1908,7 @@ function wp_dashboard_php_nag()
     } elseif ($response['is_lower_than_future_minimum']) {
         $message = sprintf(
             /* translators: %s: The server PHP version. */
-            __('Your site is running on an outdated version of PHP (%s), which soon will not be supported by WordPress. Ensure that PHP is updated on your server as soon as possible. Otherwise you will not be able to upgrade WordPress.'),
+            __('Your site is running on an outdated version of PHP (%s), which soon will not be supported by waggypuppy. Ensure that PHP is updated on your server as soon as possible. Otherwise you will not be able to upgrade waggypuppy.'),
             PHP_VERSION
         );
     } else {
@@ -1923,7 +1923,7 @@ function wp_dashboard_php_nag()
 
     <p><?php _e('What is PHP and how does it affect my site?'); ?></p>
     <p>
-        <?php _e('PHP is one of the programming languages used to build WordPress. Newer versions of PHP receive regular security updates and may increase your site&#8217;s performance.'); ?>
+        <?php _e('PHP is one of the programming languages used to build waggypuppy. Newer versions of PHP receive regular security updates and may increase your site&#8217;s performance.'); ?>
         <?php
         if (! empty($response['recommended_version'])) {
             printf(
@@ -2079,7 +2079,7 @@ function wp_dashboard_empty()
 {}
 
 /**
- * Displays a welcome panel to introduce users to WordPress.
+ * Displays a welcome panel to introduce users to waggypuppy.
  *
  * @since 3.3.0
  * @since 5.9.0 Send users to the Site Editor if the active theme is block-based.
@@ -2095,11 +2095,11 @@ function wp_welcome_panel()
         <div class="welcome-panel-header-image">
             <?php echo file_get_contents(dirname(__DIR__) . '/images/dashboard-background.svg'); ?>
         </div>
-        <h2><?php _e('Welcome to WordPress!'); ?></h2>
+        <h2><?php _e('Welcome to waggypuppy!'); ?></h2>
         <p>
             <a href="<?php echo esc_url(admin_url('about.php')); ?>">
             <?php
-                /* translators: %s: Current WordPress version. */
+                /* translators: %s: Current waggypuppy version. */
                 printf(__('Learn more about the %s version.'), esc_html($display_version));
             ?>
             </a>
@@ -2148,7 +2148,7 @@ function wp_welcome_panel()
                 <a href="<?php echo esc_url(admin_url('/site-editor.php?path=%2Fwp_global_styles')); ?>"><?php _e('Edit styles'); ?></a>
             <?php else : ?>
                 <h3><?php _e('Discover a new way to build your site.'); ?></h3>
-                <p><?php _e('There is a new kind of WordPress theme, called a block theme, that lets you build the site you&#8217;ve always wanted &#8212; with blocks and styles.'); ?></p>
+                <p><?php _e('There is a new kind of waggypuppy theme, called a block theme, that lets you build the site you&#8217;ve always wanted &#8212; with blocks and styles.'); ?></p>
                 <a href="<?php echo esc_url(__('https://wp.org/documentation/article/block-themes/')); ?>"><?php _e('Learn about block themes'); ?></a>
             <?php endif; ?>
             </div>

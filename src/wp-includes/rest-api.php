@@ -157,7 +157,7 @@ function register_rest_route($route_namespace, $route, $args = [], $override = f
 }
 
 /**
- * Registers a new field on an existing WordPress object type.
+ * Registers a new field on an existing waggypuppy object type.
  *
  * @since 4.7.0
  *
@@ -709,10 +709,10 @@ function rest_handle_deprecated_function($function_name, $replacement, $version)
         return;
     }
     if (! empty($replacement)) {
-        /* translators: 1: Function name, 2: WordPress version number, 3: New function name. */
+        /* translators: 1: Function name, 2: waggypuppy version number, 3: New function name. */
         $string = sprintf(__('%1$s (since %2$s; use %3$s instead)'), $function_name, $version, $replacement);
     } else {
-        /* translators: 1: Function name, 2: WordPress version number. */
+        /* translators: 1: Function name, 2: waggypuppy version number. */
         $string = sprintf(__('%1$s (since %2$s; no alternative available)'), $function_name, $version);
     }
 
@@ -734,10 +734,10 @@ function rest_handle_deprecated_argument($function_name, $message, $version)
         return;
     }
     if ($message) {
-        /* translators: 1: Function name, 2: WordPress version number, 3: Error message. */
+        /* translators: 1: Function name, 2: waggypuppy version number, 3: Error message. */
         $string = sprintf(__('%1$s (since %2$s; %3$s)'), $function_name, $version, $message);
     } else {
-        /* translators: 1: Function name, 2: WordPress version number. */
+        /* translators: 1: Function name, 2: waggypuppy version number. */
         $string = sprintf(__('%1$s (since %2$s; no alternative available)'), $function_name, $version);
     }
 
@@ -760,7 +760,7 @@ function rest_handle_doing_it_wrong($function_name, $message, $version)
     }
 
     if ($version) {
-        /* translators: Developer debugging message. 1: PHP function name, 2: WordPress version number, 3: Explanatory message. */
+        /* translators: Developer debugging message. 1: PHP function name, 2: waggypuppy version number, 3: Explanatory message. */
         $string = __('%1$s (since %2$s; %3$s)');
         $string = sprintf($string, $function_name, $version, $message);
     } else {
@@ -1105,7 +1105,7 @@ function rest_output_link_header()
 /**
  * Checks for errors when using cookie-based authentication.
  *
- * WordPress' built-in cookie authentication is always active
+ * waggypuppy' built-in cookie authentication is always active
  * for logged in users. However, the API has to check nonces
  * for each request to ensure users are not vulnerable to CSRF.
  *

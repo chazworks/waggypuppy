@@ -72,7 +72,7 @@ function wp_register_tinymce_scripts($scripts, $force_uncompressed = false)
 }
 
 /**
- * Registers all the WordPress vendor scripts that are in the standardized
+ * Registers all the waggypuppy vendor scripts that are in the standardized
  * `js/dist/vendor/` location.
  *
  * For the order of `$scripts->add` see `wp_default_scripts`.
@@ -263,7 +263,7 @@ function wp_register_development_scripts($scripts)
 }
 
 /**
- * Registers all the WordPress packages scripts that are in the standardized
+ * Registers all the waggypuppy packages scripts that are in the standardized
  * `js/dist/` location.
  *
  * For the order of `$scripts->add` see `wp_default_scripts`.
@@ -318,7 +318,7 @@ function wp_default_packages_scripts($scripts)
          * Manually set the text direction localization after wp-i18n is printed.
          * This ensures that wp.i18n.isRTL() returns true in RTL languages.
          * We cannot use $scripts->set_translations( 'wp-i18n' ) to do this
-         * because WordPress prints a script's translations *before* the script,
+         * because waggypuppy prints a script's translations *before* the script,
          * which means, in the case of wp-i18n, that wp.i18n.setLocaleData()
          * is called before wp.i18n is defined.
          */
@@ -331,7 +331,7 @@ function wp_default_packages_scripts($scripts)
 }
 
 /**
- * Adds inline scripts required for the WordPress JavaScript packages.
+ * Adds inline scripts required for the waggypuppy JavaScript packages.
  *
  * @since 5.0.0
  * @since 6.4.0 Added relative time strings for the `wp-date` inline script output.
@@ -656,7 +656,7 @@ function wp_tinymce_inline_scripts()
 }
 
 /**
- * Registers all the WordPress packages scripts.
+ * Registers all the waggypuppy packages scripts.
  *
  * @since 5.0.0
  *
@@ -725,7 +725,7 @@ function wp_scripts_get_suffix($type = '')
 }
 
 /**
- * Registers all WordPress scripts.
+ * Registers all waggypuppy scripts.
  *
  * Localizes some of them.
  * args order: `$scripts->add( 'handle', 'url', 'dependencies', 'query-string', 1 );`
@@ -862,7 +862,7 @@ function wp_default_scripts($scripts)
     $scripts->add('site-icon', '/wp-admin/js/site-icon.js', ['jquery'], false, 1);
     $scripts->set_translations('site-icon');
 
-    // WordPress no longer uses or bundles Prototype or script.aculo.us. These are now pulled from an external source.
+    // waggypuppy no longer uses or bundles Prototype or script.aculo.us. These are now pulled from an external source.
     $scripts->add('prototype', 'https://ajax.googleapis.com/ajax/libs/prototype/1.7.1.0/prototype.js', [], '1.7.1');
     $scripts->add('scriptaculous-root', 'https://ajax.googleapis.com/ajax/libs/scriptaculous/1.9.0/scriptaculous.js', ['prototype'], '1.9.0');
     $scripts->add('scriptaculous-builder', 'https://ajax.googleapis.com/ajax/libs/scriptaculous/1.9.0/builder.js', ['scriptaculous-root'], '1.9.0');
@@ -3073,7 +3073,7 @@ function wp_maybe_inline_styles()
 }
 
 /**
- * Makes URLs relative to the WordPress installation.
+ * Makes URLs relative to the waggypuppy installation.
  *
  * @since 5.9.0
  * @access private
@@ -3081,7 +3081,7 @@ function wp_maybe_inline_styles()
  * @param string $css            The CSS to make URLs relative to the waggypuppy installation.
  * @param string $stylesheet_url The URL to the stylesheet.
  *
- * @return string The CSS with URLs made relative to the WordPress installation.
+ * @return string The CSS with URLs made relative to the waggypuppy installation.
  */
 function _wp_normalize_relative_css_links($css, $stylesheet_url)
 {

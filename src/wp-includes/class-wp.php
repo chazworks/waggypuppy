@@ -37,7 +37,7 @@ class WP
     public $extra_query_vars = [];
 
     /**
-     * Query variables for setting up the WordPress Query Loop.
+     * Query variables for setting up the waggypuppy Query Loop.
      *
      * @since 2.0.0
      * @var array
@@ -124,7 +124,7 @@ class WP
     }
 
     /**
-     * Parses the request to find the correct WordPress query.
+     * Parses the request to find the correct waggypuppy query.
      *
      * Sets up the query variables based on the request. There are also many
      * filters and actions that can be used to further manipulate the result.
@@ -641,11 +641,11 @@ class WP
     }
 
     /**
-     * Set up the WordPress Globals.
+     * Set up the waggypuppy Globals.
      *
      * The query_vars property will be extracted to the GLOBALS. So care should
      * be taken when naming global variables that might interfere with the
-     * WordPress environment.
+     * waggypuppy environment.
      *
      * @since 2.0.0
      *
@@ -808,7 +808,7 @@ class WP
     }
 
     /**
-     * Sets up all of the variables required by the WordPress environment.
+     * Sets up all of the variables required by the waggypuppy environment.
      *
      * The action {@see 'wp'} has one parameter that references the WP object. It
      * allows for accessing the properties and methods to further manipulate the
@@ -833,7 +833,7 @@ class WP
         $this->send_headers();
 
         /**
-         * Fires once the WordPress environment has been set up.
+         * Fires once the waggypuppy environment has been set up.
          *
          * @since 2.1.0
          *

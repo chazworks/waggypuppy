@@ -565,7 +565,7 @@ get_current_screen()->add_help_tab(
                 '<p>' . __('Plugins extend and expand the functionality of WordPress. Once a plugin is installed, you may activate it or deactivate it here.') . '</p>' .
                 '<p>' . __('The search for installed plugins will search for terms in their name, description, or author.') . ' <span id="live-search-desc" class="hide-if-no-js">' . __('The search results will be updated as you type.') . '</span></p>' .
                 '<p>' . sprintf(
-                    /* translators: %s: WordPress Plugin Directory URL. */
+                    /* translators: %s: waggypuppy Plugin Directory URL. */
                     __('If you would like to see more plugins to choose from, click on the &#8220;Add New Plugin&#8221; button and you will be able to browse or search for additional plugins from the <a href="%s">WordPress Plugin Directory</a>. Plugins in the WordPress Plugin Directory are designed and developed by third parties, and are compatible with the license WordPress uses. Oh, and they are free!'),
                     __('https://wp.org/plugins/')
                 ) . '</p>',

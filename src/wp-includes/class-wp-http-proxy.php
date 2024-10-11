@@ -34,7 +34,7 @@
  *     define('WP_PROXY_PORT', '8080');
  *     define('WP_PROXY_BYPASS_HOSTS', 'localhost, www.example.com, *.wp.org');
  *
- * @link https://core.trac.wp.org/ticket/4011 Proxy support ticket in WordPress.
+ * @link https://core.trac.wp.org/ticket/4011 Proxy support ticket in WP.
  * @link https://core.trac.wp.org/ticket/14636 Allow wildcard domains in WP_PROXY_BYPASS_HOSTS
  *
  * @since 2.8.0
