@@ -1,5 +1,5 @@
 === Twenty Twenty ===
-Contributors: the WordPress team
+Contributors: the __VAR_WP team
 Requires at least: 4.7
 Tested up to: 6.6
 Requires PHP: 5.2.4

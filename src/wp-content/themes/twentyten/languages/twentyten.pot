@@ -1,4 +1,4 @@
-# Copyright (C) 2019 the WordPress team
+# Copyright (C) 2019 the __VAR_WP team
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
@@ -407,11 +407,11 @@ msgid "https://wp.org/themes/twentyten/"
 msgstr ""
 
 #. Description of the plugin/theme
-msgid "The 2010 theme for WordPress is stylish, customizable, simple, and readable -- make it yours with a custom menu, header image, and background. Twenty Ten supports six widgetized areas (two in the sidebar, four in the footer) and featured images (thumbnails for gallery posts and custom header images for posts and pages). It includes stylesheets for print and the admin Visual Editor, special styles for posts in the \"Asides\" and \"Gallery\" categories, and has an optional one-column page template that removes the sidebar."
+msgid "The 2010 theme for __VAR_WP is stylish, customizable, simple, and readable -- make it yours with a custom menu, header image, and background. Twenty Ten supports six widgetized areas (two in the sidebar, four in the footer) and featured images (thumbnails for gallery posts and custom header images for posts and pages). It includes stylesheets for print and the admin Visual Editor, special styles for posts in the \"Asides\" and \"Gallery\" categories, and has an optional one-column page template that removes the sidebar."
 msgstr ""
 
 #. Author of the plugin/theme
-msgid "the WordPress team"
+msgid "the __VAR_WP team"
 msgstr ""
 
 #. Author URI of the plugin/theme
