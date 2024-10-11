@@ -109,7 +109,7 @@ function get_the_category($post_id = false)
  * @param int $cat_id Category ID.
  * @return string|WP_Error Category name on success, WP_Error on failure.
  */
-function get_the_category_by_ID($cat_id)  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+function get_the_category_by_ID($cat_id)  // phpcs:ignore __VAR_WP.NamingConventions.ValidFunctionName.FunctionNameInvalid
 {
     $cat_id   = (int) $cat_id;
     $category = get_term($cat_id);
@@ -894,7 +894,7 @@ function wp_generate_tag_cloud($tags, $args = '')
         }
     } elseif (isset($args['single_text']) && isset($args['multiple_text'])) {
         // If no callback exists, look for the old-style single_text and multiple_text arguments.
-		// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralSingular,WordPress.WP.I18n.NonSingularStringLiteralPlural
+		// phpcs:ignore __VAR_WP.WP.I18n.NonSingularStringLiteralSingular,WordPress.WP.I18n.NonSingularStringLiteralPlural
         $translate_nooped_plural = _n_noop($args['single_text'], $args['multiple_text']);
     } else {
         // This is the default for when no callback, plural, or argument is passed in.
@@ -1397,7 +1397,7 @@ function get_the_term_list($post_id, $taxonomy, $before = '', $sep = '', $after 
      *
      * @param string[] $links An array of term links.
      */
-    $term_links = apply_filters("term_links-{$taxonomy}", $links);  // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+    $term_links = apply_filters("term_links-{$taxonomy}", $links);  // phpcs:ignore __VAR_WP.NamingConventions.ValidHookName.UseUnderscores
 
     return $before . implode($sep, $term_links) . $after;
 }

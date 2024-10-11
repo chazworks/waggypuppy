@@ -29,7 +29,7 @@ class WP_Text_Diff_Renderer_inline extends Text_Diff_Renderer_inline
     {
         $string = str_replace("\0", '', $string);
         $words  = preg_split('/([^\w])/u', $string, -1, PREG_SPLIT_DELIM_CAPTURE);
-        $words  = str_replace("\n", $newlineEscape, $words); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
+        $words  = str_replace("\n", $newlineEscape, $words); // phpcs:ignore __VAR_WP.NamingConventions.ValidVariableName.VariableNotSnakeCase
         return $words;
     }
 }

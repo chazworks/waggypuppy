@@ -812,14 +812,14 @@ class WP_Term_Query
         }
 
         if ('count' === $_fields) {
-            $count = $wpdb->get_var($this->request); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+            $count = $wpdb->get_var($this->request); // phpcs:ignore __VAR_WP.DB.PreparedSQL.NotPrepared
             if ($args['cache_results']) {
                 wp_cache_set($cache_key, $count, 'term-queries');
             }
             return $count;
         }
 
-        $terms = $wpdb->get_results($this->request); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+        $terms = $wpdb->get_results($this->request); // phpcs:ignore __VAR_WP.DB.PreparedSQL.NotPrepared
 
         if (empty($terms)) {
             if ($args['cache_results']) {

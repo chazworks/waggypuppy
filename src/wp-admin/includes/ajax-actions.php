@@ -2406,14 +2406,14 @@ function wp_ajax_save_widget()
      *
      * @since 2.8.0
      */
-    do_action('load-widgets.php'); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+    do_action('load-widgets.php'); // phpcs:ignore __VAR_WP.NamingConventions.ValidHookName.UseUnderscores
 
     /**
      * Fires early when editing the widgets displayed in sidebars.
      *
      * @since 2.8.0
      */
-    do_action('widgets.php'); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+    do_action('widgets.php'); // phpcs:ignore __VAR_WP.NamingConventions.ValidHookName.UseUnderscores
 
     /** This action is documented in wp-admin/widgets.php */
     do_action('sidebar_admin_setup');
@@ -2518,9 +2518,9 @@ function wp_ajax_delete_inactive_widgets()
 
     unset($_POST['removeinactivewidgets'], $_POST['action']);
     /** This action is documented in wp-admin/includes/ajax-actions.php */
-    do_action('load-widgets.php'); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+    do_action('load-widgets.php'); // phpcs:ignore __VAR_WP.NamingConventions.ValidHookName.UseUnderscores
     /** This action is documented in wp-admin/includes/ajax-actions.php */
-    do_action('widgets.php'); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+    do_action('widgets.php'); // phpcs:ignore __VAR_WP.NamingConventions.ValidHookName.UseUnderscores
     /** This action is documented in wp-admin/widgets.php */
     do_action('sidebar_admin_setup');
 

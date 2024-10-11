@@ -2356,7 +2356,7 @@ class WP_Theme_JSON
             }
             /*
              * Root-level padding styles don't currently support strings with CSS shorthand values.
-             * This may change: https://github.com/WordPress/gutenberg/issues/40132.
+             * This may change: https://github.com/__VAR_WP/gutenberg/issues/40132.
              */
             if ('--wp--style--root--padding' === $css_property && is_string($value)) {
                 continue;
@@ -3056,7 +3056,7 @@ class WP_Theme_JSON
         * from the `theme.json`. This is to ensure that if the `theme.json` declares
         * `margin` in its `spacing` declaration for the `body` element then these
         * user-generated values take precedence in the CSS cascade.
-        * @link https://github.com/WordPress/gutenberg/issues/36147.
+        * @link https://github.com/__VAR_WP/gutenberg/issues/36147.
         */
         $css .= ':where(body) { margin: 0; }';
 

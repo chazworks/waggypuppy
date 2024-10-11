@@ -72,7 +72,7 @@ class Tests_Block_Template extends WP_UnitTestCase
      * In a hybrid theme, a PHP template of higher specificity will take precedence over a block template
      * with lower specificity.
      *
-     * Covers https://github.com/WordPress/gutenberg/pull/29026.
+     * Covers https://github.com/__VAR_WP/gutenberg/pull/29026.
      */
     public function test_more_specific_php_template_takes_precedence_over_less_specific_block_template()
     {
@@ -93,7 +93,7 @@ class Tests_Block_Template extends WP_UnitTestCase
      * a php template of the child will take precedence over the parent's block template if they have
      * otherwise equal specificity.
      *
-     * Covers https://github.com/WordPress/gutenberg/pull/31123.
+     * Covers https://github.com/__VAR_WP/gutenberg/pull/31123.
      * Covers https://core.trac.wordpress.org/ticket/54515.
      *
      */
@@ -133,7 +133,7 @@ class Tests_Block_Template extends WP_UnitTestCase
     }
 
     /**
-     * Regression: https://github.com/WordPress/gutenberg/issues/31399.
+     * Regression: https://github.com/__VAR_WP/gutenberg/issues/31399.
      */
     public function test_custom_page_php_template_takes_precedence_over_all_other_templates()
     {
@@ -151,7 +151,7 @@ class Tests_Block_Template extends WP_UnitTestCase
     }
 
     /**
-     * Covers: https://github.com/WordPress/gutenberg/pull/30438.
+     * Covers: https://github.com/__VAR_WP/gutenberg/pull/30438.
      */
     public function test_custom_page_block_template_takes_precedence_over_all_other_templates()
     {
@@ -190,7 +190,7 @@ class Tests_Block_Template extends WP_UnitTestCase
     }
 
     /**
-     * Regression: https://github.com/WordPress/gutenberg/issues/31652.
+     * Regression: https://github.com/__VAR_WP/gutenberg/issues/31652.
      */
     public function test_template_remains_unchanged_if_templates_array_is_empty()
     {

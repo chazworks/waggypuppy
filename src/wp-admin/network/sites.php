@@ -244,7 +244,7 @@ if (isset($_GET['action'])) {
                     $blogs       = (array) $_POST['allblogs'];
 
                     /** This action is documented in wp-admin/network/site-themes.php */
-                    $redirect_to = apply_filters('handle_network_bulk_actions-' . get_current_screen()->id, $redirect_to, $doaction, $blogs, $id); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+                    $redirect_to = apply_filters('handle_network_bulk_actions-' . get_current_screen()->id, $redirect_to, $doaction, $blogs, $id); // phpcs:ignore __VAR_WP.NamingConventions.ValidHookName.UseUnderscores
 
                     wp_safe_redirect($redirect_to);
                     exit;

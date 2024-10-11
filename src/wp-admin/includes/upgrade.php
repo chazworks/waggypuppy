@@ -2835,7 +2835,7 @@ function get_alloptions_110()
  * @param string $setting Option name.
  * @return mixed
  */
-function __get_option($setting)  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionDoubleUnderscore,PHPCompatibility.FunctionNameRestrictions.ReservedFunctionNames.FunctionDoubleUnderscore
+function __get_option($setting)  // phpcs:ignore __VAR_WP.NamingConventions.ValidFunctionName.FunctionDoubleUnderscore,PHPCompatibility.FunctionNameRestrictions.ReservedFunctionNames.FunctionDoubleUnderscore
 {
     global $wpdb;
 
@@ -2908,7 +2908,7 @@ function deslash($content)
  *                                 Default true.
  * @return array Strings containing the results of the various update queries.
  */
-function dbDelta($queries = '', $execute = true)  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+function dbDelta($queries = '', $execute = true)  // phpcs:ignore __VAR_WP.NamingConventions.ValidFunctionName.FunctionNameInvalid
 {
     global $wpdb;
 

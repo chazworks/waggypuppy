@@ -48,7 +48,7 @@ class Basic_Object
         return call_user_func_array([$this, $name], $arguments);
     }
 
-	// phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
+	// phpcs:ignore __VAR_WP.NamingConventions.ValidFunctionName.MethodNameInvalid
     private function callMe()
     {
         return 'maybe';

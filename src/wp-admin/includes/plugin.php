@@ -161,7 +161,7 @@ function _get_plugin_data_markup_translate($plugin_file, $plugin_data, $markup =
         if ($textdomain) {
             foreach (['Name', 'PluginURI', 'Description', 'Author', 'AuthorURI', 'Version'] as $field) {
                 if (! empty($plugin_data[$field])) {
-					// phpcs:ignore WordPress.WP.I18n.LowLevelTranslationFunction,WordPress.WP.I18n.NonSingularStringLiteralText,WordPress.WP.I18n.NonSingularStringLiteralDomain
+					// phpcs:ignore __VAR_WP.WP.I18n.LowLevelTranslationFunction,WordPress.WP.I18n.NonSingularStringLiteralText,WordPress.WP.I18n.NonSingularStringLiteralDomain
                     $plugin_data[$field] = translate($plugin_data[$field], $textdomain);
                 }
             }
