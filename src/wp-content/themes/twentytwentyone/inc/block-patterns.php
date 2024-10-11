@@ -50,7 +50,7 @@ if (function_exists('register_block_pattern')) {
                 'categories'    => ['twentytwentyone'],
                 'viewportWidth' => 1440,
                 'blockTypes'    => ['core/heading'],
-                'content'       => '<!-- wp:heading {"align":"wide","fontSize":"gigantic","style":{"typography":{"lineHeight":"1.1"}}} --><h2 class="alignwide has-text-align-wide has-gigantic-font-size" style="line-height:1.1">' . esc_html__('A new portfolio default theme for WordPress', 'twentytwentyone') . '</h2><!-- /wp:heading -->',
+                'content'       => '<!-- wp:heading {"align":"wide","fontSize":"gigantic","style":{"typography":{"lineHeight":"1.1"}}} --><h2 class="alignwide has-text-align-wide has-gigantic-font-size" style="line-height:1.1">' . esc_html__('A new portfolio default theme for WP', 'twentytwentyone') . '</h2><!-- /wp:heading -->',
             ]
         );
 
