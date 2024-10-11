@@ -532,7 +532,7 @@ function get_post_embed_html($width, $height, $post = null)
      * `wp_filter_oembed_result()`. Because of the regex pattern starts with `|(<blockquote>.*?</blockquote>)?.*|`
      * wherein the <blockquote> is marked as being optional, if it is not at the beginning of the string then the group
      * will fail to match and everything will be matched by `.*` and not included in the group. This regex issue goes
-     * back to WordPress 4.4, so in order to not break older installs this script must come at the end.
+     * back to WP 4.4, so in order to not break older installs this script must come at the end.
      */
     $output .= wp_get_inline_script_tag(
         file_get_contents(ABSPATH . WPINC . '/js/wp-embed' . wp_scripts_get_suffix() . '.js')

@@ -254,8 +254,8 @@ class WP_Automatic_Updater
          *  - `auto_update_theme`
          *  - `auto_update_translation`
          *
-         * Since WordPress 3.7, minor and development versions of core, and translations have
-         * been auto-updated by default. New installs on WordPress 5.6 or higher will also
+         * Since WP 3.7, minor and development versions of core, and translations have
+         * been auto-updated by default. New installs on WP 5.6 or higher will also
          * auto-update major versions by default. Starting in 5.6, older sites can opt-in to
          * major version auto-updates, and auto-updates for plugins and themes.
          *

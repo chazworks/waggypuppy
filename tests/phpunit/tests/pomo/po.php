@@ -240,9 +240,9 @@ msgstr[2] "бабаяга"',
     public function test_export_headers()
     {
         $po = new PO();
-        $po->set_header('Project-Id-Version', 'WordPress 2.6-bleeding');
+        $po->set_header('Project-Id-Version', 'WP 2.6-bleeding');
         $po->set_header('POT-Creation-Date', '2008-04-08 18:00+0000');
-        $this->assertSame("msgid \"\"\nmsgstr \"\"\n\"Project-Id-Version: WordPress 2.6-bleeding\\n\"\n\"POT-Creation-Date: 2008-04-08 18:00+0000\\n\"", $po->export_headers());
+        $this->assertSame("msgid \"\"\nmsgstr \"\"\n\"Project-Id-Version: WP 2.6-bleeding\\n\"\n\"POT-Creation-Date: 2008-04-08 18:00+0000\\n\"", $po->export_headers());
     }
 
     public function test_export()
@@ -250,12 +250,12 @@ msgstr[2] "бабаяга"',
         $po     = new PO();
         $entry  = new Translation_Entry(['singular' => 'baba']);
         $entry2 = new Translation_Entry(['singular' => 'dyado']);
-        $po->set_header('Project-Id-Version', 'WordPress 2.6-bleeding');
+        $po->set_header('Project-Id-Version', 'WP 2.6-bleeding');
         $po->set_header('POT-Creation-Date', '2008-04-08 18:00+0000');
         $po->add_entry($entry);
         $po->add_entry($entry2);
         $this->assertSame("msgid \"baba\"\nmsgstr \"\"\n\nmsgid \"dyado\"\nmsgstr \"\"", $po->export(false));
-        $this->assertSame("msgid \"\"\nmsgstr \"\"\n\"Project-Id-Version: WordPress 2.6-bleeding\\n\"\n\"POT-Creation-Date: 2008-04-08 18:00+0000\\n\"\n\nmsgid \"baba\"\nmsgstr \"\"\n\nmsgid \"dyado\"\nmsgstr \"\"", $po->export());
+        $this->assertSame("msgid \"\"\nmsgstr \"\"\n\"Project-Id-Version: WP 2.6-bleeding\\n\"\n\"POT-Creation-Date: 2008-04-08 18:00+0000\\n\"\n\nmsgid \"baba\"\nmsgstr \"\"\n\nmsgid \"dyado\"\nmsgstr \"\"", $po->export());
     }
 
 
@@ -264,7 +264,7 @@ msgstr[2] "бабаяга"',
         $po     = new PO();
         $entry  = new Translation_Entry(['singular' => 'baba']);
         $entry2 = new Translation_Entry(['singular' => 'dyado']);
-        $po->set_header('Project-Id-Version', 'WordPress 2.6-bleeding');
+        $po->set_header('Project-Id-Version', 'WP 2.6-bleeding');
         $po->set_header('POT-Creation-Date', '2008-04-08 18:00+0000');
         $po->add_entry($entry);
         $po->add_entry($entry2);
@@ -286,7 +286,7 @@ msgstr[2] "бабаяга"',
 
         $this->assertSame(
             [
-                'Project-Id-Version' => 'WordPress 2.6-bleeding',
+                'Project-Id-Version' => 'WP 2.6-bleeding',
                 'Plural-Forms'       => 'nplurals=2; plural=n != 1;',
             ],
             $po->headers

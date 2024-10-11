@@ -738,7 +738,7 @@ $_old_files = [
     'wp-includes/blocks/query-title/editor-rtl.css',
     'wp-includes/blocks/query-title/editor-rtl.min.css',
     /*
-     * Restored in WordPress 6.7
+     * Restored in WP 6.7
      *
      * 'wp-includes/blocks/tag-cloud/editor.css',
      * 'wp-includes/blocks/tag-cloud/editor.min.css',
@@ -1039,7 +1039,7 @@ function update_core($from, $to)
     $wp_filesystem->chmod($versions_file, FS_CHMOD_FILE);
 
     /*
-     * `wp_opcache_invalidate()` only exists in WordPress 5.5 or later,
+     * `wp_opcache_invalidate()` only exists in WP 5.5 or later,
      * so don't run it when upgrading from older versions.
      */
     if (function_exists('wp_opcache_invalidate')) {
@@ -1259,7 +1259,7 @@ function update_core($from, $to)
         $wp_filesystem->chmod($to . 'wp-includes/version.php', FS_CHMOD_FILE);
 
         /*
-         * `wp_opcache_invalidate()` only exists in WordPress 5.5 or later,
+         * `wp_opcache_invalidate()` only exists in WP 5.5 or later,
          * so don't run it when upgrading from older versions.
          */
         if (function_exists('wp_opcache_invalidate')) {
@@ -1549,7 +1549,7 @@ function _preload_old_requests_classes_and_interfaces($to)
     $wp_version = wp_get_wp_version();
 
     /*
-     * Requests was introduced in WordPress 4.6.
+     * Requests was introduced in WP 4.6.
      *
      * Skip preloading if the website was previously using
      * an earlier version of WordPress.

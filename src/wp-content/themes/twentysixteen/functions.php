@@ -26,7 +26,7 @@
  */
 
 /**
- * Twenty Sixteen only works in WordPress 4.4 or later.
+ * Twenty Sixteen only works in WP 4.4 or later.
  */
 if (version_compare($GLOBALS['wp_version'], '4.4-alpha', '<')) {
     require get_template_directory() . '/inc/back-compat.php';

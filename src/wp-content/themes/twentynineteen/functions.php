@@ -10,7 +10,7 @@
  */
 
 /**
- * Twenty Nineteen only works in WordPress 4.7 or later.
+ * Twenty Nineteen only works in WP 4.7 or later.
  */
 if (version_compare($GLOBALS['wp_version'], '4.7', '<')) {
     require get_template_directory() . '/inc/back-compat.php';

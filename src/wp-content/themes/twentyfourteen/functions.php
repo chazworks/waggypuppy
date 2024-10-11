@@ -37,7 +37,7 @@ if (! isset($content_width)) {
 }
 
 /**
- * Twenty Fourteen only works in WordPress 3.6 or later.
+ * Twenty Fourteen only works in WP 3.6 or later.
  */
 if (version_compare($GLOBALS['wp_version'], '3.6', '<')) {
     require get_template_directory() . '/inc/back-compat.php';

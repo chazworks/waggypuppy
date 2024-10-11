@@ -45,7 +45,7 @@ if (! class_exists('TwentyTwenty_Script_Loader')) {
         /**
          * Adds async/defer attributes to enqueued / registered scripts.
          *
-         * Now that #12009 has landed in WordPress 6.3, this method is only used for older versions of WordPress.
+         * Now that #12009 has landed in WP 6.3, this method is only used for older versions of WordPress.
          * This method is used on the `script_loader_tag` filter.
          *
          * @since Twenty Twenty 1.0

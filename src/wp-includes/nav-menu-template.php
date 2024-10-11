@@ -641,7 +641,7 @@ function _nav_menu_item_id_use_once($id, $item)
  *
  * This runs on the {@see 'nav_menu_css_class'} filter. The $args and $depth
  * parameters were added after the filter was originally introduced in
- * WordPress 3.0.0 so this needs to allow for cases in which the filter is
+ * WP 3.0.0 so this needs to allow for cases in which the filter is
  * called without them.
  *
  * @see https://core.trac.wp.org/ticket/56926

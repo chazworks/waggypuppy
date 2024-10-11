@@ -4075,7 +4075,7 @@ function wp_untrash_post($post_id = 0)
      * in order to assign the status that the post had before it was trashed. The `wp_untrash_post_set_previous_status()`
      * function is available for this.
      *
-     * Prior to WordPress 5.6.0, restored posts were always assigned their original status.
+     * Prior to WP 5.6.0, restored posts were always assigned their original status.
      *
      * @since 5.6.0
      *

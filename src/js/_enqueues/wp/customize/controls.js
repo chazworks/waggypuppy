@@ -5195,7 +5195,7 @@
 					control.params.theme.author + ' ';
 			haystack = haystack.toLowerCase().replace( '-', ' ' );
 
-			// Back-compat for behavior in WordPress 4.2.0 to 4.8.X.
+			// Back-compat for behavior in WP 4.2.0 to 4.8.X.
 			if ( ! _.isArray( terms ) ) {
 				terms = [ terms ];
 			}

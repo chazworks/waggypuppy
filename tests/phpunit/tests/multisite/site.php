@@ -2377,8 +2377,8 @@ if (is_multisite()) :
                 'default values' => [
                     [],
                     [
-                        'public' => 0, // `public` is one of the default metas in `wpmu_create_blog()' function prior to WordPress 5.1.0.
-                        'WPLANG' => 'en_US', // WPLANG is another default meta in `wpmu_create_blog()` function prior to WordPress 5.1.0.
+                        'public' => 0, // `public` is one of the default metas in `wpmu_create_blog()' function prior to WP 5.1.0.
+                        'WPLANG' => 'en_US', // WPLANG is another default meta in `wpmu_create_blog()` function prior to WP 5.1.0.
                     ],
                 ],
                 'public site'    => [

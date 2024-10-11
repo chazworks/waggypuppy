@@ -864,7 +864,7 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
             /*
              * Added by site.
              * Template was created from scratch, but has no author. Author support
-             * was only added to templates in WordPress 5.9. Fallback to showing the
+             * was only added to templates in WP 5.9. Fallback to showing the
              * site logo and title.
              */
             if (empty($template_object->has_theme_file) && 'custom' === $template_object->source && empty($template_object->author)) {

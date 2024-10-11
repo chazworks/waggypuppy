@@ -845,7 +845,7 @@ function twentytwenty_toggle_duration()
  *
  * @since Twenty Twenty 1.0
  *
- * @see wp_unique_id() Themes requiring WordPress 5.0.3 and greater should use this instead.
+ * @see wp_unique_id() Themes requiring WP 5.0.3 and greater should use this instead.
  *
  * @param string $prefix Prefix for the returned ID.
  * @return string Unique ID.

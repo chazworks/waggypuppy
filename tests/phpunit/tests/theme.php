@@ -146,7 +146,7 @@ class Tests_Theme extends WP_UnitTestCase
                 'Description'    => 'Description',
                 'Author'         => 'Author',
                 'Tags'           => 'Tags',
-                // Introduced in WordPress 2.9.
+                // Introduced in WP 2.9.
                 'Theme Root'     => 'Theme Root',
                 'Theme Root URI' => 'Theme Root URI',
             ];
@@ -154,7 +154,7 @@ class Tests_Theme extends WP_UnitTestCase
                 $this->assertArrayHasKey($name, $theme);
             }
 
-            // Make the tests work both for WordPress 2.8.5 and WordPress 2.9-rare.
+            // Make the tests work both for WP 2.8.5 and WP 2.9-rare.
             $dir = isset($theme['Theme Root']) ? '' : WP_CONTENT_DIR;
 
             // Important attributes should all not be empty as well.

@@ -129,7 +129,7 @@ function twentyeleven_theme_options_help()
     $screen = get_current_screen();
 
     if (method_exists($screen, 'add_help_tab')) {
-        // WordPress 3.3.0.
+        // WP 3.3.0.
         $screen->add_help_tab(
             [
                 'title'   => __('Overview', 'twentyeleven'),
@@ -140,7 +140,7 @@ function twentyeleven_theme_options_help()
 
         $screen->set_help_sidebar($sidebar);
     } else {
-        // WordPress 3.2.0.
+        // WP 3.2.0.
         add_contextual_help($screen, $help . $sidebar);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Administration Scheme API
+ * waggypuppy Administration Scheme API
  *
  * Here we keep the DB structure and option values.
  *
@@ -727,7 +727,7 @@ function populate_roles()
 }
 
 /**
- * Create the roles for WordPress 2.0
+ * Create the roles for WP 2.0
  *
  * @since 2.0.0
  */
@@ -820,7 +820,7 @@ function populate_roles_160()
 }
 
 /**
- * Create and modify WordPress roles for WordPress 2.1.
+ * Create and modify WordPress roles for WP 2.1.
  *
  * @since 2.1.0
  */
@@ -869,7 +869,7 @@ function populate_roles_210()
 }
 
 /**
- * Create and modify WordPress roles for WordPress 2.3.
+ * Create and modify WordPress roles for WP 2.3.
  *
  * @since 2.3.0
  */
@@ -883,7 +883,7 @@ function populate_roles_230()
 }
 
 /**
- * Create and modify WordPress roles for WordPress 2.5.
+ * Create and modify WordPress roles for WP 2.5.
  *
  * @since 2.5.0
  */
@@ -897,7 +897,7 @@ function populate_roles_250()
 }
 
 /**
- * Create and modify WordPress roles for WordPress 2.6.
+ * Create and modify WordPress roles for WP 2.6.
  *
  * @since 2.6.0
  */
@@ -912,7 +912,7 @@ function populate_roles_260()
 }
 
 /**
- * Create and modify WordPress roles for WordPress 2.7.
+ * Create and modify WordPress roles for WP 2.7.
  *
  * @since 2.7.0
  */
@@ -927,7 +927,7 @@ function populate_roles_270()
 }
 
 /**
- * Create and modify WordPress roles for WordPress 2.8.
+ * Create and modify WordPress roles for WP 2.8.
  *
  * @since 2.8.0
  */
@@ -941,7 +941,7 @@ function populate_roles_280()
 }
 
 /**
- * Create and modify WordPress roles for WordPress 3.0.
+ * Create and modify WordPress roles for WP 3.0.
  *
  * @since 3.0.0
  */

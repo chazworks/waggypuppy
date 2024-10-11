@@ -272,7 +272,7 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller
         }
 
         $schema = $this->get_item_schema();
-        // Fields deprecated in WordPress 6.1, but left in the schema for backwards compatibility.
+        // Fields deprecated in WP 6.1, but left in the schema for backwards compatibility.
         $deprecated_fields = [
             'editor_script',
             'script',
@@ -777,7 +777,7 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller
             ],
         ];
 
-        // Properties deprecated in WordPress 6.1, but left in the schema for backwards compatibility.
+        // Properties deprecated in WP 6.1, but left in the schema for backwards compatibility.
         $deprecated_properties      = [
             'editor_script' => [
                 'description' => __('Editor script handle. DEPRECATED: Use `editor_script_handles` instead.'),

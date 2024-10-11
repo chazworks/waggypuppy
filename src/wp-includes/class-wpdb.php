@@ -4148,7 +4148,7 @@ class wpdb
                 return version_compare($db_version, '5.6', '>=');
             case 'identifier_placeholders': // @since 6.2.0
                 /*
-                 * As of WordPress 6.2, wpdb::prepare() supports identifiers via '%i',
+                 * As of WP 6.2, wpdb::prepare() supports identifiers via '%i',
                  * e.g. table/field names.
                  */
                 return true;

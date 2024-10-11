@@ -109,7 +109,7 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase
 
         wp_mail($to, $subject, $message, $headers);
 
-        // WordPress 3.2 and later correctly split the address into the two parts and send them separately to PHPMailer.
+        // WP 3.2 and later correctly split the address into the two parts and send them separately to PHPMailer.
         // Earlier versions of PHPMailer were not touchy about the formatting of these arguments.
 
         // Retrieve the mailer instance.
@@ -134,7 +134,7 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase
 
         wp_mail($to, $subject, $message);
 
-        // WordPress 3.2 and later correctly split the address into the two parts and send them separately to PHPMailer.
+        // WP 3.2 and later correctly split the address into the two parts and send them separately to PHPMailer.
         // Earlier versions of PHPMailer were not touchy about the formatting of these arguments.
         $mailer = tests_retrieve_phpmailer_instance();
         $this->assertSame('address@tld.com', $mailer->get_recipient('to')->address);

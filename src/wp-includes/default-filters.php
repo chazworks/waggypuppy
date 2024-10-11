@@ -578,7 +578,7 @@ add_action('enqueue_block_assets', 'enqueue_block_styles_assets', 30);
 /*
  * `wp_enqueue_registered_block_scripts_and_styles` is bound to both
  * `enqueue_block_editor_assets` and `enqueue_block_assets` hooks
- * since the introduction of the block editor in WordPress 5.0.
+ * since the introduction of the block editor in WP 5.0.
  *
  * The way this works is that the block assets are loaded before any other assets.
  * For example, this is the order of styles for the editor:

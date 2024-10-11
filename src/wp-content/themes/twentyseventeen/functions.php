@@ -10,7 +10,7 @@
  */
 
 /**
- * Twenty Seventeen only works in WordPress 4.7 or later.
+ * Twenty Seventeen only works in WP 4.7 or later.
  */
 if (version_compare($GLOBALS['wp_version'], '4.7-alpha', '<')) {
     require get_template_directory() . '/inc/back-compat.php';
@@ -678,7 +678,7 @@ add_filter('widget_tag_cloud_args', 'twentyseventeen_widget_tag_cloud_args');
  *
  * @since Twenty Seventeen 2.0
  *
- * @see wp_unique_id() Themes requiring WordPress 5.0.3 and greater should use this instead.
+ * @see wp_unique_id() Themes requiring WP 5.0.3 and greater should use this instead.
  *
  * @param string $prefix Prefix for the returned ID.
  * @return string Unique ID.

@@ -9,7 +9,7 @@
  * @since Twenty Twenty-One 1.0
  */
 
-// This theme requires WordPress 5.3 or later.
+// This theme requires WP 5.3 or later.
 if (version_compare($GLOBALS['wp_version'], '5.3', '<')) {
     require get_template_directory() . '/inc/back-compat.php';
 }
@@ -330,7 +330,7 @@ if (! function_exists('twenty_twenty_one_setup')) {
         add_theme_support('custom-spacing');
 
         // Add support for custom units.
-        // This was removed in WordPress 5.6 but is still required to properly support WP 5.5.
+        // This was removed in WP 5.6 but is still required to properly support WP 5.5.
         add_theme_support('custom-units');
 
         // Remove feed icon link from legacy RSS widget.
