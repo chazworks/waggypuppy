@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test WP_Font_Library::unregister_font_collection().
  *
@@ -16,7 +17,7 @@ class Tests_Fonts_WpFontLibrary_UnregisterFontCollection extends WP_Font_Library
     public function test_should_unregister_font_collection()
     {
         $mock_collection_data = [
-            'name'          => 'Test Collection',
+            'name' => 'Test Collection',
             'font_families' => ['mock'],
         ];
 
@@ -28,12 +29,14 @@ class Tests_Fonts_WpFontLibrary_UnregisterFontCollection extends WP_Font_Library
         WP_Font_Library::get_instance()->unregister_font_collection('mock-font-collection-1');
         $collections = WP_Font_Library::get_instance()->get_font_collections();
         $this->assertArrayNotHasKey('mock-font-collection-1', $collections, 'Font collection was not unregistered.');
-        $this->assertArrayHasKey('mock-font-collection-2', $collections, 'Font collection was unregistered by mistake.');
+        $this->assertArrayHasKey('mock-font-collection-2', $collections,
+            'Font collection was unregistered by mistake.');
 
         // Unregisters remaining mock font collection.
         WP_Font_Library::get_instance()->unregister_font_collection('mock-font-collection-2');
         $collections = WP_Font_Library::get_instance()->get_font_collections();
-        $this->assertArrayNotHasKey('mock-font-collection-2', $collections, 'Mock font collection was not unregistered.');
+        $this->assertArrayNotHasKey('mock-font-collection-2', $collections,
+            'Mock font collection was not unregistered.');
 
         // Checks that all font collections were unregistered.
         $this->assertEmpty($collections, 'Font collections were not unregistered.');

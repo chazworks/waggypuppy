@@ -192,7 +192,7 @@ class Tests_Image_Size extends WP_UnitTestCase
 
         // $content_width should be ignored.
         $content_width = 350;
-        $out           = image_constrain_size_for_editor(600, 400, 'medium');
+        $out = image_constrain_size_for_editor(600, 400, 'medium');
         $this->assertSame([500, 333], $out);
 
         $content_width = $_content_width;
@@ -205,7 +205,7 @@ class Tests_Image_Size extends WP_UnitTestCase
         $_content_width = $content_width;
 
         $content_width = 400;
-        $out           = image_constrain_size_for_editor(600, 400, 'full');
+        $out = image_constrain_size_for_editor(600, 400, 'full');
         $this->assertSame([600, 400], $out);
 
         $out = image_constrain_size_for_editor(64, 64, 'full');

@@ -10,7 +10,7 @@
  * @since 4.5.0
  */
 
-if (! headers_sent()) {
+if (!headers_sent()) {
     header('X-WP-embed: true');
 }
 

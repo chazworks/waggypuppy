@@ -8,12 +8,12 @@
 /**
  * Renders the `core/comments-pagination` block on the server.
  *
- * @since 6.0.0
- *
- * @param array  $attributes Block attributes.
- * @param string $content    Block default content.
+ * @param array $attributes Block attributes.
+ * @param string $content Block default content.
  *
  * @return string Returns the wrapper for the Comments pagination.
+ * @since 6.0.0
+ *
  */
 function render_block_core_comments_pagination($attributes, $content)
 {
@@ -25,13 +25,13 @@ function render_block_core_comments_pagination($attributes, $content)
         return;
     }
 
-    $classes            = (isset($attributes['style']['elements']['link']['color']['text'])) ? 'has-link-color' : '';
+    $classes = (isset($attributes['style']['elements']['link']['color']['text'])) ? 'has-link-color' : '';
     $wrapper_attributes = get_block_wrapper_attributes(['class' => $classes]);
 
     return sprintf(
         '<div %1$s>%2$s</div>',
         $wrapper_attributes,
-        $content
+        $content,
     );
 }
 
@@ -46,7 +46,8 @@ function register_block_core_comments_pagination()
         __DIR__ . '/comments-pagination',
         [
             'render_callback' => 'render_block_core_comments_pagination',
-        ]
+        ],
     );
 }
+
 add_action('init', 'register_block_core_comments_pagination');

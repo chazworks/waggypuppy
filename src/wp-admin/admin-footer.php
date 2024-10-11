@@ -7,7 +7,7 @@
  */
 
 // Don't load directly.
-if (! defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
     die('-1');
 }
 
@@ -37,9 +37,9 @@ global $hook_suffix;
         /**
          * Filters the "Thank you" text displayed in the admin footer.
          *
+         * @param string $text The content that will be printed.
          * @since 2.8.0
          *
-         * @param string $text The content that will be printed.
          */
         echo apply_filters('admin_footer_text', '<span id="footer-thankyou">' . $text . '</span>');
         ?>
@@ -52,11 +52,11 @@ global $hook_suffix;
          * waggypuppy prints the current version and update information,
          * using core_update_footer() at priority 10.
          *
-         * @since 2.3.0
-         *
+         * @param string $content The content that will be printed.
          * @see core_update_footer()
          *
-         * @param string $content The content that will be printed.
+         * @since 2.3.0
+         *
          */
         echo apply_filters('update_footer', '');
         ?>
@@ -67,9 +67,9 @@ global $hook_suffix;
 /**
  * Prints scripts or data before the default footer scripts.
  *
+ * @param string $data The data to print.
  * @since 1.2.0
  *
- * @param string $data The data to print.
  */
 do_action('admin_footer', '');
 
@@ -110,6 +110,6 @@ if (function_exists('get_site_option')
 ?>
 
 <div class="clear"></div></div><!-- wpwrap -->
-<script type="text/javascript">if(typeof wpOnload==='function')wpOnload();</script>
+<script type="text/javascript">if (typeof wpOnload === 'function') wpOnload();</script>
 </body>
 </html>

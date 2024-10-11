@@ -36,7 +36,7 @@ class Tests_Filesystem_WpFilesystemDirect_PutContents extends WP_Filesystem_Dire
      */
     public function test_should_insert_contents_into_file()
     {
-        $file   = self::$file_structure['test_dir']['path'] . 'file-to-create.txt';
+        $file = self::$file_structure['test_dir']['path'] . 'file-to-create.txt';
         $actual = self::$filesystem->put_contents($file, 'New content.', 0644);
         unlink($file);
 

@@ -29,17 +29,17 @@ class Tests_Filesystem_WpFilesystemDirect_Mtime extends WP_Filesystem_Direct_Uni
      */
     public function test_should_determine_file_modified_time($path)
     {
-        $result    = self::$filesystem->mtime(self::$file_structure['test_dir']['path'] . $path);
+        $result = self::$filesystem->mtime(self::$file_structure['test_dir']['path'] . $path);
         $has_mtime = false !== $result;
 
         $this->assertTrue(
             $has_mtime,
-            'The mtime was not determined.'
+            'The mtime was not determined.',
         );
 
         $this->assertIsInt(
             $result,
-            'The mtime is not an integer.'
+            'The mtime is not an integer.',
         );
     }
 
@@ -55,17 +55,17 @@ class Tests_Filesystem_WpFilesystemDirect_Mtime extends WP_Filesystem_Direct_Uni
      */
     public function test_should_not_determine_file_modified_time($path)
     {
-        $result    = self::$filesystem->mtime(self::$file_structure['test_dir']['path'] . $path);
+        $result = self::$filesystem->mtime(self::$file_structure['test_dir']['path'] . $path);
         $has_mtime = false !== $result;
 
         $this->assertFalse(
             $has_mtime,
-            'An mtime was determined.'
+            'An mtime was determined.',
         );
 
         $this->assertIsNotInt(
             $result,
-            'The mtime is an integer.'
+            'The mtime is an integer.',
         );
     }
 }

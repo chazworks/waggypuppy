@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering WP_Token_Map functionality.
  *
@@ -28,11 +29,11 @@ class Tests_WpTokenMap extends WP_UnitTestCase
      * @var array.
      */
     const ANIMAL_EMOJI = [
-        'cat'     => '🐈',
-        'dog'     => '🐶',
-        'fish'    => '🐟',
+        'cat' => '🐈',
+        'dog' => '🐶',
+        'fish' => '🐟',
         'mammoth' => '🦣',
-        'seal'    => '🦭',
+        'seal' => '🦭',
     ];
 
     /**
@@ -60,10 +61,10 @@ class Tests_WpTokenMap extends WP_UnitTestCase
                 return self::ANIMAL_EMOJI;
 
             case 'HTML5':
-                if (! isset($html5_character_references)) {
+                if (!isset($html5_character_references)) {
                     $dataset = wp_json_file_decode(
                         __DIR__ . '/../../data/html5-entities/entities.json',
-                        ['associative' => true]
+                        ['associative' => true],
                     );
 
                     $html5_character_references = [];
@@ -109,22 +110,22 @@ class Tests_WpTokenMap extends WP_UnitTestCase
         foreach ($dataset as $token => $replacement) {
             $this->assertTrue(
                 $map->contains($token),
-                "Map should have contained '{$token}' but didn't."
+                "Map should have contained '{$token}' but didn't.",
             );
 
             $skip_bytes = 0;
-            $response   = $map->read_token($token, 0, $skip_bytes);
+            $response = $map->read_token($token, 0, $skip_bytes);
             $this->assertSame(
                 $replacement,
                 $response,
-                "Returned the wrong replacement value for '{$token}'."
+                "Returned the wrong replacement value for '{$token}'.",
             );
 
             $token_length = strlen($token);
             $this->assertSame(
                 $token_length,
                 $skip_bytes,
-                'Reported the wrong byte-length of the found token.'
+                'Reported the wrong byte-length of the found token.',
             );
         }
     }
@@ -148,23 +149,23 @@ class Tests_WpTokenMap extends WP_UnitTestCase
         $this->assertInstanceOf(
             WP_Token_Map::class,
             WP_Token_Map::from_array([$normal_length => 'just fine']),
-            'Should have built Token Map containing long, but acceptable token length.'
+            'Should have built Token Map containing long, but acceptable token length.',
         );
 
         $this->assertNull(
             WP_Token_Map::from_array([$too_long_word => 'not good']),
-            'Should have refused to build Token Map with key exceeding design limit.'
+            'Should have refused to build Token Map with key exceeding design limit.',
         );
 
         $this->assertInstanceOf(
             WP_Token_Map::class,
             WP_Token_Map::from_array(['key' => $normal_length]),
-            'Should have build Token Map containing long, but acceptable replacement.'
+            'Should have build Token Map containing long, but acceptable replacement.',
         );
 
         $this->assertNull(
             WP_Token_Map::from_array(['key' => $too_long_word]),
-            'Should have refused to build Token Map with replacement exceeding design limit.'
+            'Should have refused to build Token Map with replacement exceeding design limit.',
         );
     }
 
@@ -183,7 +184,7 @@ class Tests_WpTokenMap extends WP_UnitTestCase
         $this->assertEqualsCanonicalizing(
             $dataset,
             $map->to_array(),
-            'Should have produced an identical array on output as was given on input.'
+            'Should have produced an identical array on output as was given on input.',
         );
     }
 
@@ -198,29 +199,29 @@ class Tests_WpTokenMap extends WP_UnitTestCase
      */
     public function test_round_trips_through_precomputed_source_table($dataset)
     {
-        $seed         = WP_Token_Map::from_array($dataset);
+        $seed = WP_Token_Map::from_array($dataset);
         $source_table = $seed->precomputed_php_source_table();
-		$map          = eval( "return {$source_table};" );
+        $map = eval("return {$source_table};");
 
         foreach ($dataset as $token => $replacement) {
             $this->assertTrue(
                 $map->contains($token),
-                "Map should have contained '{$token}' but didn't."
+                "Map should have contained '{$token}' but didn't.",
             );
 
             $skip_bytes = 0;
-            $response   = $map->read_token($token, 0, $skip_bytes);
+            $response = $map->read_token($token, 0, $skip_bytes);
             $this->assertSame(
                 $replacement,
                 $response,
-                'Returned the wrong replacement value'
+                'Returned the wrong replacement value',
             );
 
             $token_length = strlen($token);
             $this->assertSame(
                 $token_length,
                 $skip_bytes,
-                'Reported the wrong byte-length of the found token.'
+                'Reported the wrong byte-length of the found token.',
             );
         }
     }
@@ -235,34 +236,34 @@ class Tests_WpTokenMap extends WP_UnitTestCase
     {
         $map = WP_Token_Map::from_array(
             [
-                'cat'                  => '1',
-                'caterpillar'          => '2',
+                'cat' => '1',
+                'caterpillar' => '2',
                 'caterpillar machines' => '3',
-            ]
+            ],
         );
 
         $skip_bytes = 0;
-        $text       = 'cats like to meow';
+        $text = 'cats like to meow';
         $this->assertSame(
             '1',
             $map->read_token($text, 0, $skip_bytes),
-            "Should have matched 'cat' but matched '" . substr($text, 0, $skip_bytes) . "' instead."
+            "Should have matched 'cat' but matched '" . substr($text, 0, $skip_bytes) . "' instead.",
         );
 
         $skip_bytes = 0;
-        $text       = 'caterpillars turn into butterflies';
+        $text = 'caterpillars turn into butterflies';
         $this->assertSame(
             '2',
             $map->read_token($text, 0, $skip_bytes),
-            "Should have matched 'caterpillar' but matched '" . substr($text, 0, $skip_bytes) . "' instead."
+            "Should have matched 'caterpillar' but matched '" . substr($text, 0, $skip_bytes) . "' instead.",
         );
 
         $skip_bytes = 0;
-        $text       = 'caterpillar machines are heavy duty equipment';
+        $text = 'caterpillar machines are heavy duty equipment';
         $this->assertSame(
             '3',
             $map->read_token($text, 0, $skip_bytes),
-            "Should have matched 'caterpillar machines' but matched '" . substr($text, 0, $skip_bytes) . "' instead."
+            "Should have matched 'caterpillar machines' but matched '" . substr($text, 0, $skip_bytes) . "' instead.",
         );
     }
 
@@ -274,17 +275,17 @@ class Tests_WpTokenMap extends WP_UnitTestCase
      * @dataProvider data_short_substring_matches_of_each_other
      *
      * @param WP_Token_Map $map Token map containing appropriate mapping for test.
-     * @param string       $search_document Document containing expected token at start of string.
-     * @param string       $expected_token  Which token should be found at start of search document.
+     * @param string $search_document Document containing expected token at start of string.
+     * @param string $expected_token Which token should be found at start of search document.
      */
     public function test_finds_short_matches_shorter_than_group_key_length($map, $search_document, $expected_token)
     {
         $skip_bytes = 0;
-        $text       = 'antarctica is a continent';
+        $text = 'antarctica is a continent';
         $this->assertSame(
             'article',
             $map->read_token($text, 0, $skip_bytes),
-            "Should have matched 'a' but matched '" . substr($text, 0, $skip_bytes) . "' instead."
+            "Should have matched 'a' but matched '" . substr($text, 0, $skip_bytes) . "' instead.",
         );
     }
 
@@ -297,18 +298,18 @@ class Tests_WpTokenMap extends WP_UnitTestCase
     {
         $map = WP_Token_Map::from_array(
             [
-                'a'       => 'article',
-                'aa'      => 'defensive weapon',
-                'ar'      => 'country code',
+                'a' => 'article',
+                'aa' => 'defensive weapon',
+                'ar' => 'country code',
                 'arizona' => 'state name',
-            ]
+            ],
         );
 
         return [
-            'single character'    => [$map, 'antarctica is a continent', 'a'],
+            'single character' => [$map, 'antarctica is a continent', 'a'],
             'duplicate character' => [$map, 'aaaaahhhh, he exclaimed', 'aa'],
             'different character' => [$map, 'argentina is a country', 'ar'],
-            'full word'           => [$map, 'arizona was full of copper', 'arizona'],
+            'full word' => [$map, 'arizona was full of copper', 'arizona'],
         ];
     }
 
@@ -319,18 +320,18 @@ class Tests_WpTokenMap extends WP_UnitTestCase
      *
      * @dataProvider data_html5_test_dataset
      *
-     * @param string $token       Token to find.
+     * @param string $token Token to find.
      * @param string $replacement Replacement string for token.
      */
     public function test_reads_token_at_given_offset($token, $replacement)
     {
         $document = "& another {$token} & then some";
-        $map      = self::get_html5_token_map();
+        $map = self::get_html5_token_map();
 
         $skip_bytes = 0;
         $this->assertNull(
             $map->read_token($document, 0, $skip_bytes),
-            "Shouldn't have found token at start of document."
+            "Shouldn't have found token at start of document.",
         );
 
         $response = $map->read_token($document, 10, $skip_bytes);
@@ -338,13 +339,13 @@ class Tests_WpTokenMap extends WP_UnitTestCase
         $this->assertSame(
             strlen($token),
             $skip_bytes,
-            "Found the wrong length for token '{$token}'."
+            "Found the wrong length for token '{$token}'.",
         );
 
         $this->assertSame(
             $response,
             $replacement,
-            'Found the wrong replacement value for the token.'
+            'Found the wrong replacement value for the token.',
         );
     }
 
@@ -355,7 +356,7 @@ class Tests_WpTokenMap extends WP_UnitTestCase
      *
      * @dataProvider data_html5_test_dataset
      *
-     * @param string $token       Token to find.
+     * @param string $token Token to find.
      * @param string $replacement Not used in this test.
      */
     public function test_detects_all_tokens($token, $replacement)
@@ -364,13 +365,13 @@ class Tests_WpTokenMap extends WP_UnitTestCase
 
         $this->assertTrue(
             $map->contains($token),
-            "Should have found '{$token}' inside the Token Map, but didn't."
+            "Should have found '{$token}' inside the Token Map, but didn't.",
         );
 
         $double_escaped_token = str_replace('&', '&amp;', $token);
         $this->assertFalse(
             $map->contains($double_escaped_token),
-            "Should not have found '{$double_escaped_token}' in Token Map, but did."
+            "Should not have found '{$double_escaped_token}' in Token Map, but did.",
         );
     }
 
@@ -386,7 +387,7 @@ class Tests_WpTokenMap extends WP_UnitTestCase
         $this->assertSame(
             self::KNOWN_COUNT_OF_ALL_HTML5_NAMED_CHARACTER_REFERENCES,
             count($html5),
-            'Found the wrong number of HTML5 named character references: confirm the entities.json file."'
+            'Found the wrong number of HTML5 named character references: confirm the entities.json file."',
         );
 
         foreach ($html5 as $token => $replacement) {
@@ -404,7 +405,7 @@ class Tests_WpTokenMap extends WP_UnitTestCase
     {
         static $html5_token_map = null;
 
-        if (! isset($html5_token_map)) {
+        if (!isset($html5_token_map)) {
             $html5_token_map = WP_Token_Map::from_array(self::get_test_input_array('HTML5'));
         }
 

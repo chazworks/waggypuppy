@@ -74,10 +74,10 @@ class Tests_Editor_EnableContentEditorForNavigationPostType extends WP_UnitTestC
     public function data_should_not_enable()
     {
         return [
-            'invalid post type'   => ['book'],
-            'attachments'         => ['attachments'],
-            'revision'            => ['revision'],
-            'custom_css'          => ['custom_css'],
+            'invalid post type' => ['book'],
+            'attachments' => ['attachments'],
+            'revision' => ['revision'],
+            'custom_css' => ['custom_css'],
             'customize_changeset' => ['customize_changeset'],
         ];
     }
@@ -109,19 +109,19 @@ class Tests_Editor_EnableContentEditorForNavigationPostType extends WP_UnitTestC
     public function data_should_not_change_post_type_support()
     {
         return [
-            'post'                => ['post'],
-            'page'                => ['page'],
-            'attachments'         => ['attachments'],
-            'revision'            => ['revision'],
-            'custom_css'          => ['custom_css'],
+            'post' => ['post'],
+            'page' => ['page'],
+            'attachments' => ['attachments'],
+            'revision' => ['revision'],
+            'custom_css' => ['custom_css'],
             'customize_changeset' => ['customize_changeset'],
-            'nav_menu_item'       => ['nav_menu_item'],
-            'oembed_cache'        => ['oembed_cache'],
-            'user_request'        => ['user_request'],
-            'wp_block'            => ['wp_block'],
-            'wp_template'         => ['wp_template'],
-            'wp_template_part'    => ['wp_template_part'],
-            'wp_global_styles'    => ['wp_global_styles'],
+            'nav_menu_item' => ['nav_menu_item'],
+            'oembed_cache' => ['oembed_cache'],
+            'user_request' => ['user_request'],
+            'wp_block' => ['wp_block'],
+            'wp_template' => ['wp_template'],
+            'wp_template_part' => ['wp_template_part'],
+            'wp_global_styles' => ['wp_global_styles'],
         ];
     }
 
@@ -134,7 +134,7 @@ class Tests_Editor_EnableContentEditorForNavigationPostType extends WP_UnitTestC
     private function create_post($post_type)
     {
         return $this->factory()->post->create(
-            ['post_type' => $post_type]
+            ['post_type' => $post_type],
         );
     }
 }

@@ -39,8 +39,8 @@ class Tests_Filesystem_WpZipFileIsValid extends WP_UnitTestCase
      *
      * @dataProvider data_zip_file_validity
      *
-     * @param string $file     The ZIP file to test.
-     * @param bool   $expected Whether the ZIP file is expected to be valid.
+     * @param string $file The ZIP file to test.
+     * @param bool $expected Whether the ZIP file is expected to be valid.
      */
     public function test_zip_file_validity($file, $expected)
     {
@@ -58,22 +58,22 @@ class Tests_Filesystem_WpZipFileIsValid extends WP_UnitTestCase
     public function data_zip_file_validity()
     {
         return [
-            'standard zip'           => ['archive.zip', true],
-            'large zip'              => ['archive-large.zip', true],
-            'commented zip'          => ['archive-comment.zip', true],
-            'cp866 zip'              => ['archive-cp866.zip', true],
-            'directory entry zip'    => ['archive-directory-entry.zip', true],
-            'encrypted zip'          => ['archive-encrypted.zip', true],
-            'flags-set zip'          => ['archive-flags-set.zip', true],
-            'uncompressed zip'       => ['archive-uncompressed.zip', true],
-            'crx zip'                => ['archive.crx', true],
-            'macos generated zip'    => ['archive-macos.zip', true],
-            'gnome generated zip'    => ['archive-gnome.zip', true],
-            'ubuntu nautilus zip'    => ['archive-ubuntu-nautilus.zip', true],
+            'standard zip' => ['archive.zip', true],
+            'large zip' => ['archive-large.zip', true],
+            'commented zip' => ['archive-comment.zip', true],
+            'cp866 zip' => ['archive-cp866.zip', true],
+            'directory entry zip' => ['archive-directory-entry.zip', true],
+            'encrypted zip' => ['archive-encrypted.zip', true],
+            'flags-set zip' => ['archive-flags-set.zip', true],
+            'uncompressed zip' => ['archive-uncompressed.zip', true],
+            'crx zip' => ['archive.crx', true],
+            'macos generated zip' => ['archive-macos.zip', true],
+            'gnome generated zip' => ['archive-gnome.zip', true],
+            'ubuntu nautilus zip' => ['archive-ubuntu-nautilus.zip', true],
 
-            'invalid zip file'       => ['archive-invalid.zip', false],
+            'invalid zip file' => ['archive-invalid.zip', false],
             'invalid file extension' => ['archive-invalid-ext.md', false],
-            'non-existent file'      => ['archive-non-existent.zip', false],
+            'non-existent file' => ['archive-non-existent.zip', false],
         ];
     }
 }

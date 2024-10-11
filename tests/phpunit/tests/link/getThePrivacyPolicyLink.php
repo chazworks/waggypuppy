@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test cases for the `get_the_privacy_policy_link()` function.
  *
@@ -53,16 +54,16 @@ class Tests_Link_GetThePrivacyPolicyLink extends WP_UnitTestCase
     {
         self::$privacy_policy_page_id = $factory->post->create(
             [
-                'post_type'  => 'page',
+                'post_type' => 'page',
                 'post_title' => WP_TESTS_DOMAIN . ' Privacy Policy',
-            ]
+            ],
         );
 
         // `esc_url()` is added for consistency with `get_the_privacy_policy_link()`.
         self::$privacy_policy_url = esc_url(get_permalink(self::$privacy_policy_page_id));
 
         self::$before = '<span class="privacy-policy-link-wrapper">';
-        self::$after  = '</span>';
+        self::$after = '</span>';
     }
 
     /**
@@ -100,7 +101,8 @@ class Tests_Link_GetThePrivacyPolicyLink extends WP_UnitTestCase
      * The function should _not_ prepend the supplied `$before` markup and append
      * the supplied `$after` markup when the `wp_page_for_privacy_policy` is _not_ configured.
      */
-    public function test_get_the_privacy_policy_link_should_not_prepend_and_append_supplied_markup_when_privacy_page_not_set()
+    public function test_get_the_privacy_policy_link_should_not_prepend_and_append_supplied_markup_when_privacy_page_not_set(
+    )
     {
         $actual_link = get_the_privacy_policy_link(self::$before, self::$after);
 
@@ -117,9 +119,9 @@ class Tests_Link_GetThePrivacyPolicyLink extends WP_UnitTestCase
     {
         $nameless_page_id = self::factory()->post->create(
             [
-                'post_type'  => 'page',
+                'post_type' => 'page',
                 'post_title' => '',
-            ]
+            ],
         );
 
         update_option('wp_page_for_privacy_policy', $nameless_page_id);
@@ -153,7 +155,7 @@ class Tests_Link_GetThePrivacyPolicyLink extends WP_UnitTestCase
     /**
      * Return modified `the_privacy_policy_link` content in order to test the filter.
      *
-     * @param string $link               The privacy policy link. Empty string if it
+     * @param string $link The privacy policy link. Empty string if it
      *                                   doesn't exist.
      * @param string $privacy_policy_url The URL of the privacy policy. Empty string
      *                                   if it doesn't exist.

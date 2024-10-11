@@ -23,7 +23,7 @@ class Tests_Functions_WpUniquePrefixedId extends WP_UnitTestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      *
-     * @param mixed $prefix   The prefix.
+     * @param mixed $prefix The prefix.
      * @param array $expected The next two expected IDs.
      */
     public function test_should_create_unique_prefixed_ids($prefix, $expected)
@@ -43,32 +43,32 @@ class Tests_Functions_WpUniquePrefixedId extends WP_UnitTestCase
     public function data_should_create_unique_prefixed_ids()
     {
         return [
-            'prefix as empty string'       => [
-                'prefix'   => '',
+            'prefix as empty string' => [
+                'prefix' => '',
                 'expected' => ['1', '2'],
             ],
-            'prefix as (string) "0"'       => [
-                'prefix'   => '0',
+            'prefix as (string) "0"' => [
+                'prefix' => '0',
                 'expected' => ['01', '02'],
             ],
-            'prefix as string'             => [
-                'prefix'   => 'test',
+            'prefix as string' => [
+                'prefix' => 'test',
                 'expected' => ['test1', 'test2'],
             ],
             'prefix as string with spaces' => [
-                'prefix'   => '   ',
+                'prefix' => '   ',
                 'expected' => ['   1', '   2'],
             ],
-            'prefix as (string) "1"'       => [
-                'prefix'   => '1',
+            'prefix as (string) "1"' => [
+                'prefix' => '1',
                 'expected' => ['11', '12'],
             ],
-            'prefix as a (string) "."'     => [
-                'prefix'   => '.',
+            'prefix as a (string) "."' => [
+                'prefix' => '.',
                 'expected' => ['.1', '.2'],
             ],
-            'prefix as a block name'       => [
-                'prefix'   => 'core/list-item',
+            'prefix as a block name' => [
+                'prefix' => 'core/list-item',
                 'expected' => ['core/list-item1', 'core/list-item2'],
             ],
         ];
@@ -82,14 +82,18 @@ class Tests_Functions_WpUniquePrefixedId extends WP_UnitTestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      *
-     * @param mixed  $non_string_prefix         Non-string prefix.
-     * @param int    $number_of_ids_to_generate Number of IDs to generate.
+     * @param mixed $non_string_prefix Non-string prefix.
+     * @param int $number_of_ids_to_generate Number of IDs to generate.
      *                                          As the prefix will default to an empty string, changing the number of IDs generated within each dataset further tests ID uniqueness.
-     * @param string $expected_message          Expected notice message.
-     * @param array  $expected_ids              Expected unique IDs.
+     * @param string $expected_message Expected notice message.
+     * @param array $expected_ids Expected unique IDs.
      */
-    public function test_should_raise_notice_and_use_empty_string_prefix_when_nonstring_given($non_string_prefix, $number_of_ids_to_generate, $expected_message, $expected_ids)
-    {
+    public function test_should_raise_notice_and_use_empty_string_prefix_when_nonstring_given(
+        $non_string_prefix,
+        $number_of_ids_to_generate,
+        $expected_message,
+        $expected_ids,
+    ) {
         $this->expectNotice();
         $this->expectNoticeMessage($expected_message);
 
@@ -111,35 +115,35 @@ class Tests_Functions_WpUniquePrefixedId extends WP_UnitTestCase
     {
         $message = 'wp_unique_prefixed_id(): The prefix must be a string. "%s" data type given.';
         return [
-            'prefix as null'          => [
-                'non_string_prefix'         => null,
+            'prefix as null' => [
+                'non_string_prefix' => null,
                 'number_of_ids_to_generate' => 2,
-                'expected_message'          => sprintf($message, 'NULL'),
-                'expected_ids'              => ['1', '2'],
+                'expected_message' => sprintf($message, 'NULL'),
+                'expected_ids' => ['1', '2'],
             ],
-            'prefix as (int) 0'       => [
-                'non_string_prefix'         => 0,
+            'prefix as (int) 0' => [
+                'non_string_prefix' => 0,
                 'number_of_ids_to_generate' => 3,
-                'expected_message'          => sprintf($message, 'integer'),
-                'expected_ids'              => ['1', '2', '3'],
+                'expected_message' => sprintf($message, 'integer'),
+                'expected_ids' => ['1', '2', '3'],
             ],
-            'prefix as (int) 1'       => [
-                'non_string_prefix'         => 1,
+            'prefix as (int) 1' => [
+                'non_string_prefix' => 1,
                 'number_of_ids_to_generate' => 4,
-                'expected_data_type'        => sprintf($message, 'integer'),
-                'expected_ids'              => ['1', '2', '3', '4'],
+                'expected_data_type' => sprintf($message, 'integer'),
+                'expected_ids' => ['1', '2', '3', '4'],
             ],
-            'prefix as (bool) false'  => [
-                'non_string_prefix'         => false,
+            'prefix as (bool) false' => [
+                'non_string_prefix' => false,
                 'number_of_ids_to_generate' => 5,
-                'expected_data_type'        => sprintf($message, 'boolean'),
-                'expected_ids'              => ['1', '2', '3', '4', '5'],
+                'expected_data_type' => sprintf($message, 'boolean'),
+                'expected_ids' => ['1', '2', '3', '4', '5'],
             ],
             'prefix as (double) 98.7' => [
-                'non_string_prefix'         => 98.7,
+                'non_string_prefix' => 98.7,
                 'number_of_ids_to_generate' => 6,
-                'expected_data_type'        => sprintf($message, 'double'),
-                'expected_ids'              => ['1', '2', '3', '4', '5', '6'],
+                'expected_data_type' => sprintf($message, 'double'),
+                'expected_ids' => ['1', '2', '3', '4', '5', '6'],
             ],
         ];
     }
@@ -190,11 +194,11 @@ class Tests_Functions_WpUniquePrefixedId extends WP_UnitTestCase
                 'prefixes' => [null, true, ''],
                 'expected' => ['1', '2', '3'],
             ],
-            'prefixes = 0'            => [
+            'prefixes = 0' => [
                 'prefixes' => ['0', 0, 0.0, false],
                 'expected' => ['01', '1', '2', '3'],
             ],
-            'prefixes = 1'            => [
+            'prefixes = 1' => [
                 'prefixes' => ['1', 1, 1.0, true],
                 'expected' => ['11', '1', '2', '3'],
             ],

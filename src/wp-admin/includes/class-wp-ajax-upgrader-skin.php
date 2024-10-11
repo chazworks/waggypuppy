@@ -54,13 +54,13 @@ class WP_Ajax_Upgrader_Skin extends Automatic_Upgrader_Skin
      *
      * Sets up the waggypuppy Ajax upgrader skin.
      *
-     * @since 4.6.0
-     *
-     * @see WP_Upgrader_Skin::__construct()
-     *
      * @param array $args Optional. The waggypuppy Ajax upgrader skin arguments to
      *                    override default options. See WP_Upgrader_Skin::__construct().
      *                    Default empty array.
+     * @see WP_Upgrader_Skin::__construct()
+     *
+     * @since 4.6.0
+     *
      */
     public function __construct($args = [])
     {
@@ -72,9 +72,9 @@ class WP_Ajax_Upgrader_Skin extends Automatic_Upgrader_Skin
     /**
      * Retrieves the list of errors.
      *
+     * @return WP_Error Errors during an upgrade.
      * @since 4.6.0
      *
-     * @return WP_Error Errors during an upgrade.
      */
     public function get_errors()
     {
@@ -84,9 +84,9 @@ class WP_Ajax_Upgrader_Skin extends Automatic_Upgrader_Skin
     /**
      * Retrieves a string for error messages.
      *
+     * @return string Error messages during an upgrade.
      * @since 4.6.0
      *
-     * @return string Error messages during an upgrade.
      */
     public function get_error_messages()
     {
@@ -108,23 +108,23 @@ class WP_Ajax_Upgrader_Skin extends Automatic_Upgrader_Skin
     /**
      * Stores an error message about the upgrade.
      *
+     * @param string|WP_Error $errors Errors.
+     * @param mixed ...$args Optional text replacements.
      * @since 4.6.0
      * @since 5.3.0 Formalized the existing `...$args` parameter by adding it
      *              to the function signature.
      *
-     * @param string|WP_Error $errors  Errors.
-     * @param mixed           ...$args Optional text replacements.
      */
     public function error($errors, ...$args)
     {
         if (is_string($errors)) {
             $string = $errors;
-            if (! empty($this->upgrader->strings[$string])) {
+            if (!empty($this->upgrader->strings[$string])) {
                 $string = $this->upgrader->strings[$string];
             }
 
             if (str_contains($string, '%')) {
-                if (! empty($args)) {
+                if (!empty($args)) {
                     $string = vsprintf($string, $args);
                 }
             }
@@ -134,7 +134,8 @@ class WP_Ajax_Upgrader_Skin extends Automatic_Upgrader_Skin
             $this->errors->add('unknown_upgrade_error_' . ($errors_count + 1), $string);
         } elseif (is_wp_error($errors)) {
             foreach ($errors->get_error_codes() as $error_code) {
-                $this->errors->add($error_code, $errors->get_error_message($error_code), $errors->get_error_data($error_code));
+                $this->errors->add($error_code, $errors->get_error_message($error_code),
+                    $errors->get_error_data($error_code));
             }
         }
 
@@ -144,19 +145,20 @@ class WP_Ajax_Upgrader_Skin extends Automatic_Upgrader_Skin
     /**
      * Stores a message about the upgrade.
      *
+     * @param string|array|WP_Error $feedback Message data.
+     * @param mixed ...$args Optional text replacements.
+     * @since 5.9.0 Renamed `$data` to `$feedback` for PHP 8 named parameter support.
+     *
      * @since 4.6.0
      * @since 5.3.0 Formalized the existing `...$args` parameter by adding it
      *              to the function signature.
-     * @since 5.9.0 Renamed `$data` to `$feedback` for PHP 8 named parameter support.
-     *
-     * @param string|array|WP_Error $feedback Message data.
-     * @param mixed                 ...$args  Optional text replacements.
      */
     public function feedback($feedback, ...$args)
     {
         if (is_wp_error($feedback)) {
             foreach ($feedback->get_error_codes() as $error_code) {
-                $this->errors->add($error_code, $feedback->get_error_message($error_code), $feedback->get_error_data($error_code));
+                $this->errors->add($error_code, $feedback->get_error_message($error_code),
+                    $feedback->get_error_data($error_code));
             }
         }
 

@@ -22,12 +22,12 @@ const WPINC = 'wp-includes';
  * include version.php from another installation and don't override
  * these values if already set.
  *
- * @global string $wp_version             The waggypuppy version string.
- * @global int    $wp_db_version          waggypuppy database version.
- * @global string $tinymce_version        TinyMCE version.
- * @global string $required_php_version   The required PHP version string.
+ * @global string $wp_version The waggypuppy version string.
+ * @global int $wp_db_version waggypuppy database version.
+ * @global string $tinymce_version TinyMCE version.
+ * @global string $required_php_version The required PHP version string.
  * @global string $required_mysql_version The required MySQL version string.
- * @global string $wp_local_package       Locale code of the package.
+ * @global string $wp_local_package Locale code of the package.
  */
 global $wp_version, $wp_db_version, $tinymce_version, $required_php_version, $required_mysql_version, $wp_local_package;
 require ABSPATH . WPINC . '/version.php';
@@ -88,12 +88,14 @@ wp_debug_mode();
  * This filter runs before it can be used by plugins. It is designed for non-web
  * run-times. If false is returned, advanced-cache.php will never be loaded.
  *
- * @since 4.6.0
- *
  * @param bool $enable_advanced_cache Whether to enable loading advanced-cache.php (if present).
  *                                    Default true.
+ * @since 4.6.0
+ *
  */
-if (WP_CACHE && apply_filters('enable_loading_advanced_cache_dropin', true) && file_exists(WP_CONTENT_DIR . '/advanced-cache.php')) {
+if (WP_CACHE && apply_filters('enable_loading_advanced_cache_dropin', true)
+    && file_exists(WP_CONTENT_DIR
+        . '/advanced-cache.php')) {
     // For an advanced caching plugin to use. Uses a static drop-in because you would only want one.
     include WP_CONTENT_DIR . '/advanced-cache.php';
 
@@ -154,7 +156,7 @@ if (is_multisite()) {
     require ABSPATH . WPINC . '/class-wp-network-query.php';
     require ABSPATH . WPINC . '/ms-blogs.php';
     require ABSPATH . WPINC . '/ms-settings.php';
-} elseif (! defined('MULTISITE')) {
+} elseif (!defined('MULTISITE')) {
     define('MULTISITE', false);
 }
 
@@ -454,9 +456,9 @@ foreach (wp_get_mu_plugins() as $mu_plugin) {
     /**
      * Fires once a single must-use plugin has loaded.
      *
+     * @param string $mu_plugin Full path to the plugin's main file.
      * @since 5.1.0
      *
-     * @param string $mu_plugin Full path to the plugin's main file.
      */
     do_action('mu_plugin_loaded', $mu_plugin);
 }
@@ -474,9 +476,9 @@ if (is_multisite()) {
         /**
          * Fires once a single network-activated plugin has loaded.
          *
+         * @param string $network_plugin Full path to the plugin's main file.
          * @since 5.1.0
          *
-         * @param string $network_plugin Full path to the plugin's main file.
          */
         do_action('network_plugin_loaded', $network_plugin);
     }
@@ -513,7 +515,7 @@ wp_start_scraping_edited_file_errors();
 // Register the default theme directory root.
 register_theme_directory(get_theme_root());
 
-if (! is_multisite() && wp_is_fatal_error_handler_enabled()) {
+if (!is_multisite() && wp_is_fatal_error_handler_enabled()) {
     // Handle users requesting a recovery mode link and initiating recovery mode.
     wp_recovery_mode()->initialize();
 }
@@ -529,9 +531,9 @@ foreach (wp_get_active_and_valid_plugins() as $plugin) {
     /**
      * Fires once a single activated plugin has loaded.
      *
+     * @param string $plugin Full path to the plugin's main file.
      * @since 5.1.0
      *
-     * @param string $plugin Full path to the plugin's main file.
      */
     do_action('plugin_loaded', $plugin);
 }
@@ -640,7 +642,7 @@ wp_set_template_globals();
 // Load the default text localization domain.
 load_default_textdomain();
 
-$locale      = get_locale();
+$locale = get_locale();
 $locale_file = WP_LANG_DIR . "/$locale.php";
 if ((0 === validate_file($locale)) && is_readable($locale_file)) {
     require $locale_file;
@@ -682,7 +684,7 @@ unset($theme);
 do_action('after_setup_theme');
 
 // Create an instance of WP_Site_Health so that Cron events may fire.
-if (! class_exists('WP_Site_Health')) {
+if (!class_exists('WP_Site_Health')) {
     require_once ABSPATH . 'wp-admin/includes/class-wp-site-health.php';
 }
 WP_Site_Health::get_instance();

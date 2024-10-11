@@ -28,10 +28,10 @@ class WP_Customize_Background_Image_Control extends WP_Customize_Image_Control
     /**
      * Constructor.
      *
-     * @since 3.4.0
+     * @param WP_Customize_Manager $manager Customizer bootstrap instance.
      * @uses WP_Customize_Image_Control::__construct()
      *
-     * @param WP_Customize_Manager $manager Customizer bootstrap instance.
+     * @since 3.4.0
      */
     public function __construct($manager)
     {
@@ -39,9 +39,9 @@ class WP_Customize_Background_Image_Control extends WP_Customize_Image_Control
             $manager,
             'background_image',
             [
-                'label'   => __('Background Image'),
+                'label' => __('Background Image'),
                 'section' => 'background_image',
-            ]
+            ],
         );
     }
 
@@ -59,11 +59,11 @@ class WP_Customize_Background_Image_Control extends WP_Customize_Image_Control
             'customize-controls',
             '_wpCustomizeBackground',
             [
-                'defaults' => ! empty($custom_background[0]) ? $custom_background[0] : [],
-                'nonces'   => [
+                'defaults' => !empty($custom_background[0]) ? $custom_background[0] : [],
+                'nonces' => [
                     'add' => wp_create_nonce('background-add'),
                 ],
-            ]
+            ],
         );
     }
 }

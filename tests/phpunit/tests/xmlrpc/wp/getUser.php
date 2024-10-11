@@ -55,22 +55,22 @@ class Tests_XMLRPC_wp_getUser extends WP_XMLRPC_UnitTestCase
     public function test_valid_user()
     {
         $registered_date = strtotime('-1 day');
-        $user_data       = [
-            'user_login'      => 'getusertestuser',
-            'user_pass'       => 'password',
-            'first_name'      => 'First',
-            'last_name'       => 'Last',
-            'description'     => 'I love waggypuppy',
-            'user_email'      => 'getUserTestUser@example.com',
-            'nickname'        => 'nickname',
-            'user_nicename'   => 'nicename',
-            'display_name'    => 'First Last',
-            'user_url'        => 'http://www.example.com/testuser',
-            'role'            => 'author',
-            'aim'             => 'wordpress',
+        $user_data = [
+            'user_login' => 'getusertestuser',
+            'user_pass' => 'password',
+            'first_name' => 'First',
+            'last_name' => 'Last',
+            'description' => 'I love waggypuppy',
+            'user_email' => 'getUserTestUser@example.com',
+            'nickname' => 'nickname',
+            'user_nicename' => 'nicename',
+            'display_name' => 'First Last',
+            'user_url' => 'http://www.example.com/testuser',
+            'role' => 'author',
+            'aim' => 'wordpress',
             'user_registered' => date_format(date_create("@{$registered_date}"), 'Y-m-d H:i:s'),
         ];
-        $user_id         = wp_insert_user($user_data);
+        $user_id = wp_insert_user($user_data);
 
         $result = $this->myxmlrpcserver->wp_getUser([1, 'administrator', 'administrator', $user_id]);
         $this->assertNotIXRError($result);
@@ -129,7 +129,7 @@ class Tests_XMLRPC_wp_getUser extends WP_XMLRPC_UnitTestCase
         $this->assertEquals($editor_id, $result['user_id']);
 
         $expected_fields = ['user_id', 'username', 'email', 'registered', 'display_name', 'nicename'];
-        $keys            = array_keys($result);
+        $keys = array_keys($result);
         sort($expected_fields);
         sort($keys);
         $this->assertSameSets($expected_fields, $keys);
@@ -146,7 +146,7 @@ class Tests_XMLRPC_wp_getUser extends WP_XMLRPC_UnitTestCase
         $this->assertEquals($editor_id, $result['user_id']);
 
         $expected_fields = ['user_id', 'email', 'bio'];
-        $keys            = array_keys($result);
+        $keys = array_keys($result);
         sort($expected_fields);
         sort($keys);
         $this->assertSameSets($expected_fields, $keys);

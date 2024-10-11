@@ -15,14 +15,14 @@ class Tests_Comment_wpBatchUpdateCommentType extends WP_UnitTestCase
     {
         global $wpdb;
 
-        $comment_ids     = self::factory()->comment->create_many(3);
+        $comment_ids = self::factory()->comment->create_many(3);
         $comment_id_list = implode(',', $comment_ids);
 
         $wpdb->query(
             "UPDATE {$wpdb->comments}
 			SET comment_type = ''
 			WHERE comment_type = 'comment'
-			AND comment_ID in ({$comment_id_list})"
+			AND comment_ID in ({$comment_id_list})",
         );
 
         clean_comment_cache($comment_ids);

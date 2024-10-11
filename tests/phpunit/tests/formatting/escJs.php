@@ -22,7 +22,7 @@ class Tests_Formatting_EscJs extends WP_UnitTestCase
 
     public function test_js_escape_backslash()
     {
-        $bs  = '\\';
+        $bs = '\\';
         $out = esc_js('foo ' . $bs . 't bar ' . $bs . $bs . ' baz');
         // \t becomes t - bug?
         $this->assertSame('foo t bar ' . $bs . $bs . ' baz', $out);

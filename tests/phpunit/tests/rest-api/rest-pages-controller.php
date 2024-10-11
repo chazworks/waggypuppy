@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering WP_REST_Posts_Controller functionality, used for
  * Pages
@@ -17,7 +18,7 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         self::$editor_id = $factory->user->create(
             [
                 'role' => 'editor',
-            ]
+            ],
         );
     }
 
@@ -32,7 +33,7 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         add_filter('theme_page_templates', [$this, 'filter_theme_page_templates']);
         // Re-register the route as we now have a template available.
         $GLOBALS['wp_rest_server']->override_by_default = true;
-        $controller                                     = new WP_REST_Posts_Controller('page');
+        $controller = new WP_REST_Posts_Controller('page');
         $controller->register_routes();
         $GLOBALS['wp_rest_server']->override_by_default = false;
     }
@@ -49,25 +50,25 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
     public function test_context_param()
     {
         // Collection.
-        $request  = new WP_REST_Request('OPTIONS', '/wp/v2/pages');
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/pages');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
         $this->assertSame(['view', 'embed', 'edit'], $data['endpoints'][0]['args']['context']['enum']);
         // Single.
-        $page_id  = self::factory()->post->create(['post_type' => 'page']);
-        $request  = new WP_REST_Request('OPTIONS', '/wp/v2/pages/' . $page_id);
+        $page_id = self::factory()->post->create(['post_type' => 'page']);
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/pages/' . $page_id);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
         $this->assertSame(['view', 'embed', 'edit'], $data['endpoints'][0]['args']['context']['enum']);
     }
 
     public function test_registered_query_params()
     {
-        $request  = new WP_REST_Request('OPTIONS', '/wp/v2/pages');
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/pages');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame(['v1' => true], $data['endpoints'][0]['allow_batch']);
         $keys = array_keys($data['endpoints'][0]['args']);
         sort($keys);
@@ -96,27 +97,27 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
                 'slug',
                 'status',
             ],
-            $keys
+            $keys,
         );
     }
 
     public function test_get_items()
     {
-        $id1      = self::factory()->post->create(
+        $id1 = self::factory()->post->create(
             [
                 'post_status' => 'publish',
-                'post_type'   => 'page',
-            ]
+                'post_type' => 'page',
+            ],
         );
-        $id2      = self::factory()->post->create(
+        $id2 = self::factory()->post->create(
             [
                 'post_status' => 'draft',
-                'post_type'   => 'page',
-            ]
+                'post_type' => 'page',
+            ],
         );
-        $request  = new WP_REST_Request('GET', '/wp/v2/pages');
+        $request = new WP_REST_Request('GET', '/wp/v2/pages');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertCount(1, $data);
         $this->assertSame($id1, $data[0]['id']);
     }
@@ -126,27 +127,27 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $id1 = self::factory()->post->create(
             [
                 'post_status' => 'publish',
-                'post_type'   => 'page',
-            ]
+                'post_type' => 'page',
+            ],
         );
         $id2 = self::factory()->post->create(
             [
                 'post_status' => 'publish',
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $id1,
-            ]
+            ],
         );
 
         // No parent.
-        $request  = new WP_REST_Request('GET', '/wp/v2/pages');
+        $request = new WP_REST_Request('GET', '/wp/v2/pages');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertCount(2, $data);
 
         // Filter to parent.
         $request->set_param('parent', $id1);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertCount(1, $data);
         $this->assertSame($id2, $data[0]['id']);
 
@@ -161,40 +162,40 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $id1 = self::factory()->post->create(
             [
                 'post_status' => 'publish',
-                'post_type'   => 'page',
-            ]
+                'post_type' => 'page',
+            ],
         );
         $id2 = self::factory()->post->create(
             [
                 'post_status' => 'publish',
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $id1,
-            ]
+            ],
         );
         $id3 = self::factory()->post->create(
             [
                 'post_status' => 'publish',
-                'post_type'   => 'page',
-            ]
+                'post_type' => 'page',
+            ],
         );
         $id4 = self::factory()->post->create(
             [
                 'post_status' => 'publish',
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $id3,
-            ]
+            ],
         );
 
         // No parent.
-        $request  = new WP_REST_Request('GET', '/wp/v2/pages');
+        $request = new WP_REST_Request('GET', '/wp/v2/pages');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertCount(4, $data);
 
         // Filter to parents.
         $request->set_param('parent', [$id1, $id3]);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertCount(2, $data);
         $this->assertSameSets([$id2, $id4], wp_list_pluck($data, 'id'));
     }
@@ -204,27 +205,27 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $id1 = self::factory()->post->create(
             [
                 'post_status' => 'publish',
-                'post_type'   => 'page',
-            ]
+                'post_type' => 'page',
+            ],
         );
         self::factory()->post->create(
             [
                 'post_status' => 'publish',
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $id1,
-            ]
+            ],
         );
 
         // No parent.
-        $request  = new WP_REST_Request('GET', '/wp/v2/pages');
+        $request = new WP_REST_Request('GET', '/wp/v2/pages');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertCount(2, $data);
 
         // Filter to parent.
         $request->set_param('parent_exclude', $id1);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertCount(1, $data);
         $this->assertSame($id1, $data[0]['id']);
 
@@ -239,41 +240,41 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $id1 = self::factory()->post->create(
             [
                 'post_status' => 'publish',
-                'post_type'   => 'page',
-            ]
+                'post_type' => 'page',
+            ],
         );
         $id2 = self::factory()->post->create(
             [
                 'post_status' => 'publish',
-                'post_type'   => 'page',
-                'menu_order'  => 2,
-            ]
+                'post_type' => 'page',
+                'menu_order' => 2,
+            ],
         );
         $id3 = self::factory()->post->create(
             [
                 'post_status' => 'publish',
-                'post_type'   => 'page',
-                'menu_order'  => 3,
-            ]
+                'post_type' => 'page',
+                'menu_order' => 3,
+            ],
         );
         $id4 = self::factory()->post->create(
             [
                 'post_status' => 'publish',
-                'post_type'   => 'page',
-                'menu_order'  => 1,
-            ]
+                'post_type' => 'page',
+                'menu_order' => 1,
+            ],
         );
 
         // No parent.
-        $request  = new WP_REST_Request('GET', '/wp/v2/pages');
+        $request = new WP_REST_Request('GET', '/wp/v2/pages');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSameSets([$id1, $id2, $id3, $id4], wp_list_pluck($data, 'id'));
 
         // Filter to 'menu_order'.
         $request->set_param('menu_order', 1);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSameSets([$id4], wp_list_pluck($data, 'id'));
 
         // Order by 'menu order'.
@@ -281,7 +282,7 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request->set_param('order', 'asc');
         $request->set_param('orderby', 'menu_order');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame($id1, $data[0]['id']);
         $this->assertSame($id4, $data[1]['id']);
         $this->assertSame($id2, $data[2]['id']);
@@ -307,7 +308,7 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request->set_param('per_page', 101);
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_invalid_param', $response, 400);
-        $data        = $response->get_data();
+        $data = $response->get_data();
         $first_error = array_shift($data['data']['params']);
         $this->assertStringContainsString('per_page must be between 1 (inclusive) and 100 (inclusive)', $first_error);
     }
@@ -316,19 +317,19 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
     {
         // Private query vars inaccessible to unauthorized users.
         wp_set_current_user(0);
-        $page_id  = self::factory()->post->create(
+        $page_id = self::factory()->post->create(
             [
                 'post_status' => 'publish',
-                'post_type'   => 'page',
-            ]
+                'post_type' => 'page',
+            ],
         );
         $draft_id = self::factory()->post->create(
             [
                 'post_status' => 'draft',
-                'post_type'   => 'page',
-            ]
+                'post_type' => 'page',
+            ],
         );
-        $request  = new WP_REST_Request('GET', '/wp/v2/pages');
+        $request = new WP_REST_Request('GET', '/wp/v2/pages');
         $request->set_param('status', 'draft');
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_invalid_param', $response, 400);
@@ -336,7 +337,7 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         // But they are accessible to authorized users.
         wp_set_current_user(self::$editor_id);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertCount(1, $data);
         $this->assertSame($draft_id, $data[0]['id']);
     }
@@ -352,29 +353,29 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
 
     public function test_get_items_valid_date()
     {
-        $post1   = self::factory()->post->create(
+        $post1 = self::factory()->post->create(
             [
                 'post_date' => '2016-01-15T00:00:00Z',
                 'post_type' => 'page',
-            ]
+            ],
         );
-        $post2   = self::factory()->post->create(
+        $post2 = self::factory()->post->create(
             [
                 'post_date' => '2016-01-16T00:00:00Z',
                 'post_type' => 'page',
-            ]
+            ],
         );
-        $post3   = self::factory()->post->create(
+        $post3 = self::factory()->post->create(
             [
                 'post_date' => '2016-01-17T00:00:00Z',
                 'post_type' => 'page',
-            ]
+            ],
         );
         $request = new WP_REST_Request('GET', '/wp/v2/pages');
         $request->set_param('after', '2016-01-15T00:00:00Z');
         $request->set_param('before', '2016-01-17T00:00:00Z');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertCount(1, $data);
         $this->assertSame($post2, $data[0]['id']);
     }
@@ -400,19 +401,19 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
             [
                 'post_date' => '2016-01-01 00:00:00',
                 'post_type' => 'page',
-            ]
+            ],
         );
         $post2 = self::factory()->post->create(
             [
                 'post_date' => '2016-01-02 00:00:00',
                 'post_type' => 'page',
-            ]
+            ],
         );
         $post3 = self::factory()->post->create(
             [
                 'post_date' => '2016-01-03 00:00:00',
                 'post_type' => 'page',
-            ]
+            ],
         );
         $this->update_post_modified($post1, '2016-01-15 00:00:00');
         $this->update_post_modified($post2, '2016-01-16 00:00:00');
@@ -421,7 +422,7 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request->set_param('modified_after', '2016-01-15T00:00:00Z');
         $request->set_param('modified_before', '2016-01-17T00:00:00Z');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertCount(1, $data);
         $this->assertSame($post2, $data[0]['id']);
     }
@@ -436,8 +437,8 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
 
     public function test_get_item_invalid_post_type()
     {
-        $post_id  = self::factory()->post->create();
-        $request  = new WP_REST_Request('GET', '/wp/v2/pages/' . $post_id);
+        $post_id = self::factory()->post->create();
+        $request = new WP_REST_Request('GET', '/wp/v2/pages/' . $post_id);
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(404, $response->get_status());
     }
@@ -455,15 +456,15 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/pages');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'template' => 'page-my-test-template.php',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
 
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $new_post = get_post($data['id']);
         $this->assertSame('page-my-test-template.php', $data['template']);
         $this->assertSame('page-my-test-template.php', get_page_template_slug($new_post->ID));
@@ -474,15 +475,15 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $page_id = self::factory()->post->create(
             [
                 'type' => 'page',
-            ]
+            ],
         );
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/pages');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'parent' => $page_id,
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -492,7 +493,7 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $links = $response->get_links();
         $this->assertArrayHasKey('up', $links);
 
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $new_post = get_post($data['id']);
         $this->assertSame($page_id, $data['parent']);
         $this->assertSame($page_id, $new_post->post_parent);
@@ -503,10 +504,10 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/pages');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'parent' => -1,
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -526,9 +527,9 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
     {
         $page_id = self::factory()->post->create(
             [
-                'post_type'  => 'page',
+                'post_type' => 'page',
                 'post_title' => 'Deleted page',
-            ]
+            ],
         );
         wp_set_current_user(self::$editor_id);
 
@@ -553,24 +554,24 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
     public function test_prepare_item_limit_fields()
     {
         wp_set_current_user(self::$editor_id);
-        $page_id  = self::factory()->post->create(
+        $page_id = self::factory()->post->create(
             [
                 'post_status' => 'publish',
-                'post_type'   => 'page',
-            ]
+                'post_type' => 'page',
+            ],
         );
         $endpoint = new WP_REST_Posts_Controller('page');
-        $request  = new WP_REST_Request('GET', sprintf('/wp/v2/pages/%d', $page_id));
+        $request = new WP_REST_Request('GET', sprintf('/wp/v2/pages/%d', $page_id));
         $request->set_param('context', 'edit');
         $request->set_param('_fields', 'id,slug');
-        $obj      = get_post($page_id);
+        $obj = get_post($page_id);
         $response = $endpoint->prepare_item_for_response($obj, $request);
         $this->assertSame(
             [
                 'id',
                 'slug',
             ],
-            array_keys($response->get_data())
+            array_keys($response->get_data()),
         );
     }
 
@@ -580,15 +581,15 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
             8,
             [
                 'post_type' => 'page',
-            ]
+            ],
         );
 
         $request = new WP_REST_Request('GET', '/wp/v2/pages');
         $request->set_query_params(
             [
-                'page'     => 2,
+                'page' => 2,
                 'per_page' => 4,
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
 
@@ -607,11 +608,10 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
 
     public function test_update_page_menu_order()
     {
-
         $page_id = self::factory()->post->create(
             [
                 'post_type' => 'page',
-            ]
+            ],
         );
 
         wp_set_current_user(self::$editor_id);
@@ -621,7 +621,7 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request->set_body_params(
             [
                 'menu_order' => 1,
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
 
@@ -631,12 +631,11 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
 
     public function test_update_page_menu_order_to_zero()
     {
-
         $page_id = self::factory()->post->create(
             [
-                'post_type'  => 'page',
+                'post_type' => 'page',
                 'menu_order' => 1,
-            ]
+            ],
         );
 
         wp_set_current_user(self::$editor_id);
@@ -646,7 +645,7 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request->set_body_params(
             [
                 'menu_order' => 0,
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
 
@@ -659,19 +658,19 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $page_id1 = self::factory()->post->create(
             [
                 'post_type' => 'page',
-            ]
+            ],
         );
         $page_id2 = self::factory()->post->create(
             [
                 'post_type' => 'page',
-            ]
+            ],
         );
         wp_set_current_user(self::$editor_id);
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/pages/%d', $page_id2));
         $request->set_body_params(
             [
                 'parent' => $page_id1,
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
         $new_data = $response->get_data();
@@ -683,20 +682,20 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $page_id1 = self::factory()->post->create(
             [
                 'post_type' => 'page',
-            ]
+            ],
         );
         $page_id2 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $page_id1,
-            ]
+            ],
         );
         wp_set_current_user(self::$editor_id);
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/pages/%d', $page_id2));
         $request->set_body_params(
             [
                 'parent' => 0,
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
         $new_data = $response->get_data();
@@ -707,12 +706,12 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
     {
         $page_id = self::factory()->post->create(
             [
-                'post_type'     => 'page',
+                'post_type' => 'page',
                 'post_password' => '$inthebananastand',
-            ]
+            ],
         );
 
-        $request  = new WP_REST_Request('GET', sprintf('/wp/v2/pages/%d', $page_id));
+        $request = new WP_REST_Request('GET', sprintf('/wp/v2/pages/%d', $page_id));
         $response = rest_get_server()->dispatch($request);
 
         $data = $response->get_data();
@@ -726,14 +725,14 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
     {
         $page_id = self::factory()->post->create(
             [
-                'post_type'     => 'page',
+                'post_type' => 'page',
                 'post_password' => '$inthebananastand',
-                'post_content'  => 'Some secret content.',
-                'post_excerpt'  => 'Some secret excerpt.',
-            ]
+                'post_content' => 'Some secret content.',
+                'post_excerpt' => 'Some secret excerpt.',
+            ],
         );
 
-        $page    = get_post($page_id);
+        $page = get_post($page_id);
         $request = new WP_REST_Request('GET', sprintf('/wp/v2/pages/%d', $page_id));
         $request->set_param('password', '$inthebananastand');
         $response = rest_get_server()->dispatch($request);
@@ -749,12 +748,12 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
     {
         $page_id = self::factory()->post->create(
             [
-                'post_type'     => 'page',
+                'post_type' => 'page',
                 'post_password' => '$inthebananastand',
-            ]
+            ],
         );
 
-        $page    = get_post($page_id);
+        $page = get_post($page_id);
         $request = new WP_REST_Request('GET', sprintf('/wp/v2/pages/%d', $page_id));
         $request->set_param('password', 'wrongpassword');
         $response = rest_get_server()->dispatch($request);
@@ -764,17 +763,17 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
 
     public function test_get_page_with_password_without_permission()
     {
-        $page_id  = self::factory()->post->create(
+        $page_id = self::factory()->post->create(
             [
-                'post_type'     => 'page',
+                'post_type' => 'page',
                 'post_password' => '$inthebananastand',
-                'post_content'  => 'Some secret content.',
-                'post_excerpt'  => 'Some secret excerpt.',
-            ]
+                'post_content' => 'Some secret content.',
+                'post_excerpt' => 'Some secret excerpt.',
+            ],
         );
-        $request  = new WP_REST_Request('GET', sprintf('/wp/v2/pages/%d', $page_id));
+        $request = new WP_REST_Request('GET', sprintf('/wp/v2/pages/%d', $page_id));
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame('', $data['content']['rendered']);
         $this->assertTrue($data['content']['protected']);
         $this->assertSame('', $data['excerpt']['rendered']);
@@ -783,9 +782,9 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
 
     public function test_get_item_schema()
     {
-        $request    = new WP_REST_Request('OPTIONS', '/wp/v2/pages');
-        $response   = rest_get_server()->dispatch($request);
-        $data       = $response->get_data();
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/pages');
+        $response = rest_get_server()->dispatch($request);
+        $data = $response->get_data();
         $properties = $data['schema']['properties'];
         $this->assertCount(25, $properties);
         $this->assertArrayHasKey('author', $properties);
@@ -825,7 +824,7 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
 
     protected function set_post_data($args = [])
     {
-        $args         = parent::set_post_data($args);
+        $args = parent::set_post_data($args);
         $args['type'] = 'page';
         return $args;
     }

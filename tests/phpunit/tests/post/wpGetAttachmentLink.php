@@ -35,8 +35,8 @@ class Tests_Post_WpGetAttachmentLink extends WP_UnitTestCase
      *
      * @dataProvider data_should_apply_attributes_filter
      *
-     * @param array  $attributes Attributes to return from the callback.
-     * @param string $expected   The substring expected to be in the attachment link.
+     * @param array $attributes Attributes to return from the callback.
+     * @param string $expected The substring expected to be in the attachment link.
      */
     public function test_should_apply_attributes_filter($attributes, $expected)
     {
@@ -46,12 +46,12 @@ class Tests_Post_WpGetAttachmentLink extends WP_UnitTestCase
             'wp_get_attachment_link_attributes',
             static function ($attr) use ($attributes) {
                 return array_merge($attr, $attributes);
-            }
+            },
         );
 
         $this->assertStringContainsString(
             $expected,
-            wp_get_attachment_link(self::$attachment)
+            wp_get_attachment_link(self::$attachment),
         );
     }
 
@@ -63,47 +63,47 @@ class Tests_Post_WpGetAttachmentLink extends WP_UnitTestCase
     public function data_should_apply_attributes_filter()
     {
         return [
-            'no new attributes'                         => [
+            'no new attributes' => [
                 'attributes' => [],
-                'expected'   => "<a href='http://" . WP_TESTS_DOMAIN . "/?attachment_id=ATTACHMENT_ID'>",
+                'expected' => "<a href='http://" . WP_TESTS_DOMAIN . "/?attachment_id=ATTACHMENT_ID'>",
             ],
-            'one new attribute'                         => [
+            'one new attribute' => [
                 'attributes' => [
                     'class' => 'test-attribute-filter',
                 ],
-                'expected'   => " class='test-attribute-filter'",
+                'expected' => " class='test-attribute-filter'",
             ],
-            'two new attributes'                        => [
+            'two new attributes' => [
                 'attributes' => [
                     'class' => 'test-attribute-filter',
-                    'id'    => 'test-attribute-filter-1',
+                    'id' => 'test-attribute-filter-1',
                 ],
-                'expected'   => " class='test-attribute-filter' id='test-attribute-filter-1'",
+                'expected' => " class='test-attribute-filter' id='test-attribute-filter-1'",
             ],
-            'an existing attribute'                     => [
+            'an existing attribute' => [
                 'attributes' => [
                     'href' => 'http://test-attribute-filter.org',
                 ],
-                'expected'   => " href='http://test-attribute-filter.org'",
+                'expected' => " href='http://test-attribute-filter.org'",
             ],
             'an existing attribute and a new attribute' => [
                 'attributes' => [
-                    'href'  => 'http://test-attribute-filter.org',
+                    'href' => 'http://test-attribute-filter.org',
                     'class' => 'test-attribute-filter',
                 ],
-                'expected'   => " href='http://test-attribute-filter.org' class='test-attribute-filter'",
+                'expected' => " href='http://test-attribute-filter.org' class='test-attribute-filter'",
             ],
-            'an attribute name with unsafe characters'  => [
+            'an attribute name with unsafe characters' => [
                 'attributes' => [
                     "> <script>alert('Howdy, admin!')</script> <a href=''></a" => '',
                 ],
-                'expected'   => " &gt; &lt;script&gt;alert(&#039;Howdy, admin!&#039;)&lt;/script&gt; &lt;a href=&#039;&#039;&gt;&lt;/a=''",
+                'expected' => " &gt; &lt;script&gt;alert(&#039;Howdy, admin!&#039;)&lt;/script&gt; &lt;a href=&#039;&#039;&gt;&lt;/a=''",
             ],
             'an attribute value with unsafe characters' => [
                 'attributes' => [
                     'class' => "'> <script>alert('Howdy, admin!')</script> <a href=''></a",
                 ],
-                'expected'   => '&#039;&gt; &lt;script&gt;alert(&#039;Howdy, admin!&#039;)&lt;/script&gt; &lt;a href=&#039;&#039;&gt;&lt;/a',
+                'expected' => '&#039;&gt; &lt;script&gt;alert(&#039;Howdy, admin!&#039;)&lt;/script&gt; &lt;a href=&#039;&#039;&gt;&lt;/a',
             ],
         ];
     }

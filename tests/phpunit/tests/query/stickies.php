@@ -15,11 +15,11 @@ class Tests_Query_Stickies extends WP_UnitTestCase
         // Set post times to get a reliable order.
         $now = time();
         for ($i = 0; $i <= 22; $i++) {
-            $post_date       = gmdate('Y-m-d H:i:s', $now - (10 * $i));
+            $post_date = gmdate('Y-m-d H:i:s', $now - (10 * $i));
             self::$posts[$i] = $factory->post->create(
                 [
                     'post_date' => $post_date,
-                ]
+                ],
             );
         }
 
@@ -32,10 +32,10 @@ class Tests_Query_Stickies extends WP_UnitTestCase
     {
         $q = new WP_Query(
             [
-                'year'           => gmdate('Y'),
-                'fields'         => 'ids',
+                'year' => gmdate('Y'),
+                'fields' => 'ids',
                 'posts_per_page' => 3,
-            ]
+            ],
         );
 
         $expected = [
@@ -123,8 +123,8 @@ class Tests_Query_Stickies extends WP_UnitTestCase
         $filter = new MockAction();
         add_filter('posts_pre_query', [$filter, 'filter'], 10, 2);
         $this->go_to('/');
-        $filter_args       = $filter->get_args();
-        $query_vars        = $filter_args[0][1]->query_vars;
+        $filter_args = $filter->get_args();
+        $query_vars = $filter_args[0][1]->query_vars;
         $sticky_query_vars = $filter_args[1][1]->query_vars;
 
         $this->assertNotEmpty($sticky_query_vars['posts_per_page']);
@@ -143,19 +143,19 @@ class Tests_Query_Stickies extends WP_UnitTestCase
     public function test_stickies_should_limit_query()
     {
         $sticky_count = 6;
-        $post_date    = gmdate('Y-m-d H:i:s', time() - 10000);
-        $post_ids     = self::factory()->post->create_many($sticky_count, ['post_date' => $post_date]);
+        $post_date = gmdate('Y-m-d H:i:s', time() - 10000);
+        $post_ids = self::factory()->post->create_many($sticky_count, ['post_date' => $post_date]);
         add_filter(
             'pre_option_sticky_posts',
             static function () use ($post_ids) {
                 return $post_ids;
-            }
+            },
         );
 
         $filter = new MockAction();
         add_filter('posts_pre_query', [$filter, 'filter'], 10, 2);
         $this->go_to('/');
-        $filter_args       = $filter->get_args();
+        $filter_args = $filter->get_args();
         $sticky_query_vars = $filter_args[1][1]->query_vars;
 
         $this->assertSame($sticky_query_vars['posts_per_page'], $sticky_count);

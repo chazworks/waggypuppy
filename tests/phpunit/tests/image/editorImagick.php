@@ -63,10 +63,10 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase
 
         $this->assertSame(
             [
-                'width'  => 75,
+                'width' => 75,
                 'height' => 50,
             ],
-            $imagick_image_editor->get_size()
+            $imagick_image_editor->get_size(),
         );
     }
 
@@ -82,7 +82,7 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase
 
         $sizes_array = [
             [
-                'width'  => 50,
+                'width' => 50,
                 'height' => 50,
             ],
         ];
@@ -92,11 +92,11 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase
         // First, check to see if returned array is as expected.
         $expected_array = [
             [
-                'file'      => 'waffles-50x33.jpg',
-                'width'     => 50,
-                'height'    => 33,
+                'file' => 'waffles-50x33.jpg',
+                'width' => 50,
+                'height' => 33,
                 'mime-type' => 'image/jpeg',
-                'filesize'  => wp_filesize(dirname($file) . '/waffles-50x33.jpg'),
+                'filesize' => wp_filesize(dirname($file) . '/waffles-50x33.jpg'),
             ],
         ];
 
@@ -107,7 +107,7 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase
         $this->assertImageDimensions(
             $image_path,
             $expected_array[0]['width'],
-            $expected_array[0]['height']
+            $expected_array[0]['height'],
         );
     }
 
@@ -126,52 +126,52 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase
 
         $sizes_array = [
             [
-                'width'  => 0,
+                'width' => 0,
                 'height' => 0,
             ],
             [
-                'width'  => 0,
+                'width' => 0,
                 'height' => 0,
-                'crop'   => true,
+                'crop' => true,
             ],
             [
-                'width'  => null,
+                'width' => null,
                 'height' => null,
             ],
             [
-                'width'  => null,
+                'width' => null,
                 'height' => null,
-                'crop'   => true,
+                'crop' => true,
             ],
             [
-                'width'  => '',
+                'width' => '',
                 'height' => '',
             ],
             [
-                'width'  => '',
+                'width' => '',
                 'height' => '',
-                'crop'   => true,
+                'crop' => true,
             ],
             [
                 'width' => 0,
             ],
             [
                 'width' => 0,
-                'crop'  => true,
+                'crop' => true,
             ],
             [
                 'width' => null,
             ],
             [
                 'width' => null,
-                'crop'  => true,
+                'crop' => true,
             ],
             [
                 'width' => '',
             ],
             [
                 'width' => '',
-                'crop'  => true,
+                'crop' => true,
             ],
         ];
 
@@ -200,9 +200,9 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase
              * By aspect, should be 10x6 output.
              */
             [
-                'width'  => 10,
+                'width' => 10,
                 'height' => 10,
-                'crop'   => false,
+                'crop' => false,
             ],
 
             /*
@@ -210,9 +210,9 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase
              * Output dimensions should be 75x50
              */
             [
-                'width'  => 75,
+                'width' => 75,
                 'height' => 50,
-                'crop'   => true,
+                'crop' => true,
             ],
 
             /*
@@ -220,9 +220,9 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase
              * By aspect, should be 30x20 output.
              */
             [
-                'width'  => 9999, // Arbitrary high value.
+                'width' => 9999, // Arbitrary high value.
                 'height' => 20,
-                'crop'   => false,
+                'crop' => false,
             ],
 
             /*
@@ -230,9 +230,9 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase
              * By aspect, should be 45x400 output.
              */
             [
-                'width'  => 45,
+                'width' => 45,
                 'height' => 9999, // Arbitrary high value.
-                'crop'   => true,
+                'crop' => true,
             ],
 
             /*
@@ -248,7 +248,7 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase
              * By aspect, should be 55x36 output.
              */
             [
-                'width'  => 55,
+                'width' => 55,
                 'height' => null,
             ],
 
@@ -265,7 +265,7 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase
              * By aspect, should be 90x60 output.
              */
             [
-                'width'  => null,
+                'width' => null,
                 'height' => 60,
             ],
 
@@ -274,7 +274,7 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase
              * By aspect, should be 105x70 output.
              */
             [
-                'width'  => -9999, // Arbitrary negative value.
+                'width' => -9999, // Arbitrary negative value.
                 'height' => 70,
             ],
 
@@ -283,7 +283,7 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase
              * By aspect, should be 200x133 output.
              */
             [
-                'width'  => 200,
+                'width' => 200,
                 'height' => -9999, // Arbitrary negative value.
             ],
         ];
@@ -294,92 +294,92 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase
 
             // #0
             [
-                'file'      => 'waffles-10x7.jpg',
-                'width'     => 10,
-                'height'    => 7,
+                'file' => 'waffles-10x7.jpg',
+                'width' => 10,
+                'height' => 7,
                 'mime-type' => 'image/jpeg',
-                'filesize'  => wp_filesize(dirname($file) . '/waffles-10x7.jpg'),
+                'filesize' => wp_filesize(dirname($file) . '/waffles-10x7.jpg'),
             ],
 
             // #1
             [
-                'file'      => 'waffles-75x50.jpg',
-                'width'     => 75,
-                'height'    => 50,
+                'file' => 'waffles-75x50.jpg',
+                'width' => 75,
+                'height' => 50,
                 'mime-type' => 'image/jpeg',
-                'filesize'  => wp_filesize(dirname($file) . '/waffles-75x50.jpg'),
+                'filesize' => wp_filesize(dirname($file) . '/waffles-75x50.jpg'),
             ],
 
             // #2
             [
-                'file'      => 'waffles-30x20.jpg',
-                'width'     => 30,
-                'height'    => 20,
+                'file' => 'waffles-30x20.jpg',
+                'width' => 30,
+                'height' => 20,
                 'mime-type' => 'image/jpeg',
-                'filesize'  => wp_filesize(dirname($file) . '/waffles-30x20.jpg'),
+                'filesize' => wp_filesize(dirname($file) . '/waffles-30x20.jpg'),
             ],
 
             // #3
             [
-                'file'      => 'waffles-45x400.jpg',
-                'width'     => 45,
-                'height'    => 400,
+                'file' => 'waffles-45x400.jpg',
+                'width' => 45,
+                'height' => 400,
                 'mime-type' => 'image/jpeg',
-                'filesize'  => wp_filesize(dirname($file) . '/waffles-45x400.jpg'),
+                'filesize' => wp_filesize(dirname($file) . '/waffles-45x400.jpg'),
             ],
 
             // #4
             [
-                'file'      => 'waffles-50x33.jpg',
-                'width'     => 50,
-                'height'    => 33,
+                'file' => 'waffles-50x33.jpg',
+                'width' => 50,
+                'height' => 33,
                 'mime-type' => 'image/jpeg',
-                'filesize'  => wp_filesize(dirname($file) . '/waffles-50x33.jpg'),
+                'filesize' => wp_filesize(dirname($file) . '/waffles-50x33.jpg'),
             ],
 
             // #5
             [
-                'file'      => 'waffles-55x37.jpg',
-                'width'     => 55,
-                'height'    => 37,
+                'file' => 'waffles-55x37.jpg',
+                'width' => 55,
+                'height' => 37,
                 'mime-type' => 'image/jpeg',
-                'filesize'  => wp_filesize(dirname($file) . '/waffles-55x37.jpg'),
+                'filesize' => wp_filesize(dirname($file) . '/waffles-55x37.jpg'),
             ],
 
             // #6
             [
-                'file'      => 'waffles-83x55.jpg',
-                'width'     => 83,
-                'height'    => 55,
+                'file' => 'waffles-83x55.jpg',
+                'width' => 83,
+                'height' => 55,
                 'mime-type' => 'image/jpeg',
-                'filesize'  => wp_filesize(dirname($file) . '/waffles-83x55.jpg'),
+                'filesize' => wp_filesize(dirname($file) . '/waffles-83x55.jpg'),
             ],
 
             // #7
             [
-                'file'      => 'waffles-90x60.jpg',
-                'width'     => 90,
-                'height'    => 60,
+                'file' => 'waffles-90x60.jpg',
+                'width' => 90,
+                'height' => 60,
                 'mime-type' => 'image/jpeg',
-                'filesize'  => wp_filesize(dirname($file) . '/waffles-90x60.jpg'),
+                'filesize' => wp_filesize(dirname($file) . '/waffles-90x60.jpg'),
             ],
 
             // #8
             [
-                'file'      => 'waffles-105x70.jpg',
-                'width'     => 105,
-                'height'    => 70,
+                'file' => 'waffles-105x70.jpg',
+                'width' => 105,
+                'height' => 70,
                 'mime-type' => 'image/jpeg',
-                'filesize'  => wp_filesize(dirname($file) . '/waffles-105x70.jpg'),
+                'filesize' => wp_filesize(dirname($file) . '/waffles-105x70.jpg'),
             ],
 
             // #9
             [
-                'file'      => 'waffles-200x133.jpg',
-                'width'     => 200,
-                'height'    => 133,
+                'file' => 'waffles-200x133.jpg',
+                'width' => 200,
+                'height' => 133,
                 'mime-type' => 'image/jpeg',
-                'filesize'  => wp_filesize(dirname($file) . '/waffles-200x133.jpg'),
+                'filesize' => wp_filesize(dirname($file) . '/waffles-200x133.jpg'),
             ],
         ];
 
@@ -393,7 +393,7 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase
             $this->assertImageDimensions(
                 $image_path,
                 $expected_array[$key]['width'],
-                $expected_array[$key]['height']
+                $expected_array[$key]['height'],
             );
         }
     }
@@ -412,10 +412,10 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase
 
         $this->assertSame(
             [
-                'width'  => 100,
+                'width' => 100,
                 'height' => 50,
             ],
-            $imagick_image_editor->get_size()
+            $imagick_image_editor->get_size(),
         );
     }
 
@@ -433,10 +433,10 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase
 
         $this->assertSame(
             [
-                'width'  => 50,
+                'width' => 50,
                 'height' => 50,
             ],
-            $imagick_image_editor->get_size()
+            $imagick_image_editor->get_size(),
         );
     }
 
@@ -457,7 +457,8 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase
 
         $imagick_image_editor->rotate(180);
 
-        $this->assertSame($color_top_left, $property->getValue($imagick_image_editor)->getImagePixelColor(99, 99)->getColor());
+        $this->assertSame($color_top_left,
+            $property->getValue($imagick_image_editor)->getImagePixelColor(99, 99)->getColor());
     }
 
     /**
@@ -477,7 +478,8 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase
 
         $imagick_image_editor->flip(true, false);
 
-        $this->assertSame($color_top_left, $property->getValue($imagick_image_editor)->getImagePixelColor(0, 99)->getColor());
+        $this->assertSame($color_top_left,
+            $property->getValue($imagick_image_editor)->getImagePixelColor(0, 99)->getColor());
     }
 
     /**
@@ -496,8 +498,8 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase
 
         $imagick_image_editor->save($save_to_file);
 
-        $im       = new Imagick($save_to_file);
-        $pixel    = $im->getImagePixelColor(0, 0);
+        $im = new Imagick($save_to_file);
+        $pixel = $im->getImagePixelColor(0, 0);
         $expected = $pixel->getColorValue(imagick::COLOR_ALPHA);
 
         $this->assertImageAlphaAtPointImagick($save_to_file, [0, 0], $expected);
@@ -522,8 +524,8 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase
 
         $imagick_image_editor->save($save_to_file);
 
-        $im       = new Imagick($save_to_file);
-        $pixel    = $im->getImagePixelColor(0, 0);
+        $im = new Imagick($save_to_file);
+        $pixel = $im->getImagePixelColor(0, 0);
         $expected = $pixel->getColorValue(imagick::COLOR_ALPHA);
 
         $this->assertImageAlphaAtPointImagick($save_to_file, [0, 0], $expected);
@@ -539,8 +541,8 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase
         $file = DIR_TESTDATA . '/images/transparent.png';
 
         $pre_rotate_editor = new Imagick($file);
-        $pre_rotate_pixel  = $pre_rotate_editor->getImagePixelColor(0, 0);
-        $pre_rotate_alpha  = $pre_rotate_pixel->getColorValue(imagick::COLOR_ALPHA);
+        $pre_rotate_pixel = $pre_rotate_editor->getImagePixelColor(0, 0);
+        $pre_rotate_alpha = $pre_rotate_pixel->getColorValue(imagick::COLOR_ALPHA);
 
         $save_to_file = tempnam(get_temp_dir(), '') . '.png';
         $pre_rotate_editor->writeImage($save_to_file);
@@ -583,7 +585,8 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase
         $data = wp_read_image_metadata($file);
 
         // The orientation value 3 is equivalent to rotated upside down (180 degrees).
-        $this->assertSame(3, (int) $data['orientation'], 'Orientation value read from does not match image file Exif data: ' . $file);
+        $this->assertSame(3, (int)$data['orientation'],
+            'Orientation value read from does not match image file Exif data: ' . $file);
 
         $temp_file = wp_tempnam($file);
 
@@ -601,7 +604,8 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase
         unlink($saved['path']);
 
         // Make sure the image is no longer in The Upside Down Exif orientation.
-        $this->assertSame(1, (int) $data['orientation'], 'Orientation Exif data was not updated after rotating image: ' . $file);
+        $this->assertSame(1, (int)$data['orientation'],
+            'Orientation Exif data was not updated after rotating image: ' . $file);
     }
 
     /**
@@ -616,7 +620,7 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase
             ],
         ];
 
-        $file                 = 'wptest://Tests_Image_Editor_Imagick/read.jpg';
+        $file = 'wptest://Tests_Image_Editor_Imagick/read.jpg';
         $imagick_image_editor = new WP_Image_Editor_Imagick($file);
 
         $loaded = $imagick_image_editor->load();
@@ -640,7 +644,7 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase
      */
     public function test_directory_creation()
     {
-        $file      = realpath(DIR_TESTDATA) . '/images/a2-small.jpg';
+        $file = realpath(DIR_TESTDATA) . '/images/a2-small.jpg';
         $directory = realpath(DIR_TESTDATA) . '/images/nonexistent-directory';
 
         $imagick_image_editor = new WP_Image_Editor_Imagick($file);
@@ -672,11 +676,11 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase
      */
     public function test_remove_pdf_alpha_channel_should_remove_the_alpha_channel_in_preview()
     {
-        if (! wp_image_editor_supports(['mime_type' => 'application/pdf'])) {
+        if (!wp_image_editor_supports(['mime_type' => 'application/pdf'])) {
             $this->markTestSkipped('Rendering PDFs is not supported on this system.');
         }
 
-        $test_file     = DIR_TESTDATA . '/images/test-alpha.pdf';
+        $test_file = DIR_TESTDATA . '/images/test-alpha.pdf';
         $attachment_id = $this->factory->attachment->create_upload_object($test_file);
         $this->assertNotEmpty($attachment_id, 'The attachment was not created before testing.');
 
@@ -701,14 +705,15 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase
         $this->assertArrayHasKey('file', $check, 'The intermediate size file was not found.');
 
         $check_file = path_join(dirname($attached_file), $check['file']);
-        $imagick    = new Imagick($check_file);
-        $output     = array_map(
+        $imagick = new Imagick($check_file);
+        $output = array_map(
             static function ($value) {
-                return (int) round($value);
+                return (int)round($value);
             },
-            array_intersect_key($imagick->getImagePixelColor(100, 100)->getColor(true /* normalized */), $rgb)
+            array_intersect_key($imagick->getImagePixelColor(100, 100)->getColor(true /* normalized */), $rgb),
         );
         $imagick->destroy();
-        $this->assertSame($expected, $output, 'The image color of the generated thumb does not match expected opaque background.'); // Allow for floating point equivalence.
+        $this->assertSame($expected, $output,
+            'The image color of the generated thumb does not match expected opaque background.'); // Allow for floating point equivalence.
     }
 }

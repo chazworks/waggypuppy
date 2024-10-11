@@ -8,12 +8,12 @@
 /**
  * Renders the `core/post-author-biography` block on the server.
  *
+ * @param array $attributes Block attributes.
+ * @param string $content Block default content.
+ * @param WP_Block $block Block instance.
+ * @return string Returns the rendered post author biography block.
  * @since 6.0.0
  *
- * @param  array    $attributes Block attributes.
- * @param  string   $content    Block default content.
- * @param  WP_Block $block      Block instance.
- * @return string Returns the rendered post author biography block.
  */
 function render_block_core_post_author_biography($attributes, $content, $block)
 {
@@ -32,7 +32,7 @@ function render_block_core_post_author_biography($attributes, $content, $block)
         return '';
     }
 
-    $align_class_name   = empty($attributes['textAlign']) ? '' : "has-text-align-{$attributes['textAlign']}";
+    $align_class_name = empty($attributes['textAlign']) ? '' : "has-text-align-{$attributes['textAlign']}";
     $wrapper_attributes = get_block_wrapper_attributes(['class' => $align_class_name]);
 
     return sprintf('<div %1$s>', $wrapper_attributes) . $author_biography . '</div>';
@@ -49,7 +49,8 @@ function register_block_core_post_author_biography()
         __DIR__ . '/post-author-biography',
         [
             'render_callback' => 'render_block_core_post_author_biography',
-        ]
+        ],
     );
 }
+
 add_action('init', 'register_block_core_post_author_biography');

@@ -19,7 +19,7 @@ window.wp = window.wp || {};
  * @param {Object} attributes The properties passed to the main media controller.
  * @return {wp.media.view.MediaFrame} A media workflow.
  */
-media = wp.media = function( attributes ) {
+media = wp.media = function ( attributes ) {
 	var MediaFrame = media.view.MediaFrame,
 		frame;
 
@@ -28,8 +28,8 @@ media = wp.media = function( attributes ) {
 	}
 
 	attributes = _.defaults( attributes || {}, {
-		frame: 'select'
-	});
+		frame: 'select',
+	} );
 
 	if ( 'select' === attributes.frame && MediaFrame.Select ) {
 		frame = new MediaFrame.Select( attributes );
@@ -43,7 +43,10 @@ media = wp.media = function( attributes ) {
 		frame = new MediaFrame.AudioDetails( attributes );
 	} else if ( 'video' === attributes.frame && MediaFrame.VideoDetails ) {
 		frame = new MediaFrame.VideoDetails( attributes );
-	} else if ( 'edit-attachments' === attributes.frame && MediaFrame.EditAttachments ) {
+	} else if (
+		'edit-attachments' === attributes.frame &&
+		MediaFrame.EditAttachments
+	) {
 		frame = new MediaFrame.EditAttachments( attributes );
 	}
 
@@ -58,7 +61,7 @@ media = wp.media = function( attributes ) {
 /** @namespace wp.media.view */
 /** @namespace wp.media.controller */
 /** @namespace wp.media.frames */
-_.extend( media, { model: {}, view: {}, controller: {}, frames: {} });
+_.extend( media, { model: {}, view: {}, controller: {}, frames: {} } );
 
 // Link any localized strings.
 l10n = media.model.l10n = window._wpMediaModelsL10n || {};
@@ -67,8 +70,10 @@ l10n = media.model.l10n = window._wpMediaModelsL10n || {};
 media.model.settings = l10n.settings || {};
 delete l10n.settings;
 
-Attachment = media.model.Attachment = require( '../../../media/models/attachment.js' );
-Attachments = media.model.Attachments = require( '../../../media/models/attachments.js' );
+Attachment =
+	media.model.Attachment = require( '../../../media/models/attachment.js' );
+Attachments =
+	media.model.Attachments = require( '../../../media/models/attachments.js' );
 
 media.model.Query = require( '../../../media/models/query.js' );
 media.model.PostImage = require( '../../../media/models/post-image.js' );
@@ -93,111 +98,119 @@ media.model.Selection = require( '../../../media/models/selection.js' );
  *                   0: a and b are of the same rank.
  *                   1: b should come before a.
  */
-media.compare = function( a, b, ac, bc ) {
+media.compare = function ( a, b, ac, bc ) {
 	if ( _.isEqual( a, b ) ) {
-		return ac === bc ? 0 : (ac > bc ? -1 : 1);
+		return ac === bc ? 0 : ac > bc ? -1 : 1;
 	} else {
 		return a > b ? -1 : 1;
 	}
 };
 
-_.extend( media, /** @lends wp.media */{
-	/**
-	 * media.template( id )
-	 *
-	 * Fetch a JavaScript template for an id, and return a templating function for it.
-	 *
-	 * See wp.template() in `wp-includes/js/wp-util.js`.
-	 *
-	 * @borrows wp.template as template
-	 */
-	template: wp.template,
-
-	/**
-	 * media.post( [action], [data] )
-	 *
-	 * Sends a POST request to waggypuppy.
-	 * See wp.ajax.post() in `wp-includes/js/wp-util.js`.
-	 *
-	 * @borrows wp.ajax.post as post
-	 */
-	post: wp.ajax.post,
-
-	/**
-	 * media.ajax( [action], [options] )
-	 *
-	 * Sends an XHR request to waggypuppy.
-	 * See wp.ajax.send() in `wp-includes/js/wp-util.js`.
-	 *
-	 * @borrows wp.ajax.send as ajax
-	 */
-	ajax: wp.ajax.send,
-
-	/**
-	 * Scales a set of dimensions to fit within bounding dimensions.
-	 *
-	 * @param {Object} dimensions
-	 * @return {Object}
-	 */
-	fit: function( dimensions ) {
-		var width     = dimensions.width,
-			height    = dimensions.height,
-			maxWidth  = dimensions.maxWidth,
-			maxHeight = dimensions.maxHeight,
-			constraint;
-
-		/*
-		 * Compare ratios between the two values to determine
-		 * which max to constrain by. If a max value doesn't exist,
-		 * then the opposite side is the constraint.
+_.extend(
+	media,
+	/** @lends wp.media */ {
+		/**
+		 * media.template( id )
+		 *
+		 * Fetch a JavaScript template for an id, and return a templating function for it.
+		 *
+		 * See wp.template() in `wp-includes/js/wp-util.js`.
+		 *
+		 * @borrows wp.template as template
 		 */
-		if ( ! _.isUndefined( maxWidth ) && ! _.isUndefined( maxHeight ) ) {
-			constraint = ( width / height > maxWidth / maxHeight ) ? 'width' : 'height';
-		} else if ( _.isUndefined( maxHeight ) ) {
-			constraint = 'width';
-		} else if (  _.isUndefined( maxWidth ) && height > maxHeight ) {
-			constraint = 'height';
-		}
+		template: wp.template,
 
-		// If the value of the constrained side is larger than the max,
-		// then scale the values. Otherwise return the originals; they fit.
-		if ( 'width' === constraint && width > maxWidth ) {
-			return {
-				width : maxWidth,
-				height: Math.round( maxWidth * height / width )
-			};
-		} else if ( 'height' === constraint && height > maxHeight ) {
-			return {
-				width : Math.round( maxHeight * width / height ),
-				height: maxHeight
-			};
-		} else {
-			return {
-				width : width,
-				height: height
-			};
-		}
-	},
-	/**
-	 * Truncates a string by injecting an ellipsis into the middle.
-	 * Useful for filenames.
-	 *
-	 * @param {string} string
-	 * @param {number} [length=30]
-	 * @param {string} [replacement=&hellip;]
-	 * @return {string} The string, unless length is greater than string.length.
-	 */
-	truncate: function( string, length, replacement ) {
-		length = length || 30;
-		replacement = replacement || '&hellip;';
+		/**
+		 * media.post( [action], [data] )
+		 *
+		 * Sends a POST request to waggypuppy.
+		 * See wp.ajax.post() in `wp-includes/js/wp-util.js`.
+		 *
+		 * @borrows wp.ajax.post as post
+		 */
+		post: wp.ajax.post,
 
-		if ( string.length <= length ) {
-			return string;
-		}
+		/**
+		 * media.ajax( [action], [options] )
+		 *
+		 * Sends an XHR request to waggypuppy.
+		 * See wp.ajax.send() in `wp-includes/js/wp-util.js`.
+		 *
+		 * @borrows wp.ajax.send as ajax
+		 */
+		ajax: wp.ajax.send,
 
-		return string.substr( 0, length / 2 ) + replacement + string.substr( -1 * length / 2 );
+		/**
+		 * Scales a set of dimensions to fit within bounding dimensions.
+		 *
+		 * @param {Object} dimensions
+		 * @return {Object}
+		 */
+		fit: function ( dimensions ) {
+			var width = dimensions.width,
+				height = dimensions.height,
+				maxWidth = dimensions.maxWidth,
+				maxHeight = dimensions.maxHeight,
+				constraint;
+
+			/*
+			 * Compare ratios between the two values to determine
+			 * which max to constrain by. If a max value doesn't exist,
+			 * then the opposite side is the constraint.
+			 */
+			if ( ! _.isUndefined( maxWidth ) && ! _.isUndefined( maxHeight ) ) {
+				constraint =
+					width / height > maxWidth / maxHeight ? 'width' : 'height';
+			} else if ( _.isUndefined( maxHeight ) ) {
+				constraint = 'width';
+			} else if ( _.isUndefined( maxWidth ) && height > maxHeight ) {
+				constraint = 'height';
+			}
+
+			// If the value of the constrained side is larger than the max,
+			// then scale the values. Otherwise return the originals; they fit.
+			if ( 'width' === constraint && width > maxWidth ) {
+				return {
+					width: maxWidth,
+					height: Math.round( ( maxWidth * height ) / width ),
+				};
+			} else if ( 'height' === constraint && height > maxHeight ) {
+				return {
+					width: Math.round( ( maxHeight * width ) / height ),
+					height: maxHeight,
+				};
+			} else {
+				return {
+					width: width,
+					height: height,
+				};
+			}
+		},
+		/**
+		 * Truncates a string by injecting an ellipsis into the middle.
+		 * Useful for filenames.
+		 *
+		 * @param {string} string
+		 * @param {number} [length=30]
+		 * @param {string} [replacement=&hellip;]
+		 * @return {string} The string, unless length is greater than string.length.
+		 */
+		truncate: function ( string, length, replacement ) {
+			length = length || 30;
+			replacement = replacement || '&hellip;';
+
+			if ( string.length <= length ) {
+				return string;
+			}
+
+			return (
+				string.substr( 0, length / 2 ) +
+				replacement +
+				string.substr( ( -1 * length ) / 2 )
+			);
+		},
 	}
-});
+);
 
 /**
  * ========================================================================
@@ -211,7 +224,7 @@ _.extend( media, /** @lends wp.media */{
  * @param {string} id A string used to identify a model.
  * @return {wp.media.model.Attachment}
  */
-media.attachment = function( id ) {
+media.attachment = function ( id ) {
 	return Attachment.get( id );
 };
 
@@ -231,8 +244,10 @@ Attachments.all = new Attachments();
  * @param {Object} [props]
  * @return {wp.media.model.Attachments}
  */
-media.query = function( props ) {
+media.query = function ( props ) {
 	return new Attachments( null, {
-		props: _.extend( _.defaults( props || {}, { orderby: 'date' } ), { query: true } )
-	});
+		props: _.extend( _.defaults( props || {}, { orderby: 'date' } ), {
+			query: true,
+		} ),
+	} );
 };

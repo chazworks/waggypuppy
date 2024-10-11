@@ -42,10 +42,10 @@ class Tests_Theme_GetThemeStarterContent extends WP_UnitTestCase
          * placeholder identifiers remain intact in core.
          */
         $dehydrated_starter_content = [
-            'widgets'     => [
+            'widgets' => [
                 'sidebar-1' => [
                     'text_business_info',
-                    'text_about'  => [
+                    'text_about' => [
                         'title' => 'Our Story',
                     ],
                     'archives',
@@ -64,9 +64,9 @@ class Tests_Theme_GetThemeStarterContent extends WP_UnitTestCase
                     ],
                 ],
             ],
-            'nav_menus'   => [
+            'nav_menus' => [
                 'top' => [
-                    'name'  => 'Menu Name',
+                    'name' => 'Menu Name',
                     'items' => [
                         'page_home',
                         'page_about',
@@ -86,47 +86,47 @@ class Tests_Theme_GetThemeStarterContent extends WP_UnitTestCase
                         'link_yelp',
                         'link_youtube',
                         'link_unknown',
-                        'link_custom'  => [
+                        'link_custom' => [
                             'title' => 'Custom',
-                            'url'   => 'https://custom.example.com/',
+                            'url' => 'https://custom.example.com/',
                         ],
                     ],
                 ],
             ],
-            'posts'       => [
+            'posts' => [
                 'home',
                 'about',
                 'contact',
-                'blog'   => [
-                    'template'     => 'blog.php',
+                'blog' => [
+                    'template' => 'blog.php',
                     'post_excerpt' => 'Extended',
                 ],
                 'news',
                 'homepage-section',
                 'unknown',
                 'custom' => [
-                    'post_type'  => 'post',
+                    'post_type' => 'post',
                     'post_title' => 'Custom',
-                    'thumbnail'  => '{{featured-image-logo}}',
+                    'thumbnail' => '{{featured-image-logo}}',
                 ],
             ],
             'attachments' => [
-                'featured-image-logo'    => [
-                    'post_title'   => 'Title',
+                'featured-image-logo' => [
+                    'post_title' => 'Title',
                     'post_content' => 'Description',
                     'post_excerpt' => 'Caption',
-                    'file'         => DIR_TESTDATA . '/images/waffles.jpg',
+                    'file' => DIR_TESTDATA . '/images/waffles.jpg',
                 ],
                 'featured-image-skipped' => [
                     'post_title' => 'Skipped',
                 ],
             ],
-            'options'     => [
-                'show_on_front'  => 'page',
-                'page_on_front'  => '{{home}}',
+            'options' => [
+                'show_on_front' => 'page',
+                'page_on_front' => '{{home}}',
                 'page_for_posts' => '{{blog}}',
             ],
-            'theme_mods'  => [
+            'theme_mods' => [
                 'panel_1' => '{{homepage-section}}',
                 'panel_2' => '{{about}}',
                 'panel_3' => '{{blog}}',
@@ -139,11 +139,14 @@ class Tests_Theme_GetThemeStarterContent extends WP_UnitTestCase
         $hydrated_starter_content = get_theme_starter_content();
         $this->assertSame($hydrated_starter_content['theme_mods'], $dehydrated_starter_content['theme_mods']);
         $this->assertSame($hydrated_starter_content['options'], $dehydrated_starter_content['options']);
-        $this->assertCount(16, $hydrated_starter_content['nav_menus']['top']['items'], 'Unknown should be dropped, custom should be present.');
+        $this->assertCount(16, $hydrated_starter_content['nav_menus']['top']['items'],
+            'Unknown should be dropped, custom should be present.');
         $this->assertCount(10, $hydrated_starter_content['widgets']['sidebar-1'], 'Unknown should be dropped.');
-        $this->assertCount(1, $hydrated_starter_content['attachments'], 'Attachment with missing file is filtered out.');
+        $this->assertCount(1, $hydrated_starter_content['attachments'],
+            'Attachment with missing file is filtered out.');
         $this->assertArrayHasKey('featured-image-logo', $hydrated_starter_content['attachments']);
-        $this->assertSame($dehydrated_starter_content['attachments']['featured-image-logo'], $hydrated_starter_content['attachments']['featured-image-logo']);
+        $this->assertSame($dehydrated_starter_content['attachments']['featured-image-logo'],
+            $hydrated_starter_content['attachments']['featured-image-logo']);
 
         foreach ($hydrated_starter_content['widgets']['sidebar-1'] as $widget) {
             $this->assertIsArray($widget);
@@ -153,13 +156,15 @@ class Tests_Theme_GetThemeStarterContent extends WP_UnitTestCase
             $this->assertArrayHasKey('title', $widget[1]);
         }
         $this->assertSame('text', $hydrated_starter_content['widgets']['sidebar-1'][1][0], 'Core content extended');
-        $this->assertSame('Our Story', $hydrated_starter_content['widgets']['sidebar-1'][1][1]['title'], 'Core content extended');
+        $this->assertSame('Our Story', $hydrated_starter_content['widgets']['sidebar-1'][1][1]['title'],
+            'Core content extended');
 
         foreach ($hydrated_starter_content['nav_menus']['top']['items'] as $nav_menu_item) {
             $this->assertIsArray($nav_menu_item);
-            $this->assertTrue(! empty($nav_menu_item['object_id']) || ! empty($nav_menu_item['url']));
+            $this->assertTrue(!empty($nav_menu_item['object_id']) || !empty($nav_menu_item['url']));
         }
-        $this->assertSame('Email Us', $hydrated_starter_content['nav_menus']['top']['items'][4]['title'], 'Core content extended');
+        $this->assertSame('Email Us', $hydrated_starter_content['nav_menus']['top']['items'][4]['title'],
+            'Core content extended');
 
         foreach ($hydrated_starter_content['posts'] as $key => $post) {
             $this->assertIsString($key);
@@ -168,9 +173,11 @@ class Tests_Theme_GetThemeStarterContent extends WP_UnitTestCase
             $this->assertArrayHasKey('post_type', $post);
             $this->assertArrayHasKey('post_title', $post);
         }
-        $this->assertSame('Extended', $hydrated_starter_content['posts']['blog']['post_excerpt'], 'Core content extended');
+        $this->assertSame('Extended', $hydrated_starter_content['posts']['blog']['post_excerpt'],
+            'Core content extended');
         $this->assertSame('blog.php', $hydrated_starter_content['posts']['blog']['template'], 'Core content extended');
-        $this->assertSame('{{featured-image-logo}}', $hydrated_starter_content['posts']['custom']['thumbnail'], 'Core content extended');
+        $this->assertSame('{{featured-image-logo}}', $hydrated_starter_content['posts']['custom']['thumbnail'],
+            'Core content extended');
     }
 
     /**
@@ -178,7 +185,6 @@ class Tests_Theme_GetThemeStarterContent extends WP_UnitTestCase
      */
     public function test_get_theme_starter_content_filter()
     {
-
         add_theme_support(
             'starter-content',
             [
@@ -187,7 +193,7 @@ class Tests_Theme_GetThemeStarterContent extends WP_UnitTestCase
                         'text_about',
                     ],
                 ],
-            ]
+            ],
         );
 
         add_filter('get_theme_starter_content', [$this, 'filter_theme_starter_content'], 10, 2);
@@ -201,7 +207,7 @@ class Tests_Theme_GetThemeStarterContent extends WP_UnitTestCase
      * Filter the append a widget starter content.
      *
      * @param array $content Starter content (hydrated).
-     * @param array $config  Starter content config (pre-hydrated).
+     * @param array $config Starter content config (pre-hydrated).
      * @return array Filtered starter content.
      */
     public function filter_theme_starter_content($content, $config)
@@ -212,7 +218,7 @@ class Tests_Theme_GetThemeStarterContent extends WP_UnitTestCase
             'text',
             [
                 'title' => 'Filtered Widget',
-                'text'  => 'Custom ',
+                'text' => 'Custom ',
             ],
         ];
         return $content;

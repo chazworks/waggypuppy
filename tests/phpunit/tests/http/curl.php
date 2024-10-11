@@ -21,9 +21,9 @@ class Tests_HTTP_curl extends WP_HTTP_UnitTestCase
         wp_remote_request(
             $this->file_stream_url,
             [
-                'stream'  => true,
+                'stream' => true,
                 'timeout' => 30,
-            ]
+            ],
         );
         remove_action('http_api_curl', [$this, '_action_test_http_api_curl_stream_parameter_is_a_reference'], 10);
     }

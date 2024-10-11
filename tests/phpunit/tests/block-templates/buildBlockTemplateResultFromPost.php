@@ -36,7 +36,7 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromPost extends WP_Block_Te
     {
         $template = _build_block_template_result_from_post(
             self::$template_post,
-            'wp_template'
+            'wp_template',
         );
 
         $this->assertNotWPError($template);
@@ -58,7 +58,7 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromPost extends WP_Block_Te
     {
         $template_part = _build_block_template_result_from_post(
             self::$template_part_post,
-            'wp_template_part'
+            'wp_template_part',
         );
         $this->assertNotWPError($template_part);
         $this->assertSame(get_stylesheet() . '//my_template_part', $template_part->id);
@@ -70,7 +70,8 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromPost extends WP_Block_Te
         $this->assertSame('Description of my template part', $template_part->description);
         $this->assertSame('wp_template_part', $template_part->type);
         $this->assertSame(WP_TEMPLATE_PART_AREA_HEADER, $template_part->area);
-        $this->assertSame(self::$template_part_post->post_modified, $template_part->modified, 'Template part result properties match');
+        $this->assertSame(self::$template_part_post->post_modified, $template_part->modified,
+            'Template part result properties match');
     }
 
     /**
@@ -85,12 +86,12 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromPost extends WP_Block_Te
                 'block_hooks' => [
                     'core/heading' => 'before',
                 ],
-            ]
+            ],
         );
 
         $template = _build_block_template_result_from_post(
             self::$template_post,
-            'wp_template'
+            'wp_template',
         );
         $this->assertStringStartsWith('<!-- wp:tests/my-block /-->', $template->content);
     }
@@ -107,12 +108,12 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromPost extends WP_Block_Te
                 'block_hooks' => [
                     'core/heading' => 'after',
                 ],
-            ]
+            ],
         );
 
         $template_part = _build_block_template_result_from_post(
             self::$template_part_post,
-            'wp_template_part'
+            'wp_template_part',
         );
         $this->assertStringEndsWith('<!-- wp:tests/my-block /-->', $template_part->content);
     }
@@ -130,12 +131,12 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromPost extends WP_Block_Te
                 'block_hooks' => [
                     'core/template-part' => 'first_child',
                 ],
-            ]
+            ],
         );
 
         $template_part = _build_block_template_result_from_post(
             self::$template_part_post,
-            'wp_template_part'
+            'wp_template_part',
         );
         $this->assertStringStartsWith('<!-- wp:tests/my-block /-->', $template_part->content);
     }
@@ -153,12 +154,12 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromPost extends WP_Block_Te
                 'block_hooks' => [
                     'core/template-part' => 'last_child',
                 ],
-            ]
+            ],
         );
 
         $template_part = _build_block_template_result_from_post(
             self::$template_part_post,
-            'wp_template_part'
+            'wp_template_part',
         );
         $this->assertStringEndsWith('<!-- wp:tests/my-block /-->', $template_part->content);
     }
@@ -175,12 +176,12 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromPost extends WP_Block_Te
                 'block_hooks' => [
                     'core/heading' => 'after',
                 ],
-            ]
+            ],
         );
 
         $template = _build_block_template_result_from_post(
             self::$template_post,
-            'wp_template'
+            'wp_template',
         );
         $this->assertStringNotContainsString('<!-- wp:tests/ignored /-->', $template->content);
     }
@@ -197,12 +198,12 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromPost extends WP_Block_Te
                 'block_hooks' => [
                     'core/heading' => 'after',
                 ],
-            ]
+            ],
         );
 
         $template_part = _build_block_template_result_from_post(
             self::$template_part_post,
-            'wp_template_part'
+            'wp_template_part',
         );
         $this->assertStringNotContainsString('<!-- wp:tests/ignored /-->', $template_part->content);
     }

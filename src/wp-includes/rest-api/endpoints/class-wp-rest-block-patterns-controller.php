@@ -34,7 +34,7 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller
     protected static $categories_migration = [
         'buttons' => 'call-to-action',
         'columns' => 'text',
-        'query'   => 'posts',
+        'query' => 'posts',
     ];
 
     /**
@@ -60,22 +60,22 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller
             '/' . $this->rest_base,
             [
                 [
-                    'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => [$this, 'get_items'],
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_items'],
                     'permission_callback' => [$this, 'get_items_permissions_check'],
                 ],
                 'schema' => [$this, 'get_public_item_schema'],
-            ]
+            ],
         );
     }
 
     /**
      * Checks whether a given request has permission to read block patterns.
      *
-     * @since 6.0.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
+     * @since 6.0.0
+     *
      */
     public function get_items_permissions_check($request)
     {
@@ -92,22 +92,22 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller
         return new WP_Error(
             'rest_cannot_view',
             __('Sorry, you are not allowed to view the registered block patterns.'),
-            ['status' => rest_authorization_required_code()]
+            ['status' => rest_authorization_required_code()],
         );
     }
 
     /**
      * Retrieves all block patterns.
      *
+     * @param WP_REST_Request $request Full details about the request.
+     * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      * @since 6.0.0
      * @since 6.2.0 Added migration for old core pattern categories to the new ones.
      *
-     * @param WP_REST_Request $request Full details about the request.
-     * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
     public function get_items($request)
     {
-        if (! $this->remote_patterns_loaded) {
+        if (!$this->remote_patterns_loaded) {
             // Load block patterns from w.org.
             _load_remote_block_patterns(); // Patterns with the `core` keyword.
             _load_remote_featured_patterns(); // Patterns in the `featured` category.
@@ -121,7 +121,7 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller
         foreach ($patterns as $pattern) {
             $migrated_pattern = $this->migrate_pattern_categories($pattern);
             $prepared_pattern = $this->prepare_item_for_response($migrated_pattern, $request);
-            $response[]       = $this->prepare_response_for_collection($prepared_pattern);
+            $response[] = $this->prepare_response_for_collection($prepared_pattern);
         }
         return rest_ensure_response($response);
     }
@@ -132,16 +132,16 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller
      * Core pattern categories are revamped. Migration is needed to ensure
      * backwards compatibility.
      *
-     * @since 6.2.0
-     *
      * @param array $pattern Raw pattern as registered, before applying any changes.
      * @return array Migrated pattern.
+     * @since 6.2.0
+     *
      */
     protected function migrate_pattern_categories($pattern)
     {
         // No categories to migrate.
-        if (! isset($pattern['categories']) ||
-            ! is_array($pattern['categories'])
+        if (!isset($pattern['categories'])
+            || !is_array($pattern['categories'])
         ) {
             return $pattern;
         }
@@ -159,56 +159,56 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller
     /**
      * Prepare a raw block pattern before it gets output in a REST API response.
      *
-     * @since 6.0.0
-     * @since 6.3.0 Added `source` property.
-     *
-     * @param array           $item    Raw pattern as registered, before any changes.
+     * @param array $item Raw pattern as registered, before any changes.
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     * @since 6.3.0 Added `source` property.
+     *
+     * @since 6.0.0
      */
     public function prepare_item_for_response($item, $request)
     {
         // Resolve pattern blocks so they don't need to be resolved client-side
         // in the editor, improving performance.
-        $blocks          = parse_blocks($item['content']);
-        $blocks          = resolve_pattern_blocks($blocks);
+        $blocks = parse_blocks($item['content']);
+        $blocks = resolve_pattern_blocks($blocks);
         $item['content'] = serialize_blocks($blocks);
 
         $fields = $this->get_fields_for_response($request);
-        $keys   = [
-            'name'          => 'name',
-            'title'         => 'title',
-            'content'       => 'content',
-            'description'   => 'description',
+        $keys = [
+            'name' => 'name',
+            'title' => 'title',
+            'content' => 'content',
+            'description' => 'description',
             'viewportWidth' => 'viewport_width',
-            'inserter'      => 'inserter',
-            'categories'    => 'categories',
-            'keywords'      => 'keywords',
-            'blockTypes'    => 'block_types',
-            'postTypes'     => 'post_types',
+            'inserter' => 'inserter',
+            'categories' => 'categories',
+            'keywords' => 'keywords',
+            'blockTypes' => 'block_types',
+            'postTypes' => 'post_types',
             'templateTypes' => 'template_types',
-            'source'        => 'source',
+            'source' => 'source',
         ];
-        $data   = [];
+        $data = [];
         foreach ($keys as $item_key => $rest_key) {
             if (isset($item[$item_key]) && rest_is_field_included($rest_key, $fields)) {
                 $data[$rest_key] = $item[$item_key];
             }
         }
 
-        $context = ! empty($request['context']) ? $request['context'] : 'view';
-        $data    = $this->add_additional_fields_to_object($data, $request);
-        $data    = $this->filter_response_by_context($data, $context);
+        $context = !empty($request['context']) ? $request['context'] : 'view';
+        $data = $this->add_additional_fields_to_object($data, $request);
+        $data = $this->filter_response_by_context($data, $context);
         return rest_ensure_response($data);
     }
 
     /**
      * Retrieves the block pattern schema, conforming to JSON Schema.
      *
-     * @since 6.0.0
+     * @return array Item schema data.
      * @since 6.3.0 Added `source` property.
      *
-     * @return array Item schema data.
+     * @since 6.0.0
      */
     public function get_item_schema()
     {
@@ -217,82 +217,82 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller
         }
 
         $schema = [
-            '$schema'    => 'http://json-schema.org/draft-04/schema#',
-            'title'      => 'block-pattern',
-            'type'       => 'object',
+            '$schema' => 'http://json-schema.org/draft-04/schema#',
+            'title' => 'block-pattern',
+            'type' => 'object',
             'properties' => [
-                'name'           => [
+                'name' => [
                     'description' => __('The pattern name.'),
-                    'type'        => 'string',
-                    'readonly'    => true,
-                    'context'     => ['view', 'edit', 'embed'],
+                    'type' => 'string',
+                    'readonly' => true,
+                    'context' => ['view', 'edit', 'embed'],
                 ],
-                'title'          => [
+                'title' => [
                     'description' => __('The pattern title, in human readable format.'),
-                    'type'        => 'string',
-                    'readonly'    => true,
-                    'context'     => ['view', 'edit', 'embed'],
+                    'type' => 'string',
+                    'readonly' => true,
+                    'context' => ['view', 'edit', 'embed'],
                 ],
-                'content'        => [
+                'content' => [
                     'description' => __('The pattern content.'),
-                    'type'        => 'string',
-                    'readonly'    => true,
-                    'context'     => ['view', 'edit', 'embed'],
+                    'type' => 'string',
+                    'readonly' => true,
+                    'context' => ['view', 'edit', 'embed'],
                 ],
-                'description'    => [
+                'description' => [
                     'description' => __('The pattern detailed description.'),
-                    'type'        => 'string',
-                    'readonly'    => true,
-                    'context'     => ['view', 'edit', 'embed'],
+                    'type' => 'string',
+                    'readonly' => true,
+                    'context' => ['view', 'edit', 'embed'],
                 ],
                 'viewport_width' => [
                     'description' => __('The pattern viewport width for inserter preview.'),
-                    'type'        => 'number',
-                    'readonly'    => true,
-                    'context'     => ['view', 'edit', 'embed'],
+                    'type' => 'number',
+                    'readonly' => true,
+                    'context' => ['view', 'edit', 'embed'],
                 ],
-                'inserter'       => [
+                'inserter' => [
                     'description' => __('Determines whether the pattern is visible in inserter.'),
-                    'type'        => 'boolean',
-                    'readonly'    => true,
-                    'context'     => ['view', 'edit', 'embed'],
+                    'type' => 'boolean',
+                    'readonly' => true,
+                    'context' => ['view', 'edit', 'embed'],
                 ],
-                'categories'     => [
+                'categories' => [
                     'description' => __('The pattern category slugs.'),
-                    'type'        => 'array',
-                    'readonly'    => true,
-                    'context'     => ['view', 'edit', 'embed'],
+                    'type' => 'array',
+                    'readonly' => true,
+                    'context' => ['view', 'edit', 'embed'],
                 ],
-                'keywords'       => [
+                'keywords' => [
                     'description' => __('The pattern keywords.'),
-                    'type'        => 'array',
-                    'readonly'    => true,
-                    'context'     => ['view', 'edit', 'embed'],
+                    'type' => 'array',
+                    'readonly' => true,
+                    'context' => ['view', 'edit', 'embed'],
                 ],
-                'block_types'    => [
+                'block_types' => [
                     'description' => __('Block types that the pattern is intended to be used with.'),
-                    'type'        => 'array',
-                    'readonly'    => true,
-                    'context'     => ['view', 'edit', 'embed'],
+                    'type' => 'array',
+                    'readonly' => true,
+                    'context' => ['view', 'edit', 'embed'],
                 ],
-                'post_types'     => [
+                'post_types' => [
                     'description' => __('An array of post types that the pattern is restricted to be used with.'),
-                    'type'        => 'array',
-                    'readonly'    => true,
-                    'context'     => ['view', 'edit', 'embed'],
+                    'type' => 'array',
+                    'readonly' => true,
+                    'context' => ['view', 'edit', 'embed'],
                 ],
                 'template_types' => [
                     'description' => __('An array of template types where the pattern fits.'),
-                    'type'        => 'array',
-                    'readonly'    => true,
-                    'context'     => ['view', 'edit', 'embed'],
+                    'type' => 'array',
+                    'readonly' => true,
+                    'context' => ['view', 'edit', 'embed'],
                 ],
-                'source'         => [
+                'source' => [
                     'description' => __('Where the pattern comes from e.g. core'),
-                    'type'        => 'string',
-                    'readonly'    => true,
-                    'context'     => ['view', 'edit', 'embed'],
-                    'enum'        => [
+                    'type' => 'string',
+                    'readonly' => true,
+                    'context' => ['view', 'edit', 'embed'],
+                    'enum' => [
                         'core',
                         'plugin',
                         'theme',

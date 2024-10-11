@@ -15,22 +15,26 @@ class Tests_Menu_WpNavMenuRemoveMenuItemHasChildrenClass extends WP_UnitTestCase
     {
         $classes = ['menu-item-has-children', 'menu-item', 'menu-item-123'];
 
-        $menu_item = (object) [
+        $menu_item = (object)[
             'classes' => $classes,
         ];
 
-        $args = (object) [
+        $args = (object)[
             'depth' => 2,
         ];
 
         $depth = 2;
 
         $class_names = implode(' ', apply_filters('nav_menu_css_class', array_filter($classes), $menu_item));
-        $this->assertStringContainsString('menu-item-has-children', $class_names, 'Class name should be retained when filter is called with two arguments.');
+        $this->assertStringContainsString('menu-item-has-children', $class_names,
+            'Class name should be retained when filter is called with two arguments.');
         $class_names = implode(' ', apply_filters('nav_menu_css_class', array_filter($classes), $menu_item, $args));
-        $this->assertStringContainsString('menu-item-has-children', $class_names, 'Class name should be retained when filter is called with three arguments.');
-        $class_names = implode(' ', apply_filters('nav_menu_css_class', array_filter($classes), $menu_item, $args, $depth));
-        $this->assertStringNotContainsString('menu-item-has-children', $class_names, 'Class name should not be retained when filter is called with four arguments.');
+        $this->assertStringContainsString('menu-item-has-children', $class_names,
+            'Class name should be retained when filter is called with three arguments.');
+        $class_names = implode(' ',
+            apply_filters('nav_menu_css_class', array_filter($classes), $menu_item, $args, $depth));
+        $this->assertStringNotContainsString('menu-item-has-children', $class_names,
+            'Class name should not be retained when filter is called with four arguments.');
     }
 
     /**
@@ -39,11 +43,14 @@ class Tests_Menu_WpNavMenuRemoveMenuItemHasChildrenClass extends WP_UnitTestCase
      * @dataProvider data_menu_item_has_children_class_should_be_removed_or_retained_as_expected
      * @ticket 56926
      */
-    public function test_menu_item_has_children_class_should_be_removed_or_retained_as_expected($args, $depth, $should_be_retained)
-    {
+    public function test_menu_item_has_children_class_should_be_removed_or_retained_as_expected(
+        $args,
+        $depth,
+        $should_be_retained,
+    ) {
         $classes = ['menu-item-has-children', 'menu-item', 'menu-item-123'];
 
-        $menu_item = (object) [
+        $menu_item = (object)[
             'classes' => $classes,
         ];
 
@@ -64,39 +71,39 @@ class Tests_Menu_WpNavMenuRemoveMenuItemHasChildrenClass extends WP_UnitTestCase
     public function data_menu_item_has_children_class_should_be_removed_or_retained_as_expected()
     {
         return [
-            'Depth not set'                          => [
-                'args'               => (object) ['depth' => 1],
-                'depth'              => false,
+            'Depth not set' => [
+                'args' => (object)['depth' => 1],
+                'depth' => false,
                 'should_be_retained' => true,
             ],
-            'Neither depth nor args set'             => [
-                'args'               => false,
-                'depth'              => false,
+            'Neither depth nor args set' => [
+                'args' => false,
+                'depth' => false,
                 'should_be_retained' => true,
             ],
-            'Max depth is set to minus 1'            => [
-                'args'               => (object) ['depth' => -1],
-                'depth'              => 1,
+            'Max depth is set to minus 1' => [
+                'args' => (object)['depth' => -1],
+                'depth' => 1,
                 'should_be_retained' => false,
             ],
-            'Max depth is set to zero'               => [
-                'args'               => (object) ['depth' => 0],
-                'depth'              => 1,
+            'Max depth is set to zero' => [
+                'args' => (object)['depth' => 0],
+                'depth' => 1,
                 'should_be_retained' => true,
             ],
-            'Item depth exceeds max depth'           => [
-                'args'               => (object) ['depth' => 2],
-                'depth'              => 3,
+            'Item depth exceeds max depth' => [
+                'args' => (object)['depth' => 2],
+                'depth' => 3,
                 'should_be_retained' => false,
             ],
-            'Item depth is lower than max depth'     => [
-                'args'               => (object) ['depth' => 5],
-                'depth'              => 3,
+            'Item depth is lower than max depth' => [
+                'args' => (object)['depth' => 5],
+                'depth' => 3,
                 'should_be_retained' => true,
             ],
             'Item depth is one lower than max depth' => [
-                'args'               => (object) ['depth' => 2],
-                'depth'              => 1,
+                'args' => (object)['depth' => 2],
+                'depth' => 1,
                 'should_be_retained' => false, // Depth is zero-based, max depth is not.
             ],
         ];

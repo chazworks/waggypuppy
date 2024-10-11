@@ -20,18 +20,18 @@ class WP_Application_Passwords_List_Table extends WP_List_Table
     /**
      * Gets the list of columns.
      *
+     * @return string[] Array of column titles keyed by their column name.
      * @since 5.6.0
      *
-     * @return string[] Array of column titles keyed by their column name.
      */
     public function get_columns()
     {
         return [
-            'name'      => __('Name'),
-            'created'   => __('Created'),
+            'name' => __('Name'),
+            'created' => __('Created'),
             'last_used' => __('Last Used'),
-            'last_ip'   => __('Last IP'),
-            'revoke'    => __('Revoke'),
+            'last_ip' => __('Last IP'),
+            'revoke' => __('Revoke'),
         ];
     }
 
@@ -51,9 +51,9 @@ class WP_Application_Passwords_List_Table extends WP_List_Table
     /**
      * Handles the name column output.
      *
+     * @param array $item The current application password item.
      * @since 5.6.0
      *
-     * @param array $item The current application password item.
      */
     public function column_name($item)
     {
@@ -63,9 +63,9 @@ class WP_Application_Passwords_List_Table extends WP_List_Table
     /**
      * Handles the created column output.
      *
+     * @param array $item The current application password item.
      * @since 5.6.0
      *
-     * @param array $item The current application password item.
      */
     public function column_created($item)
     {
@@ -79,9 +79,9 @@ class WP_Application_Passwords_List_Table extends WP_List_Table
     /**
      * Handles the last used column output.
      *
+     * @param array $item The current application password item.
      * @since 5.6.0
      *
-     * @param array $item The current application password item.
      */
     public function column_last_used($item)
     {
@@ -95,9 +95,9 @@ class WP_Application_Passwords_List_Table extends WP_List_Table
     /**
      * Handles the last ip column output.
      *
+     * @param array $item The current application password item.
      * @since 5.6.0
      *
-     * @param array $item The current application password item.
      */
     public function column_last_ip($item)
     {
@@ -111,9 +111,9 @@ class WP_Application_Passwords_List_Table extends WP_List_Table
     /**
      * Handles the revoke column output.
      *
+     * @param array $item The current application password item.
      * @since 5.6.0
      *
-     * @param array $item The current application password item.
      */
     public function column_revoke($item)
     {
@@ -123,17 +123,17 @@ class WP_Application_Passwords_List_Table extends WP_List_Table
             esc_attr($name),
             /* translators: %s: the application password's given name. */
             esc_attr(sprintf(__('Revoke "%s"'), $item['name'])),
-            __('Revoke')
+            __('Revoke'),
         );
     }
 
     /**
      * Generates content for a single row of the table
      *
+     * @param array $item The current item.
+     * @param string $column_name The current column name.
      * @since 5.6.0
      *
-     * @param array  $item        The current item.
-     * @param string $column_name The current column name.
      */
     protected function column_default($item, $column_name)
     {
@@ -142,10 +142,10 @@ class WP_Application_Passwords_List_Table extends WP_List_Table
          *
          * Custom columns are registered using the {@see 'manage_application-passwords-user_columns'} filter.
          *
+         * @param string $column_name Name of the custom column.
+         * @param array $item The application password item.
          * @since 5.6.0
          *
-         * @param string $column_name Name of the custom column.
-         * @param array  $item        The application password item.
          */
         do_action("manage_{$this->screen->id}_custom_column", $column_name, $item);
     }
@@ -153,9 +153,9 @@ class WP_Application_Passwords_List_Table extends WP_List_Table
     /**
      * Generates custom table navigation to prevent conflicting nonces.
      *
+     * @param string $which The location of the bulk actions: Either 'top' or 'bottom'.
      * @since 5.6.0
      *
-     * @param string $which The location of the bulk actions: Either 'top' or 'bottom'.
      */
     protected function display_tablenav($which)
     {
@@ -163,7 +163,8 @@ class WP_Application_Passwords_List_Table extends WP_List_Table
         <div class="tablenav <?php echo esc_attr($which); ?>">
             <?php if ('bottom' === $which) : ?>
                 <div class="alignright">
-                    <button type="button" name="revoke-all-application-passwords" id="revoke-all-application-passwords" class="button delete"><?php _e('Revoke all application passwords'); ?></button>
+                    <button type="button" name="revoke-all-application-passwords" id="revoke-all-application-passwords"
+                            class="button delete"><?php _e('Revoke all application passwords'); ?></button>
                 </div>
             <?php endif; ?>
             <div class="alignleft actions bulkactions">
@@ -173,7 +174,7 @@ class WP_Application_Passwords_List_Table extends WP_List_Table
             $this->extra_tablenav($which);
             $this->pagination($which);
             ?>
-            <br class="clear" />
+            <br class="clear"/>
         </div>
         <?php
     }
@@ -181,9 +182,9 @@ class WP_Application_Passwords_List_Table extends WP_List_Table
     /**
      * Generates content for a single row of the table.
      *
+     * @param array $item The current item.
      * @since 5.6.0
      *
-     * @param array $item The current item.
      */
     public function single_row($item)
     {
@@ -195,9 +196,9 @@ class WP_Application_Passwords_List_Table extends WP_List_Table
     /**
      * Gets the name of the default primary column.
      *
+     * @return string Name of the default primary column, in this case, 'name'.
      * @since 5.6.0
      *
-     * @return string Name of the default primary column, in this case, 'name'.
      */
     protected function get_default_primary_column_name()
     {
@@ -217,7 +218,7 @@ class WP_Application_Passwords_List_Table extends WP_List_Table
 
         foreach ($columns as $column_name => $display_name) {
             $is_primary = $primary === $column_name;
-            $classes    = "{$column_name} column-{$column_name}";
+            $classes = "{$column_name} column-{$column_name}";
 
             if ($is_primary) {
                 $classes .= ' has-row-actions column-primary';
@@ -238,7 +239,9 @@ class WP_Application_Passwords_List_Table extends WP_List_Table
                     echo '<# print( wp.date.dateI18n( ' . wp_json_encode(__('F j, Y')) . ', data.created ) ) #>';
                     break;
                 case 'last_used':
-                    echo '<# print( data.last_used !== null ? wp.date.dateI18n( ' . wp_json_encode(__('F j, Y')) . ", data.last_used ) : '—' ) #>";
+                    echo '<# print( data.last_used !== null ? wp.date.dateI18n( '
+                        . wp_json_encode(__('F j, Y'))
+                        . ", data.last_used ) : '—' ) #>";
                     break;
                 case 'last_ip':
                     echo "{{ data.last_ip || '—' }}";
@@ -248,7 +251,7 @@ class WP_Application_Passwords_List_Table extends WP_List_Table
                         '<button type="button" class="button delete" aria-label="%1$s">%2$s</button>',
                         /* translators: %s: the application password's given name. */
                         esc_attr(sprintf(__('Revoke "%s"'), '{{ data.name }}')),
-                        esc_html__('Revoke')
+                        esc_html__('Revoke'),
                     );
                     break;
                 default:
@@ -257,9 +260,9 @@ class WP_Application_Passwords_List_Table extends WP_List_Table
                      *
                      * Custom columns are registered using the {@see 'manage_application-passwords-user_columns'} filter.
                      *
+                     * @param string $column_name Name of the custom column.
                      * @since 5.6.0
                      *
-                     * @param string $column_name Name of the custom column.
                      */
                     do_action("manage_{$this->screen->id}_custom_column_js_template", $column_name);
                     break;
@@ -269,7 +272,7 @@ class WP_Application_Passwords_List_Table extends WP_List_Table
                 echo '<button type="button" class="toggle-row"><span class="screen-reader-text">' .
                     /* translators: Hidden accessibility text. */
                     __('Show more details') .
-                '</span></button>';
+                    '</span></button>';
             }
 
             echo '</td>';

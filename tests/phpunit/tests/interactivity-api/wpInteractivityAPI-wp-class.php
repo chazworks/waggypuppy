@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering the data_wp_class_processor functionality of the
  * WP_Interactivity_API class.
@@ -31,9 +32,9 @@ class Tests_WP_Interactivity_API_WP_Class extends WP_UnitTestCase
         $this->interactivity->state(
             'myPlugin',
             [
-                'true'  => true,
+                'true' => true,
                 'false' => false,
-            ]
+            ],
         );
     }
 
@@ -46,7 +47,7 @@ class Tests_WP_Interactivity_API_WP_Class extends WP_UnitTestCase
     private function process_directives($html)
     {
         $new_html = $this->interactivity->process_directives($html);
-        $p        = new WP_HTML_Tag_Processor($new_html);
+        $p = new WP_HTML_Tag_Processor($new_html);
         $p->next_tag();
         return [$p, $new_html];
     }
@@ -61,7 +62,7 @@ class Tests_WP_Interactivity_API_WP_Class extends WP_UnitTestCase
     public function test_wp_class_sets_class_name()
     {
         $html = '<div data-wp-class--some-class="myPlugin::state.true">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertSame('some-class', $p->get_attribute('class'));
     }
 
@@ -80,7 +81,7 @@ class Tests_WP_Interactivity_API_WP_Class extends WP_UnitTestCase
 				data-wp-class--some-class="myPlugin::state.true"
 				data-wp-class--other-class="myPlugin::state.true"
 			>Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertSame('some-class other-class', $p->get_attribute('class'));
     }
 
@@ -99,7 +100,7 @@ class Tests_WP_Interactivity_API_WP_Class extends WP_UnitTestCase
 				data-wp-class--some-class="myPlugin::state.true"
 				data-wp-class--other-class="myPlugin::state.false"
 			>Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertSame('some-class', $p->get_attribute('class'));
 
         $html = '
@@ -108,7 +109,7 @@ class Tests_WP_Interactivity_API_WP_Class extends WP_UnitTestCase
 				data-wp-class--some-class="myPlugin::state.true"
 				data-wp-class--other-class="myPlugin::state.false"
 			>Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertSame('some-class', $p->get_attribute('class'));
     }
 
@@ -122,7 +123,7 @@ class Tests_WP_Interactivity_API_WP_Class extends WP_UnitTestCase
     public function test_wp_class_sets_class_name_when_class_attribute_exists()
     {
         $html = '<div class="other-class" data-wp-class--some-class="myPlugin::state.true">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertSame('other-class some-class', $p->get_attribute('class'));
     }
 
@@ -136,7 +137,7 @@ class Tests_WP_Interactivity_API_WP_Class extends WP_UnitTestCase
     public function test_wp_class_doesnt_add_class_attribute_on_false()
     {
         $html = '<div data-wp-class--some-class="myPlugin::state.false">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertNull($p->get_attribute('class'));
     }
 
@@ -151,7 +152,7 @@ class Tests_WP_Interactivity_API_WP_Class extends WP_UnitTestCase
     public function test_wp_class_doesnt_add_class_name_on_false()
     {
         $html = '<div class="other-class" data-wp-class--some-class="myPlugin::state.false">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertSame('other-class', $p->get_attribute('class'));
     }
 
@@ -166,7 +167,7 @@ class Tests_WP_Interactivity_API_WP_Class extends WP_UnitTestCase
     public function test_wp_class_keeps_class_name_when_class_name_exists()
     {
         $html = '<div class="some-class" data-wp-class--some-class="myPlugin::state.true">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertSame('some-class', $p->get_attribute('class'));
     }
 
@@ -181,7 +182,7 @@ class Tests_WP_Interactivity_API_WP_Class extends WP_UnitTestCase
     public function test_wp_class_keeps_class_name_when_class_name_exists_and_is_not_the_only_one()
     {
         $html = '<div class="other-class some-class" data-wp-class--some-class="myPlugin::state.true">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertSame('other-class some-class', $p->get_attribute('class'));
     }
 
@@ -196,7 +197,7 @@ class Tests_WP_Interactivity_API_WP_Class extends WP_UnitTestCase
     public function test_wp_class_removes_class_attribute_when_class_name_exists_and_is_the_only_one()
     {
         $html = '<div class="some-class" data-wp-class--some-class="myPlugin::state.false">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertNull($p->get_attribute('class'));
     }
 
@@ -211,7 +212,7 @@ class Tests_WP_Interactivity_API_WP_Class extends WP_UnitTestCase
     public function test_wp_class_removes_class_name_when_class_name_exists_and_is_not_the_only_one()
     {
         $html = '<div class="other-class some-class" data-wp-class--some-class="myPlugin::state.false">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertSame('other-class', $p->get_attribute('class'));
     }
 
@@ -226,7 +227,7 @@ class Tests_WP_Interactivity_API_WP_Class extends WP_UnitTestCase
     public function test_wp_class_doesnt_remove_empty_class_attribute()
     {
         $html = '<div class data-wp-class--some-class="myPlugin::state.false">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertTrue($p->get_attribute('class'));
     }
 
@@ -241,7 +242,7 @@ class Tests_WP_Interactivity_API_WP_Class extends WP_UnitTestCase
     public function test_wp_class_doesnt_change_class_attribute_with_empty_directive_suffix()
     {
         $html = '<div class="other-class" data-wp-class="myPlugin::state.true">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertSame('other-class', $p->get_attribute('class'));
     }
 
@@ -257,7 +258,7 @@ class Tests_WP_Interactivity_API_WP_Class extends WP_UnitTestCase
     public function test_wp_class_doesnt_change_class_attribute_with_empty_value()
     {
         $html = '<div class="other-class" data-wp-class--some-class="">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertSame('other-class', $p->get_attribute('class'));
     }
 
@@ -273,7 +274,7 @@ class Tests_WP_Interactivity_API_WP_Class extends WP_UnitTestCase
     public function test_wp_class_doesnt_change_class_attribute_without_value()
     {
         $html = '<div class="other-class" data-wp-class--some-class>Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertSame('other-class', $p->get_attribute('class'));
     }
 
@@ -288,7 +289,7 @@ class Tests_WP_Interactivity_API_WP_Class extends WP_UnitTestCase
     public function test_wp_class_works_with_multiple_directives()
     {
         $html = '<div data-wp-class--some-class="myPlugin::state.true" data-wp-class--some-class="myPlugin::state.true">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertSame('some-class', $p->get_attribute('class'));
     }
 
@@ -304,17 +305,17 @@ class Tests_WP_Interactivity_API_WP_Class extends WP_UnitTestCase
     {
         $this->interactivity->state('myPlugin', ['text' => 'some text']);
         $html = '<div data-wp-class--some-class="myPlugin::state.text">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertSame('some-class', $p->get_attribute('class'));
 
         $this->interactivity->state('myPlugin', ['array' => [1, 2]]);
         $html = '<div data-wp-class--some-class="myPlugin::state.array">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertSame('some-class', $p->get_attribute('class'));
 
         $this->interactivity->state('myPlugin', ['number' => 1]);
         $html = '<div data-wp-class--some-class="myPlugin::state.number">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertSame('some-class', $p->get_attribute('class'));
     }
 
@@ -330,22 +331,22 @@ class Tests_WP_Interactivity_API_WP_Class extends WP_UnitTestCase
     {
         $this->interactivity->state('myPlugin', ['text' => '']);
         $html = '<div data-wp-class--some-class="myPlugin::state.text">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertNull($p->get_attribute('class'));
 
         $this->interactivity->state('myPlugin', ['array' => []]);
         $html = '<div data-wp-class--some-class="myPlugin::state.array">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertNull($p->get_attribute('class'));
 
         $this->interactivity->state('myPlugin', ['number' => 0]);
         $html = '<div data-wp-class--some-class="myPlugin::state.number">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertNull($p->get_attribute('class'));
 
         $this->interactivity->state('myPlugin', ['null' => null]);
         $html = '<div data-wp-class--some-class="myPlugin::state.null">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertNull($p->get_attribute('class'));
     }
 }

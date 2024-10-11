@@ -26,13 +26,13 @@ class Tests_Post_IsPostStatusViewable extends WP_UnitTestCase
      * @dataProvider data_custom_post_statuses
      *
      * @param array $cps_args Registration arguments.
-     * @param bool  $expected Expected result.
+     * @param bool $expected Expected result.
      */
     public function test_custom_post_statuses($cps_args, $expected)
     {
         register_post_status(
             'wp_tests_ps',
-            $cps_args
+            $cps_args,
         );
 
         // Test status passed as string.
@@ -56,8 +56,8 @@ class Tests_Post_IsPostStatusViewable extends WP_UnitTestCase
             [
                 [
                     'publicly_queryable' => false,
-                    '_builtin'           => false,
-                    'public'             => true,
+                    '_builtin' => false,
+                    'public' => true,
                 ],
                 false,
             ],
@@ -65,8 +65,8 @@ class Tests_Post_IsPostStatusViewable extends WP_UnitTestCase
             [
                 [
                     'publicly_queryable' => true,
-                    '_builtin'           => false,
-                    'public'             => false,
+                    '_builtin' => false,
+                    'public' => false,
                 ],
                 true,
             ],
@@ -74,8 +74,8 @@ class Tests_Post_IsPostStatusViewable extends WP_UnitTestCase
             [
                 [
                     'publicly_queryable' => false,
-                    '_builtin'           => true,
-                    'public'             => false,
+                    '_builtin' => true,
+                    'public' => false,
                 ],
                 false,
             ],
@@ -83,8 +83,8 @@ class Tests_Post_IsPostStatusViewable extends WP_UnitTestCase
             [
                 [
                     'publicly_queryable' => false,
-                    '_builtin'           => false,
-                    'public'             => true,
+                    '_builtin' => false,
+                    'public' => true,
                 ],
                 false,
             ],
@@ -92,8 +92,8 @@ class Tests_Post_IsPostStatusViewable extends WP_UnitTestCase
             [
                 [
                     'publicly_queryable' => false,
-                    '_builtin'           => true,
-                    'public'             => true,
+                    '_builtin' => true,
+                    'public' => true,
                 ],
                 true,
             ],
@@ -106,8 +106,8 @@ class Tests_Post_IsPostStatusViewable extends WP_UnitTestCase
      * @dataProvider data_built_unregistered_in_status_types
      * @ticket 49380
      *
-     * @param mixed $status   Post status to check.
-     * @param bool  $expected Expected viewable status.
+     * @param mixed $status Post status to check.
+     * @param bool $expected Expected viewable status.
      */
     public function test_built_unregistered_in_status_types($status, $expected)
     {
@@ -121,8 +121,8 @@ class Tests_Post_IsPostStatusViewable extends WP_UnitTestCase
      * Data provider for built-in and unregistered post status tests.
      *
      * @return array[] {
-     *     @type mixed $status   Post status to check.
-     *     @type bool  $expected Expected viewable status.
+     * @type mixed $status Post status to check.
+     * @type bool $expected Expected viewable status.
      * }
      */
     public function data_built_unregistered_in_status_types()
@@ -162,9 +162,9 @@ class Tests_Post_IsPostStatusViewable extends WP_UnitTestCase
             'WP_Tests_ps',
             [
                 'publicly_queryable' => true,
-                '_builtin'           => false,
-                'public'             => true,
-            ]
+                '_builtin' => false,
+                'public' => true,
+            ],
         );
 
         // Sanitized key should return true.

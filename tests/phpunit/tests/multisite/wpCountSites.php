@@ -16,51 +16,51 @@ if (is_multisite()) :
         {
             // Create a random number of sites with each status.
             $site_ids = [
-                'public'   => self::factory()->blog->create_many(
+                'public' => self::factory()->blog->create_many(
                     random_int(0, 5),
                     [
                         'public' => 1,
-                    ]
+                    ],
                 ),
                 'archived' => self::factory()->blog->create_many(
                     random_int(0, 5),
                     [
-                        'public'   => 0,
+                        'public' => 0,
                         'archived' => 1,
-                    ]
+                    ],
                 ),
-                'mature'   => self::factory()->blog->create_many(
+                'mature' => self::factory()->blog->create_many(
                     random_int(0, 5),
                     [
                         'public' => 0,
                         'mature' => 1,
-                    ]
+                    ],
                 ),
-                'spam'     => self::factory()->blog->create_many(
+                'spam' => self::factory()->blog->create_many(
                     random_int(0, 5),
                     [
                         'public' => 0,
-                        'spam'   => 1,
-                    ]
+                        'spam' => 1,
+                    ],
                 ),
-                'deleted'  => self::factory()->blog->create_many(
+                'deleted' => self::factory()->blog->create_many(
                     random_int(0, 5),
                     [
-                        'public'  => 0,
+                        'public' => 0,
                         'deleted' => 1,
-                    ]
+                    ],
                 ),
             ];
 
             $counts = wp_count_sites();
 
             $counts_by_status = array_map('count', $site_ids);
-            $expected         = array_merge(
+            $expected = array_merge(
                 ['all' => array_sum($counts_by_status)],
-                $counts_by_status
+                $counts_by_status,
             );
             // Add 1 to all & public for the main site.
-            $expected['all']    += 1;
+            $expected['all'] += 1;
             $expected['public'] += 1;
 
             $this->assertSame($expected, $counts);

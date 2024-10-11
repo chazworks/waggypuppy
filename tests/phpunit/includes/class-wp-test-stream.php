@@ -18,7 +18,7 @@
  */
 class WP_Test_Stream
 {
-    const FILE_MODE      = 0100666;
+    const FILE_MODE = 0100666;
     const DIRECTORY_MODE = 040777;
 
     /**
@@ -52,17 +52,17 @@ class WP_Test_Stream
                 'host' => '',
                 'path' => '',
             ],
-            parse_url($url)
+            parse_url($url),
         );
 
         $this->bucket = $components['host'];
-        $this->file   = $components['path'] ? $components['path'] : '/';
+        $this->file = $components['path'] ? $components['path'] : '/';
 
         if (empty($this->bucket)) {
             throw new Exception('Cannot use an empty bucket name');
         }
 
-        if (! isset(WP_Test_Stream::$data[$this->bucket])) {
+        if (!isset(WP_Test_Stream::$data[$this->bucket])) {
             WP_Test_Stream::$data[$this->bucket] = [];
         }
 
@@ -89,7 +89,7 @@ class WP_Test_Stream
      */
     public function stream_read($count)
     {
-        if (! isset($this->data_ref)) {
+        if (!isset($this->data_ref)) {
             return '';
         }
 
@@ -106,11 +106,11 @@ class WP_Test_Stream
      */
     public function stream_write($data)
     {
-        if (! isset($this->data_ref)) {
+        if (!isset($this->data_ref)) {
             $this->data_ref = '';
         }
 
-        $left  = substr($this->data_ref, 0, $this->position);
+        $left = substr($this->data_ref, 0, $this->position);
         $right = substr($this->data_ref, $this->position + strlen($data));
 
         WP_Test_Stream::$data[$this->bucket][$this->file] = $left . $data . $right;
@@ -122,11 +122,11 @@ class WP_Test_Stream
     /**
      * Seeks to specific location in a stream.
      *
-     * @see streamWrapper::stream_seek
-     *
      * @param int $offset The stream offset to seek to.
      * @param int $whence Optional. Seek position.
      * @return bool Returns true when position is updated, else false.
+     * @see streamWrapper::stream_seek
+     *
      */
     public function stream_seek($offset, $whence = SEEK_SET)
     {
@@ -179,7 +179,7 @@ class WP_Test_Stream
      */
     public function stream_eof()
     {
-        if (! isset($this->data_ref)) {
+        if (!isset($this->data_ref)) {
             return true;
         }
 
@@ -195,7 +195,7 @@ class WP_Test_Stream
     {
         $this->open($path);
         if (STREAM_META_TOUCH === $option) {
-            if (! isset($this->data_ref)) {
+            if (!isset($this->data_ref)) {
                 $this->data_ref = '';
             }
             return true;
@@ -206,12 +206,12 @@ class WP_Test_Stream
     /**
      * Creates a directory.
      *
+     * @param string $path Directory which should be created.
+     * @param int $mode The value passed to mkdir().
+     * @param int $options A bitwise mask of values, such as STREAM_MKDIR_RECURSIVE.
+     * @return bool True on success, false on failure.
      * @see streamWrapper::mkdir
      *
-     * @param string $path    Directory which should be created.
-     * @param int    $mode    The value passed to mkdir().
-     * @param int    $options A bitwise mask of values, such as STREAM_MKDIR_RECURSIVE.
-     * @return bool True on success, false on failure.
      */
     public function mkdir($path, $mode, $options)
     {
@@ -226,7 +226,7 @@ class WP_Test_Stream
             return false;
         }
 
-        $dir_ref = & $this->get_directory_ref();
+        $dir_ref = &$this->get_directory_ref();
         $dir_ref = 'DIRECTORY';
 
         return true;
@@ -241,19 +241,19 @@ class WP_Test_Stream
     private function make_stat($stats)
     {
         $defaults = [
-            'dev'     => 0,
-            'ino'     => 0,
-            'mode'    => 0,
-            'nlink'   => 0,
-            'uid'     => 0,
-            'gid'     => 0,
-            'rdev'    => 0,
-            'size'    => 0,
-            'atime'   => 0,
-            'mtime'   => 0,
-            'ctime'   => 0,
+            'dev' => 0,
+            'ino' => 0,
+            'mode' => 0,
+            'nlink' => 0,
+            'uid' => 0,
+            'gid' => 0,
+            'rdev' => 0,
+            'size' => 0,
+            'atime' => 0,
+            'mtime' => 0,
+            'ctime' => 0,
             'blksize' => 0,
-            'blocks'  => 0,
+            'blocks' => 0,
         ];
 
         return array_merge($defaults, $stats);
@@ -266,16 +266,16 @@ class WP_Test_Stream
      */
     public function stream_stat()
     {
-        $dir_ref = & $this->get_directory_ref();
+        $dir_ref = &$this->get_directory_ref();
         if (substr($this->file, -1) === '/' || isset($dir_ref)) {
             return $this->make_stat(
                 [
                     'mode' => WP_Test_Stream::DIRECTORY_MODE,
-                ]
+                ],
             );
         }
 
-        if (! isset($this->data_ref)) {
+        if (!isset($this->data_ref)) {
             return false;
         }
 
@@ -283,7 +283,7 @@ class WP_Test_Stream
             [
                 'size' => strlen($this->data_ref),
                 'mode' => WP_Test_Stream::FILE_MODE,
-            ]
+            ],
         );
     }
 
@@ -305,7 +305,7 @@ class WP_Test_Stream
      */
     public function unlink($path)
     {
-        if (! isset($this->data_ref)) {
+        if (!isset($this->data_ref)) {
             return false;
         }
         unset(WP_Test_Stream::$data[$this->bucket][$this->file]);

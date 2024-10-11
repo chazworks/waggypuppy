@@ -37,9 +37,9 @@ class Twenty_Twenty_One_Customize_Color_Control extends WP_Customize_Color_Contr
     /**
      * Enqueue control related scripts/styles.
      *
+     * @return void
      * @since Twenty Twenty-One 1.0
      *
-     * @return void
      */
     public function enqueue()
     {
@@ -51,18 +51,18 @@ class Twenty_Twenty_One_Customize_Color_Control extends WP_Customize_Color_Contr
             get_theme_file_uri('assets/js/palette-colorpicker.js'),
             ['customize-controls', 'jquery', 'customize-base', 'wp-color-picker'],
             wp_get_theme()->get('Version'),
-            false
+            false,
         );
     }
 
     /**
      * Refresh the parameters passed to the JavaScript via JSON.
      *
-     * @since Twenty Twenty-One 1.0
-     *
+     * @return void
      * @uses WP_Customize_Control::to_json()
      *
-     * @return void
+     * @since Twenty Twenty-One 1.0
+     *
      */
     public function to_json()
     {

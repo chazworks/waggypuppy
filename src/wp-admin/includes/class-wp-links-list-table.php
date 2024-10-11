@@ -20,11 +20,11 @@ class WP_Links_List_Table extends WP_List_Table
     /**
      * Constructor.
      *
-     * @since 3.1.0
-     *
+     * @param array $args An associative array of arguments.
      * @see WP_List_Table::__construct() for more information on default arguments.
      *
-     * @param array $args An associative array of arguments.
+     * @since 3.1.0
+     *
      */
     public function __construct($args = [])
     {
@@ -32,7 +32,7 @@ class WP_Links_List_Table extends WP_List_Table
             [
                 'plural' => 'bookmarks',
                 'screen' => isset($args['screen']) ? $args['screen'] : null,
-            ]
+            ],
         );
     }
 
@@ -45,7 +45,7 @@ class WP_Links_List_Table extends WP_List_Table
     }
 
     /**
-     * @global int    $cat_id
+     * @global int $cat_id
      * @global string $s
      * @global string $orderby
      * @global string $order
@@ -54,26 +54,26 @@ class WP_Links_List_Table extends WP_List_Table
     {
         global $cat_id, $s, $orderby, $order;
 
-        $cat_id  = ! empty($_REQUEST['cat_id']) ? absint($_REQUEST['cat_id']) : 0;
-        $orderby = ! empty($_REQUEST['orderby']) ? sanitize_text_field($_REQUEST['orderby']) : '';
-        $order   = ! empty($_REQUEST['order']) ? sanitize_text_field($_REQUEST['order']) : '';
-        $s       = ! empty($_REQUEST['s']) ? sanitize_text_field($_REQUEST['s']) : '';
+        $cat_id = !empty($_REQUEST['cat_id']) ? absint($_REQUEST['cat_id']) : 0;
+        $orderby = !empty($_REQUEST['orderby']) ? sanitize_text_field($_REQUEST['orderby']) : '';
+        $order = !empty($_REQUEST['order']) ? sanitize_text_field($_REQUEST['order']) : '';
+        $s = !empty($_REQUEST['s']) ? sanitize_text_field($_REQUEST['s']) : '';
 
         $args = [
             'hide_invisible' => 0,
-            'hide_empty'     => 0,
+            'hide_empty' => 0,
         ];
 
         if ('all' !== $cat_id) {
             $args['category'] = $cat_id;
         }
-        if (! empty($s)) {
+        if (!empty($s)) {
             $args['search'] = $s;
         }
-        if (! empty($orderby)) {
+        if (!empty($orderby)) {
             $args['orderby'] = $orderby;
         }
-        if (! empty($order)) {
+        if (!empty($order)) {
             $args['order'] = $order;
         }
 
@@ -92,15 +92,15 @@ class WP_Links_List_Table extends WP_List_Table
      */
     protected function get_bulk_actions()
     {
-        $actions           = [];
+        $actions = [];
         $actions['delete'] = __('Delete');
 
         return $actions;
     }
 
     /**
-     * @global int $cat_id
      * @param string $which
+     * @global int $cat_id
      */
     protected function extra_tablenav($which)
     {
@@ -113,17 +113,19 @@ class WP_Links_List_Table extends WP_List_Table
         <div class="alignleft actions">
             <?php
             $dropdown_options = [
-                'selected'        => $cat_id,
-                'name'            => 'cat_id',
-                'taxonomy'        => 'link_category',
+                'selected' => $cat_id,
+                'name' => 'cat_id',
+                'taxonomy' => 'link_category',
                 'show_option_all' => get_taxonomy('link_category')->labels->all_items,
-                'hide_empty'      => true,
-                'hierarchical'    => 1,
-                'show_count'      => 0,
-                'orderby'         => 'name',
+                'hide_empty' => true,
+                'hierarchical' => 1,
+                'show_count' => 0,
+                'orderby' => 'name',
             ];
 
-            echo '<label class="screen-reader-text" for="cat_id">' . get_taxonomy('link_category')->labels->filter_by_item . '</label>';
+            echo '<label class="screen-reader-text" for="cat_id">'
+                . get_taxonomy('link_category')->labels->filter_by_item
+                . '</label>';
 
             wp_dropdown_categories($dropdown_options);
 
@@ -139,13 +141,13 @@ class WP_Links_List_Table extends WP_List_Table
     public function get_columns()
     {
         return [
-            'cb'         => '<input type="checkbox" />',
-            'name'       => _x('Name', 'link name'),
-            'url'        => __('URL'),
+            'cb' => '<input type="checkbox" />',
+            'name' => _x('Name', 'link name'),
+            'url' => __('URL'),
             'categories' => __('Categories'),
-            'rel'        => __('Relationship'),
-            'visible'    => __('Visible'),
-            'rating'     => __('Rating'),
+            'rel' => __('Relationship'),
+            'visible' => __('Visible'),
+            'rating' => __('Rating'),
         ];
     }
 
@@ -155,19 +157,19 @@ class WP_Links_List_Table extends WP_List_Table
     protected function get_sortable_columns()
     {
         return [
-            'name'    => ['name', false, _x('Name', 'link name'), __('Table ordered by Name.'), 'asc'],
-            'url'     => ['url', false, __('URL'), __('Table ordered by URL.')],
+            'name' => ['name', false, _x('Name', 'link name'), __('Table ordered by Name.'), 'asc'],
+            'url' => ['url', false, __('URL'), __('Table ordered by URL.')],
             'visible' => ['visible', false, __('Visible'), __('Table ordered by Visibility.')],
-            'rating'  => ['rating', false, __('Rating'), __('Table ordered by Rating.')],
+            'rating' => ['rating', false, __('Rating'), __('Table ordered by Rating.')],
         ];
     }
 
     /**
      * Gets the name of the default primary column.
      *
+     * @return string Name of the default primary column, in this case, 'name'.
      * @since 4.3.0
      *
-     * @return string Name of the default primary column, in this case, 'name'.
      */
     protected function get_default_primary_column_name()
     {
@@ -177,10 +179,10 @@ class WP_Links_List_Table extends WP_List_Table
     /**
      * Handles the checkbox column output.
      *
-     * @since 4.3.0
+     * @param object $item The current link object.
      * @since 5.9.0 Renamed `$link` to `$item` to match parent class for PHP 8 named parameter support.
      *
-     * @param object $item The current link object.
+     * @since 4.3.0
      */
     public function column_cb($item)
     {
@@ -188,7 +190,8 @@ class WP_Links_List_Table extends WP_List_Table
         $link = $item;
 
         ?>
-        <input type="checkbox" name="linkcheck[]" id="cb-select-<?php echo $link->link_id; ?>" value="<?php echo esc_attr($link->link_id); ?>" />
+        <input type="checkbox" name="linkcheck[]" id="cb-select-<?php echo $link->link_id; ?>"
+               value="<?php echo esc_attr($link->link_id); ?>"/>
         <label for="cb-select-<?php echo $link->link_id; ?>">
             <span class="screen-reader-text">
             <?php
@@ -203,9 +206,9 @@ class WP_Links_List_Table extends WP_List_Table
     /**
      * Handles the link name column output.
      *
+     * @param object $link The current link object.
      * @since 4.3.0
      *
-     * @param object $link The current link object.
      */
     public function column_name($link)
     {
@@ -215,16 +218,16 @@ class WP_Links_List_Table extends WP_List_Table
             $edit_link,
             /* translators: %s: Link name. */
             esc_attr(sprintf(__('Edit &#8220;%s&#8221;'), $link->link_name)),
-            $link->link_name
+            $link->link_name,
         );
     }
 
     /**
      * Handles the link URL column output.
      *
+     * @param object $link The current link object.
      * @since 4.3.0
      *
-     * @param object $link The current link object.
      */
     public function column_url($link)
     {
@@ -235,11 +238,11 @@ class WP_Links_List_Table extends WP_List_Table
     /**
      * Handles the link categories column output.
      *
-     * @since 4.3.0
-     *
+     * @param object $link The current link object.
      * @global int $cat_id
      *
-     * @param object $link The current link object.
+     * @since 4.3.0
+     *
      */
     public function column_categories($link)
     {
@@ -252,7 +255,7 @@ class WP_Links_List_Table extends WP_List_Table
                 echo $cat->get_error_message();
             }
             $cat_name = $cat->name;
-            if ((int) $cat_id !== $category) {
+            if ((int)$cat_id !== $category) {
                 $cat_name = "<a href='link-manager.php?cat_id=$category'>$cat_name</a>";
             }
             $cat_names[] = $cat_name;
@@ -263,9 +266,9 @@ class WP_Links_List_Table extends WP_List_Table
     /**
      * Handles the link relation column output.
      *
+     * @param object $link The current link object.
      * @since 4.3.0
      *
-     * @param object $link The current link object.
      */
     public function column_rel($link)
     {
@@ -275,9 +278,9 @@ class WP_Links_List_Table extends WP_List_Table
     /**
      * Handles the link visibility column output.
      *
+     * @param object $link The current link object.
      * @since 4.3.0
      *
-     * @param object $link The current link object.
      */
     public function column_visible($link)
     {
@@ -291,9 +294,9 @@ class WP_Links_List_Table extends WP_List_Table
     /**
      * Handles the link rating column output.
      *
+     * @param object $link The current link object.
      * @since 4.3.0
      *
-     * @param object $link The current link object.
      */
     public function column_rating($link)
     {
@@ -303,11 +306,11 @@ class WP_Links_List_Table extends WP_List_Table
     /**
      * Handles the default column output.
      *
+     * @param object $item Link object.
+     * @param string $column_name Current column name.
      * @since 4.3.0
      * @since 5.9.0 Renamed `$link` to `$item` to match parent class for PHP 8 named parameter support.
      *
-     * @param object $item        Link object.
-     * @param string $column_name Current column name.
      */
     public function column_default($item, $column_name)
     {
@@ -317,10 +320,10 @@ class WP_Links_List_Table extends WP_List_Table
         /**
          * Fires for each registered custom link column.
          *
+         * @param string $column_name Name of the custom column.
+         * @param int $link_id Link ID.
          * @since 2.1.0
          *
-         * @param string $column_name Name of the custom column.
-         * @param int    $link_id     Link ID.
          */
         do_action('manage_link_custom_column', $column_name, $link->link_id);
     }
@@ -333,13 +336,13 @@ class WP_Links_List_Table extends WP_List_Table
     public function display_rows()
     {
         foreach ($this->items as $link) {
-            $link                = sanitize_bookmark($link);
-            $link->link_name     = esc_attr($link->link_name);
+            $link = sanitize_bookmark($link);
+            $link->link_name = esc_attr($link->link_name);
             $link->link_category = wp_get_link_cats($link->link_id);
             ?>
-        <tr id="link-<?php echo $link->link_id; ?>">
-            <?php $this->single_row_columns($link); ?>
-        </tr>
+            <tr id="link-<?php echo $link->link_id; ?>">
+                <?php $this->single_row_columns($link); ?>
+            </tr>
             <?php
         }
     }
@@ -347,14 +350,14 @@ class WP_Links_List_Table extends WP_List_Table
     /**
      * Generates and displays row action links.
      *
+     * @param object $item Link being acted upon.
+     * @param string $column_name Current column name.
+     * @param string $primary Primary column name.
+     * @return string Row actions output for links, or an empty string
+     *                if the current column is not the primary column.
      * @since 4.3.0
      * @since 5.9.0 Renamed `$link` to `$item` to match parent class for PHP 8 named parameter support.
      *
-     * @param object $item        Link being acted upon.
-     * @param string $column_name Current column name.
-     * @param string $primary     Primary column name.
-     * @return string Row actions output for links, or an empty string
-     *                if the current column is not the primary column.
      */
     protected function handle_row_actions($item, $column_name, $primary)
     {
@@ -367,14 +370,15 @@ class WP_Links_List_Table extends WP_List_Table
 
         $edit_link = get_edit_bookmark_link($link);
 
-        $actions           = [];
-        $actions['edit']   = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
+        $actions = [];
+        $actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
         $actions['delete'] = sprintf(
             '<a class="submitdelete" href="%s" onclick="return confirm( \'%s\' );">%s</a>',
             wp_nonce_url("link.php?action=delete&amp;link_id=$link->link_id", 'delete-bookmark_' . $link->link_id),
             /* translators: %s: Link name. */
-            esc_js(sprintf(__("You are about to delete this link '%s'\n  'Cancel' to stop, 'OK' to delete."), $link->link_name)),
-            __('Delete')
+            esc_js(sprintf(__("You are about to delete this link '%s'\n  'Cancel' to stop, 'OK' to delete."),
+                $link->link_name)),
+            __('Delete'),
         );
 
         return $this->row_actions($actions);

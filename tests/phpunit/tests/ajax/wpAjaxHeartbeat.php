@@ -26,21 +26,21 @@ class Tests_Ajax_wpAjaxHeartbeat extends WP_Ajax_UnitTestCase
      */
     protected $_post = null;
 
-    protected static $admin_id  = 0;
+    protected static $admin_id = 0;
     protected static $editor_id = 0;
     protected static $post;
     protected static $post_id;
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
-        self::$admin_id  = $factory->user->create(['role' => 'administrator']);
+        self::$admin_id = $factory->user->create(['role' => 'administrator']);
         self::$editor_id = $factory->user->create(['role' => 'editor']);
 
         // Set a user so the $post has 'post_author'.
         wp_set_current_user(self::$admin_id);
 
         self::$post_id = $factory->post->create(['post_status' => 'draft']);
-        self::$post    = get_post(self::$post_id);
+        self::$post = get_post(self::$post_id);
     }
 
     /**
@@ -52,16 +52,16 @@ class Tests_Ajax_wpAjaxHeartbeat extends WP_Ajax_UnitTestCase
         wp_set_current_user(self::$admin_id);
 
         // Set up the $_POST request.
-        $md5   = md5(uniqid());
+        $md5 = md5(uniqid());
         $_POST = [
             'action' => 'heartbeat',
             '_nonce' => wp_create_nonce('heartbeat-nonce'),
-            'data'   => [
+            'data' => [
                 'wp_autosave' => [
-                    'post_id'      => self::$post_id,
-                    '_wpnonce'     => wp_create_nonce('update-post_' . self::$post_id),
+                    'post_id' => self::$post_id,
+                    '_wpnonce' => wp_create_nonce('update-post_' . self::$post_id),
                     'post_content' => self::$post->post_content . PHP_EOL . $md5,
-                    'post_type'    => 'post',
+                    'post_type' => 'post',
                 ],
             ],
         ];
@@ -100,16 +100,16 @@ class Tests_Ajax_wpAjaxHeartbeat extends WP_Ajax_UnitTestCase
         $this->assertEquals(self::$editor_id, wp_check_post_lock(self::$post_id));
 
         // Set up the $_POST request.
-        $md5   = md5(uniqid());
+        $md5 = md5(uniqid());
         $_POST = [
             'action' => 'heartbeat',
             '_nonce' => wp_create_nonce('heartbeat-nonce'),
-            'data'   => [
+            'data' => [
                 'wp_autosave' => [
-                    'post_id'      => self::$post_id,
-                    '_wpnonce'     => wp_create_nonce('update-post_' . self::$post_id),
+                    'post_id' => self::$post_id,
+                    '_wpnonce' => wp_create_nonce('update-post_' . self::$post_id),
                     'post_content' => self::$post->post_content . PHP_EOL . $md5,
-                    'post_type'    => 'post',
+                    'post_type' => 'post',
                 ],
             ],
         ];
@@ -142,16 +142,15 @@ class Tests_Ajax_wpAjaxHeartbeat extends WP_Ajax_UnitTestCase
      */
     public function test_with_invalid_nonce()
     {
-
         wp_set_current_user(self::$admin_id);
 
         // Set up the $_POST request.
         $_POST = [
             'action' => 'heartbeat',
             '_nonce' => wp_create_nonce('heartbeat-nonce'),
-            'data'   => [
+            'data' => [
                 'wp_autosave' => [
-                    'post_id'  => self::$post_id,
+                    'post_id' => self::$post_id,
                     '_wpnonce' => substr(md5(uniqid()), 0, 10),
                 ],
             ],

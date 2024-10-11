@@ -10,16 +10,15 @@ class Tests_Canonical_Category extends WP_Canonical_UnitTestCase
     public $structure = '/%category%/%postname%/';
 
     public static $posts = [];
-    public static $cats  = [];
+    public static $cats = [];
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
-
         self::$posts[0] = $factory->post->create(['post_name' => 'post0']);
         self::$posts[1] = $factory->post->create(['post_name' => 'post1']);
-        self::$cats[0]  = $factory->category->create(['slug' => 'cat0']);
-        self::$cats[1]  = $factory->category->create(['slug' => 'cat1']);
-        self::$cats[2]  = $factory->category->create(['slug' => 'cat2']);
+        self::$cats[0] = $factory->category->create(['slug' => 'cat0']);
+        self::$cats[1] = $factory->category->create(['slug' => 'cat1']);
+        self::$cats[2] = $factory->category->create(['slug' => 'cat2']);
 
         wp_set_post_categories(self::$posts[0], self::$cats[2]);
         wp_set_post_categories(self::$posts[0], self::$cats[0]);
@@ -53,10 +52,10 @@ class Tests_Canonical_Category extends WP_Canonical_UnitTestCase
                 '/cat0/post0/',
                 [
                     'url' => '/cat0/post0/',
-                    'qv'  => [
+                    'qv' => [
                         'category_name' => 'cat0',
-                        'name'          => 'post0',
-                        'page'          => '',
+                        'name' => 'post0',
+                        'page' => '',
                     ],
                 ],
             ],
@@ -66,10 +65,10 @@ class Tests_Canonical_Category extends WP_Canonical_UnitTestCase
                 '/cat2/post0/',
                 [
                     'url' => '/cat0/post0/',
-                    'qv'  => [
+                    'qv' => [
                         'category_name' => 'cat0',
-                        'name'          => 'post0',
-                        'page'          => '',
+                        'name' => 'post0',
+                        'page' => '',
                     ],
                 ],
             ],
@@ -79,10 +78,10 @@ class Tests_Canonical_Category extends WP_Canonical_UnitTestCase
                 '/cat1/post0/',
                 [
                     'url' => '/cat0/post0/',
-                    'qv'  => [
+                    'qv' => [
                         'category_name' => 'cat0',
-                        'name'          => 'post0',
-                        'page'          => '',
+                        'name' => 'post0',
+                        'page' => '',
                     ],
                 ],
             ],
@@ -92,10 +91,10 @@ class Tests_Canonical_Category extends WP_Canonical_UnitTestCase
                 '/foo/post0/',
                 [
                     'url' => '/cat0/post0/',
-                    'qv'  => [
+                    'qv' => [
                         'category_name' => 'cat0',
-                        'name'          => 'post0',
-                        'page'          => '',
+                        'name' => 'post0',
+                        'page' => '',
                     ],
                 ],
             ],
@@ -105,10 +104,10 @@ class Tests_Canonical_Category extends WP_Canonical_UnitTestCase
                 '/cat0/post0/embed/',
                 [
                     'url' => '/cat0/post0/embed/',
-                    'qv'  => [
+                    'qv' => [
                         'category_name' => 'cat0',
-                        'name'          => 'post0',
-                        'embed'         => 'true',
+                        'name' => 'post0',
+                        'embed' => 'true',
                     ],
                 ],
             ],

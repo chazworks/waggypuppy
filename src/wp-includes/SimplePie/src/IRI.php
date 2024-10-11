@@ -12,16 +12,16 @@
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
  *
- * 	* Redistributions of source code must retain the above copyright notice, this list of
- * 	  conditions and the following disclaimer.
+ *    * Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
  *
- * 	* Redistributions in binary form must reproduce the above copyright notice, this list
- * 	  of conditions and the following disclaimer in the documentation and/or other materials
- * 	  provided with the distribution.
+ *    * Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
  *
- * 	* Neither the name of the SimplePie Team nor the names of its contributors may be used
- * 	  to endorse or promote products derived from this software without specific prior
- * 	  written permission.
+ *    * Neither the name of the SimplePie Team nor the names of its contributors may be used
+ *      to endorse or promote products derived from this software without specific prior
+ *      written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
  * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
@@ -114,21 +114,21 @@ class IRI
      */
     protected $normalization = [
         'acap' => [
-            'port' => 674
+            'port' => 674,
         ],
         'dict' => [
-            'port' => 2628
+            'port' => 2628,
         ],
         'file' => [
-            'ihost' => 'localhost'
+            'ihost' => 'localhost',
         ],
         'http' => [
             'port' => 80,
-            'ipath' => '/'
+            'ipath' => '/',
         ],
         'https' => [
             'port' => 443,
-            'ipath' => '/'
+            'ipath' => '/',
         ],
     ];
 
@@ -177,21 +177,16 @@ class IRI
         $props = get_object_vars($this);
 
         if (
-            $name === 'iri' ||
-            $name === 'uri' ||
-            $name === 'iauthority' ||
-            $name === 'authority'
+            $name === 'iri' || $name === 'uri' || $name === 'iauthority' || $name === 'authority'
         ) {
             $return = $this->{"get_$name"}();
         } elseif (array_key_exists($name, $props)) {
             $return = $this->$name;
-        }
-        // host -> ihost
+        } // host -> ihost
         elseif (($prop = 'i' . $name) && array_key_exists($prop, $props)) {
             $name = $prop;
             $return = $this->$prop;
-        }
-        // ischeme -> scheme
+        } // ischeme -> scheme
         elseif (($prop = substr($name, 1)) && array_key_exists($prop, $props)) {
             $name = $prop;
             $return = $this->$prop;
@@ -286,7 +281,8 @@ class IRI
                         if ($relative->ipath !== '') {
                             if ($relative->ipath[0] === '/') {
                                 $target->ipath = $relative->ipath;
-                            } elseif (($base->iuserinfo !== null || $base->ihost !== null || $base->port !== null) && $base->ipath === '') {
+                            } elseif (($base->iuserinfo !== null || $base->ihost !== null || $base->port !== null)
+                                && $base->ipath === '') {
                                 $target->ipath = '/' . $relative->ipath;
                             } elseif (($last_segment = strrpos($base->ipath, '/')) !== false) {
                                 $target->ipath = substr($base->ipath, 0, $last_segment + 1) . $relative->ipath;
@@ -326,7 +322,8 @@ class IRI
     protected function parse_iri($iri)
     {
         $iri = trim($iri, "\x20\x09\x0A\x0C\x0D");
-        if (preg_match('/^((?P<scheme>[^:\/?#]+):)?(\/\/(?P<authority>[^\/?#]*))?(?P<path>[^?#]*)(\?(?P<query>[^#]*))?(#(?P<fragment>.*))?$/', $iri, $match)) {
+        if (preg_match('/^((?P<scheme>[^:\/?#]+):)?(\/\/(?P<authority>[^\/?#]*))?(?P<path>[^?#]*)(\?(?P<query>[^#]*))?(#(?P<fragment>.*))?$/',
+            $iri, $match)) {
             if ($match[1] === '') {
                 $match['scheme'] = null;
             }
@@ -364,26 +361,22 @@ class IRI
                 $input = substr($input, 3);
             } elseif (strpos($input, './') === 0) {
                 $input = substr($input, 2);
-            }
-            // B: if the input buffer begins with a prefix of "/./" or "/.", where "." is a complete path segment, then replace that prefix with "/" in the input buffer; otherwise,
+            } // B: if the input buffer begins with a prefix of "/./" or "/.", where "." is a complete path segment, then replace that prefix with "/" in the input buffer; otherwise,
             elseif (strpos($input, '/./') === 0) {
                 $input = substr($input, 2);
             } elseif ($input === '/.') {
                 $input = '/';
-            }
-            // C: if the input buffer begins with a prefix of "/../" or "/..", where ".." is a complete path segment, then replace that prefix with "/" in the input buffer and remove the last segment and its preceding "/" (if any) from the output buffer; otherwise,
+            } // C: if the input buffer begins with a prefix of "/../" or "/..", where ".." is a complete path segment, then replace that prefix with "/" in the input buffer and remove the last segment and its preceding "/" (if any) from the output buffer; otherwise,
             elseif (strpos($input, '/../') === 0) {
                 $input = substr($input, 3);
                 $output = substr_replace($output, '', intval(strrpos($output, '/')));
             } elseif ($input === '/..') {
                 $input = '/';
                 $output = substr_replace($output, '', intval(strrpos($output, '/')));
-            }
-            // D: if the input buffer consists only of "." or "..", then remove that from the input buffer; otherwise,
+            } // D: if the input buffer consists only of "." or "..", then remove that from the input buffer; otherwise,
             elseif ($input === '.' || $input === '..') {
                 $input = '';
-            }
-            // E: move the first path segment in the input buffer to the end of the output buffer, including the initial "/" character (if any) and any subsequent characters up to, but not including, the next "/" character or the end of the input buffer
+            } // E: move the first path segment in the input buffer to the end of the output buffer, including the initial "/" character (if any) and any subsequent characters up to, but not including, the next "/" character or the end of the input buffer
             elseif (($pos = strpos($input, '/', 1)) !== false) {
                 $output .= substr($input, 0, $pos);
                 $input = substr_replace($input, '', 0, $pos);
@@ -407,7 +400,8 @@ class IRI
     protected function replace_invalid_with_pct_encoding($string, $extra_chars, $iprivate = false)
     {
         // Normalize as many pct-encoded sections as possible
-        $string = preg_replace_callback('/(?:%[A-Fa-f0-9]{2})+/', [$this, 'remove_iunreserved_percent_encoded'], $string);
+        $string = preg_replace_callback('/(?:%[A-Fa-f0-9]{2})+/', [$this, 'remove_iunreserved_percent_encoded'],
+            $string);
 
         // Replace invalid percent characters
         $string = preg_replace('/%(?![A-Fa-f0-9]{2})/', '%25', $string);
@@ -435,20 +429,17 @@ class IRI
                 $character = ($value & 0x1F) << 6;
                 $length = 2;
                 $remaining = 1;
-            }
-            // Three byte sequence:
+            } // Three byte sequence:
             elseif (($value & 0xF0) === 0xE0) {
                 $character = ($value & 0x0F) << 12;
                 $length = 3;
                 $remaining = 2;
-            }
-            // Four byte sequence:
+            } // Four byte sequence:
             elseif (($value & 0xF8) === 0xF0) {
                 $character = ($value & 0x07) << 18;
                 $length = 4;
                 $remaining = 3;
-            }
-            // Invalid byte:
+            } // Invalid byte:
             else {
                 $valid = false;
                 $length = 1;
@@ -463,8 +454,7 @@ class IRI
                         // Check that the byte is valid, then add it to the character:
                         if (($value & 0xC0) === 0x80) {
                             $character |= ($value & 0x3F) << (--$remaining * 6);
-                        }
-                        // If it is invalid, count the sequence as invalid and reprocess the current byte:
+                        } // If it is invalid, count the sequence as invalid and reprocess the current byte:
                         else {
                             $valid = false;
                             $position--;
@@ -562,39 +552,33 @@ class IRI
                 if ($value <= 0x7F) {
                     $character = $value;
                     $length = 1;
-                }
-                // Two byte sequence:
+                } // Two byte sequence:
                 elseif (($value & 0xE0) === 0xC0) {
                     $character = ($value & 0x1F) << 6;
                     $length = 2;
                     $remaining = 1;
-                }
-                // Three byte sequence:
+                } // Three byte sequence:
                 elseif (($value & 0xF0) === 0xE0) {
                     $character = ($value & 0x0F) << 12;
                     $length = 3;
                     $remaining = 2;
-                }
-                // Four byte sequence:
+                } // Four byte sequence:
                 elseif (($value & 0xF8) === 0xF0) {
                     $character = ($value & 0x07) << 18;
                     $length = 4;
                     $remaining = 3;
-                }
-                // Invalid byte:
+                } // Invalid byte:
                 else {
                     $valid = false;
                     $remaining = 0;
                 }
-            }
-            // Continuation byte:
+            } // Continuation byte:
             else {
                 // Check that the byte is valid, then add it to the character:
                 if (($value & 0xC0) === 0x80) {
                     $remaining--;
                     $character |= ($value & 0x3F) << ($remaining * 6);
-                }
-                // If it is invalid, count the sequence as invalid and reprocess the current byte as the start of a sequence:
+                } // If it is invalid, count the sequence as invalid and reprocess the current byte as the start of a sequence:
                 else {
                     $valid = false;
                     $remaining = 0;
@@ -650,22 +634,34 @@ class IRI
 
     protected function scheme_normalization()
     {
-        if (isset($this->normalization[$this->scheme]['iuserinfo']) && $this->iuserinfo === $this->normalization[$this->scheme]['iuserinfo']) {
+        if (isset($this->normalization[$this->scheme]['iuserinfo'])
+            && $this->iuserinfo
+            === $this->normalization[$this->scheme]['iuserinfo']) {
             $this->iuserinfo = null;
         }
-        if (isset($this->normalization[$this->scheme]['ihost']) && $this->ihost === $this->normalization[$this->scheme]['ihost']) {
+        if (isset($this->normalization[$this->scheme]['ihost'])
+            && $this->ihost
+            === $this->normalization[$this->scheme]['ihost']) {
             $this->ihost = null;
         }
-        if (isset($this->normalization[$this->scheme]['port']) && $this->port === $this->normalization[$this->scheme]['port']) {
+        if (isset($this->normalization[$this->scheme]['port'])
+            && $this->port
+            === $this->normalization[$this->scheme]['port']) {
             $this->port = null;
         }
-        if (isset($this->normalization[$this->scheme]['ipath']) && $this->ipath === $this->normalization[$this->scheme]['ipath']) {
+        if (isset($this->normalization[$this->scheme]['ipath'])
+            && $this->ipath
+            === $this->normalization[$this->scheme]['ipath']) {
             $this->ipath = '';
         }
-        if (isset($this->normalization[$this->scheme]['iquery']) && $this->iquery === $this->normalization[$this->scheme]['iquery']) {
+        if (isset($this->normalization[$this->scheme]['iquery'])
+            && $this->iquery
+            === $this->normalization[$this->scheme]['iquery']) {
             $this->iquery = null;
         }
-        if (isset($this->normalization[$this->scheme]['ifragment']) && $this->ifragment === $this->normalization[$this->scheme]['ifragment']) {
+        if (isset($this->normalization[$this->scheme]['ifragment'])
+            && $this->ifragment
+            === $this->normalization[$this->scheme]['ifragment']) {
             $this->ifragment = null;
         }
     }
@@ -682,8 +678,7 @@ class IRI
             return true;
         }
 
-        $isauthority = $this->iuserinfo !== null || $this->ihost !== null ||
-            $this->port !== null;
+        $isauthority = $this->iuserinfo !== null || $this->ihost !== null || $this->port !== null;
         if ($isauthority && $this->ipath[0] === '/') {
             return true;
         }
@@ -694,10 +689,10 @@ class IRI
 
         // Relative urls cannot have a colon in the first path segment (and the
         // slashes themselves are not included so skip the first character).
-        if (!$this->scheme && !$isauthority &&
-            strpos($this->ipath, ':') !== false &&
-            strpos($this->ipath, '/', 1) !== false &&
-            strpos($this->ipath, ':') < strpos($this->ipath, '/', 1)) {
+        if (!$this->scheme && !$isauthority && strpos($this->ipath, ':') !== false
+            && strpos($this->ipath, '/', 1)
+            !== false
+            && strpos($this->ipath, ':') < strpos($this->ipath, '/', 1)) {
             return false;
         }
 
@@ -733,13 +728,13 @@ class IRI
                 $this->ipath,
                 $this->iquery,
                 $this->ifragment,
-                $return
+                $return,
             ] = $cache[$iri];
 
             return $return;
         }
 
-        $parsed = $this->parse_iri((string) $iri);
+        $parsed = $this->parse_iri((string)$iri);
         if (!$parsed) {
             return false;
         }
@@ -758,7 +753,7 @@ class IRI
             $this->ipath,
             $this->iquery,
             $this->ifragment,
-            $return
+            $return,
         ];
 
         return $return;
@@ -812,7 +807,7 @@ class IRI
                 $this->iuserinfo,
                 $this->ihost,
                 $this->port,
-                $return
+                $return,
             ] = $cache[$authority];
 
             return $return;
@@ -834,15 +829,13 @@ class IRI
             $port = null;
         }
 
-        $return = $this->set_userinfo($iuserinfo) &&
-                  $this->set_host($remaining) &&
-                  $this->set_port($port);
+        $return = $this->set_userinfo($iuserinfo) && $this->set_host($remaining) && $this->set_port($port);
 
         $cache[$authority] = [
             $this->iuserinfo,
             $this->ihost,
             $this->port,
-            $return
+            $return,
         ];
 
         return $return;
@@ -923,7 +916,7 @@ class IRI
             $this->port = null;
             return true;
         } elseif (strspn($port, '0123456789') === strlen($port)) {
-            $this->port = (int) $port;
+            $this->port = (int)$port;
             $this->scheme_normalization();
             return true;
         }
@@ -949,16 +942,16 @@ class IRI
             $cache = [];
         }
 
-        $ipath = (string) $ipath;
+        $ipath = (string)$ipath;
 
         if (isset($cache[$ipath])) {
-            $this->ipath = $cache[$ipath][(int) ($this->scheme !== null)];
+            $this->ipath = $cache[$ipath][(int)($this->scheme !== null)];
         } else {
             $valid = $this->replace_invalid_with_pct_encoding($ipath, '!$&\'()*+,;=@:/');
             $removed = $this->remove_dot_segments($valid);
 
             $cache[$ipath] = [$valid, $removed];
-            $this->ipath =  ($this->scheme !== null) ? $removed : $valid;
+            $this->ipath = ($this->scheme !== null) ? $removed : $valid;
         }
 
         $this->scheme_normalization();

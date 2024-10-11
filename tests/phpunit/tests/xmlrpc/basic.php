@@ -43,17 +43,17 @@ class Tests_XMLRPC_Basic extends WP_XMLRPC_UnitTestCase
     public function test_multicall_invalidates_all_calls_after_invalid_call()
     {
         $editor_id = $this->make_user_by_role('editor');
-        $post_id   = self::factory()->post->create(
+        $post_id = self::factory()->post->create(
             [
                 'post_author' => $editor_id,
-            ]
+            ],
         );
 
         $method_calls = [
             // Valid login.
             [
                 'methodName' => 'wp.editPost',
-                'params'     => [
+                'params' => [
                     0,
                     'editor',
                     'editor',
@@ -66,7 +66,7 @@ class Tests_XMLRPC_Basic extends WP_XMLRPC_UnitTestCase
             // *Invalid* login.
             [
                 'methodName' => 'wp.editPost',
-                'params'     => [
+                'params' => [
                     0,
                     'editor',
                     'password',
@@ -79,7 +79,7 @@ class Tests_XMLRPC_Basic extends WP_XMLRPC_UnitTestCase
             // Valid login.
             [
                 'methodName' => 'wp.editPost',
-                'params'     => [
+                'params' => [
                     0,
                     'editor',
                     'editor',
@@ -107,7 +107,7 @@ class Tests_XMLRPC_Basic extends WP_XMLRPC_UnitTestCase
     {
         $value = new IXR_Value(['0.0' => 100]);
 
-        $return  = "<struct>\n";
+        $return = "<struct>\n";
         $return .= "  <member><name>0.0</name><value><int>100</int></value></member>\n";
         $return .= '</struct>';
 
@@ -118,7 +118,7 @@ class Tests_XMLRPC_Basic extends WP_XMLRPC_UnitTestCase
     {
         add_filter('xmlrpc_enabled', '__return_false');
         $testcase_xmlrpc_server = new wp_xmlrpc_server();
-        $result                 = $testcase_xmlrpc_server->wp_getOptions([1, 'username', 'password']);
+        $result = $testcase_xmlrpc_server->wp_getOptions([1, 'username', 'password']);
 
         $this->assertIXRError($result);
         $this->assertSame(405, $result->code);

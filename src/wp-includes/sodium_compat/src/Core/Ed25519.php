@@ -17,12 +17,12 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
     const SCALAR_BYTES = 32;
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @return string (96 bytes)
      * @throws Exception
      * @throws SodiumException
      * @throws TypeError
+     * @internal You should not use this directly from another application
+     *
      */
     public static function keypair()
     {
@@ -34,14 +34,14 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param string $pk
      * @param string $sk
      * @param string $seed
      * @return string
      * @throws SodiumException
      * @throws TypeError
+     * @internal You should not use this directly from another application
+     *
      */
     public static function seed_keypair(&$pk, &$sk, $seed)
     {
@@ -56,11 +56,11 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param string $keypair
      * @return string
      * @throws TypeError
+     * @internal You should not use this directly from another application
+     *
      */
     public static function secretkey($keypair)
     {
@@ -71,11 +71,11 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param string $keypair
      * @return string
      * @throws TypeError
+     * @internal You should not use this directly from another application
+     *
      */
     public static function publickey($keypair)
     {
@@ -86,22 +86,22 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param string $sk
      * @return string
      * @throws SodiumException
      * @throws TypeError
+     * @internal You should not use this directly from another application
+     *
      */
     public static function publickey_from_secretkey($sk)
     {
         /** @var string $sk */
         $sk = hash('sha512', self::substr($sk, 0, 32), true);
         $sk[0] = self::intToChr(
-            self::chrToInt($sk[0]) & 248
+            self::chrToInt($sk[0]) & 248,
         );
         $sk[31] = self::intToChr(
-            (self::chrToInt($sk[31]) & 63) | 64
+            (self::chrToInt($sk[31]) & 63) | 64,
         );
         return self::sk_to_pk($sk);
     }
@@ -129,8 +129,8 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
         $one_minux_y = self::fe_invert(
             self::fe_sub(
                 self::fe_1(),
-                $A->Y
-            )
+                $A->Y,
+            ),
         );
 
         # fe_1(x);
@@ -138,7 +138,7 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
         # fe_mul(x, x, one_minus_y);
         $x = self::fe_mul(
             self::fe_add(self::fe_1(), $A->Y),
-            $one_minux_y
+            $one_minux_y,
         );
 
         # fe_tobytes(curve25519_pk, x);
@@ -146,30 +146,30 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param string $sk
      * @return string
      * @throws SodiumException
      * @throws TypeError
+     * @internal You should not use this directly from another application
+     *
      */
     public static function sk_to_pk($sk)
     {
         return self::ge_p3_tobytes(
             self::ge_scalarmult_base(
-                self::substr($sk, 0, 32)
-            )
+                self::substr($sk, 0, 32),
+            ),
         );
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param string $message
      * @param string $sk
      * @return string
      * @throws SodiumException
      * @throws TypeError
+     * @internal You should not use this directly from another application
+     *
      */
     public static function sign($message, $sk)
     {
@@ -179,13 +179,13 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param string $message A signed message
-     * @param string $pk      Public key
+     * @param string $pk Public key
      * @return string         Message (without signature)
      * @throws SodiumException
      * @throws TypeError
+     * @internal You should not use this directly from another application
+     *
      */
     public static function sign_open($message, $pk)
     {
@@ -202,18 +202,18 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param string $message
      * @param string $sk
      * @return string
      * @throws SodiumException
      * @throws TypeError
+     * @internal You should not use this directly from another application
+     *
      */
     public static function sign_detached($message, $sk)
     {
         # crypto_hash_sha512(az, sk, 32);
-        $az =  hash('sha512', self::substr($sk, 0, 32), true);
+        $az = hash('sha512', self::substr($sk, 0, 32), true);
 
         # az[0] &= 248;
         # az[31] &= 63;
@@ -238,7 +238,7 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
         # ge_p3_tobytes(sig, &R);
         $nonce = self::sc_reduce($nonceHash) . self::substr($nonceHash, 32);
         $sig = self::ge_p3_tobytes(
-            self::ge_scalarmult_base($nonce)
+            self::ge_scalarmult_base($nonce),
         );
 
         # crypto_hash_sha512_init(&hs);
@@ -266,14 +266,14 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param string $sig
      * @param string $message
      * @param string $pk
      * @return bool
      * @throws SodiumException
      * @throws TypeError
+     * @internal You should not use this directly from another application
+     *
      */
     public static function verify_detached($sig, $message, $pk)
     {
@@ -310,9 +310,9 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
         $hDigest = hash(
             'sha512',
             self::substr($sig, 0, 32) .
-                self::substr($pk, 0, 32) .
-                $message,
-            true
+            self::substr($pk, 0, 32) .
+            $message,
+            true,
         );
 
         /** @var string $h */
@@ -322,7 +322,7 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
         $R = self::ge_double_scalarmult_vartime(
             $h,
             $A,
-            self::substr($sig, 32)
+            self::substr($sig, 32),
         );
 
         /** @var string $rcheck */
@@ -335,24 +335,52 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param string $S
      * @return bool
      * @throws SodiumException
      * @throws TypeError
+     * @internal You should not use this directly from another application
+     *
      */
     public static function check_S_lt_L($S)
     {
         if (self::strlen($S) < 32) {
             throw new SodiumException('Signature must be 32 bytes');
         }
-        $L = array(
-            0xed, 0xd3, 0xf5, 0x5c, 0x1a, 0x63, 0x12, 0x58,
-            0xd6, 0x9c, 0xf7, 0xa2, 0xde, 0xf9, 0xde, 0x14,
-            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10
-        );
+        $L = [
+            0xed,
+            0xd3,
+            0xf5,
+            0x5c,
+            0x1a,
+            0x63,
+            0x12,
+            0x58,
+            0xd6,
+            0x9c,
+            0xf7,
+            0xa2,
+            0xde,
+            0xf9,
+            0xde,
+            0x14,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x10,
+        ];
         $c = 0;
         $n = 1;
         $i = 32;
@@ -381,99 +409,435 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
     public static function small_order($R)
     {
         /** @var array<int, array<int, int>> $blocklist */
-        $blocklist = array(
+        $blocklist = [
             /* 0 (order 4) */
-            array(
-                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-            ),
+            [
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+            ],
             /* 1 (order 1) */
-            array(
-                0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-            ),
+            [
+                0x01,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+            ],
             /* 2707385501144840649318225287225658788936804267575313519463743609750303402022 (order 8) */
-            array(
-                0x26, 0xe8, 0x95, 0x8f, 0xc2, 0xb2, 0x27, 0xb0,
-                0x45, 0xc3, 0xf4, 0x89, 0xf2, 0xef, 0x98, 0xf0,
-                0xd5, 0xdf, 0xac, 0x05, 0xd3, 0xc6, 0x33, 0x39,
-                0xb1, 0x38, 0x02, 0x88, 0x6d, 0x53, 0xfc, 0x05
-            ),
+            [
+                0x26,
+                0xe8,
+                0x95,
+                0x8f,
+                0xc2,
+                0xb2,
+                0x27,
+                0xb0,
+                0x45,
+                0xc3,
+                0xf4,
+                0x89,
+                0xf2,
+                0xef,
+                0x98,
+                0xf0,
+                0xd5,
+                0xdf,
+                0xac,
+                0x05,
+                0xd3,
+                0xc6,
+                0x33,
+                0x39,
+                0xb1,
+                0x38,
+                0x02,
+                0x88,
+                0x6d,
+                0x53,
+                0xfc,
+                0x05,
+            ],
             /* 55188659117513257062467267217118295137698188065244968500265048394206261417927 (order 8) */
-            array(
-                0xc7, 0x17, 0x6a, 0x70, 0x3d, 0x4d, 0xd8, 0x4f,
-                0xba, 0x3c, 0x0b, 0x76, 0x0d, 0x10, 0x67, 0x0f,
-                0x2a, 0x20, 0x53, 0xfa, 0x2c, 0x39, 0xcc, 0xc6,
-                0x4e, 0xc7, 0xfd, 0x77, 0x92, 0xac, 0x03, 0x7a
-            ),
+            [
+                0xc7,
+                0x17,
+                0x6a,
+                0x70,
+                0x3d,
+                0x4d,
+                0xd8,
+                0x4f,
+                0xba,
+                0x3c,
+                0x0b,
+                0x76,
+                0x0d,
+                0x10,
+                0x67,
+                0x0f,
+                0x2a,
+                0x20,
+                0x53,
+                0xfa,
+                0x2c,
+                0x39,
+                0xcc,
+                0xc6,
+                0x4e,
+                0xc7,
+                0xfd,
+                0x77,
+                0x92,
+                0xac,
+                0x03,
+                0x7a,
+            ],
             /* p-1 (order 2) */
-            array(
-                0x13, 0xe8, 0x95, 0x8f, 0xc2, 0xb2, 0x27, 0xb0,
-                0x45, 0xc3, 0xf4, 0x89, 0xf2, 0xef, 0x98, 0xf0,
-                0xd5, 0xdf, 0xac, 0x05, 0xd3, 0xc6, 0x33, 0x39,
-                0xb1, 0x38, 0x02, 0x88, 0x6d, 0x53, 0xfc, 0x85
-            ),
+            [
+                0x13,
+                0xe8,
+                0x95,
+                0x8f,
+                0xc2,
+                0xb2,
+                0x27,
+                0xb0,
+                0x45,
+                0xc3,
+                0xf4,
+                0x89,
+                0xf2,
+                0xef,
+                0x98,
+                0xf0,
+                0xd5,
+                0xdf,
+                0xac,
+                0x05,
+                0xd3,
+                0xc6,
+                0x33,
+                0x39,
+                0xb1,
+                0x38,
+                0x02,
+                0x88,
+                0x6d,
+                0x53,
+                0xfc,
+                0x85,
+            ],
             /* p (order 4) */
-            array(
-                0xb4, 0x17, 0x6a, 0x70, 0x3d, 0x4d, 0xd8, 0x4f,
-                0xba, 0x3c, 0x0b, 0x76, 0x0d, 0x10, 0x67, 0x0f,
-                0x2a, 0x20, 0x53, 0xfa, 0x2c, 0x39, 0xcc, 0xc6,
-                0x4e, 0xc7, 0xfd, 0x77, 0x92, 0xac, 0x03, 0xfa
-            ),
+            [
+                0xb4,
+                0x17,
+                0x6a,
+                0x70,
+                0x3d,
+                0x4d,
+                0xd8,
+                0x4f,
+                0xba,
+                0x3c,
+                0x0b,
+                0x76,
+                0x0d,
+                0x10,
+                0x67,
+                0x0f,
+                0x2a,
+                0x20,
+                0x53,
+                0xfa,
+                0x2c,
+                0x39,
+                0xcc,
+                0xc6,
+                0x4e,
+                0xc7,
+                0xfd,
+                0x77,
+                0x92,
+                0xac,
+                0x03,
+                0xfa,
+            ],
             /* p+1 (order 1) */
-            array(
-                0xec, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-                0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-                0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-                0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x7f
-            ),
+            [
+                0xec,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0x7f,
+            ],
             /* p+2707385501144840649318225287225658788936804267575313519463743609750303402022 (order 8) */
-            array(
-                0xed, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-                0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-                0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-                0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x7f
-            ),
+            [
+                0xed,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0x7f,
+            ],
             /* p+55188659117513257062467267217118295137698188065244968500265048394206261417927 (order 8) */
-            array(
-                0xee, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-                0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-                0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-                0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x7f
-            ),
+            [
+                0xee,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0x7f,
+            ],
             /* 2p-1 (order 2) */
-            array(
-                0xd9, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-                0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-                0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-                0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
-            ),
+            [
+                0xd9,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+            ],
             /* 2p (order 4) */
-            array(
-                0xda, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-                0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-                0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-                0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
-            ),
+            [
+                0xda,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+            ],
             /* 2p+1 (order 1) */
-            array(
-                0xdb, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-                0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-                0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-                0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
-            )
-        );
+            [
+                0xdb,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+                0xff,
+            ],
+        ];
         /** @var int $countBlocklist */
         $countBlocklist = count($blocklist);
 
         for ($i = 0; $i < $countBlocklist; ++$i) {
             $c = 0;
             for ($j = 0; $j < 32; ++$j) {
-                $c |= self::chrToInt($R[$j]) ^ (int) $blocklist[$i][$j];
+                $c |= self::chrToInt($R[$j]) ^ (int)$blocklist[$i][$j];
             }
             if ($c === 0) {
                 return true;
@@ -505,7 +869,7 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
         do {
             $r = ParagonIE_Sodium_Compat::randombytes_buf(self::SCALAR_BYTES);
             $r[self::SCALAR_BYTES - 1] = self::intToChr(
-                self::chrToInt($r[self::SCALAR_BYTES - 1]) & 0x1f
+                self::chrToInt($r[self::SCALAR_BYTES - 1]) & 0x1f,
             );
         } while (
             !self::check_S_lt_L($r) || ParagonIE_Sodium_Compat::is_zero($r)
@@ -520,8 +884,8 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
      */
     public static function scalar_negate($s)
     {
-        $t_ = self::L . str_repeat("\x00", 32) ;
-        $s_ = $s . str_repeat("\x00", 32) ;
+        $t_ = self::L . str_repeat("\x00", 32);
+        $s_ = $s . str_repeat("\x00", 32);
         ParagonIE_Sodium_Compat::sub($t_, $s_);
         return self::sc_reduce($t_);
     }

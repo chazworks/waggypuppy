@@ -25,10 +25,10 @@ class Tests_Feed_Atom extends WP_UnitTestCase
         // Create a user.
         self::$user_id = $factory->user->create(
             [
-                'role'         => 'author',
-                'user_login'   => 'test_author',
+                'role' => 'author',
+                'user_login' => 'test_author',
                 'display_name' => 'Test A. Uthor',
-            ]
+            ],
         );
 
         // Create a taxonomy.
@@ -36,7 +36,7 @@ class Tests_Feed_Atom extends WP_UnitTestCase
             [
                 'name' => 'Test Category',
                 'slug' => 'test-cat',
-            ]
+            ],
         );
 
         $count = get_option('posts_per_rss') + 1;
@@ -45,10 +45,10 @@ class Tests_Feed_Atom extends WP_UnitTestCase
         self::$posts = $factory->post->create_many(
             $count,
             [
-                'post_author'  => self::$user_id,
+                'post_author' => self::$user_id,
                 'post_content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec velit massa, ultrices eu est suscipit, mattis posuere est. Donec vitae purus lacus. Cras vitae odio odio.',
                 'post_excerpt' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            ]
+            ],
         );
 
         // Assign a category to those posts.
@@ -67,7 +67,7 @@ class Tests_Feed_Atom extends WP_UnitTestCase
     {
         parent::set_up();
 
-        $this->post_count   = (int) get_option('posts_per_rss');
+        $this->post_count = (int)get_option('posts_per_rss');
         $this->excerpt_only = get_option('rss_use_excerpt');
     }
 
@@ -88,12 +88,11 @@ class Tests_Feed_Atom extends WP_UnitTestCase
         // Nasty hack! In the future it would better to leverage do_feed( 'atom' ).
         global $post;
         try {
-
             @require ABSPATH . 'wp-includes/feed-atom.php';
             $out = ob_get_clean();
         } catch (Exception $e) {
             $out = ob_get_clean();
-            throw( $e );
+            throw($e);
         }
         return $out;
     }
@@ -106,7 +105,7 @@ class Tests_Feed_Atom extends WP_UnitTestCase
     {
         $this->go_to('/?feed=atom');
         $feed = $this->do_atom();
-        $xml  = xml_to_array($feed);
+        $xml = xml_to_array($feed);
 
         // Get the <feed> child element of <xml>.
         $atom = xml_find($xml, 'feed');
@@ -150,7 +149,7 @@ class Tests_Feed_Atom extends WP_UnitTestCase
     {
         $this->go_to('/?feed=atom');
         $feed = $this->do_atom();
-        $xml  = xml_to_array($feed);
+        $xml = xml_to_array($feed);
 
         // Get all the <entry> child elements of the <feed> element.
         $entries = xml_find($xml, 'feed', 'entry');
@@ -163,7 +162,6 @@ class Tests_Feed_Atom extends WP_UnitTestCase
 
         // Check each of the desired entries against the known post data.
         foreach ($entries as $key => $entry) {
-
             // Get post for comparison.
             $id = xml_find($entries[$key]['child'], 'id');
             preg_match('/\?p=(\d+)/', $id[0]['content'], $matches);
@@ -171,7 +169,7 @@ class Tests_Feed_Atom extends WP_UnitTestCase
 
             // Author.
             $author = xml_find($entries[$key]['child'], 'author', 'name');
-            $user   = new WP_User($post->post_author);
+            $user = new WP_User($post->post_author);
             $this->assertSame($user->display_name, $author[0]['content']);
 
             // Title.
@@ -209,16 +207,20 @@ class Tests_Feed_Atom extends WP_UnitTestCase
             unset($terms);
 
             // Content.
-            if (! $this->excerpt_only) {
+            if (!$this->excerpt_only) {
                 $content = xml_find($entries[$key]['child'], 'content');
-                $this->assertSame(trim(apply_filters('the_content', $post->post_content)), trim($content[0]['content']));
+                $this->assertSame(trim(apply_filters('the_content', $post->post_content)),
+                    trim($content[0]['content']));
             }
 
             // Link rel="replies".
             $link_replies = xml_find($entries[$key]['child'], 'link');
             foreach ($link_replies as $link_reply) {
-                if ('replies' === $link_reply['attributes']['rel'] && 'application/atom+xml' === $link_reply['attributes']['type']) {
-                    $this->assertSame(get_post_comments_feed_link($post->ID, 'atom'), $link_reply['attributes']['href']);
+                if ('replies' === $link_reply['attributes']['rel']
+                    && 'application/atom+xml'
+                    === $link_reply['attributes']['type']) {
+                    $this->assertSame(get_post_comments_feed_link($post->ID, 'atom'),
+                        $link_reply['attributes']['href']);
                 }
             }
         }
@@ -232,47 +234,47 @@ class Tests_Feed_Atom extends WP_UnitTestCase
         $enclosures = [
             [
                 // URL, length, type.
-                'actual'   => "https://wordpress.dev/wp-content/uploads/2017/09/movie.mp4\n318465\nvideo/mp4",
+                'actual' => "https://wordpress.dev/wp-content/uploads/2017/09/movie.mp4\n318465\nvideo/mp4",
                 'expected' => [
-                    'href'   => 'https://wordpress.dev/wp-content/uploads/2017/09/movie.mp4',
+                    'href' => 'https://wordpress.dev/wp-content/uploads/2017/09/movie.mp4',
                     'length' => 318465,
-                    'type'   => 'video/mp4',
+                    'type' => 'video/mp4',
                 ],
             ],
             [
                 // URL, type, length.
-                'actual'   => "https://wordpress.dev/wp-content/uploads/2017/09/movie.mp4\nvideo/mp4\n318465",
+                'actual' => "https://wordpress.dev/wp-content/uploads/2017/09/movie.mp4\nvideo/mp4\n318465",
                 'expected' => [
-                    'href'   => 'https://wordpress.dev/wp-content/uploads/2017/09/movie.mp4',
+                    'href' => 'https://wordpress.dev/wp-content/uploads/2017/09/movie.mp4',
                     'length' => 318465,
-                    'type'   => 'video/mp4',
+                    'type' => 'video/mp4',
                 ],
             ],
             [
                 // URL, length.
-                'actual'   => "https://wordpress.dev/wp-content/uploads/2017/09/movie.mp4\n318465",
+                'actual' => "https://wordpress.dev/wp-content/uploads/2017/09/movie.mp4\n318465",
                 'expected' => [
-                    'href'   => 'https://wordpress.dev/wp-content/uploads/2017/09/movie.mp4',
+                    'href' => 'https://wordpress.dev/wp-content/uploads/2017/09/movie.mp4',
                     'length' => 318465,
-                    'type'   => '',
+                    'type' => '',
                 ],
             ],
             [
                 // URL, type.
-                'actual'   => "https://wordpress.dev/wp-content/uploads/2017/01/audio.mp3\n\naudio/mpeg",
+                'actual' => "https://wordpress.dev/wp-content/uploads/2017/01/audio.mp3\n\naudio/mpeg",
                 'expected' => [
-                    'href'   => 'https://wordpress.dev/wp-content/uploads/2017/01/audio.mp3',
+                    'href' => 'https://wordpress.dev/wp-content/uploads/2017/01/audio.mp3',
                     'length' => 0,
-                    'type'   => 'audio/mpeg',
+                    'type' => 'audio/mpeg',
                 ],
             ],
             [
                 // URL.
-                'actual'   => 'https://wordpress.dev/wp-content/uploads/2016/01/test.mp4',
+                'actual' => 'https://wordpress.dev/wp-content/uploads/2016/01/test.mp4',
                 'expected' => [
-                    'href'   => 'https://wordpress.dev/wp-content/uploads/2016/01/test.mp4',
+                    'href' => 'https://wordpress.dev/wp-content/uploads/2016/01/test.mp4',
                     'length' => 0,
-                    'type'   => '',
+                    'type' => '',
                 ],
             ],
         ];
@@ -282,15 +284,15 @@ class Tests_Feed_Atom extends WP_UnitTestCase
             add_post_meta($post_id, 'enclosure', $enclosure['actual']);
         }
         $this->go_to('/?feed=atom');
-        $feed    = $this->do_atom();
-        $xml     = xml_to_array($feed);
+        $feed = $this->do_atom();
+        $xml = xml_to_array($feed);
         $entries = xml_find($xml, 'feed', 'entry');
         $entries = array_slice($entries, 0, 1);
 
         foreach ($entries as $key => $entry) {
             $links = xml_find($entries[$key]['child'], 'link');
-            $i     = 0;
-            foreach ((array) $links as $link) {
+            $i = 0;
+            foreach ((array)$links as $link) {
                 if ('enclosure' === $link['attributes']['rel']) {
                     $this->assertSame($enclosures[$i]['expected']['href'], $link['attributes']['href']);
                     $this->assertEquals($enclosures[$i]['expected']['length'], $link['attributes']['length']);

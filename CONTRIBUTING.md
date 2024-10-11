@@ -7,7 +7,9 @@ TODO
 For the in-depth documentation, please visit the [Contributor Handbook](https://make.wp.org/core/handbook/contribute/).
 
 ## First Time?
+
 If this is your first time contributing, you may also find reviewing these guides first to be helpful:
+
 - FAQs for New Contributors: https://make.wp.org/core/handbook/tutorials/faq-for-new-contributors/
 - Contributing with Code Guide: https://make.wp.org/core/handbook/contribute/
 - WP Coding Standards: https://make.wp.org/core/handbook/best-practices/coding-standards/

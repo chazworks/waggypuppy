@@ -17,12 +17,12 @@ class Tests_Functions_wpScriptTag extends WP_UnitTestCase
             '<script src="https://localhost/PATH/FILE.js" type="application/javascript" nomodule></script>' . "\n",
             wp_get_script_tag(
                 [
-                    'type'     => 'application/javascript',
-                    'src'      => 'https://localhost/PATH/FILE.js',
-                    'async'    => false,
+                    'type' => 'application/javascript',
+                    'src' => 'https://localhost/PATH/FILE.js',
+                    'async' => false,
                     'nomodule' => true,
-                ]
-            )
+                ],
+            ),
         );
 
         remove_theme_support('html5');
@@ -31,12 +31,12 @@ class Tests_Functions_wpScriptTag extends WP_UnitTestCase
             '<script src="https://localhost/PATH/FILE.js" type="application/javascript" nomodule></script>' . "\n",
             wp_get_script_tag(
                 [
-                    'src'      => 'https://localhost/PATH/FILE.js',
-                    'type'     => 'application/javascript',
-                    'async'    => false,
+                    'src' => 'https://localhost/PATH/FILE.js',
+                    'type' => 'application/javascript',
+                    'async' => false,
                     'nomodule' => true,
-                ]
-            )
+                ],
+            ),
         );
     }
 
@@ -51,11 +51,11 @@ class Tests_Functions_wpScriptTag extends WP_UnitTestCase
             '<script src="https://localhost/PATH/FILE.js" nomodule></script>' . "\n",
             wp_get_script_tag(
                 [
-                    'src'      => 'https://localhost/PATH/FILE.js',
-                    'async'    => false,
+                    'src' => 'https://localhost/PATH/FILE.js',
+                    'async' => false,
                     'nomodule' => true,
-                ]
-            )
+                ],
+            ),
         );
 
         remove_theme_support('html5');
@@ -73,14 +73,14 @@ class Tests_Functions_wpScriptTag extends WP_UnitTestCase
                     $attributes['async'] = true;
                 }
                 return $attributes;
-            }
+            },
         );
 
         add_theme_support('html5', ['script']);
 
         $attributes = [
-            'src'      => 'https://localhost/PATH/FILE.js',
-            'id'       => 'utils-js-extra',
+            'src' => 'https://localhost/PATH/FILE.js',
+            'id' => 'utils-js-extra',
             'nomodule' => true,
         ];
 
@@ -88,8 +88,8 @@ class Tests_Functions_wpScriptTag extends WP_UnitTestCase
             wp_get_script_tag($attributes),
             get_echo(
                 'wp_print_script_tag',
-                [$attributes]
-            )
+                [$attributes],
+            ),
         );
 
         remove_theme_support('html5');
@@ -98,8 +98,8 @@ class Tests_Functions_wpScriptTag extends WP_UnitTestCase
             wp_get_script_tag($attributes),
             get_echo(
                 'wp_print_script_tag',
-                [$attributes]
-            )
+                [$attributes],
+            ),
         );
     }
 }

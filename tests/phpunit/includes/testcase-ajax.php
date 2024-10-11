@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Ajax test case class
  *
@@ -162,7 +163,7 @@ abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase
     public function tear_down()
     {
         $_POST = [];
-        $_GET  = [];
+        $_GET = [];
         unset($GLOBALS['post']);
         unset($GLOBALS['comment']);
         remove_filter('wp_die_ajax_handler', [$this, 'getDieHandler'], 1);
@@ -225,7 +226,7 @@ abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase
 
         if ('' === $this->_last_response) {
             if (is_scalar($message)) {
-                throw new WPAjaxDieStopException((string) $message);
+                throw new WPAjaxDieStopException((string)$message);
             } else {
                 throw new WPAjaxDieStopException('0');
             }
@@ -243,7 +244,7 @@ abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase
      */
     protected function _setRole($role)
     {
-        $post    = $_POST;
+        $post = $_POST;
         $user_id = self::factory()->user->create(['role' => $role]);
         wp_set_current_user($user_id);
         $_POST = array_merge($_POST, $post);
@@ -259,15 +260,14 @@ abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase
      */
     protected function _handleAjax($action)
     {
-
         // Start output buffering.
         ini_set('implicit_flush', false);
         ob_start();
 
         // Build the request.
         $_POST['action'] = $action;
-        $_GET['action']  = $action;
-        $_REQUEST        = array_merge($_POST, $_GET);
+        $_GET['action'] = $action;
+        $_REQUEST = array_merge($_POST, $_GET);
 
         // Call the hooks.
         do_action('admin_init');
@@ -275,7 +275,7 @@ abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase
 
         // Save the output.
         $buffer = ob_get_clean();
-        if (! empty($buffer)) {
+        if (!empty($buffer)) {
             $this->_last_response = $buffer;
         }
     }

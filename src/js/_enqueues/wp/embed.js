@@ -9,11 +9,15 @@
  * when the comments are not stripped out due to SCRIPT_DEBUG
  * being turned on.
  */
-(function ( window, document ) {
+( function ( window, document ) {
 	'use strict';
 
 	/* Abort for ancient browsers. */
-	if ( ! document.querySelector || ! window.addEventListener || typeof URL === 'undefined' ) {
+	if (
+		! document.querySelector ||
+		! window.addEventListener ||
+		typeof URL === 'undefined'
+	) {
 		return;
 	}
 
@@ -30,7 +34,7 @@
 	 *
 	 * @param {MessageEvent} e
 	 */
-	window.wp.receiveEmbedMessage = function( e ) {
+	window.wp.receiveEmbedMessage = function ( e ) {
 		var data = e.data;
 
 		/* Verify shape of message. */
@@ -41,10 +45,18 @@
 			return;
 		}
 
-		var iframes = document.querySelectorAll( 'iframe[data-secret="' + data.secret + '"]' ),
-			blockquotes = document.querySelectorAll( 'blockquote[data-secret="' + data.secret + '"]' ),
+		var iframes = document.querySelectorAll(
+				'iframe[data-secret="' + data.secret + '"]'
+			),
+			blockquotes = document.querySelectorAll(
+				'blockquote[data-secret="' + data.secret + '"]'
+			),
 			allowedProtocols = new RegExp( '^https?:$', 'i' ),
-			i, source, height, sourceURL, targetURL;
+			i,
+			source,
+			height,
+			sourceURL,
+			targetURL;
 
 		for ( i = 0; i < blockquotes.length; i++ ) {
 			blockquotes[ i ].style.display = 'none';
@@ -87,7 +99,9 @@
 
 	function onLoad() {
 		var iframes = document.querySelectorAll( 'iframe.wp-embedded-content' ),
-			i, source, secret;
+			i,
+			source,
+			secret;
 
 		for ( i = 0; i < iframes.length; i++ ) {
 			/** @var {IframeElement} */
@@ -106,13 +120,16 @@
 			 * loaded before wp-embed.js was loaded. When the ready message is received by the post embed window, the
 			 * window will then (re-)send the height message right away.
 			 */
-			source.contentWindow.postMessage( {
-				message: 'ready',
-				secret: secret
-			}, '*' );
+			source.contentWindow.postMessage(
+				{
+					message: 'ready',
+					secret: secret,
+				},
+				'*'
+			);
 		}
 	}
 
 	window.addEventListener( 'message', window.wp.receiveEmbedMessage, false );
 	document.addEventListener( 'DOMContentLoaded', onLoad, false );
-})( window, document );
+} )( window, document );

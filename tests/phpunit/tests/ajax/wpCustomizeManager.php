@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Testing Ajax customize manager functionality.
  *
@@ -47,7 +48,7 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$subscriber_user_id = $factory->user->create(['role' => 'subscriber']);
-        self::$admin_user_id      = $factory->user->create(['role' => 'administrator']);
+        self::$admin_user_id = $factory->user->create(['role' => 'administrator']);
     }
 
     /**
@@ -76,7 +77,7 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase
     protected function make_ajax_call($action)
     {
         $this->_last_response_parsed = null;
-        $this->_last_response        = '';
+        $this->_last_response = '';
         try {
             $this->_handleAjax($action);
         } catch (WPAjaxDieContinueException $e) {
@@ -128,11 +129,11 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase
 
         // Unauthorized.
         wp_set_current_user(self::$subscriber_user_id);
-        $nonce             = wp_create_nonce('save-customize_' . $wp_customize->get_stylesheet());
-        $_POST['nonce']    = $nonce;
-        $_GET['nonce']     = $nonce;
+        $nonce = wp_create_nonce('save-customize_' . $wp_customize->get_stylesheet());
+        $_POST['nonce'] = $nonce;
+        $_GET['nonce'] = $nonce;
         $_REQUEST['nonce'] = $nonce;
-        $exception         = null;
+        $exception = null;
         try {
             ob_start();
             $wp_customize->setup_theme();
@@ -144,17 +145,17 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase
 
         // Not called setup_theme.
         wp_set_current_user(self::$admin_user_id);
-        $nonce             = wp_create_nonce('save-customize_' . $wp_customize->get_stylesheet());
-        $_POST['nonce']    = $nonce;
-        $_GET['nonce']     = $nonce;
+        $nonce = wp_create_nonce('save-customize_' . $wp_customize->get_stylesheet());
+        $_POST['nonce'] = $nonce;
+        $_GET['nonce'] = $nonce;
         $_REQUEST['nonce'] = $nonce;
         $this->make_ajax_call('customize_save');
         $this->assertFalse($this->_last_response_parsed['success']);
         $this->assertSame('not_preview', $this->_last_response_parsed['data']);
 
         // Bad nonce.
-        $_POST['nonce']    = 'bad';
-        $_GET['nonce']     = 'bad';
+        $_POST['nonce'] = 'bad';
+        $_GET['nonce'] = 'bad';
         $_REQUEST['nonce'] = 'bad';
         $wp_customize->setup_theme();
         $this->make_ajax_call('customize_save');
@@ -162,11 +163,11 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase
         $this->assertSame('invalid_nonce', $this->_last_response_parsed['data']);
 
         // User cannot create.
-        $nonce                            = wp_create_nonce('save-customize_' . $wp_customize->get_stylesheet());
-        $_POST['nonce']                   = $nonce;
-        $_GET['nonce']                    = $nonce;
-        $_REQUEST['nonce']                = $nonce;
-        $post_type_obj                    = get_post_type_object('customize_changeset');
+        $nonce = wp_create_nonce('save-customize_' . $wp_customize->get_stylesheet());
+        $_POST['nonce'] = $nonce;
+        $_GET['nonce'] = $nonce;
+        $_REQUEST['nonce'] = $nonce;
+        $post_type_obj = get_post_type_object('customize_changeset');
         $post_type_obj->cap->create_posts = 'create_customize_changesets';
         $this->make_ajax_call('customize_save');
         $this->assertFalse($this->_last_response_parsed['success']);
@@ -184,13 +185,13 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase
         $this->assertSame('changeset_already_published', $this->_last_response_parsed['data']['code']);
         wp_update_post(
             [
-                'ID'          => $wp_customize->changeset_post_id(),
+                'ID' => $wp_customize->changeset_post_id(),
                 'post_status' => 'auto-draft',
-            ]
+            ],
         );
 
         // User cannot edit.
-        $post_type_obj                 = get_post_type_object('customize_changeset');
+        $post_type_obj = get_post_type_object('customize_changeset');
         $post_type_obj->cap->edit_post = 'edit_customize_changesets';
         $this->make_ajax_call('customize_save');
         $this->assertFalse($this->_last_response_parsed['success']);
@@ -207,15 +208,15 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase
         $this->assertSame('invalid_customize_changeset_data', $this->_last_response_parsed['data']);
 
         // Bad customize_changeset_status.
-        $_POST['customize_changeset_data']   = '{}';
+        $_POST['customize_changeset_data'] = '{}';
         $_POST['customize_changeset_status'] = 'unrecognized';
         $this->make_ajax_call('customize_save');
         $this->assertFalse($this->_last_response_parsed['success']);
         $this->assertSame('bad_customize_changeset_status', $this->_last_response_parsed['data']);
 
         // Disallowed publish posts if not allowed.
-        $post_type_obj                       = get_post_type_object('customize_changeset');
-        $post_type_obj->cap->publish_posts   = 'publish_customize_changesets';
+        $post_type_obj = get_post_type_object('customize_changeset');
+        $post_type_obj->cap->publish_posts = 'publish_customize_changesets';
         $_POST['customize_changeset_status'] = 'publish';
         $this->make_ajax_call('customize_save');
         $this->assertFalse($this->_last_response_parsed['success']);
@@ -228,7 +229,7 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase
 
         // Validate date.
         $_POST['customize_changeset_status'] = 'draft';
-        $_POST['customize_changeset_date']   = 'BAD DATE';
+        $_POST['customize_changeset_date'] = 'BAD DATE';
         $this->make_ajax_call('customize_save');
         $this->assertFalse($this->_last_response_parsed['success']);
         $this->assertSame('bad_customize_changeset_date', $this->_last_response_parsed['data']);
@@ -240,15 +241,15 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase
         $this->make_ajax_call('customize_save');
         $this->assertTrue($this->_last_response_parsed['success']);
         $_POST['customize_changeset_status'] = 'future';
-        $_POST['customize_changeset_date']   = '+10 minutes';
+        $_POST['customize_changeset_date'] = '+10 minutes';
         $this->make_ajax_call('customize_save');
         $this->assertTrue($this->_last_response_parsed['success']);
         $this->assertSame('future', get_post_status($wp_customize->changeset_post_id()));
         wp_update_post(
             [
-                'ID'          => $wp_customize->changeset_post_id(),
+                'ID' => $wp_customize->changeset_post_id(),
                 'post_status' => 'auto-draft',
-            ]
+            ],
         );
     }
 
@@ -265,12 +266,12 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase
         $wp_customize = new WP_Customize_Manager(
             [
                 'changeset_uuid' => $uuid,
-            ]
+            ],
         );
         $wp_customize->register_controls();
-        $nonce             = wp_create_nonce('save-customize_' . $wp_customize->get_stylesheet());
-        $_POST['nonce']    = $nonce;
-        $_GET['nonce']     = $nonce;
+        $nonce = wp_create_nonce('save-customize_' . $wp_customize->get_stylesheet());
+        $_POST['nonce'] = $nonce;
+        $_GET['nonce'] = $nonce;
         $_REQUEST['nonce'] = $nonce;
         $wp_customize->setup_theme();
         return $wp_customize;
@@ -288,13 +289,13 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase
         $wp_customize = $this->set_up_valid_state();
 
         $_POST['customize_changeset_status'] = 'publish';
-        $_POST['customize_changeset_title']  = 'Success Changeset';
-        $_POST['customize_changeset_data']   = wp_json_encode(
+        $_POST['customize_changeset_title'] = 'Success Changeset';
+        $_POST['customize_changeset_data'] = wp_json_encode(
             [
                 'blogname' => [
                     'value' => 'Successful Site Title',
                 ],
-            ]
+            ],
         );
         $this->make_ajax_call('customize_save');
         $this->assertTrue($this->_last_response_parsed['success']);
@@ -318,25 +319,25 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase
     {
         $uuid = wp_generate_uuid4();
 
-        $post_id      = self::factory()->post->create(
+        $post_id = self::factory()->post->create(
             [
-                'post_name'    => $uuid,
-                'post_title'   => 'Original',
-                'post_type'    => 'customize_changeset',
-                'post_status'  => 'auto-draft',
+                'post_name' => $uuid,
+                'post_title' => 'Original',
+                'post_type' => 'customize_changeset',
+                'post_status' => 'auto-draft',
                 'post_content' => wp_json_encode(
                     [
                         'blogname' => [
                             'value' => 'New Site Title',
                         ],
-                    ]
+                    ],
                 ),
-            ]
+            ],
         );
         $wp_customize = $this->set_up_valid_state($uuid);
 
         $_POST['customize_changeset_status'] = 'publish';
-        $_POST['customize_changeset_title']  = 'Published';
+        $_POST['customize_changeset_title'] = 'Published';
         $this->make_ajax_call('customize_save');
         $this->assertTrue($this->_last_response_parsed['success']);
         $this->assertIsArray($this->_last_response_parsed['data']);
@@ -357,29 +358,29 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase
      */
     public function test_success_save_post_date()
     {
-        $uuid         = wp_generate_uuid4();
-        $post_id      = self::factory()->post->create(
+        $uuid = wp_generate_uuid4();
+        $post_id = self::factory()->post->create(
             [
-                'post_name'    => $uuid,
-                'post_title'   => 'Original',
-                'post_type'    => 'customize_changeset',
-                'post_status'  => 'auto-draft',
+                'post_name' => $uuid,
+                'post_title' => 'Original',
+                'post_type' => 'customize_changeset',
+                'post_status' => 'auto-draft',
                 'post_content' => wp_json_encode(
                     [
                         'blogname' => [
                             'value' => 'New Site Title',
                         ],
-                    ]
+                    ],
                 ),
-            ]
+            ],
         );
         $wp_customize = $this->set_up_valid_state($uuid);
 
         // Success future schedule date.
-        $future_date                         = (gmdate('Y') + 1) . '-01-01 00:00:00';
+        $future_date = (gmdate('Y') + 1) . '-01-01 00:00:00';
         $_POST['customize_changeset_status'] = 'future';
-        $_POST['customize_changeset_title']  = 'Future date';
-        $_POST['customize_changeset_date']   = $future_date;
+        $_POST['customize_changeset_title'] = 'Future date';
+        $_POST['customize_changeset_date'] = $future_date;
         $this->make_ajax_call('customize_save');
         $this->assertTrue($this->_last_response_parsed['success']);
         $this->assertArrayHasKey('changeset_date', $this->_last_response_parsed['data']);
@@ -406,11 +407,11 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase
         $now = current_time('mysql');
         wp_update_post(
             [
-                'ID'            => $post_id,
-                'post_status'   => 'draft',
-                'post_date'     => $now,
+                'ID' => $post_id,
+                'post_status' => 'draft',
+                'post_date' => $now,
                 'post_date_gmt' => get_gmt_from_date($now),
-            ]
+            ],
         );
 
         // Fail if future request and existing date is past.
@@ -423,11 +424,11 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase
         // Success publish changeset reset date to current.
         wp_update_post(
             [
-                'ID'            => $post_id,
-                'post_status'   => 'future',
-                'post_date'     => $future_date,
+                'ID' => $post_id,
+                'post_status' => 'future',
+                'post_date' => $future_date,
                 'post_date_gmt' => get_gmt_from_date($future_date),
-            ]
+            ],
         );
         unset($_POST['customize_changeset_date']);
         $_POST['customize_changeset_status'] = 'publish';
@@ -461,17 +462,17 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase
 
         $post_id = self::factory()->post->create(
             [
-                'post_name'    => $uuid,
-                'post_type'    => 'customize_changeset',
-                'post_status'  => 'draft',
+                'post_name' => $uuid,
+                'post_type' => 'customize_changeset',
+                'post_status' => 'draft',
                 'post_content' => wp_json_encode(
                     [
                         'blogname' => [
                             'value' => 'New Site Title',
                         ],
-                    ]
+                    ],
                 ),
-            ]
+            ],
         );
         $this->set_up_valid_state($uuid);
 
@@ -482,7 +483,7 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase
                 'blogname' => [
                     'value' => 'Autosaved Site Title',
                 ],
-            ]
+            ],
         );
 
         $_POST['customize_changeset_autosave'] = 'on';
@@ -505,16 +506,16 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase
      */
     public function test_handle_changeset_trash_request()
     {
-        $uuid         = wp_generate_uuid4();
+        $uuid = wp_generate_uuid4();
         $wp_customize = $this->set_up_valid_state($uuid);
 
         $this->make_ajax_call('customize_trash');
         $this->assertFalse($this->_last_response_parsed['success']);
         $this->assertSame('invalid_nonce', $this->_last_response_parsed['data']['code']);
 
-        $nonce             = wp_create_nonce('trash_customize_changeset');
-        $_POST['nonce']    = $nonce;
-        $_GET['nonce']     = $nonce;
+        $nonce = wp_create_nonce('trash_customize_changeset');
+        $_POST['nonce'] = $nonce;
+        $_GET['nonce'] = $nonce;
         $_REQUEST['nonce'] = $nonce;
         $this->make_ajax_call('customize_trash');
         $this->assertFalse($this->_last_response_parsed['success']);
@@ -525,7 +526,7 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase
         $wp_customize->save_changeset_post(
             [
                 'status' => 'save',
-            ]
+            ],
         );
 
         add_filter('map_meta_cap', [$this, 'return_do_not_allow']);
@@ -534,7 +535,7 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase
         $this->assertSame('changeset_trash_unauthorized', $this->_last_response_parsed['data']['code']);
         remove_filter('map_meta_cap', [$this, 'return_do_not_allow']);
 
-        $lock_user_id  = static::factory()->user->create(['role' => 'administrator']);
+        $lock_user_id = static::factory()->user->create(['role' => 'administrator']);
         $previous_user = get_current_user_id();
         wp_set_current_user($lock_user_id);
         $wp_customize->set_changeset_lock($wp_customize->changeset_post_id());
@@ -546,9 +547,9 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase
 
         wp_update_post(
             [
-                'ID'          => $wp_customize->changeset_post_id(),
+                'ID' => $wp_customize->changeset_post_id(),
                 'post_status' => 'trash',
-            ]
+            ],
         );
         $this->make_ajax_call('customize_trash');
         $this->assertFalse($this->_last_response_parsed['success']);
@@ -556,9 +557,9 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase
 
         wp_update_post(
             [
-                'ID'          => $wp_customize->changeset_post_id(),
+                'ID' => $wp_customize->changeset_post_id(),
                 'post_status' => 'draft',
-            ]
+            ],
         );
 
         $wp_trash_post_count = did_action('wp_trash_post');
@@ -596,8 +597,8 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase
      */
     public function test_handle_dismiss_autosave_or_lock_request()
     {
-        $uuid          = wp_generate_uuid4();
-        $wp_customize  = $this->set_up_valid_state($uuid);
+        $uuid = wp_generate_uuid4();
+        $wp_customize = $this->set_up_valid_state($uuid);
         $valid_user_id = get_current_user_id();
 
         // Temporarily remove user to test requirement that user is logged in. See #42450.
@@ -611,20 +612,20 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase
         $this->assertFalse($this->_last_response_parsed['success']);
         $this->assertSame('invalid_nonce', $this->_last_response_parsed['data']);
 
-        $nonce             = wp_create_nonce('customize_dismiss_autosave_or_lock');
-        $_POST['nonce']    = $nonce;
-        $_GET['nonce']     = $nonce;
+        $nonce = wp_create_nonce('customize_dismiss_autosave_or_lock');
+        $_POST['nonce'] = $nonce;
+        $_GET['nonce'] = $nonce;
         $_REQUEST['nonce'] = $nonce;
 
-        $_POST['dismiss_lock']    = true;
-        $_GET['dismiss_lock']     = true;
+        $_POST['dismiss_lock'] = true;
+        $_GET['dismiss_lock'] = true;
         $_REQUEST['dismiss_lock'] = true;
         $this->make_ajax_call('customize_dismiss_autosave_or_lock');
         $this->assertFalse($this->_last_response_parsed['success']);
         $this->assertSame('no_changeset_to_dismiss_lock', $this->_last_response_parsed['data']);
 
-        $_POST['dismiss_autosave']    = true;
-        $_GET['dismiss_autosave']     = true;
+        $_POST['dismiss_autosave'] = true;
+        $_GET['dismiss_autosave'] = true;
         $_REQUEST['dismiss_autosave'] = true;
         $this->make_ajax_call('customize_dismiss_autosave_or_lock');
         $this->assertFalse($this->_last_response_parsed['success']);
@@ -637,39 +638,39 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase
         for ($i = 0; $i < 3; $i++) {
             $user_auto_draft_ids[] = self::factory()->post->create(
                 [
-                    'post_name'    => wp_generate_uuid4(),
-                    'post_type'    => 'customize_changeset',
-                    'post_status'  => 'auto-draft',
-                    'post_author'  => self::$admin_user_id,
+                    'post_name' => wp_generate_uuid4(),
+                    'post_type' => 'customize_changeset',
+                    'post_status' => 'auto-draft',
+                    'post_author' => self::$admin_user_id,
                     'post_content' => wp_json_encode([]),
-                ]
+                ],
             );
         }
         $other_user_auto_draft_ids = [];
         for ($i = 0; $i < 3; $i++) {
             $other_user_auto_draft_ids[] = self::factory()->post->create(
                 [
-                    'post_name'    => wp_generate_uuid4(),
-                    'post_type'    => 'customize_changeset',
-                    'post_status'  => 'auto-draft',
-                    'post_author'  => $other_user_id,
+                    'post_name' => wp_generate_uuid4(),
+                    'post_type' => 'customize_changeset',
+                    'post_status' => 'auto-draft',
+                    'post_author' => $other_user_id,
                     'post_content' => wp_json_encode([]),
-                ]
+                ],
             );
         }
         foreach (array_merge($user_auto_draft_ids, $other_user_auto_draft_ids) as $post_id) {
-            $this->assertFalse((bool) get_post_meta($post_id, '_customize_restore_dismissed', true));
+            $this->assertFalse((bool)get_post_meta($post_id, '_customize_restore_dismissed', true));
         }
         $this->make_ajax_call('customize_dismiss_autosave_or_lock');
         $this->assertTrue($this->_last_response_parsed['success']);
         $this->assertSame('auto_draft_dismissed', $this->_last_response_parsed['data']);
         foreach ($user_auto_draft_ids as $post_id) {
             $this->assertSame('auto-draft', get_post_status($post_id));
-            $this->assertTrue((bool) get_post_meta($post_id, '_customize_restore_dismissed', true));
+            $this->assertTrue((bool)get_post_meta($post_id, '_customize_restore_dismissed', true));
         }
         foreach ($other_user_auto_draft_ids as $post_id) {
             $this->assertSame('auto-draft', get_post_status($post_id));
-            $this->assertFalse((bool) get_post_meta($post_id, '_customize_restore_dismissed', true));
+            $this->assertFalse((bool)get_post_meta($post_id, '_customize_restore_dismissed', true));
         }
 
         // Subsequent test results in none dismissed.
@@ -680,24 +681,24 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase
         // Save a changeset as a draft.
         $r = $wp_customize->save_changeset_post(
             [
-                'data'   => [
+                'data' => [
                     'blogname' => [
                         'value' => 'Foo',
                     ],
                 ],
                 'status' => 'draft',
-            ]
+            ],
         );
 
-        $_POST['dismiss_autosave']    = false;
-        $_GET['dismiss_autosave']     = false;
+        $_POST['dismiss_autosave'] = false;
+        $_GET['dismiss_autosave'] = false;
         $_REQUEST['dismiss_autosave'] = false;
         $this->make_ajax_call('customize_dismiss_autosave_or_lock');
         $this->assertTrue($this->_last_response_parsed['success']);
         $this->assertSame('changeset_lock_dismissed', $this->_last_response_parsed['data']);
 
-        $_POST['dismiss_autosave']    = true;
-        $_GET['dismiss_autosave']     = true;
+        $_POST['dismiss_autosave'] = true;
+        $_GET['dismiss_autosave'] = true;
         $_REQUEST['dismiss_autosave'] = true;
         $this->assertNotWPError($r);
         $this->assertFalse(wp_get_post_autosave($wp_customize->changeset_post_id()));
@@ -711,13 +712,13 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase
         // Add the autosave revision.
         $r = $wp_customize->save_changeset_post(
             [
-                'data'     => [
+                'data' => [
                     'blogname' => [
                         'value' => 'Bar',
                     ],
                 ],
                 'autosave' => true,
-            ]
+            ],
         );
         $this->assertNotWPError($r);
         $autosave_revision = wp_get_post_autosave($wp_customize->changeset_post_id());
@@ -746,16 +747,16 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase
     public function test_wp_ajax_customize_load_themes_action()
     {
         $arguments = [
-            'changeset_uuid'     => false,
+            'changeset_uuid' => false,
             'settings_previewed' => true,
-            'branching'          => false,
+            'branching' => false,
         ];
         new WP_Customize_Manager($arguments);
         wp_set_current_user(self::$admin_user_id);
-        $nonce                 = wp_create_nonce('switch_themes');
-        $_POST['nonce']        = $nonce;
-        $_GET['nonce']         = $nonce;
-        $_REQUEST['nonce']     = $nonce;
+        $nonce = wp_create_nonce('switch_themes');
+        $_POST['nonce'] = $nonce;
+        $_GET['nonce'] = $nonce;
+        $_REQUEST['nonce'] = $nonce;
         $_POST['theme_action'] = 'installed';
         $this->make_ajax_call('customize_load_themes');
         $response = $this->_last_response_parsed;

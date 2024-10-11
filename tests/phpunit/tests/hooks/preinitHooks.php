@@ -12,14 +12,14 @@ class Tests_Hooks_PreinitHooks extends WP_UnitTestCase
     public function test_array_to_hooks()
     {
         $hook_name1 = __FUNCTION__ . '_1';
-        $priority1  = 1;
+        $priority1 = 1;
         $hook_name2 = __FUNCTION__ . '_2';
-        $priority2  = 2;
-        $filters    = [
+        $priority2 = 2;
+        $filters = [
             $hook_name1 => [
                 $priority1 => [
                     'test1' => [
-                        'function'      => '__return_false',
+                        'function' => '__return_false',
                         'accepted_args' => 2,
                     ],
                 ],
@@ -27,7 +27,7 @@ class Tests_Hooks_PreinitHooks extends WP_UnitTestCase
             $hook_name2 => [
                 $priority2 => [
                     'test1' => [
-                        'function'      => '__return_null',
+                        'function' => '__return_null',
                         'accepted_args' => 1,
                     ],
                 ],

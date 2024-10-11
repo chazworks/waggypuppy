@@ -7,7 +7,7 @@ if (defined('WP_TESTS_CONFIG_FILE_PATH')) {
     $config_file_path = WP_TESTS_CONFIG_FILE_PATH;
 } else {
     $config_file_path = dirname(__DIR__);
-    if (! file_exists($config_file_path . '/wp-tests-config.php')) {
+    if (!file_exists($config_file_path . '/wp-tests-config.php')) {
         // Support the config file from the root of the develop repository.
         if (basename($config_file_path) === 'phpunit' && basename(dirname($config_file_path)) === 'tests') {
             $config_file_path = dirname($config_file_path, 2);
@@ -22,19 +22,21 @@ if (defined('WP_TESTS_CONFIG_FILE_PATH')) {
  */
 global $wpdb, $current_site, $current_blog, $wp_rewrite, $shortcode_tags, $wp, $phpmailer, $wp_theme_directories;
 
-if (! is_readable($config_file_path)) {
-    echo 'Error: wp-tests-config.php is missing! Please use wp-tests-config-sample.php to create a config file.' . PHP_EOL;
+if (!is_readable($config_file_path)) {
+    echo 'Error: wp-tests-config.php is missing! Please use wp-tests-config-sample.php to create a config file.'
+        . PHP_EOL;
     exit(1);
 }
 
 require_once $config_file_path;
 require_once __DIR__ . '/functions.php';
 
-if (defined('WP_RUN_CORE_TESTS') && WP_RUN_CORE_TESTS && ! is_dir(ABSPATH)) {
+if (defined('WP_RUN_CORE_TESTS') && WP_RUN_CORE_TESTS && !is_dir(ABSPATH)) {
     if (substr(ABSPATH, -7) !== '/build/') {
         printf(
-            'Error: The ABSPATH constant in the `wp-tests-config.php` file is set to a non-existent path "%s". Please verify.' . PHP_EOL,
-            ABSPATH
+            'Error: The ABSPATH constant in the `wp-tests-config.php` file is set to a non-existent path "%s". Please verify.'
+            . PHP_EOL,
+            ABSPATH,
         );
         exit(1);
     } else {
@@ -50,7 +52,7 @@ $phpunit_version = tests_get_phpunit_version();
 if (version_compare($phpunit_version, '5.7.21', '<')) {
     printf(
         "Error: Looks like you're using PHPUnit %s. waggypuppy requires at least PHPUnit 5.7.21." . PHP_EOL,
-        $phpunit_version
+        $phpunit_version,
     );
     echo 'Please use the latest PHPUnit version supported for the PHP version you are running the tests on.' . PHP_EOL;
     exit(1);
@@ -77,10 +79,11 @@ if (version_compare($phpunit_version, '5.7.21', '<')) {
  *       own test bootstrap file.
  *       The constant MUST be declared prior to calling this file.
  */
-if (! class_exists('Yoast\PHPUnitPolyfills\Autoload')) {
+if (!class_exists('Yoast\PHPUnitPolyfills\Autoload')) {
     // Default location of the autoloader for WP core test runs.
-    $phpunit_polyfills_autoloader = dirname(__DIR__, 3) . '/vendor/yoast/phpunit-polyfills/phpunitpolyfills-autoload.php';
-    $phpunit_polyfills_error      = false;
+    $phpunit_polyfills_autoloader = dirname(__DIR__, 3)
+        . '/vendor/yoast/phpunit-polyfills/phpunitpolyfills-autoload.php';
+    $phpunit_polyfills_error = false;
 
     // Allow for a custom installation location to be provided for plugin/theme integration tests.
     if (defined('WP_TESTS_PHPUNIT_POLYFILLS_PATH')) {
@@ -101,14 +104,15 @@ if (! class_exists('Yoast\PHPUnitPolyfills\Autoload')) {
         }
     }
 
-    if ($phpunit_polyfills_error || ! file_exists($phpunit_polyfills_autoloader)) {
+    if ($phpunit_polyfills_error || !file_exists($phpunit_polyfills_autoloader)) {
         echo 'Error: The PHPUnit Polyfills library is a requirement for running the WP test suite.' . PHP_EOL;
         if (defined('WP_TESTS_PHPUNIT_POLYFILLS_PATH')) {
             printf(
                 'The PHPUnit Polyfills autoload file was not found in "%s"' . PHP_EOL,
-                WP_TESTS_PHPUNIT_POLYFILLS_PATH
+                WP_TESTS_PHPUNIT_POLYFILLS_PATH,
             );
-            echo 'Please verify that the file path provided in the WP_TESTS_PHPUNIT_POLYFILLS_PATH constant is correct.' . PHP_EOL;
+            echo 'Please verify that the file path provided in the WP_TESTS_PHPUNIT_POLYFILLS_PATH constant is correct.'
+                . PHP_EOL;
             echo 'The WP_TESTS_PHPUNIT_POLYFILLS_PATH constant should contain an absolute path to the root directory'
                 . ' of the PHPUnit Polyfills library.' . PHP_EOL;
         } elseif (defined('WP_RUN_CORE_TESTS') && WP_RUN_CORE_TESTS) {
@@ -142,19 +146,21 @@ unset($phpunit_polyfills_autoloader, $phpunit_polyfills_error, $phpunit_polyfill
 $phpunit_polyfills_minimum_version = '1.1.0';
 if (class_exists('\Yoast\PHPUnitPolyfills\Autoload')
     && (defined('\Yoast\PHPUnitPolyfills\Autoload::VERSION') === false
-    || version_compare(Yoast\PHPUnitPolyfills\Autoload::VERSION, $phpunit_polyfills_minimum_version, '<'))
+        || version_compare(Yoast\PHPUnitPolyfills\Autoload::VERSION, $phpunit_polyfills_minimum_version, '<'))
 ) {
     printf(
         'Error: Version mismatch detected for the PHPUnit Polyfills.'
         . ' Please ensure that PHPUnit Polyfills %s or higher is loaded. Found version: %s' . PHP_EOL,
         $phpunit_polyfills_minimum_version,
-        defined('\Yoast\PHPUnitPolyfills\Autoload::VERSION') ? Yoast\PHPUnitPolyfills\Autoload::VERSION : '1.0.0 or lower'
+        defined('\Yoast\PHPUnitPolyfills\Autoload::VERSION') ? Yoast\PHPUnitPolyfills\Autoload::VERSION
+            : '1.0.0 or lower',
     );
     if (defined('WP_TESTS_PHPUNIT_POLYFILLS_PATH')) {
         printf(
-            'Please ensure that the PHPUnit Polyfill installation in "%s" is updated to version %s or higher.' . PHP_EOL,
+            'Please ensure that the PHPUnit Polyfill installation in "%s" is updated to version %s or higher.'
+            . PHP_EOL,
             WP_TESTS_PHPUNIT_POLYFILLS_PATH,
-            $phpunit_polyfills_minimum_version
+            $phpunit_polyfills_minimum_version,
         );
     } elseif (defined('WP_RUN_CORE_TESTS') && WP_RUN_CORE_TESTS) {
         echo 'Please run `composer update -W` to install the latest version.' . PHP_EOL;
@@ -168,10 +174,10 @@ if (defined('WP_RUN_CORE_TESTS') && WP_RUN_CORE_TESTS) {
     $required_extensions = [
         'gd',
     ];
-    $missing_extensions  = [];
+    $missing_extensions = [];
 
     foreach ($required_extensions as $extension) {
-        if (! extension_loaded($extension)) {
+        if (!extension_loaded($extension)) {
             $missing_extensions[] = $extension;
         }
     }
@@ -179,7 +185,7 @@ if (defined('WP_RUN_CORE_TESTS') && WP_RUN_CORE_TESTS) {
     if ($missing_extensions) {
         printf(
             'Error: The following required PHP extensions are missing from the testing environment: %s.' . PHP_EOL,
-            implode(', ', $missing_extensions)
+            implode(', ', $missing_extensions),
         );
         echo 'Please make sure they are installed and enabled.' . PHP_EOL,
         exit(1);
@@ -192,10 +198,10 @@ $required_constants = [
     'WP_TESTS_TITLE',
     'WP_PHP_BINARY',
 ];
-$missing_constants  = [];
+$missing_constants = [];
 
 foreach ($required_constants as $constant) {
-    if (! defined($constant)) {
+    if (!defined($constant)) {
         $missing_constants[] = $constant;
     }
 }
@@ -203,7 +209,7 @@ foreach ($required_constants as $constant) {
 if ($missing_constants) {
     printf(
         'Error: The following required constants are not defined: %s.' . PHP_EOL,
-        implode(', ', $missing_constants)
+        implode(', ', $missing_constants),
     );
     echo 'Please check out `wp-tests-config-sample.php` for an example.' . PHP_EOL,
     exit(1);
@@ -216,7 +222,7 @@ const DIR_TESTDATA = __DIR__ . '/../data';
 define('DIR_TESTROOT', realpath(dirname(__DIR__)));
 const IMPORTER_PLUGIN_FOR_TESTS = DIR_TESTDATA . '/plugins/wordpress-importer/wordpress-importer.php';
 
-if (defined('WP_RUN_CORE_TESTS') && WP_RUN_CORE_TESTS && ! file_exists(IMPORTER_PLUGIN_FOR_TESTS)) {
+if (defined('WP_RUN_CORE_TESTS') && WP_RUN_CORE_TESTS && !file_exists(IMPORTER_PLUGIN_FOR_TESTS)) {
     echo 'The test suite requires the waggypuppy Importer plugin to be available in the `/data/plugins/` directory.'
         . ' See: https://make.wp.org/core/handbook/contribute/git/#unit-tests' . PHP_EOL,
     exit(1);
@@ -228,7 +234,7 @@ if (defined('WP_RUN_CORE_TESTS') && WP_RUN_CORE_TESTS) {
     define('WP_PLUGIN_DIR', realpath(DIR_TESTDATA . '/plugins'));
 }
 
-if (! defined('WP_TESTS_FORCE_KNOWN_BUGS')) {
+if (!defined('WP_TESTS_FORCE_KNOWN_BUGS')) {
     define('WP_TESTS_FORCE_KNOWN_BUGS', false);
 }
 
@@ -243,7 +249,7 @@ const WP_MAX_MEMORY_LIMIT = -1;
 
 const REST_TESTS_IMPOSSIBLY_HIGH_NUMBER = 99999999;
 
-$PHP_SELF            = '/index.php';
+$PHP_SELF = '/index.php';
 $GLOBALS['PHP_SELF'] = '/index.php';
 $_SERVER['PHP_SELF'] = '/index.php';
 
@@ -256,7 +262,7 @@ $multisite = $multisite || (defined('MULTISITE') && MULTISITE);
 require_once __DIR__ . '/mock-mailer.php';
 $phpmailer = new MockPHPMailer(true);
 
-if (! defined('WP_DEFAULT_THEME')) {
+if (!defined('WP_DEFAULT_THEME')) {
     define('WP_DEFAULT_THEME', 'default');
 }
 $wp_theme_directories = [];
@@ -267,9 +273,17 @@ if (file_exists(DIR_TESTDATA . '/themedir1')) {
 
 if ('1' !== getenv('WP_TESTS_SKIP_INSTALL')) {
     $core_tests = (defined('WP_RUN_CORE_TESTS') && WP_RUN_CORE_TESTS) ? 'run_core_tests' : 'no_core_tests';
-    $ms_tests   = $multisite ? 'run_ms_tests' : 'no_ms_tests';
+    $ms_tests = $multisite ? 'run_ms_tests' : 'no_ms_tests';
 
-    system(WP_PHP_BINARY . ' ' . escapeshellarg(__DIR__ . '/install.php') . ' ' . escapeshellarg($config_file_path) . ' ' . $ms_tests . ' ' . $core_tests, $retval);
+    system(WP_PHP_BINARY
+        . ' '
+        . escapeshellarg(__DIR__ . '/install.php')
+        . ' '
+        . escapeshellarg($config_file_path)
+        . ' '
+        . $ms_tests
+        . ' '
+        . $core_tests, $retval);
     if (0 !== $retval) {
         exit($retval);
     }
@@ -356,14 +370,14 @@ class WP_PHPUnit_Util_Getopt
     public function __construct($argv)
     {
         $skipped_groups = [
-            'ajax'          => true,
-            'ms-files'      => true,
+            'ajax' => true,
+            'ms-files' => true,
             'external-http' => true,
         ];
 
         while (current($argv)) {
             $option = current($argv);
-            $value  = next($argv);
+            $value = next($argv);
 
             switch ($option) {
                 case '--exclude-group':
@@ -393,7 +407,7 @@ class WP_PHPUnit_Util_Getopt
             echo sprintf('Not running %1$s tests. To execute these, use --group %1$s.', $group_name) . PHP_EOL;
         }
 
-        if (! isset($skipped_groups['external-http'])) {
+        if (!isset($skipped_groups['external-http'])) {
             echo PHP_EOL;
             echo 'External HTTP skipped tests can be caused by timeouts.' . PHP_EOL;
             echo 'If this changeset includes changes to HTTP, make sure there are no timeouts.' . PHP_EOL;
@@ -401,4 +415,5 @@ class WP_PHPUnit_Util_Getopt
         }
     }
 }
+
 new WP_PHPUnit_Util_Getopt($_SERVER['argv']);

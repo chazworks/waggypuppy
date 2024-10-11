@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tests for robots template functions and filters.
  *
@@ -45,16 +46,16 @@ class Tests_Robots extends WP_UnitTestCase
             'wp_robots',
             static function (array $robots) {
                 // Directives that should have values must use strings.
-                $robots['directive-with-value']         = 'yes';
+                $robots['directive-with-value'] = 'yes';
                 $robots['directive-with-numeric-value'] = '1';
                 // Any non-string value will be evaluated as boolean.
                 // False-y directives will not be included.
-                $robots['directive-active-boolean']   = true;
+                $robots['directive-active-boolean'] = true;
                 $robots['directive-inactive-boolean'] = false;
-                $robots['directive-active-integer']   = 1;
+                $robots['directive-active-integer'] = 1;
                 $robots['directive-inactive-integer'] = 0;
                 return $robots;
-            }
+            },
         );
 
         $expected_directives_string = implode(
@@ -64,7 +65,7 @@ class Tests_Robots extends WP_UnitTestCase
                 'directive-with-numeric-value:1',
                 'directive-active-boolean',
                 'directive-active-integer',
-            ]
+            ],
         );
 
         $output = get_echo('wp_robots');

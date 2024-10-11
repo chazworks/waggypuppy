@@ -45,7 +45,7 @@ class Tests_XMLRPC_wp_getProfile extends WP_XMLRPC_UnitTestCase
         $this->assertEquals($editor_id, $result['user_id']);
 
         $expected_fields = ['user_id', 'email', 'bio'];
-        $keys            = array_keys($result);
+        $keys = array_keys($result);
         sort($expected_fields);
         sort($keys);
         $this->assertSameSets($expected_fields, $keys);

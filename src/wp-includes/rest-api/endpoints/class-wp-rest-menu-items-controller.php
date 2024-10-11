@@ -20,10 +20,10 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
     /**
      * Gets the nav menu item, if the ID is valid.
      *
-     * @since 5.9.0
-     *
      * @param int $id Supplied ID.
      * @return object|WP_Error Post object if ID is valid, WP_Error otherwise.
+     * @since 5.9.0
+     *
      */
     protected function get_nav_menu_item($id)
     {
@@ -38,10 +38,10 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
     /**
      * Checks if a given request has access to read menu items.
      *
-     * @since 5.9.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
+     * @since 5.9.0
+     *
      */
     public function get_items_permissions_check($request)
     {
@@ -57,10 +57,10 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
     /**
      * Checks if a given request has access to read a menu item if they have access to edit them.
      *
-     * @since 5.9.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return bool|WP_Error True if the request has read access for the item, WP_Error object or false otherwise.
+     * @since 5.9.0
+     *
      */
     public function get_item_permissions_check($request)
     {
@@ -78,10 +78,10 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
      *
      * This allows for any user that can `edit_theme_options` or edit any REST API available post type.
      *
-     * @since 5.9.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access for the item, WP_Error object otherwise.
+     * @since 5.9.0
+     *
      */
     protected function check_has_read_only_access($request)
     {
@@ -102,21 +102,21 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
         return new WP_Error(
             'rest_cannot_view',
             __('Sorry, you are not allowed to view menu items.'),
-            ['status' => rest_authorization_required_code()]
+            ['status' => rest_authorization_required_code()],
         );
     }
 
     /**
      * Creates a single nav menu item.
      *
-     * @since 5.9.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     * @since 5.9.0
+     *
      */
     public function create_item($request)
     {
-        if (! empty($request['id'])) {
+        if (!empty($request['id'])) {
             return new WP_Error('rest_post_exists', __('Cannot create existing post.'), ['status' => 400]);
         }
 
@@ -125,9 +125,10 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
         if (is_wp_error($prepared_nav_item)) {
             return $prepared_nav_item;
         }
-        $prepared_nav_item = (array) $prepared_nav_item;
+        $prepared_nav_item = (array)$prepared_nav_item;
 
-        $nav_menu_item_id = wp_update_nav_menu_item($prepared_nav_item['menu-id'], $prepared_nav_item['menu-item-db-id'], wp_slash($prepared_nav_item), false);
+        $nav_menu_item_id = wp_update_nav_menu_item($prepared_nav_item['menu-id'],
+            $prepared_nav_item['menu-item-db-id'], wp_slash($prepared_nav_item), false);
         if (is_wp_error($nav_menu_item_id)) {
             if ('db_insert_error' === $nav_menu_item_id->get_error_code()) {
                 $nav_menu_item_id->add_data(['status' => 500]);
@@ -148,17 +149,17 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
         /**
          * Fires after a single menu item is created or updated via the REST API.
          *
+         * @param object $nav_menu_item Inserted or updated menu item object.
+         * @param WP_REST_Request $request Request object.
+         * @param bool $creating True when creating a menu item, false when updating.
          * @since 5.9.0
          *
-         * @param object          $nav_menu_item Inserted or updated menu item object.
-         * @param WP_REST_Request $request       Request object.
-         * @param bool            $creating      True when creating a menu item, false when updating.
          */
         do_action('rest_insert_nav_menu_item', $nav_menu_item, $request, true);
 
         $schema = $this->get_item_schema();
 
-        if (! empty($schema['properties']['meta']) && isset($request['meta'])) {
+        if (!empty($schema['properties']['meta']) && isset($request['meta'])) {
             $meta_update = $this->meta->update_value($request['meta'], $nav_menu_item_id);
 
             if (is_wp_error($meta_update)) {
@@ -178,11 +179,11 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
         /**
          * Fires after a single menu item is completely created or updated via the REST API.
          *
+         * @param object $nav_menu_item Inserted or updated menu item object.
+         * @param WP_REST_Request $request Request object.
+         * @param bool $creating True when creating a menu item, false when updating.
          * @since 5.9.0
          *
-         * @param object          $nav_menu_item Inserted or updated menu item object.
-         * @param WP_REST_Request $request       Request object.
-         * @param bool            $creating      True when creating a menu item, false when updating.
          */
         do_action('rest_after_insert_nav_menu_item', $nav_menu_item, $request, true);
 
@@ -193,7 +194,8 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
         $response = rest_ensure_response($response);
 
         $response->set_status(201);
-        $response->header('Location', rest_url(sprintf('%s/%s/%d', $this->namespace, $this->rest_base, $nav_menu_item_id)));
+        $response->header('Location',
+            rest_url(sprintf('%s/%s/%d', $this->namespace, $this->rest_base, $nav_menu_item_id)));
 
         return $response;
     }
@@ -201,10 +203,10 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
     /**
      * Updates a single nav menu item.
      *
-     * @since 5.9.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     * @since 5.9.0
+     *
      */
     public function update_item($request)
     {
@@ -212,16 +214,17 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
         if (is_wp_error($valid_check)) {
             return $valid_check;
         }
-        $post_before       = get_post($request['id']);
+        $post_before = get_post($request['id']);
         $prepared_nav_item = $this->prepare_item_for_database($request);
 
         if (is_wp_error($prepared_nav_item)) {
             return $prepared_nav_item;
         }
 
-        $prepared_nav_item = (array) $prepared_nav_item;
+        $prepared_nav_item = (array)$prepared_nav_item;
 
-        $nav_menu_item_id = wp_update_nav_menu_item($prepared_nav_item['menu-id'], $prepared_nav_item['menu-item-db-id'], wp_slash($prepared_nav_item), false);
+        $nav_menu_item_id = wp_update_nav_menu_item($prepared_nav_item['menu-id'],
+            $prepared_nav_item['menu-item-db-id'], wp_slash($prepared_nav_item), false);
 
         if (is_wp_error($nav_menu_item_id)) {
             if ('db_update_error' === $nav_menu_item_id->get_error_code()) {
@@ -245,7 +248,7 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
 
         $schema = $this->get_item_schema();
 
-        if (! empty($schema['properties']['meta']) && isset($request['meta'])) {
+        if (!empty($schema['properties']['meta']) && isset($request['meta'])) {
             $meta_update = $this->meta->update_value($request['meta'], $nav_menu_item->ID);
 
             if (is_wp_error($meta_update)) {
@@ -253,7 +256,7 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
             }
         }
 
-        $post          = get_post($nav_menu_item_id);
+        $post = get_post($nav_menu_item_id);
         $nav_menu_item = $this->get_nav_menu_item($nav_menu_item_id);
         $fields_update = $this->update_additional_fields_for_object($nav_menu_item, $request);
 
@@ -276,10 +279,10 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
     /**
      * Deletes a single nav menu item.
      *
-     * @since 5.9.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error True on success, or WP_Error object on failure.
+     * @since 5.9.0
+     *
      */
     public function delete_item($request)
     {
@@ -289,35 +292,37 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
         }
 
         // We don't support trashing for menu items.
-        if (! $request['force']) {
+        if (!$request['force']) {
             /* translators: %s: force=true */
-            return new WP_Error('rest_trash_not_supported', sprintf(__("Menu items do not support trashing. Set '%s' to delete."), 'force=true'), ['status' => 501]);
+            return new WP_Error('rest_trash_not_supported',
+                sprintf(__("Menu items do not support trashing. Set '%s' to delete."), 'force=true'),
+                ['status' => 501]);
         }
 
         $previous = $this->prepare_item_for_response(get_post($request['id']), $request);
 
         $result = wp_delete_post($request['id'], true);
 
-        if (! $result) {
+        if (!$result) {
             return new WP_Error('rest_cannot_delete', __('The post cannot be deleted.'), ['status' => 500]);
         }
 
         $response = new WP_REST_Response();
         $response->set_data(
             [
-                'deleted'  => true,
+                'deleted' => true,
                 'previous' => $previous->get_data(),
-            ]
+            ],
         );
 
         /**
          * Fires immediately after a single menu item is deleted via the REST API.
          *
+         * @param object $nav_menu_item Inserted or updated menu item object.
+         * @param WP_REST_Response $response The response data.
+         * @param WP_REST_Request $request Request object.
          * @since 5.9.0
          *
-         * @param object          $nav_menu_item Inserted or updated menu item object.
-         * @param WP_REST_Response $response The response data.
-         * @param WP_REST_Request $request       Request object.
          */
         do_action('rest_delete_nav_menu_item', $menu_item, $response, $request);
 
@@ -327,73 +332,73 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
     /**
      * Prepares a single nav menu item for create or update.
      *
-     * @since 5.9.0
-     *
      * @param WP_REST_Request $request Request object.
      *
      * @return object|WP_Error
+     * @since 5.9.0
+     *
      */
     protected function prepare_item_for_database($request)
     {
         $menu_item_db_id = $request['id'];
-        $menu_item_obj   = $this->get_nav_menu_item($menu_item_db_id);
+        $menu_item_obj = $this->get_nav_menu_item($menu_item_db_id);
         // Need to persist the menu item data. See https://core.trac.wp.org/ticket/28138
-        if (! is_wp_error($menu_item_obj)) {
+        if (!is_wp_error($menu_item_obj)) {
             // Correct the menu position if this was the first item. See https://core.trac.wp.org/ticket/28140
             $position = (0 === $menu_item_obj->menu_order) ? 1 : $menu_item_obj->menu_order;
 
             $prepared_nav_item = [
-                'menu-item-db-id'       => $menu_item_db_id,
-                'menu-item-object-id'   => $menu_item_obj->object_id,
-                'menu-item-object'      => $menu_item_obj->object,
-                'menu-item-parent-id'   => $menu_item_obj->menu_item_parent,
-                'menu-item-position'    => $position,
-                'menu-item-type'        => $menu_item_obj->type,
-                'menu-item-title'       => $menu_item_obj->title,
-                'menu-item-url'         => $menu_item_obj->url,
+                'menu-item-db-id' => $menu_item_db_id,
+                'menu-item-object-id' => $menu_item_obj->object_id,
+                'menu-item-object' => $menu_item_obj->object,
+                'menu-item-parent-id' => $menu_item_obj->menu_item_parent,
+                'menu-item-position' => $position,
+                'menu-item-type' => $menu_item_obj->type,
+                'menu-item-title' => $menu_item_obj->title,
+                'menu-item-url' => $menu_item_obj->url,
                 'menu-item-description' => $menu_item_obj->description,
-                'menu-item-attr-title'  => $menu_item_obj->attr_title,
-                'menu-item-target'      => $menu_item_obj->target,
-                'menu-item-classes'     => $menu_item_obj->classes,
+                'menu-item-attr-title' => $menu_item_obj->attr_title,
+                'menu-item-target' => $menu_item_obj->target,
+                'menu-item-classes' => $menu_item_obj->classes,
                 // Stored in the database as a string.
-                'menu-item-xfn'         => explode(' ', $menu_item_obj->xfn),
-                'menu-item-status'      => $menu_item_obj->post_status,
-                'menu-id'               => $this->get_menu_id($menu_item_db_id),
+                'menu-item-xfn' => explode(' ', $menu_item_obj->xfn),
+                'menu-item-status' => $menu_item_obj->post_status,
+                'menu-id' => $this->get_menu_id($menu_item_db_id),
             ];
         } else {
             $prepared_nav_item = [
-                'menu-id'               => 0,
-                'menu-item-db-id'       => 0,
-                'menu-item-object-id'   => 0,
-                'menu-item-object'      => '',
-                'menu-item-parent-id'   => 0,
-                'menu-item-position'    => 1,
-                'menu-item-type'        => 'custom',
-                'menu-item-title'       => '',
-                'menu-item-url'         => '',
+                'menu-id' => 0,
+                'menu-item-db-id' => 0,
+                'menu-item-object-id' => 0,
+                'menu-item-object' => '',
+                'menu-item-parent-id' => 0,
+                'menu-item-position' => 1,
+                'menu-item-type' => 'custom',
+                'menu-item-title' => '',
+                'menu-item-url' => '',
                 'menu-item-description' => '',
-                'menu-item-attr-title'  => '',
-                'menu-item-target'      => '',
-                'menu-item-classes'     => [],
-                'menu-item-xfn'         => [],
-                'menu-item-status'      => 'publish',
+                'menu-item-attr-title' => '',
+                'menu-item-target' => '',
+                'menu-item-classes' => [],
+                'menu-item-xfn' => [],
+                'menu-item-status' => 'publish',
             ];
         }
 
         $mapping = [
-            'menu-item-db-id'       => 'id',
-            'menu-item-object-id'   => 'object_id',
-            'menu-item-object'      => 'object',
-            'menu-item-parent-id'   => 'parent',
-            'menu-item-position'    => 'menu_order',
-            'menu-item-type'        => 'type',
-            'menu-item-url'         => 'url',
+            'menu-item-db-id' => 'id',
+            'menu-item-object-id' => 'object_id',
+            'menu-item-object' => 'object',
+            'menu-item-parent-id' => 'parent',
+            'menu-item-position' => 'menu_order',
+            'menu-item-type' => 'type',
+            'menu-item-url' => 'url',
             'menu-item-description' => 'description',
-            'menu-item-attr-title'  => 'attr_title',
-            'menu-item-target'      => 'target',
-            'menu-item-classes'     => 'classes',
-            'menu-item-xfn'         => 'xfn',
-            'menu-item-status'      => 'status',
+            'menu-item-attr-title' => 'attr_title',
+            'menu-item-target' => 'target',
+            'menu-item-classes' => 'classes',
+            'menu-item-xfn' => 'xfn',
+            'menu-item-status' => 'status',
         ];
 
         $schema = $this->get_item_schema();
@@ -405,17 +410,17 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
         }
 
         $taxonomy = get_taxonomy('nav_menu');
-        $base     = ! empty($taxonomy->rest_base) ? $taxonomy->rest_base : $taxonomy->name;
+        $base = !empty($taxonomy->rest_base) ? $taxonomy->rest_base : $taxonomy->name;
         // If menus submitted, cast to int.
-        if (! empty($request[$base])) {
+        if (!empty($request[$base])) {
             $prepared_nav_item['menu-id'] = absint($request[$base]);
         }
 
         // Nav menu title.
-        if (! empty($schema['properties']['title']) && isset($request['title'])) {
+        if (!empty($schema['properties']['title']) && isset($request['title'])) {
             if (is_string($request['title'])) {
                 $prepared_nav_item['menu-item-title'] = $request['title'];
-            } elseif (! empty($request['title']['raw'])) {
+            } elseif (!empty($request['title']['raw'])) {
                 $prepared_nav_item['menu-item-title'] = $request['title']['raw'];
             }
         }
@@ -423,7 +428,7 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
         $error = new WP_Error();
 
         // Check if object id exists before saving.
-        if (! $prepared_nav_item['menu-item-object']) {
+        if (!$prepared_nav_item['menu-item-object']) {
             // If taxonomy, check if term exists.
             if ('taxonomy' === $prepared_nav_item['menu-item-type']) {
                 $original = get_term(absint($prepared_nav_item['menu-item-object-id']));
@@ -446,8 +451,8 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
         // If post type archive, check if post type exists.
         if ('post_type_archive' === $prepared_nav_item['menu-item-type']) {
             $post_type = $prepared_nav_item['menu-item-object'] ? $prepared_nav_item['menu-item-object'] : false;
-            $original  = get_post_type_object($post_type);
-            if (! $original) {
+            $original = get_post_type_object($post_type);
+            if (!$original) {
                 $error->add('rest_post_invalid_type', __('Invalid post type.'), ['status' => 400]);
             }
         }
@@ -455,10 +460,12 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
         // Check if menu item is type custom, then title and url are required.
         if ('custom' === $prepared_nav_item['menu-item-type']) {
             if ('' === $prepared_nav_item['menu-item-title']) {
-                $error->add('rest_title_required', __('The title is required when using a custom menu item type.'), ['status' => 400]);
+                $error->add('rest_title_required', __('The title is required when using a custom menu item type.'),
+                    ['status' => 400]);
             }
             if (empty($prepared_nav_item['menu-item-url'])) {
-                $error->add('rest_url_required', __('The url is required when using a custom menu item type.'), ['status' => 400]);
+                $error->add('rest_url_required', __('The url is required when using a custom menu item type.'),
+                    ['status' => 400]);
             }
         }
 
@@ -476,16 +483,16 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
             $prepared_nav_item['menu-item-status'] = 'draft';
         }
 
-        $prepared_nav_item = (object) $prepared_nav_item;
+        $prepared_nav_item = (object)$prepared_nav_item;
 
         /**
          * Filters a menu item before it is inserted via the REST API.
          *
+         * @param object $prepared_nav_item An object representing a single menu item prepared
+         *                                           for inserting or updating the database.
+         * @param WP_REST_Request $request Request object.
          * @since 5.9.0
          *
-         * @param object          $prepared_nav_item An object representing a single menu item prepared
-         *                                           for inserting or updating the database.
-         * @param WP_REST_Request $request           Request object.
          */
         return apply_filters('rest_pre_insert_nav_menu_item', $prepared_nav_item, $request);
     }
@@ -493,18 +500,18 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
     /**
      * Prepares a single nav menu item output for response.
      *
-     * @since 5.9.0
-     *
-     * @param WP_Post         $item    Post object.
+     * @param WP_Post $item Post object.
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response Response object.
+     * @since 5.9.0
+     *
      */
     public function prepare_item_for_response($item, $request)
     {
         // Base fields for every post.
-        $fields    = $this->get_fields_for_response($request);
+        $fields = $this->get_fields_for_response($request);
         $menu_item = $this->get_nav_menu_item($item->ID);
-        $data      = [];
+        $data = [];
 
         if (rest_is_field_included('id', $fields)) {
             $data['id'] = $menu_item->ID;
@@ -568,12 +575,12 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
 
         if (rest_is_field_included('parent', $fields)) {
             // Same as post_parent, exposed as an integer.
-            $data['parent'] = (int) $menu_item->menu_item_parent;
+            $data['parent'] = (int)$menu_item->menu_item_parent;
         }
 
         if (rest_is_field_included('menu_order', $fields)) {
             // Same as post_parent, exposed as an integer.
-            $data['menu_order'] = (int) $menu_item->menu_order;
+            $data['menu_order'] = (int)$menu_item->menu_order;
         }
 
         if (rest_is_field_included('target', $fields)) {
@@ -581,7 +588,7 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
         }
 
         if (rest_is_field_included('classes', $fields)) {
-            $data['classes'] = (array) $menu_item->classes;
+            $data['classes'] = (array)$menu_item->classes;
         }
 
         if (rest_is_field_included('xfn', $fields)) {
@@ -589,7 +596,7 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
         }
 
         if (rest_is_field_included('invalid', $fields)) {
-            $data['invalid'] = (bool) $menu_item->_invalid;
+            $data['invalid'] = (bool)$menu_item->_invalid;
         }
 
         if (rest_is_field_included('meta', $fields)) {
@@ -599,11 +606,11 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
         $taxonomies = wp_list_filter(get_object_taxonomies($this->post_type, 'objects'), ['show_in_rest' => true]);
 
         foreach ($taxonomies as $taxonomy) {
-            $base = ! empty($taxonomy->rest_base) ? $taxonomy->rest_base : $taxonomy->name;
+            $base = !empty($taxonomy->rest_base) ? $taxonomy->rest_base : $taxonomy->name;
 
             if (rest_is_field_included($base, $fields)) {
                 $terms = get_the_terms($item, $taxonomy->name);
-                if (! is_array($terms)) {
+                if (!is_array($terms)) {
                     continue;
                 }
                 $term_ids = $terms ? array_values(wp_list_pluck($terms, 'term_id')) : [];
@@ -615,9 +622,9 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
             }
         }
 
-        $context = ! empty($request['context']) ? $request['context'] : 'view';
-        $data    = $this->add_additional_fields_to_object($data, $request);
-        $data    = $this->filter_response_by_context($data, $context);
+        $context = !empty($request['context']) ? $request['context'] : 'view';
+        $data = $this->add_additional_fields_to_object($data, $request);
+        $data = $this->filter_response_by_context($data, $context);
 
         // Wrap the data in a response object.
         $response = rest_ensure_response($data);
@@ -626,7 +633,7 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
             $links = $this->prepare_links($item);
             $response->add_links($links);
 
-            if (! empty($links['self']['href'])) {
+            if (!empty($links['self']['href'])) {
                 $actions = $this->get_available_actions($item, $request);
 
                 $self = $links['self']['href'];
@@ -640,11 +647,11 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
         /**
          * Filters the menu item data for a REST API response.
          *
+         * @param WP_REST_Response $response The response object.
+         * @param object $menu_item Menu item setup by {@see wp_setup_nav_menu_item()}.
+         * @param WP_REST_Request $request Request object.
          * @since 5.9.0
          *
-         * @param WP_REST_Response $response  The response object.
-         * @param object           $menu_item Menu item setup by {@see wp_setup_nav_menu_item()}.
-         * @param WP_REST_Request  $request   Request object.
          */
         return apply_filters('rest_prepare_nav_menu_item', $response, $menu_item, $request);
     }
@@ -652,14 +659,14 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
     /**
      * Prepares links for the request.
      *
-     * @since 5.9.0
-     *
      * @param WP_Post $post Post object.
      * @return array Links for the given post.
+     * @since 5.9.0
+     *
      */
     protected function prepare_links($post)
     {
-        $links     = parent::prepare_links($post);
+        $links = parent::prepare_links($post);
         $menu_item = $this->get_nav_menu_item($post->ID);
 
         if (empty($menu_item->object_id)) {
@@ -668,7 +675,7 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
 
         $path = '';
         $type = '';
-        $key  = $menu_item->type;
+        $key = $menu_item->type;
         if ('post_type' === $menu_item->type) {
             $path = rest_get_route_for_post($menu_item->object_id);
             $type = get_post_type($menu_item->object_id);
@@ -679,8 +686,8 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
 
         if ($path && $type) {
             $links['https://api.w.org/menu-item-object'][] = [
-                'href'       => rest_url($path),
-                $key         => $type,
+                'href' => rest_url($path),
+                $key => $type,
                 'embeddable' => true,
             ];
         }
@@ -691,20 +698,20 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
     /**
      * Retrieves Link Description Objects that should be added to the Schema for the nav menu items collection.
      *
+     * @return array
      * @since 5.9.0
      *
-     * @return array
      */
     protected function get_schema_links()
     {
-        $links   = parent::get_schema_links();
-        $href    = rest_url("{$this->namespace}/{$this->rest_base}/{id}");
+        $links = parent::get_schema_links();
+        $href = rest_url("{$this->namespace}/{$this->rest_base}/{id}");
         $links[] = [
-            'rel'          => 'https://api.w.org/menu-item-object',
-            'title'        => __('Get linked object.'),
-            'href'         => $href,
+            'rel' => 'https://api.w.org/menu-item-object',
+            'title' => __('Get linked object.'),
+            'href' => $href,
             'targetSchema' => [
-                'type'       => 'object',
+                'type' => 'object',
                 'properties' => [
                     'object' => [
                         'type' => 'integer',
@@ -719,9 +726,9 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
     /**
      * Retrieves the nav menu item's schema, conforming to JSON Schema.
      *
+     * @return array Item schema data.
      * @since 5.9.0
      *
-     * @return array Item schema data.
      */
     public function get_item_schema()
     {
@@ -731,73 +738,73 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
 
         $schema = [
             '$schema' => 'http://json-schema.org/draft-04/schema#',
-            'title'   => $this->post_type,
-            'type'    => 'object',
+            'title' => $this->post_type,
+            'type' => 'object',
         ];
 
         $schema['properties']['title'] = [
             'description' => __('The title for the object.'),
-            'type'        => ['string', 'object'],
-            'context'     => ['view', 'edit', 'embed'],
-            'properties'  => [
-                'raw'      => [
+            'type' => ['string', 'object'],
+            'context' => ['view', 'edit', 'embed'],
+            'properties' => [
+                'raw' => [
                     'description' => __('Title for the object, as it exists in the database.'),
-                    'type'        => 'string',
-                    'context'     => ['edit'],
+                    'type' => 'string',
+                    'context' => ['edit'],
                 ],
                 'rendered' => [
                     'description' => __('HTML title for the object, transformed for display.'),
-                    'type'        => 'string',
-                    'context'     => ['view', 'edit', 'embed'],
-                    'readonly'    => true,
+                    'type' => 'string',
+                    'context' => ['view', 'edit', 'embed'],
+                    'readonly' => true,
                 ],
             ],
         ];
 
         $schema['properties']['id'] = [
             'description' => __('Unique identifier for the object.'),
-            'type'        => 'integer',
-            'default'     => 0,
-            'minimum'     => 0,
-            'context'     => ['view', 'edit', 'embed'],
-            'readonly'    => true,
+            'type' => 'integer',
+            'default' => 0,
+            'minimum' => 0,
+            'context' => ['view', 'edit', 'embed'],
+            'readonly' => true,
         ];
 
         $schema['properties']['type_label'] = [
             'description' => __('The singular label used to describe this type of menu item.'),
-            'type'        => 'string',
-            'context'     => ['view', 'edit', 'embed'],
-            'readonly'    => true,
+            'type' => 'string',
+            'context' => ['view', 'edit', 'embed'],
+            'readonly' => true,
         ];
 
         $schema['properties']['type'] = [
             'description' => __('The family of objects originally represented, such as "post_type" or "taxonomy".'),
-            'type'        => 'string',
-            'enum'        => ['taxonomy', 'post_type', 'post_type_archive', 'custom'],
-            'context'     => ['view', 'edit', 'embed'],
-            'default'     => 'custom',
+            'type' => 'string',
+            'enum' => ['taxonomy', 'post_type', 'post_type_archive', 'custom'],
+            'context' => ['view', 'edit', 'embed'],
+            'default' => 'custom',
         ];
 
         $schema['properties']['status'] = [
             'description' => __('A named status for the object.'),
-            'type'        => 'string',
-            'enum'        => array_keys(get_post_stati(['internal' => false])),
-            'default'     => 'publish',
-            'context'     => ['view', 'edit', 'embed'],
+            'type' => 'string',
+            'enum' => array_keys(get_post_stati(['internal' => false])),
+            'default' => 'publish',
+            'context' => ['view', 'edit', 'embed'],
         ];
 
         $schema['properties']['parent'] = [
             'description' => __('The ID for the parent of the object.'),
-            'type'        => 'integer',
-            'minimum'     => 0,
-            'default'     => 0,
-            'context'     => ['view', 'edit', 'embed'],
+            'type' => 'integer',
+            'minimum' => 0,
+            'default' => 0,
+            'context' => ['view', 'edit', 'embed'],
         ];
 
         $schema['properties']['attr_title'] = [
             'description' => __('Text for the title attribute of the link element for this menu item.'),
-            'type'        => 'string',
-            'context'     => ['view', 'edit', 'embed'],
+            'type' => 'string',
+            'context' => ['view', 'edit', 'embed'],
             'arg_options' => [
                 'sanitize_callback' => 'sanitize_text_field',
             ],
@@ -805,11 +812,11 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
 
         $schema['properties']['classes'] = [
             'description' => __('Class names for the link element of this menu item.'),
-            'type'        => 'array',
-            'items'       => [
+            'type' => 'array',
+            'items' => [
                 'type' => 'string',
             ],
-            'context'     => ['view', 'edit', 'embed'],
+            'context' => ['view', 'edit', 'embed'],
             'arg_options' => [
                 'sanitize_callback' => static function ($value) {
                     return array_map('sanitize_html_class', wp_parse_list($value));
@@ -819,8 +826,8 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
 
         $schema['properties']['description'] = [
             'description' => __('The description of this menu item.'),
-            'type'        => 'string',
-            'context'     => ['view', 'edit', 'embed'],
+            'type' => 'string',
+            'context' => ['view', 'edit', 'embed'],
             'arg_options' => [
                 'sanitize_callback' => 'sanitize_text_field',
             ],
@@ -828,16 +835,16 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
 
         $schema['properties']['menu_order'] = [
             'description' => __('The DB ID of the nav_menu_item that is this item\'s menu parent, if any, otherwise 0.'),
-            'context'     => ['view', 'edit', 'embed'],
-            'type'        => 'integer',
-            'minimum'     => 1,
-            'default'     => 1,
+            'context' => ['view', 'edit', 'embed'],
+            'type' => 'integer',
+            'minimum' => 1,
+            'default' => 1,
         ];
 
         $schema['properties']['object'] = [
             'description' => __('The type of object originally represented, such as "category", "post", or "attachment".'),
-            'context'     => ['view', 'edit', 'embed'],
-            'type'        => 'string',
+            'context' => ['view', 'edit', 'embed'],
+            'type' => 'string',
             'arg_options' => [
                 'sanitize_callback' => 'sanitize_key',
             ],
@@ -845,17 +852,17 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
 
         $schema['properties']['object_id'] = [
             'description' => __('The database ID of the original object this menu item represents, for example the ID for posts or the term_id for categories.'),
-            'context'     => ['view', 'edit', 'embed'],
-            'type'        => 'integer',
-            'minimum'     => 0,
-            'default'     => 0,
+            'context' => ['view', 'edit', 'embed'],
+            'type' => 'integer',
+            'minimum' => 0,
+            'default' => 0,
         ];
 
         $schema['properties']['target'] = [
             'description' => __('The target attribute of the link element for this menu item.'),
-            'type'        => 'string',
-            'context'     => ['view', 'edit', 'embed'],
-            'enum'        => [
+            'type' => 'string',
+            'context' => ['view', 'edit', 'embed'],
+            'enum' => [
                 '_blank',
                 '',
             ],
@@ -863,9 +870,9 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
 
         $schema['properties']['url'] = [
             'description' => __('The URL to which this menu item points.'),
-            'type'        => 'string',
-            'format'      => 'uri',
-            'context'     => ['view', 'edit', 'embed'],
+            'type' => 'string',
+            'format' => 'uri',
+            'context' => ['view', 'edit', 'embed'],
             'arg_options' => [
                 'validate_callback' => static function ($url) {
                     if ('' === $url) {
@@ -878,7 +885,7 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
 
                     return new WP_Error(
                         'rest_invalid_url',
-                        __('Invalid URL.')
+                        __('Invalid URL.'),
                     );
                 },
             ],
@@ -886,11 +893,11 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
 
         $schema['properties']['xfn'] = [
             'description' => __('The XFN relationship expressed in the link of this menu item.'),
-            'type'        => 'array',
-            'items'       => [
+            'type' => 'array',
+            'items' => [
                 'type' => 'string',
             ],
-            'context'     => ['view', 'edit', 'embed'],
+            'context' => ['view', 'edit', 'embed'],
             'arg_options' => [
                 'sanitize_callback' => static function ($value) {
                     return array_map('sanitize_html_class', wp_parse_list($value));
@@ -900,23 +907,23 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
 
         $schema['properties']['invalid'] = [
             'description' => __('Whether the menu item represents an object that no longer exists.'),
-            'context'     => ['view', 'edit', 'embed'],
-            'type'        => 'boolean',
-            'readonly'    => true,
+            'context' => ['view', 'edit', 'embed'],
+            'type' => 'boolean',
+            'readonly' => true,
         ];
 
         $taxonomies = wp_list_filter(get_object_taxonomies($this->post_type, 'objects'), ['show_in_rest' => true]);
 
         foreach ($taxonomies as $taxonomy) {
-            $base                        = ! empty($taxonomy->rest_base) ? $taxonomy->rest_base : $taxonomy->name;
+            $base = !empty($taxonomy->rest_base) ? $taxonomy->rest_base : $taxonomy->name;
             $schema['properties'][$base] = [
                 /* translators: %s: taxonomy name */
                 'description' => sprintf(__('The terms assigned to the object in the %s taxonomy.'), $taxonomy->name),
-                'type'        => 'array',
-                'items'       => [
+                'type' => 'array',
+                'items' => [
                     'type' => 'integer',
                 ],
-                'context'     => ['view', 'edit'],
+                'context' => ['view', 'edit'],
             ];
 
             if ('nav_menu' === $taxonomy->name) {
@@ -941,9 +948,9 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
     /**
      * Retrieves the query params for the nav menu items collection.
      *
+     * @return array Collection parameters.
      * @since 5.9.0
      *
-     * @return array Collection parameters.
      */
     public function get_collection_params()
     {
@@ -951,21 +958,21 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
 
         $query_params['menu_order'] = [
             'description' => __('Limit result set to posts with a specific menu_order value.'),
-            'type'        => 'integer',
+            'type' => 'integer',
         ];
 
         $query_params['order'] = [
             'description' => __('Order sort attribute ascending or descending.'),
-            'type'        => 'string',
-            'default'     => 'asc',
-            'enum'        => ['asc', 'desc'],
+            'type' => 'string',
+            'default' => 'asc',
+            'enum' => ['asc', 'desc'],
         ];
 
         $query_params['orderby'] = [
             'description' => __('Sort collection by object attribute.'),
-            'type'        => 'string',
-            'default'     => 'menu_order',
-            'enum'        => [
+            'type' => 'string',
+            'default' => 'menu_order',
+            'enum' => [
                 'author',
                 'date',
                 'id',
@@ -989,11 +996,11 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
      * Determines the allowed query_vars for a get_items() response and prepares
      * them for WP_Query.
      *
+     * @param array $prepared_args Optional. Prepared WP_Query arguments. Default empty array.
+     * @param WP_REST_Request $request Optional. Full details about the request.
+     * @return array Items query arguments.
      * @since 5.9.0
      *
-     * @param array           $prepared_args Optional. Prepared WP_Query arguments. Default empty array.
-     * @param WP_REST_Request $request       Optional. Full details about the request.
-     * @return array Items query arguments.
      */
     protected function prepare_items_query($prepared_args = [], $request = null)
     {
@@ -1002,11 +1009,11 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
         // Map to proper WP_Query orderby param.
         if (isset($query_args['orderby'], $request['orderby'])) {
             $orderby_mappings = [
-                'id'            => 'ID',
-                'include'       => 'post__in',
-                'slug'          => 'post_name',
+                'id' => 'ID',
+                'include' => 'post__in',
+                'slug' => 'post_name',
                 'include_slugs' => 'post_name__in',
-                'menu_order'    => 'menu_order',
+                'menu_order' => 'menu_order',
             ];
 
             if (isset($orderby_mappings[$request['orderby']])) {
@@ -1022,16 +1029,16 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
     /**
      * Gets the id of the menu that the given menu item belongs to.
      *
-     * @since 5.9.0
-     *
      * @param int $menu_item_id Menu item id.
      * @return int
+     * @since 5.9.0
+     *
      */
     protected function get_menu_id($menu_item_id)
     {
         $menu_ids = wp_get_post_terms($menu_item_id, 'nav_menu', ['fields' => 'ids']);
-        $menu_id  = 0;
-        if ($menu_ids && ! is_wp_error($menu_ids)) {
+        $menu_id = 0;
+        if ($menu_ids && !is_wp_error($menu_ids)) {
             $menu_id = array_shift($menu_ids);
         }
 

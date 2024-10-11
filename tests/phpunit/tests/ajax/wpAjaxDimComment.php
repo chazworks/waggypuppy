@@ -32,7 +32,7 @@ class Tests_Ajax_wpAjaxDimComment extends WP_Ajax_UnitTestCase
     public function set_up()
     {
         parent::set_up();
-        $post_id         = self::factory()->post->create();
+        $post_id = self::factory()->post->create();
         $this->_comments = self::factory()->comment->create_post_comments($post_id, 15);
         $this->_comments = array_map('get_comment', $this->_comments);
     }
@@ -60,7 +60,6 @@ class Tests_Ajax_wpAjaxDimComment extends WP_Ajax_UnitTestCase
      */
     public function _test_as_admin($comment)
     {
-
         // Reset request.
         $this->_clear_post_action();
 
@@ -68,12 +67,12 @@ class Tests_Ajax_wpAjaxDimComment extends WP_Ajax_UnitTestCase
         $this->_setRole('administrator');
 
         // Set up a default request.
-        $_POST['id']          = $comment->comment_ID;
+        $_POST['id'] = $comment->comment_ID;
         $_POST['_ajax_nonce'] = wp_create_nonce('approve-comment_' . $comment->comment_ID);
-        $_POST['_total']      = count($this->_comments);
-        $_POST['_per_page']   = 100;
-        $_POST['_page']       = 1;
-        $_POST['_url']        = admin_url('edit-comments.php');
+        $_POST['_total'] = count($this->_comments);
+        $_POST['_per_page'] = 100;
+        $_POST['_page'] = 1;
+        $_POST['_url'] = admin_url('edit-comments.php');
 
         // Save the comment status.
         $prev_status = wp_get_comment_status($comment->comment_ID);
@@ -89,10 +88,10 @@ class Tests_Ajax_wpAjaxDimComment extends WP_Ajax_UnitTestCase
         $xml = simplexml_load_string($this->_last_response, 'SimpleXMLElement', LIBXML_NOCDATA);
 
         // Ensure everything is correct.
-        $this->assertSame($comment->comment_ID, (string) $xml->response[0]->comment['id']);
-        $this->assertSame('dim-comment_' . $comment->comment_ID, (string) $xml->response['action']);
-        $this->assertGreaterThanOrEqual(time() - 10, (int) $xml->response[0]->comment[0]->supplemental[0]->time[0]);
-        $this->assertLessThanOrEqual(time(), (int) $xml->response[0]->comment[0]->supplemental[0]->time[0]);
+        $this->assertSame($comment->comment_ID, (string)$xml->response[0]->comment['id']);
+        $this->assertSame('dim-comment_' . $comment->comment_ID, (string)$xml->response['action']);
+        $this->assertGreaterThanOrEqual(time() - 10, (int)$xml->response[0]->comment[0]->supplemental[0]->time[0]);
+        $this->assertLessThanOrEqual(time(), (int)$xml->response[0]->comment[0]->supplemental[0]->time[0]);
 
         // Check the status.
         $current = wp_get_comment_status($comment->comment_ID);
@@ -104,13 +103,13 @@ class Tests_Ajax_wpAjaxDimComment extends WP_Ajax_UnitTestCase
 
         // The total is calculated based on a page break -OR- a random number. Let's look for both possible outcomes.
         $comment_count = wp_count_comments(0);
-        $recalc_total  = $comment_count->total_comments;
+        $recalc_total = $comment_count->total_comments;
 
         // Delta is not specified, it will always be 1 lower than the request.
         $total = $_POST['_total'] - 1;
 
         // Check for either possible total.
-        $this->assertContains((int) $xml->response[0]->comment[0]->supplemental[0]->total[0], [$total, $recalc_total]);
+        $this->assertContains((int)$xml->response[0]->comment[0]->supplemental[0]->total[0], [$total, $recalc_total]);
     }
 
     /**
@@ -122,7 +121,6 @@ class Tests_Ajax_wpAjaxDimComment extends WP_Ajax_UnitTestCase
      */
     public function _test_as_subscriber($comment)
     {
-
         // Reset request.
         $this->_clear_post_action();
 
@@ -130,12 +128,12 @@ class Tests_Ajax_wpAjaxDimComment extends WP_Ajax_UnitTestCase
         $this->_setRole('subscriber');
 
         // Set up the $_POST request.
-        $_POST['id']          = $comment->comment_ID;
+        $_POST['id'] = $comment->comment_ID;
         $_POST['_ajax_nonce'] = wp_create_nonce('approve-comment_' . $comment->comment_ID);
-        $_POST['_total']      = count($this->_comments);
-        $_POST['_per_page']   = 100;
-        $_POST['_page']       = 1;
-        $_POST['_url']        = admin_url('edit-comments.php');
+        $_POST['_total'] = count($this->_comments);
+        $_POST['_per_page'] = 100;
+        $_POST['_page'] = 1;
+        $_POST['_url'] = admin_url('edit-comments.php');
 
         // Make the request.
         $this->expectException('WPAjaxDieStopException');
@@ -152,7 +150,6 @@ class Tests_Ajax_wpAjaxDimComment extends WP_Ajax_UnitTestCase
      */
     public function _test_with_bad_nonce($comment)
     {
-
         // Reset request.
         $this->_clear_post_action();
 
@@ -160,12 +157,12 @@ class Tests_Ajax_wpAjaxDimComment extends WP_Ajax_UnitTestCase
         $this->_setRole('administrator');
 
         // Set up the $_POST request.
-        $_POST['id']          = $comment->comment_ID;
+        $_POST['id'] = $comment->comment_ID;
         $_POST['_ajax_nonce'] = wp_create_nonce(uniqid());
-        $_POST['_total']      = count($this->_comments);
-        $_POST['_per_page']   = 100;
-        $_POST['_page']       = 1;
-        $_POST['_url']        = admin_url('edit-comments.php');
+        $_POST['_total'] = count($this->_comments);
+        $_POST['_per_page'] = 100;
+        $_POST['_page'] = 1;
+        $_POST['_url'] = admin_url('edit-comments.php');
 
         // Make the request.
         $this->expectException('WPAjaxDieStopException');
@@ -180,7 +177,6 @@ class Tests_Ajax_wpAjaxDimComment extends WP_Ajax_UnitTestCase
      */
     public function test_with_bad_id()
     {
-
         // Reset request.
         $this->_clear_post_action();
 
@@ -188,27 +184,25 @@ class Tests_Ajax_wpAjaxDimComment extends WP_Ajax_UnitTestCase
         $this->_setRole('administrator');
 
         // Set up the $_POST request.
-        $_POST['id']          = 12346789;
+        $_POST['id'] = 12346789;
         $_POST['_ajax_nonce'] = wp_create_nonce('dim-comment_12346789');
-        $_POST['_total']      = count($this->_comments);
-        $_POST['_per_page']   = 100;
-        $_POST['_page']       = 1;
-        $_POST['_url']        = admin_url('edit-comments.php');
+        $_POST['_total'] = count($this->_comments);
+        $_POST['_per_page'] = 100;
+        $_POST['_page'] = 1;
+        $_POST['_url'] = admin_url('edit-comments.php');
 
         // Make the request, look for a timestamp in the exception.
         try {
             $this->_handleAjax('dim-comment');
             $this->fail('Expected exception: WPAjaxDieContinueException');
         } catch (WPAjaxDieContinueException $e) {
-
             // Get the response.
             $xml = simplexml_load_string($this->_last_response, 'SimpleXMLElement', LIBXML_NOCDATA);
 
             // Ensure everything is correct.
-            $this->assertSame('0', (string) $xml->response[0]->comment['id']);
-            $this->assertSame('dim-comment_0', (string) $xml->response['action']);
+            $this->assertSame('0', (string)$xml->response[0]->comment['id']);
+            $this->assertSame('dim-comment_0', (string)$xml->response['action']);
             $this->assertStringContainsString('Comment ' . $_POST['id'] . ' does not exist', $this->_last_response);
-
         } catch (Exception $e) {
             $this->fail('Unexpected exception type: ' . get_class($e));
         }

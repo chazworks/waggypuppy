@@ -13,7 +13,7 @@
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
-    <?php if (! is_front_page()) : ?>
+    <?php if (!is_front_page()) : ?>
         <header class="entry-header alignwide">
             <?php get_template_part('template-parts/header/entry-header'); ?>
             <?php twenty_twenty_one_post_thumbnail(); ?>
@@ -30,11 +30,11 @@
 
         wp_link_pages(
             [
-                'before'   => '<nav class="page-links" aria-label="' . esc_attr__('Page', 'twentytwentyone') . '">',
-                'after'    => '</nav>',
+                'before' => '<nav class="page-links" aria-label="' . esc_attr__('Page', 'twentytwentyone') . '">',
+                'after' => '</nav>',
                 /* translators: %: Page number. */
                 'pagelink' => esc_html__('Page %', 'twentytwentyone'),
-            ]
+            ],
         );
         ?>
     </div><!-- .entry-content -->
@@ -44,12 +44,12 @@
             <?php
             edit_post_link(
                 sprintf(
-                    /* translators: %s: Post title. Only visible to screen readers. */
+                /* translators: %s: Post title. Only visible to screen readers. */
                     esc_html__('Edit %s', 'twentytwentyone'),
-                    '<span class="screen-reader-text">' . get_the_title() . '</span>'
+                    '<span class="screen-reader-text">' . get_the_title() . '</span>',
                 ),
                 '<span class="edit-link">',
-                '</span>'
+                '</span>',
             );
             ?>
         </footer><!-- .entry-footer -->

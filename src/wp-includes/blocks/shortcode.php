@@ -8,12 +8,12 @@
 /**
  * Performs wpautop() on the shortcode block content.
  *
- * @since 5.0.0
- *
- * @param array  $attributes The block attributes.
- * @param string $content    The block content.
+ * @param array $attributes The block attributes.
+ * @param string $content The block content.
  *
  * @return string Returns the block content.
+ * @since 5.0.0
+ *
  */
 function render_block_core_shortcode($attributes, $content)
 {
@@ -31,7 +31,8 @@ function register_block_core_shortcode()
         __DIR__ . '/shortcode',
         [
             'render_callback' => 'render_block_core_shortcode',
-        ]
+        ],
     );
 }
+
 add_action('init', 'register_block_core_shortcode');

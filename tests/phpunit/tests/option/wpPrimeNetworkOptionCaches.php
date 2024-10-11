@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test wp_prime_network_option_caches().
  *
@@ -20,8 +21,8 @@ class Tests_Option_WpPrimeNetworkOptionCaches extends WP_UnitTestCase
             self::$different_network_id = $factory->network->create(
                 [
                     'domain' => 'wp.org',
-                    'path'   => '/',
-                ]
+                    'path' => '/',
+                ],
             );
         }
     }
@@ -81,7 +82,7 @@ class Tests_Option_WpPrimeNetworkOptionCaches extends WP_UnitTestCase
             $this->assertSame(
                 "value_$option",
                 get_network_option($network_id, $option),
-                "$option has not been loaded"
+                "$option has not been loaded",
             );
         }
 
@@ -89,7 +90,7 @@ class Tests_Option_WpPrimeNetworkOptionCaches extends WP_UnitTestCase
         $this->assertSame(
             $initial_query_count,
             get_num_queries(),
-            'Additional database queries were made.'
+            'Additional database queries were made.',
         );
     }
 
@@ -149,7 +150,7 @@ class Tests_Option_WpPrimeNetworkOptionCaches extends WP_UnitTestCase
         $this->assertSame(
             $initial_query_count,
             get_num_queries(),
-            'Additional database queries were made.'
+            'Additional database queries were made.',
         );
     }
 
@@ -212,17 +213,18 @@ class Tests_Option_WpPrimeNetworkOptionCaches extends WP_UnitTestCase
             $this->assertSame(
                 "value_$option",
                 get_network_option($network_id, $option),
-                "$option has not been loaded"
+                "$option has not been loaded",
             );
         }
 
-        $this->assertFalse(get_network_option($network_id, 'option404notfound'), 'option404notfound should return false as option does not exist');
+        $this->assertFalse(get_network_option($network_id, 'option404notfound'),
+            'option404notfound should return false as option does not exist');
 
         // Ensure no additional database queries were made.
         $this->assertSame(
             $initial_query_count,
             get_num_queries(),
-            'Additional database queries were made.'
+            'Additional database queries were made.',
         );
     }
 
@@ -245,7 +247,7 @@ class Tests_Option_WpPrimeNetworkOptionCaches extends WP_UnitTestCase
         wp_prime_network_option_caches(self::$different_network_id, $options_to_prime);
 
         $notoptions_key = self::$different_network_id . ':notoptions';
-        $expected       = array_fill_keys($options_to_prime, true);
+        $expected = array_fill_keys($options_to_prime, true);
         $this->assertSame($expected, wp_cache_get($notoptions_key, 'site-options'));
     }
 
@@ -258,7 +260,7 @@ class Tests_Option_WpPrimeNetworkOptionCaches extends WP_UnitTestCase
      */
     public function test_wp_prime_network_option_caches_multiple_networks()
     {
-        $network_id  = get_current_network_id();
+        $network_id = get_current_network_id();
         $cache_group = 'site-options';
 
         // Create some options to prime.
@@ -270,7 +272,7 @@ class Tests_Option_WpPrimeNetworkOptionCaches extends WP_UnitTestCase
 
         $cache_keys = [];
         foreach ($options_to_prime as $option) {
-            $cache_key           = "$network_id:$option";
+            $cache_key = "$network_id:$option";
             $cache_keys[$option] = $cache_key;
         }
 
@@ -295,7 +297,7 @@ class Tests_Option_WpPrimeNetworkOptionCaches extends WP_UnitTestCase
             $this->assertFalse(wp_cache_get($cache_key, $cache_group), "$option cache should be false");
             $this->assertFalse(
                 get_network_option(self::$different_network_id, $option),
-                "$option has not been loaded"
+                "$option has not been loaded",
             );
         }
 
@@ -303,7 +305,7 @@ class Tests_Option_WpPrimeNetworkOptionCaches extends WP_UnitTestCase
         $this->assertSame(
             $initial_query_count,
             get_num_queries(),
-            'Additional database queries were made.'
+            'Additional database queries were made.',
         );
     }
 }

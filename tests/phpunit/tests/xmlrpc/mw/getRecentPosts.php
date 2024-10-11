@@ -11,16 +11,16 @@ class Tests_XMLRPC_mw_getRecentPosts extends WP_XMLRPC_UnitTestCase
     {
         self::$post_id = $factory->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_author' => $factory->user->create(
                     [
                         'user_login' => 'author',
-                        'user_pass'  => 'author',
-                        'role'       => 'author',
-                    ]
+                        'user_pass' => 'author',
+                        'role' => 'author',
+                    ],
                 ),
-                'post_date'   => date_format(date_create('+1 day'), 'Y-m-d H:i:s'),
-            ]
+                'post_date' => date_format(date_create('+1 day'), 'Y-m-d H:i:s'),
+            ],
         );
     }
 
@@ -56,7 +56,7 @@ class Tests_XMLRPC_mw_getRecentPosts extends WP_XMLRPC_UnitTestCase
     {
         add_theme_support('post-thumbnails');
 
-        $fields  = ['post'];
+        $fields = ['post'];
         $results = $this->myxmlrpcserver->mw_getRecentPosts([1, 'author', 'author']);
         $this->assertNotIXRError($results);
 
@@ -108,7 +108,7 @@ class Tests_XMLRPC_mw_getRecentPosts extends WP_XMLRPC_UnitTestCase
         add_theme_support('post-thumbnails');
 
         // Create attachment.
-        $filename      = (DIR_TESTDATA . '/images/a2-small.jpg');
+        $filename = (DIR_TESTDATA . '/images/a2-small.jpg');
         $attachment_id = self::factory()->attachment->create_upload_object($filename, self::$post_id);
         set_post_thumbnail(self::$post_id, $attachment_id);
 
@@ -119,7 +119,7 @@ class Tests_XMLRPC_mw_getRecentPosts extends WP_XMLRPC_UnitTestCase
             $this->assertIsString($result['wp_post_thumbnail']);
             $this->assertStringMatchesFormat('%d', $result['wp_post_thumbnail']);
 
-            if (! empty($result['wp_post_thumbnail']) || $result['postid'] === self::$post_id) {
+            if (!empty($result['wp_post_thumbnail']) || $result['postid'] === self::$post_id) {
                 $attachment_id = get_post_meta($result['postid'], '_thumbnail_id', true);
 
                 $this->assertSame($attachment_id, $result['wp_post_thumbnail']);
@@ -137,9 +137,10 @@ class Tests_XMLRPC_mw_getRecentPosts extends WP_XMLRPC_UnitTestCase
         $this->assertNotIXRError($results);
 
         foreach ($results as $result) {
-            $post              = get_post($result['postid']);
-            $date_gmt          = strtotime(get_gmt_from_date(mysql2date('Y-m-d H:i:s', $post->post_date, false), 'Ymd\TH:i:s'));
-            $date_modified_gmt = strtotime(get_gmt_from_date(mysql2date('Y-m-d H:i:s', $post->post_modified, false), 'Ymd\TH:i:s'));
+            $post = get_post($result['postid']);
+            $date_gmt = strtotime(get_gmt_from_date(mysql2date('Y-m-d H:i:s', $post->post_date, false), 'Ymd\TH:i:s'));
+            $date_modified_gmt = strtotime(get_gmt_from_date(mysql2date('Y-m-d H:i:s', $post->post_modified, false),
+                'Ymd\TH:i:s'));
 
             $this->assertInstanceOf('IXR_Date', $result['dateCreated']);
             $this->assertInstanceOf('IXR_Date', $result['date_created_gmt']);

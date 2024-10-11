@@ -29,7 +29,7 @@ class Tests_Meta_DeleteMetadata extends WP_UnitTestCase
         $this->assertSameSets($vals, $m);
 
         delete_metadata('post', 12345, 'foo', '1');
-        $m        = get_metadata('post', 12345, 'foo', false);
+        $m = get_metadata('post', 12345, 'foo', false);
         $expected = array_diff($vals, ['1']);
 
         $this->assertSameSets($expected, $m);
@@ -48,7 +48,7 @@ class Tests_Meta_DeleteMetadata extends WP_UnitTestCase
         $this->assertSameSets($vals, $m);
 
         delete_metadata('post', 12345, 'foo', '0');
-        $m        = get_metadata('post', 12345, 'foo', false);
+        $m = get_metadata('post', 12345, 'foo', false);
         $expected = array_diff($vals, ['0']);
 
         $this->assertSameSets($expected, $m);
@@ -134,7 +134,8 @@ class Tests_Meta_DeleteMetadata extends WP_UnitTestCase
     /**
      * @ticket 35797
      */
-    public function test_delete_all_should_invalidate_cache_for_all_objects_with_meta_key_when_meta_value_is_not_provided()
+    public function test_delete_all_should_invalidate_cache_for_all_objects_with_meta_key_when_meta_value_is_not_provided(
+    )
     {
         $p1 = 1234;
         $p2 = 5678;
@@ -169,7 +170,7 @@ class Tests_Meta_DeleteMetadata extends WP_UnitTestCase
     {
         $this->assertSame(
             'integer',
-            gettype($object_id)
+            gettype($object_id),
         );
     }
 }

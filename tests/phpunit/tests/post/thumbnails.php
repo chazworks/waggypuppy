@@ -10,21 +10,21 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
     protected static $different_post;
     protected static $attachment_id;
 
-    protected $current_size_filter_data   = null;
+    protected $current_size_filter_data = null;
     protected $current_size_filter_result = null;
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
-        self::$post           = $factory->post->create_and_get();
+        self::$post = $factory->post->create_and_get();
         self::$different_post = $factory->post->create_and_get();
 
-        $file                = DIR_TESTDATA . '/images/canola.jpg';
+        $file = DIR_TESTDATA . '/images/canola.jpg';
         self::$attachment_id = $factory->attachment->create_upload_object(
             $file,
             self::$post->ID,
             [
                 'post_mime_type' => 'image/jpeg',
-            ]
+            ],
         );
     }
 
@@ -80,9 +80,9 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
         $query = new WP_Query(
             [
                 'post_type' => 'any',
-                'post__in'  => [self::$post->ID],
-                'orderby'   => 'post__in',
-            ]
+                'post__in' => [self::$post->ID],
+                'orderby' => 'post__in',
+            ],
         );
 
         $this->assertFalse($query->thumbnails_cached);
@@ -101,15 +101,15 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
 
         $caption = 'This is a caption.';
 
-        $post_id       = self::factory()->post->create();
+        $post_id = self::factory()->post->create();
         $attachment_id = self::factory()->attachment->create_object(
             'image.jpg',
             $post_id,
             [
                 'post_mime_type' => 'image/jpeg',
-                'post_type'      => 'attachment',
-                'post_excerpt'   => $caption,
-            ]
+                'post_type' => 'attachment',
+                'post_excerpt' => $caption,
+            ],
         );
 
         set_post_thumbnail($post_id, $attachment_id);
@@ -122,15 +122,15 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
      */
     public function test_get_the_post_thumbnail_caption_empty()
     {
-        $post_id       = self::factory()->post->create();
+        $post_id = self::factory()->post->create();
         $attachment_id = self::factory()->attachment->create_object(
             'image.jpg',
             $post_id,
             [
                 'post_mime_type' => 'image/jpeg',
-                'post_type'      => 'attachment',
-                'post_excerpt'   => '',
-            ]
+                'post_type' => 'attachment',
+                'post_excerpt' => '',
+            ],
         );
 
         set_post_thumbnail($post_id, $attachment_id);
@@ -145,15 +145,15 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
     {
         $caption = 'This is a caption.';
 
-        $post_id       = self::factory()->post->create();
+        $post_id = self::factory()->post->create();
         $attachment_id = self::factory()->attachment->create_object(
             'image.jpg',
             $post_id,
             [
                 'post_mime_type' => 'image/jpeg',
-                'post_type'      => 'attachment',
-                'post_excerpt'   => $caption,
-            ]
+                'post_type' => 'attachment',
+                'post_excerpt' => $caption,
+            ],
         );
 
         set_post_thumbnail($post_id, $attachment_id);
@@ -174,7 +174,7 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
             false,
             [
                 'class' => 'attachment-post-thumbnail size-post-thumbnail wp-post-image',
-            ]
+            ],
         );
 
         $this->assertSame($expected, get_the_post_thumbnail(self::$post));
@@ -186,7 +186,6 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
 
     public function test_the_post_thumbnail()
     {
-
         $this->expectOutputString('');
         the_post_thumbnail();
 
@@ -203,7 +202,7 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
             false,
             [
                 'class' => 'attachment-post-thumbnail size-post-thumbnail wp-post-image',
-            ]
+            ],
         );
 
         $this->expectOutputString($expected);
@@ -267,9 +266,9 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
     {
         $old_post = isset($GLOBALS['post']) ? $GLOBALS['post'] : null;
 
-        $GLOBALS['post']           = self::$post;
+        $GLOBALS['post'] = self::$post;
         $_REQUEST['_thumbnail_id'] = self::$attachment_id;
-        $_REQUEST['preview_id']    = self::$post->ID;
+        $_REQUEST['preview_id'] = self::$post->ID;
 
         $result = _wp_preview_post_thumbnail_filter('', self::$post->ID, '_thumbnail_id');
 
@@ -291,12 +290,12 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
         $secondary_post = self::factory()->post->create(
             [
                 'post_stauts' => 'publish',
-            ]
+            ],
         );
 
-        $GLOBALS['post']           = self::$post;
+        $GLOBALS['post'] = self::$post;
         $_REQUEST['_thumbnail_id'] = self::$attachment_id;
-        $_REQUEST['preview_id']    = $secondary_post;
+        $_REQUEST['preview_id'] = $secondary_post;
 
         $result = _wp_preview_post_thumbnail_filter('', self::$post->ID, '_thumbnail_id');
 
@@ -315,12 +314,12 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
     {
         $post_id = wp_insert_post(
             [
-                'ID'            => self::$post->ID,
-                'post_status'   => 'publish',
-                'post_content'  => 'Post content',
-                'post_title'    => 'Post Title',
+                'ID' => self::$post->ID,
+                'post_status' => 'publish',
+                'post_content' => 'Post content',
+                'post_title' => 'Post Title',
                 '_thumbnail_id' => self::$attachment_id,
-            ]
+            ],
         );
 
         $thumbnail_id = get_post_thumbnail_id($post_id);
@@ -328,12 +327,12 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
 
         $post_id = wp_insert_post(
             [
-                'ID'            => $post_id,
-                'post_status'   => 'publish',
-                'post_content'  => 'Post content',
-                'post_title'    => 'Post Title',
-                '_thumbnail_id' => - 1, // -1 removes post thumbnail.
-            ]
+                'ID' => $post_id,
+                'post_status' => 'publish',
+                'post_content' => 'Post content',
+                'post_title' => 'Post Title',
+                '_thumbnail_id' => -1, // -1 removes post thumbnail.
+            ],
         );
 
         $thumbnail_id = get_post_thumbnail_id($post_id);
@@ -348,15 +347,15 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
         // Audio files support featured images.
         $post_id = wp_insert_post(
             [
-                'post_type'      => 'attachment',
-                'post_status'    => 'inherit',
-                'post_content'   => 'Post content',
-                'post_title'     => 'Post Title',
+                'post_type' => 'attachment',
+                'post_status' => 'inherit',
+                'post_content' => 'Post content',
+                'post_title' => 'Post Title',
                 'post_mime_type' => 'audio/mpeg',
-                'post_parent'    => 0,
-                'file'           => DIR_TESTDATA . '/audio/test-noise.mp3', // File does not exist, but does not matter here.
-                '_thumbnail_id'  => self::$attachment_id,
-            ]
+                'post_parent' => 0,
+                'file' => DIR_TESTDATA . '/audio/test-noise.mp3', // File does not exist, but does not matter here.
+                '_thumbnail_id' => self::$attachment_id,
+            ],
         );
 
         $thumbnail_id = get_post_thumbnail_id($post_id);
@@ -365,15 +364,15 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
         // Images do not support featured images.
         $post_id = wp_insert_post(
             [
-                'post_type'      => 'attachment',
-                'post_status'    => 'inherit',
-                'post_content'   => 'Post content',
-                'post_title'     => 'Post Title',
+                'post_type' => 'attachment',
+                'post_status' => 'inherit',
+                'post_content' => 'Post content',
+                'post_title' => 'Post Title',
                 'post_mime_type' => 'image/jpeg',
-                'post_parent'    => 0,
-                'file'           => DIR_TESTDATA . '/images/canola.jpg',
-                '_thumbnail_id'  => self::$attachment_id,
-            ]
+                'post_parent' => 0,
+                'file' => DIR_TESTDATA . '/images/canola.jpg',
+                '_thumbnail_id' => self::$attachment_id,
+            ],
         );
 
         $thumbnail_id = get_post_thumbnail_id($post_id);
@@ -395,7 +394,7 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
 
         $result = $this->current_size_filter_result;
 
-        $this->current_size_filter_data   = null;
+        $this->current_size_filter_data = null;
         $this->current_size_filter_result = null;
 
         $this->assertSame('medium', $result);
@@ -408,7 +407,7 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
     public function test_post_thumbnail_size_filter_complex($which_post, $expected)
     {
         $this->current_size_filter_data = [
-            self::$post->ID           => 'medium',
+            self::$post->ID => 'medium',
             self::$different_post->ID => 'thumbnail',
         ];
 
@@ -422,7 +421,7 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
 
         $result = $this->current_size_filter_result;
 
-        $this->current_size_filter_data   = null;
+        $this->current_size_filter_data = null;
         $this->current_size_filter_result = null;
 
         $this->assertSame($expected, $result);
@@ -447,10 +446,12 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
         set_post_thumbnail(self::$post, self::$attachment_id);
 
         $html = get_the_post_thumbnail(self::$post, 'post-thumbnail', ['loading' => 'eager']);
-        $this->assertStringContainsString(' loading="eager"', $html, 'loading=eager was not present in img tag because attributes array with loading=eager was overwritten.');
+        $this->assertStringContainsString(' loading="eager"', $html,
+            'loading=eager was not present in img tag because attributes array with loading=eager was overwritten.');
 
         $html = get_the_post_thumbnail(self::$post, 'post-thumbnail', 'loading=eager');
-        $this->assertStringContainsString(' loading="eager"', $html, 'loading=eager was not present in img tag because attributes string with loading=eager was overwritten.');
+        $this->assertStringContainsString(' loading="eager"', $html,
+            'loading=eager was not present in img tag because attributes string with loading=eager was overwritten.');
     }
 
     /**
@@ -525,7 +526,7 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
         $this->assertSame(
             'the_post_thumbnail',
             $last_context,
-            'The filter was not added.'
+            'The filter was not added.',
         );
 
         _wp_post_thumbnail_context_filter_remove();
@@ -536,7 +537,7 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
         $this->assertSame(
             'wp_get_attachment_image',
             $last_context,
-            'The filter was not removed.'
+            'The filter was not removed.',
         );
     }
 
@@ -577,7 +578,7 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
         $this->assertSame(
             'the_post_thumbnail',
             $last_context,
-            'The context was not overridden.'
+            'The context was not overridden.',
         );
 
         // The context should no longer be overridden.
@@ -586,7 +587,7 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
         $this->assertSame(
             'wp_get_attachment_image',
             $last_context,
-            'The context was not restored.'
+            'The context was not restored.',
         );
     }
 
@@ -605,7 +606,7 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
                 $last_context = $context;
                 return $context;
             },
-            11
+            11,
         );
     }
 

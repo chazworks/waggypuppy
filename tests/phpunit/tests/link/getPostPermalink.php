@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @group link
  * @covers ::get_post_permalink

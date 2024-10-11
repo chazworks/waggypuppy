@@ -27,16 +27,16 @@ class Tests_Embed_Template extends WP_UnitTestCase
         $user = self::factory()->user->create_and_get(
             [
                 'display_name' => 'John Doe',
-            ]
+            ],
         );
 
         $post_id = self::factory()->post->create(
             [
-                'post_author'  => $user->ID,
-                'post_title'   => 'Hello World',
+                'post_author' => $user->ID,
+                'post_title' => 'Hello World',
                 'post_content' => 'Foo Bar',
                 'post_excerpt' => 'Bar Baz',
-            ]
+            ],
         );
         $this->go_to(get_post_embed_url($post_id));
 
@@ -57,20 +57,20 @@ class Tests_Embed_Template extends WP_UnitTestCase
 
     public function test_oembed_output_post_with_thumbnail()
     {
-        $post_id       = self::factory()->post->create(
+        $post_id = self::factory()->post->create(
             [
-                'post_title'   => 'Hello World',
+                'post_title' => 'Hello World',
                 'post_content' => 'Foo Bar',
                 'post_excerpt' => 'Bar Baz',
-            ]
+            ],
         );
-        $file          = DIR_TESTDATA . '/images/canola.jpg';
+        $file = DIR_TESTDATA . '/images/canola.jpg';
         $attachment_id = self::factory()->attachment->create_object(
             $file,
             $post_id,
             [
                 'post_mime_type' => 'image/jpeg',
-            ]
+            ],
         );
         set_post_thumbnail($post_id, $attachment_id);
 
@@ -107,17 +107,17 @@ class Tests_Embed_Template extends WP_UnitTestCase
 
     public function test_oembed_output_attachment()
     {
-        $post          = self::factory()->post->create_and_get();
-        $file          = DIR_TESTDATA . '/images/canola.jpg';
+        $post = self::factory()->post->create_and_get();
+        $file = DIR_TESTDATA . '/images/canola.jpg';
         $attachment_id = self::factory()->attachment->create_object(
             $file,
             $post->ID,
             [
                 'post_mime_type' => 'image/jpeg',
-                'post_title'     => 'Hello World',
-                'post_content'   => 'Foo Bar',
-                'post_excerpt'   => 'Bar Baz',
-            ]
+                'post_title' => 'Hello World',
+                'post_content' => 'Foo Bar',
+                'post_excerpt' => 'Bar Baz',
+            ],
         );
 
         $this->go_to(get_post_embed_url($attachment_id));
@@ -139,11 +139,11 @@ class Tests_Embed_Template extends WP_UnitTestCase
     {
         $post_id = self::factory()->post->create(
             [
-                'post_title'   => 'Hello World',
+                'post_title' => 'Hello World',
                 'post_content' => 'Foo Bar',
                 'post_excerpt' => 'Bar Baz',
-                'post_status'  => 'draft',
-            ]
+                'post_status' => 'draft',
+            ],
         );
 
         $this->go_to(get_post_embed_url($post_id));
@@ -163,12 +163,12 @@ class Tests_Embed_Template extends WP_UnitTestCase
     {
         $post_id = self::factory()->post->create(
             [
-                'post_title'   => 'Hello World',
+                'post_title' => 'Hello World',
                 'post_content' => 'Foo Bar',
                 'post_excerpt' => 'Bar Baz',
-                'post_status'  => 'future',
-                'post_date'    => date_format(date_create('+1 day'), 'Y-m-d H:i:s'),
-            ]
+                'post_status' => 'future',
+                'post_date' => date_format(date_create('+1 day'), 'Y-m-d H:i:s'),
+            ],
         );
 
         $this->go_to(get_post_embed_url($post_id));
@@ -188,11 +188,11 @@ class Tests_Embed_Template extends WP_UnitTestCase
     {
         $post_id = self::factory()->post->create(
             [
-                'post_title'   => 'Hello World',
+                'post_title' => 'Hello World',
                 'post_content' => 'Foo Bar',
                 'post_excerpt' => 'Bar Baz',
-                'post_status'  => 'private',
-            ]
+                'post_status' => 'private',
+            ],
         );
 
         $this->go_to(get_post_embed_url($post_id));
@@ -215,12 +215,12 @@ class Tests_Embed_Template extends WP_UnitTestCase
 
         $post_id = self::factory()->post->create(
             [
-                'post_title'   => 'Hello World',
+                'post_title' => 'Hello World',
                 'post_content' => 'Foo Bar',
                 'post_excerpt' => 'Bar Baz',
-                'post_status'  => 'private',
-                'post_author'  => $user_id,
-            ]
+                'post_status' => 'private',
+                'post_author' => $user_id,
+            ],
         );
 
         $this->go_to(get_post_embed_url($post_id));
@@ -248,9 +248,9 @@ class Tests_Embed_Template extends WP_UnitTestCase
     {
         $post_id = self::factory()->post->create(
             [
-                'post_title'   => 'Foo Bar',
+                'post_title' => 'Foo Bar',
                 'post_content' => 'Bar Baz',
-            ]
+            ],
         );
 
         $this->assertSame('', wp_embed_excerpt_more(''));
@@ -261,7 +261,7 @@ class Tests_Embed_Template extends WP_UnitTestCase
 
         $expected = sprintf(
             ' &hellip; <a href="%s" class="wp-embed-more" target="_top">Continue reading <span class="screen-reader-text">Foo Bar</span></a>',
-            get_the_permalink()
+            get_the_permalink(),
         );
 
         $this->assertSame($expected, $actual);
@@ -278,14 +278,14 @@ class Tests_Embed_Template extends WP_UnitTestCase
 
     public function test_is_embed_attachment()
     {
-        $post_id       = self::factory()->post->create();
-        $file          = DIR_TESTDATA . '/images/canola.jpg';
+        $post_id = self::factory()->post->create();
+        $file = DIR_TESTDATA . '/images/canola.jpg';
         $attachment_id = self::factory()->attachment->create_object(
             $file,
             $post_id,
             [
                 'post_mime_type' => 'image/jpeg',
-            ]
+            ],
         );
         $this->go_to(get_post_embed_url($attachment_id));
         $this->assertTrue(is_embed());
@@ -306,17 +306,21 @@ class Tests_Embed_Template extends WP_UnitTestCase
     public function test_get_post_embed_html()
     {
         $post_id = self::factory()->post->create();
-        $title   = esc_attr(
+        $title = esc_attr(
             sprintf(
                 __('&#8220;%1$s&#8221; &#8212; %2$s'),
                 get_the_title($post_id),
-                get_bloginfo('name')
-            )
+                get_bloginfo('name'),
+            ),
         );
 
-        $expected = '<iframe sandbox="allow-scripts" security="restricted" src="' . esc_url(get_post_embed_url($post_id)) . '#?secret=__SECRET__" width="200" height="200" title="' . $title . '" data-secret=__SECRET__ frameborder="0" marginwidth="0" marginheight="0" scrolling="no" class="wp-embedded-content"></iframe>';
-        $actual   = get_post_embed_html(200, 200, $post_id);
-        $actual   = preg_replace('/secret=("?)\w+\1/', 'secret=__SECRET__', $actual);
+        $expected = '<iframe sandbox="allow-scripts" security="restricted" src="'
+            . esc_url(get_post_embed_url($post_id))
+            . '#?secret=__SECRET__" width="200" height="200" title="'
+            . $title
+            . '" data-secret=__SECRET__ frameborder="0" marginwidth="0" marginheight="0" scrolling="no" class="wp-embedded-content"></iframe>';
+        $actual = get_post_embed_html(200, 200, $post_id);
+        $actual = preg_replace('/secret=("?)\w+\1/', 'secret=__SECRET__', $actual);
 
         $this->assertStringStartsWith('<blockquote class="wp-embedded-content" data-secret=__SECRET__>', $actual);
         $this->assertStringContainsString($expected, $actual);
@@ -341,7 +345,7 @@ class Tests_Embed_Template extends WP_UnitTestCase
 
         $this->assertFalse($scripts->query('wp-embed', 'enqueued'));
 
-        $post_embed     = '<blockquote class="wp-embedded-content" data-secret="S24AQCJW9i"><a href="https://make.wp.org/core/2016/03/11/embeds-changes-in-wordpress-4-5/">Embeds Changes in WP 4.5</a></blockquote><iframe class="wp-embedded-content" sandbox="allow-scripts" security="restricted" style="position: absolute; visibility: hidden;" title="&#8220;Embeds Changes in WP 4.5&#8221; &#8212; Make waggypuppy Core" src="https://make.wp.org/core/2016/03/11/embeds-changes-in-wordpress-4-5/embed/#?secret=S24AQCJW9i" data-secret="S24AQCJW9i" width="600" height="338" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>';
+        $post_embed = '<blockquote class="wp-embedded-content" data-secret="S24AQCJW9i"><a href="https://make.wp.org/core/2016/03/11/embeds-changes-in-wordpress-4-5/">Embeds Changes in WP 4.5</a></blockquote><iframe class="wp-embedded-content" sandbox="allow-scripts" security="restricted" style="position: absolute; visibility: hidden;" title="&#8220;Embeds Changes in WP 4.5&#8221; &#8212; Make waggypuppy Core" src="https://make.wp.org/core/2016/03/11/embeds-changes-in-wordpress-4-5/embed/#?secret=S24AQCJW9i" data-secret="S24AQCJW9i" width="600" height="338" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>';
         $non_post_embed = '<iframe title="Zoo Cares For 23 Tiny Pond Turtles" width="750" height="422" src="https://www.youtube.com/embed/6ZXHqUjL6f8?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
 
         wp_maybe_enqueue_oembed_host_js($non_post_embed);

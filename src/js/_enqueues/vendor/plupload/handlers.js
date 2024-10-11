@@ -1,12 +1,15 @@
 /* global plupload, pluploadL10n, ajaxurl, post_id, wpUploaderInit, deleteUserSetting, setUserSetting, getUserSetting, shortform */
-var topWin = window.dialogArguments || opener || parent || top, uploader, uploader_init;
+var topWin = window.dialogArguments || opener || parent || top,
+	uploader,
+	uploader_init;
 
 // Progress and success handlers for media multi uploads.
 function fileQueued( fileObj ) {
 	// Get rid of unused form.
 	jQuery( '.media-blank' ).remove();
 
-	var items = jQuery( '#media-items' ).children(), postid = post_id || 0;
+	var items = jQuery( '#media-items' ).children(),
+		postid = post_id || 0;
 
 	// Collapse a single item.
 	if ( items.length == 1 ) {
@@ -16,8 +19,12 @@ function fileQueued( fileObj ) {
 	jQuery( '<div class="media-item">' )
 		.attr( 'id', 'media-item-' + fileObj.id )
 		.addClass( 'child-of-' + postid )
-		.append( jQuery( '<div class="filename original">' ).text( ' ' + fileObj.name ),
-			'<div class="progress"><div class="percent">0%</div><div class="bar"></div></div>' )
+		.append(
+			jQuery( '<div class="filename original">' ).text(
+				' ' + fileObj.name
+			),
+			'<div class="progress"><div class="percent">0%</div><div class="bar"></div></div>'
+		)
 		.appendTo( jQuery( '#media-items' ) );
 
 	// Disable submit.
@@ -28,7 +35,7 @@ function uploadStart() {
 	try {
 		if ( typeof topWin.tb_remove != 'undefined' )
 			topWin.jQuery( '#TB_overlay' ).unbind( 'click', topWin.tb_remove );
-	} catch( e ){}
+	} catch ( e ) {}
 
 	return true;
 }
@@ -46,10 +53,16 @@ function fileUploading( up, file ) {
 		max = parseInt( up.settings.max_file_size, 10 );
 
 	if ( max > hundredmb && file.size > hundredmb ) {
-		setTimeout( function() {
-			if ( file.status < 3 && file.loaded === 0 ) { // Not uploading.
-				wpFileError( file, pluploadL10n.big_upload_failed.replace( '%1$s', '<a class="uploader-html" href="#">' ).replace( '%2$s', '</a>' ) );
-				up.stop();  // Stop the whole queue.
+		setTimeout( function () {
+			if ( file.status < 3 && file.loaded === 0 ) {
+				// Not uploading.
+				wpFileError(
+					file,
+					pluploadL10n.big_upload_failed
+						.replace( '%1$s', '<a class="uploader-html" href="#">' )
+						.replace( '%2$s', '</a>' )
+				);
+				up.stop(); // Stop the whole queue.
 				up.removeFile( file );
 				up.start(); // Restart the queue.
 			}
@@ -73,8 +86,7 @@ function updateMediaForm() {
 	// Only show Save buttons when there is at least one file.
 	if ( items.not( '.media-blank' ).length > 0 )
 		jQuery( '.savebutton' ).show();
-	else
-		jQuery( '.savebutton' ).hide();
+	else jQuery( '.savebutton' ).hide();
 }
 
 function uploadSuccess( fileObj, serverData ) {
@@ -99,7 +111,9 @@ function uploadSuccess( fileObj, serverData ) {
 
 	// Increment the counter.
 	if ( post_id && item.hasClass( 'child-of-' + post_id ) ) {
-		jQuery( '#attachments-count' ).text( 1 * jQuery( '#attachments-count' ).text() + 1 );
+		jQuery( '#attachments-count' ).text(
+			1 * jQuery( '#attachments-count' ).text() + 1
+		);
 	}
 }
 
@@ -110,101 +124,137 @@ function setResize( arg ) {
 				enabled: true,
 				width: window.resize_width,
 				height: window.resize_height,
-				quality: 100
+				quality: 100,
 			};
 		} else {
 			uploader.settings.multipart_params.image_resize = true;
 		}
 	} else {
-		delete( uploader.settings.multipart_params.image_resize );
+		delete uploader.settings.multipart_params.image_resize;
 	}
 }
 
 function prepareMediaItem( fileObj, serverData ) {
-	var f = ( typeof shortform == 'undefined' ) ? 1 : 2, item = jQuery( '#media-item-' + fileObj.id );
-	if ( f == 2 && shortform > 2 )
-		f = shortform;
+	var f = typeof shortform == 'undefined' ? 1 : 2,
+		item = jQuery( '#media-item-' + fileObj.id );
+	if ( f == 2 && shortform > 2 ) f = shortform;
 
 	try {
 		if ( typeof topWin.tb_remove != 'undefined' )
 			topWin.jQuery( '#TB_overlay' ).click( topWin.tb_remove );
-	} catch( e ){}
+	} catch ( e ) {}
 
-	if ( isNaN( serverData ) || !serverData ) {
+	if ( isNaN( serverData ) || ! serverData ) {
 		// Old style: Append the HTML returned by the server -- thumbnail and form inputs.
 		item.append( serverData );
 		prepareMediaItemInit( fileObj );
 	} else {
 		// New style: server data is just the attachment ID, fetch the thumbnail and form html from the server.
-		item.load( 'async-upload.php', {attachment_id:serverData, fetch:f}, function(){prepareMediaItemInit( fileObj );updateMediaForm();});
+		item.load(
+			'async-upload.php',
+			{ attachment_id: serverData, fetch: f },
+			function () {
+				prepareMediaItemInit( fileObj );
+				updateMediaForm();
+			}
+		);
 	}
 }
 
 function prepareMediaItemInit( fileObj ) {
 	var item = jQuery( '#media-item-' + fileObj.id );
 	// Clone the thumbnail as a "pinkynail" -- a tiny image to the left of the filename.
-	jQuery( '.thumbnail', item ).clone().attr( 'class', 'pinkynail toggle' ).prependTo( item );
+	jQuery( '.thumbnail', item )
+		.clone()
+		.attr( 'class', 'pinkynail toggle' )
+		.prependTo( item );
 
 	// Replace the original filename with the new (unique) one assigned during upload.
-	jQuery( '.filename.original', item ).replaceWith( jQuery( '.filename.new', item ) );
+	jQuery( '.filename.original', item ).replaceWith(
+		jQuery( '.filename.new', item )
+	);
 
 	// Bind Ajax to the new Delete button.
-	jQuery( 'a.delete', item ).on( 'click', function(){
+	jQuery( 'a.delete', item ).on( 'click', function () {
 		// Tell the server to delete it. TODO: Handle exceptions.
-		jQuery.ajax({
+		jQuery.ajax( {
 			url: ajaxurl,
 			type: 'post',
 			success: deleteSuccess,
 			error: deleteError,
 			id: fileObj.id,
 			data: {
-				id : this.id.replace(/[^0-9]/g, '' ),
-				action : 'trash-post',
-				_ajax_nonce : this.href.replace(/^.*wpnonce=/,'' )
-			}
-		});
+				id: this.id.replace( /[^0-9]/g, '' ),
+				action: 'trash-post',
+				_ajax_nonce: this.href.replace( /^.*wpnonce=/, '' ),
+			},
+		} );
 		return false;
-	});
+	} );
 
 	// Bind Ajax to the new Undo button.
-	jQuery( 'a.undo', item ).on( 'click', function(){
+	jQuery( 'a.undo', item ).on( 'click', function () {
 		// Tell the server to untrash it. TODO: Handle exceptions.
-		jQuery.ajax({
+		jQuery.ajax( {
 			url: ajaxurl,
 			type: 'post',
 			id: fileObj.id,
 			data: {
-				id : this.id.replace(/[^0-9]/g,'' ),
+				id: this.id.replace( /[^0-9]/g, '' ),
 				action: 'untrash-post',
-				_ajax_nonce: this.href.replace(/^.*wpnonce=/,'' )
+				_ajax_nonce: this.href.replace( /^.*wpnonce=/, '' ),
 			},
-			success: function( ){
+			success: function () {
 				var type,
 					item = jQuery( '#media-item-' + fileObj.id );
 
-				if ( type = jQuery( '#type-of-' + fileObj.id ).val() )
-					jQuery( '#' + type + '-counter' ).text( jQuery( '#' + type + '-counter' ).text()-0+1 );
+				if ( ( type = jQuery( '#type-of-' + fileObj.id ).val() ) )
+					jQuery( '#' + type + '-counter' ).text(
+						jQuery( '#' + type + '-counter' ).text() - 0 + 1
+					);
 
-				if ( post_id && item.hasClass( 'child-of-'+post_id ) )
-					jQuery( '#attachments-count' ).text( jQuery( '#attachments-count' ).text()-0+1 );
+				if ( post_id && item.hasClass( 'child-of-' + post_id ) )
+					jQuery( '#attachments-count' ).text(
+						jQuery( '#attachments-count' ).text() - 0 + 1
+					);
 
 				jQuery( '.filename .trashnotice', item ).remove();
-				jQuery( '.filename .title', item ).css( 'font-weight','normal' );
+				jQuery( '.filename .title', item ).css(
+					'font-weight',
+					'normal'
+				);
 				jQuery( 'a.undo', item ).addClass( 'hidden' );
 				jQuery( '.menu_order_input', item ).show();
-				item.css( {backgroundColor:'#ceb'} ).animate( {backgroundColor: '#fff'}, { queue: false, duration: 500, complete: function(){ jQuery( this ).css({backgroundColor:''}); } }).removeClass( 'undo' );
-			}
-		});
+				item.css( { backgroundColor: '#ceb' } )
+					.animate(
+						{ backgroundColor: '#fff' },
+						{
+							queue: false,
+							duration: 500,
+							complete: function () {
+								jQuery( this ).css( { backgroundColor: '' } );
+							},
+						}
+					)
+					.removeClass( 'undo' );
+			},
+		} );
 		return false;
-	});
+	} );
 
 	// Open this item if it says to start open (e.g. to display an error).
-	jQuery( '#media-item-' + fileObj.id + '.startopen' ).removeClass( 'startopen' ).addClass( 'open' ).find( 'slidetoggle' ).fadeIn();
+	jQuery( '#media-item-' + fileObj.id + '.startopen' )
+		.removeClass( 'startopen' )
+		.addClass( 'open' )
+		.find( 'slidetoggle' )
+		.fadeIn();
 }
 
 // Generic error message.
 function wpQueueError( message ) {
-	jQuery( '#media-upload-error' ).show().html( '<div class="error"><p>' + message + '</p></div>' );
+	jQuery( '#media-upload-error' )
+		.show()
+		.html( '<div class="error"><p>' + message + '</p></div>' );
 }
 
 // File-specific error messages.
@@ -213,57 +263,102 @@ function wpFileError( fileObj, message ) {
 }
 
 function itemAjaxError( id, message ) {
-	var item = jQuery( '#media-item-' + id ), filename = item.find( '.filename' ).text(), last_err = item.data( 'last-err' );
+	var item = jQuery( '#media-item-' + id ),
+		filename = item.find( '.filename' ).text(),
+		last_err = item.data( 'last-err' );
 
-	if ( last_err == id ) // Prevent firing an error for the same file twice.
+	if ( last_err == id )
+		// Prevent firing an error for the same file twice.
 		return;
 
-	item.html( '<div class="error-div">' +
-				'<a class="dismiss" href="#">' + pluploadL10n.dismiss + '</a>' +
-				'<strong>' + pluploadL10n.error_uploading.replace( '%s', jQuery.trim( filename )) + '</strong> ' +
-				message +
-				'</div>' ).data( 'last-err', id );
+	item.html(
+		'<div class="error-div">' +
+			'<a class="dismiss" href="#">' +
+			pluploadL10n.dismiss +
+			'</a>' +
+			'<strong>' +
+			pluploadL10n.error_uploading.replace(
+				'%s',
+				jQuery.trim( filename )
+			) +
+			'</strong> ' +
+			message +
+			'</div>'
+	).data( 'last-err', id );
 }
 
 function deleteSuccess( data ) {
 	var type, id, item;
 	if ( data == '-1' )
-		return itemAjaxError( this.id, 'You do not have permission. Has your session expired?' );
+		return itemAjaxError(
+			this.id,
+			'You do not have permission. Has your session expired?'
+		);
 
 	if ( data == '0' )
-		return itemAjaxError( this.id, 'Could not be deleted. Has it been deleted already?' );
+		return itemAjaxError(
+			this.id,
+			'Could not be deleted. Has it been deleted already?'
+		);
 
 	id = this.id;
 	item = jQuery( '#media-item-' + id );
 
 	// Decrement the counters.
-	if ( type = jQuery( '#type-of-' + id ).val() )
-		jQuery( '#' + type + '-counter' ).text( jQuery( '#' + type + '-counter' ).text() - 1 );
+	if ( ( type = jQuery( '#type-of-' + id ).val() ) )
+		jQuery( '#' + type + '-counter' ).text(
+			jQuery( '#' + type + '-counter' ).text() - 1
+		);
 
-	if ( post_id && item.hasClass( 'child-of-'+post_id ) )
-		jQuery( '#attachments-count' ).text( jQuery( '#attachments-count' ).text() - 1 );
+	if ( post_id && item.hasClass( 'child-of-' + post_id ) )
+		jQuery( '#attachments-count' ).text(
+			jQuery( '#attachments-count' ).text() - 1
+		);
 
-	if ( jQuery( 'form.type-form #media-items' ).children().length == 1 && jQuery( '.hidden', '#media-items' ).length > 0 ) {
+	if (
+		jQuery( 'form.type-form #media-items' ).children().length == 1 &&
+		jQuery( '.hidden', '#media-items' ).length > 0
+	) {
 		jQuery( '.toggle' ).toggle();
-		jQuery( '.slidetoggle' ).slideUp( 200 ).siblings().removeClass( 'hidden' );
+		jQuery( '.slidetoggle' )
+			.slideUp( 200 )
+			.siblings()
+			.removeClass( 'hidden' );
 	}
 
 	// Vanish it.
 	jQuery( '.toggle', item ).toggle();
-	jQuery( '.slidetoggle', item ).slideUp( 200 ).siblings().removeClass( 'hidden' );
-	item.css( {backgroundColor:'#faa'} ).animate( {backgroundColor:'#f4f4f4'}, {queue:false, duration:500} ).addClass( 'undo' );
+	jQuery( '.slidetoggle', item )
+		.slideUp( 200 )
+		.siblings()
+		.removeClass( 'hidden' );
+	item.css( { backgroundColor: '#faa' } )
+		.animate(
+			{ backgroundColor: '#f4f4f4' },
+			{
+				queue: false,
+				duration: 500,
+			}
+		)
+		.addClass( 'undo' );
 
 	jQuery( '.filename:empty', item ).remove();
-	jQuery( '.filename .title', item ).css( 'font-weight','bold' );
-	jQuery( '.filename', item ).append( '<span class="trashnotice"> ' + pluploadL10n.deleted + ' </span>' ).siblings( 'a.toggle' ).hide();
-	jQuery( '.filename', item ).append( jQuery( 'a.undo', item ).removeClass( 'hidden' ) );
+	jQuery( '.filename .title', item ).css( 'font-weight', 'bold' );
+	jQuery( '.filename', item )
+		.append(
+			'<span class="trashnotice"> ' + pluploadL10n.deleted + ' </span>'
+		)
+		.siblings( 'a.toggle' )
+		.hide();
+	jQuery( '.filename', item ).append(
+		jQuery( 'a.undo', item ).removeClass( 'hidden' )
+	);
 	jQuery( '.menu_order_input', item ).hide();
 
 	return;
 }
 
-function deleteError() {
-}
+function deleteError() {}
 
 function uploadComplete() {
 	jQuery( '#insert-gallery' ).prop( 'disabled', false );
@@ -274,8 +369,7 @@ function switchUploader( s ) {
 		deleteUserSetting( 'uploader' );
 		jQuery( '.media-upload-form' ).removeClass( 'html-uploader' );
 
-		if ( typeof( uploader ) == 'object' )
-			uploader.refresh();
+		if ( typeof uploader == 'object' ) uploader.refresh();
 	} else {
 		setUserSetting( 'uploader', '1' ); // 1 == html uploader.
 		jQuery( '.media-upload-form' ).addClass( 'html-uploader' );
@@ -283,7 +377,8 @@ function switchUploader( s ) {
 }
 
 function uploadError( fileObj, errorCode, message, up ) {
-	var hundredmb = 100 * 1024 * 1024, max;
+	var hundredmb = 100 * 1024 * 1024,
+		max;
 
 	switch ( errorCode ) {
 		case plupload.FAILED:
@@ -311,7 +406,12 @@ function uploadError( fileObj, errorCode, message, up ) {
 			max = parseInt( up.settings.filters.max_file_size, 10 );
 
 			if ( max > hundredmb && fileObj.size > hundredmb ) {
-				wpFileError( fileObj, pluploadL10n.big_upload_failed.replace( '%1$s', '<a class="uploader-html" href="#">' ).replace( '%2$s', '</a>' ) );
+				wpFileError(
+					fileObj,
+					pluploadL10n.big_upload_failed
+						.replace( '%1$s', '<a class="uploader-html" href="#">' )
+						.replace( '%2$s', '</a>' )
+				);
 			} else {
 				wpQueueError( pluploadL10n.io_error );
 			}
@@ -326,10 +426,10 @@ function uploadError( fileObj, errorCode, message, up ) {
 		case plupload.SECURITY_ERROR:
 			wpQueueError( pluploadL10n.security_error );
 			break;
-/*		case plupload.UPLOAD_ERROR.UPLOAD_STOPPED:
-		case plupload.UPLOAD_ERROR.FILE_CANCELLED:
-			jQuery( '#media-item-' + fileObj.id ).remove();
-			break;*/
+		/*		case plupload.UPLOAD_ERROR.UPLOAD_STOPPED:
+        case plupload.UPLOAD_ERROR.FILE_CANCELLED:
+          jQuery( '#media-item-' + fileObj.id ).remove();
+          break;*/
 		default:
 			wpFileError( fileObj, pluploadL10n.default_error );
 	}
@@ -343,13 +443,10 @@ function uploadSizeError( up, file ) {
 	// Construct the error div.
 	errorDiv = jQuery( '<div />' )
 		.attr( {
-			'id':    'media-item-' + file.id,
-			'class': 'media-item error'
+			id: 'media-item-' + file.id,
+			class: 'media-item error',
 		} )
-		.append(
-			jQuery( '<p />' )
-				.text( message )
-		);
+		.append( jQuery( '<p />' ).text( message ) );
 
 	// Append the error.
 	jQuery( '#media-items' ).append( errorDiv );
@@ -357,7 +454,13 @@ function uploadSizeError( up, file ) {
 }
 
 function wpFileExtensionError( up, file, message ) {
-	jQuery( '#media-items' ).append( '<div id="media-item-' + file.id + '" class="media-item error"><p>' + message + '</p></div>' );
+	jQuery( '#media-items' ).append(
+		'<div id="media-item-' +
+			file.id +
+			'" class="media-item error"><p>' +
+			message +
+			'</p></div>'
+	);
 	up.removeFile( file );
 }
 
@@ -374,9 +477,12 @@ function copyAttachmentUploadURLClipboard() {
 	var clipboard = new ClipboardJS( '.copy-attachment-url' ),
 		successTimeout;
 
-	clipboard.on( 'success', function( event ) {
+	clipboard.on( 'success', function ( event ) {
 		var triggerElement = jQuery( event.trigger ),
-			successElement = jQuery( '.success', triggerElement.closest( '.copy-to-clipboard-container' ) );
+			successElement = jQuery(
+				'.success',
+				triggerElement.closest( '.copy-to-clipboard-container' )
+			);
 
 		// Clear the selection and move focus back to the trigger.
 		event.clearSelection();
@@ -384,7 +490,7 @@ function copyAttachmentUploadURLClipboard() {
 		clearTimeout( successTimeout );
 		successElement.removeClass( 'hidden' );
 		// Hide success visual feedback after 3 seconds since last success.
-		successTimeout = setTimeout( function() {
+		successTimeout = setTimeout( function () {
 			successElement.addClass( 'hidden' );
 		}, 3000 );
 		// Handle success audible feedback.
@@ -392,45 +498,60 @@ function copyAttachmentUploadURLClipboard() {
 	} );
 }
 
-jQuery( document ).ready( function( $ ) {
+jQuery( document ).ready( function ( $ ) {
 	copyAttachmentUploadURLClipboard();
 	var tryAgainCount = {};
 	var tryAgain;
 
-	$( '.media-upload-form' ).on( 'click.uploader', function( e ) {
-		var target = $( e.target ), tr, c;
+	$( '.media-upload-form' ).on( 'click.uploader', function ( e ) {
+		var target = $( e.target ),
+			tr,
+			c;
 
-		if ( target.is( 'input[type="radio"]' ) ) { // Remember the last used image size and alignment.
+		if ( target.is( 'input[type="radio"]' ) ) {
+			// Remember the last used image size and alignment.
 			tr = target.closest( 'tr' );
 
 			if ( tr.hasClass( 'align' ) )
 				setUserSetting( 'align', target.val() );
 			else if ( tr.hasClass( 'image-size' ) )
 				setUserSetting( 'imgsize', target.val() );
-
-		} else if ( target.is( 'button.button' ) ) { // Remember the last used image link url.
+		} else if ( target.is( 'button.button' ) ) {
+			// Remember the last used image link url.
 			c = e.target.className || '';
 			c = c.match( /url([^ '"]+)/ );
 
-			if ( c && c[1] ) {
-				setUserSetting( 'urlbutton', c[1] );
+			if ( c && c[ 1 ] ) {
+				setUserSetting( 'urlbutton', c[ 1 ] );
 				target.siblings( '.urlfield' ).val( target.data( 'link-url' ) );
 			}
 		} else if ( target.is( 'a.dismiss' ) ) {
-			target.parents( '.media-item' ).fadeOut( 200, function() {
+			target.parents( '.media-item' ).fadeOut( 200, function () {
 				$( this ).remove();
 			} );
-		} else if ( target.is( '.upload-flash-bypass a' ) || target.is( 'a.uploader-html' ) ) { // Switch uploader to html4.
-			$( '#media-items, p.submit, span.big-file-warning' ).css( 'display', 'none' );
+		} else if (
+			target.is( '.upload-flash-bypass a' ) ||
+			target.is( 'a.uploader-html' )
+		) {
+			// Switch uploader to html4.
+			$( '#media-items, p.submit, span.big-file-warning' ).css(
+				'display',
+				'none'
+			);
 			switchUploader( 0 );
 			e.preventDefault();
-		} else if ( target.is( '.upload-html-bypass a' ) ) { // Switch uploader to multi-file.
-			$( '#media-items, p.submit, span.big-file-warning' ).css( 'display', '' );
+		} else if ( target.is( '.upload-html-bypass a' ) ) {
+			// Switch uploader to multi-file.
+			$( '#media-items, p.submit, span.big-file-warning' ).css(
+				'display',
+				''
+			);
 			switchUploader( 1 );
 			e.preventDefault();
-		} else if ( target.is( 'a.describe-toggle-on' ) ) { // Show.
+		} else if ( target.is( 'a.describe-toggle-on' ) ) {
+			// Show.
 			target.parent().addClass( 'open' );
-			target.siblings( '.slidetoggle' ).fadeIn( 250, function() {
+			target.siblings( '.slidetoggle' ).fadeIn( 250, function () {
 				var S = $( window ).scrollTop(),
 					H = $( window ).height(),
 					top = $( this ).offset().top,
@@ -443,27 +564,26 @@ jQuery( document ).ready( function( $ ) {
 					B = S + H;
 
 					if ( b > B ) {
-						if ( b - B < top - S )
-							window.scrollBy( 0, ( b - B ) + 10 );
-						else
-							window.scrollBy( 0, top - S - 40 );
+						if ( b - B < top - S ) window.scrollBy( 0, b - B + 10 );
+						else window.scrollBy( 0, top - S - 40 );
 					}
 				}
 			} );
 
 			e.preventDefault();
-		} else if ( target.is( 'a.describe-toggle-off' ) ) { // Hide.
-			target.siblings( '.slidetoggle' ).fadeOut( 250, function() {
+		} else if ( target.is( 'a.describe-toggle-off' ) ) {
+			// Hide.
+			target.siblings( '.slidetoggle' ).fadeOut( 250, function () {
 				target.parent().removeClass( 'open' );
 			} );
 
 			e.preventDefault();
 		}
-	});
+	} );
 
 	// Attempt to create image sub-sizes when an image was uploaded successfully
 	// but the server responded with an HTTP 5xx error.
-	tryAgain = function( up, error ) {
+	tryAgain = function ( up, error ) {
 		var file = error.file;
 		var times;
 		var id;
@@ -473,10 +593,12 @@ jQuery( document ).ready( function( $ ) {
 			return;
 		}
 
-		id = error.responseHeaders.match( /x-wp-upload-attachment-id:\s*(\d+)/i );
+		id = error.responseHeaders.match(
+			/x-wp-upload-attachment-id:\s*(\d+)/i
+		);
 
-		if ( id && id[1] ) {
-			id = id[1];
+		if ( id && id[ 1 ] ) {
+			id = id[ 1 ];
 		} else {
 			wpQueueError( pluploadL10n.http_error_image );
 			return;
@@ -490,7 +612,7 @@ jQuery( document ).ready( function( $ ) {
 			 * but post-processing and resizing failed...
 			 * Do a cleanup then tell the user to scale down the image and upload it again.
 			 */
-			$.ajax({
+			$.ajax( {
 				type: 'post',
 				url: ajaxurl,
 				dataType: 'json',
@@ -499,10 +621,13 @@ jQuery( document ).ready( function( $ ) {
 					_wpnonce: wpUploaderInit.multipart_params._wpnonce,
 					attachment_id: id,
 					_wp_upload_failed_cleanup: true,
-				}
-			});
+				},
+			} );
 
-			if ( error.message && ( error.status < 500 || error.status >= 600 ) ) {
+			if (
+				error.message &&
+				( error.status < 500 || error.status >= 600 )
+			) {
 				wpQueueError( error.message );
 			} else {
 				wpQueueError( pluploadL10n.http_error_image );
@@ -518,7 +643,7 @@ jQuery( document ).ready( function( $ ) {
 		}
 
 		// Try to create the missing image sizes.
-		$.ajax({
+		$.ajax( {
 			type: 'post',
 			url: ajaxurl,
 			dataType: 'json',
@@ -527,58 +652,67 @@ jQuery( document ).ready( function( $ ) {
 				_wpnonce: wpUploaderInit.multipart_params._wpnonce,
 				attachment_id: id,
 				_legacy_support: 'true',
-			}
-		}).done( function( response ) {
-			var message;
+			},
+		} )
+			.done( function ( response ) {
+				var message;
 
-			if ( response.success ) {
-				uploadSuccess( file, response.data.id );
-			} else {
-				if ( response.data && response.data.message ) {
-					message = response.data.message;
+				if ( response.success ) {
+					uploadSuccess( file, response.data.id );
+				} else {
+					if ( response.data && response.data.message ) {
+						message = response.data.message;
+					}
+
+					wpQueueError( message || pluploadL10n.http_error_image );
+				}
+			} )
+			.fail( function ( jqXHR ) {
+				// If another HTTP 5xx error, try try again...
+				if ( jqXHR.status >= 500 && jqXHR.status < 600 ) {
+					tryAgain( up, error );
+					return;
 				}
 
-				wpQueueError( message || pluploadL10n.http_error_image );
-			}
-		}).fail( function( jqXHR ) {
-			// If another HTTP 5xx error, try try again...
-			if ( jqXHR.status >= 500 && jqXHR.status < 600 ) {
-				tryAgain( up, error );
-				return;
-			}
-
-			wpQueueError( pluploadL10n.http_error_image );
-		});
-	}
+				wpQueueError( pluploadL10n.http_error_image );
+			} );
+	};
 
 	// Init and set the uploader.
-	uploader_init = function() {
+	uploader_init = function () {
 		uploader = new plupload.Uploader( wpUploaderInit );
 
-		$( '#image_resize' ).on( 'change', function() {
+		$( '#image_resize' ).on( 'change', function () {
 			var arg = $( this ).prop( 'checked' );
 
 			setResize( arg );
 
-			if ( arg )
-				setUserSetting( 'upload_resize', '1' );
-			else
-				deleteUserSetting( 'upload_resize' );
-		});
+			if ( arg ) setUserSetting( 'upload_resize', '1' );
+			else deleteUserSetting( 'upload_resize' );
+		} );
 
-		uploader.bind( 'Init', function( up ) {
+		uploader.bind( 'Init', function ( up ) {
 			var uploaddiv = $( '#plupload-upload-ui' );
 
 			setResize( getUserSetting( 'upload_resize', false ) );
 
-			if ( up.features.dragdrop && ! $( document.body ).hasClass( 'mobile' ) ) {
+			if (
+				up.features.dragdrop &&
+				! $( document.body ).hasClass( 'mobile' )
+			) {
 				uploaddiv.addClass( 'drag-drop' );
 
-				$( '#drag-drop-area' ).on( 'dragover.wp-uploader', function() { // dragenter doesn't fire right :(
-					uploaddiv.addClass( 'drag-over' );
-				}).on( 'dragleave.wp-uploader, drop.wp-uploader', function() {
-					uploaddiv.removeClass( 'drag-over' );
-				});
+				$( '#drag-drop-area' )
+					.on( 'dragover.wp-uploader', function () {
+						// dragenter doesn't fire right :(
+						uploaddiv.addClass( 'drag-over' );
+					} )
+					.on(
+						'dragleave.wp-uploader, drop.wp-uploader',
+						function () {
+							uploaddiv.removeClass( 'drag-over' );
+						}
+					);
 			} else {
 				uploaddiv.removeClass( 'drag-drop' );
 				$( '#drag-drop-area' ).off( '.wp-uploader' );
@@ -587,28 +721,37 @@ jQuery( document ).ready( function( $ ) {
 			if ( up.runtime === 'html4' ) {
 				$( '.upload-flash-bypass' ).hide();
 			}
-		});
+		} );
 
-		uploader.bind( 'postinit', function( up ) {
+		uploader.bind( 'postinit', function ( up ) {
 			up.refresh();
-		});
+		} );
 
 		uploader.init();
 
-		uploader.bind( 'FilesAdded', function( up, files ) {
+		uploader.bind( 'FilesAdded', function ( up, files ) {
 			$( '#media-upload-error' ).empty();
 			uploadStart();
 
-			plupload.each( files, function( file ) {
-				if ( file.type === 'image/heic' && up.settings.heic_upload_error ) {
+			plupload.each( files, function ( file ) {
+				if (
+					file.type === 'image/heic' &&
+					up.settings.heic_upload_error
+				) {
 					// Show error but do not block uploading.
 					wpQueueError( pluploadL10n.unsupported_image );
-				} else if ( file.type === 'image/webp' && up.settings.webp_upload_error ) {
+				} else if (
+					file.type === 'image/webp' &&
+					up.settings.webp_upload_error
+				) {
 					// Disallow uploading of WebP images if the server cannot edit them.
 					wpQueueError( pluploadL10n.noneditable_image );
 					up.removeFile( file );
 					return;
-				} else if ( file.type === 'image/avif' && up.settings.avif_upload_error ) {
+				} else if (
+					file.type === 'image/avif' &&
+					up.settings.avif_upload_error
+				) {
 					// Disallow uploading of AVIF images if the server cannot edit them.
 					wpQueueError( pluploadL10n.noneditable_image );
 					up.removeFile( file );
@@ -616,23 +759,26 @@ jQuery( document ).ready( function( $ ) {
 				}
 
 				fileQueued( file );
-			});
+			} );
 
 			up.refresh();
 			up.start();
-		});
+		} );
 
-		uploader.bind( 'UploadFile', function( up, file ) {
+		uploader.bind( 'UploadFile', function ( up, file ) {
 			fileUploading( up, file );
-		});
+		} );
 
-		uploader.bind( 'UploadProgress', function( up, file ) {
+		uploader.bind( 'UploadProgress', function ( up, file ) {
 			uploadProgress( up, file );
-		});
+		} );
 
-		uploader.bind( 'Error', function( up, error ) {
-			var isImage = error.file && error.file.type && error.file.type.indexOf( 'image/' ) === 0;
-			var status  = error && error.status;
+		uploader.bind( 'Error', function ( up, error ) {
+			var isImage =
+				error.file &&
+				error.file.type &&
+				error.file.type.indexOf( 'image/' ) === 0;
+			var status = error && error.status;
 
 			// If the file is an image and the error is HTTP 5xx try to create sub-sizes again.
 			if ( isImage && status >= 500 && status < 600 ) {
@@ -642,19 +788,18 @@ jQuery( document ).ready( function( $ ) {
 
 			uploadError( error.file, error.code, error.message, up );
 			up.refresh();
-		});
+		} );
 
-		uploader.bind( 'FileUploaded', function( up, file, response ) {
+		uploader.bind( 'FileUploaded', function ( up, file, response ) {
 			uploadSuccess( file, response.response );
-		});
+		} );
 
-		uploader.bind( 'UploadComplete', function() {
+		uploader.bind( 'UploadComplete', function () {
 			uploadComplete();
-		});
+		} );
 	};
 
-	if ( typeof( wpUploaderInit ) == 'object' ) {
+	if ( typeof wpUploaderInit == 'object' ) {
 		uploader_init();
 	}
-
-});
+} );

@@ -8,18 +8,18 @@
 /**
  * Renders the `core/comments-pagination-previous` block on the server.
  *
- * @since 6.0.0
- *
- * @param array    $attributes Block attributes.
- * @param string   $content    Block default content.
- * @param WP_Block $block      Block instance.
+ * @param array $attributes Block attributes.
+ * @param string $content Block default content.
+ * @param WP_Block $block Block instance.
  *
  * @return string Returns the previous posts link for the comments pagination.
+ * @since 6.0.0
+ *
  */
 function render_block_core_comments_pagination_previous($attributes, $content, $block)
 {
-    $default_label    = __('Older Comments');
-    $label            = isset($attributes['label']) && ! empty($attributes['label']) ? $attributes['label'] : $default_label;
+    $default_label = __('Older Comments');
+    $label = isset($attributes['label']) && !empty($attributes['label']) ? $attributes['label'] : $default_label;
     $pagination_arrow = get_comments_pagination_arrow($block, 'previous');
     if ($pagination_arrow) {
         $label = $pagination_arrow . $label;
@@ -30,12 +30,12 @@ function render_block_core_comments_pagination_previous($attributes, $content, $
     };
     add_filter('previous_comments_link_attributes', $filter_link_attributes);
 
-    $comment_vars           = build_comment_query_vars_from_block($block);
+    $comment_vars = build_comment_query_vars_from_block($block);
     $previous_comments_link = get_previous_comments_link($label, $comment_vars['paged'] ?? null);
 
     remove_filter('previous_comments_link_attributes', $filter_link_attributes);
 
-    if (! isset($previous_comments_link)) {
+    if (!isset($previous_comments_link)) {
         return '';
     }
 
@@ -53,7 +53,8 @@ function register_block_core_comments_pagination_previous()
         __DIR__ . '/comments-pagination-previous',
         [
             'render_callback' => 'render_block_core_comments_pagination_previous',
-        ]
+        ],
     );
 }
+
 add_action('init', 'register_block_core_comments_pagination_previous');

@@ -8,20 +8,20 @@
 /**
  * Renders the `core/post-terms` block on the server.
  *
+ * @param array $attributes Block attributes.
+ * @param string $content Block default content.
+ * @param WP_Block $block Block instance.
+ * @return string Returns the filtered post terms for the current post wrapped inside "a" tags.
  * @since 5.8.0
  *
- * @param array    $attributes Block attributes.
- * @param string   $content    Block default content.
- * @param WP_Block $block      Block instance.
- * @return string Returns the filtered post terms for the current post wrapped inside "a" tags.
  */
 function render_block_core_post_terms($attributes, $content, $block)
 {
-    if (! isset($block->context['postId']) || ! isset($attributes['term'])) {
+    if (!isset($block->context['postId']) || !isset($attributes['term'])) {
         return '';
     }
 
-    if (! is_taxonomy_viewable($attributes['term'])) {
+    if (!is_taxonomy_viewable($attributes['term'])) {
         return '';
     }
 
@@ -57,48 +57,48 @@ function render_block_core_post_terms($attributes, $content, $block)
         $attributes['term'],
         wp_kses_post($prefix),
         '<span class="wp-block-post-terms__separator">' . esc_html($separator) . '</span>',
-        wp_kses_post($suffix)
+        wp_kses_post($suffix),
     );
 }
 
 /**
  * Returns the available variations for the `core/post-terms` block.
  *
+ * @return array The available variations for the block.
  * @since 6.5.0
  *
- * @return array The available variations for the block.
  */
 function block_core_post_terms_build_variations()
 {
     $taxonomies = get_taxonomies(
         [
             'publicly_queryable' => true,
-            'show_in_rest'       => true,
+            'show_in_rest' => true,
         ],
-        'objects'
+        'objects',
     );
 
     // Split the available taxonomies to `built_in` and custom ones,
     // in order to prioritize the `built_in` taxonomies at the
     // search results.
-    $built_ins         = [];
+    $built_ins = [];
     $custom_variations = [];
 
     // Create and register the eligible taxonomies variations.
     foreach ($taxonomies as $taxonomy) {
         $variation = [
-            'name'        => $taxonomy->name,
-            'title'       => $taxonomy->label,
+            'name' => $taxonomy->name,
+            'title' => $taxonomy->label,
             'description' => sprintf(
-                /* translators: %s: taxonomy's label */
+            /* translators: %s: taxonomy's label */
                 __('Display a list of assigned terms from the taxonomy: %s'),
-                $taxonomy->label
+                $taxonomy->label,
             ),
-            'attributes'  => [
+            'attributes' => [
                 'term' => $taxonomy->name,
             ],
-            'isActive'    => ['term'],
-            'scope'       => ['inserter', 'transform'],
+            'isActive' => ['term'],
+            'scope' => ['inserter', 'transform'],
         ];
         // Set the category variation as the default one.
         if ('category' === $taxonomy->name) {
@@ -124,9 +124,10 @@ function register_block_core_post_terms()
     register_block_type_from_metadata(
         __DIR__ . '/post-terms',
         [
-            'render_callback'    => 'render_block_core_post_terms',
+            'render_callback' => 'render_block_core_post_terms',
             'variation_callback' => 'block_core_post_terms_build_variations',
-        ]
+        ],
     );
 }
+
 add_action('init', 'register_block_core_post_terms');

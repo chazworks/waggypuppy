@@ -9,17 +9,17 @@
 /** waggypuppy Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 
-if (! current_user_can('activate_plugins')) {
+if (!current_user_can('activate_plugins')) {
     wp_die(__('Sorry, you are not allowed to manage plugins for this site.'));
 }
 
 $wp_list_table = _get_list_table('WP_Plugins_List_Table');
-$pagenum       = $wp_list_table->get_pagenum();
+$pagenum = $wp_list_table->get_pagenum();
 
 $action = $wp_list_table->current_action();
 
 $plugin = isset($_REQUEST['plugin']) ? wp_unslash($_REQUEST['plugin']) : '';
-$s      = isset($_REQUEST['s']) ? urlencode(wp_unslash($_REQUEST['s'])) : '';
+$s = isset($_REQUEST['s']) ? urlencode(wp_unslash($_REQUEST['s'])) : '';
 
 // Clean up request URI from temporary args for screen options/paging uri's to work as expected.
 $query_args_to_remove = [
@@ -43,37 +43,42 @@ wp_enqueue_script('updates');
 WP_Plugin_Dependencies::initialize();
 
 if ($action) {
-
     switch ($action) {
         case 'activate':
-            if (! current_user_can('activate_plugin', $plugin)) {
+            if (!current_user_can('activate_plugin', $plugin)) {
                 wp_die(__('Sorry, you are not allowed to activate this plugin.'));
             }
 
-            if (is_multisite() && ! is_network_admin() && is_network_only_plugin($plugin)) {
+            if (is_multisite() && !is_network_admin() && is_network_only_plugin($plugin)) {
                 wp_redirect(self_admin_url("plugins.php?plugin_status=$status&paged=$page&s=$s"));
                 exit;
             }
 
             check_admin_referer('activate-plugin_' . $plugin);
 
-            $result = activate_plugin($plugin, self_admin_url('plugins.php?error=true&plugin=' . urlencode($plugin)), is_network_admin());
+            $result = activate_plugin($plugin, self_admin_url('plugins.php?error=true&plugin=' . urlencode($plugin)),
+                is_network_admin());
             if (is_wp_error($result)) {
                 if ('unexpected_output' === $result->get_error_code()) {
-                    $redirect = self_admin_url('plugins.php?error=true&charsout=' . strlen($result->get_error_data()) . '&plugin=' . urlencode($plugin) . "&plugin_status=$status&paged=$page&s=$s");
-                    wp_redirect(add_query_arg('_error_nonce', wp_create_nonce('plugin-activation-error_' . $plugin), $redirect));
+                    $redirect = self_admin_url('plugins.php?error=true&charsout='
+                        . strlen($result->get_error_data())
+                        . '&plugin='
+                        . urlencode($plugin)
+                        . "&plugin_status=$status&paged=$page&s=$s");
+                    wp_redirect(add_query_arg('_error_nonce', wp_create_nonce('plugin-activation-error_' . $plugin),
+                        $redirect));
                     exit;
                 } else {
                     wp_die($result);
                 }
             }
 
-            if (! is_network_admin()) {
-                $recent = (array) get_option('recently_activated');
+            if (!is_network_admin()) {
+                $recent = (array)get_option('recently_activated');
                 unset($recent[$plugin]);
                 update_option('recently_activated', $recent, false);
             } else {
-                $recent = (array) get_site_option('recently_activated');
+                $recent = (array)get_site_option('recently_activated');
                 unset($recent[$plugin]);
                 update_site_option('recently_activated', $recent);
             }
@@ -90,13 +95,13 @@ if ($action) {
             exit;
 
         case 'activate-selected':
-            if (! current_user_can('activate_plugins')) {
+            if (!current_user_can('activate_plugins')) {
                 wp_die(__('Sorry, you are not allowed to activate plugins for this site.'));
             }
 
             check_admin_referer('bulk-plugins');
 
-            $plugins = isset($_POST['checked']) ? (array) wp_unslash($_POST['checked']) : [];
+            $plugins = isset($_POST['checked']) ? (array)wp_unslash($_POST['checked']) : [];
 
             if (is_network_admin()) {
                 foreach ($plugins as $i => $plugin) {
@@ -112,7 +117,7 @@ if ($action) {
                         unset($plugins[$i]);
                     }
                     // Only activate plugins which the user can activate.
-                    if (! current_user_can('activate_plugin', $plugin)) {
+                    if (!current_user_can('activate_plugin', $plugin)) {
                         unset($plugins[$i]);
                     }
                 }
@@ -125,17 +130,17 @@ if ($action) {
 
             activate_plugins($plugins, self_admin_url('plugins.php?error=true'), is_network_admin());
 
-            if (! is_network_admin()) {
-                $recent = (array) get_option('recently_activated');
+            if (!is_network_admin()) {
+                $recent = (array)get_option('recently_activated');
             } else {
-                $recent = (array) get_site_option('recently_activated');
+                $recent = (array)get_site_option('recently_activated');
             }
 
             foreach ($plugins as $plugin) {
                 unset($recent[$plugin]);
             }
 
-            if (! is_network_admin()) {
+            if (!is_network_admin()) {
                 update_option('recently_activated', $recent, false);
             } else {
                 update_site_option('recently_activated', $recent);
@@ -150,13 +155,13 @@ if ($action) {
             if (isset($_GET['plugins'])) {
                 $plugins = explode(',', wp_unslash($_GET['plugins']));
             } elseif (isset($_POST['checked'])) {
-                $plugins = (array) wp_unslash($_POST['checked']);
+                $plugins = (array)wp_unslash($_POST['checked']);
             } else {
                 $plugins = [];
             }
 
             // Used in the HTML title tag.
-            $title       = __('Update Plugins');
+            $title = __('Update Plugins');
             $parent_file = 'plugins.php';
 
             wp_enqueue_script('updates');
@@ -174,7 +179,7 @@ if ($action) {
             exit;
 
         case 'error_scrape':
-            if (! current_user_can('activate_plugin', $plugin)) {
+            if (!current_user_can('activate_plugin', $plugin)) {
                 wp_die(__('Sorry, you are not allowed to activate this plugin.'));
             }
 
@@ -185,8 +190,16 @@ if ($action) {
                 wp_die($valid);
             }
 
-            if (! WP_DEBUG) {
-                error_reporting(E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_ERROR | E_WARNING | E_PARSE | E_USER_ERROR | E_USER_WARNING | E_RECOVERABLE_ERROR);
+            if (!WP_DEBUG) {
+                error_reporting(E_CORE_ERROR
+                    | E_CORE_WARNING
+                    | E_COMPILE_ERROR
+                    | E_ERROR
+                    | E_WARNING
+                    | E_PARSE
+                    | E_USER_ERROR
+                    | E_USER_WARNING
+                    | E_RECOVERABLE_ERROR);
             }
 
             ini_set('display_errors', true); // Ensure that fatal errors are displayed.
@@ -197,40 +210,44 @@ if ($action) {
             exit;
 
         case 'deactivate':
-            if (! current_user_can('deactivate_plugin', $plugin)) {
+            if (!current_user_can('deactivate_plugin', $plugin)) {
                 wp_die(__('Sorry, you are not allowed to deactivate this plugin.'));
             }
 
             check_admin_referer('deactivate-plugin_' . $plugin);
 
-            if (! is_network_admin() && is_plugin_active_for_network($plugin)) {
+            if (!is_network_admin() && is_plugin_active_for_network($plugin)) {
                 wp_redirect(self_admin_url("plugins.php?plugin_status=$status&paged=$page&s=$s"));
                 exit;
             }
 
             deactivate_plugins($plugin, false, is_network_admin());
 
-            if (! is_network_admin()) {
-                update_option('recently_activated', [$plugin => time()] + (array) get_option('recently_activated'), false);
+            if (!is_network_admin()) {
+                update_option('recently_activated', [$plugin => time()] + (array)get_option('recently_activated'),
+                    false);
             } else {
-                update_site_option('recently_activated', [$plugin => time()] + (array) get_site_option('recently_activated'));
+                update_site_option('recently_activated',
+                    [$plugin => time()] + (array)get_site_option('recently_activated'));
             }
 
             if (headers_sent()) {
-                echo "<meta http-equiv='refresh' content='" . esc_attr("0;url=plugins.php?deactivate=true&plugin_status=$status&paged=$page&s=$s") . "' />";
+                echo "<meta http-equiv='refresh' content='"
+                    . esc_attr("0;url=plugins.php?deactivate=true&plugin_status=$status&paged=$page&s=$s")
+                    . "' />";
             } else {
                 wp_redirect(self_admin_url("plugins.php?deactivate=true&plugin_status=$status&paged=$page&s=$s"));
             }
             exit;
 
         case 'deactivate-selected':
-            if (! current_user_can('deactivate_plugins')) {
+            if (!current_user_can('deactivate_plugins')) {
                 wp_die(__('Sorry, you are not allowed to deactivate plugins for this site.'));
             }
 
             check_admin_referer('bulk-plugins');
 
-            $plugins = isset($_POST['checked']) ? (array) wp_unslash($_POST['checked']) : [];
+            $plugins = isset($_POST['checked']) ? (array)wp_unslash($_POST['checked']) : [];
             // Do not deactivate plugins which are already deactivated.
             if (is_network_admin()) {
                 $plugins = array_filter($plugins, 'is_plugin_active_for_network');
@@ -240,7 +257,7 @@ if ($action) {
 
                 foreach ($plugins as $i => $plugin) {
                     // Only deactivate plugins which the user can deactivate.
-                    if (! current_user_can('deactivate_plugin', $plugin)) {
+                    if (!current_user_can('deactivate_plugin', $plugin)) {
                         unset($plugins[$i]);
                     }
                 }
@@ -257,24 +274,24 @@ if ($action) {
                 $deactivated[$plugin] = time();
             }
 
-            if (! is_network_admin()) {
-                update_option('recently_activated', $deactivated + (array) get_option('recently_activated'), false);
+            if (!is_network_admin()) {
+                update_option('recently_activated', $deactivated + (array)get_option('recently_activated'), false);
             } else {
-                update_site_option('recently_activated', $deactivated + (array) get_site_option('recently_activated'));
+                update_site_option('recently_activated', $deactivated + (array)get_site_option('recently_activated'));
             }
 
             wp_redirect(self_admin_url("plugins.php?deactivate-multi=true&plugin_status=$status&paged=$page&s=$s"));
             exit;
 
         case 'delete-selected':
-            if (! current_user_can('delete_plugins')) {
+            if (!current_user_can('delete_plugins')) {
                 wp_die(__('Sorry, you are not allowed to delete plugins for this site.'));
             }
 
             check_admin_referer('bulk-plugins');
 
             // $_POST = from the plugin form; $_GET = from the FTP details screen.
-            $plugins = isset($_REQUEST['checked']) ? (array) wp_unslash($_REQUEST['checked']) : [];
+            $plugins = isset($_REQUEST['checked']) ? (array)wp_unslash($_REQUEST['checked']) : [];
             if (empty($plugins)) {
                 wp_redirect(self_admin_url("plugins.php?plugin_status=$status&paged=$page&s=$s"));
                 exit;
@@ -298,76 +315,82 @@ if ($action) {
 
             $parent_file = 'plugins.php';
 
-            if (! isset($_REQUEST['verify-delete'])) {
+            if (!isset($_REQUEST['verify-delete'])) {
                 wp_enqueue_script('jquery');
                 require_once ABSPATH . 'wp-admin/admin-header.php';
 
                 ?>
                 <div class="wrap">
-                <?php
+                    <?php
 
-                $plugin_info              = [];
-                $have_non_network_plugins = false;
+                    $plugin_info = [];
+                    $have_non_network_plugins = false;
 
-                foreach ((array) $plugins as $plugin) {
-                    $plugin_slug = dirname($plugin);
+                    foreach ((array)$plugins as $plugin) {
+                        $plugin_slug = dirname($plugin);
 
-                    if ('.' === $plugin_slug) {
-                        $data = get_plugin_data(WP_PLUGIN_DIR . '/' . $plugin);
-                        if ($data) {
-                            $plugin_info[$plugin]                     = $data;
-                            $plugin_info[$plugin]['is_uninstallable'] = is_uninstallable_plugin($plugin);
-                            if (! $plugin_info[$plugin]['Network']) {
-                                $have_non_network_plugins = true;
-                            }
-                        }
-                    } else {
-                        // Get plugins list from that folder.
-                        $folder_plugins = get_plugins('/' . $plugin_slug);
-                        if ($folder_plugins) {
-                            foreach ($folder_plugins as $plugin_file => $data) {
-                                $plugin_info[$plugin_file]                     = _get_plugin_data_markup_translate($plugin_file, $data);
-                                $plugin_info[$plugin_file]['is_uninstallable'] = is_uninstallable_plugin($plugin);
-                                if (! $plugin_info[$plugin_file]['Network']) {
+                        if ('.' === $plugin_slug) {
+                            $data = get_plugin_data(WP_PLUGIN_DIR . '/' . $plugin);
+                            if ($data) {
+                                $plugin_info[$plugin] = $data;
+                                $plugin_info[$plugin]['is_uninstallable'] = is_uninstallable_plugin($plugin);
+                                if (!$plugin_info[$plugin]['Network']) {
                                     $have_non_network_plugins = true;
+                                }
+                            }
+                        } else {
+                            // Get plugins list from that folder.
+                            $folder_plugins = get_plugins('/' . $plugin_slug);
+                            if ($folder_plugins) {
+                                foreach ($folder_plugins as $plugin_file => $data) {
+                                    $plugin_info[$plugin_file] = _get_plugin_data_markup_translate($plugin_file, $data);
+                                    $plugin_info[$plugin_file]['is_uninstallable'] = is_uninstallable_plugin($plugin);
+                                    if (!$plugin_info[$plugin_file]['Network']) {
+                                        $have_non_network_plugins = true;
+                                    }
                                 }
                             }
                         }
                     }
-                }
 
-                $plugins_to_delete = count($plugin_info);
+                    $plugins_to_delete = count($plugin_info);
 
-                ?>
-                <?php if (1 === $plugins_to_delete) : ?>
-                    <h1><?php _e('Delete Plugin'); ?></h1>
-                    <?php
-                    if ($have_non_network_plugins && is_network_admin()) :
-                        $maybe_active_plugin = '<strong>' . __('Caution:') . '</strong> ' . __('This plugin may be active on other sites in the network.');
-                        wp_admin_notice(
-                            $maybe_active_plugin,
-                            [
-                                'additional_classes' => ['error'],
-                            ]
-                        );
-                    endif;
                     ?>
-                    <p><?php _e('You are about to remove the following plugin:'); ?></p>
-                <?php else : ?>
-                    <h1><?php _e('Delete Plugins'); ?></h1>
-                    <?php
-                    if ($have_non_network_plugins && is_network_admin()) :
-                        $maybe_active_plugins = '<strong>' . __('Caution:') . '</strong> ' . __('These plugins may be active on other sites in the network.');
-                        wp_admin_notice(
-                            $maybe_active_plugins,
-                            [
-                                'additional_classes' => ['error'],
-                            ]
-                        );
-                    endif;
-                    ?>
-                    <p><?php _e('You are about to remove the following plugins:'); ?></p>
-                <?php endif; ?>
+                    <?php if (1 === $plugins_to_delete) : ?>
+                        <h1><?php _e('Delete Plugin'); ?></h1>
+                        <?php
+                        if ($have_non_network_plugins && is_network_admin()) :
+                            $maybe_active_plugin = '<strong>'
+                                . __('Caution:')
+                                . '</strong> '
+                                . __('This plugin may be active on other sites in the network.');
+                            wp_admin_notice(
+                                $maybe_active_plugin,
+                                [
+                                    'additional_classes' => ['error'],
+                                ],
+                            );
+                        endif;
+                        ?>
+                        <p><?php _e('You are about to remove the following plugin:'); ?></p>
+                    <?php else : ?>
+                        <h1><?php _e('Delete Plugins'); ?></h1>
+                        <?php
+                        if ($have_non_network_plugins && is_network_admin()) :
+                            $maybe_active_plugins = '<strong>'
+                                . __('Caution:')
+                                . '</strong> '
+                                . __('These plugins may be active on other sites in the network.');
+                            wp_admin_notice(
+                                $maybe_active_plugins,
+                                [
+                                    'additional_classes' => ['error'],
+                                ],
+                            );
+                        endif;
+                        ?>
+                        <p><?php _e('You are about to remove the following plugins:'); ?></p>
+                    <?php endif; ?>
                     <ul class="ul-disc">
                         <?php
 
@@ -376,48 +399,55 @@ if ($action) {
                         foreach ($plugin_info as $plugin) {
                             if ($plugin['is_uninstallable']) {
                                 /* translators: 1: Plugin name, 2: Plugin author. */
-                                echo '<li>', sprintf(__('%1$s by %2$s (will also <strong>delete its data</strong>)'), '<strong>' . $plugin['Name'] . '</strong>', '<em>' . $plugin['AuthorName'] . '</em>'), '</li>';
+                                echo '<li>', sprintf(__('%1$s by %2$s (will also <strong>delete its data</strong>)'),
+                                    '<strong>' . $plugin['Name'] . '</strong>',
+                                    '<em>' . $plugin['AuthorName'] . '</em>'), '</li>';
                                 $data_to_delete = true;
                             } else {
                                 /* translators: 1: Plugin name, 2: Plugin author. */
-                                echo '<li>', sprintf(_x('%1$s by %2$s', 'plugin'), '<strong>' . $plugin['Name'] . '</strong>', '<em>' . $plugin['AuthorName']) . '</em>', '</li>';
+                                echo '<li>', sprintf(_x('%1$s by %2$s', 'plugin'),
+                                        '<strong>' . $plugin['Name'] . '</strong>', '<em>' . $plugin['AuthorName'])
+                                    . '</em>', '</li>';
                             }
                         }
 
                         ?>
                     </ul>
-                <p>
-                <?php
+                    <p>
+                        <?php
 
-                if ($data_to_delete) {
-                    _e('Are you sure you want to delete these files and data?');
-                } else {
-                    _e('Are you sure you want to delete these files?');
-                }
+                        if ($data_to_delete) {
+                            _e('Are you sure you want to delete these files and data?');
+                        } else {
+                            _e('Are you sure you want to delete these files?');
+                        }
 
-                ?>
-                </p>
-                <form method="post" action="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>" style="display:inline;">
-                    <input type="hidden" name="verify-delete" value="1" />
-                    <input type="hidden" name="action" value="delete-selected" />
+                        ?>
+                    </p>
+                    <form method="post" action="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>"
+                          style="display:inline;">
+                        <input type="hidden" name="verify-delete" value="1"/>
+                        <input type="hidden" name="action" value="delete-selected"/>
+                        <?php
+
+                        foreach ((array)$plugins as $plugin) {
+                            echo '<input type="hidden" name="checked[]" value="' . esc_attr($plugin) . '" />';
+                        }
+
+                        ?>
+                        <?php wp_nonce_field('bulk-plugins'); ?>
+                        <?php submit_button($data_to_delete ? __('Yes, delete these files and data')
+                            : __('Yes, delete these files'), '', 'submit', false); ?>
+                    </form>
                     <?php
 
-                    foreach ((array) $plugins as $plugin) {
-                        echo '<input type="hidden" name="checked[]" value="' . esc_attr($plugin) . '" />';
-                    }
+                    $referer = wp_get_referer();
 
                     ?>
-                    <?php wp_nonce_field('bulk-plugins'); ?>
-                    <?php submit_button($data_to_delete ? __('Yes, delete these files and data') : __('Yes, delete these files'), '', 'submit', false); ?>
-                </form>
-                <?php
-
-                $referer = wp_get_referer();
-
-                ?>
-                <form method="post" action="<?php echo $referer ? esc_url($referer) : ''; ?>" style="display:inline;">
-                    <?php submit_button(__('No, return me to the plugin list'), '', 'submit', false); ?>
-                </form>
+                    <form method="post" action="<?php echo $referer ? esc_url($referer) : ''; ?>"
+                          style="display:inline;">
+                        <?php submit_button(__('No, return me to the plugin list'), '', 'submit', false); ?>
+                    </form>
                 </div>
                 <?php
 
@@ -435,7 +465,7 @@ if ($action) {
             wp_redirect(self_admin_url("plugins.php?deleted=$plugins_to_delete&plugin_status=$status&paged=$page&s=$s"));
             exit;
         case 'clear-recent-list':
-            if (! is_network_admin()) {
+            if (!is_network_admin()) {
                 update_option('recently_activated', [], false);
             } else {
                 update_site_option('recently_activated', []);
@@ -447,13 +477,14 @@ if ($action) {
                 return;
             }
 
-            if (! current_user_can('resume_plugin', $plugin)) {
+            if (!current_user_can('resume_plugin', $plugin)) {
                 wp_die(__('Sorry, you are not allowed to resume this plugin.'));
             }
 
             check_admin_referer('resume-plugin_' . $plugin);
 
-            $result = resume_plugin($plugin, self_admin_url("plugins.php?error=resuming&plugin_status=$status&paged=$page&s=$s"));
+            $result = resume_plugin($plugin,
+                self_admin_url("plugins.php?error=resuming&plugin_status=$status&paged=$page&s=$s"));
 
             if (is_wp_error($result)) {
                 wp_die($result);
@@ -465,11 +496,11 @@ if ($action) {
         case 'disable-auto-update':
         case 'enable-auto-update-selected':
         case 'disable-auto-update-selected':
-            if (! current_user_can('update_plugins') || ! wp_is_auto_update_enabled_for_type('plugin')) {
+            if (!current_user_can('update_plugins') || !wp_is_auto_update_enabled_for_type('plugin')) {
                 wp_die(__('Sorry, you are not allowed to manage plugins automatic updates.'));
             }
 
-            if (is_multisite() && ! is_network_admin()) {
+            if (is_multisite() && !is_network_admin()) {
                 wp_die(__('Please connect to your network admin to manage plugins automatic updates.'));
             }
 
@@ -491,25 +522,25 @@ if ($action) {
                 check_admin_referer('bulk-plugins');
             }
 
-            $auto_updates = (array) get_site_option('auto_update_plugins', []);
+            $auto_updates = (array)get_site_option('auto_update_plugins', []);
 
             if ('enable-auto-update' === $action) {
                 $auto_updates[] = $plugin;
-                $auto_updates   = array_unique($auto_updates);
-                $redirect       = add_query_arg(['enabled-auto-update' => 'true'], $redirect);
+                $auto_updates = array_unique($auto_updates);
+                $redirect = add_query_arg(['enabled-auto-update' => 'true'], $redirect);
             } elseif ('disable-auto-update' === $action) {
                 $auto_updates = array_diff($auto_updates, [$plugin]);
-                $redirect     = add_query_arg(['disabled-auto-update' => 'true'], $redirect);
+                $redirect = add_query_arg(['disabled-auto-update' => 'true'], $redirect);
             } else {
-                $plugins = (array) wp_unslash($_POST['checked']);
+                $plugins = (array)wp_unslash($_POST['checked']);
 
                 if ('enable-auto-update-selected' === $action) {
                     $new_auto_updates = array_merge($auto_updates, $plugins);
                     $new_auto_updates = array_unique($new_auto_updates);
-                    $query_args       = ['enabled-auto-update-multi' => 'true'];
+                    $query_args = ['enabled-auto-update-multi' => 'true'];
                 } else {
                     $new_auto_updates = array_diff($auto_updates, $plugins);
-                    $query_args       = ['disabled-auto-update-multi' => 'true'];
+                    $query_args = ['disabled-auto-update-multi' => 'true'];
                 }
 
                 // Return early if all selected plugins already have auto-updates enabled or disabled.
@@ -520,7 +551,7 @@ if ($action) {
                 }
 
                 $auto_updates = $new_auto_updates;
-                $redirect     = add_query_arg($query_args, $redirect);
+                $redirect = add_query_arg($query_args, $redirect);
             }
 
             /** This filter is documented in wp-admin/includes/class-wp-plugins-list-table.php */
@@ -537,9 +568,9 @@ if ($action) {
             if (isset($_POST['checked'])) {
                 check_admin_referer('bulk-plugins');
 
-                $screen   = get_current_screen()->id;
+                $screen = get_current_screen()->id;
                 $sendback = wp_get_referer();
-                $plugins  = isset($_POST['checked']) ? (array) wp_unslash($_POST['checked']) : [];
+                $plugins = isset($_POST['checked']) ? (array)wp_unslash($_POST['checked']) : [];
 
                 /** This action is documented in wp-admin/edit.php */
                 $sendback = apply_filters("handle_bulk_actions-{$screen}", $sendback, $action, $plugins);
@@ -559,30 +590,45 @@ add_screen_option('per_page', ['default' => 999]);
 
 get_current_screen()->add_help_tab(
     [
-        'id'      => 'overview',
-        'title'   => __('Overview'),
+        'id' => 'overview',
+        'title' => __('Overview'),
         'content' =>
-                '<p>' . __('Plugins extend and expand the functionality of waggypuppy. Once a plugin is installed, you may activate it or deactivate it here.') . '</p>' .
-                '<p>' . __('The search for installed plugins will search for terms in their name, description, or author.') . ' <span id="live-search-desc" class="hide-if-no-js">' . __('The search results will be updated as you type.') . '</span></p>' .
-                '<p>' . sprintf(
-                    /* translators: %s: waggypuppy Plugin Directory URL. */
-                    __('If you would like to see more plugins to choose from, click on the &#8220;Add New Plugin&#8221; button and you will be able to browse or search for additional plugins from the <a href="%s">WP Plugin Directory</a>. Plugins in the WP Plugin Directory are designed and developed by third parties, and are compatible with the license waggypuppy uses. Oh, and they are free!'),
-                    __('https://wp.org/plugins/')
-                ) . '</p>',
-    ]
+            '<p>'
+            . __('Plugins extend and expand the functionality of waggypuppy. Once a plugin is installed, you may activate it or deactivate it here.')
+            . '</p>'
+            .
+            '<p>'
+            . __('The search for installed plugins will search for terms in their name, description, or author.')
+            . ' <span id="live-search-desc" class="hide-if-no-js">'
+            . __('The search results will be updated as you type.')
+            . '</span></p>'
+            .
+            '<p>'
+            . sprintf(
+            /* translators: %s: waggypuppy Plugin Directory URL. */
+                __('If you would like to see more plugins to choose from, click on the &#8220;Add New Plugin&#8221; button and you will be able to browse or search for additional plugins from the <a href="%s">WP Plugin Directory</a>. Plugins in the WP Plugin Directory are designed and developed by third parties, and are compatible with the license waggypuppy uses. Oh, and they are free!'),
+                __('https://wp.org/plugins/'),
+            )
+            . '</p>',
+    ],
 );
 get_current_screen()->add_help_tab(
     [
-        'id'      => 'compatibility-problems',
-        'title'   => __('Troubleshooting'),
+        'id' => 'compatibility-problems',
+        'title' => __('Troubleshooting'),
         'content' =>
-                '<p>' . __('Most of the time, plugins play nicely with the core of waggypuppy and with other plugins. Sometimes, though, a plugin&#8217;s code will get in the way of another plugin, causing compatibility issues. If your site starts doing strange things, this may be the problem. Try deactivating all your plugins and re-activating them in various combinations until you isolate which one(s) caused the issue.') . '</p>' .
-                '<p>' . sprintf(
-                    /* translators: %s: WP_PLUGIN_DIR constant value. */
-                    __('If something goes wrong with a plugin and you cannot use waggypuppy, delete or rename that file in the %s directory and it will be automatically deactivated.'),
-                    '<code>' . WP_PLUGIN_DIR . '</code>'
-                ) . '</p>',
-    ]
+            '<p>'
+            . __('Most of the time, plugins play nicely with the core of waggypuppy and with other plugins. Sometimes, though, a plugin&#8217;s code will get in the way of another plugin, causing compatibility issues. If your site starts doing strange things, this may be the problem. Try deactivating all your plugins and re-activating them in various combinations until you isolate which one(s) caused the issue.')
+            . '</p>'
+            .
+            '<p>'
+            . sprintf(
+            /* translators: %s: WP_PLUGIN_DIR constant value. */
+                __('If something goes wrong with a plugin and you cannot use waggypuppy, delete or rename that file in the %s directory and it will be automatically deactivated.'),
+                '<code>' . WP_PLUGIN_DIR . '</code>',
+            )
+            . '</p>',
+    ],
 );
 
 $help_sidebar_autoupdates = '';
@@ -590,108 +636,136 @@ $help_sidebar_autoupdates = '';
 if (current_user_can('update_plugins') && wp_is_auto_update_enabled_for_type('plugin')) {
     get_current_screen()->add_help_tab(
         [
-            'id'      => 'plugins-themes-auto-updates',
-            'title'   => __('Auto-updates'),
+            'id' => 'plugins-themes-auto-updates',
+            'title' => __('Auto-updates'),
             'content' =>
-                    '<p>' . __('Auto-updates can be enabled or disabled for each individual plugin. Plugins with auto-updates enabled will display the estimated date of the next auto-update. Auto-updates depends on the WP-Cron task scheduling system.') . '</p>' .
-                    '<p>' . __('Auto-updates are only available for plugins recognized by wp.org, or that include a compatible update system.') . '</p>' .
-                    '<p>' . __('Please note: Third-party themes and plugins, or custom code, may override waggypuppy scheduling.') . '</p>',
-        ]
+                '<p>'
+                . __('Auto-updates can be enabled or disabled for each individual plugin. Plugins with auto-updates enabled will display the estimated date of the next auto-update. Auto-updates depends on the WP-Cron task scheduling system.')
+                . '</p>'
+                .
+                '<p>'
+                . __('Auto-updates are only available for plugins recognized by wp.org, or that include a compatible update system.')
+                . '</p>'
+                .
+                '<p>'
+                . __('Please note: Third-party themes and plugins, or custom code, may override waggypuppy scheduling.')
+                . '</p>',
+        ],
     );
 
-    $help_sidebar_autoupdates = '<p>' . __('<a href="https://wp.org/documentation/article/plugins-themes-auto-updates/">Documentation on Auto-updates</a>') . '</p>';
+    $help_sidebar_autoupdates = '<p>'
+        . __('<a href="https://wp.org/documentation/article/plugins-themes-auto-updates/">Documentation on Auto-updates</a>')
+        . '</p>';
 }
 
 if (current_user_can('install_plugins')) {
     get_current_screen()->add_help_tab(
         [
-            'id'      => 'plugins-dependencies',
-            'title'   => __('Dependencies'),
+            'id' => 'plugins-dependencies',
+            'title' => __('Dependencies'),
             'content' =>
-                '<p>' . __('Plugin Dependencies aims to make the process of installing and activating add-ons (dependents) and the plugins they rely on (dependencies) consistent and easy.') . '</p>' .
-                '<p>' . __('If a required plugin is deleted, a notice will be displayed on the Plugin administration screen informing the user that there is some missing dependencies to install and/or activate. Additionally, each plugin whose dependencies are not met will have an error notice on their plugin row.') . '</p>' .
-                '<p>' . __('If a dependent plugin is missing some dependencies, its activation button will be disabled until the required dependencies are activated.') . '</p>',
-        ]
+                '<p>'
+                . __('Plugin Dependencies aims to make the process of installing and activating add-ons (dependents) and the plugins they rely on (dependencies) consistent and easy.')
+                . '</p>'
+                .
+                '<p>'
+                . __('If a required plugin is deleted, a notice will be displayed on the Plugin administration screen informing the user that there is some missing dependencies to install and/or activate. Additionally, each plugin whose dependencies are not met will have an error notice on their plugin row.')
+                . '</p>'
+                .
+                '<p>'
+                . __('If a dependent plugin is missing some dependencies, its activation button will be disabled until the required dependencies are activated.')
+                . '</p>',
+        ],
     );
 }
 
 get_current_screen()->set_help_sidebar(
-    '<p><strong>' . __('For more information:') . '</strong></p>' .
-    '<p>' . __('<a href="https://wp.org/documentation/article/manage-plugins/">Documentation on Managing Plugins</a>') . '</p>' .
-    $help_sidebar_autoupdates .
-    '<p>' . __('<a href="https://wp.org/support/forums/">Support forums</a>') . '</p>'
+    '<p><strong>'
+    . __('For more information:')
+    . '</strong></p>'
+    .
+    '<p>'
+    . __('<a href="https://wp.org/documentation/article/manage-plugins/">Documentation on Managing Plugins</a>')
+    . '</p>'
+    .
+    $help_sidebar_autoupdates
+    .
+    '<p>'
+    . __('<a href="https://wp.org/support/forums/">Support forums</a>')
+    . '</p>',
 );
 
 get_current_screen()->set_screen_reader_content(
     [
-        'heading_views'      => __('Filter plugins list'),
+        'heading_views' => __('Filter plugins list'),
         'heading_pagination' => __('Plugins list navigation'),
-        'heading_list'       => __('Plugins list'),
-    ]
+        'heading_list' => __('Plugins list'),
+    ],
 );
 
 // Used in the HTML title tag.
-$title       = __('Plugins');
+$title = __('Plugins');
 $parent_file = 'plugins.php';
 
 require_once ABSPATH . 'wp-admin/admin-header.php';
 
 $invalid = validate_active_plugins();
-if (! empty($invalid)) {
+if (!empty($invalid)) {
     foreach ($invalid as $plugin_file => $error) {
         $deactivated_message = sprintf(
-            /* translators: 1: Plugin file, 2: Error message. */
+        /* translators: 1: Plugin file, 2: Error message. */
             __('The plugin %1$s has been deactivated due to an error: %2$s'),
             '<code>' . esc_html($plugin_file) . '</code>',
-            esc_html($error->get_error_message())
+            esc_html($error->get_error_message()),
         );
         wp_admin_notice(
             $deactivated_message,
             [
-                'id'                 => 'message',
+                'id' => 'message',
                 'additional_classes' => ['error'],
-            ]
+            ],
         );
     }
 }
 
 // Used by wp_admin_notice() updated notices.
 $updated_notice_args = [
-    'id'                 => 'message',
+    'id' => 'message',
     'additional_classes' => ['updated'],
-    'dismissible'        => true,
+    'dismissible' => true,
 ];
 if (isset($_GET['error'])) {
-
     if (isset($_GET['main'])) {
         $errmsg = __('You cannot delete a plugin while it is active on the main site.');
     } elseif (isset($_GET['charsout'])) {
         $errmsg = sprintf(
-            /* translators: %d: Number of characters. */
+        /* translators: %d: Number of characters. */
             _n(
                 'The plugin generated %d character of <strong>unexpected output</strong> during activation.',
                 'The plugin generated %d characters of <strong>unexpected output</strong> during activation.',
-                $_GET['charsout']
+                $_GET['charsout'],
             ),
-            $_GET['charsout']
+            $_GET['charsout'],
         );
-        $errmsg .= ' ' . __('If you notice &#8220;headers already sent&#8221; messages, problems with syndication feeds or other issues, try deactivating or removing this plugin.');
+        $errmsg .= ' '
+            . __('If you notice &#8220;headers already sent&#8221; messages, problems with syndication feeds or other issues, try deactivating or removing this plugin.');
     } elseif ('resuming' === $_GET['error']) {
         $errmsg = __('Plugin could not be resumed because it triggered a <strong>fatal error</strong>.');
     } else {
         $errmsg = __('Plugin could not be activated because it triggered a <strong>fatal error</strong>.');
     }
 
-    if (! isset($_GET['main']) && ! isset($_GET['charsout'])
-        && isset($_GET['_error_nonce']) && wp_verify_nonce($_GET['_error_nonce'], 'plugin-activation-error_' . $plugin)
+    if (!isset($_GET['main']) && !isset($_GET['charsout'])
+        && isset($_GET['_error_nonce'])
+        && wp_verify_nonce($_GET['_error_nonce'], 'plugin-activation-error_' . $plugin)
     ) {
         $iframe_url = add_query_arg(
             [
-                'action'   => 'error_scrape',
-                'plugin'   => urlencode($plugin),
+                'action' => 'error_scrape',
+                'plugin' => urlencode($plugin),
                 '_wpnonce' => urlencode($_GET['_error_nonce']),
             ],
-            admin_url('plugins.php')
+            admin_url('plugins.php'),
         );
 
         $errmsg .= '<iframe style="border:0" width="100%" height="70px" src="' . esc_url($iframe_url) . '"></iframe>';
@@ -700,11 +774,10 @@ if (isset($_GET['error'])) {
     wp_admin_notice(
         $errmsg,
         [
-            'id'                 => 'message',
+            'id' => 'message',
             'additional_classes' => ['error'],
-        ]
+        ],
     );
-
 } elseif (isset($_GET['deleted'])) {
     $delete_result = get_option('plugins_delete_result_' . $user_ID);
     // Delete it once we're done.
@@ -712,20 +785,20 @@ if (isset($_GET['error'])) {
 
     if (is_wp_error($delete_result)) {
         $plugin_not_deleted_message = sprintf(
-            /* translators: %s: Error message. */
+        /* translators: %s: Error message. */
             __('Plugin could not be deleted due to an error: %s'),
-            esc_html($delete_result->get_error_message())
+            esc_html($delete_result->get_error_message()),
         );
         wp_admin_notice(
             $plugin_not_deleted_message,
             [
-                'id'                 => 'message',
+                'id' => 'message',
                 'additional_classes' => ['error'],
-                'dismissible'        => true,
-            ]
+                'dismissible' => true,
+            ],
         );
     } else {
-        if (1 === (int) $_GET['deleted']) {
+        if (1 === (int)$_GET['deleted']) {
             $plugins_deleted_message = __('The selected plugin has been deleted.');
         } else {
             $plugins_deleted_message = __('The selected plugins have been deleted.');
@@ -757,65 +830,66 @@ if (isset($_GET['error'])) {
 
 <?php WP_Plugin_Dependencies::display_admin_notice_for_unmet_dependencies(); ?>
 <?php WP_Plugin_Dependencies::display_admin_notice_for_circular_dependencies(); ?>
-<div class="wrap">
-<h1 class="wp-heading-inline">
-<?php
-echo esc_html($title);
-?>
-</h1>
+    <div class="wrap">
+        <h1 class="wp-heading-inline">
+            <?php
+            echo esc_html($title);
+            ?>
+        </h1>
 
-<?php
-if ((! is_multisite() || is_network_admin()) && current_user_can('install_plugins')) {
-    ?>
-    <a href="<?php echo esc_url(self_admin_url('plugin-install.php')); ?>" class="page-title-action"><?php echo esc_html__('Add New Plugin'); ?></a>
-    <?php
-}
+        <?php
+        if ((!is_multisite() || is_network_admin()) && current_user_can('install_plugins')) {
+            ?>
+            <a href="<?php echo esc_url(self_admin_url('plugin-install.php')); ?>"
+               class="page-title-action"><?php echo esc_html__('Add New Plugin'); ?></a>
+            <?php
+        }
 
-if (strlen($s)) {
-    echo '<span class="subtitle">';
-    printf(
-        /* translators: %s: Search query. */
-        __('Search results for: %s'),
-        '<strong>' . esc_html(urldecode($s)) . '</strong>'
-    );
-    echo '</span>';
-}
-?>
+        if (strlen($s)) {
+            echo '<span class="subtitle">';
+            printf(
+            /* translators: %s: Search query. */
+                __('Search results for: %s'),
+                '<strong>' . esc_html(urldecode($s)) . '</strong>',
+            );
+            echo '</span>';
+        }
+        ?>
 
-<hr class="wp-header-end">
+        <hr class="wp-header-end">
 
-<?php
-/**
- * Fires before the plugins list table is rendered.
- *
- * This hook also fires before the plugins list table is rendered in the Network Admin.
- *
- * Please note: The 'active' portion of the hook name does not refer to whether the current
- * view is for active plugins, but rather all plugins actively-installed.
- *
- * @since 3.0.0
- *
- * @param array[] $plugins_all An array of arrays containing information on all installed plugins.
- */
-do_action('pre_current_active_plugins', $plugins['all']);
-?>
+        <?php
+        /**
+         * Fires before the plugins list table is rendered.
+         *
+         * This hook also fires before the plugins list table is rendered in the Network Admin.
+         *
+         * Please note: The 'active' portion of the hook name does not refer to whether the current
+         * view is for active plugins, but rather all plugins actively-installed.
+         *
+         * @param array[] $plugins_all An array of arrays containing information on all installed plugins.
+         * @since 3.0.0
+         *
+         */
+        do_action('pre_current_active_plugins', $plugins['all']);
+        ?>
 
-<?php $wp_list_table->views(); ?>
+        <?php $wp_list_table->views(); ?>
 
-<form class="search-form search-plugins" method="get">
-<?php $wp_list_table->search_box(__('Search installed plugins'), 'plugin'); ?>
-</form>
+        <form class="search-form search-plugins" method="get">
+            <?php $wp_list_table->search_box(__('Search installed plugins'), 'plugin'); ?>
+        </form>
 
-<form method="post" id="bulk-action-form">
+        <form method="post" id="bulk-action-form">
 
-<input type="hidden" name="plugin_status" value="<?php echo esc_attr($status); ?>" />
-<input type="hidden" name="paged" value="<?php echo esc_attr($page); ?>" />
+            <input type="hidden" name="plugin_status" value="<?php echo esc_attr($status); ?>"/>
+            <input type="hidden" name="paged" value="<?php echo esc_attr($page); ?>"/>
 
-<?php $wp_list_table->display(); ?>
-</form>
+            <?php $wp_list_table->display(); ?>
+        </form>
 
-    <span class="spinner"></span>
-</div>
+        <span class="spinner"></span>
+    </div>
 
 <?php
 wp_print_request_filesystem_credentials_modal();

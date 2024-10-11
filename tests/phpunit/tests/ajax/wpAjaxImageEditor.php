@@ -44,12 +44,12 @@ class Tests_Ajax_wpAjaxImageEditor extends WP_Ajax_UnitTestCase
         $contents = file_get_contents($filename);
 
         $upload = wp_upload_bits(wp_basename($filename), null, $contents);
-        $id     = $this->_make_attachment($upload);
+        $id = $this->_make_attachment($upload);
 
-        $_REQUEST['action']  = 'image-editor';
-        $_REQUEST['postid']  = $id;
-        $_REQUEST['do']      = 'scale';
-        $_REQUEST['fwidth']  = 700;
+        $_REQUEST['action'] = 'image-editor';
+        $_REQUEST['postid'] = $id;
+        $_REQUEST['do'] = 'scale';
+        $_REQUEST['fwidth'] = 700;
         $_REQUEST['fheight'] = 500;
 
         $ret = wp_save_image($id);
@@ -75,26 +75,26 @@ class Tests_Ajax_wpAjaxImageEditor extends WP_Ajax_UnitTestCase
         $contents = file_get_contents($filename);
 
         $upload = wp_upload_bits(wp_basename($filename), null, $contents);
-        $id     = $this->_make_attachment($upload);
+        $id = $this->_make_attachment($upload);
 
-        $_REQUEST['action']  = 'image-editor';
+        $_REQUEST['action'] = 'image-editor';
         $_REQUEST['context'] = 'edit-attachment';
-        $_REQUEST['postid']  = $id;
-        $_REQUEST['target']  = 'all';
-        $_REQUEST['do']      = 'save';
+        $_REQUEST['postid'] = $id;
+        $_REQUEST['target'] = 'all';
+        $_REQUEST['do'] = 'save';
         $_REQUEST['history'] = '[{"c":{"x":5,"y":8,"w":289,"h":322}}]';
 
         $ret = wp_save_image($id);
 
         $media_meta = wp_get_attachment_metadata($id);
-        $sizes1     = $media_meta['sizes'];
+        $sizes1 = $media_meta['sizes'];
 
         $_REQUEST['history'] = '[{"c":{"x":5,"y":8,"w":189,"h":322}}]';
 
         $ret = wp_save_image($id);
 
         $media_meta = wp_get_attachment_metadata($id);
-        $sizes2     = $media_meta['sizes'];
+        $sizes2 = $media_meta['sizes'];
 
         $file_path = dirname(get_attached_file($id));
 
@@ -106,7 +106,7 @@ class Tests_Ajax_wpAjaxImageEditor extends WP_Ajax_UnitTestCase
             }
         }
 
-        if (! empty($files_that_should_not_exist)) {
+        if (!empty($files_that_should_not_exist)) {
             foreach ($files_that_should_not_exist as $file) {
                 $this->assertFileDoesNotExist($file, 'IMAGE_EDIT_OVERWRITE is leaving garbage image files behind.');
             }

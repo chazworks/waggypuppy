@@ -10,7 +10,7 @@
 class Tests_Functions_wpListPluck extends WP_UnitTestCase
 {
     public $object_list = [];
-    public $array_list  = [];
+    public $array_list = [];
 
     public function set_up()
     {
@@ -27,31 +27,31 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase
         $this->expectDeprecated();
 
         $this->array_list['foo'] = [
-            'name'   => 'foo',
-            'id'     => 'f',
+            'name' => 'foo',
+            'id' => 'f',
             'field1' => true,
             'field2' => true,
             'field3' => true,
             'field4' => ['red'],
         ];
         $this->array_list['bar'] = [
-            'name'   => 'bar',
-            'id'     => 'b',
+            'name' => 'bar',
+            'id' => 'b',
             'field1' => true,
             'field2' => true,
             'field3' => false,
             'field4' => ['green'],
         ];
         $this->array_list['baz'] = [
-            'name'   => 'baz',
-            'id'     => 'z',
+            'name' => 'baz',
+            'id' => 'z',
             'field1' => true,
             'field2' => false,
             'field3' => false,
             'field4' => ['blue'],
         ];
         foreach ($this->array_list as $key => $value) {
-            $this->object_list[$key] = (object) $value;
+            $this->object_list[$key] = (object)$value;
         }
     }
 
@@ -64,7 +64,7 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase
                 'bar' => 'bar',
                 'baz' => 'baz',
             ],
-            $list
+            $list,
         );
 
         $list = wp_list_pluck($this->array_list, 'name');
@@ -74,7 +74,7 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase
                 'bar' => 'bar',
                 'baz' => 'baz',
             ],
-            $list
+            $list,
         );
     }
 
@@ -90,7 +90,7 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase
                 'b' => 'bar',
                 'z' => 'baz',
             ],
-            $list
+            $list,
         );
     }
 
@@ -106,7 +106,7 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase
                 'b' => 'bar',
                 'z' => 'baz',
             ],
-            $list
+            $list,
         );
     }
 
@@ -122,7 +122,7 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase
                 1 => 'bar',
                 2 => 'baz',
             ],
-            $list
+            $list,
         );
     }
 
@@ -137,10 +137,10 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase
         $this->assertSame(
             [
                 'f' => 'foo',
-                0   => 'bar',
+                0 => 'bar',
                 'z' => 'baz',
             ],
-            $list
+            $list,
         );
     }
 
@@ -149,16 +149,16 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase
      */
     public function test_wp_list_pluck_mixed_index_key()
     {
-        $mixed_list        = $this->array_list;
-        $mixed_list['bar'] = (object) $mixed_list['bar'];
-        $list              = wp_list_pluck($mixed_list, 'name', 'id');
+        $mixed_list = $this->array_list;
+        $mixed_list['bar'] = (object)$mixed_list['bar'];
+        $list = wp_list_pluck($mixed_list, 'name', 'id');
         $this->assertSame(
             [
                 'f' => 'foo',
                 'b' => 'bar',
                 'z' => 'baz',
             ],
-            $list
+            $list,
         );
     }
 
@@ -181,7 +181,7 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase
                 'foo',
                 'bar',
             ],
-            $list
+            $list,
         );
 
         $this->assertInstanceOf('stdClass', $ref_list[0]);
@@ -207,7 +207,7 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase
                 'f' => 'foo',
                 'b' => 'bar',
             ],
-            $list
+            $list,
         );
 
         $this->assertInstanceOf('stdClass', $ref_list[0]);
@@ -217,10 +217,10 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase
     /**
      * @dataProvider data_wp_list_pluck
      *
-     * @param array      $input_list List of objects or arrays.
-     * @param int|string $field      Field from the object to place instead of the entire object
-     * @param int|string $index_key  Field from the object to use as keys for the new array.
-     * @param array      $expected   Expected result.
+     * @param array $input_list List of objects or arrays.
+     * @param int|string $field Field from the object to place instead of the entire object
+     * @param int|string $index_key Field from the object to use as keys for the new array.
+     * @param array $expected Expected result.
      */
     public function test_wp_list_pluck($input_list, $field, $index_key, $expected)
     {
@@ -235,7 +235,7 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase
     public function data_wp_list_pluck()
     {
         return [
-            'arrays'                         => [
+            'arrays' => [
                 [
                     [
                         'foo' => 'bar',
@@ -243,8 +243,8 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase
                         'abc' => 'xyz',
                     ],
                     [
-                        'foo'   => 'foo',
-                        '123'   => '456',
+                        'foo' => 'foo',
+                        '123' => '456',
                         'lorem' => 'ipsum',
                     ],
                     ['foo' => 'baz'],
@@ -253,7 +253,7 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase
                 null,
                 ['bar', 'foo', 'baz'],
             ],
-            'arrays with index key'          => [
+            'arrays with index key' => [
                 [
                     [
                         'foo' => 'bar',
@@ -262,10 +262,10 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase
                         'key' => 'foo',
                     ],
                     [
-                        'foo'   => 'foo',
-                        '123'   => '456',
+                        'foo' => 'foo',
+                        '123' => '456',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
                     [
                         'foo' => 'baz',
@@ -275,12 +275,12 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase
                 'foo',
                 'key',
                 [
-                    'foo'   => 'bar',
-                    'bar'   => 'foo',
+                    'foo' => 'bar',
+                    'bar' => 'foo',
                     'value' => 'baz',
                 ],
             ],
-            'arrays with index key missing'  => [
+            'arrays with index key missing' => [
                 [
                     [
                         'foo' => 'bar',
@@ -288,10 +288,10 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase
                         'abc' => 'xyz',
                     ],
                     [
-                        'foo'   => 'foo',
-                        '123'   => '456',
+                        'foo' => 'foo',
+                        '123' => '456',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
                     [
                         'foo' => 'baz',
@@ -302,43 +302,43 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase
                 'key',
                 [
                     'bar',
-                    'bar'   => 'foo',
+                    'bar' => 'foo',
                     'value' => 'baz',
                 ],
             ],
-            'objects'                        => [
+            'objects' => [
                 [
-                    (object) [
+                    (object)[
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'abc' => 'xyz',
                     ],
-                    (object) [
-                        'foo'   => 'foo',
-                        '123'   => '456',
+                    (object)[
+                        'foo' => 'foo',
+                        '123' => '456',
                         'lorem' => 'ipsum',
                     ],
-                    (object) ['foo' => 'baz'],
+                    (object)['foo' => 'baz'],
                 ],
                 'foo',
                 null,
                 ['bar', 'foo', 'baz'],
             ],
-            'objects with index key'         => [
+            'objects with index key' => [
                 [
-                    (object) [
+                    (object)[
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'abc' => 'xyz',
                         'key' => 'foo',
                     ],
-                    (object) [
-                        'foo'   => 'foo',
-                        '123'   => '456',
+                    (object)[
+                        'foo' => 'foo',
+                        '123' => '456',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
-                    (object) [
+                    (object)[
                         'foo' => 'baz',
                         'key' => 'value',
                     ],
@@ -346,25 +346,25 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase
                 'foo',
                 'key',
                 [
-                    'foo'   => 'bar',
-                    'bar'   => 'foo',
+                    'foo' => 'bar',
+                    'bar' => 'foo',
                     'value' => 'baz',
                 ],
             ],
             'objects with index key missing' => [
                 [
-                    (object) [
+                    (object)[
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'abc' => 'xyz',
                     ],
-                    (object) [
-                        'foo'   => 'foo',
-                        '123'   => '456',
+                    (object)[
+                        'foo' => 'foo',
+                        '123' => '456',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
-                    (object) [
+                    (object)[
                         'foo' => 'baz',
                         'key' => 'value',
                     ],
@@ -373,7 +373,7 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase
                 'key',
                 [
                     'bar',
-                    'bar'   => 'foo',
+                    'bar' => 'foo',
                     'value' => 'baz',
                 ],
             ],

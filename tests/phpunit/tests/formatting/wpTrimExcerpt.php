@@ -15,12 +15,12 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase
         $post1 = self::factory()->post->create(
             [
                 'post_content' => 'Post 1 Page 1<!--more-->Post 1 Page 2',
-            ]
+            ],
         );
         $post2 = self::factory()->post->create(
             [
                 'post_content' => 'Post 2 Page 1<!--more-->Post 2 Page 2',
-            ]
+            ],
         );
 
         $this->go_to('/?p=' . $post1);
@@ -29,7 +29,7 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase
         $q = new WP_Query(
             [
                 'post__in' => [$post2],
-            ]
+            ],
         );
         if ($q->have_posts()) {
             while ($q->have_posts()) {
@@ -47,12 +47,12 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase
         $post1 = self::factory()->post->create(
             [
                 'post_content' => 'Post 1 Page 1<!--nextpage-->Post 1 Page 2',
-            ]
+            ],
         );
         $post2 = self::factory()->post->create(
             [
                 'post_content' => 'Post 2 Page 1<!--nextpage-->Post 2 Page 2',
-            ]
+            ],
         );
 
         $this->go_to('/?p=' . $post1);
@@ -61,7 +61,7 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase
         $q = new WP_Query(
             [
                 'post__in' => [$post2],
-            ]
+            ],
         );
         if ($q->have_posts()) {
             while ($q->have_posts()) {
@@ -89,7 +89,7 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase
         $post = self::factory()->post->create(
             [
                 'post_content' => 'Post content',
-            ]
+            ],
         );
 
         $this->assertSame('Post content', wp_trim_excerpt('', $post));
@@ -116,7 +116,7 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase
             static function ($content) use (&$has_filter) {
                 $has_filter = has_filter('the_content', 'wp_filter_content_tags');
                 return $content;
-            }
+            },
         );
 
         wp_trim_excerpt('', $post);
@@ -135,7 +135,8 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase
 
         wp_trim_excerpt('', $post);
 
-        $this->assertSame(12, has_filter('the_content', 'wp_filter_content_tags'), 'wp_filter_content_tags() was not restored in wp_trim_excerpt()');
+        $this->assertSame(12, has_filter('the_content', 'wp_filter_content_tags'),
+            'wp_filter_content_tags() was not restored in wp_trim_excerpt()');
     }
 
     /**
@@ -166,7 +167,7 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase
         $post = self::factory()->post->create(
             [
                 'post_content' => '<!-- wp:paragraph --> <p>A test paragraph</p> <!-- /wp:paragraph -->',
-            ]
+            ],
         );
 
         $output_text = wp_trim_excerpt('', $post);
@@ -193,7 +194,7 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase
             static function ($content) use (&$has_filter) {
                 $has_filter = has_filter('the_content', 'do_blocks');
                 return $content;
-            }
+            },
         );
 
         wp_trim_excerpt('', $post);
@@ -212,7 +213,8 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase
 
         wp_trim_excerpt('', $post);
 
-        $this->assertSame(9, has_filter('the_content', 'do_blocks'), 'do_blocks() was not restored in wp_trim_excerpt()');
+        $this->assertSame(9, has_filter('the_content', 'do_blocks'),
+            'do_blocks() was not restored in wp_trim_excerpt()');
     }
 
     /**

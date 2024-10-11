@@ -44,7 +44,7 @@ class Tests_Ajax_WpAjaxCropImage extends WP_Ajax_UnitTestCase
         if ($this->cropped_attachment instanceof WP_Post) {
             wp_delete_attachment($this->cropped_attachment->ID, true);
         }
-        $this->attachment         = null;
+        $this->attachment = null;
         $this->cropped_attachment = null;
 
         parent::tear_down();
@@ -70,13 +70,20 @@ class Tests_Ajax_WpAjaxCropImage extends WP_Ajax_UnitTestCase
         $this->validate_response($response);
 
         $this->cropped_attachment = get_post($response['data']['id']);
-        $this->assertInstanceOf(WP_Post::class, $this->cropped_attachment, 'get_post function must return an instance of WP_Post class');
+        $this->assertInstanceOf(WP_Post::class, $this->cropped_attachment,
+            'get_post function must return an instance of WP_Post class');
         $this->assertNotEmpty($this->attachment->post_title, 'post_title value must not be empty for testing purposes');
-        $this->assertNotEmpty($this->cropped_attachment->post_title, 'post_title value must not be empty for testing purposes');
-        $this->assertSame($this->attachment->post_title, $this->cropped_attachment->post_title, 'post_title value should be copied over to the cropped attachment');
-        $this->assertSame($this->attachment->post_content, $this->cropped_attachment->post_content, 'post_content value should be copied over to the cropped attachment');
-        $this->assertSame($this->attachment->post_excerpt, $this->cropped_attachment->post_excerpt, 'post_excerpt value should be copied over to the cropped attachment');
-        $this->assertSame($this->attachment->_wp_attachment_image_alt, $this->cropped_attachment->_wp_attachment_image_alt, '_wp_attachment_image_alt value should be copied over to the cropped attachment');
+        $this->assertNotEmpty($this->cropped_attachment->post_title,
+            'post_title value must not be empty for testing purposes');
+        $this->assertSame($this->attachment->post_title, $this->cropped_attachment->post_title,
+            'post_title value should be copied over to the cropped attachment');
+        $this->assertSame($this->attachment->post_content, $this->cropped_attachment->post_content,
+            'post_content value should be copied over to the cropped attachment');
+        $this->assertSame($this->attachment->post_excerpt, $this->cropped_attachment->post_excerpt,
+            'post_excerpt value should be copied over to the cropped attachment');
+        $this->assertSame($this->attachment->_wp_attachment_image_alt,
+            $this->cropped_attachment->_wp_attachment_image_alt,
+            '_wp_attachment_image_alt value should be copied over to the cropped attachment');
     }
 
     /**
@@ -86,16 +93,15 @@ class Tests_Ajax_WpAjaxCropImage extends WP_Ajax_UnitTestCase
      */
     public function test_it_populates_title_if_title_was_not_modified()
     {
-
         $this->attachment = $this->make_attachment(true);
-        $filename         = $this->get_attachment_filename($this->attachment);
+        $filename = $this->get_attachment_filename($this->attachment);
         $this->attachment = get_post(
             wp_update_post(
                 [
-                    'ID'         => $this->attachment->ID,
+                    'ID' => $this->attachment->ID,
                     'post_title' => $filename,
-                ]
-            )
+                ],
+            ),
         );
 
         $this->prepare_post($this->attachment);
@@ -110,8 +116,10 @@ class Tests_Ajax_WpAjaxCropImage extends WP_Ajax_UnitTestCase
         $this->validate_response($response);
 
         $this->cropped_attachment = get_post($response['data']['id']);
-        $this->assertInstanceOf(WP_Post::class, $this->cropped_attachment, 'get_post function must return an instance of WP_Post class');
-        $this->assertStringStartsWith('cropped-', $this->cropped_attachment->post_title, 'post_title attribute should start with "cropped-" prefix, i.e. it has to be populated');
+        $this->assertInstanceOf(WP_Post::class, $this->cropped_attachment,
+            'get_post function must return an instance of WP_Post class');
+        $this->assertStringStartsWith('cropped-', $this->cropped_attachment->post_title,
+            'post_title attribute should start with "cropped-" prefix, i.e. it has to be populated');
     }
 
     /**
@@ -134,14 +142,21 @@ class Tests_Ajax_WpAjaxCropImage extends WP_Ajax_UnitTestCase
         $this->validate_response($response);
 
         $this->cropped_attachment = get_post($response['data']['id']);
-        $this->assertInstanceOf(WP_Post::class, $this->cropped_attachment, 'get_post function must return an instance of WP_Post class');
+        $this->assertInstanceOf(WP_Post::class, $this->cropped_attachment,
+            'get_post function must return an instance of WP_Post class');
         $this->assertEmpty($this->attachment->post_title, 'post_title value must be empty for testing purposes');
-        $this->assertNotEmpty($this->cropped_attachment->post_title, 'post_title value must be auto-generated if it\'s empty in the original attachment');
-        $this->assertSame($this->get_attachment_filename($this->cropped_attachment), $this->cropped_attachment->post_title, 'post_title attribute should contain filename of the cropped image');
-        $this->assertStringStartsWith('cropped-', $this->cropped_attachment->post_title, 'post_title attribute should start with "cropped-" prefix, i.e. it has to be populated');
-        $this->assertStringStartsWith('http', $this->cropped_attachment->post_content, 'post_content value should contain an URL if it\'s empty in the original attachment');
-        $this->assertEmpty($this->cropped_attachment->post_excerpt, 'post_excerpt value must be empty if it\'s empty in the original attachment');
-        $this->assertEmpty($this->cropped_attachment->_wp_attachment_image_alt, '_wp_attachment_image_alt value must be empty if it\'s empty in the original attachment');
+        $this->assertNotEmpty($this->cropped_attachment->post_title,
+            'post_title value must be auto-generated if it\'s empty in the original attachment');
+        $this->assertSame($this->get_attachment_filename($this->cropped_attachment),
+            $this->cropped_attachment->post_title, 'post_title attribute should contain filename of the cropped image');
+        $this->assertStringStartsWith('cropped-', $this->cropped_attachment->post_title,
+            'post_title attribute should start with "cropped-" prefix, i.e. it has to be populated');
+        $this->assertStringStartsWith('http', $this->cropped_attachment->post_content,
+            'post_content value should contain an URL if it\'s empty in the original attachment');
+        $this->assertEmpty($this->cropped_attachment->post_excerpt,
+            'post_excerpt value must be empty if it\'s empty in the original attachment');
+        $this->assertEmpty($this->cropped_attachment->_wp_attachment_image_alt,
+            '_wp_attachment_image_alt value must be empty if it\'s empty in the original attachment');
     }
 
     /**
@@ -153,24 +168,24 @@ class Tests_Ajax_WpAjaxCropImage extends WP_Ajax_UnitTestCase
     {
         $uniq_id = uniqid('crop-image-ajax-action-test-');
 
-        $test_file        = DIR_TESTDATA . '/images/test-image.jpg';
+        $test_file = DIR_TESTDATA . '/images/test-image.jpg';
         $upload_directory = wp_upload_dir();
-        $uploaded_file    = $upload_directory['path'] . '/' . $uniq_id . '.jpg';
-        $filesystem       = new WP_Filesystem_Direct(true);
+        $uploaded_file = $upload_directory['path'] . '/' . $uniq_id . '.jpg';
+        $filesystem = new WP_Filesystem_Direct(true);
         $filesystem->copy($test_file, $uploaded_file);
 
         $attachment_data = [
             'file' => $uploaded_file,
             'type' => 'image/jpg',
-            'url'  => 'http://localhost/foo.jpg',
+            'url' => 'http://localhost/foo.jpg',
         ];
 
         $attachment_id = $this->_make_attachment($attachment_data);
-        $post_data     = [
-            'ID'           => $attachment_id,
-            'post_title'   => $with_metadata ? 'Title ' . $uniq_id : '',
+        $post_data = [
+            'ID' => $attachment_id,
+            'post_title' => $with_metadata ? 'Title ' . $uniq_id : '',
             'post_content' => $with_metadata ? 'Description ' . $uniq_id : '',
-            'context'      => 'custom-logo',
+            'context' => 'custom-logo',
             'post_excerpt' => $with_metadata ? 'Caption ' . $uniq_id : '',
         ];
 
@@ -203,21 +218,21 @@ class Tests_Ajax_WpAjaxCropImage extends WP_Ajax_UnitTestCase
     {
         $_POST = [
             'wp_customize' => 'on',
-            'nonce'        => wp_create_nonce('image_editor-' . $attachment->ID),
-            'id'           => $attachment->ID,
-            'context'      => 'custom_logo',
-            'cropDetails'  =>
+            'nonce' => wp_create_nonce('image_editor-' . $attachment->ID),
+            'id' => $attachment->ID,
+            'context' => 'custom_logo',
+            'cropDetails' =>
                 [
-                    'x1'         => '0',
-                    'y1'         => '0',
-                    'x2'         => '100',
-                    'y2'         => '100',
-                    'width'      => '100',
-                    'height'     => '100',
-                    'dst_width'  => '100',
+                    'x1' => '0',
+                    'y1' => '0',
+                    'x2' => '100',
+                    'y2' => '100',
+                    'width' => '100',
+                    'height' => '100',
+                    'dst_width' => '100',
                     'dst_height' => '100',
                 ],
-            'action'       => 'crop-image',
+            'action' => 'crop-image',
         ];
     }
 

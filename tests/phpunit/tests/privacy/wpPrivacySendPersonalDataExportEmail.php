@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test cases for the `wp_privacy_send_personal_data_export_email()` function.
  *
@@ -50,24 +51,24 @@ class Tests_Privacy_wpPrivacySendPersonalDataExportEmail extends WP_UnitTestCase
     /**
      * Create user request fixtures shared by test methods.
      *
+     * @param WP_UnitTest_Factory $factory Factory.
      * @since 4.9.6
      *
-     * @param WP_UnitTest_Factory $factory Factory.
      */
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$requester_email = 'requester@example.com';
-        self::$request_user    = $factory->user->create_and_get(
+        self::$request_user = $factory->user->create_and_get(
             [
                 'user_email' => self::$requester_email,
-                'role'       => 'subscriber',
-            ]
+                'role' => 'subscriber',
+            ],
         );
-        self::$admin_user      = $factory->user->create_and_get(
+        self::$admin_user = $factory->user->create_and_get(
             [
                 'user_email' => 'admin@local.dev',
-                'role'       => 'administrator',
-            ]
+                'role' => 'administrator',
+            ],
         );
 
         self::$request_id = wp_create_user_request(self::$requester_email, 'export_personal_data');
@@ -127,7 +128,7 @@ class Tests_Privacy_wpPrivacySendPersonalDataExportEmail extends WP_UnitTestCase
         $post_id = self::factory()->post->create(
             [
                 'post_type' => 'post', // Should be 'user_request'.
-            ]
+            ],
         );
 
         $email_sent = wp_privacy_send_personal_data_export_email($post_id);
@@ -154,13 +155,13 @@ class Tests_Privacy_wpPrivacySendPersonalDataExportEmail extends WP_UnitTestCase
      */
     public function test_should_send_export_link_to_requester()
     {
-        $exports_url      = wp_privacy_exports_url();
+        $exports_url = wp_privacy_exports_url();
         $export_file_name = 'wp-personal-data-file-Wv0RfMnGIkl4CFEDEEkSeIdfLmaUrLsl.zip';
-        $export_file_url  = $exports_url . $export_file_name;
+        $export_file_url = $exports_url . $export_file_name;
         update_post_meta(self::$request_id, '_export_file_name', $export_file_name);
 
         $email_sent = wp_privacy_send_personal_data_export_email(self::$request_id);
-        $mailer     = tests_retrieve_phpmailer_instance();
+        $mailer = tests_retrieve_phpmailer_instance();
 
         $this->assertSame('request-confirmed', get_post_status(self::$request_id));
         $this->assertSame(self::$requester_email, $mailer->get_recipient('to')->address);
@@ -181,16 +182,17 @@ class Tests_Privacy_wpPrivacySendPersonalDataExportEmail extends WP_UnitTestCase
         wp_privacy_send_personal_data_export_email(self::$request_id);
 
         $mailer = tests_retrieve_phpmailer_instance();
-        $this->assertStringContainsString('we will automatically delete the file on December 18, 2017,', $mailer->get_sent()->body);
+        $this->assertStringContainsString('we will automatically delete the file on December 18, 2017,',
+            $mailer->get_sent()->body);
     }
 
     /**
      * Filter callback that modifies the lifetime, in seconds, of a personal data export file.
      *
-     * @since 4.9.6
-     *
      * @param int $expiration The expiration age of the export, in seconds.
      * @return int The expiration age of the export, in seconds.
+     * @since 4.9.6
+     *
      */
     public function modify_export_expiration($expiration)
     {
@@ -216,10 +218,10 @@ class Tests_Privacy_wpPrivacySendPersonalDataExportEmail extends WP_UnitTestCase
     /**
      * Filter callback that modifies the email address of the recipient of the personal data export notification.
      *
+     * @param string $user_email The email address of the notification recipient.
+     * @return string The modified email address of the notification recipient.
      * @since 5.3.0
      *
-     * @param  string $user_email The email address of the notification recipient.
-     * @return string The modified email address of the notification recipient.
      */
     public function filter_email_address($user_email)
     {
@@ -244,10 +246,10 @@ class Tests_Privacy_wpPrivacySendPersonalDataExportEmail extends WP_UnitTestCase
     /**
      * Filter callback that modifies the email subject of the data erasure fulfillment notification.
      *
-     * @since 5.3.0
-     *
      * @param string $subject The email subject.
      * @return string The email subject.
+     * @since 5.3.0
+     *
      */
     public function filter_email_subject($subject)
     {
@@ -265,17 +267,18 @@ class Tests_Privacy_wpPrivacySendPersonalDataExportEmail extends WP_UnitTestCase
         wp_privacy_send_personal_data_export_email(self::$request_id);
 
         $mailer = tests_retrieve_phpmailer_instance();
-        $this->assertStringContainsString('Custom content for request ID: ' . self::$request_id, $mailer->get_sent()->body);
+        $this->assertStringContainsString('Custom content for request ID: ' . self::$request_id,
+            $mailer->get_sent()->body);
     }
 
     /**
      * Filter callback that modifies the text of the email sent with a personal data export file.
      *
+     * @param string $email_text Text in the email.
+     * @param int $request_id The request ID for this personal data export.
+     * @return string Text in the email.
      * @since 4.9.6
      *
-     * @param string $email_text Text in the email.
-     * @param int    $request_id The request ID for this personal data export.
-     * @return string Text in the email.
      */
     public function modify_email_content($email_text, $request_id)
     {
@@ -302,10 +305,10 @@ class Tests_Privacy_wpPrivacySendPersonalDataExportEmail extends WP_UnitTestCase
     /**
      * Filter callback to modify the headers of the email sent with a personal data export file.
      *
-     * @since 5.4.0
-     *
      * @param string|array $headers The email headers.
      * @return array The new email headers.
+     * @since 5.4.0
+     *
      */
     public function modify_email_headers($headers)
     {
@@ -327,32 +330,33 @@ class Tests_Privacy_wpPrivacySendPersonalDataExportEmail extends WP_UnitTestCase
         wp_privacy_send_personal_data_export_email(self::$request_id);
 
         $site_url = home_url();
-        $mailer   = tests_retrieve_phpmailer_instance();
-        $this->assertStringContainsString('Custom content using the $site_url of $email_data: ' . $site_url, $mailer->get_sent()->body);
+        $mailer = tests_retrieve_phpmailer_instance();
+        $this->assertStringContainsString('Custom content using the $site_url of $email_data: ' . $site_url,
+            $mailer->get_sent()->body);
     }
 
     /**
      * Filter callback that modifies the text of the email by using the $email_data sent with a personal data export file.
      *
-     * @since 5.3.0
-     *
      * @param string $email_text Text in the email.
-     * @param int    $request_id The request ID for this personal data export.
-     * @param array  $email_data {
+     * @param int $request_id The request ID for this personal data export.
+     * @param array $email_data {
      *     Data relating to the account action email.
      *
-     *     @type WP_User_Request $request           User request object.
-     *     @type int             $expiration        The time in seconds until the export file expires.
-     *     @type string          $expiration_date   The localized date and time when the export file expires.
-     *     @type string          $message_recipient The address that the email will be sent to. Defaults
+     * @type WP_User_Request $request User request object.
+     * @type int $expiration The time in seconds until the export file expires.
+     * @type string $expiration_date The localized date and time when the export file expires.
+     * @type string $message_recipient The address that the email will be sent to. Defaults
      *                                              to the value of `$request->email`, but can be changed
      *                                              by the `wp_privacy_personal_data_email_to` filter.
-     *     @type string          $export_file_url   The export file URL.
-     *     @type string          $sitename          The site name sending the mail.
-     *     @type string          $siteurl           The site URL sending the mail.
+     * @type string $export_file_url The export file URL.
+     * @type string $sitename The site name sending the mail.
+     * @type string $siteurl The site URL sending the mail.
      * }
      *
      * @return string Text in the email.
+     * @since 5.3.0
+     *
      */
     public function modify_email_content_with_email_data($email_text, $request_id, $email_data)
     {
@@ -408,7 +412,8 @@ class Tests_Privacy_wpPrivacySendPersonalDataExportEmail extends WP_UnitTestCase
      * @ticket 46056
      * @group l10n
      */
-    public function test_should_send_personal_data_export_email_in_user_locale_when_admin_and_site_have_different_locales()
+    public function test_should_send_personal_data_export_email_in_user_locale_when_admin_and_site_have_different_locales(
+    )
     {
         update_option('WPLANG', 'es_ES');
         switch_to_locale('es_ES');
@@ -431,7 +436,8 @@ class Tests_Privacy_wpPrivacySendPersonalDataExportEmail extends WP_UnitTestCase
      * @ticket 46056
      * @group l10n
      */
-    public function test_should_send_personal_data_export_email_in_user_locale_when_both_have_different_locales_than_site()
+    public function test_should_send_personal_data_export_email_in_user_locale_when_both_have_different_locales_than_site(
+    )
     {
         update_option('WPLANG', 'es_ES');
         switch_to_locale('es_ES');
@@ -479,7 +485,8 @@ class Tests_Privacy_wpPrivacySendPersonalDataExportEmail extends WP_UnitTestCase
      * @ticket 46056
      * @group l10n
      */
-    public function test_should_send_personal_data_export_email_in_site_locale_when_not_en_us_and_admin_has_different_locale()
+    public function test_should_send_personal_data_export_email_in_site_locale_when_not_en_us_and_admin_has_different_locale(
+    )
     {
         update_option('WPLANG', 'es_ES');
         switch_to_locale('es_ES');

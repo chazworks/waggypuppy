@@ -29,9 +29,9 @@ class WP_REST_Test_Configurable_Controller extends WP_REST_Controller
     /**
      * Class constructor.
      *
+     * @param array $test_schema Schema for use in testing.
      * @since 5.4.0
      *
-     * @param array $test_schema Schema for use in testing.
      */
     public function __construct($test_schema)
     {
@@ -41,9 +41,9 @@ class WP_REST_Test_Configurable_Controller extends WP_REST_Controller
     /**
      * Provides the test schema.
      *
+     * @return array Test schema.
      * @since 5.4.0
      *
-     * @return array Test schema.
      */
     public function get_test_schema()
     {
@@ -53,9 +53,9 @@ class WP_REST_Test_Configurable_Controller extends WP_REST_Controller
     /**
      * Get the item's schema, conforming to JSON Schema.
      *
+     * @return array
      * @since 5.4.0
      *
-     * @return array
      */
     public function get_item_schema()
     {

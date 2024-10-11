@@ -56,7 +56,7 @@ class Tests_Canonical_NoRewrite extends WP_Canonical_UnitTestCase
                 '/?p=358 ',
                 [
                     'url' => '/?p=358',
-                    'qv'  => ['p' => '358'],
+                    'qv' => ['p' => '358'],
                 ],
                 20383,
             ],
@@ -64,7 +64,7 @@ class Tests_Canonical_NoRewrite extends WP_Canonical_UnitTestCase
                 '/?p=358%20',
                 [
                     'url' => '/?p=358',
-                    'qv'  => ['p' => '358'],
+                    'qv' => ['p' => '358'],
                 ],
                 20383,
             ],
@@ -72,7 +72,7 @@ class Tests_Canonical_NoRewrite extends WP_Canonical_UnitTestCase
                 '/?p=358!',
                 [
                     'url' => '/?p=358',
-                    'qv'  => ['p' => '358'],
+                    'qv' => ['p' => '358'],
                 ],
                 20383,
             ],
@@ -80,7 +80,7 @@ class Tests_Canonical_NoRewrite extends WP_Canonical_UnitTestCase
                 '/?p=358%21',
                 [
                     'url' => '/?p=358',
-                    'qv'  => ['p' => '358'],
+                    'qv' => ['p' => '358'],
                 ],
                 20383,
             ],
@@ -88,7 +88,7 @@ class Tests_Canonical_NoRewrite extends WP_Canonical_UnitTestCase
                 '/?p=358"',
                 [
                     'url' => '/?p=358',
-                    'qv'  => ['p' => '358'],
+                    'qv' => ['p' => '358'],
                 ],
                 20383,
             ],
@@ -96,7 +96,7 @@ class Tests_Canonical_NoRewrite extends WP_Canonical_UnitTestCase
                 '/?p=358%22',
                 [
                     'url' => '/?p=358',
-                    'qv'  => ['p' => '358'],
+                    'qv' => ['p' => '358'],
                 ],
                 20383,
             ],
@@ -104,7 +104,7 @@ class Tests_Canonical_NoRewrite extends WP_Canonical_UnitTestCase
                 '/?p=358\'',
                 [
                     'url' => '/?p=358',
-                    'qv'  => ['p' => '358'],
+                    'qv' => ['p' => '358'],
                 ],
                 20383,
             ],
@@ -112,7 +112,7 @@ class Tests_Canonical_NoRewrite extends WP_Canonical_UnitTestCase
                 '/?p=358%27',
                 [
                     'url' => '/?p=358',
-                    'qv'  => ['p' => '358'],
+                    'qv' => ['p' => '358'],
                 ],
                 20383,
             ],
@@ -120,7 +120,7 @@ class Tests_Canonical_NoRewrite extends WP_Canonical_UnitTestCase
                 '/?p=358(',
                 [
                     'url' => '/?p=358',
-                    'qv'  => ['p' => '358'],
+                    'qv' => ['p' => '358'],
                 ],
                 20383,
             ],
@@ -128,7 +128,7 @@ class Tests_Canonical_NoRewrite extends WP_Canonical_UnitTestCase
                 '/?p=358%28',
                 [
                     'url' => '/?p=358',
-                    'qv'  => ['p' => '358'],
+                    'qv' => ['p' => '358'],
                 ],
                 20383,
             ],
@@ -136,7 +136,7 @@ class Tests_Canonical_NoRewrite extends WP_Canonical_UnitTestCase
                 '/?p=358)',
                 [
                     'url' => '/?p=358',
-                    'qv'  => ['p' => '358'],
+                    'qv' => ['p' => '358'],
                 ],
                 20383,
             ],
@@ -144,7 +144,7 @@ class Tests_Canonical_NoRewrite extends WP_Canonical_UnitTestCase
                 '/?p=358%29',
                 [
                     'url' => '/?p=358',
-                    'qv'  => ['p' => '358'],
+                    'qv' => ['p' => '358'],
                 ],
                 20383,
             ],
@@ -152,7 +152,7 @@ class Tests_Canonical_NoRewrite extends WP_Canonical_UnitTestCase
                 '/?p=358,',
                 [
                     'url' => '/?p=358',
-                    'qv'  => ['p' => '358'],
+                    'qv' => ['p' => '358'],
                 ],
                 20383,
             ],
@@ -160,7 +160,7 @@ class Tests_Canonical_NoRewrite extends WP_Canonical_UnitTestCase
                 '/?p=358%2C',
                 [
                     'url' => '/?p=358',
-                    'qv'  => ['p' => '358'],
+                    'qv' => ['p' => '358'],
                 ],
                 20383,
             ],
@@ -168,7 +168,7 @@ class Tests_Canonical_NoRewrite extends WP_Canonical_UnitTestCase
                 '/?p=358.',
                 [
                     'url' => '/?p=358',
-                    'qv'  => ['p' => '358'],
+                    'qv' => ['p' => '358'],
                 ],
                 20383,
             ],
@@ -176,7 +176,7 @@ class Tests_Canonical_NoRewrite extends WP_Canonical_UnitTestCase
                 '/?p=358%2E',
                 [
                     'url' => '/?p=358',
-                    'qv'  => ['p' => '358'],
+                    'qv' => ['p' => '358'],
                 ],
                 20383,
             ],
@@ -184,7 +184,7 @@ class Tests_Canonical_NoRewrite extends WP_Canonical_UnitTestCase
                 '/?p=358;',
                 [
                     'url' => '/?p=358',
-                    'qv'  => ['p' => '358'],
+                    'qv' => ['p' => '358'],
                 ],
                 20383,
             ],
@@ -192,7 +192,7 @@ class Tests_Canonical_NoRewrite extends WP_Canonical_UnitTestCase
                 '/?p=358%3B',
                 [
                     'url' => '/?p=358',
-                    'qv'  => ['p' => '358'],
+                    'qv' => ['p' => '358'],
                 ],
                 20383,
             ],
@@ -200,7 +200,7 @@ class Tests_Canonical_NoRewrite extends WP_Canonical_UnitTestCase
                 '/?p=358{',
                 [
                     'url' => '/?p=358',
-                    'qv'  => ['p' => '358'],
+                    'qv' => ['p' => '358'],
                 ],
                 20383,
             ],
@@ -208,7 +208,7 @@ class Tests_Canonical_NoRewrite extends WP_Canonical_UnitTestCase
                 '/?p=358%7B',
                 [
                     'url' => '/?p=358',
-                    'qv'  => ['p' => '358'],
+                    'qv' => ['p' => '358'],
                 ],
                 20383,
             ],
@@ -216,7 +216,7 @@ class Tests_Canonical_NoRewrite extends WP_Canonical_UnitTestCase
                 '/?p=358}',
                 [
                     'url' => '/?p=358',
-                    'qv'  => ['p' => '358'],
+                    'qv' => ['p' => '358'],
                 ],
                 20383,
             ],
@@ -224,7 +224,7 @@ class Tests_Canonical_NoRewrite extends WP_Canonical_UnitTestCase
                 '/?p=358%7D',
                 [
                     'url' => '/?p=358',
-                    'qv'  => ['p' => '358'],
+                    'qv' => ['p' => '358'],
                 ],
                 20383,
             ],
@@ -232,7 +232,7 @@ class Tests_Canonical_NoRewrite extends WP_Canonical_UnitTestCase
                 '/?p=358%E2%80%9C',
                 [
                     'url' => '/?p=358',
-                    'qv'  => ['p' => '358'],
+                    'qv' => ['p' => '358'],
                 ],
                 20383,
             ],
@@ -240,38 +240,63 @@ class Tests_Canonical_NoRewrite extends WP_Canonical_UnitTestCase
                 '/?p=358%E2%80%9D',
                 [
                     'url' => '/?p=358',
-                    'qv'  => ['p' => '358'],
+                    'qv' => ['p' => '358'],
                 ],
                 20383,
             ],
 
             // Trailing spaces and punctuation in permalinks.
-            ['/page/2/ ', '/page/2/', 20383],   // Space.
-            ['/page/2/%20', '/page/2/', 20383], // Encoded space.
-            ['/page/2/!', '/page/2/', 20383],   // Exclamation mark.
-            ['/page/2/%21', '/page/2/', 20383], // Encoded exclamation mark.
-            ['/page/2/"', '/page/2/', 20383],   // Double quote.
-            ['/page/2/%22', '/page/2/', 20383], // Encoded double quote.
-            ['/page/2/\'', '/page/2/', 20383],  // Single quote.
-            ['/page/2/%27', '/page/2/', 20383], // Encoded single quote.
-            ['/page/2/(', '/page/2/', 20383],   // Opening bracket.
-            ['/page/2/%28', '/page/2/', 20383], // Encoded opening bracket.
-            ['/page/2/)', '/page/2/', 20383],   // Closing bracket.
-            ['/page/2/%29', '/page/2/', 20383], // Encoded closing bracket.
-            ['/page/2/,', '/page/2/', 20383],   // Comma.
-            ['/page/2/%2C', '/page/2/', 20383], // Encoded comma.
-            ['/page/2/.', '/page/2/', 20383],   // Period.
-            ['/page/2/%2E', '/page/2/', 20383], // Encoded period.
-            ['/page/2/;', '/page/2/', 20383],   // Semicolon.
-            ['/page/2/%3B', '/page/2/', 20383], // Encoded semicolon.
-            ['/page/2/{', '/page/2/', 20383],   // Opening curly bracket.
-            ['/page/2/%7B', '/page/2/', 20383], // Encoded opening curly bracket.
-            ['/page/2/}', '/page/2/', 20383],   // Closing curly bracket.
-            ['/page/2/%7D', '/page/2/', 20383], // Encoded closing curly bracket.
-            ['/page/2/%E2%80%9C', '/page/2/', 20383], // Encoded opening curly quote.
-            ['/page/2/%E2%80%9D', '/page/2/', 20383], // Encoded closing curly quote.
+            ['/page/2/ ', '/page/2/', 20383],
+            // Space.
+            ['/page/2/%20', '/page/2/', 20383],
+            // Encoded space.
+            ['/page/2/!', '/page/2/', 20383],
+            // Exclamation mark.
+            ['/page/2/%21', '/page/2/', 20383],
+            // Encoded exclamation mark.
+            ['/page/2/"', '/page/2/', 20383],
+            // Double quote.
+            ['/page/2/%22', '/page/2/', 20383],
+            // Encoded double quote.
+            ['/page/2/\'', '/page/2/', 20383],
+            // Single quote.
+            ['/page/2/%27', '/page/2/', 20383],
+            // Encoded single quote.
+            ['/page/2/(', '/page/2/', 20383],
+            // Opening bracket.
+            ['/page/2/%28', '/page/2/', 20383],
+            // Encoded opening bracket.
+            ['/page/2/)', '/page/2/', 20383],
+            // Closing bracket.
+            ['/page/2/%29', '/page/2/', 20383],
+            // Encoded closing bracket.
+            ['/page/2/,', '/page/2/', 20383],
+            // Comma.
+            ['/page/2/%2C', '/page/2/', 20383],
+            // Encoded comma.
+            ['/page/2/.', '/page/2/', 20383],
+            // Period.
+            ['/page/2/%2E', '/page/2/', 20383],
+            // Encoded period.
+            ['/page/2/;', '/page/2/', 20383],
+            // Semicolon.
+            ['/page/2/%3B', '/page/2/', 20383],
+            // Encoded semicolon.
+            ['/page/2/{', '/page/2/', 20383],
+            // Opening curly bracket.
+            ['/page/2/%7B', '/page/2/', 20383],
+            // Encoded opening curly bracket.
+            ['/page/2/}', '/page/2/', 20383],
+            // Closing curly bracket.
+            ['/page/2/%7D', '/page/2/', 20383],
+            // Encoded closing curly bracket.
+            ['/page/2/%E2%80%9C', '/page/2/', 20383],
+            // Encoded opening curly quote.
+            ['/page/2/%E2%80%9D', '/page/2/', 20383],
+            // Encoded closing curly quote.
 
-            ['/?page_id=1', '/?p=1'], // Redirect page_id to p (should cover page_id|p|attachment_id to one another).
+            ['/?page_id=1', '/?p=1'],
+            // Redirect page_id to p (should cover page_id|p|attachment_id to one another).
             ['/?page_id=1&post_type=revision', '/?p=1'],
 
             ['/?feed=rss2&p=1', '/?feed=rss2&p=1', 21841],

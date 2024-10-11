@@ -59,7 +59,7 @@ class Tests_Date_Query extends WP_UnitTestCase
         $q = new WP_Date_Query(
             [
                 'relation' => 'or',
-            ]
+            ],
         );
 
         $this->assertSame('OR', $q->relation);
@@ -70,7 +70,7 @@ class Tests_Date_Query extends WP_UnitTestCase
         $q = new WP_Date_Query(
             [
                 'relation' => 'foo',
-            ]
+            ],
         );
 
         $this->assertSame('AND', $q->relation);
@@ -81,24 +81,24 @@ class Tests_Date_Query extends WP_UnitTestCase
         $q = new WP_Date_Query(
             [
                 'before' => [
-                    'year'  => 2008,
+                    'year' => 2008,
                     'month' => 6,
                 ],
-            ]
+            ],
         );
 
         $expected = [
-            0          => [
-                'before'   => [
-                    'year'  => 2008,
+            0 => [
+                'before' => [
+                    'year' => 2008,
                     'month' => 6,
                 ],
-                'column'   => 'post_date',
-                'compare'  => '=',
+                'column' => 'post_date',
+                'compare' => '=',
                 'relation' => 'AND',
             ],
-            'column'   => 'post_date',
-            'compare'  => '=',
+            'column' => 'post_date',
+            'compare' => '=',
             'relation' => 'AND',
         ];
 
@@ -113,25 +113,25 @@ class Tests_Date_Query extends WP_UnitTestCase
                 'bar',
                 [
                     'before' => [
-                        'year'  => 2008,
+                        'year' => 2008,
                         'month' => 6,
                     ],
                 ],
-            ]
+            ],
         );
 
         $expected = [
             [
-                'before'   => [
-                    'year'  => 2008,
+                'before' => [
+                    'year' => 2008,
                     'month' => 6,
                 ],
-                'column'   => 'post_date',
-                'compare'  => '=',
+                'column' => 'post_date',
+                'compare' => '=',
                 'relation' => 'AND',
             ],
-            'column'   => 'post_date',
-            'compare'  => '=',
+            'column' => 'post_date',
+            'compare' => '=',
             'relation' => 'AND',
         ];
 
@@ -151,7 +151,7 @@ class Tests_Date_Query extends WP_UnitTestCase
         $found = $q->get_compare(
             [
                 'compare' => '=',
-            ]
+            ],
         );
         $this->assertSame('=', $found);
     }
@@ -163,7 +163,7 @@ class Tests_Date_Query extends WP_UnitTestCase
         $found = $q->get_compare(
             [
                 'compare' => '!=',
-            ]
+            ],
         );
         $this->assertSame('!=', $found);
     }
@@ -175,7 +175,7 @@ class Tests_Date_Query extends WP_UnitTestCase
         $found = $q->get_compare(
             [
                 'compare' => '>',
-            ]
+            ],
         );
         $this->assertSame('>', $found);
     }
@@ -187,7 +187,7 @@ class Tests_Date_Query extends WP_UnitTestCase
         $found = $q->get_compare(
             [
                 'compare' => '>=',
-            ]
+            ],
         );
         $this->assertSame('>=', $found);
     }
@@ -199,7 +199,7 @@ class Tests_Date_Query extends WP_UnitTestCase
         $found = $q->get_compare(
             [
                 'compare' => '<',
-            ]
+            ],
         );
         $this->assertSame('<', $found);
     }
@@ -211,7 +211,7 @@ class Tests_Date_Query extends WP_UnitTestCase
         $found = $q->get_compare(
             [
                 'compare' => '<=',
-            ]
+            ],
         );
         $this->assertSame('<=', $found);
     }
@@ -223,7 +223,7 @@ class Tests_Date_Query extends WP_UnitTestCase
         $found = $q->get_compare(
             [
                 'compare' => 'IN',
-            ]
+            ],
         );
         $this->assertSame('IN', $found);
     }
@@ -235,7 +235,7 @@ class Tests_Date_Query extends WP_UnitTestCase
         $found = $q->get_compare(
             [
                 'compare' => 'NOT IN',
-            ]
+            ],
         );
         $this->assertSame('NOT IN', $found);
     }
@@ -247,7 +247,7 @@ class Tests_Date_Query extends WP_UnitTestCase
         $found = $q->get_compare(
             [
                 'compare' => 'BETWEEN',
-            ]
+            ],
         );
         $this->assertSame('BETWEEN', $found);
     }
@@ -259,7 +259,7 @@ class Tests_Date_Query extends WP_UnitTestCase
         $found = $q->get_compare(
             [
                 'compare' => 'NOT BETWEEN',
-            ]
+            ],
         );
         $this->assertSame('NOT BETWEEN', $found);
     }
@@ -458,7 +458,7 @@ class Tests_Date_Query extends WP_UnitTestCase
             [
                 2 => 4,
                 3 => 5,
-            ]
+            ],
         );
 
         $this->assertSame('4 AND 5', $found);
@@ -525,7 +525,7 @@ class Tests_Date_Query extends WP_UnitTestCase
             [
                 2 => 4,
                 3 => 5,
-            ]
+            ],
         );
 
         $this->assertSame('4 AND 5', $found);
@@ -574,7 +574,7 @@ class Tests_Date_Query extends WP_UnitTestCase
         $q = new WP_Date_Query([]);
 
         // This might be a fragile test if it takes longer than 1 second to run.
-        $found    = $q->build_mysql_datetime('foo');
+        $found = $q->build_mysql_datetime('foo');
         $expected = gmdate('Y-m-d H:i:s', false);
         $this->assertSame($expected, $found);
     }
@@ -584,9 +584,9 @@ class Tests_Date_Query extends WP_UnitTestCase
      *
      * @dataProvider data_build_mysql_datetime
      *
-     * @param array|string $datetime       Array or string date input.
-     * @param string       $expected       Expected built result.
-     * @param bool         $default_to_max Flag to default missing values to max.
+     * @param array|string $datetime Array or string date input.
+     * @param string $expected Expected built result.
+     * @param bool $default_to_max Flag to default missing values to max.
      */
     public function test_build_mysql_datetime($datetime, $expected, $default_to_max = false)
     {
@@ -619,9 +619,9 @@ class Tests_Date_Query extends WP_UnitTestCase
      *
      * @dataProvider data_build_mysql_datetime_with_custom_timezone
      *
-     * @param array|string $datetime       Array or string date input.
-     * @param string       $expected       Expected built result.
-     * @param bool         $default_to_max Flag to default missing values to max.
+     * @param array|string $datetime Array or string date input.
+     * @param string $expected Expected built result.
+     * @param bool $default_to_max Flag to default missing values to max.
      */
     public function test_build_mysql_datetime_with_custom_timezone($datetime, $expected, $default_to_max = false)
     {
@@ -653,8 +653,8 @@ class Tests_Date_Query extends WP_UnitTestCase
         $q = new WP_Date_Query([]);
 
         $yesterday = new DateTimeImmutable('-1 day', wp_timezone());
-        $expected  = $yesterday->format('Y-m-d H:i:s');
-        $found     = $q->build_mysql_datetime('-1 day');
+        $expected = $yesterday->format('Y-m-d H:i:s');
+        $found = $q->build_mysql_datetime('-1 day');
 
         $message = "Expected {$expected}, got {$found}";
         $this->assertEqualsWithDelta(strtotime($expected), strtotime($found), 10, $message);
@@ -694,7 +694,8 @@ class Tests_Date_Query extends WP_UnitTestCase
 
         // All three.
         $found = $q->build_time_query('post_date', 'IN', [1, 2], [3, 4, 5], 6);
-        $this->assertSame('HOUR( post_date ) IN (1,2) AND MINUTE( post_date ) IN (3,4,5) AND SECOND( post_date ) IN (6)', $found);
+        $this->assertSame('HOUR( post_date ) IN (1,2) AND MINUTE( post_date ) IN (3,4,5) AND SECOND( post_date ) IN (6)',
+            $found);
     }
 
     public function test_build_time_query_compare_not_in()
@@ -711,7 +712,8 @@ class Tests_Date_Query extends WP_UnitTestCase
 
         // All three.
         $found = $q->build_time_query('post_date', 'NOT IN', [1, 2], [3, 4, 5], 6);
-        $this->assertSame('HOUR( post_date ) NOT IN (1,2) AND MINUTE( post_date ) NOT IN (3,4,5) AND SECOND( post_date ) NOT IN (6)', $found);
+        $this->assertSame('HOUR( post_date ) NOT IN (1,2) AND MINUTE( post_date ) NOT IN (3,4,5) AND SECOND( post_date ) NOT IN (6)',
+            $found);
     }
 
     public function test_build_time_query_compare_between()
@@ -728,7 +730,8 @@ class Tests_Date_Query extends WP_UnitTestCase
 
         // All three.
         $found = $q->build_time_query('post_date', 'BETWEEN', [1, 2], [3, 4], [6, 7]);
-        $this->assertSame('HOUR( post_date ) BETWEEN 1 AND 2 AND MINUTE( post_date ) BETWEEN 3 AND 4 AND SECOND( post_date ) BETWEEN 6 AND 7', $found);
+        $this->assertSame('HOUR( post_date ) BETWEEN 1 AND 2 AND MINUTE( post_date ) BETWEEN 3 AND 4 AND SECOND( post_date ) BETWEEN 6 AND 7',
+            $found);
     }
 
     public function test_build_time_query_compare_not_between()
@@ -745,7 +748,8 @@ class Tests_Date_Query extends WP_UnitTestCase
 
         // All three.
         $found = $q->build_time_query('post_date', 'NOT BETWEEN', [1, 2], [3, 4], [6, 7]);
-        $this->assertSame('HOUR( post_date ) NOT BETWEEN 1 AND 2 AND MINUTE( post_date ) NOT BETWEEN 3 AND 4 AND SECOND( post_date ) NOT BETWEEN 6 AND 7', $found);
+        $this->assertSame('HOUR( post_date ) NOT BETWEEN 1 AND 2 AND MINUTE( post_date ) NOT BETWEEN 3 AND 4 AND SECOND( post_date ) NOT BETWEEN 6 AND 7',
+            $found);
     }
 
     public function test_build_time_query_hour_only()
@@ -789,7 +793,8 @@ class Tests_Date_Query extends WP_UnitTestCase
 
         // $compare value is floating point - use regex to account for
         // varying precision on different PHP installations.
-        $this->assertMatchesRegularExpression("/DATE_FORMAT\( post_date, '%H\.%i' \) = 5\.150*/", $wpdb->remove_placeholder_escape($found));
+        $this->assertMatchesRegularExpression("/DATE_FORMAT\( post_date, '%H\.%i' \) = 5\.150*/",
+            $wpdb->remove_placeholder_escape($found));
     }
 
     public function test_build_time_query_hour_minute_second()
@@ -801,7 +806,8 @@ class Tests_Date_Query extends WP_UnitTestCase
 
         // $compare value is floating point - use regex to account for
         // varying precision on different PHP installations.
-        $this->assertMatchesRegularExpression("/DATE_FORMAT\( post_date, '%H\.%i%s' \) = 5\.15350*/", $wpdb->remove_placeholder_escape($found));
+        $this->assertMatchesRegularExpression("/DATE_FORMAT\( post_date, '%H\.%i%s' \) = 5\.15350*/",
+            $wpdb->remove_placeholder_escape($found));
     }
 
     public function test_build_time_query_minute_second()
@@ -813,7 +819,8 @@ class Tests_Date_Query extends WP_UnitTestCase
 
         // $compare value is floating point - use regex to account for
         // varying precision on different PHP installations.
-        $this->assertMatchesRegularExpression("/DATE_FORMAT\( post_date, '0\.%i%s' \) = 0\.15350*/", $wpdb->remove_placeholder_escape($found));
+        $this->assertMatchesRegularExpression("/DATE_FORMAT\( post_date, '0\.%i%s' \) = 0\.15350*/",
+            $wpdb->remove_placeholder_escape($found));
     }
 
     /**
@@ -826,10 +833,10 @@ class Tests_Date_Query extends WP_UnitTestCase
         $valid_args = [
             [
                 'month' => 2,
-                'year'  => 2014,
+                'year' => 2014,
             ],
             [
-                'day'  => 8,
+                'day' => 8,
                 'year' => 2014,
             ],
         ];
@@ -874,9 +881,9 @@ class Tests_Date_Query extends WP_UnitTestCase
         $args = [
             'before' => [
                 'month' => 2,
-                'year'  => 2014,
+                'year' => 2014,
             ],
-            'month'  => 10,
+            'month' => 10,
         ];
         $this->assertTrue($this->q->validate_date_values($args));
 
@@ -884,9 +891,9 @@ class Tests_Date_Query extends WP_UnitTestCase
         $args = [
             'before' => [
                 'month' => 13,
-                'year'  => 2014,
+                'year' => 2014,
             ],
-            'month'  => 10,
+            'month' => 10,
         ];
         $this->assertFalse($this->q->validate_date_values($args));
 
@@ -894,9 +901,9 @@ class Tests_Date_Query extends WP_UnitTestCase
         $args = [
             'before' => [
                 'month' => 10,
-                'year'  => 2014,
+                'year' => 2014,
             ],
-            'month'  => 14,
+            'month' => 14,
         ];
         $this->assertFalse($this->q->validate_date_values($args));
 
@@ -904,9 +911,9 @@ class Tests_Date_Query extends WP_UnitTestCase
         $args = [
             'before' => [
                 'month' => 14,
-                'year'  => 2014,
+                'year' => 2014,
             ],
-            'month'  => 14,
+            'month' => 14,
         ];
         $this->assertFalse($this->q->validate_date_values($args));
     }
@@ -1005,14 +1012,14 @@ class Tests_Date_Query extends WP_UnitTestCase
         // Valid combinations.
         $days = [
             [
-                'day'   => 29,
+                'day' => 29,
                 'month' => 2,
-                'year'  => 2008,
+                'year' => 2008,
             ],
             [
-                'day'   => 28,
+                'day' => 28,
                 'month' => 2,
-                'year'  => 2009,
+                'year' => 2009,
             ],
         ];
 
@@ -1024,16 +1031,16 @@ class Tests_Date_Query extends WP_UnitTestCase
         $days = [
             // February 2008 has 29 days.
             [
-                'day'   => 30,
+                'day' => 30,
                 'month' => 2,
-                'year'  => 2008,
+                'year' => 2008,
             ],
 
             // February 2009 has 29 days.
             [
-                'day'   => 29,
+                'day' => 29,
                 'month' => 2,
-                'year'  => 2009,
+                'year' => 2009,
             ],
         ];
 
@@ -1169,11 +1176,11 @@ class Tests_Date_Query extends WP_UnitTestCase
                 'date_query' => [
                     [
                         'compare' => 'BETWEEN',
-                        'year'    => [2012, 2014],
+                        'year' => [2012, 2014],
                     ],
                 ],
-                'fields'     => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $this->assertSame([$p2], $q->posts);
@@ -1192,11 +1199,11 @@ class Tests_Date_Query extends WP_UnitTestCase
                 'date_query' => [
                     [
                         'compare' => 'BETWEEN',
-                        'day'     => [9, 11],
+                        'day' => [9, 11],
                     ],
                 ],
-                'fields'     => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $this->assertSame([$p2], $q->posts);
@@ -1216,11 +1223,11 @@ class Tests_Date_Query extends WP_UnitTestCase
                 'date_query' => [
                     [
                         'compare' => 'BETWEEN',
-                        'day'     => [9, 32],
+                        'day' => [9, 32],
                     ],
                 ],
-                'fields'     => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         // MySQL ignores the invalid clause.
@@ -1235,28 +1242,28 @@ class Tests_Date_Query extends WP_UnitTestCase
         $date_query = [
             'relation' => 'AND',
             [
-                'before'    => [
-                    'year'  => 2021,
+                'before' => [
+                    'year' => 2021,
                     'month' => 9,
-                    'day'   => 20,
+                    'day' => 20,
                 ],
-                'after'     => [
-                    'year'  => 2019,
+                'after' => [
+                    'year' => 2019,
                     'month' => 2,
-                    'day'   => 25,
+                    'day' => 25,
                 ],
                 'inclusive' => true,
             ],
             [
-                'before'    => [
-                    'year'  => 2016,
+                'before' => [
+                    'year' => 2016,
                     'month' => 9,
-                    'day'   => 11,
+                    'day' => 11,
                 ],
-                'after'     => [
-                    'year'  => 2014,
+                'after' => [
+                    'year' => 2014,
                     'month' => 5,
-                    'day'   => 12,
+                    'day' => 12,
                 ],
                 'inclusive' => false,
             ],
@@ -1281,28 +1288,28 @@ class Tests_Date_Query extends WP_UnitTestCase
         $date_query = [
             'relation' => 'OR',
             [
-                'before'    => [
-                    'year'  => 2021,
+                'before' => [
+                    'year' => 2021,
                     'month' => 9,
-                    'day'   => 20,
+                    'day' => 20,
                 ],
-                'after'     => [
-                    'year'  => 2019,
+                'after' => [
+                    'year' => 2019,
                     'month' => 2,
-                    'day'   => 25,
+                    'day' => 25,
                 ],
                 'inclusive' => true,
             ],
             [
-                'before'    => [
-                    'year'  => 2016,
+                'before' => [
+                    'year' => 2016,
                     'month' => 9,
-                    'day'   => 11,
+                    'day' => 11,
                 ],
-                'after'     => [
-                    'year'  => 2014,
+                'after' => [
+                    'year' => 2014,
                     'month' => 5,
-                    'day'   => 12,
+                    'day' => 12,
                 ],
                 'inclusive' => false,
             ],
@@ -1319,7 +1326,8 @@ class Tests_Date_Query extends WP_UnitTestCase
         $this->assertCount(2, $parts, 'SQL query does not contain correct number of OR operators.');
 
         // Checking number of occurrences of AND while skipping the one at the beginning.
-        $this->assertSame(2, substr_count(substr($sql, 5), 'AND'), 'SQL query does not contain expected number conditions joined by operator AND.');
+        $this->assertSame(2, substr_count(substr($sql, 5), 'AND'),
+            'SQL query does not contain expected number conditions joined by operator AND.');
     }
 
     /**
@@ -1330,28 +1338,28 @@ class Tests_Date_Query extends WP_UnitTestCase
         $date_query = [
             'relation' => 'UNSUPPORTED',
             [
-                'before'    => [
-                    'year'  => 2021,
+                'before' => [
+                    'year' => 2021,
                     'month' => 9,
-                    'day'   => 20,
+                    'day' => 20,
                 ],
-                'after'     => [
-                    'year'  => 2019,
+                'after' => [
+                    'year' => 2019,
                     'month' => 2,
-                    'day'   => 25,
+                    'day' => 25,
                 ],
                 'inclusive' => true,
             ],
             [
-                'before'    => [
-                    'year'  => 2016,
+                'before' => [
+                    'year' => 2016,
                     'month' => 9,
-                    'day'   => 11,
+                    'day' => 11,
                 ],
-                'after'     => [
-                    'year'  => 2014,
+                'after' => [
+                    'year' => 2014,
                     'month' => 5,
-                    'day'   => 12,
+                    'day' => 12,
                 ],
                 'inclusive' => false,
             ],

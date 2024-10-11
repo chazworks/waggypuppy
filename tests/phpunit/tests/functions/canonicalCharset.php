@@ -18,7 +18,7 @@ class Tests_Functions_CanonicalCharset extends WP_UnitTestCase
      *
      * @dataProvider data_charset_normalizations
      *
-     * @param string $given_charset      Potential charset provided by user.
+     * @param string $given_charset Potential charset provided by user.
      * @param string $normalized_charset Expected normalized form of charset.
      */
     public function test_properly_normalizes_charset_variants($given_charset, $normalized_charset)
@@ -26,7 +26,7 @@ class Tests_Functions_CanonicalCharset extends WP_UnitTestCase
         $this->assertSame(
             $normalized_charset,
             _canonical_charset($given_charset),
-            'Did not properly transform the provided charset into its normalized form.'
+            'Did not properly transform the provided charset into its normalized form.',
         );
     }
 

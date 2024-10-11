@@ -82,7 +82,7 @@ if (is_multisite()) :
                 switch_to_blog($blog_id);
             }
 
-            $upload_dir       = wp_upload_dir();
+            $upload_dir = wp_upload_dir();
             $cache_key_prefix = untrailingslashit($upload_dir['basedir']);
 
             // Clear the dirsize cache.
@@ -131,7 +131,7 @@ if (is_multisite()) :
                 switch_to_blog($blog_id);
             }
 
-            $upload_dir       = wp_upload_dir();
+            $upload_dir = wp_upload_dir();
             $cache_key_prefix = untrailingslashit($upload_dir['basedir']);
 
             // Clear the dirsize cache.
@@ -190,10 +190,10 @@ if (is_multisite()) :
             // Upload a file to the new site using wp_upload_bits().
             $filename = __FUNCTION__ . '.jpg';
             $contents = __FUNCTION__ . '_contents';
-            $file     = wp_upload_bits($filename, null, $contents);
+            $file = wp_upload_bits($filename, null, $contents);
 
             $calc_size = recurse_dirsize($upload_dir['path']);
-            $size      = filesize($file['file']);
+            $size = filesize($file['file']);
             $this->assertSame($size, $calc_size);
 
             // `dirsize_cache` should now be filled after upload and recurse_dirsize() call.
@@ -231,13 +231,13 @@ if (is_multisite()) :
             $prefix = wp_upload_dir()['basedir'];
 
             return [
-                "$prefix/2/2"              => 22,
-                "$prefix/2/1"              => 21,
-                "$prefix/2"                => 2,
-                "$prefix/1/3"              => 13,
-                "$prefix/1/2"              => 12,
-                "$prefix/1/1"              => 11,
-                "$prefix/1"                => 1,
+                "$prefix/2/2" => 22,
+                "$prefix/2/1" => 21,
+                "$prefix/2" => 2,
+                "$prefix/1/3" => 13,
+                "$prefix/1/2" => 12,
+                "$prefix/1/1" => 11,
+                "$prefix/1" => 1,
                 "$prefix/custom_directory" => 42,
             ];
         }
@@ -314,13 +314,13 @@ if (is_multisite()) :
             $prefix = untrailingslashit(wp_upload_dir()['basedir']);
 
             return [
-                "$prefix/2/2"              => ['size' => 22],
-                "$prefix/2/1"              => ['size' => 21],
-                "$prefix/2"                => ['size' => 2],
-                "$prefix/1/3"              => ['size' => 13],
-                "$prefix/1/2"              => ['size' => 12],
-                "$prefix/1/1"              => ['size' => 11],
-                "$prefix/1"                => ['size' => 1],
+                "$prefix/2/2" => ['size' => 22],
+                "$prefix/2/1" => ['size' => 21],
+                "$prefix/2" => ['size' => 2],
+                "$prefix/1/3" => ['size' => 13],
+                "$prefix/1/2" => ['size' => 12],
+                "$prefix/1/1" => ['size' => 11],
+                "$prefix/1" => ['size' => 1],
                 "$prefix/custom_directory" => ['size' => 42],
             ];
         }

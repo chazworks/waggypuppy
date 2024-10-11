@@ -8,31 +8,31 @@
 class Tests_User_MapMetaCap extends WP_UnitTestCase
 {
 
-    protected static $post_type    = 'mapmetacap';
+    protected static $post_type = 'mapmetacap';
     protected static $super_admins = null;
-    protected static $user_id      = null;
-    protected static $author_id    = null;
-    protected static $post_id      = null;
+    protected static $user_id = null;
+    protected static $author_id = null;
+    protected static $post_id = null;
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
-        self::$user_id   = $factory->user->create(['role' => 'administrator']);
+        self::$user_id = $factory->user->create(['role' => 'administrator']);
         self::$author_id = $factory->user->create(['role' => 'administrator']);
 
         if (isset($GLOBALS['super_admins'])) {
             self::$super_admins = $GLOBALS['super_admins'];
         }
-        $user                    = new WP_User(self::$user_id);
+        $user = new WP_User(self::$user_id);
         $GLOBALS['super_admins'] = [$user->user_login];
 
         register_post_type(self::$post_type);
 
         self::$post_id = $factory->post->create(
             [
-                'post_type'   => self::$post_type,
+                'post_type' => self::$post_type,
                 'post_status' => 'private',
                 'post_author' => self::$author_id,
-            ]
+            ],
         );
     }
 
@@ -49,18 +49,17 @@ class Tests_User_MapMetaCap extends WP_UnitTestCase
     {
         $this->assertSame(
             ['do_not_allow'],
-            map_meta_cap('edit_post', self::$user_id, self::$post_id + 1)
+            map_meta_cap('edit_post', self::$user_id, self::$post_id + 1),
         );
     }
 
     public function test_capability_type_post_with_no_extra_caps()
     {
-
         register_post_type(
             self::$post_type,
             [
                 'capability_type' => 'post',
-            ]
+            ],
         );
         $post_type_object = get_post_type_object(self::$post_type);
 
@@ -68,29 +67,29 @@ class Tests_User_MapMetaCap extends WP_UnitTestCase
 
         $this->assertSame(
             ['edit_others_posts', 'edit_private_posts'],
-            map_meta_cap('edit_post', self::$user_id, self::$post_id)
+            map_meta_cap('edit_post', self::$user_id, self::$post_id),
         );
         $this->assertSame(
             ['edit_others_posts', 'edit_private_posts'],
-            map_meta_cap($post_type_object->cap->edit_post, self::$user_id, self::$post_id)
+            map_meta_cap($post_type_object->cap->edit_post, self::$user_id, self::$post_id),
         );
 
         $this->assertSame(
             ['read_private_posts'],
-            map_meta_cap('read_post', self::$user_id, self::$post_id)
+            map_meta_cap('read_post', self::$user_id, self::$post_id),
         );
         $this->assertSame(
             ['read_private_posts'],
-            map_meta_cap($post_type_object->cap->read_post, self::$user_id, self::$post_id)
+            map_meta_cap($post_type_object->cap->read_post, self::$user_id, self::$post_id),
         );
 
         $this->assertSame(
             ['delete_others_posts', 'delete_private_posts'],
-            map_meta_cap('delete_post', self::$user_id, self::$post_id)
+            map_meta_cap('delete_post', self::$user_id, self::$post_id),
         );
         $this->assertSame(
             ['delete_others_posts', 'delete_private_posts'],
-            map_meta_cap($post_type_object->cap->delete_post, self::$user_id, self::$post_id)
+            map_meta_cap($post_type_object->cap->delete_post, self::$user_id, self::$post_id),
         );
     }
 
@@ -100,37 +99,37 @@ class Tests_User_MapMetaCap extends WP_UnitTestCase
             self::$post_type,
             [
                 'capability_type' => 'book',
-                'map_meta_cap'    => true,
-            ]
+                'map_meta_cap' => true,
+            ],
         );
 
         $post_type_object = get_post_type_object(self::$post_type);
 
         $this->assertSame(
             ['edit_others_books', 'edit_private_books'],
-            map_meta_cap('edit_post', self::$user_id, self::$post_id)
+            map_meta_cap('edit_post', self::$user_id, self::$post_id),
         );
         $this->assertSame(
             ['edit_others_books', 'edit_private_books'],
-            map_meta_cap($post_type_object->cap->edit_post, self::$user_id, self::$post_id)
+            map_meta_cap($post_type_object->cap->edit_post, self::$user_id, self::$post_id),
         );
 
         $this->assertSame(
             ['read_private_books'],
-            map_meta_cap('read_post', self::$user_id, self::$post_id)
+            map_meta_cap('read_post', self::$user_id, self::$post_id),
         );
         $this->assertSame(
             ['read_private_books'],
-            map_meta_cap($post_type_object->cap->read_post, self::$user_id, self::$post_id)
+            map_meta_cap($post_type_object->cap->read_post, self::$user_id, self::$post_id),
         );
 
         $this->assertSame(
             ['delete_others_books', 'delete_private_books'],
-            map_meta_cap('delete_post', self::$user_id, self::$post_id)
+            map_meta_cap('delete_post', self::$user_id, self::$post_id),
         );
         $this->assertSame(
             ['delete_others_books', 'delete_private_books'],
-            map_meta_cap($post_type_object->cap->delete_post, self::$user_id, self::$post_id)
+            map_meta_cap($post_type_object->cap->delete_post, self::$user_id, self::$post_id),
         );
     }
 
@@ -140,8 +139,8 @@ class Tests_User_MapMetaCap extends WP_UnitTestCase
             self::$post_type,
             [
                 'capability_type' => 'post',
-                'capabilities'    => ['edit_posts' => 'edit_books'],
-            ]
+                'capabilities' => ['edit_posts' => 'edit_books'],
+            ],
         );
 
         $post_type_object = get_post_type_object(self::$post_type);
@@ -150,29 +149,29 @@ class Tests_User_MapMetaCap extends WP_UnitTestCase
 
         $this->assertSame(
             ['edit_post'],
-            map_meta_cap('edit_post', self::$user_id, self::$post_id)
+            map_meta_cap('edit_post', self::$user_id, self::$post_id),
         );
         $this->assertSame(
             ['edit_post'],
-            map_meta_cap($post_type_object->cap->edit_post, self::$user_id, self::$post_id)
+            map_meta_cap($post_type_object->cap->edit_post, self::$user_id, self::$post_id),
         );
 
         $this->assertSame(
             ['read_post'],
-            map_meta_cap('read_post', self::$user_id, self::$post_id)
+            map_meta_cap('read_post', self::$user_id, self::$post_id),
         );
         $this->assertSame(
             ['read_post'],
-            map_meta_cap($post_type_object->cap->read_post, self::$user_id, self::$post_id)
+            map_meta_cap($post_type_object->cap->read_post, self::$user_id, self::$post_id),
         );
 
         $this->assertSame(
             ['delete_post'],
-            map_meta_cap('delete_post', self::$user_id, self::$post_id)
+            map_meta_cap('delete_post', self::$user_id, self::$post_id),
         );
         $this->assertSame(
             ['delete_post'],
-            map_meta_cap($post_type_object->cap->delete_post, self::$user_id, self::$post_id)
+            map_meta_cap($post_type_object->cap->delete_post, self::$user_id, self::$post_id),
         );
     }
 
@@ -182,12 +181,12 @@ class Tests_User_MapMetaCap extends WP_UnitTestCase
             self::$post_type,
             [
                 'capability_type' => 'post',
-                'map_meta_cap'    => true,
-                'capabilities'    => [
-                    'edit_post'         => 'edit_book', // maps back to itself.
+                'map_meta_cap' => true,
+                'capabilities' => [
+                    'edit_post' => 'edit_book', // maps back to itself.
                     'edit_others_posts' => 'edit_others_books',
                 ],
-            ]
+            ],
         );
 
         $post_type_object = get_post_type_object(self::$post_type);
@@ -196,29 +195,29 @@ class Tests_User_MapMetaCap extends WP_UnitTestCase
 
         $this->assertSame(
             ['edit_others_books', 'edit_private_posts'],
-            map_meta_cap('edit_post', self::$user_id, self::$post_id)
+            map_meta_cap('edit_post', self::$user_id, self::$post_id),
         );
         $this->assertSame(
             ['edit_others_books', 'edit_private_posts'],
-            map_meta_cap($post_type_object->cap->edit_post, self::$user_id, self::$post_id)
+            map_meta_cap($post_type_object->cap->edit_post, self::$user_id, self::$post_id),
         );
 
         $this->assertSame(
             ['read_private_posts'],
-            map_meta_cap('read_post', self::$user_id, self::$post_id)
+            map_meta_cap('read_post', self::$user_id, self::$post_id),
         );
         $this->assertSame(
             ['read_private_posts'],
-            map_meta_cap($post_type_object->cap->read_post, self::$user_id, self::$post_id)
+            map_meta_cap($post_type_object->cap->read_post, self::$user_id, self::$post_id),
         );
 
         $this->assertSame(
             ['delete_others_posts', 'delete_private_posts'],
-            map_meta_cap('delete_post', self::$user_id, self::$post_id)
+            map_meta_cap('delete_post', self::$user_id, self::$post_id),
         );
         $this->assertSame(
             ['delete_others_posts', 'delete_private_posts'],
-            map_meta_cap($post_type_object->cap->delete_post, self::$user_id, self::$post_id)
+            map_meta_cap($post_type_object->cap->delete_post, self::$user_id, self::$post_id),
         );
     }
 
@@ -228,12 +227,12 @@ class Tests_User_MapMetaCap extends WP_UnitTestCase
             self::$post_type,
             [
                 'capability_type' => 'post',
-                'capabilities'    => [
-                    'edit_post'   => 'edit_book',
-                    'read_post'   => 'read_book',
+                'capabilities' => [
+                    'edit_post' => 'edit_book',
+                    'read_post' => 'read_book',
                     'delete_post' => 'delete_book',
                 ],
-            ]
+            ],
         );
 
         $post_type_object = get_post_type_object(self::$post_type);
@@ -242,29 +241,29 @@ class Tests_User_MapMetaCap extends WP_UnitTestCase
 
         $this->assertSame(
             ['edit_book'],
-            map_meta_cap('edit_post', self::$user_id, self::$post_id)
+            map_meta_cap('edit_post', self::$user_id, self::$post_id),
         );
         $this->assertSame(
             ['edit_book'],
-            map_meta_cap($post_type_object->cap->edit_post, self::$user_id, self::$post_id)
+            map_meta_cap($post_type_object->cap->edit_post, self::$user_id, self::$post_id),
         );
 
         $this->assertSame(
             ['read_book'],
-            map_meta_cap('read_post', self::$user_id, self::$post_id)
+            map_meta_cap('read_post', self::$user_id, self::$post_id),
         );
         $this->assertSame(
             ['read_book'],
-            map_meta_cap($post_type_object->cap->read_post, self::$user_id, self::$post_id)
+            map_meta_cap($post_type_object->cap->read_post, self::$user_id, self::$post_id),
         );
 
         $this->assertSame(
             ['delete_book'],
-            map_meta_cap('delete_post', self::$user_id, self::$post_id)
+            map_meta_cap('delete_post', self::$user_id, self::$post_id),
         );
         $this->assertSame(
             ['delete_book'],
-            map_meta_cap($post_type_object->cap->delete_post, self::$user_id, self::$post_id)
+            map_meta_cap($post_type_object->cap->delete_post, self::$user_id, self::$post_id),
         );
     }
 
@@ -274,13 +273,13 @@ class Tests_User_MapMetaCap extends WP_UnitTestCase
             self::$post_type,
             [
                 'capability_type' => 'post',
-                'map_meta_cap'    => true,
-                'capabilities'    => [
-                    'edit_post'   => 'edit_book',
-                    'read_post'   => 'read_book',
+                'map_meta_cap' => true,
+                'capabilities' => [
+                    'edit_post' => 'edit_book',
+                    'read_post' => 'read_book',
                     'delete_post' => 'delete_book',
                 ],
-            ]
+            ],
         );
 
         $post_type_object = get_post_type_object(self::$post_type);
@@ -289,29 +288,29 @@ class Tests_User_MapMetaCap extends WP_UnitTestCase
 
         $this->assertSame(
             ['edit_others_posts', 'edit_private_posts'],
-            map_meta_cap('edit_post', self::$user_id, self::$post_id)
+            map_meta_cap('edit_post', self::$user_id, self::$post_id),
         );
         $this->assertSame(
             ['edit_others_posts', 'edit_private_posts'],
-            map_meta_cap($post_type_object->cap->edit_post, self::$user_id, self::$post_id)
+            map_meta_cap($post_type_object->cap->edit_post, self::$user_id, self::$post_id),
         );
 
         $this->assertSame(
             ['read_private_posts'],
-            map_meta_cap('read_post', self::$user_id, self::$post_id)
+            map_meta_cap('read_post', self::$user_id, self::$post_id),
         );
         $this->assertSame(
             ['read_private_posts'],
-            map_meta_cap($post_type_object->cap->read_post, self::$user_id, self::$post_id)
+            map_meta_cap($post_type_object->cap->read_post, self::$user_id, self::$post_id),
         );
 
         $this->assertSame(
             ['delete_others_posts', 'delete_private_posts'],
-            map_meta_cap('delete_post', self::$user_id, self::$post_id)
+            map_meta_cap('delete_post', self::$user_id, self::$post_id),
         );
         $this->assertSame(
             ['delete_others_posts', 'delete_private_posts'],
-            map_meta_cap($post_type_object->cap->delete_post, self::$user_id, self::$post_id)
+            map_meta_cap($post_type_object->cap->delete_post, self::$user_id, self::$post_id),
         );
     }
 
@@ -324,8 +323,8 @@ class Tests_User_MapMetaCap extends WP_UnitTestCase
             self::$post_type,
             [
                 'capability_type' => 'post',
-                'map_meta_cap'    => false,
-            ]
+                'map_meta_cap' => false,
+            ],
         );
 
         $post_type_object = get_post_type_object(self::$post_type);
@@ -356,7 +355,7 @@ class Tests_User_MapMetaCap extends WP_UnitTestCase
         $this->assertFalse(defined('DISALLOW_FILE_MODS'));
         $this->assertFalse(defined('DISALLOW_FILE_EDIT'));
 
-        if (! defined('DISALLOW_UNFILTERED_HTML')) {
+        if (!defined('DISALLOW_UNFILTERED_HTML')) {
             define('DISALLOW_UNFILTERED_HTML', true);
         }
 
@@ -375,14 +374,15 @@ class Tests_User_MapMetaCap extends WP_UnitTestCase
         $post_id = self::factory()->post->create(
             [
                 'post_author' => 0,
-                'post_type'   => 'post',
+                'post_type' => 'post',
                 'post_status' => 'publish',
-            ]
+            ],
         );
-        $editor  = self::factory()->user->create(['role' => 'editor']);
+        $editor = self::factory()->user->create(['role' => 'editor']);
 
         $this->assertSame(['edit_others_posts', 'edit_published_posts'], map_meta_cap('edit_post', $editor, $post_id));
-        $this->assertSame(['delete_others_posts', 'delete_published_posts'], map_meta_cap('delete_post', $editor, $post_id));
+        $this->assertSame(['delete_others_posts', 'delete_published_posts'],
+            map_meta_cap('delete_post', $editor, $post_id));
     }
 
     /**
@@ -394,9 +394,9 @@ class Tests_User_MapMetaCap extends WP_UnitTestCase
     {
         $post_id = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_status' => 'publish',
-            ]
+            ],
         );
 
         update_option('page_on_front', $post_id);
@@ -415,9 +415,9 @@ class Tests_User_MapMetaCap extends WP_UnitTestCase
     {
         $post_id = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_status' => 'publish',
-            ]
+            ],
         );
 
         update_option('page_for_posts', $post_id);
@@ -444,7 +444,7 @@ class Tests_User_MapMetaCap extends WP_UnitTestCase
      * Data provider.
      *
      * @return array[] Test parameters {
-     *     @type string $cap The meta capability requiring an argument.
+     * @type string $cap The meta capability requiring an argument.
      * }
      */
     public function data_meta_caps_throw_doing_it_wrong_without_required_argument_provided()

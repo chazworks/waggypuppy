@@ -27,7 +27,7 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
         wp_set_current_user(self::factory()->user->create(['role' => 'administrator']));
         global $wp_customize;
         $this->wp_customize = new WP_Customize_Manager();
-        $wp_customize       = $this->wp_customize;
+        $wp_customize = $this->wp_customize;
     }
 
     /**
@@ -49,10 +49,10 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
     public function filter_item_types($items)
     {
         $items[] = [
-            'title'      => 'Custom',
+            'title' => 'Custom',
             'type_label' => 'Custom Type',
-            'type'       => 'custom_type',
-            'object'     => 'custom_object',
+            'type' => 'custom_type',
+            'object' => 'custom_object',
         ];
 
         return $items;
@@ -61,7 +61,7 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
     /**
      * Filter to add custom menu items.
      *
-     * @param array  $items       The menu items.
+     * @param array $items The menu items.
      * @param string $object_type The object type (e.g. taxonomy).
      * @param string $object_name The object name (e.g. category).
      * @return array Menu items.
@@ -69,13 +69,13 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
     public function filter_items($items, $object_type, $object_name)
     {
         $items[] = [
-            'id'         => 'custom-1',
-            'title'      => 'Cool beans',
-            'type'       => $object_type,
+            'id' => 'custom-1',
+            'title' => 'Cool beans',
+            'type' => $object_type,
             'type_label' => 'Custom Label',
-            'object'     => $object_name,
-            'url'        => home_url('/cool-beans/'),
-            'classes'    => 'custom-menu-item cool-beans',
+            'object' => $object_name,
+            'url' => home_url('/cool-beans/'),
+            'classes' => 'custom-menu-item cool-beans',
         ];
 
         return $items;
@@ -93,9 +93,12 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
         $this->assertInstanceOf('WP_Customize_Manager', $menus->manager);
 
         $this->assertTrue(add_filter('customize_refresh_nonces', [$menus, 'filter_nonces']));
-        $this->assertTrue(add_action('wp_ajax_load-available-menu-items-customizer', [$menus, 'ajax_load_available_items']));
-        $this->assertTrue(add_action('wp_ajax_search-available-menu-items-customizer', [$menus, 'ajax_search_available_items']));
-        $this->assertTrue(add_action('wp_ajax_customize-nav-menus-insert-auto-draft', [$menus, 'ajax_insert_auto_draft_post']));
+        $this->assertTrue(add_action('wp_ajax_load-available-menu-items-customizer',
+            [$menus, 'ajax_load_available_items']));
+        $this->assertTrue(add_action('wp_ajax_search-available-menu-items-customizer',
+            [$menus, 'ajax_search_available_items']));
+        $this->assertTrue(add_action('wp_ajax_customize-nav-menus-insert-auto-draft',
+            [$menus, 'ajax_insert_auto_draft_post']));
         $this->assertTrue(add_action('customize_controls_enqueue_scripts', [$menus, 'enqueue_scripts']));
         $this->assertTrue(add_action('customize_register', [$menus, 'customize_register']));
         $this->assertTrue(add_filter('customize_dynamic_setting_args', [$menus, 'filter_dynamic_setting_args']));
@@ -104,7 +107,8 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
         $this->assertTrue(add_action('customize_controls_print_footer_scripts', [$menus, 'available_items_template']));
         $this->assertTrue(add_action('customize_preview_init', [$menus, 'customize_preview_init']));
         $this->assertTrue(add_action('customize_preview_init', [$menus, 'make_auto_draft_status_previewable']));
-        $this->assertTrue(add_action('customize_save_nav_menus_created_posts', [$menus, 'save_nav_menus_created_posts']));
+        $this->assertTrue(add_action('customize_save_nav_menus_created_posts',
+            [$menus, 'save_nav_menus_created_posts']));
         $this->assertTrue(add_filter('customize_dynamic_partial_args', [$menus, 'customize_dynamic_partial_args']));
     }
 
@@ -139,12 +143,12 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
 
         // Expected menu item array.
         $expected = [
-            'id'         => 'home',
-            'title'      => _x('Home', 'nav menu home label'),
-            'type'       => 'custom',
+            'id' => 'home',
+            'title' => _x('Home', 'nav menu home label'),
+            'type' => 'custom',
             'type_label' => __('Custom Link'),
-            'object'     => '',
-            'url'        => home_url(),
+            'object' => '',
+            'url' => home_url(),
         ];
 
         // Create pages.
@@ -177,13 +181,13 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
 
         // Expected menu item array.
         $expected = [
-            'id'         => "post-{$post_id}",
-            'title'      => 'Post Title',
-            'type'       => 'post_type',
+            'id' => "post-{$post_id}",
+            'title' => 'Post Title',
+            'type' => 'post_type',
             'type_label' => 'Post',
-            'object'     => 'post',
-            'object_id'  => (int) $post_id,
-            'url'        => get_permalink((int) $post_id),
+            'object' => 'post',
+            'object_id' => (int)$post_id,
+            'url' => get_permalink((int)$post_id),
         ];
 
         // Offset the query and get the second page of menu items.
@@ -204,19 +208,19 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
         $page_id = self::factory()->post->create(
             [
                 'post_title' => 'Page Title',
-                'post_type'  => 'page',
-            ]
+                'post_type' => 'page',
+            ],
         );
 
         // Expected menu item array.
         $expected = [
-            'id'         => "post-{$page_id}",
-            'title'      => 'Page Title',
-            'type'       => 'post_type',
+            'id' => "post-{$page_id}",
+            'title' => 'Page Title',
+            'type' => 'post_type',
             'type_label' => 'Page',
-            'object'     => 'page',
-            'object_id'  => (int) $page_id,
-            'url'        => get_permalink((int) $page_id),
+            'object' => 'page',
+            'object_id' => (int)$page_id,
+            'url' => get_permalink((int)$page_id),
         ];
 
         $items = $menus->load_available_items_query('post_type', 'page', 0);
@@ -237,13 +241,13 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
 
         // Expected menu item array.
         $expected = [
-            'id'         => "post-{$post_id}",
-            'title'      => 'Post Title',
-            'type'       => 'post_type',
+            'id' => "post-{$post_id}",
+            'title' => 'Post Title',
+            'type' => 'post_type',
             'type_label' => 'Post',
-            'object'     => 'post',
-            'object_id'  => (int) $post_id,
-            'url'        => get_permalink((int) $post_id),
+            'object' => 'post',
+            'object_id' => (int)$post_id,
+            'url' => get_permalink((int)$post_id),
         ];
 
         $items = $menus->load_available_items_query('post_type', 'post', 0);
@@ -264,13 +268,13 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
 
         // Expected menu item array.
         $expected = [
-            'id'         => "term-{$term_id}",
-            'title'      => 'Term Title',
-            'type'       => 'taxonomy',
+            'id' => "term-{$term_id}",
+            'title' => 'Term Title',
+            'type' => 'taxonomy',
             'type_label' => 'Category',
-            'object'     => 'category',
-            'object_id'  => (int) $term_id,
-            'url'        => get_term_link((int) $term_id, 'category'),
+            'object' => 'category',
+            'object_id' => (int)$term_id,
+            'url' => get_term_link((int)$term_id, 'category'),
         ];
 
         $items = $menus->load_available_items_query('taxonomy', 'category', 0);
@@ -290,13 +294,13 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
 
         // Expected menu item array.
         $expected = [
-            'id'         => 'custom-1',
-            'title'      => 'Cool beans',
-            'type'       => 'custom_type',
+            'id' => 'custom-1',
+            'title' => 'Cool beans',
+            'type' => 'custom_type',
             'type_label' => 'Custom Label',
-            'object'     => 'custom_object',
-            'url'        => home_url('/cool-beans/'),
-            'classes'    => 'custom-menu-item cool-beans',
+            'object' => 'custom_object',
+            'url' => home_url('/cool-beans/'),
+            'classes' => 'custom-menu-item cool-beans',
         ];
 
         $items = $menus->load_available_items_query('custom_type', 'custom_object', 0);
@@ -314,66 +318,66 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
         do_action('customize_register', $this->wp_customize);
 
         // Create posts.
-        $post_ids   = [];
+        $post_ids = [];
         $post_ids[] = self::factory()->post->create(['post_title' => 'Search & Test']);
         $post_ids[] = self::factory()->post->create(['post_title' => 'Some Other Title']);
 
         // Create terms.
-        $term_ids   = [];
+        $term_ids = [];
         $term_ids[] = self::factory()->category->create(['name' => 'Dogs Are Cool']);
         $term_ids[] = self::factory()->category->create(['name' => 'Cats Drool']);
 
         // Test empty results.
         $expected = [];
-        $results  = $menus->search_available_items_query(
+        $results = $menus->search_available_items_query(
             [
                 'pagenum' => 1,
-                's'       => 'This Does NOT Exist',
-            ]
+                's' => 'This Does NOT Exist',
+            ],
         );
         $this->assertSame($expected, $results);
 
         // Test posts.
         foreach ($post_ids as $post_id) {
             $expected = [
-                'id'         => 'post-' . $post_id,
-                'title'      => html_entity_decode(get_the_title($post_id)),
-                'type'       => 'post_type',
+                'id' => 'post-' . $post_id,
+                'title' => html_entity_decode(get_the_title($post_id)),
+                'type' => 'post_type',
                 'type_label' => get_post_type_object('post')->labels->singular_name,
-                'object'     => 'post',
-                'object_id'  => (int) $post_id,
-                'url'        => get_permalink((int) $post_id),
+                'object' => 'post',
+                'object_id' => (int)$post_id,
+                'url' => get_permalink((int)$post_id),
             ];
             wp_set_object_terms($post_id, $term_ids, 'category');
-            $search  = $post_id === $post_ids[0] ? 'test & search' : 'other title';
-            $s       = sanitize_text_field(wp_unslash($search));
+            $search = $post_id === $post_ids[0] ? 'test & search' : 'other title';
+            $s = sanitize_text_field(wp_unslash($search));
             $results = $menus->search_available_items_query(
                 [
                     'pagenum' => 1,
-                    's'       => $s,
-                ]
+                    's' => $s,
+                ],
             );
             $this->assertSame($expected, $results[0]);
         }
 
         // Test terms.
         foreach ($term_ids as $term_id) {
-            $term     = get_term_by('id', $term_id, 'category');
+            $term = get_term_by('id', $term_id, 'category');
             $expected = [
-                'id'         => 'term-' . $term_id,
-                'title'      => $term->name,
-                'type'       => 'taxonomy',
+                'id' => 'term-' . $term_id,
+                'title' => $term->name,
+                'type' => 'taxonomy',
                 'type_label' => get_taxonomy('category')->labels->singular_name,
-                'object'     => 'category',
-                'object_id'  => (int) $term_id,
-                'url'        => get_term_link((int) $term_id, 'category'),
+                'object' => 'category',
+                'object_id' => (int)$term_id,
+                'url' => get_term_link((int)$term_id, 'category'),
             ];
-            $s        = sanitize_text_field(wp_unslash($term->name));
-            $results  = $menus->search_available_items_query(
+            $s = sanitize_text_field(wp_unslash($term->name));
+            $results = $menus->search_available_items_query(
                 [
                     'pagenum' => 1,
-                    's'       => $s,
-                ]
+                    's' => $s,
+                ],
             );
             $this->assertSame($expected, $results[0]);
         }
@@ -382,8 +386,8 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
         $results = $menus->search_available_items_query(
             [
                 'pagenum' => 1,
-                's'       => 'cat',
-            ]
+                's' => 'cat',
+            ],
         );
         $this->assertCount(2, $results); // Category terms Cats Drool and Uncategorized.
         $count = $this->filter_count_customize_nav_menu_searched_items;
@@ -391,8 +395,8 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
         $results = $menus->search_available_items_query(
             [
                 'pagenum' => 1,
-                's'       => 'cat',
-            ]
+                's' => 'cat',
+            ],
         );
         $this->assertSame($count + 1, $this->filter_count_customize_nav_menu_searched_items);
         $this->assertIsArray($results);
@@ -400,12 +404,12 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
         remove_filter('customize_nav_menu_searched_items', [$this, 'filter_search'], 10);
 
         // Test home.
-        $title   = _x('Home', 'nav menu home label');
+        $title = _x('Home', 'nav menu home label');
         $results = $menus->search_available_items_query(
             [
                 'pagenum' => 1,
-                's'       => $title,
-            ]
+                's' => $title,
+            ],
         );
         $this->assertCount(1, $results);
         $this->assertSame('home', $results[0]['id']);
@@ -429,32 +433,32 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
                 'labels' => [
                     'name' => 'Tests Taxonomy',
                 ],
-            ]
+            ],
         );
 
         $term_id = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-                'name'     => 'foobar',
-            ]
+                'name' => 'foobar',
+            ],
         );
 
         // Expected menu item array.
         $expected = [
-            'title'      => 'foobar',
-            'id'         => "term-{$term_id}",
-            'type'       => 'taxonomy',
+            'title' => 'foobar',
+            'id' => "term-{$term_id}",
+            'type' => 'taxonomy',
             'type_label' => 'Tests Taxonomy',
-            'object'     => 'wptests_tax',
-            'object_id'  => (int) $term_id,
-            'url'        => get_term_link((int) $term_id, ''),
+            'object' => 'wptests_tax',
+            'object_id' => (int)$term_id,
+            'url' => get_term_link((int)$term_id, ''),
         ];
 
         $results = $menus->search_available_items_query(
             [
                 'pagenum' => 1,
-                's'       => 'foo',
-            ]
+                's' => 'foo',
+            ],
         );
 
         $this->assertSameSets($expected, $results[0]);
@@ -474,8 +478,8 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
      * @param array $args {
      *     Search args.
      *
-     *     @type int    $pagenum Page number.
-     *     @type string $s       Search string.
+     * @type int $pagenum Page number.
+     * @type string $s Search string.
      * }
      * @return array Items.
      */
@@ -491,13 +495,13 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
             array_unshift(
                 $items,
                 [
-                    'id'         => 'home',
-                    'title'      => 'COOL CAT!',
-                    'type'       => 'custom',
+                    'id' => 'home',
+                    'title' => 'COOL CAT!',
+                    'type' => 'custom',
                     'type_label' => __('Custom Link'),
-                    'object'     => '',
-                    'url'        => home_url('/cool-cat'),
-                ]
+                    'object' => '',
+                    'url' => home_url('/cool-cat'),
+                ],
             );
         }
         return $items;
@@ -529,11 +533,11 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
         $menus = new WP_Customize_Nav_Menus($this->wp_customize);
 
         $expected = ['type' => 'nav_menu_item'];
-        $results  = $menus->filter_dynamic_setting_args($this->wp_customize, 'nav_menu_item[123]');
+        $results = $menus->filter_dynamic_setting_args($this->wp_customize, 'nav_menu_item[123]');
         $this->assertSame($expected['type'], $results['type']);
 
         $expected = ['type' => 'nav_menu'];
-        $results  = $menus->filter_dynamic_setting_args($this->wp_customize, 'nav_menu[123]');
+        $results = $menus->filter_dynamic_setting_args($this->wp_customize, 'nav_menu[123]');
         $this->assertSame($expected['type'], $results['type']);
     }
 
@@ -548,11 +552,13 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
         $menus = new WP_Customize_Nav_Menus($this->wp_customize);
 
         $expected = 'WP_Customize_Nav_Menu_Item_Setting';
-        $results  = $menus->filter_dynamic_setting_class('WP_Customize_Setting', 'nav_menu_item[123]', ['type' => 'nav_menu_item']);
+        $results = $menus->filter_dynamic_setting_class('WP_Customize_Setting', 'nav_menu_item[123]',
+            ['type' => 'nav_menu_item']);
         $this->assertSame($expected, $results);
 
         $expected = 'WP_Customize_Nav_Menu_Setting';
-        $results  = $menus->filter_dynamic_setting_class('WP_Customize_Setting', 'nav_menu[123]', ['type' => 'nav_menu']);
+        $results = $menus->filter_dynamic_setting_class('WP_Customize_Setting', 'nav_menu[123]',
+            ['type' => 'nav_menu']);
         $this->assertSame($expected, $results);
     }
 
@@ -570,15 +576,16 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
             $menu_id,
             0,
             [
-                'menu-item-type'      => 'post_type',
-                'menu-item-object'    => 'post',
+                'menu-item-type' => 'post_type',
+                'menu-item-object' => 'post',
                 'menu-item-object-id' => $post_id,
-                'menu-item-title'     => 'Hello World',
-                'menu-item-status'    => 'publish',
-            ]
+                'menu-item-title' => 'Hello World',
+                'menu-item-status' => 'publish',
+            ],
         );
         do_action('customize_register', $this->wp_customize);
-        $this->assertInstanceOf('WP_Customize_Nav_Menu_Item_Setting', $this->wp_customize->get_setting("nav_menu_item[$item_id]"));
+        $this->assertInstanceOf('WP_Customize_Nav_Menu_Item_Setting',
+            $this->wp_customize->get_setting("nav_menu_item[$item_id]"));
         $this->assertSame('Primary', $this->wp_customize->get_section("nav_menu[$menu_id]")->title);
         $this->assertSame('Hello World', $this->wp_customize->get_control("nav_menu_item[$item_id]")->label);
 
@@ -586,7 +593,8 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
         $this->assertInstanceOf('WP_Customize_Filter_Setting', $nav_menus_created_posts_setting);
         $this->assertSame('postMessage', $nav_menus_created_posts_setting->transport);
         $this->assertSame([], $nav_menus_created_posts_setting->default);
-        $this->assertSame([$this->wp_customize->nav_menus, 'sanitize_nav_menus_created_posts'], $nav_menus_created_posts_setting->sanitize_callback);
+        $this->assertSame([$this->wp_customize->nav_menus, 'sanitize_nav_menus_created_posts'],
+            $nav_menus_created_posts_setting->sanitize_callback);
     }
 
     /**
@@ -596,7 +604,6 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
      */
     public function test_intval_base10()
     {
-
         $menus = new WP_Customize_Nav_Menus($this->wp_customize);
 
         $this->assertSame(2, $menus->intval_base10(2));
@@ -616,42 +623,41 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
      */
     public function test_available_item_types()
     {
-
         $menus = new WP_Customize_Nav_Menus($this->wp_customize);
 
         $expected = [
             [
-                'title'      => 'Posts',
+                'title' => 'Posts',
                 'type_label' => __('Post'),
-                'type'       => 'post_type',
-                'object'     => 'post',
+                'type' => 'post_type',
+                'object' => 'post',
             ],
             [
-                'title'      => 'Pages',
+                'title' => 'Pages',
                 'type_label' => __('Page'),
-                'type'       => 'post_type',
-                'object'     => 'page',
+                'type' => 'post_type',
+                'object' => 'page',
             ],
             [
-                'title'      => 'Categories',
+                'title' => 'Categories',
                 'type_label' => __('Category'),
-                'type'       => 'taxonomy',
-                'object'     => 'category',
+                'type' => 'taxonomy',
+                'object' => 'category',
             ],
             [
-                'title'      => 'Tags',
+                'title' => 'Tags',
                 'type_label' => __('Tag'),
-                'type'       => 'taxonomy',
-                'object'     => 'post_tag',
+                'type' => 'taxonomy',
+                'object' => 'post_tag',
             ],
         ];
 
         if (current_theme_supports('post-formats')) {
             $expected[] = [
-                'title'      => 'Format',
+                'title' => 'Format',
                 'type_label' => __('Format'),
-                'type'       => 'taxonomy',
-                'object'     => 'post_format',
+                'type' => 'taxonomy',
+                'object' => 'post_format',
             ];
         }
 
@@ -659,19 +665,19 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
 
         register_taxonomy('wptests_tax', ['post'], ['labels' => ['name' => 'Foo']]);
         $expected[] = [
-            'title'      => 'Foo',
+            'title' => 'Foo',
             'type_label' => 'Foo',
-            'type'       => 'taxonomy',
-            'object'     => 'wptests_tax',
+            'type' => 'taxonomy',
+            'object' => 'wptests_tax',
         ];
 
         $this->assertSame($expected, $menus->available_item_types());
 
         $expected[] = [
-            'title'      => 'Custom',
+            'title' => 'Custom',
             'type_label' => 'Custom Type',
-            'type'       => 'custom_type',
-            'object'     => 'custom_object',
+            'type' => 'custom_type',
+            'object' => 'custom_object',
         ];
 
         add_filter('customize_nav_menu_available_item_types', [$this, 'filter_item_types']);
@@ -696,11 +702,12 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
         $r = $menus->insert_auto_draft_post(
             [
                 'post_title' => 'Non-existent',
-                'post_type'  => 'nonexistent',
-            ]
+                'post_type' => 'nonexistent',
+            ],
         );
         $this->assertInstanceOf('WP_Post', $r);
-        $this->assertSame($this->wp_customize->changeset_uuid(), get_post_meta($r->ID, '_customize_changeset_uuid', true));
+        $this->assertSame($this->wp_customize->changeset_uuid(),
+            get_post_meta($r->ID, '_customize_changeset_uuid', true));
 
         $r = $menus->insert_auto_draft_post(['post_type' => 'post']);
         $this->assertInstanceOf('WP_Error', $r);
@@ -709,9 +716,9 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
         $r = $menus->insert_auto_draft_post(
             [
                 'post_status' => 'publish',
-                'post_title'  => 'Bad',
-                'post_type'   => 'post',
-            ]
+                'post_title' => 'Bad',
+                'post_type' => 'post',
+            ],
         );
         $this->assertInstanceOf('WP_Error', $r);
         $this->assertSame('status_forbidden', $r->get_error_code());
@@ -719,30 +726,32 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
         $r = $menus->insert_auto_draft_post(
             [
                 'post_title' => 'Hello World',
-                'post_type'  => 'post',
-            ]
+                'post_type' => 'post',
+            ],
         );
         $this->assertInstanceOf('WP_Post', $r);
         $this->assertSame('Hello World', $r->post_title);
         $this->assertSame('', $r->post_name);
         $this->assertSame('hello-world', get_post_meta($r->ID, '_customize_draft_post_name', true));
-        $this->assertSame($this->wp_customize->changeset_uuid(), get_post_meta($r->ID, '_customize_changeset_uuid', true));
+        $this->assertSame($this->wp_customize->changeset_uuid(),
+            get_post_meta($r->ID, '_customize_changeset_uuid', true));
         $this->assertSame('post', $r->post_type);
 
         $r = $menus->insert_auto_draft_post(
             [
-                'post_title'   => 'Hello World',
-                'post_type'    => 'post',
-                'post_name'    => 'greetings-world',
+                'post_title' => 'Hello World',
+                'post_type' => 'post',
+                'post_name' => 'greetings-world',
                 'post_content' => 'Hi World',
-            ]
+            ],
         );
         $this->assertInstanceOf('WP_Post', $r);
         $this->assertSame('Hello World', $r->post_title);
         $this->assertSame('post', $r->post_type);
         $this->assertSame('', $r->post_name);
         $this->assertSame('greetings-world', get_post_meta($r->ID, '_customize_draft_post_name', true));
-        $this->assertSame($this->wp_customize->changeset_uuid(), get_post_meta($r->ID, '_customize_changeset_uuid', true));
+        $this->assertSame($this->wp_customize->changeset_uuid(),
+            get_post_meta($r->ID, '_customize_changeset_uuid', true));
         $this->assertSame('Hi World', $r->post_content);
     }
 
@@ -765,7 +774,7 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
             esc_html('Move up'),
             esc_html('Move down'),
             esc_html('Move one level up'),
-            esc_html('Move one level down')
+            esc_html('Move one level down'),
         );
 
         $this->assertStringContainsString($expected, $template);
@@ -794,10 +803,13 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
         if ($post_types) {
             foreach ($post_types as $type) {
                 $this->assertStringContainsString('available-menu-items-post_type-' . esc_attr($type->name), $template);
-                $this->assertMatchesRegularExpression('#<h4 class="accordion-section-title".*>\s*' . esc_html($type->labels->name) . '#', $template);
+                $this->assertMatchesRegularExpression('#<h4 class="accordion-section-title".*>\s*'
+                    . esc_html($type->labels->name)
+                    . '#', $template);
                 $this->assertStringContainsString('data-type="post_type"', $template);
                 $this->assertStringContainsString('data-object="' . esc_attr($type->name) . '"', $template);
-                $this->assertStringContainsString('data-type_label="' . esc_attr($type->labels->singular_name) . '"', $template);
+                $this->assertStringContainsString('data-type_label="' . esc_attr($type->labels->singular_name) . '"',
+                    $template);
             }
         }
 
@@ -805,10 +817,13 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
         if ($taxonomies) {
             foreach ($taxonomies as $tax) {
                 $this->assertStringContainsString('available-menu-items-taxonomy-' . esc_attr($tax->name), $template);
-                $this->assertMatchesRegularExpression('#<h4 class="accordion-section-title".*>\s*' . esc_html($tax->labels->name) . '#', $template);
+                $this->assertMatchesRegularExpression('#<h4 class="accordion-section-title".*>\s*'
+                    . esc_html($tax->labels->name)
+                    . '#', $template);
                 $this->assertStringContainsString('data-type="taxonomy"', $template);
                 $this->assertStringContainsString('data-object="' . esc_attr($tax->name) . '"', $template);
-                $this->assertStringContainsString('data-type_label="' . esc_attr($tax->labels->singular_name) . '"', $template);
+                $this->assertStringContainsString('data-type_label="' . esc_attr($tax->labels->singular_name) . '"',
+                    $template);
             }
         }
 
@@ -828,13 +843,15 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
     {
         do_action('customize_register', $this->wp_customize);
 
-        $args = apply_filters('customize_dynamic_partial_args', false, 'nav_menu_instance[68b329da9893e34099c7d8ad5cb9c940]');
+        $args = apply_filters('customize_dynamic_partial_args', false,
+            'nav_menu_instance[68b329da9893e34099c7d8ad5cb9c940]');
         $this->assertIsArray($args);
         $this->assertSame('nav_menu_instance', $args['type']);
         $this->assertSame([$this->wp_customize->nav_menus, 'render_nav_menu_partial'], $args['render_callback']);
         $this->assertTrue($args['container_inclusive']);
 
-        $args = apply_filters('customize_dynamic_partial_args', ['fallback_refresh' => false], 'nav_menu_instance[4099c7d8ad5cb9c94068b329da9893e3]');
+        $args = apply_filters('customize_dynamic_partial_args', ['fallback_refresh' => false],
+            'nav_menu_instance[4099c7d8ad5cb9c94068b329da9893e3]');
         $this->assertIsArray($args);
         $this->assertSame('nav_menu_instance', $args['type']);
         $this->assertSame([$this->wp_customize->nav_menus, 'render_nav_menu_partial'], $args['render_callback']);
@@ -878,50 +895,50 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
      */
     public function test_sanitize_nav_menus_created_posts()
     {
-        $menus                 = new WP_Customize_Nav_Menus($this->wp_customize);
-        $contributor_user_id   = self::factory()->user->create(['role' => 'contributor']);
-        $author_user_id        = self::factory()->user->create(['role' => 'author']);
+        $menus = new WP_Customize_Nav_Menus($this->wp_customize);
+        $contributor_user_id = self::factory()->user->create(['role' => 'contributor']);
+        $author_user_id = self::factory()->user->create(['role' => 'author']);
         $administrator_user_id = self::factory()->user->create(['role' => 'administrator']);
 
-        $contributor_post_id   = self::factory()->post->create(
+        $contributor_post_id = self::factory()->post->create(
             [
                 'post_status' => 'auto-draft',
-                'post_title'  => 'Contributor Post',
-                'post_type'   => 'post',
+                'post_title' => 'Contributor Post',
+                'post_type' => 'post',
                 'post_author' => $contributor_user_id,
-            ]
+            ],
         );
-        $author_post_id        = self::factory()->post->create(
+        $author_post_id = self::factory()->post->create(
             [
                 'post_status' => 'auto-draft',
-                'post_title'  => 'Author Post',
-                'post_type'   => 'post',
+                'post_title' => 'Author Post',
+                'post_type' => 'post',
                 'post_author' => $author_user_id,
-            ]
+            ],
         );
         $administrator_post_id = self::factory()->post->create(
             [
                 'post_status' => 'auto-draft',
-                'post_title'  => 'Admin Post',
-                'post_type'   => 'post',
+                'post_title' => 'Admin Post',
+                'post_type' => 'post',
                 'post_author' => $administrator_user_id,
-            ]
+            ],
         );
 
         $draft_post_id = self::factory()->post->create(
             [
                 'post_status' => 'draft',
-                'post_title'  => 'Draft',
+                'post_title' => 'Draft',
                 'post_author' => $administrator_user_id,
-            ]
+            ],
         );
 
         $private_post_id = self::factory()->post->create(
             [
                 'post_status' => 'private',
-                'post_title'  => 'Private',
+                'post_title' => 'Private',
                 'post_author' => $administrator_user_id,
-            ]
+            ],
         );
 
         $value = [
@@ -962,9 +979,9 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
         $r = $menus->insert_auto_draft_post(
             [
                 'post_title' => 'Auto Draft',
-                'post_type'  => 'post',
-                'post_name'  => 'auto-draft-1',
-            ]
+                'post_type' => 'post',
+                'post_name' => 'auto-draft-1',
+            ],
         );
         $this->assertInstanceOf('WP_Post', $r);
         $post_ids[] = $r->ID;
@@ -973,16 +990,16 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
         $r = $menus->insert_auto_draft_post(
             [
                 'post_title' => 'Draft',
-                'post_type'  => 'post',
-                'post_name'  => 'auto-draft-2',
-            ]
+                'post_type' => 'post',
+                'post_name' => 'auto-draft-2',
+            ],
         );
         $this->assertInstanceOf('WP_Post', $r);
         wp_update_post(
             [
-                'ID'          => $r->ID,
+                'ID' => $r->ID,
                 'post_status' => 'draft',
-            ]
+            ],
         );
         $post_ids[] = $r->ID;
 
@@ -992,31 +1009,31 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
         $r = $menus->insert_auto_draft_post(
             [
                 'post_title' => 'Private',
-                'post_type'  => 'post',
-                'post_name'  => 'auto-draft-3',
-            ]
+                'post_type' => 'post',
+                'post_name' => 'auto-draft-3',
+            ],
         );
         $this->assertInstanceOf('WP_Post', $r);
         wp_update_post(
             [
-                'ID'          => $r->ID,
+                'ID' => $r->ID,
                 'post_status' => 'private',
-            ]
+            ],
         );
-        $post_ids[]      = $r->ID;
+        $post_ids[] = $r->ID;
         $private_post_id = $r->ID;
 
         // Trashed (this will exclude it from being considered a stub).
         $r = $menus->insert_auto_draft_post(
             [
                 'post_title' => 'Trash',
-                'post_type'  => 'post',
-                'post_name'  => 'auto-draft-4',
-            ]
+                'post_type' => 'post',
+                'post_name' => 'auto-draft-4',
+            ],
         );
         $this->assertInstanceOf('WP_Post', $r);
         wp_trash_post($r->ID);
-        $post_ids[]      = $r->ID;
+        $post_ids[] = $r->ID;
         $trashed_post_id = $r->ID;
 
         $pre_published_post_id = self::factory()->post->create(['post_status' => 'publish']);
@@ -1050,7 +1067,7 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
         $this->assertSame('trash', get_post_status($trashed_post_id));
 
         // Ensure that unique slugs were assigned.
-        $posts      = array_map('get_post', $drafted_post_ids);
+        $posts = array_map('get_post', $drafted_post_ids);
         $post_names = wp_list_pluck($posts, 'post_name');
         $this->assertSameSets($post_names, array_unique($post_names));
     }
@@ -1063,42 +1080,42 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
     public function test_filter_wp_nav_menu_args()
     {
         do_action('customize_register', $this->wp_customize);
-        $menus   = $this->wp_customize->nav_menus;
+        $menus = $this->wp_customize->nav_menus;
         $menu_id = wp_create_nav_menu('Foo');
 
         $results = $menus->filter_wp_nav_menu_args(
             [
-                'echo'        => true,
+                'echo' => true,
                 'fallback_cb' => 'wp_page_menu',
-                'walker'      => '',
-                'menu'        => $menu_id,
-                'items_wrap'  => '<ul id="%1$s" class="%2$s">%3$s</ul>',
-            ]
+                'walker' => '',
+                'menu' => $menu_id,
+                'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+            ],
         );
         $this->assertArrayHasKey('customize_preview_nav_menus_args', $results);
         $this->assertTrue($results['can_partial_refresh']);
 
         $results = $menus->filter_wp_nav_menu_args(
             [
-                'echo'        => false,
+                'echo' => false,
                 'fallback_cb' => 'wp_page_menu',
-                'walker'      => new Walker_Nav_Menu(),
-                'items_wrap'  => '<ul id="%1$s" class="%2$s">%3$s</ul>',
-            ]
+                'walker' => new Walker_Nav_Menu(),
+                'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+            ],
         );
         $this->assertFalse($results['can_partial_refresh']);
         $this->assertArrayHasKey('customize_preview_nav_menus_args', $results);
         $this->assertSame('wp_page_menu', $results['fallback_cb']);
 
         $nav_menu_term = get_term(wp_create_nav_menu('Bar'));
-        $results       = $menus->filter_wp_nav_menu_args(
+        $results = $menus->filter_wp_nav_menu_args(
             [
-                'echo'        => true,
+                'echo' => true,
                 'fallback_cb' => 'wp_page_menu',
-                'walker'      => '',
-                'menu'        => $nav_menu_term,
-                'items_wrap'  => '<ul id="%1$s" class="%2$s">%3$s</ul>',
-            ]
+                'walker' => '',
+                'menu' => $nav_menu_term,
+                'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+            ],
         );
         $this->assertTrue($results['can_partial_refresh']);
         $this->assertArrayHasKey('customize_preview_nav_menus_args', $results);
@@ -1106,37 +1123,37 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
 
         $results = $menus->filter_wp_nav_menu_args(
             [
-                'echo'        => true,
+                'echo' => true,
                 'fallback_cb' => 'wp_page_menu',
-                'walker'      => '',
-                'menu'        => $menu_id,
-                'container'   => 'div',
-                'items_wrap'  => '%3$s',
-            ]
+                'walker' => '',
+                'menu' => $menu_id,
+                'container' => 'div',
+                'items_wrap' => '%3$s',
+            ],
         );
         $this->assertTrue($results['can_partial_refresh']);
 
         $results = $menus->filter_wp_nav_menu_args(
             [
-                'echo'        => true,
+                'echo' => true,
                 'fallback_cb' => 'wp_page_menu',
-                'walker'      => '',
-                'menu'        => $menu_id,
-                'container'   => false,
-                'items_wrap'  => '<ul id="%1$s" class="%2$s">%3$s</ul>',
-            ]
+                'walker' => '',
+                'menu' => $menu_id,
+                'container' => false,
+                'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+            ],
         );
         $this->assertTrue($results['can_partial_refresh']);
 
         $results = $menus->filter_wp_nav_menu_args(
             [
-                'echo'        => true,
+                'echo' => true,
                 'fallback_cb' => 'wp_page_menu',
-                'walker'      => '',
-                'menu'        => $menu_id,
-                'container'   => false,
-                'items_wrap'  => '%3$s',
-            ]
+                'walker' => '',
+                'menu' => $menu_id,
+                'container' => false,
+                'items_wrap' => '%3$s',
+            ],
         );
         $this->assertFalse($results['can_partial_refresh']);
     }
@@ -1153,11 +1170,11 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
         $menus = new WP_Customize_Nav_Menus($this->wp_customize);
 
         $original_args = [
-            'echo'        => true,
-            'menu'        => wp_create_nav_menu('Foo'),
+            'echo' => true,
+            'menu' => wp_create_nav_menu('Foo'),
             'fallback_cb' => 'wp_page_menu',
-            'walker'      => '',
-            'items_wrap'  => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+            'walker' => '',
+            'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
         ];
 
         // Add global namespace prefix to check #41488.
@@ -1169,11 +1186,12 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
         wp_nav_menu($args);
         $nav_menu_content = ob_get_clean();
 
-        $result = $menus->filter_wp_nav_menu($nav_menu_content, (object) $args);
+        $result = $menus->filter_wp_nav_menu($nav_menu_content, (object)$args);
 
-        $this->assertStringContainsString(sprintf(' data-customize-partial-id="nav_menu_instance[%s]"', $args['customize_preview_nav_menus_args']['args_hmac']), $result);
+        $this->assertStringContainsString(sprintf(' data-customize-partial-id="nav_menu_instance[%s]"',
+            $args['customize_preview_nav_menus_args']['args_hmac']), $result);
         $this->assertStringContainsString(' data-customize-partial-type="nav_menu_instance"', $result);
-        $this->assertTrue((bool) preg_match('/data-customize-partial-placement-context="(.+?)"/', $result, $matches));
+        $this->assertTrue((bool)preg_match('/data-customize-partial-placement-context="(.+?)"/', $result, $matches));
         $context = json_decode(html_entity_decode($matches[1]), true);
 
         foreach ($original_args as $key => $value) {
@@ -1209,7 +1227,7 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
         ob_start();
         $this->wp_customize->nav_menus->export_preview_data();
         $html = ob_get_clean();
-        $this->assertTrue((bool) preg_match('/_wpCustomizePreviewNavMenusExports = ({.+})/s', $html, $matches));
+        $this->assertTrue((bool)preg_match('/_wpCustomizePreviewNavMenusExports = ({.+})/s', $html, $matches));
         $exported_data = json_decode($matches[1], true);
         $this->assertArrayHasKey('navMenuInstanceArgs', $exported_data);
     }
@@ -1228,38 +1246,38 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
             $menu,
             0,
             [
-                'menu-item-type'   => 'custom',
-                'menu-item-title'  => 'wp.org',
-                'menu-item-url'    => 'https://wp.org',
+                'menu-item-type' => 'custom',
+                'menu-item-title' => 'wp.org',
+                'menu-item-url' => 'https://wp.org',
                 'menu-item-status' => 'publish',
-            ]
+            ],
         );
 
         $nav_menu_args = $this->wp_customize->nav_menus->filter_wp_nav_menu_args(
             [
-                'echo'        => true,
-                'menu'        => $menu,
+                'echo' => true,
+                'menu' => $menu,
                 'fallback_cb' => 'wp_page_menu',
-                'walker'      => '',
-                'items_wrap'  => '<ul id="%1$s" class="%2$s">%3$s</ul>',
-            ]
+                'walker' => '',
+                'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+            ],
         );
 
         $partial_id = sprintf('nav_menu_instance[%s]', $nav_menu_args['customize_preview_nav_menus_args']['args_hmac']);
-        $partials   = $this->wp_customize->selective_refresh->add_dynamic_partials([$partial_id]);
+        $partials = $this->wp_customize->selective_refresh->add_dynamic_partials([$partial_id]);
         $this->assertNotEmpty($partials);
         $partial = array_shift($partials);
         $this->assertSame($partial_id, $partial->id);
 
         $missing_args_hmac_args = array_merge(
             $nav_menu_args['customize_preview_nav_menus_args'],
-            ['args_hmac' => null]
+            ['args_hmac' => null],
         );
         $this->assertFalse($partial->render($missing_args_hmac_args));
 
         $args_hmac_mismatch_args = array_merge(
             $nav_menu_args['customize_preview_nav_menus_args'],
-            ['args_hmac' => strrev($nav_menu_args['customize_preview_nav_menus_args']['args_hmac'])]
+            ['args_hmac' => strrev($nav_menu_args['customize_preview_nav_menus_args']['args_hmac'])],
         );
         $this->assertFalse($partial->render($args_hmac_mismatch_args));
 

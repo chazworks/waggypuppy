@@ -16,7 +16,7 @@ class Tests_Functions_wpGetArchives extends WP_UnitTestCase
         parent::set_up();
 
         $this->month_url = get_month_link(gmdate('Y'), gmdate('m'));
-        $this->year_url  = get_year_link(gmdate('Y'));
+        $this->year_url = get_year_link(gmdate('Y'));
     }
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
@@ -24,9 +24,9 @@ class Tests_Functions_wpGetArchives extends WP_UnitTestCase
         self::$post_ids = $factory->post->create_many(
             8,
             [
-                'post_type'   => 'post',
+                'post_type' => 'post',
                 'post_author' => '1',
-            ]
+            ],
         );
     }
 
@@ -46,9 +46,9 @@ class Tests_Functions_wpGetArchives extends WP_UnitTestCase
                     [
                         'echo' => false,
                         'type' => 'yearly',
-                    ]
-                )
-            )
+                    ],
+                ),
+            ),
         );
     }
 
@@ -69,23 +69,23 @@ class Tests_Functions_wpGetArchives extends WP_UnitTestCase
         $title5 = get_post($ids[4])->post_title;
 
         $expected['limit'] = <<<EOF
-<li><a href='$link1'>$title1</a></li>
-	<li><a href='$link2'>$title2</a></li>
-	<li><a href='$link3'>$title3</a></li>
-	<li><a href='$link4'>$title4</a></li>
-	<li><a href='$link5'>$title5</a></li>
-EOF;
+            <li><a href='$link1'>$title1</a></li>
+            	<li><a href='$link2'>$title2</a></li>
+            	<li><a href='$link3'>$title3</a></li>
+            	<li><a href='$link4'>$title4</a></li>
+            	<li><a href='$link5'>$title5</a></li>
+            EOF;
         $this->assertSameIgnoreEOL(
             $expected['limit'],
             trim(
                 wp_get_archives(
                     [
-                        'echo'  => false,
-                        'type'  => 'postbypost',
+                        'echo' => false,
+                        'type' => 'postbypost',
                         'limit' => 5,
-                    ]
-                )
-            )
+                    ],
+                ),
+            ),
         );
     }
 
@@ -97,11 +97,11 @@ EOF;
             trim(
                 wp_get_archives(
                     [
-                        'echo'   => false,
+                        'echo' => false,
                         'format' => 'option',
-                    ]
-                )
-            )
+                    ],
+                ),
+            ),
         );
     }
 
@@ -113,13 +113,13 @@ EOF;
             trim(
                 wp_get_archives(
                     [
-                        'echo'   => false,
+                        'echo' => false,
                         'format' => 'custom',
                         'before' => '<div>',
-                        'after'  => '</div>',
-                    ]
-                )
-            )
+                        'after' => '</div>',
+                    ],
+                ),
+            ),
         );
     }
 
@@ -131,11 +131,11 @@ EOF;
             trim(
                 wp_get_archives(
                     [
-                        'echo'            => false,
+                        'echo' => false,
                         'show_post_count' => 1,
-                    ]
-                )
-            )
+                    ],
+                ),
+            ),
         );
     }
 
@@ -150,44 +150,44 @@ EOF;
     {
         self::factory()->post->create(
             [
-                'post_type'   => 'post',
+                'post_type' => 'post',
                 'post_author' => '1',
-                'post_date'   => '2012-10-23 19:34:42',
-            ]
+                'post_date' => '2012-10-23 19:34:42',
+            ],
         );
 
-        $date_full             = gmdate('F Y');
-        $oct_url               = get_month_link(2012, 10);
+        $date_full = gmdate('F Y');
+        $oct_url = get_month_link(2012, 10);
         $expected['order_asc'] = <<<EOF
-<li><a href='{$oct_url}'>October 2012</a></li>
-	<li><a href='{$this->month_url}'>$date_full</a></li>
-EOF;
+            <li><a href='{$oct_url}'>October 2012</a></li>
+            	<li><a href='{$this->month_url}'>$date_full</a></li>
+            EOF;
         $this->assertSameIgnoreEOL(
             $expected['order_asc'],
             trim(
                 wp_get_archives(
                     [
-                        'echo'  => false,
+                        'echo' => false,
                         'order' => 'ASC',
-                    ]
-                )
-            )
+                    ],
+                ),
+            ),
         );
 
         $expected['order_desc'] = <<<EOF
-<li><a href='{$this->month_url}'>$date_full</a></li>
-	<li><a href='{$oct_url}'>October 2012</a></li>
-EOF;
+            <li><a href='{$this->month_url}'>$date_full</a></li>
+            	<li><a href='{$oct_url}'>October 2012</a></li>
+            EOF;
         $this->assertSameIgnoreEOL(
             $expected['order_desc'],
             trim(
                 wp_get_archives(
                     [
-                        'echo'  => false,
+                        'echo' => false,
                         'order' => 'DESC',
-                    ]
-                )
-            )
+                    ],
+                ),
+            ),
         );
     }
 
@@ -200,19 +200,19 @@ EOF;
 
         self::factory()->post->create(
             [
-                'post_type'   => 'taco',
+                'post_type' => 'taco',
                 'post_author' => '1',
-                'post_date'   => '2014-10-23 19:34:42',
-            ]
+                'post_date' => '2014-10-23 19:34:42',
+            ],
         );
 
-        $oct_url  = esc_url(add_query_arg('post_type', 'taco', get_month_link(2014, 10)));
+        $oct_url = esc_url(add_query_arg('post_type', 'taco', get_month_link(2014, 10)));
         $expected = "<li><a href='{$oct_url}'>October 2014</a></li>";
         $archives = wp_get_archives(
             [
-                'echo'      => false,
+                'echo' => false,
                 'post_type' => 'taco',
-            ]
+            ],
         );
         $this->assertSame($expected, trim($archives));
     }

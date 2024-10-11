@@ -25,9 +25,9 @@ class Tests_Formatting_wpSlash extends WP_UnitTestCase
      * Data provider for test_wp_slash().
      *
      * @return array {
-     *     @type array {
-     *         @type mixed  $value    The value passed to wp_slash().
-     *         @type string $expected The expected output of wp_slash().
+     * @type array {
+     * @type mixed $value The value passed to wp_slash().
+     * @type string $expected The expected output of wp_slash().
      *     }
      * }
      */
@@ -74,12 +74,11 @@ class Tests_Formatting_wpSlash extends WP_UnitTestCase
      */
     public function test_preserves_original_datatype()
     {
-
         $this->assertTrue(wp_slash(true));
         $this->assertFalse(wp_slash(false));
         $this->assertSame(4, wp_slash(4));
         $this->assertSame('foo', wp_slash('foo'));
-        $arr      = [
+        $arr = [
             'a' => true,
             'b' => false,
             'c' => 4,

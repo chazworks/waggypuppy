@@ -59,24 +59,24 @@ class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase
     {
         self::$admin_id = $factory->user->create(
             [
-                'role'       => 'administrator',
+                'role' => 'administrator',
                 'user_login' => 'administrator',
-            ]
+            ],
         );
 
         self::$post_id = $factory->post->create(
             [
                 'post_status' => 'draft',
-                'post_title'  => '45114 to be updated',
-            ]
+                'post_title' => '45114 to be updated',
+            ],
         );
 
         self::$attachment_id = $factory->attachment->create(
             [
                 'post_status' => 'inherit',
-                'post_title'  => '45114 attachment to be updated',
+                'post_title' => '45114 attachment to be updated',
                 'post_parent' => self::$post_id,
-            ]
+            ],
         );
     }
 
@@ -88,9 +88,9 @@ class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase
 
     public function tear_down()
     {
-        self::$passed_post_title         = '';
-        self::$passed_post_status        = '';
-        self::$passed_post_before_title  = '';
+        self::$passed_post_title = '';
+        self::$passed_post_status = '';
+        self::$passed_post_before_title = '';
         self::$passed_post_before_status = '';
         parent::tear_down();
     }
@@ -98,24 +98,24 @@ class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase
     /**
      * Helper function to obtain data running on the hook `wp_after_insert_post`.
      *
-     * @param int          $post_id     Post ID.
-     * @param WP_Post      $post        Post object.
-     * @param bool         $update      Whether this is an existing post being updated.
+     * @param int $post_id Post ID.
+     * @param WP_Post $post Post object.
+     * @param bool $update Whether this is an existing post being updated.
      * @param null|WP_Post $post_before Null for new posts, the WP_Post object prior
      *                                  to the update for updated posts.
      */
     public function action_wp_after_insert_post($post_id, $post, $update, $post_before)
     {
-        self::$passed_post_title  = $post->post_title;
+        self::$passed_post_title = $post->post_title;
         self::$passed_post_status = $post->post_status;
 
         if (null === $post_before) {
-            self::$passed_post_before_title  = null;
+            self::$passed_post_before_title = null;
             self::$passed_post_before_status = null;
             return;
         }
 
-        self::$passed_post_before_title  = $post_before->post_title;
+        self::$passed_post_before_title = $post_before->post_title;
         self::$passed_post_before_status = $post_before->post_status;
 
         // Prevent this firing when the revision is generated.
@@ -129,7 +129,7 @@ class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase
      */
     public function test_update_via_wp_update_post()
     {
-        $post               = get_post(self::$post_id, ARRAY_A);
+        $post = get_post(self::$post_id, ARRAY_A);
         $post['post_title'] = 'new title';
         wp_update_post($post);
 
@@ -159,10 +159,10 @@ class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase
     {
         wp_insert_post(
             [
-                'post_status'  => 'draft',
-                'post_title'   => 'a new post',
+                'post_status' => 'draft',
+                'post_title' => 'a new post',
                 'post_content' => 'new',
-            ]
+            ],
         );
 
         $this->assertSame(null, self::$passed_post_before_status);
@@ -201,9 +201,9 @@ class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase
         $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
         $request->set_body_params(
             [
-                'title'  => 'new title',
+                'title' => 'new title',
                 'status' => 'draft',
-            ]
+            ],
         );
         rest_get_server()->dispatch($request);
 

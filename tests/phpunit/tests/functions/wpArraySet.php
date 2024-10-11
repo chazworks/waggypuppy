@@ -23,35 +23,35 @@ class Tests_Functions_wpArraySet extends WP_UnitTestCase
         _wp_array_set($test, ['a'], 1);
         $this->assertSame(
             $test,
-            3
+            3,
         );
 
         $test_array = ['a' => 2];
         _wp_array_set($test_array, 'a', 3);
         $this->assertSame(
             $test_array,
-            ['a' => 2]
+            ['a' => 2],
         );
 
         $test_array = ['a' => 2];
         _wp_array_set($test_array, null, 3);
         $this->assertSame(
             $test_array,
-            ['a' => 2]
+            ['a' => 2],
         );
 
         $test_array = ['a' => 2];
         _wp_array_set($test_array, [], 3);
         $this->assertSame(
             $test_array,
-            ['a' => 2]
+            ['a' => 2],
         );
 
         $test_array = ['a' => 2];
         _wp_array_set($test_array, ['a', []], 3);
         $this->assertSame(
             $test_array,
-            ['a' => 2]
+            ['a' => 2],
         );
     }
 
@@ -66,14 +66,14 @@ class Tests_Functions_wpArraySet extends WP_UnitTestCase
         _wp_array_set($test_array, ['a'], 1);
         $this->assertSame(
             $test_array,
-            ['a' => 1]
+            ['a' => 1],
         );
 
         $test_array = ['a' => 2];
         _wp_array_set($test_array, ['a'], 3);
         $this->assertSame(
             $test_array,
-            ['a' => 3]
+            ['a' => 3],
         );
 
         $test_array = ['b' => 1];
@@ -83,7 +83,7 @@ class Tests_Functions_wpArraySet extends WP_UnitTestCase
             [
                 'b' => 1,
                 'a' => 3,
-            ]
+            ],
         );
     }
 
@@ -98,7 +98,7 @@ class Tests_Functions_wpArraySet extends WP_UnitTestCase
         _wp_array_set($test_array, ['a', 'b', 'c'], 1);
         $this->assertSame(
             $test_array,
-            ['a' => ['b' => ['c' => 1]]]
+            ['a' => ['b' => ['c' => 1]]],
         );
 
         $test_array = ['b' => 3];
@@ -108,7 +108,7 @@ class Tests_Functions_wpArraySet extends WP_UnitTestCase
             [
                 'b' => 3,
                 'a' => ['b' => ['c' => 1]],
-            ]
+            ],
         );
 
         $test_array = [
@@ -121,7 +121,7 @@ class Tests_Functions_wpArraySet extends WP_UnitTestCase
             [
                 'b' => 3,
                 'a' => ['b' => ['c' => 1]],
-            ]
+            ],
         );
 
         $test_array = [
@@ -134,7 +134,7 @@ class Tests_Functions_wpArraySet extends WP_UnitTestCase
             [
                 'b' => 3,
                 'a' => ['b' => ['c' => 1]],
-            ]
+            ],
         );
     }
 }

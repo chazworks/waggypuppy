@@ -37,13 +37,13 @@ class Tests_Filesystem_WpFilesystemDirect_Rmdir extends WP_Filesystem_Direct_Uni
     {
         $dir = self::$file_structure['test_dir']['path'] . 'directory-to-delete/';
 
-        if (! is_dir($dir)) {
+        if (!is_dir($dir)) {
             mkdir($dir);
         }
 
         $actual = self::$filesystem->rmdir($dir);
 
-        if (! $actual) {
+        if (!$actual) {
             rmdir($dir);
         }
 
@@ -58,9 +58,9 @@ class Tests_Filesystem_WpFilesystemDirect_Rmdir extends WP_Filesystem_Direct_Uni
      */
     public function test_should_recursively_delete_a_directory()
     {
-        $dir     = self::$file_structure['test_dir']['path'] . 'directory-to-delete/';
-        $file    = $dir . 'file-to-delete.txt';
-        $subdir  = $dir . 'subdirectory-to-delete/';
+        $dir = self::$file_structure['test_dir']['path'] . 'directory-to-delete/';
+        $file = $dir . 'file-to-delete.txt';
+        $subdir = $dir . 'subdirectory-to-delete/';
         $subfile = $subdir . 'subfile-to-delete.txt';
 
         mkdir($dir, 0755);
@@ -70,7 +70,7 @@ class Tests_Filesystem_WpFilesystemDirect_Rmdir extends WP_Filesystem_Direct_Uni
 
         $actual = self::$filesystem->rmdir(self::$file_structure['test_dir']['path'], true);
 
-        if (! $actual) {
+        if (!$actual) {
             unlink($file);
             unlink($subfile);
             rmdir($subdir);
@@ -93,7 +93,7 @@ class Tests_Filesystem_WpFilesystemDirect_Rmdir extends WP_Filesystem_Direct_Uni
 
         $actual = self::$filesystem->rmdir($file);
 
-        if (! $actual) {
+        if (!$actual) {
             unlink($file);
         }
 
@@ -130,32 +130,31 @@ class Tests_Filesystem_WpFilesystemDirect_Rmdir extends WP_Filesystem_Direct_Uni
      */
     public function test_should_return_false_when_contents_cannot_be_deleted()
     {
-
         global $wp_filesystem;
 
         $wp_filesystem = new WP_Filesystem_Direct([]);
 
         $path = self::$file_structure['test_dir']['path'] . 'dir-to-delete/';
 
-        if (! is_dir($path)) {
+        if (!is_dir($path)) {
             mkdir($path);
         }
 
         // Set up mock filesystem.
         $filesystem_mock = $this->getMockBuilder('WP_Filesystem_Direct')
-                                ->setConstructorArgs([null])
-                                // Note: setMethods() is deprecated in PHPUnit 9, but still supported.
-                                ->setMethods(['dirlist'])
-                                ->getMock();
+            ->setConstructorArgs([null])
+            // Note: setMethods() is deprecated in PHPUnit 9, but still supported.
+            ->setMethods(['dirlist'])
+            ->getMock();
 
         $filesystem_mock->expects($this->once())
-                        ->method('dirlist')
-                        ->willReturn(
-                            ['a_file_that_does_not_exist.txt' => ['type' => 'f']]
-                        );
+            ->method('dirlist')
+            ->willReturn(
+                ['a_file_that_does_not_exist.txt' => ['type' => 'f']],
+            );
 
         $wp_filesystem_backup = $wp_filesystem;
-        $wp_filesystem        = $filesystem_mock;
+        $wp_filesystem = $filesystem_mock;
 
         $actual = $filesystem_mock->rmdir($path, true);
 
@@ -182,21 +181,21 @@ class Tests_Filesystem_WpFilesystemDirect_Rmdir extends WP_Filesystem_Direct_Uni
 
         // Set up mock filesystem.
         $filesystem_mock = $this->getMockBuilder('WP_Filesystem_Direct')
-                                ->setConstructorArgs([null])
-                                // Note: setMethods() is deprecated in PHPUnit 9, but still supported.
-                                ->setMethods(['is_file', 'dirlist'])
-                                ->getMock();
+            ->setConstructorArgs([null])
+            // Note: setMethods() is deprecated in PHPUnit 9, but still supported.
+            ->setMethods(['is_file', 'dirlist'])
+            ->getMock();
 
         $filesystem_mock->expects($this->once())
-                        ->method('is_file')
-                        ->willReturn(false);
+            ->method('is_file')
+            ->willReturn(false);
 
         $filesystem_mock->expects($this->once())
-                        ->method('dirlist')
-                        ->willReturn(false);
+            ->method('dirlist')
+            ->willReturn(false);
 
         $wp_filesystem_backup = $wp_filesystem;
-        $wp_filesystem        = $filesystem_mock;
+        $wp_filesystem = $filesystem_mock;
 
         $actual = $filesystem_mock->rmdir(self::$file_structure['subdir']['path'], true);
 

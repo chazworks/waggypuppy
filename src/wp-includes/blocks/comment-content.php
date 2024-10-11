@@ -8,29 +8,29 @@
 /**
  * Renders the `core/comment-content` block on the server.
  *
+ * @param array $attributes Block attributes.
+ * @param string $content Block default content.
+ * @param WP_Block $block Block instance.
+ * @return string Return the post comment's content.
  * @since 6.0.0
  *
- * @param array    $attributes Block attributes.
- * @param string   $content    Block default content.
- * @param WP_Block $block      Block instance.
- * @return string Return the post comment's content.
  */
 function render_block_core_comment_content($attributes, $content, $block)
 {
-    if (! isset($block->context['commentId'])) {
+    if (!isset($block->context['commentId'])) {
         return '';
     }
 
-    $comment            = get_comment($block->context['commentId']);
-    $commenter          = wp_get_current_commenter();
+    $comment = get_comment($block->context['commentId']);
+    $commenter = wp_get_current_commenter();
     $show_pending_links = isset($commenter['comment_author']) && $commenter['comment_author'];
     if (empty($comment)) {
         return '';
     }
 
-    $args         = [];
+    $args = [];
     $comment_text = get_comment_text($comment, $args);
-    if (! $comment_text) {
+    if (!$comment_text) {
         return '';
     }
 
@@ -47,7 +47,7 @@ function render_block_core_comment_content($attributes, $content, $block)
             $moderation_note = __('Your comment is awaiting moderation. This is a preview; your comment will be visible after it has been approved.');
         }
         $moderation_note = '<p><em class="comment-awaiting-moderation">' . $moderation_note . '</em></p>';
-        if (! $show_pending_links) {
+        if (!$show_pending_links) {
             $comment_text = wp_kses($comment_text, []);
         }
     }
@@ -66,7 +66,7 @@ function render_block_core_comment_content($attributes, $content, $block)
         '<div %1$s>%2$s%3$s</div>',
         $wrapper_attributes,
         $moderation_note,
-        $comment_text
+        $comment_text,
     );
 }
 
@@ -81,7 +81,8 @@ function register_block_core_comment_content()
         __DIR__ . '/comment-content',
         [
             'render_callback' => 'render_block_core_comment_content',
-        ]
+        ],
     );
 }
+
 add_action('init', 'register_block_core_comment_content');

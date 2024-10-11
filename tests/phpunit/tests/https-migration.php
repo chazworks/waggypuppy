@@ -37,15 +37,15 @@ class Tests_HTTPS_Migration extends WP_UnitTestCase
      */
     public function test_wp_replace_insecure_home_url()
     {
-        $http_url  = home_url('', 'http');
+        $http_url = home_url('', 'http');
         $https_url = home_url('', 'https');
 
-        $http_block_data  = [
-            'id'  => 3,
+        $http_block_data = [
+            'id' => 3,
             'url' => $http_url . '/wp-content/uploads/2021/01/image.jpg',
         ];
         $https_block_data = [
-            'id'  => 3,
+            'id' => 3,
             'url' => $https_url . '/wp-content/uploads/2021/01/image.jpg',
         ];
 
@@ -59,7 +59,7 @@ class Tests_HTTPS_Migration extends WP_UnitTestCase
 			<!-- /wp:custom-media -->
 			';
 
-        $http_content  = sprintf($content, $http_url, wp_json_encode($http_block_data), $http_block_data['url']);
+        $http_content = sprintf($content, $http_url, wp_json_encode($http_block_data), $http_block_data['url']);
         $https_content = sprintf($content, $https_url, wp_json_encode($https_block_data), $https_block_data['url']);
 
         // Replaces URLs, including its encoded variant.
@@ -81,7 +81,7 @@ class Tests_HTTPS_Migration extends WP_UnitTestCase
         remove_all_filters('home_url');
         remove_all_filters('site_url');
 
-        $http_url  = 'http://example.org';
+        $http_url = 'http://example.org';
         $https_url = 'https://example.org';
 
         // Set up options to use HTTP URLs.
@@ -141,7 +141,7 @@ class Tests_HTTPS_Migration extends WP_UnitTestCase
         remove_all_filters('option_siteurl');
         remove_all_filters('home_url');
         remove_all_filters('site_url');
-        $http_url  = 'http://example.org';
+        $http_url = 'http://example.org';
         $https_url = 'https://example.org';
         update_option('home', $http_url);
         update_option('siteurl', $http_url);
@@ -182,7 +182,7 @@ class Tests_HTTPS_Migration extends WP_UnitTestCase
             "option_$option",
             static function () use ($value) {
                 return $value;
-            }
+            },
         );
     }
 }

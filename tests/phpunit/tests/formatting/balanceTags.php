@@ -223,8 +223,7 @@ class Tests_Formatting_BalanceTags extends WP_UnitTestCase
      */
     public function test_closes_unknown_single_tags_with_closing_tag()
     {
-
-        $inputs   = [
+        $inputs = [
             '<strong/>',
             '<em />',
             '<p class="main1"/>',
@@ -247,7 +246,7 @@ class Tests_Formatting_BalanceTags extends WP_UnitTestCase
 
     public function test_closes_unclosed_single_tags_having_attributes()
     {
-        $inputs   = [
+        $inputs = [
             '<img src="/images/example.png">',
             '<input type="text" name="example">',
         ];
@@ -280,7 +279,7 @@ class Tests_Formatting_BalanceTags extends WP_UnitTestCase
      */
     public function test_balances_nestable_tags($tag)
     {
-        $inputs   = [
+        $inputs = [
             "<$tag>Test<$tag>Test</$tag>",
             "<$tag><$tag>Test",
             "<$tag>Test</$tag></$tag>",
@@ -338,7 +337,7 @@ class Tests_Formatting_BalanceTags extends WP_UnitTestCase
 
     public function test_balances_nested_non_nestable_tags()
     {
-        $inputs   = [
+        $inputs = [
             '<b><b>This is bold</b></b>',
             '<b>Some text here <b>This is bold</b></b>',
         ];
@@ -354,7 +353,7 @@ class Tests_Formatting_BalanceTags extends WP_UnitTestCase
 
     public function test_fixes_improper_closing_tag_sequence()
     {
-        $inputs   = [
+        $inputs = [
             '<p>Here is a <strong class="part">bold <em>and emphasis</p></em></strong>',
             '<ul><li>Aaa</li><li>Bbb</ul></li>',
         ];
@@ -370,7 +369,7 @@ class Tests_Formatting_BalanceTags extends WP_UnitTestCase
 
     public function test_adds_missing_closing_tags()
     {
-        $inputs   = [
+        $inputs = [
             '<b><i>Test</b>',
             '<p>Test',
             '<p>Test test</em> test</p>',
@@ -392,7 +391,7 @@ class Tests_Formatting_BalanceTags extends WP_UnitTestCase
 
     public function test_removes_extraneous_closing_tags()
     {
-        $inputs   = [
+        $inputs = [
             '<b>Test</b></b>',
             '<div>Test</div></div><div>Test',
             '<p>Test test</em> test</p>',
@@ -469,7 +468,7 @@ class Tests_Formatting_BalanceTags extends WP_UnitTestCase
      * @ticket 47014
      * @dataProvider data_custom_elements
      *
-     * @param string $source   Source.
+     * @param string $source Source.
      * @param string $expected Expected.
      */
     public function test_custom_elements($source, $expected)

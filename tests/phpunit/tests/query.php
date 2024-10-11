@@ -16,7 +16,7 @@ class Tests_Query extends WP_UnitTestCase
      */
     public function test_nested_loop_reset_postdata()
     {
-        $post_id        = self::factory()->post->create();
+        $post_id = self::factory()->post->create();
         $nested_post_id = self::factory()->post->create();
 
         $first_query = new WP_Query(['post__in' => [$post_id]]);
@@ -98,7 +98,8 @@ class Tests_Query extends WP_UnitTestCase
     /**
      * @ticket 31246
      */
-    public function test_get_queried_object_should_return_null_when_is_tax_is_true_but_the_taxonomy_args_have_been_removed_in_a_parse_query_callback()
+    public function test_get_queried_object_should_return_null_when_is_tax_is_true_but_the_taxonomy_args_have_been_removed_in_a_parse_query_callback(
+    )
     {
         // Don't override the args provided below.
         remove_action('pre_get_posts', [$this, 'pre_get_posts_tax_category_tax_query']);
@@ -107,7 +108,7 @@ class Tests_Query extends WP_UnitTestCase
             2,
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
 
         $posts = self::factory()->post->create_many(2);
@@ -118,9 +119,9 @@ class Tests_Query extends WP_UnitTestCase
         add_action('parse_query', [$this, 'filter_parse_query_to_remove_tax']);
         $q = new WP_Query(
             [
-                'fields'      => 'ids',
+                'fields' => 'ids',
                 'wptests_tax' => $terms[1],
-            ]
+            ],
         );
 
         remove_action('parse_query', [$this, 'filter_parse_query_to_remove_tax']);
@@ -148,7 +149,7 @@ class Tests_Query extends WP_UnitTestCase
                         'operator' => 'NOT EXISTS',
                     ],
                 ],
-            ]
+            ],
         );
 
         $queried_object = $q->get_queried_object();
@@ -162,11 +163,12 @@ class Tests_Query extends WP_UnitTestCase
         $q = new WP_Query(
             [
                 'orderby' => 'title date',
-                'order'   => 'DESC',
-            ]
+                'order' => 'DESC',
+            ],
         );
 
-        $this->assertStringContainsString("ORDER BY $wpdb->posts.post_title DESC, $wpdb->posts.post_date DESC", $q->request);
+        $this->assertStringContainsString("ORDER BY $wpdb->posts.post_title DESC, $wpdb->posts.post_date DESC",
+            $q->request);
     }
 
     public function test_cat_querystring_single_term()
@@ -175,13 +177,13 @@ class Tests_Query extends WP_UnitTestCase
             [
                 'name' => 'Test Category 1',
                 'slug' => 'test1',
-            ]
+            ],
         );
         $c2 = self::factory()->category->create(
             [
                 'name' => 'Test Category 2',
                 'slug' => 'test2',
-            ]
+            ],
         );
 
         $p1 = self::factory()->post->create();
@@ -196,7 +198,7 @@ class Tests_Query extends WP_UnitTestCase
             [
                 'cat' => $c1,
             ],
-            '/'
+            '/',
         );
 
         $this->go_to($url);
@@ -212,19 +214,19 @@ class Tests_Query extends WP_UnitTestCase
             [
                 'name' => 'Test Category 1',
                 'slug' => 'test1',
-            ]
+            ],
         );
         $c2 = self::factory()->category->create(
             [
                 'name' => 'Test Category 2',
                 'slug' => 'test2',
-            ]
+            ],
         );
         $c3 = self::factory()->category->create(
             [
                 'name' => 'Test Category 3',
                 'slug' => 'test3',
-            ]
+            ],
         );
 
         $p1 = self::factory()->post->create();
@@ -241,7 +243,7 @@ class Tests_Query extends WP_UnitTestCase
             [
                 'cat' => implode(',', [$c1, $c2]),
             ],
-            '/'
+            '/',
         );
 
         $this->go_to($url);
@@ -260,19 +262,19 @@ class Tests_Query extends WP_UnitTestCase
             [
                 'name' => 'Test Category 1',
                 'slug' => 'test1',
-            ]
+            ],
         );
         $c2 = self::factory()->category->create(
             [
                 'name' => 'Test Category 2',
                 'slug' => 'test2',
-            ]
+            ],
         );
         $c3 = self::factory()->category->create(
             [
                 'name' => 'Test Category 3',
                 'slug' => 'test3',
-            ]
+            ],
         );
 
         $p1 = self::factory()->post->create();
@@ -289,7 +291,7 @@ class Tests_Query extends WP_UnitTestCase
             [
                 'cat' => [$c1, $c2],
             ],
-            '/'
+            '/',
         );
 
         $this->go_to($url);
@@ -306,13 +308,13 @@ class Tests_Query extends WP_UnitTestCase
             [
                 'name' => 'Test Tag 1',
                 'slug' => 'test1',
-            ]
+            ],
         );
         $t2 = self::factory()->tag->create_and_get(
             [
                 'name' => 'Test Tag 2',
                 'slug' => 'test2',
-            ]
+            ],
         );
 
         $p1 = self::factory()->post->create();
@@ -327,7 +329,7 @@ class Tests_Query extends WP_UnitTestCase
             [
                 'tag' => $t1->slug,
             ],
-            '/'
+            '/',
         );
 
         $this->go_to($url);
@@ -343,19 +345,19 @@ class Tests_Query extends WP_UnitTestCase
             [
                 'name' => 'Test Tag 1',
                 'slug' => 'test1',
-            ]
+            ],
         );
         $c2 = self::factory()->tag->create_and_get(
             [
                 'name' => 'Test Tag 2',
                 'slug' => 'test2',
-            ]
+            ],
         );
         $c3 = self::factory()->tag->create_and_get(
             [
                 'name' => 'Test Tag 3',
                 'slug' => 'test3',
-            ]
+            ],
         );
 
         $p1 = self::factory()->post->create();
@@ -372,7 +374,7 @@ class Tests_Query extends WP_UnitTestCase
             [
                 'tag' => implode(',', [$c1->slug, $c2->slug]),
             ],
-            '/'
+            '/',
         );
 
         $this->go_to($url);
@@ -391,19 +393,19 @@ class Tests_Query extends WP_UnitTestCase
             [
                 'name' => 'Test Tag 1',
                 'slug' => 'test1',
-            ]
+            ],
         );
         $c2 = self::factory()->tag->create_and_get(
             [
                 'name' => 'Test Tag 2',
                 'slug' => 'test2',
-            ]
+            ],
         );
         $c3 = self::factory()->tag->create_and_get(
             [
                 'name' => 'Test Tag 3',
                 'slug' => 'test3',
-            ]
+            ],
         );
 
         $p1 = self::factory()->post->create();
@@ -420,7 +422,7 @@ class Tests_Query extends WP_UnitTestCase
             [
                 'tag' => [$c1->slug, $c2->slug],
             ],
-            '/'
+            '/',
         );
 
         $this->go_to($url);
@@ -450,7 +452,7 @@ class Tests_Query extends WP_UnitTestCase
             [
                 'test_tax_cat' => 'test1',
             ],
-            '/'
+            '/',
         );
 
         $this->go_to($url);
@@ -480,7 +482,7 @@ class Tests_Query extends WP_UnitTestCase
             [
                 'test_tax_cat' => 'test1,test2',
             ],
-            '/'
+            '/',
         );
 
         $this->go_to($url);
@@ -513,7 +515,7 @@ class Tests_Query extends WP_UnitTestCase
             [
                 'test_tax_cat' => ['test1', 'test2'],
             ],
-            '/'
+            '/',
         );
 
         $this->go_to($url);
@@ -529,8 +531,8 @@ class Tests_Query extends WP_UnitTestCase
         $post_id = self::factory()->post->create(
             [
                 'post_title' => 'A Test Page',
-                'post_type'  => 'page',
-            ]
+                'post_type' => 'page',
+            ],
         );
 
         add_action('parse_query', [$this, 'filter_parse_query_to_modify_queried_post_id']);
@@ -554,17 +556,17 @@ class Tests_Query extends WP_UnitTestCase
         register_post_type(
             'guide',
             [
-                'name'         => 'Guide',
-                'public'       => true,
+                'name' => 'Guide',
+                'public' => true,
                 'hierarchical' => true,
-            ]
+            ],
         );
         $wp_rewrite->flush_rules();
         $post_id = self::factory()->post->create(
             [
                 'post_title' => 'A Test Guide',
-                'post_type'  => 'guide',
-            ]
+                'post_type' => 'guide',
+            ],
         );
 
         add_action('parse_query', [$this, 'filter_parse_query_to_modify_queried_post_id']);
@@ -590,10 +592,10 @@ class Tests_Query extends WP_UnitTestCase
     {
         $q = new WP_Query(
             [
-                'paged'          => 2,
+                'paged' => 2,
                 'posts_per_page' => 5,
-                'offset'         => 0,
-            ]
+                'offset' => 0,
+            ],
         );
 
         $this->assertStringContainsString('LIMIT 0, 5', $q->request);
@@ -606,9 +608,9 @@ class Tests_Query extends WP_UnitTestCase
     {
         $q = new WP_Query(
             [
-                'paged'          => 2,
+                'paged' => 2,
                 'posts_per_page' => 5,
-            ]
+            ],
         );
 
         $this->assertStringContainsString('LIMIT 5, 5', $q->request);
@@ -621,10 +623,10 @@ class Tests_Query extends WP_UnitTestCase
     {
         $q = new WP_Query(
             [
-                'paged'          => 2,
+                'paged' => 2,
                 'posts_per_page' => 5,
-                'offset'         => '',
-            ]
+                'offset' => '',
+            ],
         );
 
         $this->assertStringContainsString('LIMIT 5, 5', $q->request);
@@ -640,9 +642,9 @@ class Tests_Query extends WP_UnitTestCase
 
         $q = new WP_Query(
             [
-                'fields'         => 'ids',
+                'fields' => 'ids',
                 'comment_status' => 'closed',
-            ]
+            ],
         );
 
         $this->assertSame([$p2], $q->posts);
@@ -658,9 +660,9 @@ class Tests_Query extends WP_UnitTestCase
 
         $q = new WP_Query(
             [
-                'fields'      => 'ids',
+                'fields' => 'ids',
                 'ping_status' => 'closed',
-            ]
+            ],
         );
 
         $this->assertSame([$p2], $q->posts);
@@ -674,17 +676,17 @@ class Tests_Query extends WP_UnitTestCase
         register_taxonomy('tax1', 'post');
         register_taxonomy('tax2', 'post');
 
-        $term1   = self::factory()->term->create(
+        $term1 = self::factory()->term->create(
             [
                 'taxonomy' => 'tax1',
-                'name'     => 'term1',
-            ]
+                'name' => 'term1',
+            ],
         );
-        $term2   = self::factory()->term->create(
+        $term2 = self::factory()->term->create(
             [
                 'taxonomy' => 'tax2',
-                'name'     => 'term2',
-            ]
+                'name' => 'term2',
+            ],
         );
         $post_id = self::factory()->post->create();
         wp_set_object_terms($post_id, 'term1', 'tax1');
@@ -705,17 +707,17 @@ class Tests_Query extends WP_UnitTestCase
         register_taxonomy('tax1', 'post');
         register_taxonomy('tax2', 'post');
 
-        $term1   = self::factory()->term->create(
+        $term1 = self::factory()->term->create(
             [
                 'taxonomy' => 'tax1',
-                'name'     => 'term1',
-            ]
+                'name' => 'term1',
+            ],
         );
-        $term2   = self::factory()->term->create(
+        $term2 = self::factory()->term->create(
             [
                 'taxonomy' => 'tax2',
-                'name'     => 'term2',
-            ]
+                'name' => 'term2',
+            ],
         );
         $post_id = self::factory()->post->create();
         wp_set_object_terms($post_id, 'term1', 'tax1');
@@ -734,11 +736,11 @@ class Tests_Query extends WP_UnitTestCase
     public function test_get_queried_object_should_work_for_author_name_before_get_posts()
     {
         $user_id = self::factory()->user->create();
-        $user    = get_user_by('ID', $user_id);
+        $user = get_user_by('ID', $user_id);
         $post_id = self::factory()->post->create(
             [
                 'post_author' => $user_id,
-            ]
+            ],
         );
 
         $this->go_to(home_url('?author=' . $user_id));
@@ -765,13 +767,13 @@ class Tests_Query extends WP_UnitTestCase
             'posts_join_paged',
             static function () {
                 return '/* posts_join_paged */';
-            }
+            },
         );
 
         $filter = new MockAction();
         add_filter('posts_clauses', [$filter, 'filter'], 10, 2);
         $this->go_to('/');
-        $filter_args   = $filter->get_args();
+        $filter_args = $filter->get_args();
         $posts_clauses = $filter_args[0][0];
 
         $this->assertArrayHasKey('join', $posts_clauses);
@@ -791,13 +793,13 @@ class Tests_Query extends WP_UnitTestCase
             'posts_join_request',
             static function () {
                 return '/* posts_join_request */';
-            }
+            },
         );
 
         $filter = new MockAction();
         add_filter('posts_clauses_request', [$filter, 'filter'], 10, 2);
         $this->go_to('/');
-        $filter_args           = $filter->get_args();
+        $filter_args = $filter->get_args();
         $posts_clauses_request = $filter_args[0][0];
 
         $this->assertArrayHasKey('join', $posts_clauses_request);
@@ -832,7 +834,7 @@ class Tests_Query extends WP_UnitTestCase
         $q = new WP_Query(
             [
                 'pagename' => 'non-existent-page',
-            ]
+            ],
         );
 
         $this->assertSame(0, $q->post_count);
@@ -853,7 +855,7 @@ class Tests_Query extends WP_UnitTestCase
         $q = new WP_Query(
             [
                 'name' => 'non-existent-post',
-            ]
+            ],
         );
 
         $this->assertSame(0, $q->post_count);
@@ -874,7 +876,7 @@ class Tests_Query extends WP_UnitTestCase
         $q = new WP_Query(
             [
                 'attachment' => 'non-existent-attachment',
-            ]
+            ],
         );
 
         $this->assertSame(0, $q->post_count);
@@ -894,7 +896,7 @@ class Tests_Query extends WP_UnitTestCase
         $q = new WP_Query(
             [
                 'author_name' => 'non-existent-author',
-            ]
+            ],
         );
 
         $this->assertSame(0, $q->post_count);
@@ -911,7 +913,7 @@ class Tests_Query extends WP_UnitTestCase
         $q = new WP_Query(
             [
                 'category_name' => 'non-existent-category',
-            ]
+            ],
         );
 
         $this->assertSame(0, $q->post_count);
@@ -929,7 +931,7 @@ class Tests_Query extends WP_UnitTestCase
         $q = new WP_Query(
             [
                 'tag' => 'non-existent-tag',
-            ]
+            ],
         );
 
         $this->assertSame(0, $q->post_count);
@@ -986,7 +988,7 @@ class Tests_Query extends WP_UnitTestCase
         $query = new WP_Query(
             [
                 'category_name' => 'non-existent-category',
-            ]
+            ],
         );
 
         // There will not be any posts, so the loop will never actually enter.
@@ -1006,7 +1008,7 @@ class Tests_Query extends WP_UnitTestCase
     public function get_new_wp_query_with_posts($no_of_posts)
     {
         $post_ids = self::factory()->post->create_many($no_of_posts);
-        $query    = new WP_Query(['post__in' => $post_ids]);
+        $query = new WP_Query(['post__in' => $post_ids]);
         return $query;
     }
 }

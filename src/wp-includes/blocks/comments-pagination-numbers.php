@@ -8,13 +8,13 @@
 /**
  * Renders the `core/comments-pagination-numbers` block on the server.
  *
- * @since 6.0.0
- *
- * @param array    $attributes Block attributes.
- * @param string   $content    Block default content.
- * @param WP_Block $block      Block instance.
+ * @param array $attributes Block attributes.
+ * @param string $content Block default content.
+ * @param WP_Block $block Block instance.
  *
  * @return string Returns the pagination numbers for the comments.
+ * @since 6.0.0
+ *
  */
 function render_block_core_comments_pagination_numbers($attributes, $content, $block)
 {
@@ -25,17 +25,17 @@ function render_block_core_comments_pagination_numbers($attributes, $content, $b
 
     $comment_vars = build_comment_query_vars_from_block($block);
 
-    $total   = (new WP_Comment_Query($comment_vars))->max_num_pages;
-    $current = ! empty($comment_vars['paged']) ? $comment_vars['paged'] : null;
+    $total = (new WP_Comment_Query($comment_vars))->max_num_pages;
+    $current = !empty($comment_vars['paged']) ? $comment_vars['paged'] : null;
 
     // Render links.
     $content = paginate_comments_links(
         [
-            'total'     => $total,
-            'current'   => $current,
+            'total' => $total,
+            'current' => $current,
             'prev_next' => false,
-            'echo'      => false,
-        ]
+            'echo' => false,
+        ],
     );
 
     if (empty($content)) {
@@ -47,7 +47,7 @@ function render_block_core_comments_pagination_numbers($attributes, $content, $b
     return sprintf(
         '<div %1$s>%2$s</div>',
         $wrapper_attributes,
-        $content
+        $content,
     );
 }
 
@@ -62,7 +62,8 @@ function register_block_core_comments_pagination_numbers()
         __DIR__ . '/comments-pagination-numbers',
         [
             'render_callback' => 'render_block_core_comments_pagination_numbers',
-        ]
+        ],
     );
 }
+
 add_action('init', 'register_block_core_comments_pagination_numbers');

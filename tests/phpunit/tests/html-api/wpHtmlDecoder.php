@@ -28,7 +28,7 @@ class Tests_HtmlApi_WpHtmlDecoder extends WP_UnitTestCase
         $this->assertSame(
             $decoded_value,
             WP_HTML_Decoder::decode_text_node($raw_text_node),
-            'Improperly decoded raw text node.'
+            'Improperly decoded raw text node.',
         );
     }
 
@@ -47,13 +47,13 @@ class Tests_HtmlApi_WpHtmlDecoder extends WP_UnitTestCase
      * @dataProvider data_case_variants_of_attribute_prefixes
      *
      * @param string $attribute_value Raw attribute value from HTML string.
-     * @param string $search_string   Prefix contained in encoded attribute value.
+     * @param string $search_string Prefix contained in encoded attribute value.
      */
     public function test_detects_ascii_case_insensitive_attribute_prefixes($attribute_value, $search_string)
     {
         $this->assertTrue(
             WP_HTML_Decoder::attribute_starts_with($attribute_value, $search_string, 'ascii-case-insensitive'),
-            "Should have found that '{$attribute_value}' starts with '{$search_string}'"
+            "Should have found that '{$attribute_value}' starts with '{$search_string}'",
         );
     }
 
@@ -105,24 +105,28 @@ class Tests_HtmlApi_WpHtmlDecoder extends WP_UnitTestCase
      *
      * @dataProvider data_attributes_with_prefix_and_case_sensitive_match
      *
-     * @param string $attribute_value  Raw attribute value from HTML string.
-     * @param string $search_string    Prefix contained or not contained in encoded attribute value.
+     * @param string $attribute_value Raw attribute value from HTML string.
+     * @param string $search_string Prefix contained or not contained in encoded attribute value.
      * @param string $case_sensitivity Whether to search with ASCII case sensitivity;
      *                                 'ascii-case-insensitive' or 'case-sensitive'.
-     * @param bool   $is_match         Whether the search string is a prefix for the attribute value,
+     * @param bool $is_match Whether the search string is a prefix for the attribute value,
      *                                 given the case sensitivity setting.
      */
-    public function test_attribute_starts_with_heeds_case_sensitivity($attribute_value, $search_string, $case_sensitivity, $is_match)
-    {
+    public function test_attribute_starts_with_heeds_case_sensitivity(
+        $attribute_value,
+        $search_string,
+        $case_sensitivity,
+        $is_match,
+    ) {
         if ($is_match) {
             $this->assertTrue(
                 WP_HTML_Decoder::attribute_starts_with($attribute_value, $search_string, $case_sensitivity),
-                'Should have found attribute prefix with case-sensitive search.'
+                'Should have found attribute prefix with case-sensitive search.',
             );
         } else {
             $this->assertFalse(
                 WP_HTML_Decoder::attribute_starts_with($attribute_value, $search_string, $case_sensitivity),
-                'Should not have matched attribute with prefix with ASCII-case-insensitive search.'
+                'Should not have matched attribute with prefix with ASCII-case-insensitive search.',
             );
         }
     }

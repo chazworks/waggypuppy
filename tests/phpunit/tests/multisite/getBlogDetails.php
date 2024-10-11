@@ -15,17 +15,17 @@ if (is_multisite()) :
         public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
         {
             self::$site_ids = [
-                WP_TESTS_DOMAIN . '/foo/'      => [
+                WP_TESTS_DOMAIN . '/foo/' => [
                     'domain' => WP_TESTS_DOMAIN,
-                    'path'   => '/foo/',
+                    'path' => '/foo/',
                 ],
                 'foo.' . WP_TESTS_DOMAIN . '/' => [
                     'domain' => 'foo.' . WP_TESTS_DOMAIN,
-                    'path'   => '/',
+                    'path' => '/',
                 ],
-                'wp.org/'               => [
+                'wp.org/' => [
                     'domain' => 'wp.org',
-                    'path'   => '/',
+                    'path' => '/',
                 ],
             ];
 
@@ -62,7 +62,7 @@ if (is_multisite()) :
 
         public function test_get_blog_details_with_site_name_string_subdomain()
         {
-            if (! is_subdomain_install()) {
+            if (!is_subdomain_install()) {
                 $this->markTestSkipped('This test is only valid in a subdomain configuration.');
             }
 
@@ -105,8 +105,8 @@ if (is_multisite()) :
             $site = get_blog_details(
                 [
                     'domain' => 'wp.org',
-                    'path'   => '/',
-                ]
+                    'path' => '/',
+                ],
             );
             $this->assertEquals(self::$site_ids['wp.org/'], $site->blog_id);
         }
@@ -116,8 +116,8 @@ if (is_multisite()) :
             $site = get_blog_details(
                 [
                     'domain' => 'wp.org',
-                    'path'   => '/zxy/',
-                ]
+                    'path' => '/zxy/',
+                ],
             );
             $this->assertFalse($site);
         }
@@ -127,15 +127,15 @@ if (is_multisite()) :
             $site = get_blog_details(
                 [
                     'domain' => 'invalid.org',
-                    'path'   => '/foo/',
-                ]
+                    'path' => '/foo/',
+                ],
             );
             $this->assertFalse($site);
         }
 
         public function test_get_blog_details_with_only_domain_in_fields_subdomain()
         {
-            if (! is_subdomain_install()) {
+            if (!is_subdomain_install()) {
                 $this->markTestSkipped('This test is only valid in a subdomain configuration.');
             }
 
@@ -180,9 +180,9 @@ if (is_multisite()) :
             $site = get_blog_details(
                 [
                     'domain' => 'wp.org',
-                    'path'   => '/',
+                    'path' => '/',
                 ],
-                $get_all
+                $get_all,
             );
 
             $result = array_keys(get_object_vars($site));
@@ -200,9 +200,9 @@ if (is_multisite()) :
             $site = get_blog_details(
                 [
                     'domain' => 'wp.org',
-                    'path'   => '/',
+                    'path' => '/',
                 ],
-                $get_all
+                $get_all,
             );
 
             $result = [];
@@ -246,7 +246,7 @@ if (is_multisite()) :
                         'siteurl',
                         'post_count',
                         'home',
-                    ]
+                    ],
                 );
             }
 

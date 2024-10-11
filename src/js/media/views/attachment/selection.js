@@ -9,14 +9,16 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Selection = wp.media.view.Attachment.extend(/** @lends wp.media.view.Attachment.Selection.prototype */{
-	className: 'attachment selection',
+var Selection = wp.media.view.Attachment.extend(
+	/** @lends wp.media.view.Attachment.Selection.prototype */ {
+		className: 'attachment selection',
 
-	// On click, just select the model, instead of removing the model from
-	// the selection.
-	toggleSelection: function() {
-		this.options.selection.single( this.model );
+		// On click, just select the model, instead of removing the model from
+		// the selection.
+		toggleSelection: function () {
+			this.options.selection.single( this.model );
+		},
 	}
-});
+);
 
 module.exports = Selection;

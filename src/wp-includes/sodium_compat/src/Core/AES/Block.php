@@ -12,7 +12,7 @@ class ParagonIE_Sodium_Core_AES_Block extends SplFixedArray
     /**
      * @var array<int, int>
      */
-    protected $values = array();
+    protected $values = [];
 
     /**
      * @var int
@@ -38,13 +38,13 @@ class ParagonIE_Sodium_Core_AES_Block extends SplFixedArray
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param array<int, int> $array
      * @param bool $save_indexes
      * @return self
      *
      * @psalm-suppress MethodSignatureMismatch
+     * @internal You should not use this directly from another application
+     *
      */
     #[ReturnTypeWillChange]
     public static function fromArray($array, $save_indexes = null)
@@ -73,14 +73,14 @@ class ParagonIE_Sodium_Core_AES_Block extends SplFixedArray
 
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param int|null $offset
      * @param int $value
      * @return void
      *
      * @psalm-suppress MethodSignatureMismatch
      * @psalm-suppress MixedArrayOffset
+     * @internal You should not use this directly from another application
+     *
      */
     #[ReturnTypeWillChange]
     public function offsetSet($offset, $value)
@@ -96,13 +96,13 @@ class ParagonIE_Sodium_Core_AES_Block extends SplFixedArray
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param int $offset
      * @return bool
      *
      * @psalm-suppress MethodSignatureMismatch
      * @psalm-suppress MixedArrayOffset
+     * @internal You should not use this directly from another application
+     *
      */
     #[ReturnTypeWillChange]
     public function offsetExists($offset)
@@ -111,13 +111,13 @@ class ParagonIE_Sodium_Core_AES_Block extends SplFixedArray
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param int $offset
      * @return void
      *
      * @psalm-suppress MethodSignatureMismatch
      * @psalm-suppress MixedArrayOffset
+     * @internal You should not use this directly from another application
+     *
      */
     #[ReturnTypeWillChange]
     public function offsetUnset($offset)
@@ -126,13 +126,13 @@ class ParagonIE_Sodium_Core_AES_Block extends SplFixedArray
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param int $offset
      * @return int
      *
      * @psalm-suppress MethodSignatureMismatch
      * @psalm-suppress MixedArrayOffset
+     * @internal You should not use this directly from another application
+     *
      */
     #[ReturnTypeWillChange]
     public function offsetGet($offset)
@@ -140,21 +140,21 @@ class ParagonIE_Sodium_Core_AES_Block extends SplFixedArray
         if (!isset($this->values[$offset])) {
             $this->values[$offset] = 0;
         }
-        return (int) ($this->values[$offset]);
+        return (int)($this->values[$offset]);
     }
 
     /**
+     * @return array
      * @internal You should not use this directly from another application
      *
-     * @return array
      */
     public function __debugInfo()
     {
-        $out = array();
+        $out = [];
         foreach ($this->values as $v) {
             $out[] = str_pad(dechex($v), 8, '0', STR_PAD_LEFT);
         }
-        return array(implode(', ', $out));
+        return [implode(', ', $out)];
         /*
          return array(implode(', ', $this->values));
          */
@@ -220,12 +220,10 @@ class ParagonIE_Sodium_Core_AES_Block extends SplFixedArray
             ->swap2(2, 3)
             ->swap2(4, 5)
             ->swap2(6, 7)
-
             ->swap4(0, 2)
             ->swap4(1, 3)
             ->swap4(4, 6)
             ->swap4(5, 7)
-
             ->swap8(0, 4)
             ->swap8(1, 5)
             ->swap8(2, 6)
@@ -240,11 +238,11 @@ class ParagonIE_Sodium_Core_AES_Block extends SplFixedArray
         for ($i = 0; $i < 8; ++$i) {
             $x = $this->values[$i] & ParagonIE_Sodium_Core_Util::U32_MAX;
             $this->values[$i] = (
-                ($x & 0x000000FF)
+                    ($x & 0x000000FF)
                     | (($x & 0x0000FC00) >> 2) | (($x & 0x00000300) << 6)
                     | (($x & 0x00F00000) >> 4) | (($x & 0x000F0000) << 4)
                     | (($x & 0xC0000000) >> 6) | (($x & 0x3F000000) << 2)
-            ) & ParagonIE_Sodium_Core_Util::U32_MAX;
+                ) & ParagonIE_Sodium_Core_Util::U32_MAX;
         }
         return $this;
     }
@@ -316,10 +314,40 @@ class ParagonIE_Sodium_Core_AES_Block extends SplFixedArray
         $this->values[0] = $q5 ^ $q6 ^ $q7 ^ $r0 ^ $r5 ^ $r7 ^ self::rotr16($q0 ^ $q5 ^ $q6 ^ $r0 ^ $r5);
         $this->values[1] = $q0 ^ $q5 ^ $r0 ^ $r1 ^ $r5 ^ $r6 ^ $r7 ^ self::rotr16($q1 ^ $q5 ^ $q7 ^ $r1 ^ $r5 ^ $r6);
         $this->values[2] = $q0 ^ $q1 ^ $q6 ^ $r1 ^ $r2 ^ $r6 ^ $r7 ^ self::rotr16($q0 ^ $q2 ^ $q6 ^ $r2 ^ $r6 ^ $r7);
-        $this->values[3] = $q0 ^ $q1 ^ $q2 ^ $q5 ^ $q6 ^ $r0 ^ $r2 ^ $r3 ^ $r5 ^ self::rotr16($q0 ^ $q1 ^ $q3 ^ $q5 ^ $q6 ^ $q7 ^ $r0 ^ $r3 ^ $r5 ^ $r7);
-        $this->values[4] = $q1 ^ $q2 ^ $q3 ^ $q5 ^ $r1 ^ $r3 ^ $r4 ^ $r5 ^ $r6 ^ $r7 ^ self::rotr16($q1 ^ $q2 ^ $q4 ^ $q5 ^ $q7 ^ $r1 ^ $r4 ^ $r5 ^ $r6);
-        $this->values[5] = $q2 ^ $q3 ^ $q4 ^ $q6 ^ $r2 ^ $r4 ^ $r5 ^ $r6 ^ $r7 ^ self::rotr16($q2 ^ $q3 ^ $q5 ^ $q6 ^ $r2 ^ $r5 ^ $r6 ^ $r7);
-        $this->values[6] = $q3 ^ $q4 ^ $q5 ^ $q7 ^ $r3 ^ $r5 ^ $r6 ^ $r7 ^ self::rotr16($q3 ^ $q4 ^ $q6 ^ $q7 ^ $r3 ^ $r6 ^ $r7);
+        $this->values[3] = $q0 ^ $q1 ^ $q2 ^ $q5 ^ $q6 ^ $r0 ^ $r2 ^ $r3 ^ $r5 ^ self::rotr16($q0
+                ^ $q1
+                ^ $q3
+                ^ $q5
+                ^ $q6
+                ^ $q7
+                ^ $r0
+                ^ $r3
+                ^ $r5
+                ^ $r7);
+        $this->values[4] = $q1 ^ $q2 ^ $q3 ^ $q5 ^ $r1 ^ $r3 ^ $r4 ^ $r5 ^ $r6 ^ $r7 ^ self::rotr16($q1
+                ^ $q2
+                ^ $q4
+                ^ $q5
+                ^ $q7
+                ^ $r1
+                ^ $r4
+                ^ $r5
+                ^ $r6);
+        $this->values[5] = $q2 ^ $q3 ^ $q4 ^ $q6 ^ $r2 ^ $r4 ^ $r5 ^ $r6 ^ $r7 ^ self::rotr16($q2
+                ^ $q3
+                ^ $q5
+                ^ $q6
+                ^ $r2
+                ^ $r5
+                ^ $r6
+                ^ $r7);
+        $this->values[6] = $q3 ^ $q4 ^ $q5 ^ $q7 ^ $r3 ^ $r5 ^ $r6 ^ $r7 ^ self::rotr16($q3
+                ^ $q4
+                ^ $q6
+                ^ $q7
+                ^ $r3
+                ^ $r6
+                ^ $r7);
         $this->values[7] = $q4 ^ $q5 ^ $q6 ^ $r4 ^ $r6 ^ $r7 ^ self::rotr16($q4 ^ $q5 ^ $q7 ^ $r4 ^ $r7);
         return $this;
     }
@@ -332,11 +360,11 @@ class ParagonIE_Sodium_Core_AES_Block extends SplFixedArray
         for ($i = 0; $i < 8; ++$i) {
             $x = $this->values[$i];
             $this->values[$i] = ParagonIE_Sodium_Core_Util::U32_MAX & (
-                ($x & 0x000000FF)
+                    ($x & 0x000000FF)
                     | (($x & 0x00003F00) << 2) | (($x & 0x0000C000) >> 6)
                     | (($x & 0x000F0000) << 4) | (($x & 0x00F00000) >> 4)
                     | (($x & 0x03000000) << 6) | (($x & 0xFC000000) >> 2)
-            );
+                );
         }
         return $this;
     }

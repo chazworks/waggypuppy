@@ -16,7 +16,7 @@ class Tests_Formatting_wpParseStr extends WP_UnitTestCase
      *
      * @dataProvider data_wp_parse_str
      *
-     * @param mixed $input    Value to parse.
+     * @param mixed $input Value to parse.
      * @param array $expected Expected function output.
      */
     public function test_wp_parse_str($input, $expected)
@@ -33,53 +33,53 @@ class Tests_Formatting_wpParseStr extends WP_UnitTestCase
     public function data_wp_parse_str()
     {
         return [
-            'null'              => [
-                'input'    => null,
+            'null' => [
+                'input' => null,
                 'expected' => [],
             ],
-            'boolean false'     => [
-                'input'    => false,
+            'boolean false' => [
+                'input' => false,
                 'expected' => [],
             ],
-            'boolean true'      => [
-                'input'    => true,
+            'boolean true' => [
+                'input' => true,
                 'expected' => [
                     1 => '',
                 ],
             ],
-            'integer 0'         => [
-                'input'    => 0,
+            'integer 0' => [
+                'input' => 0,
                 'expected' => [
                     0 => '',
                 ],
             ],
-            'integer 456'       => [
-                'input'    => 456,
+            'integer 456' => [
+                'input' => 456,
                 'expected' => [
                     456 => '',
                 ],
             ],
-            'float 12.53'       => [
-                'input'    => 12.53,
+            'float 12.53' => [
+                'input' => 12.53,
                 'expected' => [
                     '12_53' => '',
                 ],
             ],
-            'plain string'      => [
-                'input'    => 'foobar',
+            'plain string' => [
+                'input' => 'foobar',
                 'expected' => [
                     'foobar' => '',
                 ],
             ],
-            'query string'      => [
-                'input'    => 'x=5&_baba=dudu&',
+            'query string' => [
+                'input' => 'x=5&_baba=dudu&',
                 'expected' => [
-                    'x'     => '5',
+                    'x' => '5',
                     '_baba' => 'dudu',
                 ],
             ],
             'stringable object' => [
-                'input'    => new Fixture_Formatting_wpParseStr(),
+                'input' => new Fixture_Formatting_wpParseStr(),
                 'expected' => [
                     'foobar' => '',
                 ],
@@ -93,8 +93,8 @@ class Tests_Formatting_wpParseStr extends WP_UnitTestCase
      *
      * @dataProvider data_wp_parse_str_result_array_is_always_overwritten
      *
-     * @param array|null $output   Value for the `$output` parameter.
-     * @param array      $expected Expected function output.
+     * @param array|null $output Value for the `$output` parameter.
+     * @param array $expected Expected function output.
      */
     public function test_wp_parse_str_result_array_is_always_overwritten($output, $expected)
     {
@@ -111,27 +111,27 @@ class Tests_Formatting_wpParseStr extends WP_UnitTestCase
     {
         // Standard value for expected output.
         $expected = [
-            'key'   => '25',
+            'key' => '25',
             'thing' => 'text',
         ];
 
         return [
-            'output null'                                 => [
-                'output'   => null,
+            'output null' => [
+                'output' => null,
                 'expected' => $expected,
             ],
-            'output empty array'                          => [
-                'output'   => [],
+            'output empty array' => [
+                'output' => [],
                 'expected' => $expected,
             ],
             'output non empty array, no conflicting keys' => [
-                'output'   => [
+                'output' => [
                     'foo' => 'bar',
                 ],
                 'expected' => $expected,
             ],
-            'output non empty array, conflicting keys'    => [
-                'output'   => [
+            'output non empty array, conflicting keys' => [
+                'output' => [
                     'key' => 'value',
                 ],
                 'expected' => $expected,

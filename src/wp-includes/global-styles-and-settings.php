@@ -8,24 +8,24 @@
 /**
  * Gets the settings resulting of merging core, theme, and user data.
  *
- * @since 5.9.0
- *
- * @param array $path    Path to the specific setting to retrieve. Optional.
+ * @param array $path Path to the specific setting to retrieve. Optional.
  *                       If empty, will return all settings.
  * @param array $context {
  *     Metadata to know where to retrieve the $path from. Optional.
  *
- *     @type string $block_name Which block to retrieve the settings from.
+ * @type string $block_name Which block to retrieve the settings from.
  *                              If empty, it'll return the settings for the global context.
- *     @type string $origin     Which origin to take data from.
+ * @type string $origin Which origin to take data from.
  *                              Valid values are 'all' (core, theme, and user) or 'base' (core and theme).
  *                              If empty or unknown, 'all' is used.
  * }
  * @return mixed The settings array or individual setting value to retrieve.
+ * @since 5.9.0
+ *
  */
 function wp_get_global_settings($path = [], $context = [])
 {
-    if (! empty($context['block_name'])) {
+    if (!empty($context['block_name'])) {
         $new_path = ['blocks', $context['block_name']];
         foreach ($path as $subpath) {
             $new_path[] = $subpath;
@@ -40,8 +40,7 @@ function wp_get_global_settings($path = [], $context = [])
      * for clearing the cache appropriately.
      */
     $origin = 'custom';
-    if (! wp_theme_has_theme_json() ||
-        (isset($context['origin']) && 'base' === $context['origin'])
+    if (!wp_theme_has_theme_json() || (isset($context['origin']) && 'base' === $context['origin'])
     ) {
         $origin = 'theme';
     }
@@ -63,13 +62,13 @@ function wp_get_global_settings($path = [], $context = [])
      * See https://github.com/WordPress/gutenberg/pull/45372
      */
     $cache_group = 'theme_json';
-    $cache_key   = 'wp_get_global_settings_' . $origin;
+    $cache_key = 'wp_get_global_settings_' . $origin;
 
     /*
      * Ignore cache when the development mode is set to 'theme', so it doesn't interfere with the theme
      * developer's workflow.
      */
-    $can_use_cached = ! wp_is_development_mode('theme');
+    $can_use_cached = !wp_is_development_mode('theme');
 
     $settings = false;
     if ($can_use_cached) {
@@ -89,31 +88,31 @@ function wp_get_global_settings($path = [], $context = [])
 /**
  * Gets the styles resulting of merging core, theme, and user data.
  *
+ * @param array $path Path to the specific style to retrieve. Optional.
+ *                       If empty, will return all styles.
+ * @param array $context {
+ *     Metadata to know where to retrieve the $path from. Optional.
+ *
+ * @type string $block_name Which block to retrieve the styles from.
+ *                              If empty, it'll return the styles for the global context.
+ * @type string $origin Which origin to take data from.
+ *                              Valid values are 'all' (core, theme, and user) or 'base' (core and theme).
+ *                              If empty or unknown, 'all' is used.
+ * @type array $transforms Which transformation(s) to apply.
+ *                              Valid value is array( 'resolve-variables' ).
+ *                              If defined, variables are resolved to their value in the styles.
+ * }
+ * @return mixed The styles array or individual style value to retrieve.
  * @since 5.9.0
  * @since 6.3.0 the internal link format "var:preset|color|secondary" is resolved
  *              to "var(--wp--preset--font-size--small)" so consumers don't have to.
  * @since 6.3.0 `transforms` is now usable in the `context` parameter. In case [`transforms`]['resolve_variables']
  *              is defined, variables are resolved to their value in the styles.
  *
- * @param array $path    Path to the specific style to retrieve. Optional.
- *                       If empty, will return all styles.
- * @param array $context {
- *     Metadata to know where to retrieve the $path from. Optional.
- *
- *     @type string $block_name Which block to retrieve the styles from.
- *                              If empty, it'll return the styles for the global context.
- *     @type string $origin     Which origin to take data from.
- *                              Valid values are 'all' (core, theme, and user) or 'base' (core and theme).
- *                              If empty or unknown, 'all' is used.
- *     @type array $transforms Which transformation(s) to apply.
- *                              Valid value is array( 'resolve-variables' ).
- *                              If defined, variables are resolved to their value in the styles.
- * }
- * @return mixed The styles array or individual style value to retrieve.
  */
 function wp_get_global_styles($path = [], $context = [])
 {
-    if (! empty($context['block_name'])) {
+    if (!empty($context['block_name'])) {
         $path = array_merge(['blocks', $context['block_name']], $path);
     }
 
@@ -123,8 +122,8 @@ function wp_get_global_styles($path = [], $context = [])
     }
 
     $resolve_variables = isset($context['transforms'])
-    && is_array($context['transforms'])
-    && in_array('resolve-variables', $context['transforms'], true);
+        && is_array($context['transforms'])
+        && in_array('resolve-variables', $context['transforms'], true);
 
     $merged_data = WP_Theme_JSON_Resolver::get_merged_data($origin);
     if ($resolve_variables) {
@@ -138,16 +137,16 @@ function wp_get_global_styles($path = [], $context = [])
 /**
  * Returns the stylesheet resulting of merging core, theme, and user data.
  *
- * @since 5.9.0
- * @since 6.1.0 Added 'base-layout-styles' support.
- * @since 6.6.0 Resolves relative paths in theme.json styles to theme absolute paths.
- *
  * @param array $types Optional. Types of styles to load.
  *                     It accepts as values 'variables', 'presets', 'styles', 'base-layout-styles'.
  *                     If empty, it'll load the following:
  *                     - for themes without theme.json: 'variables', 'presets', 'base-layout-styles'.
  *                     - for themes with theme.json: 'variables', 'presets', 'styles'.
  * @return string Stylesheet.
+ * @since 6.6.0 Resolves relative paths in theme.json styles to theme absolute paths.
+ *
+ * @since 5.9.0
+ * @since 6.1.0 Added 'base-layout-styles' support.
  */
 function wp_get_global_stylesheet($types = [])
 {
@@ -155,7 +154,7 @@ function wp_get_global_stylesheet($types = [])
      * Ignore cache when the development mode is set to 'theme', so it doesn't interfere with the theme
      * developer's workflow.
      */
-    $can_use_cached = empty($types) && ! wp_is_development_mode('theme');
+    $can_use_cached = empty($types) && !wp_is_development_mode('theme');
 
     /*
      * By using the 'theme_json' group, this data is marked to be non-persistent across requests.
@@ -174,7 +173,7 @@ function wp_get_global_stylesheet($types = [])
      * @see https://github.com/WordPress/gutenberg/pull/45372
      */
     $cache_group = 'theme_json';
-    $cache_key   = 'wp_get_global_stylesheet';
+    $cache_key = 'wp_get_global_stylesheet';
     if ($can_use_cached) {
         $cached = wp_cache_get($cache_key, $cache_group);
         if ($cached) {
@@ -182,10 +181,10 @@ function wp_get_global_stylesheet($types = [])
         }
     }
 
-    $tree                = WP_Theme_JSON_Resolver::resolve_theme_file_uris(WP_Theme_JSON_Resolver::get_merged_data());
+    $tree = WP_Theme_JSON_Resolver::resolve_theme_file_uris(WP_Theme_JSON_Resolver::get_merged_data());
     $supports_theme_json = wp_theme_has_theme_json();
 
-    if (empty($types) && ! $supports_theme_json) {
+    if (empty($types) && !$supports_theme_json) {
         $types = ['variables', 'presets', 'base-layout-styles'];
     } elseif (empty($types)) {
         $types = ['variables', 'styles', 'presets'];
@@ -205,9 +204,9 @@ function wp_get_global_stylesheet($types = [])
          * (i.e. in the render cycle). Here, only the ones in use are rendered.
          * @see wp_add_global_styles_for_blocks
          */
-        $origins          = ['default', 'theme', 'custom'];
+        $origins = ['default', 'theme', 'custom'];
         $styles_variables = $tree->get_stylesheet(['variables'], $origins);
-        $types            = array_diff($types, ['variables']);
+        $types = array_diff($types, ['variables']);
     }
 
     /*
@@ -217,7 +216,7 @@ function wp_get_global_stylesheet($types = [])
      * - themes with theme.json: the presets and styles classes, both from core and the theme
      */
     $styles_rest = '';
-    if (! empty($types)) {
+    if (!empty($types)) {
         /*
          * Only use the default, theme, and custom origins. Why?
          * Because styles for `blocks` origin are added at a later phase
@@ -229,9 +228,11 @@ function wp_get_global_stylesheet($types = [])
          * If the theme doesn't have theme.json but supports both appearance tools and color palette,
          * the 'theme' origin should be included so color palette presets are also output.
          */
-        if (! $supports_theme_json && (current_theme_supports('appearance-tools') || current_theme_supports('border')) && current_theme_supports('editor-color-palette')) {
+        if (!$supports_theme_json
+            && (current_theme_supports('appearance-tools') || current_theme_supports('border'))
+            && current_theme_supports('editor-color-palette')) {
             $origins = ['default', 'theme'];
-        } elseif (! $supports_theme_json) {
+        } elseif (!$supports_theme_json) {
             $origins = ['default'];
         }
         $styles_rest = $tree->get_stylesheet($types, $origins);
@@ -257,13 +258,13 @@ function wp_add_global_styles_for_blocks()
 {
     global $wp_styles;
 
-    $tree        = WP_Theme_JSON_Resolver::get_merged_data();
-    $tree        = WP_Theme_JSON_Resolver::resolve_theme_file_uris($tree);
+    $tree = WP_Theme_JSON_Resolver::get_merged_data();
+    $tree = WP_Theme_JSON_Resolver::resolve_theme_file_uris($tree);
     $block_nodes = $tree->get_styles_block_nodes();
     foreach ($block_nodes as $metadata) {
         $block_css = $tree->get_styles_for_block($metadata);
 
-        if (! wp_should_load_separate_core_block_assets()) {
+        if (!wp_should_load_separate_core_block_assets()) {
             wp_add_inline_style('global-styles', $block_css);
             continue;
         }
@@ -281,7 +282,7 @@ function wp_add_global_styles_for_blocks()
          */
         if (isset($metadata['name'])) {
             if (str_starts_with($metadata['name'], 'core/')) {
-                $block_name   = str_replace('core/', '', $metadata['name']);
+                $block_name = str_replace('core/', '', $metadata['name']);
                 $block_handle = 'wp-block-' . $block_name;
                 if (in_array($block_handle, $wp_styles->queue, true)) {
                     wp_add_inline_style($stylesheet_handle, $block_css);
@@ -292,11 +293,11 @@ function wp_add_global_styles_for_blocks()
         }
 
         // The likes of block element styles from theme.json do not have  $metadata['name'] set.
-        if (! isset($metadata['name']) && ! empty($metadata['path'])) {
+        if (!isset($metadata['name']) && !empty($metadata['path'])) {
             $block_name = wp_get_block_name_from_theme_json_path($metadata['path']);
             if ($block_name) {
                 if (str_starts_with($block_name, 'core/')) {
-                    $block_name   = str_replace('core/', '', $block_name);
+                    $block_name = str_replace('core/', '', $block_name);
                     $block_handle = 'wp-block-' . $block_name;
                     if (in_array($block_handle, $wp_styles->queue, true)) {
                         wp_add_inline_style($stylesheet_handle, $block_css);
@@ -312,11 +313,11 @@ function wp_add_global_styles_for_blocks()
 /**
  * Gets the block name from a given theme.json path.
  *
+ * @param array $path An array of keys describing the path to a property in theme.json.
+ * @return string Identified block name, or empty string if none found.
  * @since 6.3.0
  * @access private
  *
- * @param array $path An array of keys describing the path to a property in theme.json.
- * @return string Identified block name, or empty string if none found.
  */
 function wp_get_block_name_from_theme_json_path($path)
 {
@@ -341,8 +342,8 @@ function wp_get_block_name_from_theme_json_path($path)
                     return true;
                 }
                 return false;
-            }
-        )
+            },
+        ),
     );
     if (isset($result[0])) {
         return $result[0];
@@ -353,9 +354,9 @@ function wp_get_block_name_from_theme_json_path($path)
 /**
  * Checks whether a theme or its parent has a theme.json file.
  *
+ * @return bool Returns true if theme or its parent has a theme.json file, false otherwise.
  * @since 6.2.0
  *
- * @return bool Returns true if theme or its parent has a theme.json file, false otherwise.
  */
 function wp_theme_has_theme_json()
 {
@@ -363,18 +364,18 @@ function wp_theme_has_theme_json()
 
     $stylesheet = get_stylesheet();
 
-    if (isset($theme_has_support[$stylesheet]) &&
-        /*
+    if (isset($theme_has_support[$stylesheet])
+        && /*
          * Ignore static cache when the development mode is set to 'theme', to avoid interfering with
          * the theme developer's workflow.
          */
-        ! wp_is_development_mode('theme')
+        !wp_is_development_mode('theme')
     ) {
         return $theme_has_support[$stylesheet];
     }
 
     $stylesheet_directory = get_stylesheet_directory();
-    $template_directory   = get_template_directory();
+    $template_directory = get_template_directory();
 
     // This is the same as get_theme_file_path(), which isn't available in load-styles.php context
     if ($stylesheet_directory !== $template_directory && file_exists($stylesheet_directory . '/theme.json')) {
@@ -411,9 +412,9 @@ function wp_clean_theme_json_cache()
  * Returns the current theme's wanted patterns (slugs) to be
  * registered from Pattern Directory.
  *
+ * @return string[]
  * @since 6.3.0
  *
- * @return string[]
  */
 function wp_get_theme_directory_pattern_slugs()
 {
@@ -423,10 +424,10 @@ function wp_get_theme_directory_pattern_slugs()
 /**
  * Returns the metadata for the custom templates defined by the theme via theme.json.
  *
- * @since 6.4.0
- *
  * @return array Associative array of `$template_name => $template_data` pairs,
  *               with `$template_data` having "title" and "postTypes" fields.
+ * @since 6.4.0
+ *
  */
 function wp_get_theme_data_custom_templates()
 {
@@ -436,16 +437,16 @@ function wp_get_theme_data_custom_templates()
 /**
  * Returns the metadata for the template parts defined by the theme.
  *
- * @since 6.4.0
- *
  * @return array Associative array of `$part_name => $part_data` pairs,
  *               with `$part_data` having "title" and "area" fields.
+ * @since 6.4.0
+ *
  */
 function wp_get_theme_data_template_parts()
 {
-    $cache_group    = 'theme_json';
-    $cache_key      = 'wp_get_theme_data_template_parts';
-    $can_use_cached = ! wp_is_development_mode('theme');
+    $cache_group = 'theme_json';
+    $cache_key = 'wp_get_theme_data_template_parts';
+    $can_use_cached = !wp_is_development_mode('theme');
 
     $metadata = false;
     if ($can_use_cached) {
@@ -469,13 +470,13 @@ function wp_get_theme_data_template_parts()
  * Determines the CSS selector for the block type and property provided,
  * returning it if available.
  *
- * @since 6.3.0
- *
  * @param WP_Block_Type $block_type The block's type.
- * @param string|array  $target     The desired selector's target, `root` or array path.
- * @param boolean       $fallback   Whether to fall back to broader selector.
+ * @param string|array $target The desired selector's target, `root` or array path.
+ * @param boolean $fallback Whether to fall back to broader selector.
  *
  * @return string|null CSS selector or `null` if no selector available.
+ * @since 6.3.0
+ *
  */
 function wp_get_block_css_selector($block_type, $target = 'root', $fallback = false)
 {
@@ -483,7 +484,7 @@ function wp_get_block_css_selector($block_type, $target = 'root', $fallback = fa
         return null;
     }
 
-    $has_selectors = ! empty($block_type->selectors);
+    $has_selectors = !empty($block_type->selectors);
 
     // Root Selector.
 
@@ -494,12 +495,13 @@ function wp_get_block_css_selector($block_type, $target = 'root', $fallback = fa
     if ($has_selectors && isset($block_type->selectors['root'])) {
         // Use the selectors API if available.
         $root_selector = $block_type->selectors['root'];
-    } elseif (isset($block_type->supports['__experimentalSelector']) && is_string($block_type->supports['__experimentalSelector'])) {
+    } elseif (isset($block_type->supports['__experimentalSelector'])
+        && is_string($block_type->supports['__experimentalSelector'])) {
         // Use the old experimental selector supports property if set.
         $root_selector = $block_type->supports['__experimentalSelector'];
     } else {
         // If no root selector found, generate default block class selector.
-        $block_name    = str_replace('/', '-', str_replace('core/', '', $block_type->name));
+        $block_name = str_replace('/', '-', str_replace('core/', '', $block_type->name));
         $root_selector = ".wp-block-{$block_name}";
     }
 
@@ -521,7 +523,7 @@ function wp_get_block_css_selector($block_type, $target = 'root', $fallback = fa
         // Prefer the selectors API if available.
         if ($has_selectors) {
             // Look for selector under `feature.root`.
-            $path             = [current($target), 'root'];
+            $path = [current($target), 'root'];
             $feature_selector = _wp_array_get($block_type->selectors, $path, null);
 
             if ($feature_selector) {
@@ -535,7 +537,7 @@ function wp_get_block_css_selector($block_type, $target = 'root', $fallback = fa
         }
 
         // Try getting old experimental supports selector value.
-        $path             = [current($target), '__experimentalSelector'];
+        $path = [current($target), '__experimentalSelector'];
         $feature_selector = _wp_array_get($block_type->supports, $path, null);
 
         // Nothing to work with, provide fallback or null.

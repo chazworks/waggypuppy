@@ -23,20 +23,20 @@ class WP_Sitemaps_Users extends WP_Sitemaps_Provider
      */
     public function __construct()
     {
-        $this->name        = 'users';
+        $this->name = 'users';
         $this->object_type = 'user';
     }
 
     /**
      * Gets a URL list for a user sitemap.
      *
-     * @since 5.5.0
-     *
-     * @param int    $page_num       Page of results.
+     * @param int $page_num Page of results.
      * @param string $object_subtype Optional. Not applicable for Users but
      *                               required for compatibility with the parent
      *                               provider class. Default empty.
      * @return array[] Array of URL information for a sitemap.
+     * @since 5.5.0
+     *
      */
     public function get_url_list($page_num, $object_subtype = '')
     {
@@ -46,26 +46,26 @@ class WP_Sitemaps_Users extends WP_Sitemaps_Provider
          * Returning a non-null value will effectively short-circuit the generation,
          * returning that value instead.
          *
+         * @param array[]|null $url_list The URL list. Default null.
+         * @param int $page_num Page of results.
          * @since 5.5.0
          *
-         * @param array[]|null $url_list The URL list. Default null.
-         * @param int        $page_num Page of results.
          */
         $url_list = apply_filters(
             'wp_sitemaps_users_pre_url_list',
             null,
-            $page_num
+            $page_num,
         );
 
         if (null !== $url_list) {
             return $url_list;
         }
 
-        $args          = $this->get_users_query_args();
+        $args = $this->get_users_query_args();
         $args['paged'] = $page_num;
 
-        $query    = new WP_User_Query($args);
-        $users    = $query->get_results();
+        $query = new WP_User_Query($args);
+        $users = $query->get_results();
         $url_list = [];
 
         foreach ($users as $user) {
@@ -76,13 +76,13 @@ class WP_Sitemaps_Users extends WP_Sitemaps_Provider
             /**
              * Filters the sitemap entry for an individual user.
              *
+             * @param array $sitemap_entry Sitemap entry for the user.
+             * @param WP_User $user User object.
              * @since 5.5.0
              *
-             * @param array   $sitemap_entry Sitemap entry for the user.
-             * @param WP_User $user          User object.
              */
             $sitemap_entry = apply_filters('wp_sitemaps_users_entry', $sitemap_entry, $user);
-            $url_list[]    = $sitemap_entry;
+            $url_list[] = $sitemap_entry;
         }
 
         return $url_list;
@@ -91,14 +91,14 @@ class WP_Sitemaps_Users extends WP_Sitemaps_Provider
     /**
      * Gets the max number of pages available for the object type.
      *
-     * @since 5.5.0
-     *
-     * @see WP_Sitemaps_Provider::max_num_pages
-     *
      * @param string $object_subtype Optional. Not applicable for Users but
      *                               required for compatibility with the parent
      *                               provider class. Default empty.
      * @return int Total page count.
+     * @since 5.5.0
+     *
+     * @see WP_Sitemaps_Provider::max_num_pages
+     *
      */
     public function get_max_num_pages($object_subtype = '')
     {
@@ -108,9 +108,9 @@ class WP_Sitemaps_Users extends WP_Sitemaps_Provider
          * Returning a non-null value will effectively short-circuit the generation,
          * returning that value instead.
          *
+         * @param int|null $max_num_pages The maximum number of pages. Default null.
          * @since 5.5.0
          *
-         * @param int|null $max_num_pages The maximum number of pages. Default null.
          */
         $max_num_pages = apply_filters('wp_sitemaps_users_pre_max_num_pages', null);
 
@@ -118,27 +118,27 @@ class WP_Sitemaps_Users extends WP_Sitemaps_Provider
             return $max_num_pages;
         }
 
-        $args  = $this->get_users_query_args();
+        $args = $this->get_users_query_args();
         $query = new WP_User_Query($args);
 
         $total_users = $query->get_total();
 
-        return (int) ceil($total_users / wp_sitemaps_get_max_urls($this->object_type));
+        return (int)ceil($total_users / wp_sitemaps_get_max_urls($this->object_type));
     }
 
     /**
      * Returns the query args for retrieving users to list in the sitemap.
      *
+     * @return array Array of WP_User_Query arguments.
      * @since 5.5.0
      *
-     * @return array Array of WP_User_Query arguments.
      */
     protected function get_users_query_args()
     {
         $public_post_types = get_post_types(
             [
                 'public' => true,
-            ]
+            ],
         );
 
         // We're not supporting sitemaps for author pages for attachments and pages.
@@ -150,18 +150,18 @@ class WP_Sitemaps_Users extends WP_Sitemaps_Provider
          *
          * Allows modification of the authors query arguments before querying.
          *
-         * @see WP_User_Query for a full list of arguments
-         *
+         * @param array $args Array of WP_User_Query arguments.
          * @since 5.5.0
          *
-         * @param array $args Array of WP_User_Query arguments.
+         * @see WP_User_Query for a full list of arguments
+         *
          */
         $args = apply_filters(
             'wp_sitemaps_users_query_args',
             [
                 'has_published_posts' => array_keys($public_post_types),
-                'number'              => wp_sitemaps_get_max_urls($this->object_type),
-            ]
+                'number' => wp_sitemaps_get_max_urls($this->object_type),
+            ],
         );
 
         return $args;

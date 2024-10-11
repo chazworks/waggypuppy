@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @group comment
  *
@@ -31,7 +32,7 @@ class Tests_Comment_GetCommentAuthorEmailLink extends WP_UnitTestCase
         self::$comment = $factory->comment->create_and_get(
             [
                 'comment_author_email' => 'foo@example.org',
-            ]
+            ],
         );
     }
 
@@ -50,12 +51,12 @@ class Tests_Comment_GetCommentAuthorEmailLink extends WP_UnitTestCase
         unset($GLOBALS['comment']);
 
         $linktext = 'linktext';
-        $before   = 'before';
-        $after    = 'after';
-        $comment  = self::factory()->comment->create_and_get(
+        $before = 'before';
+        $after = 'after';
+        $comment = self::factory()->comment->create_and_get(
             [
                 'comment_author_email' => $email = 'baz@example.org',
-            ]
+            ],
         );
 
         $expected = sprintf('%1$s<a href="mailto:%2$s">%3$s</a>%4$s', $before, $email, $linktext, $after);
@@ -66,8 +67,8 @@ class Tests_Comment_GetCommentAuthorEmailLink extends WP_UnitTestCase
     public function test_all_parameters_with_global_comment()
     {
         $linktext = 'linktext';
-        $before   = 'before';
-        $after    = 'after';
+        $before = 'before';
+        $after = 'after';
 
         $expected = sprintf('%1$s<a href="mailto:foo@example.org">%2$s</a>%3$s', $before, $linktext, $after);
 
@@ -103,7 +104,7 @@ class Tests_Comment_GetCommentAuthorEmailLink extends WP_UnitTestCase
         $comment = self::factory()->comment->create_and_get(
             [
                 'comment_author_email' => $email = 'bar@example.org',
-            ]
+            ],
         );
 
         $expected = sprintf('<a href="mailto:%1$s">%2$s</a>', $email, $email);

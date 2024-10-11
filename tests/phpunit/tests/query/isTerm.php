@@ -34,19 +34,19 @@ class Tests_Query_IsTerm extends WP_UnitTestCase
 
         flush_rewrite_rules();
 
-        $this->tag_id  = self::factory()->tag->create(['slug' => 'tag-slug']);
-        $this->cat_id  = self::factory()->category->create(['slug' => 'cat-slug']);
-        $this->tax_id  = self::factory()->term->create(
+        $this->tag_id = self::factory()->tag->create(['slug' => 'tag-slug']);
+        $this->cat_id = self::factory()->category->create(['slug' => 'cat-slug']);
+        $this->tax_id = self::factory()->term->create(
             [
                 'taxonomy' => 'testtax',
-                'slug'     => 'tax-slug',
-            ]
+                'slug' => 'tax-slug',
+            ],
         );
         $this->tax_id2 = self::factory()->term->create(
             [
                 'taxonomy' => 'testtax',
-                'slug'     => 'tax-slug2',
-            ]
+                'slug' => 'tax-slug2',
+            ],
         );
         $this->post_id = self::factory()->post->create();
         wp_set_object_terms($this->post_id, $this->cat_id, 'category');
@@ -186,10 +186,10 @@ class Tests_Query_IsTerm extends WP_UnitTestCase
             [
                 [
                     'taxonomy' => 'testtax',
-                    'field'    => 'term_id',
-                    'terms'    => $this->tax_id,
+                    'field' => 'term_id',
+                    'terms' => $this->tax_id,
                 ],
-            ]
+            ],
         );
     }
 
@@ -206,15 +206,15 @@ class Tests_Query_IsTerm extends WP_UnitTestCase
                 'relation' => 'AND',
                 [
                     'taxonomy' => 'testtax',
-                    'field'    => 'term_id',
-                    'terms'    => [
+                    'field' => 'term_id',
+                    'terms' => [
                         $this->tax_id,
                     ],
                 ],
             ],
         ];
 
-        $q      = new WP_Query($args);
+        $q = new WP_Query($args);
         $object = $q->get_queried_object();
 
         $expected = get_term($this->tax_id, 'testtax');
@@ -235,15 +235,15 @@ class Tests_Query_IsTerm extends WP_UnitTestCase
                 'relation' => 'AND',
                 [
                     'taxonomy' => 'testtax',
-                    'field'    => 'slug',
-                    'terms'    => [
+                    'field' => 'slug',
+                    'terms' => [
                         'tax-slug',
                     ],
                 ],
             ],
         ];
 
-        $q      = new WP_Query($args);
+        $q = new WP_Query($args);
         $object = $q->get_queried_object();
 
         $expected = get_term($this->tax_id, 'testtax');
@@ -255,7 +255,8 @@ class Tests_Query_IsTerm extends WP_UnitTestCase
     /**
      * @ticket 30623
      */
-    public function test_get_queried_object_with_custom_taxonomy_tax_query_with_multiple_clauses_should_return_term_object_corresponding_to_the_first_queried_tax()
+    public function test_get_queried_object_with_custom_taxonomy_tax_query_with_multiple_clauses_should_return_term_object_corresponding_to_the_first_queried_tax(
+    )
     {
         // Don't override the args provided below.
         remove_action('pre_get_posts', [$this, 'pre_get_posts_tax_category_tax_query']);
@@ -264,8 +265,8 @@ class Tests_Query_IsTerm extends WP_UnitTestCase
         $testtax2_term_id = self::factory()->term->create(
             [
                 'taxonomy' => 'testtax2',
-                'slug'     => 'testtax2-slug',
-            ]
+                'slug' => 'testtax2-slug',
+            ],
         );
 
         $args = [
@@ -273,22 +274,22 @@ class Tests_Query_IsTerm extends WP_UnitTestCase
                 'relation' => 'AND',
                 [
                     'taxonomy' => 'testtax',
-                    'field'    => 'slug',
-                    'terms'    => [
+                    'field' => 'slug',
+                    'terms' => [
                         'tax-slug',
                     ],
                 ],
                 [
                     'taxonomy' => 'testtax2',
-                    'field'    => 'slug',
-                    'terms'    => [
+                    'field' => 'slug',
+                    'terms' => [
                         'testtax2-slug',
                     ],
                 ],
             ],
         ];
 
-        $q      = new WP_Query($args);
+        $q = new WP_Query($args);
         $object = $q->get_queried_object();
 
         $expected = get_term($this->tax_id, 'testtax');

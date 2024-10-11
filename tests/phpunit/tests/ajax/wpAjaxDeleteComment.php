@@ -37,7 +37,7 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase
     {
         self::$post_id = $factory->post->create();
 
-        $comment_ids    = $factory->comment->create_post_comments(self::$post_id, 8);
+        $comment_ids = $factory->comment->create_post_comments(self::$post_id, 8);
         self::$comments = array_map('get_comment', $comment_ids);
     }
 
@@ -66,11 +66,10 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase
      * @covers ::_wp_ajax_delete_comment_response
      *
      * @param WP_Comment $comment Comment object.
-     * @param string     $action  Action: 'trash', 'untrash', etc.
+     * @param string $action Action: 'trash', 'untrash', etc.
      */
     public function _test_as_admin($comment, $action)
     {
-
         // Reset request.
         $this->_clear_post_action();
 
@@ -78,13 +77,13 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase
         $this->_setRole('administrator');
 
         // Set up a default request.
-        $_POST['id']          = $comment->comment_ID;
+        $_POST['id'] = $comment->comment_ID;
         $_POST['_ajax_nonce'] = wp_create_nonce('delete-comment_' . $comment->comment_ID);
-        $_POST[$action]       = '1';
-        $_POST['_total']      = count(self::$comments);
-        $_POST['_per_page']   = '100';
-        $_POST['_page']       = '1';
-        $_POST['_url']        = admin_url('edit-comments.php');
+        $_POST[$action] = '1';
+        $_POST['_total'] = count(self::$comments);
+        $_POST['_per_page'] = '100';
+        $_POST['_page'] = '1';
+        $_POST['_url'] = admin_url('edit-comments.php');
 
         // Make the request.
         try {
@@ -97,15 +96,14 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase
         $xml = simplexml_load_string($this->_last_response, 'SimpleXMLElement', LIBXML_NOCDATA);
 
         // Ensure everything is correct.
-        $this->assertSame($comment->comment_ID, (string) $xml->response[0]->comment['id']);
-        $this->assertSame('delete-comment_' . $comment->comment_ID, (string) $xml->response['action']);
-        $this->assertGreaterThanOrEqual(time() - 10, (int) $xml->response[0]->comment[0]->supplemental[0]->time[0]);
-        $this->assertLessThanOrEqual(time(), (int) $xml->response[0]->comment[0]->supplemental[0]->time[0]);
+        $this->assertSame($comment->comment_ID, (string)$xml->response[0]->comment['id']);
+        $this->assertSame('delete-comment_' . $comment->comment_ID, (string)$xml->response['action']);
+        $this->assertGreaterThanOrEqual(time() - 10, (int)$xml->response[0]->comment[0]->supplemental[0]->time[0]);
+        $this->assertLessThanOrEqual(time(), (int)$xml->response[0]->comment[0]->supplemental[0]->time[0]);
 
         // 'trash', 'spam', 'delete' should make the total go down.
         if (in_array($action, ['trash', 'spam', 'delete'], true)) {
             $total = $_POST['_total'] - 1;
-
             // 'unspam', 'untrash' should make the total go up.
         } elseif (in_array($action, ['untrash', 'unspam'], true)) {
             $total = $_POST['_total'] + 1;
@@ -113,11 +111,13 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase
 
         // The total is calculated based on a page break -OR- a random number. Let's look for both possible outcomes.
         $comment_count = wp_count_comments(0);
-        $recalc_total  = $comment_count->total_comments;
+        $recalc_total = $comment_count->total_comments;
 
         // Check for either possible total.
-        $message = sprintf('returned value: %1$d $total: %2$d  $recalc_total: %3$d', (int) $xml->response[0]->comment[0]->supplemental[0]->total[0], $total, $recalc_total);
-        $this->assertContains((int) $xml->response[0]->comment[0]->supplemental[0]->total[0], [$total, $recalc_total], $message);
+        $message = sprintf('returned value: %1$d $total: %2$d  $recalc_total: %3$d',
+            (int)$xml->response[0]->comment[0]->supplemental[0]->total[0], $total, $recalc_total);
+        $this->assertContains((int)$xml->response[0]->comment[0]->supplemental[0]->total[0], [$total, $recalc_total],
+            $message);
     }
 
     /**
@@ -126,11 +126,10 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase
      * Expects test to fail.
      *
      * @param WP_Comment $comment Comment object.
-     * @param string     $action  Action: 'trash', 'untrash', etc.
+     * @param string $action Action: 'trash', 'untrash', etc.
      */
     public function _test_as_subscriber($comment, $action)
     {
-
         // Reset request.
         $this->_clear_post_action();
 
@@ -138,13 +137,13 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase
         $this->_setRole('subscriber');
 
         // Set up the $_POST request.
-        $_POST['id']          = $comment->comment_ID;
+        $_POST['id'] = $comment->comment_ID;
         $_POST['_ajax_nonce'] = wp_create_nonce('delete-comment_' . $comment->comment_ID);
-        $_POST[$action]       = '1';
-        $_POST['_total']      = count(self::$comments);
-        $_POST['_per_page']   = '100';
-        $_POST['_page']       = '1';
-        $_POST['_url']        = admin_url('edit-comments.php');
+        $_POST[$action] = '1';
+        $_POST['_total'] = count(self::$comments);
+        $_POST['_per_page'] = '100';
+        $_POST['_page'] = '1';
+        $_POST['_url'] = admin_url('edit-comments.php');
 
         // Make the request.
         $this->expectException('WPAjaxDieStopException');
@@ -159,11 +158,10 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase
      * Expects test to fail.
      *
      * @param WP_Comment $comment Comment object.
-     * @param string     $action  Action: 'trash', 'untrash', etc.
+     * @param string $action Action: 'trash', 'untrash', etc.
      */
     public function _test_with_bad_nonce($comment, $action)
     {
-
         // Reset request.
         $this->_clear_post_action();
 
@@ -171,13 +169,13 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase
         $this->_setRole('administrator');
 
         // Set up the $_POST request.
-        $_POST['id']          = $comment->comment_ID;
+        $_POST['id'] = $comment->comment_ID;
         $_POST['_ajax_nonce'] = wp_create_nonce(uniqid());
-        $_POST[$action]       = '1';
-        $_POST['_total']      = count(self::$comments);
-        $_POST['_per_page']   = '100';
-        $_POST['_page']       = '1';
-        $_POST['_url']        = admin_url('edit-comments.php');
+        $_POST[$action] = '1';
+        $_POST['_total'] = count(self::$comments);
+        $_POST['_per_page'] = '100';
+        $_POST['_page'] = '1';
+        $_POST['_url'] = admin_url('edit-comments.php');
 
         // Make the request.
         $this->expectException('WPAjaxDieStopException');
@@ -191,11 +189,10 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase
      * Expects test to fail.
      *
      * @param WP_Comment $comment Comment object.
-     * @param string     $action  Action: 'trash', 'untrash', etc.
+     * @param string $action Action: 'trash', 'untrash', etc.
      */
     public function _test_with_bad_id($comment, $action)
     {
-
         // Reset request.
         $this->_clear_post_action();
 
@@ -203,13 +200,13 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase
         $this->_setRole('administrator');
 
         // Set up the $_POST request.
-        $_POST['id']          = 12346789;
+        $_POST['id'] = 12346789;
         $_POST['_ajax_nonce'] = wp_create_nonce('delete-comment_12346789');
-        $_POST[$action]       = '1';
-        $_POST['_total']      = count(self::$comments);
-        $_POST['_per_page']   = '100';
-        $_POST['_page']       = '1';
-        $_POST['_url']        = admin_url('edit-comments.php');
+        $_POST[$action] = '1';
+        $_POST['_total'] = count(self::$comments);
+        $_POST['_per_page'] = '100';
+        $_POST['_page'] = '1';
+        $_POST['_url'] = admin_url('edit-comments.php');
 
         // Make the request, look for a timestamp in the exception.
         try {
@@ -229,11 +226,10 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase
      * Expects test to fail.
      *
      * @param WP_Comment $comment Comment object.
-     * @param string     $action  Action: 'trash', 'untrash', etc.
+     * @param string $action Action: 'trash', 'untrash', etc.
      */
     public function _test_double_action($comment, $action)
     {
-
         // Reset request.
         $this->_clear_post_action();
 
@@ -241,13 +237,13 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase
         $this->_setRole('administrator');
 
         // Set up the $_POST request.
-        $_POST['id']          = $comment->comment_ID;
+        $_POST['id'] = $comment->comment_ID;
         $_POST['_ajax_nonce'] = wp_create_nonce('delete-comment_' . $comment->comment_ID);
-        $_POST[$action]       = '1';
-        $_POST['_total']      = count(self::$comments);
-        $_POST['_per_page']   = '100';
-        $_POST['_page']       = '1';
-        $_POST['_url']        = admin_url('edit-comments.php');
+        $_POST[$action] = '1';
+        $_POST['_total'] = count(self::$comments);
+        $_POST['_per_page'] = '100';
+        $_POST['_page'] = '1';
+        $_POST['_url'] = admin_url('edit-comments.php');
 
         // Make the request.
         try {

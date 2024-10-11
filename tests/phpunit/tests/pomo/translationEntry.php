@@ -16,12 +16,12 @@ class Tests_POMO_TranslationEntry extends WP_UnitTestCase
         // args -> members.
         $entry = new Translation_Entry(
             [
-                'singular'     => 'baba',
-                'plural'       => 'babas',
+                'singular' => 'baba',
+                'plural' => 'babas',
                 'translations' => ['баба', 'баби'],
-                'references'   => 'should be array here',
-                'flags'        => 'baba',
-            ]
+                'references' => 'should be array here',
+                'flags' => 'baba',
+            ],
         );
         $this->assertSame('baba', $entry->singular);
         $this->assertSame('babas', $entry->plural);
@@ -33,19 +33,19 @@ class Tests_POMO_TranslationEntry extends WP_UnitTestCase
 
     public function test_key()
     {
-        $entry_baba        = new Translation_Entry(['singular' => 'baba']);
-        $entry_dyado       = new Translation_Entry(['singular' => 'dyado']);
-        $entry_baba_ctxt   = new Translation_Entry(
+        $entry_baba = new Translation_Entry(['singular' => 'baba']);
+        $entry_dyado = new Translation_Entry(['singular' => 'dyado']);
+        $entry_baba_ctxt = new Translation_Entry(
             [
                 'singular' => 'baba',
-                'context'  => 'x',
-            ]
+                'context' => 'x',
+            ],
         );
         $entry_baba_plural = new Translation_Entry(
             [
                 'singular' => 'baba',
-                'plural'   => 'babas',
-            ]
+                'plural' => 'babas',
+            ],
         );
         $this->assertSame($entry_baba->key(), $entry_baba_plural->key());
         $this->assertNotEquals($entry_baba->key(), $entry_baba_ctxt->key());

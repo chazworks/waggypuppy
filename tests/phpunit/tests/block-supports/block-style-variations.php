@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test the block style variations block support.
  *
@@ -73,11 +74,11 @@ class WP_Block_Supports_Block_Style_Variations_Test extends WP_UnitTestCase
         switch_theme('block-theme');
 
         $variation_styles_data = [
-            'color'    => [
+            'color' => [
                 'background' => 'darkslateblue',
-                'text'       => 'lavender',
+                'text' => 'lavender',
             ],
-            'blocks'   => [
+            'blocks' => [
                 'core/heading' => [
                     'color' => [
                         'text' => 'violet',
@@ -86,7 +87,7 @@ class WP_Block_Supports_Block_Style_Variations_Test extends WP_UnitTestCase
             ],
             'elements' => [
                 'link' => [
-                    'color'  => [
+                    'color' => [
                         'text' => 'fuchsia',
                     ],
                     ':hover' => [
@@ -105,26 +106,26 @@ class WP_Block_Supports_Block_Style_Variations_Test extends WP_UnitTestCase
         register_block_style(
             'core/group',
             [
-                'name'       => 'WithSlug',
+                'name' => 'WithSlug',
                 'style_data' => [
                     'color' => [
                         'background' => 'whitesmoke',
-                        'text'       => 'black',
+                        'text' => 'black',
                     ],
                 ],
-            ]
+            ],
         );
         register_block_style(
             'core/group',
             [
-                'name'       => 'my-variation',
+                'name' => 'my-variation',
                 'style_data' => $variation_styles_data,
-            ]
+            ],
         );
 
-        $theme_json   = WP_Theme_JSON_Resolver::get_theme_data()->get_raw_data();
+        $theme_json = WP_Theme_JSON_Resolver::get_theme_data()->get_raw_data();
         $group_styles = $theme_json['styles']['blocks']['core/group'] ?? [];
-        $expected     = [
+        $expected = [
             'variations' => [
 
                 /*
@@ -135,13 +136,13 @@ class WP_Block_Supports_Block_Style_Variations_Test extends WP_UnitTestCase
                 'block-style-variation-a' => [
                     'color' => [
                         'background' => 'indigo',
-                        'text'       => 'plum',
+                        'text' => 'plum',
                     ],
                 ],
                 'block-style-variation-b' => [
                     'color' => [
                         'background' => 'midnightblue',
-                        'text'       => 'lightblue',
+                        'text' => 'lightblue',
                     ],
                 ],
 
@@ -149,13 +150,13 @@ class WP_Block_Supports_Block_Style_Variations_Test extends WP_UnitTestCase
                  * Manually registered variations.
                  * @ticket 61440
                  */
-                'WithSlug'                => [
+                'WithSlug' => [
                     'color' => [
                         'background' => 'aliceblue',
-                        'text'       => 'midnightblue',
+                        'text' => 'midnightblue',
                     ],
                 ],
-                'my-variation'            => $variation_styles_data,
+                'my-variation' => $variation_styles_data,
             ],
         ];
 
@@ -175,18 +176,18 @@ class WP_Block_Supports_Block_Style_Variations_Test extends WP_UnitTestCase
         switch_theme('block-theme');
 
         $variation_data = [
-            'color'    => [
-                'text'       => [
+            'color' => [
+                'text' => [
                     'ref' => 'styles.does-not-exist',
                 ],
                 'background' => [
                     'ref' => 'styles.blocks.core/group.variations.block-style-variation-a.color.text',
                 ],
             ],
-            'blocks'   => [
+            'blocks' => [
                 'core/heading' => [
                     'color' => [
-                        'text'       => [
+                        'text' => [
                             'ref' => 'styles.blocks.core/group.variations.block-style-variation-a.color.background',
                         ],
                         'background' => [
@@ -197,8 +198,8 @@ class WP_Block_Supports_Block_Style_Variations_Test extends WP_UnitTestCase
             ],
             'elements' => [
                 'link' => [
-                    'color'  => [
-                        'text'       => [
+                    'color' => [
+                        'text' => [
                             'ref' => 'styles.blocks.core/group.variations.block-style-variation-b.color.text',
                         ],
                         'background' => [
@@ -221,15 +222,15 @@ class WP_Block_Supports_Block_Style_Variations_Test extends WP_UnitTestCase
         wp_resolve_block_style_variation_ref_values($variation_data, $theme_json);
 
         $expected = [
-            'color'    => ['background' => 'plum'],
-            'blocks'   => [
+            'color' => ['background' => 'plum'],
+            'blocks' => [
                 'core/heading' => [
                     'color' => ['text' => 'indigo'],
                 ],
             ],
             'elements' => [
                 'link' => [
-                    'color'  => ['text' => 'lightblue'],
+                    'color' => ['text' => 'lightblue'],
                     ':hover' => [
                         'color' => ['text' => 'midnightblue'],
                     ],
@@ -237,6 +238,7 @@ class WP_Block_Supports_Block_Style_Variations_Test extends WP_UnitTestCase
             ],
         ];
 
-        $this->assertSameSetsWithIndex($expected, $variation_data, 'Variation data with resolved ref values does not match');
+        $this->assertSameSetsWithIndex($expected, $variation_data,
+            'Variation data with resolved ref values does not match');
     }
 }

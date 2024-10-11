@@ -37,9 +37,9 @@ class Tests_Functions_wpScheduledDelete extends WP_UnitTestCase
     {
         self::$page_id = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_status' => 'trash',
-            ]
+            ],
         );
         add_post_meta(self::$page_id, '_wp_trash_meta_time', time() - (DAY_IN_SECONDS * EMPTY_TRASH_DAYS + 1));
         add_post_meta(self::$page_id, '_wp_trash_meta_status', 'published');
@@ -62,9 +62,9 @@ class Tests_Functions_wpScheduledDelete extends WP_UnitTestCase
     {
         self::$page_id = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_status' => 'published',
-            ]
+            ],
         );
         add_post_meta(self::$page_id, '_wp_trash_meta_time', time() - (DAY_IN_SECONDS * EMPTY_TRASH_DAYS + 1));
         add_post_meta(self::$page_id, '_wp_trash_meta_status', 'published');
@@ -88,9 +88,9 @@ class Tests_Functions_wpScheduledDelete extends WP_UnitTestCase
     {
         self::$page_id = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_status' => 'trash',
-            ]
+            ],
         );
         add_post_meta(self::$page_id, '_wp_trash_meta_time', time() - (DAY_IN_SECONDS * EMPTY_TRASH_DAYS - 1));
         add_post_meta(self::$page_id, '_wp_trash_meta_status', 'published');
@@ -114,7 +114,7 @@ class Tests_Functions_wpScheduledDelete extends WP_UnitTestCase
         self::$comment_id = self::factory()->comment->create(
             [
                 'comment_approved' => 'trash',
-            ]
+            ],
         );
         add_comment_meta(self::$comment_id, '_wp_trash_meta_time', time() - (DAY_IN_SECONDS * EMPTY_TRASH_DAYS + 1));
         add_post_meta(self::$comment_id, '_wp_trash_meta_status', 'published');
@@ -138,7 +138,7 @@ class Tests_Functions_wpScheduledDelete extends WP_UnitTestCase
         self::$comment_id = self::factory()->comment->create(
             [
                 'comment_approved' => '1',
-            ]
+            ],
         );
         add_comment_meta(self::$comment_id, '_wp_trash_meta_time', time() - (DAY_IN_SECONDS * EMPTY_TRASH_DAYS + 1));
         add_comment_meta(self::$comment_id, '_wp_trash_meta_status', 'published');
@@ -163,7 +163,7 @@ class Tests_Functions_wpScheduledDelete extends WP_UnitTestCase
         self::$comment_id = self::factory()->comment->create(
             [
                 'comment_approved' => 'trash',
-            ]
+            ],
         );
         add_comment_meta(self::$comment_id, '_wp_trash_meta_time', time() - (DAY_IN_SECONDS * EMPTY_TRASH_DAYS - 1));
         add_comment_meta(self::$comment_id, '_wp_trash_meta_status', 'published');

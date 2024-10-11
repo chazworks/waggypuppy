@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test get_options().
  *
@@ -42,8 +43,10 @@ class Tests_Option_GetOptions extends WP_UnitTestCase
         }
 
         // Check that the retrieved options are correct.
-        $this->assertSame(get_option('option1'), $options['option1'], 'Retrieved option1 does not match expected value.');
-        $this->assertSame(get_option('option2'), $options['option2'], 'Retrieved option2 does not match expected value.');
+        $this->assertSame(get_option('option1'), $options['option1'],
+            'Retrieved option1 does not match expected value.');
+        $this->assertSame(get_option('option2'), $options['option2'],
+            'Retrieved option2 does not match expected value.');
     }
 
     /**
@@ -73,13 +76,15 @@ class Tests_Option_GetOptions extends WP_UnitTestCase
 
         // Make sure options are not in cache or database initially.
         $this->assertFalse(wp_cache_get('option1', 'options'), 'option1 was not deleted from the cache.');
-        $this->assertFalse(wp_cache_get('nonexistent_option', 'options'), 'nonexistent_option was not deleted from the cache.');
+        $this->assertFalse(wp_cache_get('nonexistent_option', 'options'),
+            'nonexistent_option was not deleted from the cache.');
 
         // Call the get_options function with an array that includes a nonexistent option.
         $options = get_options(['option1', 'nonexistent_option']);
 
         // Check that the retrieved options are correct.
-        $this->assertSame(get_option('option1'), $options['option1'], 'Retrieved option1 does not match expected value.');
+        $this->assertSame(get_option('option1'), $options['option1'],
+            'Retrieved option1 does not match expected value.');
 
         // Check that options are present in the notoptions cache.
         $new_notoptions = wp_cache_get('notoptions', 'options');

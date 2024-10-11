@@ -26,10 +26,10 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase
     {
         self::setup_custom_types();
         self::$users = [
-            'anon'           => 0,
-            'subscriber'     => $factory->user->create(['role' => 'subscriber']),
+            'anon' => 0,
+            'subscriber' => $factory->user->create(['role' => 'subscriber']),
             'content_author' => $factory->user->create(['role' => 'author']),
-            'editor'         => $factory->user->create(['role' => 'editor']),
+            'editor' => $factory->user->create(['role' => 'editor']),
         ];
 
         $post_statuses = ['publish', 'future', 'draft', 'pending', 'private', 'auto-draft', 'a-private-status'];
@@ -41,128 +41,128 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase
 
             self::$posts[$post_status] = $factory->post->create_and_get(
                 [
-                    'post_type'    => 'post',
-                    'post_title'   => "$post_status post",
-                    'post_name'    => "$post_status-post",
-                    'post_status'  => $post_status,
+                    'post_type' => 'post',
+                    'post_title' => "$post_status post",
+                    'post_name' => "$post_status-post",
+                    'post_status' => $post_status,
                     'post_content' => "Prevent canonical redirect exposing post slugs.\n\n<!--nextpage-->Page 2",
-                    'post_author'  => self::$users['content_author'],
-                    'post_date'    => $post_date,
-                ]
+                    'post_author' => self::$users['content_author'],
+                    'post_date' => $post_date,
+                ],
             );
 
             // Add fake attachment to the post (file upload not needed).
             self::$posts["$post_status-attachment"] = $factory->post->create_and_get(
                 [
-                    'post_type'    => 'attachment',
-                    'post_title'   => "$post_status inherited attachment",
-                    'post_name'    => "$post_status-inherited-attachment",
-                    'post_status'  => 'inherit',
+                    'post_type' => 'attachment',
+                    'post_title' => "$post_status inherited attachment",
+                    'post_name' => "$post_status-inherited-attachment",
+                    'post_status' => 'inherit',
                     'post_content' => "Prevent canonical redirect exposing post via attachments.\n\n<!--nextpage-->Page 2",
-                    'post_author'  => self::$users['content_author'],
-                    'post_parent'  => self::$posts[$post_status]->ID,
-                    'post_date'    => $post_date,
-                ]
+                    'post_author' => self::$users['content_author'],
+                    'post_parent' => self::$posts[$post_status]->ID,
+                    'post_date' => $post_date,
+                ],
             );
 
             // Set up a page with same.
             self::$posts["$post_status-page"] = $factory->post->create_and_get(
                 [
-                    'post_type'    => 'page',
-                    'post_title'   => "$post_status page",
-                    'post_name'    => "$post_status-page",
-                    'post_status'  => $post_status,
+                    'post_type' => 'page',
+                    'post_title' => "$post_status page",
+                    'post_name' => "$post_status-page",
+                    'post_status' => $post_status,
                     'post_content' => "Prevent canonical redirect exposing page slugs.\n\n<!--nextpage-->Page 2",
-                    'post_author'  => self::$users['content_author'],
-                    'post_date'    => $post_date,
-                ]
+                    'post_author' => self::$users['content_author'],
+                    'post_date' => $post_date,
+                ],
             );
         }
 
         // Create a public CPT using a private status.
         self::$posts['a-public-cpt'] = $factory->post->create_and_get(
             [
-                'post_type'    => 'a-public-cpt',
-                'post_title'   => 'a-public-cpt',
-                'post_name'    => 'a-public-cpt',
-                'post_status'  => 'private',
+                'post_type' => 'a-public-cpt',
+                'post_title' => 'a-public-cpt',
+                'post_name' => 'a-public-cpt',
+                'post_status' => 'private',
                 'post_content' => 'Prevent canonical redirect exposing a-public-cpt titles.',
-                'post_author'  => self::$users['content_author'],
-            ]
+                'post_author' => self::$users['content_author'],
+            ],
         );
 
         // Add fake attachment to the public cpt (file upload not needed).
         self::$posts['a-public-cpt-attachment'] = $factory->post->create_and_get(
             [
-                'post_type'    => 'attachment',
-                'post_title'   => 'a-public-cpt post inherited attachment',
-                'post_name'    => 'a-public-cpt-inherited-attachment',
-                'post_status'  => 'inherit',
+                'post_type' => 'attachment',
+                'post_title' => 'a-public-cpt post inherited attachment',
+                'post_name' => 'a-public-cpt-inherited-attachment',
+                'post_status' => 'inherit',
                 'post_content' => "Prevent canonical redirect exposing post via attachments.\n\n<!--nextpage-->Page 2",
-                'post_author'  => self::$users['content_author'],
-                'post_parent'  => self::$posts['a-public-cpt']->ID,
-            ]
+                'post_author' => self::$users['content_author'],
+                'post_parent' => self::$posts['a-public-cpt']->ID,
+            ],
         );
 
         // Create a private CPT with a public status.
         self::$posts['a-private-cpt'] = $factory->post->create_and_get(
             [
-                'post_type'    => 'a-private-cpt',
-                'post_title'   => 'a-private-cpt',
-                'post_name'    => 'a-private-cpt',
-                'post_status'  => 'publish',
+                'post_type' => 'a-private-cpt',
+                'post_title' => 'a-private-cpt',
+                'post_name' => 'a-private-cpt',
+                'post_status' => 'publish',
                 'post_content' => 'Prevent canonical redirect exposing a-private-cpt titles.',
-                'post_author'  => self::$users['content_author'],
-            ]
+                'post_author' => self::$users['content_author'],
+            ],
         );
 
         // Add fake attachment to the private cpt (file upload not needed).
         self::$posts['a-private-cpt-attachment'] = $factory->post->create_and_get(
             [
-                'post_type'    => 'attachment',
-                'post_title'   => 'a-private-cpt post inherited attachment',
-                'post_name'    => 'a-private-cpt-inherited-attachment',
-                'post_status'  => 'inherit',
+                'post_type' => 'attachment',
+                'post_title' => 'a-private-cpt post inherited attachment',
+                'post_name' => 'a-private-cpt-inherited-attachment',
+                'post_status' => 'inherit',
                 'post_content' => "Prevent canonical redirect exposing post via attachments.\n\n<!--nextpage-->Page 2",
-                'post_author'  => self::$users['content_author'],
-                'post_parent'  => self::$posts['a-private-cpt']->ID,
-            ]
+                'post_author' => self::$users['content_author'],
+                'post_parent' => self::$posts['a-private-cpt']->ID,
+            ],
         );
 
         // Post for trashing.
         self::$posts['trash'] = $factory->post->create_and_get(
             [
-                'post_type'    => 'post',
-                'post_title'   => 'trash post',
-                'post_name'    => 'trash-post',
-                'post_status'  => 'publish',
+                'post_type' => 'post',
+                'post_title' => 'trash post',
+                'post_name' => 'trash-post',
+                'post_status' => 'publish',
                 'post_content' => "Prevent canonical redirect exposing post slugs.\n\n<!--nextpage-->Page 2",
-                'post_author'  => self::$users['content_author'],
-            ]
+                'post_author' => self::$users['content_author'],
+            ],
         );
 
         self::$posts['trash-attachment'] = $factory->post->create_and_get(
             [
-                'post_type'    => 'attachment',
-                'post_title'   => 'trash post inherited attachment',
-                'post_name'    => 'trash-post-inherited-attachment',
-                'post_status'  => 'inherit',
+                'post_type' => 'attachment',
+                'post_title' => 'trash post inherited attachment',
+                'post_name' => 'trash-post-inherited-attachment',
+                'post_status' => 'inherit',
                 'post_content' => "Prevent canonical redirect exposing post via attachments.\n\n<!--nextpage-->Page 2",
-                'post_author'  => self::$users['content_author'],
-                'post_parent'  => self::$posts['trash']->ID,
-            ]
+                'post_author' => self::$users['content_author'],
+                'post_parent' => self::$posts['trash']->ID,
+            ],
         );
 
         // Page for trashing.
         self::$posts['trash-page'] = $factory->post->create_and_get(
             [
-                'post_type'    => 'page',
-                'post_title'   => 'trash page',
-                'post_name'    => 'trash-page',
-                'post_status'  => 'publish',
+                'post_type' => 'page',
+                'post_title' => 'trash page',
+                'post_name' => 'trash-page',
+                'post_status' => 'publish',
                 'post_content' => "Prevent canonical redirect exposing page slugs.\n\n<!--nextpage-->Page 2",
-                'post_author'  => self::$users['content_author'],
-            ]
+                'post_author' => self::$users['content_author'],
+            ],
         );
         wp_trash_post(self::$posts['trash']->ID);
         wp_trash_post(self::$posts['trash-page']->ID);
@@ -186,24 +186,24 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase
         register_post_type(
             'a-public-cpt',
             [
-                'public'  => true,
+                'public' => true,
                 'rewrite' => [
                     'slug' => 'a-public-cpt',
                 ],
-            ]
+            ],
         );
 
         // Register private custom post type.
         register_post_type(
             'a-private-cpt',
             [
-                'public'             => false,
+                'public' => false,
                 'publicly_queryable' => false,
-                'rewrite'            => [
+                'rewrite' => [
                     'slug' => 'a-private-cpt',
                 ],
-                'map_meta_cap'       => true,
-            ]
+                'map_meta_cap' => true,
+            ],
         );
 
         // Register custom private post status.
@@ -211,7 +211,7 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase
             'a-private-status',
             [
                 'private' => true,
-            ]
+            ],
         );
     }
 
@@ -221,14 +221,19 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase
      * @ticket 5272
      * @dataProvider data_canonical_redirects_to_plain_permalinks
      *
-     * @param string $post_key  Post key used for creating fixtures.
+     * @param string $post_key Post key used for creating fixtures.
      * @param string $user_role User role.
      * @param string $requested Requested URL.
-     * @param string $expected  Expected URL.
+     * @param string $expected Expected URL.
      * @param string $enable_attachment_pages Whether to enable attachment pages. Default true.
      */
-    public function test_canonical_redirects_to_plain_permalinks($post_key, $user_role, $requested, $expected, $enable_attachment_pages = true)
-    {
+    public function test_canonical_redirects_to_plain_permalinks(
+        $post_key,
+        $user_role,
+        $requested,
+        $expected,
+        $enable_attachment_pages = true,
+    ) {
         if ($enable_attachment_pages) {
             update_option('wp_attachment_pages_enabled', 1);
         } else {
@@ -245,7 +250,7 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase
          * post object IDs are placeholders that needs to be replaced.
          */
         $requested = str_replace('%ID%', $post->ID, $requested);
-        $expected  = str_replace('%ID%', $post->ID, $expected);
+        $expected = str_replace('%ID%', $post->ID, $expected);
 
         $this->assertCanonical($requested, $expected);
     }
@@ -257,16 +262,21 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase
      */
     public function data_canonical_redirects_to_plain_permalinks()
     {
-        $data              = [];
-        $all_user_list     = ['anon', 'subscriber', 'content_author', 'editor'];
+        $data = [];
+        $all_user_list = ['anon', 'subscriber', 'content_author', 'editor'];
         $select_allow_list = ['content_author', 'editor'];
         $select_block_list = ['anon', 'subscriber'];
         // All post/page keys
-        $all_user_post_status_keys    = ['publish'];
+        $all_user_post_status_keys = ['publish'];
         $select_user_post_status_keys = ['private', 'a-private-status'];
-        $no_user_post_status_keys     = ['future', 'draft', 'pending', 'auto-draft']; // Excludes trash for attachment rules.
-        $select_user_post_type_keys   = ['a-public-cpt'];
-        $no_user_post_type_keys       = ['a-private-cpt'];
+        $no_user_post_status_keys = [
+            'future',
+            'draft',
+            'pending',
+            'auto-draft',
+        ]; // Excludes trash for attachment rules.
+        $select_user_post_type_keys = ['a-public-cpt'];
+        $no_user_post_type_keys = ['a-private-cpt'];
 
         foreach ($all_user_post_status_keys as $post_key) {
             foreach ($all_user_list as $user) {
@@ -849,14 +859,19 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase
      * @ticket 5272
      * @dataProvider data_canonical_redirects_to_pretty_permalinks
      *
-     * @param string $post_key  Post key used for creating fixtures.
+     * @param string $post_key Post key used for creating fixtures.
      * @param string $user_role User role.
      * @param string $requested Requested URL.
-     * @param string $expected  Expected URL.
+     * @param string $expected Expected URL.
      * @param string $enable_attachment_pages Whether to enable attachment pages. Default true.
      */
-    public function test_canonical_redirects_to_pretty_permalinks($post_key, $user_role, $requested, $expected, $enable_attachment_pages = true)
-    {
+    public function test_canonical_redirects_to_pretty_permalinks(
+        $post_key,
+        $user_role,
+        $requested,
+        $expected,
+        $enable_attachment_pages = true,
+    ) {
         if ($enable_attachment_pages) {
             update_option('wp_attachment_pages_enabled', 1);
         } else {
@@ -873,7 +888,7 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase
          * post object IDs are placeholders that needs to be replaced.
          */
         $requested = str_replace('%ID%', $post->ID, $requested);
-        $expected  = str_replace('%ID%', $post->ID, $expected);
+        $expected = str_replace('%ID%', $post->ID, $expected);
 
         $this->assertCanonical($requested, $expected);
     }
@@ -882,24 +897,29 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase
      * Data provider for test_canonical_redirects_to_pretty_permalinks.
      *
      * @return array[] Array of arguments for tests {
-     *     @type string $post_key  Post key used for creating fixtures.
-     *     @type string $user_role User role.
-     *     @type string $requested Requested URL.
-     *     @type string $expected  Expected URL.
+     * @type string $post_key Post key used for creating fixtures.
+     * @type string $user_role User role.
+     * @type string $requested Requested URL.
+     * @type string $expected Expected URL.
      * }
      */
     public function data_canonical_redirects_to_pretty_permalinks()
     {
-        $data              = [];
-        $all_user_list     = ['anon', 'subscriber', 'content_author', 'editor'];
+        $data = [];
+        $all_user_list = ['anon', 'subscriber', 'content_author', 'editor'];
         $select_allow_list = ['content_author', 'editor'];
         $select_block_list = ['anon', 'subscriber'];
         // All post/page keys
-        $all_user_post_status_keys    = ['publish'];
+        $all_user_post_status_keys = ['publish'];
         $select_user_post_status_keys = ['private', 'a-private-status'];
-        $no_user_post_status_keys     = ['future', 'draft', 'pending', 'auto-draft']; // Excludes trash for attachment rules.
-        $select_user_post_type_keys   = ['a-public-cpt'];
-        $no_user_post_type_keys       = ['a-private-cpt'];
+        $no_user_post_status_keys = [
+            'future',
+            'draft',
+            'pending',
+            'auto-draft',
+        ]; // Excludes trash for attachment rules.
+        $select_user_post_type_keys = ['a-public-cpt'];
+        $no_user_post_type_keys = ['a-private-cpt'];
 
         foreach ($all_user_post_status_keys as $post_key) {
             foreach ($all_user_list as $user) {

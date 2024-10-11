@@ -6,21 +6,21 @@
  * Use the following markup structure for accordion behavior:
  *
  * <div class="accordion-container">
- *	<div class="accordion-section open">
- *		<h3 class="accordion-section-title"></h3>
- *		<div class="accordion-section-content">
- *		</div>
- *	</div>
- *	<div class="accordion-section">
- *		<h3 class="accordion-section-title"></h3>
- *		<div class="accordion-section-content">
- *		</div>
- *	</div>
- *	<div class="accordion-section">
- *		<h3 class="accordion-section-title"></h3>
- *		<div class="accordion-section-content">
- *		</div>
- *	</div>
+ *  <div class="accordion-section open">
+ *    <h3 class="accordion-section-title"></h3>
+ *    <div class="accordion-section-content">
+ *    </div>
+ *  </div>
+ *  <div class="accordion-section">
+ *    <h3 class="accordion-section-title"></h3>
+ *    <div class="accordion-section-content">
+ *    </div>
+ *  </div>
+ *  <div class="accordion-section">
+ *    <h3 class="accordion-section-title"></h3>
+ *    <div class="accordion-section-content">
+ *    </div>
+ *  </div>
  * </div>
  *
  * Note that any appropriate tags may be used, as long as the above classes are present.
@@ -29,22 +29,24 @@
  * @output wp-admin/js/accordion.js
  */
 
-( function( $ ){
-
+( function ( $ ) {
 	$( function () {
-
 		// Expand/Collapse accordion sections on click.
-		$( '.accordion-container' ).on( 'click keydown', '.accordion-section-title', function( e ) {
-			if ( e.type === 'keydown' && 13 !== e.which ) { // "Return" key.
-				return;
+		$( '.accordion-container' ).on(
+			'click keydown',
+			'.accordion-section-title',
+			function ( e ) {
+				if ( e.type === 'keydown' && 13 !== e.which ) {
+					// "Return" key.
+					return;
+				}
+
+				e.preventDefault(); // Keep this AFTER the key filter above.
+
+				accordionSwitch( $( this ) );
 			}
-
-			e.preventDefault(); // Keep this AFTER the key filter above.
-
-			accordionSwitch( $( this ) );
-		});
-
-	});
+		);
+	} );
 
 	/**
 	 * Close the current accordion section and open a new one.
@@ -52,7 +54,7 @@
 	 * @param {Object} el Title element of the accordion section to toggle.
 	 * @since 3.6.0
 	 */
-	function accordionSwitch ( el ) {
+	function accordionSwitch( el ) {
 		var section = el.closest( '.accordion-section' ),
 			sectionToggleControl = section.find( '[aria-expanded]' ).first(),
 			container = section.closest( '.accordion-container' ),
@@ -81,14 +83,18 @@
 		}
 
 		// We have to wait for the animations to finish.
-		setTimeout(function(){
-		    container.removeClass( 'opening' );
-		}, 150);
+		setTimeout( function () {
+			container.removeClass( 'opening' );
+		}, 150 );
 
 		// If there's an element with an aria-expanded attribute, assume it's a toggle control and toggle the aria-expanded value.
 		if ( sectionToggleControl ) {
-			sectionToggleControl.attr( 'aria-expanded', String( sectionToggleControl.attr( 'aria-expanded' ) === 'false' ) );
+			sectionToggleControl.attr(
+				'aria-expanded',
+				String(
+					sectionToggleControl.attr( 'aria-expanded' ) === 'false'
+				)
+			);
 		}
 	}
-
-})(jQuery);
+} )( jQuery );

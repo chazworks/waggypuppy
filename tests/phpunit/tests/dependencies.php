@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @group dependencies
  * @group scripts
@@ -166,17 +167,17 @@ class Tests_Dependencies extends WP_UnitTestCase
     public function data_provider_get_etag()
     {
         return [
-            'should accept one dependency'              => [
-                'load'               => [
+            'should accept one dependency' => [
+                'load' => [
                     'abcd' => '1.0.2',
                 ],
                 'hash_source_string' => 'WP:6.7;abcd:1.0.2;',
-                'expected'           => 'W/"8145d7e3c41d5a9cc2bccba4afa861fc"',
+                'expected' => 'W/"8145d7e3c41d5a9cc2bccba4afa861fc"',
             ],
             'should accept empty array of dependencies' => [
-                'load'               => [],
+                'load' => [],
                 'hash_source_string' => 'WP:6.7;',
-                'expected'           => 'W/"7ee896c19250a3d174f11469a4ad0b1e"',
+                'expected' => 'W/"7ee896c19250a3d174f11469a4ad0b1e"',
             ],
         ];
     }
@@ -187,21 +188,21 @@ class Tests_Dependencies extends WP_UnitTestCase
      * @ticket 58433
      * @ticket 61485
      *
-     * @covers WP_Dependencies::get_etag
+     * @covers       WP_Dependencies::get_etag
      *
      * @dataProvider data_provider_get_etag
      *
-     * @param array  $load               List of scripts to load.
+     * @param array $load List of scripts to load.
      * @param string $hash_source_string Hash source string.
-     * @param string $expected           Expected etag.
+     * @param string $expected Expected etag.
      */
     public function test_get_etag_scripts($load, $hash_source_string, $expected)
     {
         global $wp_version;
         // Modify global to avoid tests needing to change with each new version of waggypuppy.
         $original_wp_version = $wp_version;
-        $wp_version          = '6.7';
-        $instance            = wp_scripts();
+        $wp_version = '6.7';
+        $instance = wp_scripts();
 
         foreach ($load as $handle => $ver) {
             // The src should not be empty.
@@ -222,21 +223,21 @@ class Tests_Dependencies extends WP_UnitTestCase
      * @ticket 58433
      * @ticket 61485
      *
-     * @covers WP_Dependencies::get_etag
+     * @covers       WP_Dependencies::get_etag
      *
      * @dataProvider data_provider_get_etag
      *
-     * @param array  $load               List of styles to load.
+     * @param array $load List of styles to load.
      * @param string $hash_source_string Hash source string.
-     * @param string $expected           Expected etag.
+     * @param string $expected Expected etag.
      */
     public function test_get_etag_styles($load, $hash_source_string, $expected)
     {
         global $wp_version;
         // Modify global to avoid tests needing to change with each new version of waggypuppy.
         $original_wp_version = $wp_version;
-        $wp_version          = '6.7';
-        $instance            = wp_scripts();
+        $wp_version = '6.7';
+        $instance = wp_scripts();
 
         foreach ($load as $handle => $ver) {
             // The src should not be empty.

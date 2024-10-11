@@ -26,7 +26,6 @@ class Tests_Post_Attachments extends WP_UnitTestCase
 
     public function test_insert_image_no_thumb()
     {
-
         // This image is smaller than the thumbnail size so it won't have one.
         $filename = (DIR_TESTDATA . '/images/test-image.jpg');
         $contents = file_get_contents($filename);
@@ -127,7 +126,7 @@ class Tests_Post_Attachments extends WP_UnitTestCase
         $upload = wp_upload_bits(wp_basename($filename), null, $contents);
         $this->assertEmpty($upload['error']);
 
-        $id      = $this->_make_attachment($upload);
+        $id = $this->_make_attachment($upload);
         $uploads = wp_upload_dir();
 
         // Intermediate copies should exist: thumbnail and medium.
@@ -185,7 +184,7 @@ class Tests_Post_Attachments extends WP_UnitTestCase
         $upload = wp_upload_bits(wp_basename($filename), null, $contents);
         $this->assertEmpty($upload['error']);
 
-        $id      = $this->_make_attachment($upload);
+        $id = $this->_make_attachment($upload);
         $uploads = wp_upload_dir();
 
         // Check that the file and intermediates exist.
@@ -201,7 +200,7 @@ class Tests_Post_Attachments extends WP_UnitTestCase
         $this->assertSame('2007-06-17DSC_4173-600x904.jpg', $medium_large['file']);
         $this->assertTrue(is_file($uploads['basedir'] . DIRECTORY_SEPARATOR . $medium_large['path']));
 
-        $meta     = wp_get_attachment_metadata($id);
+        $meta = wp_get_attachment_metadata($id);
         $original = $meta['file'];
         $this->assertTrue(is_file($uploads['basedir'] . DIRECTORY_SEPARATOR . $original));
 
@@ -230,7 +229,7 @@ class Tests_Post_Attachments extends WP_UnitTestCase
         $this->assertEmpty($upload['error']);
 
         $upload['url'] = '';
-        $id            = $this->_make_attachment($upload);
+        $id = $this->_make_attachment($upload);
 
         $guid = get_the_guid($id);
         $this->assertNotEmpty($guid);
@@ -253,7 +252,7 @@ class Tests_Post_Attachments extends WP_UnitTestCase
 
         $post = get_post($id, ARRAY_A);
 
-        $post['post_title']   = 'title';
+        $post['post_title'] = 'title';
         $post['post_excerpt'] = 'caption';
         $post['post_content'] = 'description';
 
@@ -283,8 +282,8 @@ class Tests_Post_Attachments extends WP_UnitTestCase
         $post_id = wp_insert_post(
             [
                 'post_content' => 'content',
-                'post_title'   => 'title',
-            ]
+                'post_title' => 'title',
+            ],
         );
 
         // Assert that the attachment has a parent.
@@ -296,7 +295,8 @@ class Tests_Post_Attachments extends WP_UnitTestCase
     /**
      * @ticket 15928
      */
-    public function test_wp_get_attachment_url_should_not_force_https_when_current_page_is_non_ssl_and_siteurl_is_non_ssl()
+    public function test_wp_get_attachment_url_should_not_force_https_when_current_page_is_non_ssl_and_siteurl_is_non_ssl(
+    )
     {
         $siteurl = get_option('siteurl');
         update_option('siteurl', set_url_scheme($siteurl, 'http'));
@@ -348,7 +348,8 @@ class Tests_Post_Attachments extends WP_UnitTestCase
      *
      * Canonical siteurl is non-SSL, but SSL support is available/optional.
      */
-    public function test_wp_get_attachment_url_should_force_https_with_https_on_same_host_when_siteurl_is_non_ssl_but_ssl_is_available()
+    public function test_wp_get_attachment_url_should_force_https_with_https_on_same_host_when_siteurl_is_non_ssl_but_ssl_is_available(
+    )
     {
         $siteurl = get_option('siteurl');
         update_option('siteurl', set_url_scheme($siteurl, 'http'));
@@ -365,7 +366,7 @@ class Tests_Post_Attachments extends WP_UnitTestCase
         $_SERVER['HTTPS'] = 'on';
 
         // Ensure that server host matches the host of wp_upload_dir().
-        $upload_dir           = wp_upload_dir();
+        $upload_dir = wp_upload_dir();
         $_SERVER['HTTP_HOST'] = parse_url($upload_dir['baseurl'], PHP_URL_HOST);
 
         // Test that wp_get_attachemt_url returns with https scheme.
@@ -394,7 +395,7 @@ class Tests_Post_Attachments extends WP_UnitTestCase
         $_SERVER['HTTPS'] = 'on';
 
         // Ensure that server host matches the host of wp_upload_dir().
-        $upload_dir           = wp_upload_dir();
+        $upload_dir = wp_upload_dir();
         $_SERVER['HTTP_HOST'] = parse_url($upload_dir['baseurl'], PHP_URL_HOST);
 
         // Test that wp_get_attachemt_url returns with https scheme.
@@ -406,7 +407,8 @@ class Tests_Post_Attachments extends WP_UnitTestCase
     /**
      * @ticket 15928
      */
-    public function test_wp_get_attachment_url_should_not_force_https_when_administering_over_https_but_siteurl_is_not_https()
+    public function test_wp_get_attachment_url_should_not_force_https_when_administering_over_https_but_siteurl_is_not_https(
+    )
     {
         $siteurl = get_option('siteurl');
         update_option('siteurl', set_url_scheme($siteurl, 'http'));
@@ -461,7 +463,7 @@ class Tests_Post_Attachments extends WP_UnitTestCase
         $filename = DIR_TESTDATA . '/images/test-image.jpg';
         $contents = file_get_contents($filename);
 
-        $upload        = wp_upload_bits(wp_basename($filename), null, $contents);
+        $upload = wp_upload_bits(wp_basename($filename), null, $contents);
         $attachment_id = $this->_make_attachment($upload);
 
         $this->assertTrue(wp_attachment_is_image($attachment_id));
@@ -480,7 +482,7 @@ class Tests_Post_Attachments extends WP_UnitTestCase
         $filename = DIR_TESTDATA . '/images/test-image.psd';
         $contents = file_get_contents($filename);
 
-        $upload        = wp_upload_bits(wp_basename($filename), null, $contents);
+        $upload = wp_upload_bits(wp_basename($filename), null, $contents);
         $attachment_id = $this->_make_attachment($upload);
 
         $this->assertFalse(wp_attachment_is_image($attachment_id));
@@ -551,7 +553,9 @@ class Tests_Post_Attachments extends WP_UnitTestCase
         $icon1 = wp_mime_type_icon('video/mp4', '.png'); // Added `$preferred_ext` parameter.
         $icon2 = wp_mime_type_icon('video/mp4', 'png'); // Added `$preferred_ext` parameter without period.
 
-        $this->assertStringContainsString('images/media/video.png', $icon1, 'Mime type icon should be correctly returned with ".png" argument.');
-        $this->assertStringContainsString('images/media/video.png', $icon2, 'Mime type icon should be correctly returned with "png" argument.');
+        $this->assertStringContainsString('images/media/video.png', $icon1,
+            'Mime type icon should be correctly returned with ".png" argument.');
+        $this->assertStringContainsString('images/media/video.png', $icon2,
+            'Mime type icon should be correctly returned with "png" argument.');
     }
 }

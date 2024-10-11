@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test feed_links_extra().
  *
@@ -73,18 +74,18 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase
         self::$author_id = $factory->user->create(
             [
                 'user_login' => 'author_feed_links_extra',
-                'role'       => 'administrator',
-            ]
+                'role' => 'administrator',
+            ],
         );
 
         // Category.
         self::$category_id = $factory->category->create(
-            ['name' => 'cat_feed_links_extra']
+            ['name' => 'cat_feed_links_extra'],
         );
 
         // Tag.
         self::$tag_id = $factory->tag->create(
-            ['name' => 'tag_feed_links_extra']
+            ['name' => 'tag_feed_links_extra'],
         );
 
         // Taxonomy.
@@ -98,43 +99,43 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase
             self::$post_type,
             [
                 'labels' => [
-                    'name'          => 'Taxonomy Terms',
+                    'name' => 'Taxonomy Terms',
                     'singular_name' => 'Taxonomy Term',
                 ],
-            ]
+            ],
         );
 
         register_post_type(
             self::$post_type,
             [
-                'public'      => true,
+                'public' => true,
                 'has_archive' => true,
-                'taxonomies'  => [self::$tax_id],
-                'labels'      => ['name' => 'CPT for feed_links_extra()'],
-            ]
+                'taxonomies' => [self::$tax_id],
+                'labels' => ['name' => 'CPT for feed_links_extra()'],
+            ],
         );
 
         // Posts.
         self::$post_no_comment_id = $factory->post->create(
-            ['post_title' => 'Post with no comments']
+            ['post_title' => 'Post with no comments'],
         );
 
         self::$post_with_comment_id = $factory->post->create(
-            ['post_title' => 'Post with a comment']
+            ['post_title' => 'Post with a comment'],
         );
 
         $factory->comment->create(
             [
-                'comment_author'  => self::$author_id,
+                'comment_author' => self::$author_id,
                 'comment_post_ID' => self::$post_with_comment_id,
-            ]
+            ],
         );
 
         self::$post_with_cpt_id = $factory->post->create(
             [
                 'post_title' => 'Post with a custom post type',
-                'post_type'  => self::$post_type,
-            ]
+                'post_type' => self::$post_type,
+            ],
         );
 
         wp_set_object_terms(self::$post_with_cpt_id, 'tax_term', self::$tax_id);
@@ -149,20 +150,20 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase
             self::$post_type,
             [
                 'labels' => [
-                    'name'          => 'Taxonomy Terms',
+                    'name' => 'Taxonomy Terms',
                     'singular_name' => 'Taxonomy Term',
                 ],
-            ]
+            ],
         );
 
         register_post_type(
             self::$post_type,
             [
-                'public'      => true,
+                'public' => true,
                 'has_archive' => true,
-                'taxonomies'  => [self::$tax_id],
-                'labels'      => ['name' => 'CPT for feed_links_extra()'],
-            ]
+                'taxonomies' => [self::$tax_id],
+                'labels' => ['name' => 'CPT for feed_links_extra()'],
+            ],
         );
     }
 
@@ -170,19 +171,19 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase
      * @dataProvider data_feed_links_extra
      * @ticket 54713
      *
-     * @param string $title     The expected title.
-     * @param string $type      The name of the test class property containing the object ID.
-     * @param array  $args {
+     * @param string $title The expected title.
+     * @param string $type The name of the test class property containing the object ID.
+     * @param array $args {
      *        Optional arguments. Default empty.
      *
-     *        @type string $separator     The separator between site name and feed type.
-     *        @type string $singletitle   The title of the comments feed.
-     *        @type string $cattitle      The title of the category feed.
-     *        @type string $tagtitle      The title of the tag feed.
-     *        @type string $taxtitle      The title of the taxonomy feed.
-     *        @type string $authortitle   The title of the author feed.
-     *        @type string $searchtitle   The title of the search feed.
-     *        @type string $posttypetitle The title of the post type feed.
+     * @type string $separator The separator between site name and feed type.
+     * @type string $singletitle The title of the comments feed.
+     * @type string $cattitle The title of the category feed.
+     * @type string $tagtitle The title of the tag feed.
+     * @type string $taxtitle The title of the taxonomy feed.
+     * @type string $authortitle The title of the author feed.
+     * @type string $searchtitle The title of the search feed.
+     * @type string $posttypetitle The title of the post type feed.
      * }
      */
     public function test_feed_links_extra($title, $type, array $args = [])
@@ -202,7 +203,7 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase
             $expected = sprintf(
                 '<link rel="alternate" type="application/rss+xml" title="%s" href="%s" />' . "\n",
                 esc_attr($title),
-                esc_url($feed_link)
+                esc_url($feed_link),
             );
         }
 
@@ -217,185 +218,185 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase
     public function data_feed_links_extra()
     {
         return [
-            'a post with a comment'                        => [
+            'a post with a comment' => [
                 'title' => 'Test Blog &raquo; Post with a comment Comments Feed',
-                'type'  => 'post_with_comment',
+                'type' => 'post_with_comment',
             ],
             'a post with a comment and a custom separator' => [
                 'title' => 'Test Blog // Post with a comment Comments Feed',
-                'type'  => 'post_with_comment',
-                'args'  => [
+                'type' => 'post_with_comment',
+                'args' => [
                     'separator' => '//',
                 ],
             ],
-            'a post with a comment and a custom title'     => [
+            'a post with a comment and a custom title' => [
                 'title' => 'Custom Title for Singular Feed',
-                'type'  => 'post_with_comment',
-                'args'  => [
+                'type' => 'post_with_comment',
+                'args' => [
                     'singletitle' => 'Custom Title for Singular Feed',
                 ],
             ],
             'a post with a comment, a custom separator and a custom title' => [
                 'title' => 'Test Blog // Custom Title for Singular Feed',
-                'type'  => 'post_with_comment',
-                'args'  => [
-                    'separator'   => '//',
+                'type' => 'post_with_comment',
+                'args' => [
+                    'separator' => '//',
                     'singletitle' => '%1$s %2$s Custom Title for Singular Feed',
                 ],
             ],
-            'a custom post type'                           => [
+            'a custom post type' => [
                 'title' => 'Test Blog &raquo; CPT for feed_links_extra() Feed',
-                'type'  => 'post_type',
+                'type' => 'post_type',
             ],
-            'a custom post type and a custom separator'    => [
+            'a custom post type and a custom separator' => [
                 'title' => 'Test Blog // CPT for feed_links_extra() Feed',
-                'type'  => 'post_type',
-                'args'  => [
+                'type' => 'post_type',
+                'args' => [
                     'separator' => '//',
                 ],
             ],
-            'a custom post type and a custom title'        => [
+            'a custom post type and a custom title' => [
                 'title' => 'Custom Title for CPT Feed',
-                'type'  => 'post_type',
-                'args'  => [
+                'type' => 'post_type',
+                'args' => [
                     'posttypetitle' => 'Custom Title for CPT Feed',
                 ],
             ],
             'a custom post type, a custom separator and a custom title' => [
                 'title' => 'Test Blog // Custom Title for CPT Feed',
-                'type'  => 'post_type',
-                'args'  => [
-                    'separator'     => '//',
+                'type' => 'post_type',
+                'args' => [
+                    'separator' => '//',
                     'posttypetitle' => '%1$s %2$s Custom Title for CPT Feed',
                 ],
             ],
-            'a category'                                   => [
+            'a category' => [
                 'title' => 'Test Blog &raquo; cat_feed_links_extra Category Feed',
-                'type'  => 'category',
+                'type' => 'category',
             ],
-            'a category and a custom separator'            => [
+            'a category and a custom separator' => [
                 'title' => 'Test Blog // cat_feed_links_extra Category Feed',
-                'type'  => 'category',
-                'args'  => [
+                'type' => 'category',
+                'args' => [
                     'separator' => '//',
                 ],
             ],
-            'a category and a custom title'                => [
+            'a category and a custom title' => [
                 'title' => 'Custom Title for Category Feed',
-                'type'  => 'category',
-                'args'  => [
+                'type' => 'category',
+                'args' => [
                     'cattitle' => 'Custom Title for Category Feed',
                 ],
             ],
             'a category, a custom separator and a custom title' => [
                 'title' => 'Test Blog // Custom Title for Category Feed',
-                'type'  => 'category',
-                'args'  => [
+                'type' => 'category',
+                'args' => [
                     'separator' => '//',
-                    'cattitle'  => '%1$s %2$s Custom Title for Category Feed',
+                    'cattitle' => '%1$s %2$s Custom Title for Category Feed',
                 ],
             ],
-            'a tag'                                        => [
+            'a tag' => [
                 'title' => 'Test Blog &raquo; tag_feed_links_extra Tag Feed',
-                'type'  => 'tag',
+                'type' => 'tag',
             ],
-            'a tag and a custom separator'                 => [
+            'a tag and a custom separator' => [
                 'title' => 'Test Blog // tag_feed_links_extra Tag Feed',
-                'type'  => 'tag',
-                'args'  => [
+                'type' => 'tag',
+                'args' => [
                     'separator' => '//',
                 ],
             ],
-            'a tag and a custom title'                     => [
+            'a tag and a custom title' => [
                 'title' => 'Custom Title for Tag Feed',
-                'type'  => 'tag',
-                'args'  => [
+                'type' => 'tag',
+                'args' => [
                     'tagtitle' => 'Custom Title for Tag Feed',
                 ],
             ],
             'a tag, a custom separator and a custom title' => [
                 'title' => 'Test Blog // Custom Title for Tag Feed',
-                'type'  => 'tag',
-                'args'  => [
+                'type' => 'tag',
+                'args' => [
                     'separator' => '//',
-                    'tagtitle'  => '%1$s %2$s Custom Title for Tag Feed',
+                    'tagtitle' => '%1$s %2$s Custom Title for Tag Feed',
                 ],
             ],
-            'a taxonomy'                                   => [
+            'a taxonomy' => [
                 'title' => 'Test Blog &raquo; tax_term Taxonomy Term Feed',
-                'type'  => 'tax',
+                'type' => 'tax',
             ],
-            'a taxonomy and a custom separator'            => [
+            'a taxonomy and a custom separator' => [
                 'title' => 'Test Blog // tax_term Taxonomy Term Feed',
-                'type'  => 'tax',
-                'args'  => [
+                'type' => 'tax',
+                'args' => [
                     'separator' => '//',
                 ],
             ],
-            'a taxonomy and a custom title'                => [
+            'a taxonomy and a custom title' => [
                 'title' => 'Custom Title for Taxonomy Feed',
-                'type'  => 'tax',
-                'args'  => [
+                'type' => 'tax',
+                'args' => [
                     'taxtitle' => 'Custom Title for Taxonomy Feed',
                 ],
             ],
             'a taxonomy, a custom separator and a custom title' => [
                 'title' => 'Test Blog // Custom Title for Taxonomy Feed',
-                'type'  => 'tax',
-                'args'  => [
+                'type' => 'tax',
+                'args' => [
                     'separator' => '//',
-                    'taxtitle'  => '%1$s %2$s Custom Title for Taxonomy Feed',
+                    'taxtitle' => '%1$s %2$s Custom Title for Taxonomy Feed',
                 ],
             ],
-            'an author'                                    => [
+            'an author' => [
                 'title' => 'Test Blog &raquo; Posts by author_feed_links_extra Feed',
-                'type'  => 'author',
+                'type' => 'author',
             ],
-            'an author and a custom separator'             => [
+            'an author and a custom separator' => [
                 'title' => 'Test Blog // Posts by author_feed_links_extra Feed',
-                'type'  => 'author',
-                'args'  => [
+                'type' => 'author',
+                'args' => [
                     'separator' => '//',
                 ],
             ],
-            'an author and a custom title'                 => [
+            'an author and a custom title' => [
                 'title' => 'Custom Title for Author Feed',
-                'type'  => 'author',
-                'args'  => [
+                'type' => 'author',
+                'args' => [
                     'authortitle' => 'Custom Title for Author Feed',
                 ],
             ],
             'an author, a custom separator and a custom title' => [
                 'title' => 'Test Blog // Custom Title for Author Feed',
-                'type'  => 'author',
-                'args'  => [
-                    'separator'   => '//',
+                'type' => 'author',
+                'args' => [
+                    'separator' => '//',
                     'authortitle' => '%1$s %2$s Custom Title for Author Feed',
                 ],
             ],
-            'search results'                               => [
+            'search results' => [
                 'title' => 'Test Blog &raquo; Search Results for &#8220;Search&#8221; Feed',
-                'type'  => 'search',
+                'type' => 'search',
             ],
-            'search results and a custom separator'        => [
+            'search results and a custom separator' => [
                 'title' => 'Test Blog // Search Results for &#8220;Search&#8221; Feed',
-                'type'  => 'search',
-                'args'  => [
+                'type' => 'search',
+                'args' => [
                     'separator' => '//',
                 ],
             ],
-            'search results and a custom title'            => [
+            'search results and a custom title' => [
                 'title' => 'Custom Title for Search Feed',
-                'type'  => 'search',
-                'args'  => [
+                'type' => 'search',
+                'args' => [
                     'searchtitle' => 'Custom Title for Search Feed',
                 ],
             ],
             'search results, a custom separator and a custom title' => [
                 'title' => 'Test Blog // Custom Title for Search Feed',
-                'type'  => 'search',
-                'args'  => [
-                    'separator'   => '//',
+                'type' => 'search',
+                'args' => [
+                    'separator' => '//',
                     'searchtitle' => '%1$s %2$s Custom Title for Search Feed',
                 ],
             ],
@@ -445,9 +446,14 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase
 
         $this->go_to(get_the_permalink(self::$post_no_comment_id));
 
-        $expected  = '<link rel="alternate" type="application/rss+xml"';
+        $expected = '<link rel="alternate" type="application/rss+xml"';
         $expected .= ' title="Test Blog &raquo; Post with no comments Comments Feed"';
-        $expected .= ' href="http://' . WP_TESTS_DOMAIN . '/?feed=rss2&#038;p=' . self::$post_no_comment_id . '" />' . "\n";
+        $expected .= ' href="http://'
+            . WP_TESTS_DOMAIN
+            . '/?feed=rss2&#038;p='
+            . self::$post_no_comment_id
+            . '" />'
+            . "\n";
         $this->assertSame($expected, get_echo('feed_links_extra'));
     }
 
@@ -461,9 +467,14 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase
 
         $this->go_to(get_the_permalink(self::$post_no_comment_id));
 
-        $expected  = '<link rel="alternate" type="application/rss+xml"';
+        $expected = '<link rel="alternate" type="application/rss+xml"';
         $expected .= ' title="Test Blog &raquo; Post with no comments Comments Feed"';
-        $expected .= ' href="http://' . WP_TESTS_DOMAIN . '/?feed=rss2&#038;p=' . self::$post_no_comment_id . '" />' . "\n";
+        $expected .= ' href="http://'
+            . WP_TESTS_DOMAIN
+            . '/?feed=rss2&#038;p='
+            . self::$post_no_comment_id
+            . '" />'
+            . "\n";
         $this->assertSame($expected, get_echo('feed_links_extra'));
     }
 
@@ -477,16 +488,22 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase
 
         $this->go_to(get_the_permalink(self::$post_with_comment_id));
 
-        $expected  = '<link rel="alternate" type="application/rss+xml"';
+        $expected = '<link rel="alternate" type="application/rss+xml"';
         $expected .= ' title="Test Blog &raquo; Post with a comment Comments Feed"';
-        $expected .= ' href="http://' . WP_TESTS_DOMAIN . '/?feed=rss2&#038;p=' . self::$post_with_comment_id . '" />' . "\n";
+        $expected .= ' href="http://'
+            . WP_TESTS_DOMAIN
+            . '/?feed=rss2&#038;p='
+            . self::$post_with_comment_id
+            . '" />'
+            . "\n";
         $this->assertSame($expected, get_echo('feed_links_extra'));
     }
 
     /**
      * @ticket 54713
      */
-    public function test_feed_links_extra_should_return_empty_when_comments_and_pings_are_closed_and_post_has_no_comments()
+    public function test_feed_links_extra_should_return_empty_when_comments_and_pings_are_closed_and_post_has_no_comments(
+    )
     {
         add_filter('comments_open', '__return_false');
         add_filter('pings_open', '__return_false');
@@ -504,21 +521,26 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase
             'default_feed',
             static function () {
                 return 'foo';
-            }
+            },
         );
 
         add_filter(
             'feed_content_type',
             static function () {
                 return 'testing/foo';
-            }
+            },
         );
 
         $this->go_to(get_the_permalink(self::$post_with_comment_id));
 
-        $expected  = '<link rel="alternate" type="testing/foo"';
+        $expected = '<link rel="alternate" type="testing/foo"';
         $expected .= ' title="Test Blog &raquo; Post with a comment Comments Feed"';
-        $expected .= ' href="http://' . WP_TESTS_DOMAIN . '/?feed=foo&#038;p=' . self::$post_with_comment_id . '" />' . "\n";
+        $expected .= ' href="http://'
+            . WP_TESTS_DOMAIN
+            . '/?feed=foo&#038;p='
+            . self::$post_with_comment_id
+            . '" />'
+            . "\n";
         $this->assertSame($expected, get_echo('feed_links_extra'));
     }
 
@@ -557,12 +579,12 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase
     {
         return [
             'empty string' => ['callback' => '__return_empty_string'],
-            'empty array'  => ['callback' => '__return_empty_array'],
-            'zero int'     => ['callback' => '__return_zero'],
-            'zero float'   => ['callback' => [$this, 'cb_return_zero_float']],
-            'zero string'  => ['callback' => [$this, 'cb_return_zero_string']],
-            'null'         => ['callback' => '__return_null'],
-            'false'        => ['callback' => '__return_false'],
+            'empty array' => ['callback' => '__return_empty_array'],
+            'zero int' => ['callback' => '__return_zero'],
+            'zero float' => ['callback' => [$this, 'cb_return_zero_float']],
+            'zero string' => ['callback' => [$this, 'cb_return_zero_string']],
+            'null' => ['callback' => '__return_null'],
+            'false' => ['callback' => '__return_false'],
         ];
     }
 
@@ -589,7 +611,8 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase
     /**
      * @ticket 54703
      */
-    public function test_feed_links_extra_should_output_the_comments_feed_link_when_show_comments_feed_filter_returns_true()
+    public function test_feed_links_extra_should_output_the_comments_feed_link_when_show_comments_feed_filter_returns_true(
+    )
     {
         add_filter('feed_links_show_comments_feed', '__return_true');
 
@@ -602,7 +625,7 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase
      *
      * @ticket 55904
      *
-     * @param string $type   The name of the test class property containing the object ID.
+     * @param string $type The name of the test class property containing the object ID.
      * @param string $filter The name of the filter to set to false.
      */
     public function test_feed_links_extra_should_output_nothing_when_filters_return_false($type, $filter)
@@ -624,31 +647,31 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase
     {
         return [
             'a post with a comment' => [
-                'type'   => 'post_with_comment',
+                'type' => 'post_with_comment',
                 'filter' => 'feed_links_extra_show_post_comments_feed',
             ],
-            'a custom post type'    => [
-                'type'   => 'post_type',
+            'a custom post type' => [
+                'type' => 'post_type',
                 'filter' => 'feed_links_extra_show_post_type_archive_feed',
             ],
-            'a category'            => [
-                'type'   => 'category',
+            'a category' => [
+                'type' => 'category',
                 'filter' => 'feed_links_extra_show_category_feed',
             ],
-            'a tag'                 => [
-                'type'   => 'tag',
+            'a tag' => [
+                'type' => 'tag',
                 'filter' => 'feed_links_extra_show_tag_feed',
             ],
-            'a taxonomy'            => [
-                'type'   => 'tax',
+            'a taxonomy' => [
+                'type' => 'tax',
                 'filter' => 'feed_links_extra_show_tax_feed',
             ],
-            'an author'             => [
-                'type'   => 'author',
+            'an author' => [
+                'type' => 'author',
                 'filter' => 'feed_links_extra_show_author_feed',
             ],
-            'search results'        => [
-                'type'   => 'search',
+            'search results' => [
+                'type' => 'search',
                 'filter' => 'feed_links_extra_show_search_feed',
             ],
         ];

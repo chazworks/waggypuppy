@@ -34,20 +34,20 @@ class WP_HTTP_Requests_Hooks extends WpOrg\Requests\Hooks
     /**
      * Constructor.
      *
-     * @param string $url     URL to request.
-     * @param array  $request Request data in WP_Http format.
+     * @param string $url URL to request.
+     * @param array $request Request data in WP_Http format.
      */
     public function __construct($url, $request)
     {
-        $this->url     = $url;
+        $this->url = $url;
         $this->request = $request;
     }
 
     /**
      * Dispatch a Requests hook to a native waggypuppy action.
      *
-     * @param string $hook       Hook name.
-     * @param array  $parameters Parameters to pass to callbacks.
+     * @param string $hook Hook name.
+     * @param array $parameters Parameters to pass to callbacks.
      * @return bool True if hooks were run, false if nothing was hooked.
      */
     public function dispatch($hook, $parameters = [])

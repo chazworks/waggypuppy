@@ -28,7 +28,7 @@ class TestFactoryFor extends WP_UnitTestCase
 
     public function test_get_object_by_id_gets_an_object_with_the_same_name()
     {
-        $id     = $this->category_factory->create(['name' => 'Boo']);
+        $id = $this->category_factory->create(['name' => 'Boo']);
         $object = $this->category_factory->get_object_by_id($id);
         $this->assertSame('Boo', $object->name);
     }
@@ -36,8 +36,8 @@ class TestFactoryFor extends WP_UnitTestCase
     public function test_the_taxonomy_argument_overrules_the_factory_taxonomy()
     {
         $term_factory = new WP_UnitTest_Factory_For_term(null, 'category');
-        $id           = $term_factory->create(['taxonomy' => 'post_tag']);
-        $term         = get_term($id, 'post_tag');
+        $id = $term_factory->create(['taxonomy' => 'post_tag']);
+        $term = get_term($id, 'post_tag');
         $this->assertSame($id, $term->term_id);
     }
 

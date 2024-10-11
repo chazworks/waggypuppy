@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering WP_REST_Block_Directory_Controller functionality.
  *
@@ -22,16 +23,16 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
     /**
      * Set up class test fixtures.
      *
+     * @param WP_UnitTest_Factory $factory waggypuppy unit test factory.
      * @since 5.5.0
      *
-     * @param WP_UnitTest_Factory $factory waggypuppy unit test factory.
      */
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$admin_id = $factory->user->create(
             [
                 'role' => 'administrator',
-            ]
+            ],
         );
 
         if (is_multisite()) {
@@ -60,9 +61,9 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
     public function test_context_param()
     {
         // Collection.
-        $request  = new WP_REST_Request('OPTIONS', '/wp/v2/block-directory/search');
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/block-directory/search');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
         $this->assertSame(['view'], $data['endpoints'][0]['args']['context']['enum']);
     }
@@ -76,7 +77,7 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
         $this->mock_remote_request(
             [
                 'body' => '{"info":{"page":1,"pages":0,"results":0},"plugins":[]}',
-            ]
+            ],
         );
 
         $request = new WP_REST_Request('GET', '/wp/v2/block-directory/search');
@@ -124,13 +125,13 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
         $this->mock_remote_request(
             [
                 'body' => '{"info":{"page":1,"pages":0,"results":0},"plugins":[]}',
-            ]
+            ],
         );
 
         $request = new WP_REST_Request('GET', '/wp/v2/block-directory/search');
         $request->set_query_params(['term' => '0c4549ee68f24eaaed46a49dc983ecde']);
         $response = rest_do_request($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         // Should produce a 200 status with an empty array.
         $this->assertSame(200, $response->status);
@@ -178,26 +179,26 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
 
         $controller = new WP_REST_Block_Directory_Controller();
 
-        $plugin  = $this->get_mock_plugin();
+        $plugin = $this->get_mock_plugin();
         $request = new WP_REST_Request('GET', '/wp/v2/block-directory/search');
         $request->set_query_params(['term' => 'block']);
 
         $response = $controller->prepare_item_for_response($plugin, $request);
 
         $expected = [
-            'name'                => 'sortabrilliant/guidepost',
-            'title'               => 'Guidepost',
-            'description'         => 'A guidepost gives you directions. It lets you know where you’re going. It gives you a preview of what’s to come.',
-            'id'                  => 'guidepost',
-            'rating'              => 4.3,
-            'rating_count'        => 90,
-            'active_installs'     => 100,
+            'name' => 'sortabrilliant/guidepost',
+            'title' => 'Guidepost',
+            'description' => 'A guidepost gives you directions. It lets you know where you’re going. It gives you a preview of what’s to come.',
+            'id' => 'guidepost',
+            'rating' => 4.3,
+            'rating_count' => 90,
+            'active_installs' => 100,
             'author_block_rating' => 0,
-            'author_block_count'  => 1,
-            'author'              => 'sorta brilliant',
-            'icon'                => 'https://ps.w.org/guidepost/assets/icon-128x128.jpg?rev=2235512',
-            'last_updated'        => gmdate('Y-m-d\TH:i:s', strtotime($plugin['last_updated'])),
-            'humanized_updated'   => sprintf('%s ago', human_time_diff(strtotime($plugin['last_updated']))),
+            'author_block_count' => 1,
+            'author' => 'sorta brilliant',
+            'icon' => 'https://ps.w.org/guidepost/assets/icon-128x128.jpg?rev=2235512',
+            'last_updated' => gmdate('Y-m-d\TH:i:s', strtotime($plugin['last_updated'])),
+            'humanized_updated' => sprintf('%s ago', human_time_diff(strtotime($plugin['last_updated']))),
         ];
 
         $this->assertSame($expected, $response->get_data());
@@ -213,7 +214,7 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
         $request = new WP_REST_Request('OPTIONS', '/wp/v2/block-directory/search');
         $request->set_query_params(['term' => 'foo']);
         $response = rest_do_request($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         // Check endpoints
         $this->assertSame(['GET'], $data['endpoints'][0]['methods']);
@@ -247,23 +248,23 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
 
         // Fetch the block directory schema.
         $request = new WP_REST_Request('OPTIONS', '/wp/v2/block-directory/search');
-        $schema  = rest_get_server()->dispatch($request)->get_data()['schema'];
+        $schema = rest_get_server()->dispatch($request)->get_data()['schema'];
 
         add_filter(
             'plugins_api',
             static function () use ($plugin) {
-                return (object) [
-                    'info'    =>
+                return (object)[
+                    'info' =>
                         [
-                            'page'    => 1,
-                            'pages'   => 1,
+                            'page' => 1,
+                            'pages' => 1,
                             'results' => 1,
                         ],
                     'plugins' => [
                         $plugin,
                     ],
                 ];
-            }
+            },
         );
 
         // Fetch a block plugin.
@@ -271,7 +272,7 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
         $request->set_query_params(['term' => 'cache']);
 
         $result = rest_get_server()->dispatch($request);
-        $data   = $result->get_data();
+        $data = $result->get_data();
 
         $valid = rest_validate_value_from_schema($data[0], $schema);
 
@@ -281,9 +282,9 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
     /**
      * Simulate a network failure on outbound http requests to a given hostname.
      *
+     * @param string $blocked_host The host to block connections to.
      * @since 5.5.0
      *
-     * @param string $blocked_host The host to block connections to.
      */
     private function prevent_requests_to_host($blocked_host = 'api.wp.org')
     {
@@ -291,78 +292,79 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
             'pre_http_request',
             static function ($response, $parsed_args, $url) use ($blocked_host) {
                 if (@parse_url($url, PHP_URL_HOST) === $blocked_host) {
-                    return new WP_Error('plugins_api_failed', "An expected error occurred connecting to $blocked_host because of a unit test", "cURL error 7: Failed to connect to $blocked_host port 80: Connection refused");
-
+                    return new WP_Error('plugins_api_failed',
+                        "An expected error occurred connecting to $blocked_host because of a unit test",
+                        "cURL error 7: Failed to connect to $blocked_host port 80: Connection refused");
                 }
 
                 return $response;
             },
             10,
-            3
+            3,
         );
     }
 
     /**
      * Gets an example of the data returned from the {@see plugins_api()} for a block.
      *
+     * @return array
      * @since 5.5.0
      *
-     * @return array
      */
     private function get_mock_plugin()
     {
         return [
-            'name'                     => 'Guidepost',
-            'slug'                     => 'guidepost',
-            'version'                  => '1.2.1',
-            'author'                   => '<a href="https://sortabrilliant.com">sorta brilliant</a>',
-            'author_profile'           => 'https://profiles.wp.org/sortabrilliant',
-            'requires'                 => '5.0',
-            'tested'                   => '5.4.0',
-            'requires_php'             => '5.6',
-            'rating'                   => 86,
-            'ratings'                  => [
+            'name' => 'Guidepost',
+            'slug' => 'guidepost',
+            'version' => '1.2.1',
+            'author' => '<a href="https://sortabrilliant.com">sorta brilliant</a>',
+            'author_profile' => 'https://profiles.wp.org/sortabrilliant',
+            'requires' => '5.0',
+            'tested' => '5.4.0',
+            'requires_php' => '5.6',
+            'rating' => 86,
+            'ratings' => [
                 5 => 50,
                 4 => 25,
                 3 => 7,
                 2 => 5,
                 1 => 3,
             ],
-            'num_ratings'              => 90,
-            'support_threads'          => 1,
+            'num_ratings' => 90,
+            'support_threads' => 1,
             'support_threads_resolved' => 0,
-            'active_installs'          => 100,
-            'downloaded'               => 1112,
-            'last_updated'             => '2020-03-23 5:13am GMT',
-            'added'                    => '2020-01-29',
-            'homepage'                 => 'https://sortabrilliant.com/guidepost/',
-            'description'              => '<p>A guidepost gives you directions. It lets you know where you’re going. It gives you a preview of what’s to come. How does it work? Guideposts are magic, no they really are.</p>',
-            'short_description'        => 'A guidepost gives you directions. It lets you know where you’re going. It gives you a preview of what’s to come.',
-            'download_link'            => 'https://downloads.wp.org/plugin/guidepost.1.2.1.zip',
-            'tags'                     => [
-                'block'   => 'block',
+            'active_installs' => 100,
+            'downloaded' => 1112,
+            'last_updated' => '2020-03-23 5:13am GMT',
+            'added' => '2020-01-29',
+            'homepage' => 'https://sortabrilliant.com/guidepost/',
+            'description' => '<p>A guidepost gives you directions. It lets you know where you’re going. It gives you a preview of what’s to come. How does it work? Guideposts are magic, no they really are.</p>',
+            'short_description' => 'A guidepost gives you directions. It lets you know where you’re going. It gives you a preview of what’s to come.',
+            'download_link' => 'https://downloads.wp.org/plugin/guidepost.1.2.1.zip',
+            'tags' => [
+                'block' => 'block',
                 'heading' => 'heading',
-                'style'   => 'style',
+                'style' => 'style',
             ],
-            'donate_link'              => '',
-            'icons'                    => [
+            'donate_link' => '',
+            'icons' => [
                 '1x' => 'https://ps.w.org/guidepost/assets/icon-128x128.jpg?rev=2235512',
                 '2x' => 'https://ps.w.org/guidepost/assets/icon-256x256.jpg?rev=2235512',
             ],
-            'blocks'                   => [
+            'blocks' => [
                 'sortabrilliant/guidepost' => [
-                    'name'  => 'sortabrilliant/guidepost',
+                    'name' => 'sortabrilliant/guidepost',
                     'title' => 'Guidepost',
                 ],
             ],
-            'block_assets'             => [
+            'block_assets' => [
                 0 => '/tags/1.2.1/build/index.js',
                 1 => '/tags/1.2.1/build/guidepost-editor.css',
                 2 => '/tags/1.2.1/build/guidepost-style.css',
                 3 => '/tags/1.2.1/build/guidepost-theme.js',
             ],
-            'author_block_count'       => 1,
-            'author_block_rating'      => 0,
+            'author_block_count' => 1,
+            'author_block_rating' => 0,
         ];
     }
 
@@ -370,9 +372,9 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
      * Mocks the remote request via `'pre_http_request'` filter by
      * returning the expected response.
      *
+     * @param array $expected Expected response, which is merged with the default response.
      * @since 5.9.0
      *
-     * @param array $expected Expected response, which is merged with the default response.
      */
     private function mock_remote_request(array $expected)
     {
@@ -380,17 +382,17 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
             'pre_http_request',
             static function () use ($expected) {
                 $default = [
-                    'headers'  => [],
+                    'headers' => [],
                     'response' => [
-                        'code'    => 200,
+                        'code' => 200,
                         'message' => 'OK',
                     ],
-                    'body'     => '',
-                    'cookies'  => [],
+                    'body' => '',
+                    'cookies' => [],
                     'filename' => null,
                 ];
                 return array_merge($default, $expected);
-            }
+            },
         );
     }
 }

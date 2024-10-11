@@ -31,7 +31,7 @@ class Tests_Date_XMLRPC extends WP_XMLRPC_UnitTestCase
         $timezone = 'Europe/Helsinki';
         update_option('timezone_string', $timezone);
 
-        $datetime    = new DateTimeImmutable('now', new DateTimeZone($timezone));
+        $datetime = new DateTimeImmutable('now', new DateTimeZone($timezone));
         $datetimeutc = $datetime->setTimezone(new DateTimeZone('UTC'));
 
         $this->make_user_by_role('editor');
@@ -43,18 +43,18 @@ class Tests_Date_XMLRPC extends WP_XMLRPC_UnitTestCase
                     'editor',
                     'editor',
                     [
-                        'title'        => 'test',
+                        'title' => 'test',
                         'post_content' => 'test',
-                        'dateCreated'  => new IXR_Date($datetimeutc->format('Ymd\TH:i:s\Z')),
+                        'dateCreated' => new IXR_Date($datetimeutc->format('Ymd\TH:i:s\Z')),
                     ],
-                ]
-            )
+                ],
+            ),
         );
 
         $this->assertSame(
             $datetime->format('Y-m-d H:i:s'),
             $post->post_date,
-            'UTC time with explicit time zone into mw_newPost'
+            'UTC time with explicit time zone into mw_newPost',
         );
 
         $post = get_post(
@@ -64,18 +64,18 @@ class Tests_Date_XMLRPC extends WP_XMLRPC_UnitTestCase
                     'editor',
                     'editor',
                     [
-                        'title'        => 'test',
+                        'title' => 'test',
                         'post_content' => 'test',
-                        'dateCreated'  => new IXR_Date($datetime->format('Ymd\TH:i:s')),
+                        'dateCreated' => new IXR_Date($datetime->format('Ymd\TH:i:s')),
                     ],
-                ]
-            )
+                ],
+            ),
         );
 
         $this->assertSame(
             $datetime->format('Y-m-d H:i:s'),
             $post->post_date,
-            'Local time w/o time zone into mw_newPost'
+            'Local time w/o time zone into mw_newPost',
         );
 
         $post = get_post(
@@ -85,18 +85,18 @@ class Tests_Date_XMLRPC extends WP_XMLRPC_UnitTestCase
                     'editor',
                     'editor',
                     [
-                        'title'            => 'test',
-                        'post_content'     => 'test',
+                        'title' => 'test',
+                        'post_content' => 'test',
                         'date_created_gmt' => new IXR_Date($datetimeutc->format('Ymd\TH:i:s')),
                     ],
-                ]
-            )
+                ],
+            ),
         );
 
         $this->assertSame(
             $datetime->format('Y-m-d H:i:s'),
             $post->post_date,
-            'UTC time into mw_newPost'
+            'UTC time into mw_newPost',
         );
 
         $post = get_post(
@@ -106,18 +106,18 @@ class Tests_Date_XMLRPC extends WP_XMLRPC_UnitTestCase
                     'editor',
                     'editor',
                     [
-                        'title'        => 'test',
+                        'title' => 'test',
                         'post_content' => 'test',
-                        'post_date'    => $datetime->format('Ymd\TH:i:s'),
+                        'post_date' => $datetime->format('Ymd\TH:i:s'),
                     ],
-                ]
-            )
+                ],
+            ),
         );
 
         $this->assertSame(
             $datetime->format('Y-m-d H:i:s'),
             $post->post_date,
-            'Local time into wp_newPost'
+            'Local time into wp_newPost',
         );
 
         $post = get_post(
@@ -127,18 +127,18 @@ class Tests_Date_XMLRPC extends WP_XMLRPC_UnitTestCase
                     'editor',
                     'editor',
                     [
-                        'title'         => 'test',
-                        'post_content'  => 'test',
+                        'title' => 'test',
+                        'post_content' => 'test',
                         'post_date_gmt' => $datetimeutc->format('Ymd\TH:i:s'),
                     ],
-                ]
-            )
+                ],
+            ),
         );
 
         $this->assertSame(
             $datetime->format('Y-m-d H:i:s'),
             $post->post_date,
-            'UTC time into wp_newPost'
+            'UTC time into wp_newPost',
         );
     }
 
@@ -152,7 +152,7 @@ class Tests_Date_XMLRPC extends WP_XMLRPC_UnitTestCase
         $timezone = 'Europe/Helsinki';
         update_option('timezone_string', $timezone);
 
-        $datetime    = new DateTimeImmutable('now', new DateTimeZone($timezone));
+        $datetime = new DateTimeImmutable('now', new DateTimeZone($timezone));
         $datetimeutc = $datetime->setTimezone(new DateTimeZone('UTC'));
 
         $editor_id = $this->make_user_by_role('editor');
@@ -160,8 +160,8 @@ class Tests_Date_XMLRPC extends WP_XMLRPC_UnitTestCase
         $post_id = self::factory()->post->create(
             [
                 'post_author' => $editor_id,
-                'post_date'   => $datetime->modify('-1 hour')->format('Y-m-d H:i:s'),
-            ]
+                'post_date' => $datetime->modify('-1 hour')->format('Y-m-d H:i:s'),
+            ],
         );
 
         $result = $this->myxmlrpcserver->mw_editPost(
@@ -172,7 +172,7 @@ class Tests_Date_XMLRPC extends WP_XMLRPC_UnitTestCase
                 [
                     'dateCreated' => new IXR_Date($datetime->format('Ymd\TH:i:s')),
                 ],
-            ]
+            ],
         );
 
         $fetched_post = get_post($post_id);
@@ -181,14 +181,14 @@ class Tests_Date_XMLRPC extends WP_XMLRPC_UnitTestCase
         $this->assertSame(
             $datetime->format('Y-m-d H:i:s'),
             $fetched_post->post_date,
-            'Local time into mw_editPost'
+            'Local time into mw_editPost',
         );
 
         $post_id = self::factory()->post->create(
             [
                 'post_author' => $editor_id,
-                'post_date'   => $datetime->modify('-1 hour')->format('Y-m-d H:i:s'),
-            ]
+                'post_date' => $datetime->modify('-1 hour')->format('Y-m-d H:i:s'),
+            ],
         );
 
         $result = $this->myxmlrpcserver->mw_editPost(
@@ -199,7 +199,7 @@ class Tests_Date_XMLRPC extends WP_XMLRPC_UnitTestCase
                 [
                     'date_created_gmt' => new IXR_Date($datetimeutc->format('Ymd\TH:i:s')),
                 ],
-            ]
+            ],
         );
 
         $fetched_post = get_post($post_id);
@@ -208,7 +208,7 @@ class Tests_Date_XMLRPC extends WP_XMLRPC_UnitTestCase
         $this->assertSame(
             $datetime->format('Y-m-d H:i:s'),
             $fetched_post->post_date,
-            'UTC time into mw_editPost'
+            'UTC time into mw_editPost',
         );
     }
 
@@ -222,22 +222,22 @@ class Tests_Date_XMLRPC extends WP_XMLRPC_UnitTestCase
         $timezone = 'Europe/Helsinki';
         update_option('timezone_string', $timezone);
 
-        $datetime    = new DateTimeImmutable('now', new DateTimeZone($timezone));
-        $datetime    = $datetime->modify('-1 hour');
+        $datetime = new DateTimeImmutable('now', new DateTimeZone($timezone));
+        $datetime = $datetime->modify('-1 hour');
         $datetimeutc = $datetime->setTimezone(new DateTimeZone('UTC'));
 
         $this->make_user_by_role('administrator');
         $post_id = self::factory()->post->create();
 
         $comment_data = [
-            'comment_post_ID'      => $post_id,
-            'comment_author'       => 'Test commenter',
-            'comment_author_url'   => 'http://example.com/',
+            'comment_post_ID' => $post_id,
+            'comment_author' => 'Test commenter',
+            'comment_author_url' => 'http://example.com/',
             'comment_author_email' => 'example@example.com',
-            'comment_content'      => 'Hello, world!',
-            'comment_approved'     => '1',
+            'comment_content' => 'Hello, world!',
+            'comment_approved' => '1',
         ];
-        $comment_id   = wp_insert_comment($comment_data);
+        $comment_id = wp_insert_comment($comment_data);
 
         $result = $this->myxmlrpcserver->wp_editComment(
             [
@@ -248,7 +248,7 @@ class Tests_Date_XMLRPC extends WP_XMLRPC_UnitTestCase
                 [
                     'date_created_gmt' => new IXR_Date($datetimeutc->format('Ymd\TH:i:s')),
                 ],
-            ]
+            ],
         );
 
         $fetched_comment = get_comment($comment_id);
@@ -257,7 +257,7 @@ class Tests_Date_XMLRPC extends WP_XMLRPC_UnitTestCase
         $this->assertSame(
             $datetime->format('Y-m-d H:i:s'),
             $fetched_comment->comment_date,
-            'UTC time into wp_editComment'
+            'UTC time into wp_editComment',
         );
     }
 }

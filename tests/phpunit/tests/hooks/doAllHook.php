@@ -11,13 +11,13 @@ class Tests_Hooks_DoAllHook extends WP_UnitTestCase
 
     public function test_do_all_hook_with_multiple_calls()
     {
-        $a             = new MockAction();
-        $callback      = [$a, 'action'];
-        $hook          = new WP_Hook();
-        $hook_name     = 'all';
-        $priority      = 1;
+        $a = new MockAction();
+        $callback = [$a, 'action'];
+        $hook = new WP_Hook();
+        $hook_name = 'all';
+        $priority = 1;
         $accepted_args = 2;
-        $arg           = 'all_arg';
+        $arg = 'all_arg';
 
         $hook->add_filter($hook_name, $callback, $priority, $accepted_args);
         $args = [$arg];

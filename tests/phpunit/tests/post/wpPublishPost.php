@@ -29,7 +29,7 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase
         $draft_id = self::factory()->post->create(
             [
                 'post_status' => 'draft',
-            ]
+            ],
         );
 
         $post = get_post($draft_id);
@@ -48,11 +48,11 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase
     public function test_wp_insert_post_and_wp_publish_post_with_future_date()
     {
         $future_date = gmdate('Y-m-d H:i:s', time() + 10000000);
-        $post_id     = self::factory()->post->create(
+        $post_id = self::factory()->post->create(
             [
                 'post_status' => 'publish',
-                'post_date'   => $future_date,
-            ]
+                'post_date' => $future_date,
+            ],
         );
 
         $post = get_post($post_id);
@@ -73,10 +73,10 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase
     public function test_wp_insert_post_should_default_to_publish_if_post_date_is_within_59_seconds_from_current_time()
     {
         $future_date = gmdate('Y-m-d H:i:s', time() + 59);
-        $post_id     = self::factory()->post->create(
+        $post_id = self::factory()->post->create(
             [
                 'post_date' => $future_date,
-            ]
+            ],
         );
 
         $post = get_post($post_id);
@@ -95,9 +95,9 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase
         $post_id = wp_insert_post(
             [
                 'post_title' => '<script>Test</script>',
-            ]
+            ],
         );
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
         $this->assertSame('<script>Test</script>', $post->post_title);
         $this->assertSame('draft', $post->post_status);
 
@@ -105,9 +105,9 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase
 
         wp_update_post(
             [
-                'ID'          => $post->ID,
+                'ID' => $post->ID,
                 'post_status' => 'publish',
-            ]
+            ],
         );
 
         kses_remove_filters();
@@ -126,9 +126,9 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase
         $post_id = wp_insert_post(
             [
                 'post_title' => '<script>Test</script>',
-            ]
+            ],
         );
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
         $this->assertSame('<script>Test</script>', $post->post_title);
         $this->assertSame('draft', $post->post_status);
 
@@ -149,7 +149,7 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase
      */
     public function test_wp_publish_post_respects_current_categories()
     {
-        $post_id     = self::$auto_draft_id;
+        $post_id = self::$auto_draft_id;
         $category_id = self::factory()->term->create(['taxonomy' => 'category']);
         wp_set_post_categories($post_id, $category_id);
         wp_publish_post($post_id);
@@ -159,7 +159,7 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase
         $this->assertSame(
             $category_id,
             $post_categories[0]->term_id,
-            'wp_publish_post replaced set category.'
+            'wp_publish_post replaced set category.',
         );
     }
 
@@ -178,9 +178,9 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase
         $post_categories = get_the_category($post_id);
         $this->assertCount(1, $post_categories);
         $this->assertSame(
-            (int) get_option('default_category'),
+            (int)get_option('default_category'),
             $post_categories[0]->term_id,
-            'wp_publish_post failed to add default category.'
+            'wp_publish_post failed to add default category.',
         );
     }
 
@@ -193,16 +193,16 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase
     public function test_wp_publish_post_adds_default_category_when_tagged()
     {
         $post_id = self::$auto_draft_id;
-        $tag_id  = self::factory()->term->create(['taxonomy' => 'post_tag']);
+        $tag_id = self::factory()->term->create(['taxonomy' => 'post_tag']);
         wp_set_post_tags($post_id, [$tag_id]);
         wp_publish_post($post_id);
 
         $post_categories = get_the_category($post_id);
         $this->assertCount(1, $post_categories);
         $this->assertSame(
-            (int) get_option('default_category'),
+            (int)get_option('default_category'),
             $post_categories[0]->term_id,
-            'wp_publish_post failed to add default category.'
+            'wp_publish_post failed to add default category.',
         );
     }
 
@@ -220,12 +220,12 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase
             'post',
             [
                 'hierarchical' => true,
-                'public'       => true,
+                'public' => true,
                 'default_term' => [
                     'name' => 'Default 51292',
                     'slug' => 'default-51292',
                 ],
-            ]
+            ],
         );
 
         $post_id = self::$auto_draft_id;
@@ -238,7 +238,7 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase
         $this->assertSame(
             $term_id,
             $post_terms[0]->term_id,
-            'wp_publish_post replaced set term for custom taxonomy.'
+            'wp_publish_post replaced set term for custom taxonomy.',
         );
     }
 
@@ -256,12 +256,12 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase
             'post',
             [
                 'hierarchical' => true,
-                'public'       => true,
+                'public' => true,
                 'default_term' => [
                     'name' => 'Default 51292',
                     'slug' => 'default-51292',
                 ],
-            ]
+            ],
         );
 
         $post_id = self::$auto_draft_id;
@@ -273,7 +273,7 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase
         $this->assertSame(
             get_term_by('slug', 'default-51292', 'tax_51292')->term_id,
             $post_terms[0]->term_id,
-            'wp_publish_post failed to add default term for custom taxonomy.'
+            'wp_publish_post failed to add default term for custom taxonomy.',
         );
     }
 }

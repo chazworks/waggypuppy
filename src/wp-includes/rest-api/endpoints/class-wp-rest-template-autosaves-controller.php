@@ -51,31 +51,32 @@ class WP_REST_Template_Autosaves_Controller extends WP_REST_Autosaves_Controller
     /**
      * Constructor.
      *
+     * @param string $parent_post_type Post type of the parent.
      * @since 6.4.0
      *
-     * @param string $parent_post_type Post type of the parent.
      */
     public function __construct($parent_post_type)
     {
         parent::__construct($parent_post_type);
         $this->parent_post_type = $parent_post_type;
-        $post_type_object       = get_post_type_object($parent_post_type);
-        $parent_controller      = $post_type_object->get_rest_controller();
+        $post_type_object = get_post_type_object($parent_post_type);
+        $parent_controller = $post_type_object->get_rest_controller();
 
-        if (! $parent_controller) {
+        if (!$parent_controller) {
             $parent_controller = new WP_REST_Templates_Controller($parent_post_type);
         }
 
         $this->parent_controller = $parent_controller;
 
         $revisions_controller = $post_type_object->get_revisions_rest_controller();
-        if (! $revisions_controller) {
+        if (!$revisions_controller) {
             $revisions_controller = new WP_REST_Revisions_Controller($parent_post_type);
         }
         $this->revisions_controller = $revisions_controller;
-        $this->rest_base            = 'autosaves';
-        $this->parent_base          = ! empty($post_type_object->rest_base) ? $post_type_object->rest_base : $post_type_object->name;
-        $this->namespace            = ! empty($post_type_object->rest_namespace) ? $post_type_object->rest_namespace : 'wp/v2';
+        $this->rest_base = 'autosaves';
+        $this->parent_base = !empty($post_type_object->rest_base) ? $post_type_object->rest_base
+            : $post_type_object->name;
+        $this->namespace = !empty($post_type_object->rest_namespace) ? $post_type_object->rest_namespace : 'wp/v2';
     }
 
     /**
@@ -99,30 +100,30 @@ class WP_REST_Template_Autosaves_Controller extends WP_REST_Autosaves_Controller
                 '([^\/:<>\*\?"\|]+(?:\/[^\/:<>\*\?"\|]+)?)',
                 // Matches the template name.
                 '[\/\w%-]+',
-                $this->rest_base
+                $this->rest_base,
             ),
             [
-                'args'   => [
+                'args' => [
                     'id' => [
-                        'description'       => __('The id of a template'),
-                        'type'              => 'string',
+                        'description' => __('The id of a template'),
+                        'type' => 'string',
                         'sanitize_callback' => [$this->parent_controller, '_sanitize_template_id'],
                     ],
                 ],
                 [
-                    'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => [$this, 'get_items'],
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_items'],
                     'permission_callback' => [$this, 'get_items_permissions_check'],
-                    'args'                => $this->get_collection_params(),
+                    'args' => $this->get_collection_params(),
                 ],
                 [
-                    'methods'             => WP_REST_Server::CREATABLE,
-                    'callback'            => [$this, 'create_item'],
+                    'methods' => WP_REST_Server::CREATABLE,
+                    'callback' => [$this, 'create_item'],
                     'permission_callback' => [$this, 'create_item_permissions_check'],
-                    'args'                => $this->parent_controller->get_endpoint_args_for_item_schema(WP_REST_Server::EDITABLE),
+                    'args' => $this->parent_controller->get_endpoint_args_for_item_schema(WP_REST_Server::EDITABLE),
                 ],
                 'schema' => [$this, 'get_public_item_schema'],
-            ]
+            ],
         );
 
         register_rest_route(
@@ -138,41 +139,41 @@ class WP_REST_Template_Autosaves_Controller extends WP_REST_Autosaves_Controller
                 // Matches the template name.
                 '[\/\w%-]+',
                 $this->rest_base,
-                '(?P<id>[\d]+)'
+                '(?P<id>[\d]+)',
             ),
             [
-                'args'   => [
+                'args' => [
                     'parent' => [
-                        'description'       => __('The id of a template'),
-                        'type'              => 'string',
+                        'description' => __('The id of a template'),
+                        'type' => 'string',
                         'sanitize_callback' => [$this->parent_controller, '_sanitize_template_id'],
                     ],
-                    'id'     => [
+                    'id' => [
                         'description' => __('The ID for the autosave.'),
-                        'type'        => 'integer',
+                        'type' => 'integer',
                     ],
                 ],
                 [
-                    'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => [$this, 'get_item'],
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_item'],
                     'permission_callback' => [$this->revisions_controller, 'get_item_permissions_check'],
-                    'args'                => [
+                    'args' => [
                         'context' => $this->get_context_param(['default' => 'view']),
                     ],
                 ],
                 'schema' => [$this, 'get_public_item_schema'],
-            ]
+            ],
         );
     }
 
     /**
      * Prepares the item for the REST response.
      *
-     * @since 6.4.0
-     *
-     * @param WP_Post         $item    Post revision object.
+     * @param WP_Post $item Post revision object.
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response Response object.
+     * @since 6.4.0
+     *
      */
     public function prepare_item_for_response($item, $request)
     {
@@ -180,14 +181,14 @@ class WP_REST_Template_Autosaves_Controller extends WP_REST_Autosaves_Controller
         $response = $this->parent_controller->prepare_item_for_response($template, $request);
 
         $fields = $this->get_fields_for_response($request);
-        $data   = $response->get_data();
+        $data = $response->get_data();
 
         if (in_array('parent', $fields, true)) {
-            $data['parent'] = (int) $item->post_parent;
+            $data['parent'] = (int)$item->post_parent;
         }
 
-        $context = ! empty($request['context']) ? $request['context'] : 'view';
-        $data    = $this->filter_response_by_context($data, $context);
+        $context = !empty($request['context']) ? $request['context'] : 'view';
+        $data = $this->filter_response_by_context($data, $context);
 
         // Wrap the data in a response object.
         $response = new WP_REST_Response($data);
@@ -203,10 +204,10 @@ class WP_REST_Template_Autosaves_Controller extends WP_REST_Autosaves_Controller
     /**
      * Gets the autosave, if the ID is valid.
      *
-     * @since 6.4.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_Post|WP_Error Autosave post object if ID is valid, WP_Error otherwise.
+     * @since 6.4.0
+     *
      */
     public function get_item($request)
     {
@@ -217,11 +218,11 @@ class WP_REST_Template_Autosaves_Controller extends WP_REST_Autosaves_Controller
 
         $autosave = wp_get_post_autosave($parent->ID);
 
-        if (! $autosave) {
+        if (!$autosave) {
             return new WP_Error(
                 'rest_post_no_autosave',
                 __('There is no autosave revision for this template.'),
-                ['status' => 404]
+                ['status' => 404],
             );
         }
 
@@ -232,10 +233,10 @@ class WP_REST_Template_Autosaves_Controller extends WP_REST_Autosaves_Controller
     /**
      * Get the parent post.
      *
-     * @since 6.4.0
-     *
      * @param int $parent_id Supplied ID.
      * @return WP_Post|WP_Error Post object if ID is valid, WP_Error otherwise.
+     * @since 6.4.0
+     *
      */
     protected function get_parent($parent_id)
     {
@@ -245,16 +246,17 @@ class WP_REST_Template_Autosaves_Controller extends WP_REST_Autosaves_Controller
     /**
      * Prepares links for the request.
      *
-     * @since 6.4.0
-     *
      * @param WP_Block_Template $template Template.
      * @return array Links for the given post.
+     * @since 6.4.0
+     *
      */
     protected function prepare_links($template)
     {
         $links = [
-            'self'   => [
-                'href' => rest_url(sprintf('/%s/%s/%s/%s/%d', $this->namespace, $this->parent_base, $template->id, $this->rest_base, $template->wp_id)),
+            'self' => [
+                'href' => rest_url(sprintf('/%s/%s/%s/%s/%d', $this->namespace, $this->parent_base, $template->id,
+                    $this->rest_base, $template->wp_id)),
             ],
             'parent' => [
                 'href' => rest_url(sprintf('/%s/%s/%s', $this->namespace, $this->parent_base, $template->id)),
@@ -267,9 +269,9 @@ class WP_REST_Template_Autosaves_Controller extends WP_REST_Autosaves_Controller
     /**
      * Retrieves the autosave's schema, conforming to JSON Schema.
      *
+     * @return array Item schema data.
      * @since 6.4.0
      *
-     * @return array Item schema data.
      */
     public function get_item_schema()
     {

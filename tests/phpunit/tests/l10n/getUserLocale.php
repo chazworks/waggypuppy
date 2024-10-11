@@ -16,9 +16,9 @@ class Tests_L10n_GetUserLocale extends WP_UnitTestCase
 
         $this->user_id = self::factory()->user->create(
             [
-                'role'   => 'administrator',
+                'role' => 'administrator',
                 'locale' => 'de_DE',
-            ]
+            ],
         );
 
         wp_set_current_user($this->user_id);
@@ -93,7 +93,7 @@ class Tests_L10n_GetUserLocale extends WP_UnitTestCase
         $user_id = self::factory()->user->create(
             [
                 'locale' => 'es_ES',
-            ]
+            ],
         );
 
         $user_locale1 = get_user_locale($user_id);
@@ -111,7 +111,7 @@ class Tests_L10n_GetUserLocale extends WP_UnitTestCase
         $user_id = self::factory()->user->create(
             [
                 'locale' => 'es_ES',
-            ]
+            ],
         );
 
         $user = get_user_by('id', $user_id);

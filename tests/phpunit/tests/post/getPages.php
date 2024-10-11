@@ -87,7 +87,7 @@ class Tests_Post_GetPages extends WP_UnitTestCase
         $new_changed_float = $this->_microtime_to_float(wp_cache_get('last_changed', 'posts'));
         $this->assertGreaterThan($old_changed_float, $new_changed_float);
 
-        $num_queries  = get_num_queries();
+        $num_queries = get_num_queries();
         $last_changed = wp_cache_get('last_changed', 'posts');
 
         // num_queries should bump after wp_delete_post() bumps last_changed.
@@ -130,16 +130,16 @@ class Tests_Post_GetPages extends WP_UnitTestCase
             2,
             [
                 'post_type' => 'page',
-            ]
+            ],
         );
 
         add_post_meta($posts[0], 'foo', 'bar');
 
         $cached = get_pages(
             [
-                'meta_key'   => 'foo',
+                'meta_key' => 'foo',
                 'meta_value' => 'bar',
-            ]
+            ],
         );
 
         $cached_ids = wp_list_pluck($cached, 'ID');
@@ -149,9 +149,9 @@ class Tests_Post_GetPages extends WP_UnitTestCase
 
         $found = get_pages(
             [
-                'meta_key'   => 'foo',
+                'meta_key' => 'foo',
                 'meta_value' => 'bar',
-            ]
+            ],
         );
 
         $found_ids = wp_list_pluck($found, 'ID');
@@ -167,7 +167,7 @@ class Tests_Post_GetPages extends WP_UnitTestCase
             2,
             [
                 'post_type' => 'page',
-            ]
+            ],
         );
 
         add_post_meta($posts[0], 'foo', 'bar');
@@ -175,9 +175,9 @@ class Tests_Post_GetPages extends WP_UnitTestCase
 
         $cached = get_pages(
             [
-                'meta_key'   => 'foo',
+                'meta_key' => 'foo',
                 'meta_value' => 'bar',
-            ]
+            ],
         );
 
         $cached_ids = wp_list_pluck($cached, 'ID');
@@ -187,9 +187,9 @@ class Tests_Post_GetPages extends WP_UnitTestCase
 
         $found = get_pages(
             [
-                'meta_key'   => 'foo',
+                'meta_key' => 'foo',
                 'meta_value' => 'bar',
-            ]
+            ],
         );
 
         $found_ids = wp_list_pluck($found, 'ID');
@@ -205,7 +205,7 @@ class Tests_Post_GetPages extends WP_UnitTestCase
             2,
             [
                 'post_type' => 'page',
-            ]
+            ],
         );
 
         add_post_meta($posts[0], 'foo', 'bar');
@@ -213,9 +213,9 @@ class Tests_Post_GetPages extends WP_UnitTestCase
 
         $cached = get_pages(
             [
-                'meta_key'   => 'foo',
+                'meta_key' => 'foo',
                 'meta_value' => 'bar',
-            ]
+            ],
         );
 
         $cached_ids = wp_list_pluck($cached, 'ID');
@@ -225,9 +225,9 @@ class Tests_Post_GetPages extends WP_UnitTestCase
 
         $found = get_pages(
             [
-                'meta_key'   => 'foo',
+                'meta_key' => 'foo',
                 'meta_value' => 'bar',
-            ]
+            ],
         );
 
         $found_ids = wp_list_pluck($found, 'ID');
@@ -243,7 +243,7 @@ class Tests_Post_GetPages extends WP_UnitTestCase
             2,
             [
                 'post_type' => 'page',
-            ]
+            ],
         );
 
         add_post_meta($posts[0], 'foo', 'bar');
@@ -251,9 +251,9 @@ class Tests_Post_GetPages extends WP_UnitTestCase
 
         $cached = get_pages(
             [
-                'meta_key'   => 'foo',
+                'meta_key' => 'foo',
                 'meta_value' => 'bar',
-            ]
+            ],
         );
 
         $cached_ids = wp_list_pluck($cached, 'ID');
@@ -263,9 +263,9 @@ class Tests_Post_GetPages extends WP_UnitTestCase
 
         $found = get_pages(
             [
-                'meta_key'   => 'foo',
+                'meta_key' => 'foo',
                 'meta_value' => 'bar',
-            ]
+            ],
         );
 
         $found_ids = wp_list_pluck($found, 'ID');
@@ -286,19 +286,19 @@ class Tests_Post_GetPages extends WP_UnitTestCase
             1,
             get_pages(
                 [
-                    'meta_key'   => 'some-meta-key',
+                    'meta_key' => 'some-meta-key',
                     'meta_value' => '0',
-                ]
-            )
+                ],
+            ),
         );
         $this->assertCount(
             1,
             get_pages(
                 [
-                    'meta_key'   => 'some-meta-key',
+                    'meta_key' => 'some-meta-key',
                     'meta_value' => '1',
-                ]
-            )
+                ],
+            ),
         );
         $this->assertCount(3, get_pages(['meta_key' => 'some-meta-key']));
     }
@@ -319,12 +319,12 @@ class Tests_Post_GetPages extends WP_UnitTestCase
         $exc = array_slice($page_ids, 10);
         sort($exc);
 
-        $include    = get_pages(['include' => $inc]);
+        $include = get_pages(['include' => $inc]);
         $inc_result = wp_list_pluck($include, 'ID');
         sort($inc_result);
         $this->assertSame($inc, $inc_result);
 
-        $exclude    = get_pages(['exclude' => $exc]);
+        $exclude = get_pages(['exclude' => $exc]);
         $exc_result = wp_list_pluck($exclude, 'ID');
         sort($exc_result);
         $this->assertSame($inc, $exc_result);
@@ -338,13 +338,13 @@ class Tests_Post_GetPages extends WP_UnitTestCase
     {
         register_post_type('wptests_pt', ['hierarchical' => true]);
 
-        $posts              = self::factory()->post->create_many(
+        $posts = self::factory()->post->create_many(
             2,
             [
                 'post_type' => 'wptests_pt',
-            ]
+            ],
         );
-        $query_args_values  = [];
+        $query_args_values = [];
         $parsed_args_values = [];
 
         // Filter the query to return the wptests_pt post type.
@@ -352,52 +352,52 @@ class Tests_Post_GetPages extends WP_UnitTestCase
             'get_pages_query_args',
             static function ($query_args, $parsed_args) use (&$query_args_values, &$parsed_args_values) {
                 $query_args['post_type'] = 'wptests_pt';
-                $query_args_values       = $query_args;
-                $parsed_args_values      = $parsed_args;
+                $query_args_values = $query_args;
+                $parsed_args_values = $parsed_args;
                 return $query_args;
             },
             10,
-            2
+            2,
         );
 
-        $pages    = get_pages();
+        $pages = get_pages();
         $page_ids = wp_list_pluck($pages, 'ID');
         $this->assertSameSets($posts, $page_ids, 'The return post ids should match the post type wptests_pt.');
 
         $query_args = [
-            'orderby'                => ['post_title' => 'ASC'],
-            'order'                  => 'ASC',
-            'post__not_in'           => [],
-            'meta_key'               => '',
-            'meta_value'             => '',
-            'posts_per_page'         => -1,
-            'offset'                 => 0,
-            'post_type'              => 'wptests_pt',
-            'post_status'            => ['publish'],
+            'orderby' => ['post_title' => 'ASC'],
+            'order' => 'ASC',
+            'post__not_in' => [],
+            'meta_key' => '',
+            'meta_value' => '',
+            'posts_per_page' => -1,
+            'offset' => 0,
+            'post_type' => 'wptests_pt',
+            'post_status' => ['publish'],
             'update_post_term_cache' => false,
             'update_post_meta_cache' => false,
-            'ignore_sticky_posts'    => true,
-            'no_found_rows'          => true,
+            'ignore_sticky_posts' => true,
+            'no_found_rows' => true,
         ];
 
         $this->assertSameSets($query_args, $query_args_values, 'Query arguments should match expected values');
 
         $parsed_args = [
-            'child_of'     => 0,
-            'sort_order'   => 'ASC',
-            'sort_column'  => 'post_title',
+            'child_of' => 0,
+            'sort_order' => 'ASC',
+            'sort_column' => 'post_title',
             'hierarchical' => 1,
-            'exclude'      => [],
-            'include'      => [],
-            'meta_key'     => '',
-            'meta_value'   => '',
-            'authors'      => '',
-            'parent'       => -1,
+            'exclude' => [],
+            'include' => [],
+            'meta_key' => '',
+            'meta_value' => '',
+            'authors' => '',
+            'parent' => -1,
             'exclude_tree' => [],
-            'number'       => '',
-            'offset'       => 0,
-            'post_type'    => 'page',
-            'post_status'  => 'publish',
+            'number' => '',
+            'offset' => 0,
+            'post_type' => 'page',
+            'post_status' => 'publish',
         ];
 
         $this->assertSameSets($parsed_args, $parsed_args_values, 'Parsed arguments should match expected values');
@@ -420,96 +420,98 @@ class Tests_Post_GetPages extends WP_UnitTestCase
         $filter_args = $filter->get_args();
 
         $default_args = [
-            'orderby'                => ['post_title' => 'ASC'],
-            'order'                  => 'ASC',
-            'post__not_in'           => [],
-            'meta_key'               => '',
-            'meta_value'             => '',
-            'posts_per_page'         => -1,
-            'offset'                 => 0,
-            'post_type'              => 'page',
-            'post_status'            => ['publish'],
+            'orderby' => ['post_title' => 'ASC'],
+            'order' => 'ASC',
+            'post__not_in' => [],
+            'meta_key' => '',
+            'meta_value' => '',
+            'posts_per_page' => -1,
+            'offset' => 0,
+            'post_type' => 'page',
+            'post_status' => ['publish'],
             'update_post_term_cache' => false,
             'update_post_meta_cache' => false,
-            'ignore_sticky_posts'    => true,
-            'no_found_rows'          => true,
+            'ignore_sticky_posts' => true,
+            'no_found_rows' => true,
         ];
 
         $query_args = wp_parse_args($expected_query_args, $default_args);
 
-        $this->assertSameSets($query_args, $filter_args[0][0], 'Unexpected $query_args for get_pages_query_args filter');
+        $this->assertSameSets($query_args, $filter_args[0][0],
+            'Unexpected $query_args for get_pages_query_args filter');
 
         $defaults = [
-            'child_of'     => 0,
-            'sort_order'   => 'ASC',
-            'sort_column'  => 'post_title',
+            'child_of' => 0,
+            'sort_order' => 'ASC',
+            'sort_column' => 'post_title',
             'hierarchical' => 1,
-            'exclude'      => [],
-            'include'      => [],
-            'meta_key'     => '',
-            'meta_value'   => '',
-            'authors'      => '',
-            'parent'       => -1,
+            'exclude' => [],
+            'include' => [],
+            'meta_key' => '',
+            'meta_value' => '',
+            'authors' => '',
+            'parent' => -1,
             'exclude_tree' => [],
-            'number'       => '',
-            'offset'       => 0,
-            'post_type'    => 'page',
-            'post_status'  => 'publish',
+            'number' => '',
+            'offset' => 0,
+            'post_type' => 'page',
+            'post_status' => 'publish',
         ];
 
         $parsed_args = wp_parse_args($args, $defaults);
-        $this->assertSameSets($parsed_args, $filter_args[0][1], 'Unexpected $parsed_args for get_pages_query_args filter');
+        $this->assertSameSets($parsed_args, $filter_args[0][1],
+            'Unexpected $parsed_args for get_pages_query_args filter');
     }
 
     public function data_get_pages_args()
     {
         return [
-            'default'            => [
-                'args'                => [],
+            'default' => [
+                'args' => [],
                 'expected_query_args' => [],
             ],
-            'exclude'            => [
-                'args'                => ['exclude' => [1, 2, 4]],
+            'exclude' => [
+                'args' => ['exclude' => [1, 2, 4]],
                 'expected_query_args' => ['post__not_in' => [1, 2, 4]],
             ],
-            'post status'        => [
-                'args'                => ['post_status' => 'draft'],
+            'post status' => [
+                'args' => ['post_status' => 'draft'],
                 'expected_query_args' => ['post_status' => ['draft']],
             ],
-            'number'             => [
-                'args'                => ['number' => 99],
+            'number' => [
+                'args' => ['number' => 99],
                 'expected_query_args' => ['posts_per_page' => 99],
             ],
-            'meta query'         => [
-                'args'                => [
-                    'meta_key'   => 'foo',
+            'meta query' => [
+                'args' => [
+                    'meta_key' => 'foo',
                     'meta_value' => 'bar',
                 ],
                 'expected_query_args' => [
-                    'meta_key'   => 'foo',
+                    'meta_key' => 'foo',
                     'meta_value' => 'bar',
                 ],
             ],
             'post parent number' => [
-                'args'                => ['parent' => 5],
+                'args' => ['parent' => 5],
                 'expected_query_args' => ['post_parent' => 5],
             ],
-            'post parent array'  => [
-                'args'                => ['parent' => [5]],
+            'post parent array' => [
+                'args' => ['parent' => [5]],
                 'expected_query_args' => ['post_parent__in' => [5]],
             ],
-            'offset'             => [
-                'args'                => ['offset' => 2],
+            'offset' => [
+                'args' => ['offset' => 2],
                 'expected_query_args' => ['offset' => 2],
             ],
-            'authors'            => [
-                'args'                => ['authors' => 2],
+            'authors' => [
+                'args' => ['authors' => 2],
                 'expected_query_args' => ['author__in' => [2]],
             ],
-            'sort order'         => [
-                'args'                => ['sort_order' => 'DESC'],
+            'sort order' => [
+                'args' => ['sort_order' => 'DESC'],
                 'expected_query_args' => [
-                    'order'   => 'DESC',
+                    'order' => 'DESC',
                     'orderby' => ['post_title' => 'DESC'],
                 ],
             ],
@@ -525,15 +527,15 @@ class Tests_Post_GetPages extends WP_UnitTestCase
             2,
             [
                 'post_type' => 'page',
-            ]
+            ],
         );
 
         $pages = get_pages(
             [
-                'include'    => $posts,
-                'meta_key'   => 'foo',
+                'include' => $posts,
+                'meta_key' => 'foo',
                 'meta_value' => 'bar',
-            ]
+            ],
         );
 
         $page_ids = wp_list_pluck($pages, 'ID');
@@ -549,21 +551,21 @@ class Tests_Post_GetPages extends WP_UnitTestCase
             2,
             [
                 'post_type' => 'page',
-            ]
+            ],
         );
 
         $excludes = self::factory()->post->create_many(
             2,
             [
                 'post_type' => 'page',
-            ]
+            ],
         );
 
         $pages = get_pages(
             [
                 'include' => $includes,
                 'exclude' => $excludes,
-            ]
+            ],
         );
 
         $page_ids = wp_list_pluck($pages, 'ID');
@@ -575,16 +577,16 @@ class Tests_Post_GetPages extends WP_UnitTestCase
         $post_id1 = self::factory()->post->create(['post_type' => 'page']);
         $post_id2 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $post_id1,
-            ]
+            ],
         );
         $post_id3 = self::factory()->post->create(['post_type' => 'page']);
         $post_id4 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $post_id3,
-            ]
+            ],
         );
 
         $all = get_pages();
@@ -609,9 +611,9 @@ class Tests_Post_GetPages extends WP_UnitTestCase
         $post_id5 = self::factory()->post->create(['post_type' => 'page']);
         $post_id6 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $post_id5,
-            ]
+            ],
         );
 
         $exclude6 = get_pages(['exclude_tree' => [$post_id1, $post_id3]]);
@@ -626,44 +628,44 @@ class Tests_Post_GetPages extends WP_UnitTestCase
         $page_id1 = self::factory()->post->create(['post_type' => 'page']);
         $page_id2 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $page_id1,
-            ]
+            ],
         );
         $page_id3 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $page_id2,
-            ]
+            ],
         );
         $page_id4 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $page_id1,
-            ]
+            ],
         );
 
         $pages = get_pages(
             [
-                'parent'       => 0,
+                'parent' => 0,
                 'hierarchical' => false,
-            ]
+            ],
         );
         $this->assertSameSets([$page_id1], wp_list_pluck($pages, 'ID'));
 
         $pages = get_pages(
             [
-                'parent'       => $page_id1,
+                'parent' => $page_id1,
                 'hierarchical' => false,
-            ]
+            ],
         );
         $this->assertSameSets([$page_id2, $page_id4], wp_list_pluck($pages, 'ID'));
 
         $pages = get_pages(
             [
-                'parent'       => [$page_id1, $page_id2],
+                'parent' => [$page_id1, $page_id2],
                 'hierarchical' => false,
-            ]
+            ],
         );
         $this->assertSameSets([$page_id2, $page_id3, $page_id4], wp_list_pluck($pages, 'ID'));
 
@@ -682,14 +684,14 @@ class Tests_Post_GetPages extends WP_UnitTestCase
      */
     public function test_get_children_fields_ids()
     {
-        $post_id   = self::factory()->post->create();
+        $post_id = self::factory()->post->create();
         $child_ids = self::factory()->post->create_many(5, ['post_parent' => $post_id]);
 
         $post_ids = get_children(
             [
-                'fields'      => 'ids',
+                'fields' => 'ids',
                 'post_parent' => $post_id,
-            ]
+            ],
         );
         $this->assertSameSets($child_ids, $post_ids);
     }
@@ -703,29 +705,29 @@ class Tests_Post_GetPages extends WP_UnitTestCase
         $page_1 = self::factory()->post->create(['post_type' => 'page']);
         $page_2 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $page_1,
-            ]
+            ],
         );
         $page_3 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $page_1,
-            ]
+            ],
         );
         $page_4 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $page_2,
-            ]
+            ],
         );
 
-        $pages              = get_pages(); // Defaults: hierarchical = true, parent = -1.
+        $pages = get_pages(); // Defaults: hierarchical = true, parent = -1.
         $pages_default_args = get_pages(
             [
                 'hierarchical' => true,
-                'parent'       => -1,
-            ]
+                'parent' => -1,
+            ],
         );
         // Confirm the defaults.
         $this->assertEqualSets($pages, $pages_default_args);
@@ -754,23 +756,23 @@ class Tests_Post_GetPages extends WP_UnitTestCase
         $page_2 = self::factory()->post->create(['post_type' => 'page']);
         $page_3 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $page_1,
-            ]
+            ],
         );
         $page_4 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $page_1,
-            ]
+            ],
         );
 
-        $pages        = get_pages(); // Defaults: hierarchical = true, child_of = '', parent = -1.
+        $pages = get_pages(); // Defaults: hierarchical = true, child_of = '', parent = -1.
         $default_args = get_pages(
             [
                 'hierarchical' => true,
-                'child_of'     => '',
-            ]
+                'child_of' => '',
+            ],
         );
 
         $this->assertEqualSets($pages, $default_args);
@@ -801,15 +803,15 @@ class Tests_Post_GetPages extends WP_UnitTestCase
         $page_2 = self::factory()->post->create(['post_type' => 'page']);
         $page_3 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $page_1,
-            ]
+            ],
         );
         $page_4 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $page_1,
-            ]
+            ],
         );
 
         $pages = get_pages(['hierarchical' => false]); // child_of = '', parent = -1.
@@ -838,21 +840,21 @@ class Tests_Post_GetPages extends WP_UnitTestCase
         $page_2 = self::factory()->post->create(['post_type' => 'page']);
         $page_3 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $page_1,
-            ]
+            ],
         );
         $page_4 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $page_3,
-            ]
+            ],
         );
         $page_5 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $page_1,
-            ]
+            ],
         );
 
         $pages = get_pages(['child_of' => $page_1]); // Defaults: hierarchical = true, parent = -1.
@@ -882,28 +884,28 @@ class Tests_Post_GetPages extends WP_UnitTestCase
         $page_2 = self::factory()->post->create(['post_type' => 'page']);
         $page_3 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $page_1,
-            ]
+            ],
         );
         $page_4 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $page_3,
-            ]
+            ],
         );
         $page_5 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $page_1,
-            ]
+            ],
         );
 
         $pages = get_pages(
             [
                 'hierarchical' => false,
-                'child_of'     => $page_1,
-            ]
+                'child_of' => $page_1,
+            ],
         );
 
         /*
@@ -935,7 +937,7 @@ class Tests_Post_GetPages extends WP_UnitTestCase
         $pages = get_pages(
             [
                 'post_type' => 'wptests_pt',
-            ]
+            ],
         );
         $this->assertSameSets($posts, wp_list_pluck($pages, 'ID'));
     }
@@ -949,20 +951,20 @@ class Tests_Post_GetPages extends WP_UnitTestCase
             'foo',
             [
                 'public' => true,
-            ]
+            ],
         );
 
         $posts = self::factory()->post->create_many(
             2,
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_status' => 'foo',
-            ]
+            ],
         );
         $pages = get_pages(
             [
                 'post_status' => 'foo',
-            ]
+            ],
         );
 
         $this->assertSameSets($posts, wp_list_pluck($pages, 'ID'));
@@ -978,7 +980,7 @@ class Tests_Post_GetPages extends WP_UnitTestCase
             [
                 'offset' => 2,
                 'number' => 2,
-            ]
+            ],
         );
 
         $this->assertSameSets([$posts[2], $posts[3]], wp_list_pluck($pages, 'ID'));
@@ -992,20 +994,20 @@ class Tests_Post_GetPages extends WP_UnitTestCase
         $author_1 = self::factory()->user->create(
             [
                 'user_login' => 'author1',
-                'role'       => 'author',
-            ]
+                'role' => 'author',
+            ],
         );
-        $posts    = self::factory()->post->create_many(
+        $posts = self::factory()->post->create_many(
             2,
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_author' => $author_1,
-            ]
+            ],
         );
-        $pages    = get_pages(
+        $pages = get_pages(
             [
                 'authors' => $author_1,
-            ]
+            ],
         );
 
         $this->assertSameSets($posts, wp_list_pluck($pages, 'ID'));
@@ -1019,36 +1021,36 @@ class Tests_Post_GetPages extends WP_UnitTestCase
         $author_1 = self::factory()->user->create(
             [
                 'user_login' => 'author1',
-                'role'       => 'author',
-            ]
+                'role' => 'author',
+            ],
         );
-        $post_1   = self::factory()->post->create(
+        $post_1 = self::factory()->post->create(
             [
-                'post_title'  => 'Page 1',
-                'post_type'   => 'page',
+                'post_title' => 'Page 1',
+                'post_type' => 'page',
                 'post_author' => $author_1,
-                'post_date'   => '2007-01-01 00:00:00',
-            ]
+                'post_date' => '2007-01-01 00:00:00',
+            ],
         );
 
         $author_2 = self::factory()->user->create(
             [
                 'user_login' => 'author2',
-                'role'       => 'author',
-            ]
+                'role' => 'author',
+            ],
         );
-        $post_2   = self::factory()->post->create(
+        $post_2 = self::factory()->post->create(
             [
-                'post_title'  => 'Page 2',
-                'post_type'   => 'page',
+                'post_title' => 'Page 2',
+                'post_type' => 'page',
                 'post_author' => $author_2,
-                'post_date'   => '2007-01-01 00:00:00',
-            ]
+                'post_date' => '2007-01-01 00:00:00',
+            ],
         );
-        $pages    = get_pages(
+        $pages = get_pages(
             [
                 'authors' => "{$author_1}, {$author_2}",
-            ]
+            ],
         );
 
         $this->assertSameSets([$post_1, $post_2], wp_list_pluck($pages, 'ID'));
@@ -1062,36 +1064,36 @@ class Tests_Post_GetPages extends WP_UnitTestCase
         $author_1 = self::factory()->user->create(
             [
                 'user_login' => 'author1',
-                'role'       => 'author',
-            ]
+                'role' => 'author',
+            ],
         );
-        $post_1   = self::factory()->post->create(
+        $post_1 = self::factory()->post->create(
             [
-                'post_title'  => 'Page 1',
-                'post_type'   => 'page',
+                'post_title' => 'Page 1',
+                'post_type' => 'page',
                 'post_author' => $author_1,
-                'post_date'   => '2007-01-01 00:00:00',
-            ]
+                'post_date' => '2007-01-01 00:00:00',
+            ],
         );
 
         $author_2 = self::factory()->user->create(
             [
                 'user_login' => 'author2',
-                'role'       => 'author',
-            ]
+                'role' => 'author',
+            ],
         );
-        $post_2   = self::factory()->post->create(
+        $post_2 = self::factory()->post->create(
             [
-                'post_title'  => 'Page 2',
-                'post_type'   => 'page',
+                'post_title' => 'Page 2',
+                'post_type' => 'page',
                 'post_author' => $author_2,
-                'post_date'   => '2007-01-01 00:00:00',
-            ]
+                'post_date' => '2007-01-01 00:00:00',
+            ],
         );
-        $pages    = get_pages(
+        $pages = get_pages(
             [
                 'authors' => 'author1, author2',
-            ]
+            ],
         );
 
         $this->assertSameSets([$post_1, $post_2], wp_list_pluck($pages, 'ID'));
@@ -1108,7 +1110,7 @@ class Tests_Post_GetPages extends WP_UnitTestCase
         $this->assertStringContainsString(
             'ORDER BY RAND()',
             $wpdb->last_query,
-            'Check that ORDER is random.'
+            'Check that ORDER is random.',
         );
 
         // This isn't allowed.
@@ -1116,17 +1118,17 @@ class Tests_Post_GetPages extends WP_UnitTestCase
         $this->assertStringContainsString(
             'ORDER BY',
             $wpdb->last_query,
-            'Check that ORDER BY is present.'
+            'Check that ORDER BY is present.',
         );
         $this->assertStringNotContainsString(
             'RAND()',
             $wpdb->last_query,
-            'Check that ORDER is not random.'
+            'Check that ORDER is not random.',
         );
         $this->assertStringContainsString(
             'DESC',
             $wpdb->last_query,
-            'Check that DESC is not present.'
+            'Check that DESC is not present.',
         );
 
         // 'none' is a valid value.
@@ -1134,17 +1136,17 @@ class Tests_Post_GetPages extends WP_UnitTestCase
         $this->assertStringNotContainsString(
             'ORDER BY',
             $wpdb->last_query,
-            'Check that ORDER BY is not present.'
+            'Check that ORDER BY is not present.',
         );
         $this->assertStringNotContainsString(
             'DESC',
             $wpdb->last_query,
-            'Check that DESC is not present.'
+            'Check that DESC is not present.',
         );
         $this->assertStringNotContainsString(
             'ASC',
             $wpdb->last_query,
-            'Check that ASC is not present.'
+            'Check that ASC is not present.',
         );
 
         // False is a valid value.
@@ -1152,7 +1154,7 @@ class Tests_Post_GetPages extends WP_UnitTestCase
         $this->assertStringContainsString(
             'ORDER BY',
             $wpdb->last_query,
-            'Check that ORDER BY is present if sort_column is false.'
+            'Check that ORDER BY is present if sort_column is false.',
         );
 
         // Empty array() is a valid value.
@@ -1160,7 +1162,7 @@ class Tests_Post_GetPages extends WP_UnitTestCase
         $this->assertStringContainsString(
             'ORDER BY',
             $wpdb->last_query,
-            'Check that ORDER BY is present if sort_column is an empty array.'
+            'Check that ORDER BY is present if sort_column is an empty array.',
         );
     }
 
@@ -1174,36 +1176,36 @@ class Tests_Post_GetPages extends WP_UnitTestCase
         get_pages(
             [
                 'sort_column' => 'post_type',
-            ]
+            ],
         );
         $this->assertStringContainsString(
             "ORDER BY $wpdb->posts.post_type ASC",
             $wpdb->last_query,
-            'Check that ORDER is post type.'
+            'Check that ORDER is post type.',
         );
 
         get_pages(
             [
                 'sort_column' => 'title',
-                'sort_order'  => 'foo',
-            ]
+                'sort_order' => 'foo',
+            ],
         );
         $this->assertStringContainsString(
             "ORDER BY $wpdb->posts.post_title DESC",
             $wpdb->last_query,
-            'Check that ORDER is default.'
+            'Check that ORDER is default.',
         );
 
         get_pages(
             [
-                'sort_order'  => 'asc',
+                'sort_order' => 'asc',
                 'sort_column' => 'date',
-            ]
+            ],
         );
         $this->assertStringContainsString(
             "ORDER BY $wpdb->posts.post_date ASC",
             $wpdb->last_query,
-            'Check that ORDER is post date.'
+            'Check that ORDER is post date.',
         );
     }
 
@@ -1219,23 +1221,23 @@ class Tests_Post_GetPages extends WP_UnitTestCase
         get_pages(
             [
                 'sort_column' => 'post_modified_gmt',
-            ]
+            ],
         );
         $this->assertStringContainsString(
             "ORDER BY $wpdb->posts.post_modified ASC",
             $wpdb->last_query,
-            'Check that ORDER is post modified when using post_modified_gmt.'
+            'Check that ORDER is post modified when using post_modified_gmt.',
         );
 
         get_pages(
             [
                 'sort_column' => 'modified_gmt',
-            ]
+            ],
         );
         $this->assertStringContainsString(
             "ORDER BY $wpdb->posts.post_modified ASC",
             $wpdb->last_query,
-            'Check that ORDER is post modified when using modified_gmt.'
+            'Check that ORDER is post modified when using modified_gmt.',
         );
     }
 }

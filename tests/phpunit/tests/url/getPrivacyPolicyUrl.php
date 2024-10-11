@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test cases for the `get_privacy_policy_url()` function.
  *
@@ -38,9 +39,9 @@ class Tests_Url_GetPrivacyPolicyUrl extends WP_UnitTestCase
     {
         self::$privacy_policy_page_id = $factory->post->create(
             [
-                'post_type'  => 'page',
+                'post_type' => 'page',
                 'post_title' => WP_TESTS_DOMAIN . ' Privacy Policy',
-            ]
+            ],
         );
     }
 
@@ -88,9 +89,9 @@ class Tests_Url_GetPrivacyPolicyUrl extends WP_UnitTestCase
     /**
      * Return modified `privacy_policy_url` content in order to test the filter.
      *
-     * @param string $url            The URL to the privacy policy page. Empty string
+     * @param string $url The URL to the privacy policy page. Empty string
      *                               if it doesn't exist.
-     * @param int    $policy_page_id The ID of privacy policy page.
+     * @param int $policy_page_id The ID of privacy policy page.
      * @return string
      */
     public static function modify_policy_url($url, $policy_page_id)

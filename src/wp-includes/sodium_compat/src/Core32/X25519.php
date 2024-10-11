@@ -12,8 +12,6 @@ abstract class ParagonIE_Sodium_Core32_X25519 extends ParagonIE_Sodium_Core32_Cu
     /**
      * Alters the objects passed to this method in place.
      *
-     * @internal You should not use this directly from another application
-     *
      * @param ParagonIE_Sodium_Core32_Curve25519_Fe $f
      * @param ParagonIE_Sodium_Core32_Curve25519_Fe $g
      * @param int $b
@@ -21,32 +19,34 @@ abstract class ParagonIE_Sodium_Core32_X25519 extends ParagonIE_Sodium_Core32_Cu
      * @throws SodiumException
      * @throws TypeError
      * @psalm-suppress MixedMethodCall
+     * @internal You should not use this directly from another application
+     *
      */
     public static function fe_cswap(
         ParagonIE_Sodium_Core32_Curve25519_Fe $f,
         ParagonIE_Sodium_Core32_Curve25519_Fe $g,
-        $b = 0
+        $b = 0,
     ) {
-        $f0 = (int) $f[0]->toInt();
-        $f1 = (int) $f[1]->toInt();
-        $f2 = (int) $f[2]->toInt();
-        $f3 = (int) $f[3]->toInt();
-        $f4 = (int) $f[4]->toInt();
-        $f5 = (int) $f[5]->toInt();
-        $f6 = (int) $f[6]->toInt();
-        $f7 = (int) $f[7]->toInt();
-        $f8 = (int) $f[8]->toInt();
-        $f9 = (int) $f[9]->toInt();
-        $g0 = (int) $g[0]->toInt();
-        $g1 = (int) $g[1]->toInt();
-        $g2 = (int) $g[2]->toInt();
-        $g3 = (int) $g[3]->toInt();
-        $g4 = (int) $g[4]->toInt();
-        $g5 = (int) $g[5]->toInt();
-        $g6 = (int) $g[6]->toInt();
-        $g7 = (int) $g[7]->toInt();
-        $g8 = (int) $g[8]->toInt();
-        $g9 = (int) $g[9]->toInt();
+        $f0 = (int)$f[0]->toInt();
+        $f1 = (int)$f[1]->toInt();
+        $f2 = (int)$f[2]->toInt();
+        $f3 = (int)$f[3]->toInt();
+        $f4 = (int)$f[4]->toInt();
+        $f5 = (int)$f[5]->toInt();
+        $f6 = (int)$f[6]->toInt();
+        $f7 = (int)$f[7]->toInt();
+        $f8 = (int)$f[8]->toInt();
+        $f9 = (int)$f[9]->toInt();
+        $g0 = (int)$g[0]->toInt();
+        $g1 = (int)$g[1]->toInt();
+        $g2 = (int)$g[2]->toInt();
+        $g3 = (int)$g[3]->toInt();
+        $g4 = (int)$g[4]->toInt();
+        $g5 = (int)$g[5]->toInt();
+        $g6 = (int)$g[6]->toInt();
+        $g7 = (int)$g[7]->toInt();
+        $g8 = (int)$g[8]->toInt();
+        $g9 = (int)$g[9]->toInt();
         $b = -$b;
         /** @var int $x0 */
         $x0 = ($f0 ^ $g0) & $b;
@@ -91,19 +91,19 @@ abstract class ParagonIE_Sodium_Core32_X25519 extends ParagonIE_Sodium_Core32_Cu
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param ParagonIE_Sodium_Core32_Curve25519_Fe $f
      * @return ParagonIE_Sodium_Core32_Curve25519_Fe
      * @throws SodiumException
      * @throws TypeError
      * @psalm-suppress MixedAssignment
      * @psalm-suppress MixedMethodCall
+     * @internal You should not use this directly from another application
+     *
      */
     public static function fe_mul121666(ParagonIE_Sodium_Core32_Curve25519_Fe $f)
     {
         /** @var array<int, ParagonIE_Sodium_Core32_Int64> $h */
-        $h = array();
+        $h = [];
         for ($i = 0; $i < 10; ++$i) {
             $h[$i] = $f[$i]->toInt64()->mulInt(121666, 17);
         }
@@ -157,15 +157,15 @@ abstract class ParagonIE_Sodium_Core32_X25519 extends ParagonIE_Sodium_Core32_Cu
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
-     * Inline comments preceded by # are from libsodium's ref10 code.
-     *
      * @param string $n
      * @param string $p
      * @return string
      * @throws SodiumException
      * @throws TypeError
+     * @internal You should not use this directly from another application
+     *
+     * Inline comments preceded by # are from libsodium's ref10 code.
+     *
      */
     public static function crypto_scalarmult_curve25519_ref10($n, $p)
     {
@@ -173,12 +173,12 @@ abstract class ParagonIE_Sodium_Core32_X25519 extends ParagonIE_Sodium_Core32_Cu
         $e = '' . $n;
         # e[0] &= 248;
         $e[0] = self::intToChr(
-            self::chrToInt($e[0]) & 248
+            self::chrToInt($e[0]) & 248,
         );
         # e[31] &= 127;
         # e[31] |= 64;
         $e[31] = self::intToChr(
-            (self::chrToInt($e[31]) & 127) | 64
+            (self::chrToInt($e[31]) & 127) | 64,
         );
         # fe_frombytes(x1,p);
         $x1 = self::fe_frombytes($p);
@@ -200,7 +200,7 @@ abstract class ParagonIE_Sodium_Core32_X25519 extends ParagonIE_Sodium_Core32_Cu
             # b = e[pos / 8] >> (pos & 7);
             /** @var int $b */
             $b = self::chrToInt(
-                    $e[(int) floor($pos / 8)]
+                    $e[(int)floor($pos / 8)],
                 ) >> ($pos & 7);
             # b &= 1;
             $b &= 1;
@@ -285,21 +285,21 @@ abstract class ParagonIE_Sodium_Core32_X25519 extends ParagonIE_Sodium_Core32_Cu
         # fe_mul(x2,x2,z2);
         $x2 = self::fe_mul($x2, $z2);
         # fe_tobytes(q,x2);
-        return (string) self::fe_tobytes($x2);
+        return (string)self::fe_tobytes($x2);
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param ParagonIE_Sodium_Core32_Curve25519_Fe $edwardsY
      * @param ParagonIE_Sodium_Core32_Curve25519_Fe $edwardsZ
      * @return ParagonIE_Sodium_Core32_Curve25519_Fe
      * @throws SodiumException
      * @throws TypeError
+     * @internal You should not use this directly from another application
+     *
      */
     public static function edwards_to_montgomery(
         ParagonIE_Sodium_Core32_Curve25519_Fe $edwardsY,
-        ParagonIE_Sodium_Core32_Curve25519_Fe $edwardsZ
+        ParagonIE_Sodium_Core32_Curve25519_Fe $edwardsZ,
     ) {
         $tempX = self::fe_add($edwardsZ, $edwardsY);
         $tempZ = self::fe_sub($edwardsZ, $edwardsY);
@@ -308,12 +308,12 @@ abstract class ParagonIE_Sodium_Core32_X25519 extends ParagonIE_Sodium_Core32_Cu
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param string $n
      * @return string
      * @throws SodiumException
      * @throws TypeError
+     * @internal You should not use this directly from another application
+     *
      */
     public static function crypto_scalarmult_curve25519_ref10_base($n)
     {
@@ -322,20 +322,19 @@ abstract class ParagonIE_Sodium_Core32_X25519 extends ParagonIE_Sodium_Core32_Cu
 
         # e[0] &= 248;
         $e[0] = self::intToChr(
-            self::chrToInt($e[0]) & 248
+            self::chrToInt($e[0]) & 248,
         );
 
         # e[31] &= 127;
         # e[31] |= 64;
         $e[31] = self::intToChr(
-            (self::chrToInt($e[31]) & 127) | 64
+            (self::chrToInt($e[31]) & 127) | 64,
         );
 
         $A = self::ge_scalarmult_base($e);
         if (
             !($A->Y instanceof ParagonIE_Sodium_Core32_Curve25519_Fe)
-                ||
-            !($A->Z instanceof ParagonIE_Sodium_Core32_Curve25519_Fe)
+            || !($A->Z instanceof ParagonIE_Sodium_Core32_Curve25519_Fe)
         ) {
             throw new TypeError('Null points encountered');
         }

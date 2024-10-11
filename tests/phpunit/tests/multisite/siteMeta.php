@@ -16,17 +16,17 @@ if (is_multisite()) :
 
         public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
         {
-            self::$site_id  = $factory->blog->create(
+            self::$site_id = $factory->blog->create(
                 [
                     'domain' => 'wp.org',
-                    'path'   => '/',
-                ]
+                    'path' => '/',
+                ],
             );
             self::$site_id2 = $factory->blog->create(
                 [
                     'domain' => 'wp.org',
-                    'path'   => '/foo/',
-                ]
+                    'path' => '/foo/',
+                ],
             );
 
             // Populate the main network flag as necessary.
@@ -40,7 +40,7 @@ if (is_multisite()) :
         public static function wpTearDownAfterClass()
         {
             // Delete the possibly previously populated main network flag.
-            if (! self::$flag_was_set) {
+            if (!self::$flag_was_set) {
                 delete_network_option(get_main_network_id(), 'site_meta_supported');
             }
 
@@ -63,7 +63,7 @@ if (is_multisite()) :
 
         public function test_add()
         {
-            if (! is_site_meta_supported()) {
+            if (!is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
 
@@ -73,7 +73,7 @@ if (is_multisite()) :
 
         public function test_add_unique()
         {
-            if (! is_site_meta_supported()) {
+            if (!is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
 
@@ -83,7 +83,7 @@ if (is_multisite()) :
 
         public function test_delete()
         {
-            if (! is_site_meta_supported()) {
+            if (!is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
 
@@ -95,7 +95,7 @@ if (is_multisite()) :
 
         public function test_delete_with_invalid_meta_key_should_return_false()
         {
-            if (! is_site_meta_supported()) {
+            if (!is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
 
@@ -104,7 +104,7 @@ if (is_multisite()) :
 
         public function test_delete_should_respect_meta_value()
         {
-            if (! is_site_meta_supported()) {
+            if (!is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
 
@@ -119,16 +119,16 @@ if (is_multisite()) :
 
         public function test_get_with_no_key_should_fetch_all_keys()
         {
-            if (! is_site_meta_supported()) {
+            if (!is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
 
             add_site_meta(self::$site_id, 'foo', 'bar');
             add_site_meta(self::$site_id, 'foo1', 'baz');
 
-            $found    = get_site_meta(self::$site_id);
+            $found = get_site_meta(self::$site_id);
             $expected = [
-                'foo'  => ['bar'],
+                'foo' => ['bar'],
                 'foo1' => ['baz'],
             ];
 
@@ -137,7 +137,7 @@ if (is_multisite()) :
 
         public function test_get_with_key_should_fetch_all_for_key()
         {
-            if (! is_site_meta_supported()) {
+            if (!is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
 
@@ -145,7 +145,7 @@ if (is_multisite()) :
             add_site_meta(self::$site_id, 'foo', 'baz');
             add_site_meta(self::$site_id, 'foo1', 'baz');
 
-            $found    = get_site_meta(self::$site_id, 'foo');
+            $found = get_site_meta(self::$site_id, 'foo');
             $expected = ['bar', 'baz'];
 
             $this->assertSameSets($expected, $found);
@@ -153,7 +153,7 @@ if (is_multisite()) :
 
         public function test_get_should_respect_single_true()
         {
-            if (! is_site_meta_supported()) {
+            if (!is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
 
@@ -166,7 +166,7 @@ if (is_multisite()) :
 
         public function test_update_should_pass_to_add_when_no_value_exists_for_key()
         {
-            if (! is_site_meta_supported()) {
+            if (!is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
 
@@ -180,7 +180,7 @@ if (is_multisite()) :
 
         public function test_update_should_return_true_when_updating_existing_value_for_key()
         {
-            if (! is_site_meta_supported()) {
+            if (!is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
 
@@ -195,7 +195,7 @@ if (is_multisite()) :
 
         public function test_delete_by_key()
         {
-            if (! is_site_meta_supported()) {
+            if (!is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
 
@@ -213,15 +213,15 @@ if (is_multisite()) :
 
         public function test_site_meta_should_be_deleted_when_site_is_deleted()
         {
-            if (! is_site_meta_supported()) {
+            if (!is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
 
             $site_id = self::factory()->blog->create(
                 [
                     'domain' => 'foo.org',
-                    'path'   => '/',
-                ]
+                    'path' => '/',
+                ],
             );
 
             add_site_meta($site_id, 'foo', 'bar');
@@ -238,7 +238,7 @@ if (is_multisite()) :
 
         public function test_update_site_meta_cache()
         {
-            if (! is_site_meta_supported()) {
+            if (!is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
 
@@ -252,7 +252,7 @@ if (is_multisite()) :
 
         public function test_query_update_site_meta_cache_true()
         {
-            if (! is_site_meta_supported()) {
+            if (!is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
 
@@ -262,7 +262,7 @@ if (is_multisite()) :
             new WP_Site_Query(
                 [
                     'ID' => self::$site_id,
-                ]
+                ],
             );
 
             $num_queries = get_num_queries();
@@ -275,7 +275,7 @@ if (is_multisite()) :
          */
         public function test_lazy_load_site_meta()
         {
-            if (! is_site_meta_supported()) {
+            if (!is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
 
@@ -285,23 +285,25 @@ if (is_multisite()) :
             $q = new WP_Site_Query(
                 [
                     'ID' => self::$site_id,
-                ]
+                ],
             );
 
-            $this->assertSameSets([(string) self::$site_id], wp_list_pluck($q->sites, 'blog_id'), 'Site query should return the first test site');
+            $this->assertSameSets([(string)self::$site_id], wp_list_pluck($q->sites, 'blog_id'),
+                'Site query should return the first test site');
 
             $q = new WP_Site_Query(
                 [
                     'ID' => self::$site_id2,
-                ]
+                ],
             );
 
-            $this->assertSameSets([(string) self::$site_id2], wp_list_pluck($q->sites, 'blog_id'), 'Site query should return the second test site');
+            $this->assertSameSets([(string)self::$site_id2], wp_list_pluck($q->sites, 'blog_id'),
+                'Site query should return the second test site');
 
             get_site_meta(self::$site_id2);
 
-            $args     = $filter->get_args();
-            $first    = reset($args);
+            $args = $filter->get_args();
+            $first = reset($args);
             $site_ids = end($first);
             $this->assertSameSets($site_ids, [self::$site_id, self::$site_id2], 'This should have two site\'s meta');
         }
@@ -311,7 +313,7 @@ if (is_multisite()) :
          */
         public function test_lazy_load_site_meta_fields_id()
         {
-            if (! is_site_meta_supported()) {
+            if (!is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
 
@@ -320,33 +322,33 @@ if (is_multisite()) :
 
             $q = new WP_Site_Query(
                 [
-                    'ID'     => self::$site_id,
+                    'ID' => self::$site_id,
                     'fields' => 'ids',
-                ]
+                ],
             );
 
             $this->assertSameSets([self::$site_id], $q->sites, 'Site query should return the first test site');
 
             $q = new WP_Site_Query(
                 [
-                    'ID'     => self::$site_id2,
+                    'ID' => self::$site_id2,
                     'fields' => 'ids',
-                ]
+                ],
             );
 
             $this->assertSameSets([self::$site_id2], $q->sites, 'Site query should return the second test site');
 
             get_site_meta(self::$site_id2);
 
-            $args     = $filter->get_args();
-            $first    = reset($args);
+            $args = $filter->get_args();
+            $first = reset($args);
             $site_ids = end($first);
             $this->assertSameSets($site_ids, [self::$site_id, self::$site_id2], 'This should have two sites meta');
         }
 
         public function test_query_update_site_meta_cache_false()
         {
-            if (! is_site_meta_supported()) {
+            if (!is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
 
@@ -354,9 +356,9 @@ if (is_multisite()) :
 
             new WP_Site_Query(
                 [
-                    'ID'                     => self::$site_id,
+                    'ID' => self::$site_id,
                     'update_site_meta_cache' => false,
-                ]
+                ],
             );
 
             $num_queries = get_num_queries();
@@ -369,7 +371,7 @@ if (is_multisite()) :
          */
         public function test_add_site_meta_should_bust_get_sites_cache()
         {
-            if (! is_site_meta_supported()) {
+            if (!is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
 
@@ -378,14 +380,14 @@ if (is_multisite()) :
             // Prime cache.
             $found = get_sites(
                 [
-                    'fields'     => 'ids',
+                    'fields' => 'ids',
                     'meta_query' => [
                         [
-                            'key'   => 'foo',
+                            'key' => 'foo',
                             'value' => 'bar',
                         ],
                     ],
-                ]
+                ],
             );
 
             $this->assertSameSets([self::$site_id], $found);
@@ -394,14 +396,14 @@ if (is_multisite()) :
 
             $found = get_sites(
                 [
-                    'fields'     => 'ids',
+                    'fields' => 'ids',
                     'meta_query' => [
                         [
-                            'key'   => 'foo',
+                            'key' => 'foo',
                             'value' => 'bar',
                         ],
                     ],
-                ]
+                ],
             );
 
             $this->assertSameSets([self::$site_id, self::$site_id2], $found);
@@ -412,7 +414,7 @@ if (is_multisite()) :
          */
         public function test_update_site_meta_should_bust_get_sites_cache()
         {
-            if (! is_site_meta_supported()) {
+            if (!is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
 
@@ -422,14 +424,14 @@ if (is_multisite()) :
             // Prime cache.
             $found = get_sites(
                 [
-                    'fields'     => 'ids',
+                    'fields' => 'ids',
                     'meta_query' => [
                         [
-                            'key'   => 'foo',
+                            'key' => 'foo',
                             'value' => 'bar',
                         ],
                     ],
-                ]
+                ],
             );
 
             $this->assertSameSets([self::$site_id], $found);
@@ -438,14 +440,14 @@ if (is_multisite()) :
 
             $found = get_sites(
                 [
-                    'fields'     => 'ids',
+                    'fields' => 'ids',
                     'meta_query' => [
                         [
-                            'key'   => 'foo',
+                            'key' => 'foo',
                             'value' => 'bar',
                         ],
                     ],
-                ]
+                ],
             );
 
             $this->assertSameSets([self::$site_id, self::$site_id2], $found);
@@ -456,7 +458,7 @@ if (is_multisite()) :
          */
         public function test_delete_site_meta_should_bust_get_sites_cache()
         {
-            if (! is_site_meta_supported()) {
+            if (!is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
 
@@ -466,14 +468,14 @@ if (is_multisite()) :
             // Prime cache.
             $found = get_sites(
                 [
-                    'fields'     => 'ids',
+                    'fields' => 'ids',
                     'meta_query' => [
                         [
-                            'key'   => 'foo',
+                            'key' => 'foo',
                             'value' => 'bar',
                         ],
                     ],
-                ]
+                ],
             );
 
             $this->assertSameSets([self::$site_id, self::$site_id2], $found);
@@ -482,14 +484,14 @@ if (is_multisite()) :
 
             $found = get_sites(
                 [
-                    'fields'     => 'ids',
+                    'fields' => 'ids',
                     'meta_query' => [
                         [
-                            'key'   => 'foo',
+                            'key' => 'foo',
                             'value' => 'bar',
                         ],
                     ],
-                ]
+                ],
             );
 
             $this->assertSameSets([self::$site_id], $found);

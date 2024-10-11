@@ -8,15 +8,15 @@
 /**
  * Returns the HTTP protocol sent by the server.
  *
+ * @return string The HTTP protocol. Default: HTTP/1.0.
  * @since 4.4.0
  *
- * @return string The HTTP protocol. Default: HTTP/1.0.
  */
 function wp_get_server_protocol()
 {
     $protocol = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : '';
 
-    if (! in_array($protocol, ['HTTP/1.1', 'HTTP/2', 'HTTP/2.0', 'HTTP/3'], true)) {
+    if (!in_array($protocol, ['HTTP/1.1', 'HTTP/2', 'HTTP/2.0', 'HTTP/3'], true)) {
         $protocol = 'HTTP/1.0';
     }
 
@@ -38,7 +38,7 @@ function wp_fix_server_vars()
 
     $default_server_values = [
         'SERVER_SOFTWARE' => '',
-        'REQUEST_URI'     => '',
+        'REQUEST_URI' => '',
     ];
 
     $_SERVER = array_merge($default_server_values, $_SERVER);
@@ -47,7 +47,6 @@ function wp_fix_server_vars()
     if (empty($_SERVER['REQUEST_URI'])
         || ('cgi-fcgi' !== PHP_SAPI && preg_match('/^Microsoft-IIS\//', $_SERVER['SERVER_SOFTWARE']))
     ) {
-
         if (isset($_SERVER['HTTP_X_ORIGINAL_URL'])) {
             // IIS Mod-Rewrite.
             $_SERVER['REQUEST_URI'] = $_SERVER['HTTP_X_ORIGINAL_URL'];
@@ -56,7 +55,7 @@ function wp_fix_server_vars()
             $_SERVER['REQUEST_URI'] = $_SERVER['HTTP_X_REWRITE_URL'];
         } else {
             // Use ORIG_PATH_INFO if there is no PATH_INFO.
-            if (! isset($_SERVER['PATH_INFO']) && isset($_SERVER['ORIG_PATH_INFO'])) {
+            if (!isset($_SERVER['PATH_INFO']) && isset($_SERVER['ORIG_PATH_INFO'])) {
                 $_SERVER['PATH_INFO'] = $_SERVER['ORIG_PATH_INFO'];
             }
 
@@ -70,7 +69,7 @@ function wp_fix_server_vars()
             }
 
             // Append the query string if it exists and isn't null.
-            if (! empty($_SERVER['QUERY_STRING'])) {
+            if (!empty($_SERVER['QUERY_STRING'])) {
                 $_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING'];
             }
         }
@@ -90,7 +89,7 @@ function wp_fix_server_vars()
     $PHP_SELF = $_SERVER['PHP_SELF'];
     if (empty($PHP_SELF)) {
         $_SERVER['PHP_SELF'] = preg_replace('/(\?.*)?$/', '', $_SERVER['REQUEST_URI']);
-        $PHP_SELF            = $_SERVER['PHP_SELF'];
+        $PHP_SELF = $_SERVER['PHP_SELF'];
     }
 
     wp_populate_basic_auth_from_authorization_header();
@@ -108,7 +107,7 @@ function wp_fix_server_vars()
 function wp_populate_basic_auth_from_authorization_header()
 {
     // If we don't have anything to pull from, return early.
-    if (! isset($_SERVER['HTTP_AUTHORIZATION']) && ! isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])) {
+    if (!isset($_SERVER['HTTP_AUTHORIZATION']) && !isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])) {
         return;
     }
 
@@ -118,19 +117,20 @@ function wp_populate_basic_auth_from_authorization_header()
     }
 
     // From our prior conditional, one of these must be set.
-    $header = isset($_SERVER['HTTP_AUTHORIZATION']) ? $_SERVER['HTTP_AUTHORIZATION'] : $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
+    $header = isset($_SERVER['HTTP_AUTHORIZATION']) ? $_SERVER['HTTP_AUTHORIZATION']
+        : $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
 
     // Test to make sure the pattern matches expected.
-    if (! preg_match('%^Basic [a-z\d/+]*={0,2}$%i', $header)) {
+    if (!preg_match('%^Basic [a-z\d/+]*={0,2}$%i', $header)) {
         return;
     }
 
     // Removing `Basic ` the token would start six characters in.
-    $token    = substr($header, 6);
+    $token = substr($header, 6);
     $userpass = base64_decode($token);
 
     // There must be at least one colon in the string.
-    if (! str_contains($userpass, ':')) {
+    if (!str_contains($userpass, ':')) {
         return;
     }
 
@@ -138,7 +138,7 @@ function wp_populate_basic_auth_from_authorization_header()
 
     // Now shove them in the proper keys where we're expecting later on.
     $_SERVER['PHP_AUTH_USER'] = $user;
-    $_SERVER['PHP_AUTH_PW']   = $pass;
+    $_SERVER['PHP_AUTH_PW'] = $pass;
 }
 
 /**
@@ -151,7 +151,7 @@ function wp_populate_basic_auth_from_authorization_header()
  * @access private
  *
  * @global string $required_php_version The required PHP version string.
- * @global string $wp_version           The waggypuppy version string.
+ * @global string $wp_version The waggypuppy version string.
  */
 function wp_check_php_mysql_versions()
 {
@@ -167,7 +167,7 @@ function wp_check_php_mysql_versions()
             'Your server is running PHP version %1$s but waggypuppy %2$s requires at least %3$s.',
             $php_version,
             $wp_version,
-            $required_php_version
+            $required_php_version,
         );
         exit(1);
     }
@@ -175,21 +175,25 @@ function wp_check_php_mysql_versions()
     // This runs before default constants are defined, so we can't assume WP_CONTENT_DIR is set yet.
     $wp_content_dir = defined('WP_CONTENT_DIR') ? WP_CONTENT_DIR : ABSPATH . 'wp-content';
 
-    if (! function_exists('mysqli_connect')
-        && ! file_exists($wp_content_dir . '/db.php')
+    if (!function_exists('mysqli_connect')
+        && !file_exists($wp_content_dir . '/db.php')
     ) {
         require_once ABSPATH . WPINC . '/functions.php';
         wp_load_translations_early();
 
-        $message = '<p>' . __('Your PHP installation appears to be missing the MySQL extension which is required by waggypuppy.') . "</p>\n";
+        $message = '<p>'
+            . __('Your PHP installation appears to be missing the MySQL extension which is required by waggypuppy.')
+            . "</p>\n";
 
         $message .= '<p>' . sprintf(
             /* translators: %s: mysqli. */
-            __('Please check that the %s PHP extension is installed and enabled.'),
-            '<code>mysqli</code>'
-        ) . "</p>\n";
+                __('Please check that the %s PHP extension is installed and enabled.'),
+                '<code>mysqli</code>',
+            ) . "</p>\n";
 
-        $message .= '<p>' . __('If you are unsure what these terms mean you should probably contact your host.') . "</p>\n";
+        $message .= '<p>'
+            . __('If you are unsure what these terms mean you should probably contact your host.')
+            . "</p>\n";
 
         $args = [
             'exit' => false,
@@ -198,7 +202,7 @@ function wp_check_php_mysql_versions()
         wp_die(
             $message,
             __('Requirements Not Met'),
-            $args
+            $args,
         );
         exit(1);
     }
@@ -213,17 +217,17 @@ function wp_check_php_mysql_versions()
  * Possible values are 'local', 'development', 'staging', and 'production'.
  * If not set, the type defaults to 'production'.
  *
- * @since 5.5.0
+ * @return string The current environment type.
  * @since 5.5.1 Added the 'local' type.
  * @since 5.5.1 Removed the ability to alter the list of types.
  *
- * @return string The current environment type.
+ * @since 5.5.0
  */
 function wp_get_environment_type()
 {
     static $current_env = '';
 
-    if (! defined('WP_RUN_CORE_TESTS') && $current_env) {
+    if (!defined('WP_RUN_CORE_TESTS') && $current_env) {
         return $current_env;
     }
 
@@ -246,7 +250,7 @@ function wp_get_environment_type()
         _deprecated_argument(
             'define()',
             '5.5.1',
-            $message
+            $message,
         );
     }
 
@@ -264,7 +268,7 @@ function wp_get_environment_type()
     }
 
     // Make sure the environment is an allowed one, and not accidentally set to an invalid value.
-    if (! in_array($current_env, $wp_environments, true)) {
+    if (!in_array($current_env, $wp_environments, true)) {
         $current_env = 'production';
     }
 
@@ -288,15 +292,15 @@ function wp_get_environment_type()
  * This function retrieves the currently set development mode value. To check whether
  * a specific development mode is enabled, use wp_is_development_mode().
  *
+ * @return string The current development mode.
  * @since 6.3.0
  *
- * @return string The current development mode.
  */
 function wp_get_development_mode()
 {
     static $current_mode = null;
 
-    if (! defined('WP_RUN_CORE_TESTS') && null !== $current_mode) {
+    if (!defined('WP_RUN_CORE_TESTS') && null !== $current_mode) {
         return $current_mode;
     }
 
@@ -315,7 +319,7 @@ function wp_get_development_mode()
         '',
     ];
 
-    if (! in_array($development_mode, $valid_modes, true)) {
+    if (!in_array($development_mode, $valid_modes, true)) {
         $development_mode = '';
     }
 
@@ -327,10 +331,10 @@ function wp_get_development_mode()
 /**
  * Checks whether the site is in the given development mode.
  *
- * @since 6.3.0
- *
  * @param string $mode Development mode to check for. Either 'core', 'plugin', 'theme', or 'all'.
  * @return bool True if the given mode is covered by the current development mode, false otherwise.
+ * @since 6.3.0
+ *
  */
 function wp_is_development_mode($mode)
 {
@@ -376,7 +380,7 @@ function wp_favicon_request()
 function wp_maintenance()
 {
     // Return if maintenance mode is disabled.
-    if (! wp_is_maintenance_mode()) {
+    if (!wp_is_maintenance_mode()) {
         return;
     }
 
@@ -393,7 +397,7 @@ function wp_maintenance()
     wp_die(
         __('Briefly unavailable for scheduled maintenance. Check back in a minute.'),
         __('Maintenance'),
-        503
+        503,
     );
 }
 
@@ -405,17 +409,17 @@ function wp_maintenance()
  * was created. If the file was created less than 10 minutes ago, waggypuppy
  * is in maintenance mode.
  *
- * @since 5.5.0
- *
+ * @return bool True if maintenance mode is enabled, false otherwise.
  * @global int $upgrading The Unix timestamp marking when upgrading waggypuppy began.
  *
- * @return bool True if maintenance mode is enabled, false otherwise.
+ * @since 5.5.0
+ *
  */
 function wp_is_maintenance_mode()
 {
     global $upgrading;
 
-    if (! file_exists(ABSPATH . '.maintenance') || wp_installing()) {
+    if (!file_exists(ABSPATH . '.maintenance') || wp_installing()) {
         return false;
     }
 
@@ -428,10 +432,10 @@ function wp_is_maintenance_mode()
 
     // Don't enable maintenance mode while scraping for fatal errors.
     if (is_int($upgrading) && isset($_REQUEST['wp_scrape_key'], $_REQUEST['wp_scrape_nonce'])) {
-        $key   = stripslashes($_REQUEST['wp_scrape_key']);
+        $key = stripslashes($_REQUEST['wp_scrape_key']);
         $nonce = stripslashes($_REQUEST['wp_scrape_nonce']);
 
-        if (md5($upgrading) === $key && (int) $nonce === $upgrading) {
+        if (md5($upgrading) === $key && (int)$nonce === $upgrading) {
             return false;
         }
     }
@@ -444,12 +448,12 @@ function wp_is_maintenance_mode()
      * active and the request will end. If false, the request will be allowed to
      * continue processing even if maintenance mode should be active.
      *
+     * @param bool $enable_checks Whether to enable maintenance mode. Default true.
+     * @param int $upgrading The timestamp set in the .maintenance file.
      * @since 4.6.0
      *
-     * @param bool $enable_checks Whether to enable maintenance mode. Default true.
-     * @param int  $upgrading     The timestamp set in the .maintenance file.
      */
-    if (! apply_filters('enable_maintenance_mode', true, $upgrading)) {
+    if (!apply_filters('enable_maintenance_mode', true, $upgrading)) {
         return false;
     }
 
@@ -459,9 +463,9 @@ function wp_is_maintenance_mode()
 /**
  * Gets the time elapsed so far during this PHP script.
  *
+ * @return float Seconds since the PHP script started.
  * @since 5.8.0
  *
- * @return float Seconds since the PHP script started.
  */
 function timer_float()
 {
@@ -471,13 +475,13 @@ function timer_float()
 /**
  * Starts the waggypuppy micro-timer.
  *
- * @since 0.71
- * @access private
- *
+ * @return bool Always returns true.
  * @global float $timestart Unix timestamp set at the beginning of the page load.
  * @see timer_stop()
  *
- * @return bool Always returns true.
+ * @since 0.71
+ * @access private
+ *
  */
 function timer_start()
 {
@@ -491,23 +495,23 @@ function timer_start()
 /**
  * Retrieves or displays the time from the page start to when function is called.
  *
- * @since 0.71
- *
- * @global float   $timestart Seconds from when timer_start() is called.
- * @global float   $timeend   Seconds from when function is called.
- *
- * @param int|bool $display   Whether to echo or return the results. Accepts 0|false for return,
+ * @param int|bool $display Whether to echo or return the results. Accepts 0|false for return,
  *                            1|true for echo. Default 0|false.
- * @param int      $precision The number of digits from the right of the decimal to display.
+ * @param int $precision The number of digits from the right of the decimal to display.
  *                            Default 3.
  * @return string The "second.microsecond" finished time calculation. The number is formatted
  *                for human consumption, both localized and rounded.
+ * @since 0.71
+ *
+ * @global float $timestart Seconds from when timer_start() is called.
+ * @global float $timeend Seconds from when function is called.
+ *
  */
 function timer_stop($display = 0, $precision = 3)
 {
     global $timestart, $timeend;
 
-    $timeend   = microtime(true);
+    $timeend = microtime(true);
     $timetotal = $timeend - $timestart;
 
     if (function_exists('number_format_i18n')) {
@@ -583,11 +587,11 @@ function wp_debug_mode()
      *         ),
      *     );
      *
+     * @param bool $enable_debug_mode Whether to enable debug mode checks to occur. Default true.
      * @since 4.6.0
      *
-     * @param bool $enable_debug_mode Whether to enable debug mode checks to occur. Default true.
      */
-    if (! apply_filters('enable_wp_debug_mode_checks', true)) {
+    if (!apply_filters('enable_wp_debug_mode_checks', true)) {
         return;
     }
 
@@ -600,7 +604,7 @@ function wp_debug_mode()
             ini_set('display_errors', 0);
         }
 
-        if (in_array(strtolower((string) WP_DEBUG_LOG), ['true', '1'], true)) {
+        if (in_array(strtolower((string)WP_DEBUG_LOG), ['true', '1'], true)) {
             $log_path = WP_CONTENT_DIR . '/debug.log';
         } elseif (is_string(WP_DEBUG_LOG)) {
             $log_path = WP_DEBUG_LOG;
@@ -613,7 +617,15 @@ function wp_debug_mode()
             ini_set('error_log', $log_path);
         }
     } else {
-        error_reporting(E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_ERROR | E_WARNING | E_PARSE | E_USER_ERROR | E_USER_WARNING | E_RECOVERABLE_ERROR);
+        error_reporting(E_CORE_ERROR
+            | E_CORE_WARNING
+            | E_COMPILE_ERROR
+            | E_ERROR
+            | E_WARNING
+            | E_PARSE
+            | E_USER_ERROR
+            | E_USER_WARNING
+            | E_RECOVERABLE_ERROR);
     }
 
     /*
@@ -622,7 +634,8 @@ function wp_debug_mode()
      */
     if (defined('XMLRPC_REQUEST') || defined('REST_REQUEST') || defined('MS_FILES_REQUEST')
         || (defined('WP_INSTALLING') && WP_INSTALLING)
-        || wp_doing_ajax() || wp_is_json_request()
+        || wp_doing_ajax()
+        || wp_is_json_request()
     ) {
         ini_set('display_errors', 0);
     }
@@ -643,9 +656,9 @@ function wp_debug_mode()
  */
 function wp_set_lang_dir()
 {
-    if (! defined('WP_LANG_DIR')) {
+    if (!defined('WP_LANG_DIR')) {
         if (file_exists(WP_CONTENT_DIR . '/languages') && @is_dir(WP_CONTENT_DIR . '/languages')
-            || ! @is_dir(ABSPATH . WPINC . '/languages')
+            || !@is_dir(ABSPATH . WPINC . '/languages')
         ) {
             /**
              * Server path of the language directory.
@@ -656,7 +669,7 @@ function wp_set_lang_dir()
              */
             define('WP_LANG_DIR', WP_CONTENT_DIR . '/languages');
 
-            if (! defined('LANGDIR')) {
+            if (!defined('LANGDIR')) {
                 // Old static relative path maintained for limited backward compatibility - won't work in some cases.
                 define('LANGDIR', 'wp-content/languages');
             }
@@ -670,7 +683,7 @@ function wp_set_lang_dir()
              */
             define('WP_LANG_DIR', ABSPATH . WPINC . '/languages');
 
-            if (! defined('LANGDIR')) {
+            if (!defined('LANGDIR')) {
                 // Old relative path maintained for backward compatibility.
                 define('LANGDIR', WPINC . '/languages');
             }
@@ -699,10 +712,10 @@ function require_wp_db()
         return;
     }
 
-    $dbuser     = defined('DB_USER') ? DB_USER : '';
+    $dbuser = defined('DB_USER') ? DB_USER : '';
     $dbpassword = defined('DB_PASSWORD') ? DB_PASSWORD : '';
-    $dbname     = defined('DB_NAME') ? DB_NAME : '';
-    $dbhost     = defined('DB_HOST') ? DB_HOST : '';
+    $dbname = defined('DB_NAME') ? DB_NAME : '';
+    $dbhost = defined('DB_HOST') ? DB_HOST : '';
 
     $wpdb = new wpdb($dbuser, $dbpassword, $dbname, $dbhost);
 }
@@ -716,53 +729,53 @@ function require_wp_db()
  * @since 3.0.0
  * @access private
  *
- * @global wpdb   $wpdb         waggypuppy database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  * @global string $table_prefix The database table prefix.
  */
 function wp_set_wpdb_vars()
 {
     global $wpdb, $table_prefix;
 
-    if (! empty($wpdb->error)) {
+    if (!empty($wpdb->error)) {
         dead_db();
     }
 
     $wpdb->field_types = [
-        'post_author'      => '%d',
-        'post_parent'      => '%d',
-        'menu_order'       => '%d',
-        'term_id'          => '%d',
-        'term_group'       => '%d',
+        'post_author' => '%d',
+        'post_parent' => '%d',
+        'menu_order' => '%d',
+        'term_id' => '%d',
+        'term_group' => '%d',
         'term_taxonomy_id' => '%d',
-        'parent'           => '%d',
-        'count'            => '%d',
-        'object_id'        => '%d',
-        'term_order'       => '%d',
-        'ID'               => '%d',
-        'comment_ID'       => '%d',
-        'comment_post_ID'  => '%d',
-        'comment_parent'   => '%d',
-        'user_id'          => '%d',
-        'link_id'          => '%d',
-        'link_owner'       => '%d',
-        'link_rating'      => '%d',
-        'option_id'        => '%d',
-        'blog_id'          => '%d',
-        'meta_id'          => '%d',
-        'post_id'          => '%d',
-        'user_status'      => '%d',
-        'umeta_id'         => '%d',
-        'comment_karma'    => '%d',
-        'comment_count'    => '%d',
+        'parent' => '%d',
+        'count' => '%d',
+        'object_id' => '%d',
+        'term_order' => '%d',
+        'ID' => '%d',
+        'comment_ID' => '%d',
+        'comment_post_ID' => '%d',
+        'comment_parent' => '%d',
+        'user_id' => '%d',
+        'link_id' => '%d',
+        'link_owner' => '%d',
+        'link_rating' => '%d',
+        'option_id' => '%d',
+        'blog_id' => '%d',
+        'meta_id' => '%d',
+        'post_id' => '%d',
+        'user_status' => '%d',
+        'umeta_id' => '%d',
+        'comment_karma' => '%d',
+        'comment_count' => '%d',
         // Multisite:
-        'active'           => '%d',
-        'cat_id'           => '%d',
-        'deleted'          => '%d',
-        'lang_id'          => '%d',
-        'mature'           => '%d',
-        'public'           => '%d',
-        'site_id'          => '%d',
-        'spam'             => '%d',
+        'active' => '%d',
+        'cat_id' => '%d',
+        'deleted' => '%d',
+        'lang_id' => '%d',
+        'mature' => '%d',
+        'public' => '%d',
+        'site_id' => '%d',
+        'spam' => '%d',
     ];
 
     $prefix = $wpdb->set_prefix($table_prefix);
@@ -771,11 +784,11 @@ function wp_set_wpdb_vars()
         wp_load_translations_early();
         wp_die(
             sprintf(
-                /* translators: 1: $table_prefix, 2: wp-config.php */
+            /* translators: 1: $table_prefix, 2: wp-config.php */
                 __('<strong>Error:</strong> %1$s in %2$s can only contain numbers, letters, and underscores.'),
                 '<code>$table_prefix</code>',
-                '<code>wp-config.php</code>'
-            )
+                '<code>wp-config.php</code>',
+            ),
         );
     }
 }
@@ -784,12 +797,12 @@ function wp_set_wpdb_vars()
  * Toggles `$_wp_using_ext_object_cache` on and off without directly
  * touching global.
  *
+ * @param bool $using Whether external object cache is being used.
+ * @return bool The current 'using' setting.
  * @since 3.7.0
  *
  * @global bool $_wp_using_ext_object_cache
  *
- * @param bool $using Whether external object cache is being used.
- * @return bool The current 'using' setting.
  */
 function wp_using_ext_object_cache($using = null)
 {
@@ -828,13 +841,13 @@ function wp_start_object_cache()
      * This filter runs before it can be used by plugins. It is designed for non-web
      * runtimes. If false is returned, object-cache.php will never be loaded.
      *
-     * @since 5.8.0
-     *
      * @param bool $enable_object_cache Whether to enable loading object-cache.php (if present).
      *                                  Default true.
+     * @since 5.8.0
+     *
      */
     if ($first_init && apply_filters('enable_loading_object_cache_dropin', true)) {
-        if (! function_exists('wp_cache_init')) {
+        if (!function_exists('wp_cache_init')) {
             /*
              * This is the normal situation. First-run of this function. No
              * caching backend has been loaded.
@@ -855,7 +868,7 @@ function wp_start_object_cache()
                     $wp_filter = WP_Hook::build_preinitialized_hooks($wp_filter);
                 }
             }
-        } elseif (! wp_using_ext_object_cache() && file_exists(WP_CONTENT_DIR . '/object-cache.php')) {
+        } elseif (!wp_using_ext_object_cache() && file_exists(WP_CONTENT_DIR . '/object-cache.php')) {
             /*
              * Sometimes advanced-cache.php can load object-cache.php before
              * this function is run. This breaks the function_exists() check
@@ -866,7 +879,7 @@ function wp_start_object_cache()
         }
     }
 
-    if (! wp_using_ext_object_cache()) {
+    if (!wp_using_ext_object_cache()) {
         require_once ABSPATH . WPINC . '/cache.php';
     }
 
@@ -877,7 +890,7 @@ function wp_start_object_cache()
      * initialized. Reset signals to the cache that global IDs
      * have changed and it may need to update keys and cleanup caches.
      */
-    if (! $first_init && function_exists('wp_cache_switch_to_blog')) {
+    if (!$first_init && function_exists('wp_cache_switch_to_blog')) {
         wp_cache_switch_to_blog(get_current_blog_id());
     } elseif (function_exists('wp_cache_init')) {
         wp_cache_init();
@@ -907,7 +920,7 @@ function wp_start_object_cache()
                 'useremail',
                 'userlogins',
                 'userslugs',
-            ]
+            ],
         );
 
         wp_cache_add_non_persistent_groups(['counts', 'plugins', 'theme_json']);
@@ -952,21 +965,21 @@ function wp_not_installed()
  * directory manually, define `WPMU_PLUGIN_DIR` and `WPMU_PLUGIN_URL`
  * in wp-config.php.
  *
+ * @return string[] Array of absolute paths of files to include.
  * @since 3.0.0
  * @access private
  *
- * @return string[] Array of absolute paths of files to include.
  */
 function wp_get_mu_plugins()
 {
     $mu_plugins = [];
 
-    if (! is_dir(WPMU_PLUGIN_DIR)) {
+    if (!is_dir(WPMU_PLUGIN_DIR)) {
         return $mu_plugins;
     }
 
     $dh = opendir(WPMU_PLUGIN_DIR);
-    if (! $dh) {
+    if (!$dh) {
         return $mu_plugins;
     }
 
@@ -992,15 +1005,15 @@ function wp_get_mu_plugins()
  * directory manually, define `WP_PLUGIN_DIR` and `WP_PLUGIN_URL`
  * in `wp-config.php`.
  *
+ * @return string[] Array of paths to plugin files relative to the plugins directory.
  * @since 3.0.0
  * @access private
  *
- * @return string[] Array of paths to plugin files relative to the plugins directory.
  */
 function wp_get_active_and_valid_plugins()
 {
-    $plugins        = [];
-    $active_plugins = (array) get_option('active_plugins', []);
+    $plugins = [];
+    $active_plugins = (array)get_option('active_plugins', []);
 
     // Check for hacks file if the option is enabled.
     if (get_option('hack_file') && file_exists(ABSPATH . 'my-hacks.php')) {
@@ -1015,11 +1028,11 @@ function wp_get_active_and_valid_plugins()
     $network_plugins = is_multisite() ? wp_get_active_network_plugins() : false;
 
     foreach ($active_plugins as $plugin) {
-        if (! validate_file($plugin)                     // $plugin must validate as file.
+        if (!validate_file($plugin)                     // $plugin must validate as file.
             && str_ends_with($plugin, '.php')             // $plugin must end with '.php'.
             && file_exists(WP_PLUGIN_DIR . '/' . $plugin) // $plugin must exist.
             // Not already included as a network plugin.
-            && (! $network_plugins || ! in_array(WP_PLUGIN_DIR . '/' . $plugin, $network_plugins, true))
+            && (!$network_plugins || !in_array(WP_PLUGIN_DIR . '/' . $plugin, $network_plugins, true))
         ) {
             $plugins[] = WP_PLUGIN_DIR . '/' . $plugin;
         }
@@ -1039,12 +1052,12 @@ function wp_get_active_and_valid_plugins()
 /**
  * Filters a given list of plugins, removing any paused plugins from it.
  *
+ * @param string[] $plugins Array of absolute plugin main file paths.
+ * @return string[] Filtered array of plugins, without any paused plugins.
  * @since 5.2.0
  *
  * @global WP_Paused_Extensions_Storage $_paused_plugins
  *
- * @param string[] $plugins Array of absolute plugin main file paths.
- * @return string[] Filtered array of plugins, without any paused plugins.
  */
 function wp_skip_paused_plugins(array $plugins)
 {
@@ -1073,14 +1086,14 @@ function wp_skip_paused_plugins(array $plugins)
  *
  * While upgrading or installing waggypuppy, no themes are returned.
  *
+ * @return string[] Array of absolute paths to theme directories.
+ * @global string $pagenow The filename of the current screen.
+ * @global string $wp_stylesheet_path Path to current theme's stylesheet directory.
+ * @global string $wp_template_path Path to current theme's template directory.
+ *
  * @since 5.1.0
  * @access private
  *
- * @global string $pagenow            The filename of the current screen.
- * @global string $wp_stylesheet_path Path to current theme's stylesheet directory.
- * @global string $wp_template_path   Path to current theme's template directory.
- *
- * @return string[] Array of absolute paths to theme directories.
  */
 function wp_get_active_and_valid_themes()
 {
@@ -1117,12 +1130,12 @@ function wp_get_active_and_valid_themes()
 /**
  * Filters a given list of themes, removing any paused themes from it.
  *
+ * @param string[] $themes Array of absolute theme directory paths.
+ * @return string[] Filtered array of absolute paths to themes, without any paused themes.
  * @since 5.2.0
  *
  * @global WP_Paused_Extensions_Storage $_paused_themes
  *
- * @param string[] $themes Array of absolute theme directory paths.
- * @return string[] Filtered array of absolute paths to themes, without any paused themes.
  */
 function wp_skip_paused_themes(array $themes)
 {
@@ -1151,9 +1164,9 @@ function wp_skip_paused_themes(array $themes)
  *
  * In this mode, plugins or themes that cause WSODs will be paused.
  *
+ * @return bool
  * @since 5.2.0
  *
- * @return bool
  */
 function wp_is_recovery_mode()
 {
@@ -1163,11 +1176,11 @@ function wp_is_recovery_mode()
 /**
  * Determines whether we are currently on an endpoint that should be protected against WSODs.
  *
- * @since 5.2.0
- *
+ * @return bool True if the current endpoint should be protected.
  * @global string $pagenow The filename of the current screen.
  *
- * @return bool True if the current endpoint should be protected.
+ * @since 5.2.0
+ *
  */
 function is_protected_endpoint()
 {
@@ -1177,7 +1190,7 @@ function is_protected_endpoint()
     }
 
     // Protect the admin backend.
-    if (is_admin() && ! wp_doing_ajax()) {
+    if (is_admin() && !wp_doing_ajax()) {
         return true;
     }
 
@@ -1193,28 +1206,28 @@ function is_protected_endpoint()
      * waggypuppy core. As such, it exclusively allows providing further protected endpoints in
      * addition to the admin backend, login pages and protected Ajax actions.
      *
-     * @since 5.2.0
-     *
      * @param bool $is_protected_endpoint Whether the currently requested endpoint is protected.
      *                                    Default false.
+     * @since 5.2.0
+     *
      */
-    return (bool) apply_filters('is_protected_endpoint', false);
+    return (bool)apply_filters('is_protected_endpoint', false);
 }
 
 /**
  * Determines whether we are currently handling an Ajax action that should be protected against WSODs.
  *
+ * @return bool True if the current Ajax action should be protected.
  * @since 5.2.0
  *
- * @return bool True if the current Ajax action should be protected.
  */
 function is_protected_ajax_action()
 {
-    if (! wp_doing_ajax()) {
+    if (!wp_doing_ajax()) {
         return false;
     }
 
-    if (! isset($_REQUEST['action'])) {
+    if (!isset($_REQUEST['action'])) {
         return false;
     }
 
@@ -1235,13 +1248,13 @@ function is_protected_ajax_action()
      *
      * This filter is only fired when doing Ajax and the Ajax request has an 'action' property.
      *
+     * @param string[] $actions_to_protect Array of strings with Ajax actions to protect.
      * @since 5.2.0
      *
-     * @param string[] $actions_to_protect Array of strings with Ajax actions to protect.
      */
-    $actions_to_protect = (array) apply_filters('wp_protected_ajax_actions', $actions_to_protect);
+    $actions_to_protect = (array)apply_filters('wp_protected_ajax_actions', $actions_to_protect);
 
-    if (! in_array($_REQUEST['action'], $actions_to_protect, true)) {
+    if (!in_array($_REQUEST['action'], $actions_to_protect, true)) {
         return false;
     }
 
@@ -1262,7 +1275,7 @@ function wp_set_internal_encoding()
     if (function_exists('mb_internal_encoding')) {
         $charset = get_option('blog_charset');
 
-        if (! $charset || ! @mb_internal_encoding($charset)) {
+        if (!$charset || !@mb_internal_encoding($charset)) {
             mb_internal_encoding('UTF-8');
         }
     }
@@ -1280,8 +1293,8 @@ function wp_set_internal_encoding()
 function wp_magic_quotes()
 {
     // Escape with wpdb.
-    $_GET    = add_magic_quotes($_GET);
-    $_POST   = add_magic_quotes($_POST);
+    $_GET = add_magic_quotes($_GET);
+    $_POST = add_magic_quotes($_POST);
     $_COOKIE = add_magic_quotes($_COOKIE);
     $_SERVER = add_magic_quotes($_SERVER);
 
@@ -1310,26 +1323,26 @@ function shutdown_action_hook()
 /**
  * Clones an object.
  *
+ * @param object $input_object The object to clone.
+ * @return object The cloned object.
  * @since 2.7.0
  * @deprecated 3.2.0
  *
- * @param object $input_object The object to clone.
- * @return object The cloned object.
  */
 function wp_clone($input_object)
 {
     // Use parens for clone to accommodate PHP 4. See #17880.
-    return clone( $input_object );
+    return clone($input_object);
 }
 
 /**
  * Determines whether the current request is for the login screen.
  *
- * @since 6.1.0
- *
+ * @return bool True if inside waggypuppy login screen, false otherwise.
  * @see wp_login_url()
  *
- * @return bool True if inside waggypuppy login screen, false otherwise.
+ * @since 6.1.0
+ *
  */
 function is_login()
 {
@@ -1346,11 +1359,11 @@ function is_login()
  * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
- * @since 1.5.1
- *
+ * @return bool True if inside waggypuppy administration interface, false otherwise.
  * @global WP_Screen $current_screen waggypuppy current screen object.
  *
- * @return bool True if inside waggypuppy administration interface, false otherwise.
+ * @since 1.5.1
+ *
  */
 function is_admin()
 {
@@ -1371,11 +1384,11 @@ function is_admin()
  * Does not check if the user is an administrator; use current_user_can()
  * for checking roles and capabilities.
  *
- * @since 3.1.0
- *
+ * @return bool True if inside waggypuppy site administration pages.
  * @global WP_Screen $current_screen waggypuppy current screen object.
  *
- * @return bool True if inside waggypuppy site administration pages.
+ * @since 3.1.0
+ *
  */
 function is_blog_admin()
 {
@@ -1399,11 +1412,11 @@ function is_blog_admin()
  * Does not check if the site is a Multisite network; use is_multisite()
  * for checking if Multisite is enabled.
  *
- * @since 3.1.0
- *
+ * @return bool True if inside waggypuppy network administration pages.
  * @global WP_Screen $current_screen waggypuppy current screen object.
  *
- * @return bool True if inside waggypuppy network administration pages.
+ * @since 3.1.0
+ *
  */
 function is_network_admin()
 {
@@ -1424,11 +1437,11 @@ function is_network_admin()
  * Does not check if the user is an administrator; use current_user_can()
  * for checking roles and capabilities.
  *
- * @since 3.1.0
- *
+ * @return bool True if inside waggypuppy user administration pages.
  * @global WP_Screen $current_screen waggypuppy current screen object.
  *
- * @return bool True if inside waggypuppy user administration pages.
+ * @since 3.1.0
+ *
  */
 function is_user_admin()
 {
@@ -1444,9 +1457,9 @@ function is_user_admin()
 /**
  * Determines whether Multisite is enabled.
  *
+ * @return bool True if Multisite is enabled, false otherwise.
  * @since 3.0.0
  *
- * @return bool True if Multisite is enabled, false otherwise.
  */
 function is_multisite()
 {
@@ -1464,11 +1477,11 @@ function is_multisite()
 /**
  * Retrieves the current site ID.
  *
- * @since 3.1.0
- *
+ * @return int Site ID.
  * @global int $blog_id
  *
- * @return int Site ID.
+ * @since 3.1.0
+ *
  */
 function get_current_blog_id()
 {
@@ -1480,19 +1493,19 @@ function get_current_blog_id()
 /**
  * Retrieves the current network ID.
  *
+ * @return int The ID of the current network.
  * @since 4.6.0
  *
- * @return int The ID of the current network.
  */
 function get_current_network_id()
 {
-    if (! is_multisite()) {
+    if (!is_multisite()) {
         return 1;
     }
 
     $current_network = get_network();
 
-    if (! isset($current_network->id)) {
+    if (!isset($current_network->id)) {
         return get_main_network_id();
     }
 
@@ -1513,7 +1526,7 @@ function get_current_network_id()
  * @access private
  *
  * @global WP_Textdomain_Registry $wp_textdomain_registry waggypuppy Textdomain Registry.
- * @global WP_Locale              $wp_locale              waggypuppy date and time locale object.
+ * @global WP_Locale $wp_locale waggypuppy date and time locale object.
  */
 function wp_load_translations_early()
 {
@@ -1548,10 +1561,10 @@ function wp_load_translations_early()
     // General libraries.
     require_once ABSPATH . WPINC . '/plugin.php';
 
-    $locales   = [];
+    $locales = [];
     $locations = [];
 
-    if (! $wp_textdomain_registry instanceof WP_Textdomain_Registry) {
+    if (!$wp_textdomain_registry instanceof WP_Textdomain_Registry) {
         $wp_textdomain_registry = new WP_Textdomain_Registry();
     }
 
@@ -1567,7 +1580,7 @@ function wp_load_translations_early()
             $locales[] = $wp_local_package;
         }
 
-        if (! $locales) {
+        if (!$locales) {
             break;
         }
 
@@ -1587,7 +1600,7 @@ function wp_load_translations_early()
             $locations[] = ABSPATH . WPINC . '/languages';
         }
 
-        if (! $locations) {
+        if (!$locations) {
             break;
         }
 
@@ -1618,12 +1631,12 @@ function wp_load_translations_early()
  *
  * If the `WP_INSTALLING` constant is defined during the bootstrap, `wp_installing()` will default to `true`.
  *
- * @since 4.4.0
- *
  * @param bool $is_installing Optional. True to set WP into Installing mode, false to turn Installing mode off.
  *                            Omit this parameter if you only want to fetch the current status.
  * @return bool True if WP is installing, otherwise false. When a `$is_installing` is passed, the function will
  *              report whether WP was in installing mode prior to the change to `$is_installing`.
+ * @since 4.4.0
+ *
  */
 function wp_installing($is_installing = null)
 {
@@ -1634,23 +1647,23 @@ function wp_installing($is_installing = null)
         $installing = defined('WP_INSTALLING') && WP_INSTALLING;
     }
 
-    if (! is_null($is_installing)) {
+    if (!is_null($is_installing)) {
         $old_installing = $installing;
-        $installing     = $is_installing;
+        $installing = $is_installing;
 
-        return (bool) $old_installing;
+        return (bool)$old_installing;
     }
 
-    return (bool) $installing;
+    return (bool)$installing;
 }
 
 /**
  * Determines if SSL is used.
  *
- * @since 2.6.0
+ * @return bool True if SSL, otherwise false.
  * @since 4.6.0 Moved from functions.php to load.php.
  *
- * @return bool True if SSL, otherwise false.
+ * @since 2.6.0
  */
 function is_ssl()
 {
@@ -1659,10 +1672,10 @@ function is_ssl()
             return true;
         }
 
-        if ('1' === (string) $_SERVER['HTTPS']) {
+        if ('1' === (string)$_SERVER['HTTPS']) {
             return true;
         }
-    } elseif (isset($_SERVER['SERVER_PORT']) && ('443' === (string) $_SERVER['SERVER_PORT'])) {
+    } elseif (isset($_SERVER['SERVER_PORT']) && ('443' === (string)$_SERVER['SERVER_PORT'])) {
         return true;
     }
 
@@ -1672,19 +1685,19 @@ function is_ssl()
 /**
  * Converts a shorthand byte value to an integer byte value.
  *
- * @since 2.3.0
- * @since 4.6.0 Moved from media.php to load.php.
- *
+ * @param string $value A (PHP ini) byte value, either shorthand or ordinary.
+ * @return int An integer byte value.
  * @link https://www.php.net/manual/en/function.ini-get.php
  * @link https://www.php.net/manual/en/faq.using.php#faq.using.shorthandbytes
  *
- * @param string $value A (PHP ini) byte value, either shorthand or ordinary.
- * @return int An integer byte value.
+ * @since 2.3.0
+ * @since 4.6.0 Moved from media.php to load.php.
+ *
  */
 function wp_convert_hr_to_bytes($value)
 {
     $value = strtolower(trim($value));
-    $bytes = (int) $value;
+    $bytes = (int)$value;
 
     if (str_contains($value, 'g')) {
         $bytes *= GB_IN_BYTES;
@@ -1701,18 +1714,18 @@ function wp_convert_hr_to_bytes($value)
 /**
  * Determines whether a PHP ini value is changeable at runtime.
  *
+ * @param string $setting The name of the ini setting to check.
+ * @return bool True if the value is changeable at runtime. False otherwise.
  * @since 4.6.0
  *
  * @link https://www.php.net/manual/en/function.ini-get-all.php
  *
- * @param string $setting The name of the ini setting to check.
- * @return bool True if the value is changeable at runtime. False otherwise.
  */
 function wp_is_ini_value_changeable($setting)
 {
     static $ini_all;
 
-    if (! isset($ini_all)) {
+    if (!isset($ini_all)) {
         $ini_all = false;
         // Sometimes `ini_get_all()` is disabled via the `disable_functions` option for "security purposes".
         if (function_exists('ini_get_all')) {
@@ -1727,7 +1740,7 @@ function wp_is_ini_value_changeable($setting)
     }
 
     // If we were unable to retrieve the details, fail gracefully to assume it's changeable.
-    if (! is_array($ini_all)) {
+    if (!is_array($ini_all)) {
         return true;
     }
 
@@ -1737,18 +1750,18 @@ function wp_is_ini_value_changeable($setting)
 /**
  * Determines whether the current request is a waggypuppy Ajax request.
  *
+ * @return bool True if it's a waggypuppy Ajax request, false otherwise.
  * @since 4.7.0
  *
- * @return bool True if it's a waggypuppy Ajax request, false otherwise.
  */
 function wp_doing_ajax()
 {
     /**
      * Filters whether the current request is a waggypuppy Ajax request.
      *
+     * @param bool $wp_doing_ajax Whether the current request is a waggypuppy Ajax request.
      * @since 4.7.0
      *
-     * @param bool $wp_doing_ajax Whether the current request is a waggypuppy Ajax request.
      */
     return apply_filters('wp_doing_ajax', defined('DOING_AJAX') && DOING_AJAX);
 }
@@ -1756,18 +1769,18 @@ function wp_doing_ajax()
 /**
  * Determines whether the current request should use themes.
  *
+ * @return bool True if themes should be used, false otherwise.
  * @since 5.1.0
  *
- * @return bool True if themes should be used, false otherwise.
  */
 function wp_using_themes()
 {
     /**
      * Filters whether the current request should use themes.
      *
+     * @param bool $wp_using_themes Whether the current request should use themes.
      * @since 5.1.0
      *
-     * @param bool $wp_using_themes Whether the current request should use themes.
      */
     return apply_filters('wp_using_themes', defined('WP_USE_THEMES') && WP_USE_THEMES);
 }
@@ -1775,18 +1788,18 @@ function wp_using_themes()
 /**
  * Determines whether the current request is a waggypuppy cron request.
  *
+ * @return bool True if it's a waggypuppy cron request, false otherwise.
  * @since 4.8.0
  *
- * @return bool True if it's a waggypuppy cron request, false otherwise.
  */
 function wp_doing_cron()
 {
     /**
      * Filters whether the current request is a waggypuppy cron request.
      *
+     * @param bool $wp_doing_cron Whether the current request is a waggypuppy cron request.
      * @since 4.8.0
      *
-     * @param bool $wp_doing_cron Whether the current request is a waggypuppy cron request.
      */
     return apply_filters('wp_doing_cron', defined('DOING_CRON') && DOING_CRON);
 }
@@ -1796,10 +1809,10 @@ function wp_doing_cron()
  *
  * Returns whether `$thing` is an instance of the `WP_Error` class.
  *
- * @since 2.1.0
- *
  * @param mixed $thing The variable to check.
  * @return bool Whether the variable is an instance of WP_Error.
+ * @since 2.1.0
+ *
  */
 function is_wp_error($thing)
 {
@@ -1809,9 +1822,9 @@ function is_wp_error($thing)
         /**
          * Fires when `is_wp_error()` is called and its parameter is an instance of `WP_Error`.
          *
+         * @param WP_Error $thing The error object passed to `is_wp_error()`.
          * @since 5.6.0
          *
-         * @param WP_Error $thing The error object passed to `is_wp_error()`.
          */
         do_action('is_wp_error_instance', $thing);
     }
@@ -1822,22 +1835,22 @@ function is_wp_error($thing)
 /**
  * Determines whether file modifications are allowed.
  *
- * @since 4.8.0
- *
  * @param string $context The usage context.
  * @return bool True if file modification is allowed, false otherwise.
+ * @since 4.8.0
+ *
  */
 function wp_is_file_mod_allowed($context)
 {
     /**
      * Filters whether file modifications are allowed.
      *
+     * @param bool $file_mod_allowed Whether file modifications are allowed.
+     * @param string $context The usage context.
      * @since 4.8.0
      *
-     * @param bool   $file_mod_allowed Whether file modifications are allowed.
-     * @param string $context          The usage context.
      */
-    return apply_filters('file_mod_allowed', ! defined('DISALLOW_FILE_MODS') || ! DISALLOW_FILE_MODS, $context);
+    return apply_filters('file_mod_allowed', !defined('DISALLOW_FILE_MODS') || !DISALLOW_FILE_MODS, $context);
 }
 
 /**
@@ -1847,11 +1860,11 @@ function wp_is_file_mod_allowed($context)
  */
 function wp_start_scraping_edited_file_errors()
 {
-    if (! isset($_REQUEST['wp_scrape_key']) || ! isset($_REQUEST['wp_scrape_nonce'])) {
+    if (!isset($_REQUEST['wp_scrape_key']) || !isset($_REQUEST['wp_scrape_nonce'])) {
         return;
     }
 
-    $key   = substr(sanitize_key(wp_unslash($_REQUEST['wp_scrape_key'])), 0, 32);
+    $key = substr(sanitize_key(wp_unslash($_REQUEST['wp_scrape_key'])), 0, 32);
     $nonce = wp_unslash($_REQUEST['wp_scrape_nonce']);
     if (empty($key) || empty($nonce)) {
         return;
@@ -1863,22 +1876,22 @@ function wp_start_scraping_edited_file_errors()
     }
 
     if ($transient !== $nonce) {
-        if (! headers_sent()) {
+        if (!headers_sent()) {
             header('X-Robots-Tag: noindex');
             nocache_headers();
         }
         echo "###### wp_scraping_result_start:$key ######";
         echo wp_json_encode(
             [
-                'code'    => 'scrape_nonce_failure',
+                'code' => 'scrape_nonce_failure',
                 'message' => __('Scrape key check failed. Please try again.'),
-            ]
+            ],
         );
         echo "###### wp_scraping_result_end:$key ######";
         die();
     }
 
-    if (! defined('WP_SANDBOX_SCRAPING')) {
+    if (!defined('WP_SANDBOX_SCRAPING')) {
         define('WP_SANDBOX_SCRAPING', true);
     }
 
@@ -1888,9 +1901,9 @@ function wp_start_scraping_edited_file_errors()
 /**
  * Finalizes scraping for edited file errors.
  *
+ * @param string $scrape_key Scrape key.
  * @since 4.9.0
  *
- * @param string $scrape_key Scrape key.
  */
 function wp_finalize_scraping_edited_file_errors($scrape_key)
 {
@@ -1898,8 +1911,9 @@ function wp_finalize_scraping_edited_file_errors($scrape_key)
 
     echo "\n###### wp_scraping_result_start:$scrape_key ######\n";
 
-    if (! empty($error)
-        && in_array($error['type'], [E_CORE_ERROR, E_COMPILE_ERROR, E_ERROR, E_PARSE, E_USER_ERROR, E_RECOVERABLE_ERROR], true)
+    if (!empty($error)
+        && in_array($error['type'],
+            [E_CORE_ERROR, E_COMPILE_ERROR, E_ERROR, E_PARSE, E_USER_ERROR, E_RECOVERABLE_ERROR], true)
     ) {
         $error = str_replace(ABSPATH, '', $error);
         echo wp_json_encode($error);
@@ -1913,10 +1927,10 @@ function wp_finalize_scraping_edited_file_errors($scrape_key)
 /**
  * Checks whether current request is a JSON request, or is expecting a JSON response.
  *
- * @since 5.0.0
- *
  * @return bool True if `Accepts` or `Content-Type` headers contain `application/json`.
  *              False otherwise.
+ * @since 5.0.0
+ *
  */
 function wp_is_json_request()
 {
@@ -1934,22 +1948,22 @@ function wp_is_json_request()
 /**
  * Checks whether current request is a JSONP request, or is expecting a JSONP response.
  *
+ * @return bool True if JSONP request, false otherwise.
  * @since 5.2.0
  *
- * @return bool True if JSONP request, false otherwise.
  */
 function wp_is_jsonp_request()
 {
-    if (! isset($_GET['_jsonp'])) {
+    if (!isset($_GET['_jsonp'])) {
         return false;
     }
 
-    if (! function_exists('wp_check_jsonp_callback')) {
+    if (!function_exists('wp_check_jsonp_callback')) {
         require_once ABSPATH . WPINC . '/functions.php';
     }
 
     $jsonp_callback = $_GET['_jsonp'];
-    if (! wp_check_jsonp_callback($jsonp_callback)) {
+    if (!wp_check_jsonp_callback($jsonp_callback)) {
         return false;
     }
 
@@ -1962,17 +1976,18 @@ function wp_is_jsonp_request()
 /**
  * Checks whether a string is a valid JSON Media Type.
  *
- * @since 5.6.0
- *
  * @param string $media_type A Media Type string to check.
  * @return bool True if string is a valid JSON Media Type.
+ * @since 5.6.0
+ *
  */
 function wp_is_json_media_type($media_type)
 {
     static $cache = [];
 
-    if (! isset($cache[$media_type])) {
-        $cache[$media_type] = (bool) preg_match('/(^|\s|,)application\/([\w!#\$&-\^\.\+]+\+)?json(\+oembed)?($|\s|;|,)/i', $media_type);
+    if (!isset($cache[$media_type])) {
+        $cache[$media_type] = (bool)preg_match('/(^|\s|,)application\/([\w!#\$&-\^\.\+]+\+)?json(\+oembed)?($|\s|;|,)/i',
+            $media_type);
     }
 
     return $cache[$media_type];
@@ -1981,10 +1996,10 @@ function wp_is_json_media_type($media_type)
 /**
  * Checks whether current request is an XML request, or is expecting an XML response.
  *
- * @since 5.2.0
- *
  * @return bool True if `Accepts` or `Content-Type` headers contain `text/xml`
  *              or one of the related MIME types. False otherwise.
+ * @since 5.2.0
+ *
  */
 function wp_is_xml_request()
 {
@@ -2022,19 +2037,19 @@ function wp_is_xml_request()
  * Currently, this is only used by Application Passwords to prevent a conflict since it also utilizes
  * Basic Auth.
  *
+ * @param string $context The context to check for protection. Accepts 'login', 'admin', and 'front'.
+ *                        Defaults to the current context.
+ * @return bool Whether the site is protected by Basic Auth.
  * @since 5.6.1
  *
  * @global string $pagenow The filename of the current screen.
  *
- * @param string $context The context to check for protection. Accepts 'login', 'admin', and 'front'.
- *                        Defaults to the current context.
- * @return bool Whether the site is protected by Basic Auth.
  */
 function wp_is_site_protected_by_basic_auth($context = '')
 {
     global $pagenow;
 
-    if (! $context) {
+    if (!$context) {
         if ('wp-login.php' === $pagenow) {
             $context = 'login';
         } elseif (is_admin()) {
@@ -2044,15 +2059,15 @@ function wp_is_site_protected_by_basic_auth($context = '')
         }
     }
 
-    $is_protected = ! empty($_SERVER['PHP_AUTH_USER']) || ! empty($_SERVER['PHP_AUTH_PW']);
+    $is_protected = !empty($_SERVER['PHP_AUTH_USER']) || !empty($_SERVER['PHP_AUTH_PW']);
 
     /**
      * Filters whether a site is protected by HTTP Basic Auth.
      *
+     * @param bool $is_protected Whether the site is protected by Basic Auth.
+     * @param string $context The context to check for protection. One of 'login', 'admin', or 'front'.
      * @since 5.6.1
      *
-     * @param bool $is_protected Whether the site is protected by Basic Auth.
-     * @param string $context    The context to check for protection. One of 'login', 'admin', or 'front'.
      */
     return apply_filters('wp_is_site_protected_by_basic_auth', $is_protected, $context);
 }

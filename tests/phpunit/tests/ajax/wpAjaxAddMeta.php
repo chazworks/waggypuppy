@@ -28,9 +28,9 @@ class Tests_Ajax_wpAjaxAddMeta extends WP_Ajax_UnitTestCase
         $this->_setRole('administrator');
 
         $_POST = [
-            'post_id'              => $post,
-            'metakeyinput'         => 'testkey',
-            'metavalue'            => '',
+            'post_id' => $post,
+            'metakeyinput' => 'testkey',
+            'metavalue' => '',
             '_ajax_nonce-add-meta' => wp_create_nonce('add-meta'),
         ];
 
@@ -60,10 +60,10 @@ class Tests_Ajax_wpAjaxAddMeta extends WP_Ajax_UnitTestCase
 
         $_POST = [
             '_ajax_nonce-add-meta' => wp_create_nonce('add-meta'),
-            'post_id'              => $post,
-            'meta'                 => [
+            'post_id' => $post,
+            'meta' => [
                 $meta_id => [
-                    'key'   => 'testkey',
+                    'key' => 'testkey',
                     'value' => '',
                 ],
             ],

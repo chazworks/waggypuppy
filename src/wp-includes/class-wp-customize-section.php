@@ -148,28 +148,28 @@ class WP_Customize_Section
      *
      * Any supplied $args override class property defaults.
      *
-     * @since 3.4.0
-     *
      * @param WP_Customize_Manager $manager Customizer bootstrap instance.
-     * @param string               $id      A specific ID of the section.
-     * @param array                $args    {
+     * @param string $id A specific ID of the section.
+     * @param array $args {
      *     Optional. Array of properties for the new Section object. Default empty array.
      *
-     *     @type int             $priority           Priority of the section, defining the display order
+     * @type int $priority Priority of the section, defining the display order
      *                                               of panels and sections. Default 160.
-     *     @type string          $panel              The panel this section belongs to (if any).
+     * @type string $panel The panel this section belongs to (if any).
      *                                               Default empty.
-     *     @type string          $capability         Capability required for the section.
+     * @type string $capability Capability required for the section.
      *                                               Default 'edit_theme_options'
-     *     @type string|string[] $theme_supports     Theme features required to support the section.
-     *     @type string          $title              Title of the section to show in UI.
-     *     @type string          $description        Description to show in the UI.
-     *     @type string          $type               Type of the section.
-     *     @type callable        $active_callback    Active callback.
-     *     @type bool            $description_hidden Hide the description behind a help icon,
+     * @type string|string[] $theme_supports Theme features required to support the section.
+     * @type string $title Title of the section to show in UI.
+     * @type string $description Description to show in the UI.
+     * @type string $type Type of the section.
+     * @type callable $active_callback Active callback.
+     * @type bool $description_hidden Hide the description behind a help icon,
      *                                               instead of inline above the first control.
      *                                               Default false.
      * }
+     * @since 3.4.0
+     *
      */
     public function __construct($manager, $id, $args = [])
     {
@@ -181,7 +181,7 @@ class WP_Customize_Section
         }
 
         $this->manager = $manager;
-        $this->id      = $id;
+        $this->id = $id;
         if (empty($this->active_callback)) {
             $this->active_callback = [$this, 'active_callback'];
         }
@@ -194,22 +194,22 @@ class WP_Customize_Section
     /**
      * Check whether section is active to current Customizer preview.
      *
+     * @return bool Whether the section is active to the current preview.
      * @since 4.1.0
      *
-     * @return bool Whether the section is active to the current preview.
      */
     final public function active()
     {
         $section = $this;
-        $active  = call_user_func($this->active_callback, $this);
+        $active = call_user_func($this->active_callback, $this);
 
         /**
          * Filters response of WP_Customize_Section::active().
          *
+         * @param bool $active Whether the Customizer section is active.
+         * @param WP_Customize_Section $section WP_Customize_Section instance.
          * @since 4.1.0
          *
-         * @param bool                 $active  Whether the Customizer section is active.
-         * @param WP_Customize_Section $section WP_Customize_Section instance.
          */
         $active = apply_filters('customize_section_active', $active, $section);
 
@@ -222,9 +222,9 @@ class WP_Customize_Section
      * Subclasses can override this with their specific logic, or they may provide
      * an 'active_callback' argument to the constructor.
      *
+     * @return true Always true.
      * @since 4.1.0
      *
-     * @return true Always true.
      */
     public function active_callback()
     {
@@ -234,21 +234,23 @@ class WP_Customize_Section
     /**
      * Gather the parameters passed to client JavaScript via JSON.
      *
+     * @return array The array to be exported to the client as JSON.
      * @since 4.1.0
      *
-     * @return array The array to be exported to the client as JSON.
      */
     public function json()
     {
-        $array                   = wp_array_slice_assoc((array) $this, ['id', 'description', 'priority', 'panel', 'type', 'description_hidden']);
-        $array['title']          = html_entity_decode($this->title, ENT_QUOTES, get_bloginfo('charset'));
-        $array['content']        = $this->get_content();
-        $array['active']         = $this->active();
+        $array = wp_array_slice_assoc((array)$this,
+            ['id', 'description', 'priority', 'panel', 'type', 'description_hidden']);
+        $array['title'] = html_entity_decode($this->title, ENT_QUOTES, get_bloginfo('charset'));
+        $array['content'] = $this->get_content();
+        $array['active'] = $this->active();
         $array['instanceNumber'] = $this->instance_number;
 
         if ($this->panel) {
             /* translators: &#9656; is the unicode right-pointing triangle. %s: Section title in the Customizer. */
-            $array['customizeAction'] = sprintf(__('Customizing &#9656; %s'), esc_html($this->manager->get_panel($this->panel)->title));
+            $array['customizeAction'] = sprintf(__('Customizing &#9656; %s'),
+                esc_html($this->manager->get_panel($this->panel)->title));
         } else {
             $array['customizeAction'] = __('Customizing');
         }
@@ -260,17 +262,17 @@ class WP_Customize_Section
      * Checks required user capabilities and whether the theme has the
      * feature support required by the section.
      *
+     * @return bool False if theme doesn't support the section or user doesn't have the capability.
      * @since 3.4.0
      *
-     * @return bool False if theme doesn't support the section or user doesn't have the capability.
      */
     final public function check_capabilities()
     {
-        if ($this->capability && ! current_user_can($this->capability)) {
+        if ($this->capability && !current_user_can($this->capability)) {
             return false;
         }
 
-        if ($this->theme_supports && ! current_theme_supports(...(array) $this->theme_supports)) {
+        if ($this->theme_supports && !current_theme_supports(...(array)$this->theme_supports)) {
             return false;
         }
 
@@ -280,9 +282,9 @@ class WP_Customize_Section
     /**
      * Get the section's content for insertion into the Customizer pane.
      *
+     * @return string Contents of the section.
      * @since 4.1.0
      *
-     * @return string Contents of the section.
      */
     final public function get_content()
     {
@@ -298,16 +300,16 @@ class WP_Customize_Section
      */
     final public function maybe_render()
     {
-        if (! $this->check_capabilities()) {
+        if (!$this->check_capabilities()) {
             return;
         }
 
         /**
          * Fires before rendering a Customizer section.
          *
+         * @param WP_Customize_Section $section WP_Customize_Section instance.
          * @since 3.4.0
          *
-         * @param WP_Customize_Section $section WP_Customize_Section instance.
          */
         do_action('customize_render_section', $this);
         /**
@@ -330,8 +332,7 @@ class WP_Customize_Section
      *
      * @since 3.4.0
      */
-    protected function render()
-    {}
+    protected function render() {}
 
     /**
      * Render the section's JS template.
@@ -365,7 +366,8 @@ class WP_Customize_Section
     protected function render_template()
     {
         ?>
-        <li id="accordion-section-{{ data.id }}" class="accordion-section control-section control-section-{{ data.type }}">
+        <li id="accordion-section-{{ data.id }}"
+            class="accordion-section control-section control-section-{{ data.type }}">
             <h3 class="accordion-section-title" tabindex="0">
                 {{ data.title }}
                 <span class="screen-reader-text">
@@ -393,24 +395,25 @@ class WP_Customize_Section
                             {{ data.title }}
                         </h3>
                         <# if ( data.description && data.description_hidden ) { #>
-                            <button type="button" class="customize-help-toggle dashicons dashicons-editor-help" aria-expanded="false"><span class="screen-reader-text">
+                        <button type="button" class="customize-help-toggle dashicons dashicons-editor-help"
+                                aria-expanded="false"><span class="screen-reader-text">
                                 <?php
                                 /* translators: Hidden accessibility text. */
                                 _e('Help');
                                 ?>
                             </span></button>
-                            <div class="description customize-section-description">
-                                {{{ data.description }}}
-                            </div>
+                        <div class="description customize-section-description">
+                            {{{ data.description }}}
+                        </div>
                         <# } #>
 
                         <div class="customize-control-notifications-container"></div>
                     </div>
 
                     <# if ( data.description && ! data.description_hidden ) { #>
-                        <div class="description customize-section-description">
-                            {{{ data.description }}}
-                        </div>
+                    <div class="description customize-section-description">
+                        {{{ data.description }}}
+                    </div>
                     <# } #>
                 </li>
             </ul>

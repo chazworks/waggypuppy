@@ -49,11 +49,11 @@ class Tests_Term_Slashes extends WP_Ajax_UnitTestCase
                 self::SLASH_1,
                 $taxonomy,
                 [
-                    'slug'        => 'slash_test_1_' . $taxonomy,
+                    'slug' => 'slash_test_1_' . $taxonomy,
                     'description' => self::SLASH_3,
-                ]
+                ],
             );
-            $term   = get_term($insert['term_id'], $taxonomy);
+            $term = get_term($insert['term_id'], $taxonomy);
             $this->assertSame(wp_unslash(self::SLASH_1), $term->name);
             $this->assertSame(wp_unslash(self::SLASH_3), $term->description);
 
@@ -61,11 +61,11 @@ class Tests_Term_Slashes extends WP_Ajax_UnitTestCase
                 self::SLASH_3,
                 $taxonomy,
                 [
-                    'slug'        => 'slash_test_2_' . $taxonomy,
+                    'slug' => 'slash_test_2_' . $taxonomy,
                     'description' => self::SLASH_5,
-                ]
+                ],
             );
-            $term   = get_term($insert['term_id'], $taxonomy);
+            $term = get_term($insert['term_id'], $taxonomy);
             $this->assertSame(wp_unslash(self::SLASH_3), $term->name);
             $this->assertSame(wp_unslash(self::SLASH_5), $term->description);
 
@@ -73,11 +73,11 @@ class Tests_Term_Slashes extends WP_Ajax_UnitTestCase
                 self::SLASH_2,
                 $taxonomy,
                 [
-                    'slug'        => 'slash_test_3_' . $taxonomy,
+                    'slug' => 'slash_test_3_' . $taxonomy,
                     'description' => self::SLASH_4,
-                ]
+                ],
             );
-            $term   = get_term($insert['term_id'], $taxonomy);
+            $term = get_term($insert['term_id'], $taxonomy);
             $this->assertSame(wp_unslash(self::SLASH_2), $term->name);
             $this->assertSame(wp_unslash(self::SLASH_4), $term->description);
         }
@@ -96,16 +96,16 @@ class Tests_Term_Slashes extends WP_Ajax_UnitTestCase
             $term_id = self::factory()->term->create(
                 [
                     'taxonomy' => $taxonomy,
-                ]
+                ],
             );
 
             $update = wp_update_term(
                 $term_id,
                 $taxonomy,
                 [
-                    'name'        => self::SLASH_1,
+                    'name' => self::SLASH_1,
                     'description' => self::SLASH_3,
-                ]
+                ],
             );
 
             $term = get_term($term_id, $taxonomy);
@@ -116,11 +116,11 @@ class Tests_Term_Slashes extends WP_Ajax_UnitTestCase
                 $term_id,
                 $taxonomy,
                 [
-                    'name'        => self::SLASH_3,
+                    'name' => self::SLASH_3,
                     'description' => self::SLASH_5,
-                ]
+                ],
             );
-            $term   = get_term($term_id, $taxonomy);
+            $term = get_term($term_id, $taxonomy);
             $this->assertSame(wp_unslash(self::SLASH_3), $term->name);
             $this->assertSame(wp_unslash(self::SLASH_5), $term->description);
 
@@ -128,11 +128,11 @@ class Tests_Term_Slashes extends WP_Ajax_UnitTestCase
                 $term_id,
                 $taxonomy,
                 [
-                    'name'        => self::SLASH_2,
+                    'name' => self::SLASH_2,
                     'description' => self::SLASH_4,
-                ]
+                ],
             );
-            $term   = get_term($term_id, $taxonomy);
+            $term = get_term($term_id, $taxonomy);
             $this->assertSame(wp_unslash(self::SLASH_2), $term->name);
             $this->assertSame(wp_unslash(self::SLASH_4), $term->description);
         }

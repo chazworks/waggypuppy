@@ -8,16 +8,16 @@
 /**
  * Renders the `core/post-excerpt` block on the server.
  *
+ * @param array $attributes Block attributes.
+ * @param string $content Block default content.
+ * @param WP_Block $block Block instance.
+ * @return string Returns the filtered post excerpt for the current post wrapped inside "p" tags.
  * @since 5.8.0
  *
- * @param array    $attributes Block attributes.
- * @param string   $content    Block default content.
- * @param WP_Block $block      Block instance.
- * @return string Returns the filtered post excerpt for the current post wrapped inside "p" tags.
  */
 function render_block_core_post_excerpt($attributes, $content, $block)
 {
-    if (! isset($block->context['postId'])) {
+    if (!isset($block->context['postId'])) {
         return '';
     }
 
@@ -28,12 +28,16 @@ function render_block_core_post_excerpt($attributes, $content, $block)
     * wp_trim_words is used instead.
     */
     $excerpt_length = $attributes['excerptLength'];
-    $excerpt        = get_the_excerpt($block->context['postId']);
+    $excerpt = get_the_excerpt($block->context['postId']);
     if (isset($excerpt_length)) {
         $excerpt = wp_trim_words($excerpt, $excerpt_length);
     }
 
-    $more_text           = ! empty($attributes['moreText']) ? '<a class="wp-block-post-excerpt__more-link" href="' . esc_url(get_the_permalink($block->context['postId'])) . '">' . wp_kses_post($attributes['moreText']) . '</a>' : '';
+    $more_text = !empty($attributes['moreText']) ? '<a class="wp-block-post-excerpt__more-link" href="'
+        . esc_url(get_the_permalink($block->context['postId']))
+        . '">'
+        . wp_kses_post($attributes['moreText'])
+        . '</a>' : '';
     $filter_excerpt_more = static function ($more) use ($more_text) {
         return empty($more_text) ? $more : '';
     };
@@ -56,9 +60,9 @@ function render_block_core_post_excerpt($attributes, $content, $block)
     }
     $wrapper_attributes = get_block_wrapper_attributes(['class' => implode(' ', $classes)]);
 
-    $content               = '<p class="wp-block-post-excerpt__excerpt">' . $excerpt;
-    $show_more_on_new_line = ! isset($attributes['showMoreOnNewLine']) || $attributes['showMoreOnNewLine'];
-    if ($show_more_on_new_line && ! empty($more_text)) {
+    $content = '<p class="wp-block-post-excerpt__excerpt">' . $excerpt;
+    $show_more_on_new_line = !isset($attributes['showMoreOnNewLine']) || $attributes['showMoreOnNewLine'];
+    if ($show_more_on_new_line && !empty($more_text)) {
         $content .= '</p><p class="wp-block-post-excerpt__more-text">' . $more_text . '</p>';
     } else {
         $content .= " $more_text</p>";
@@ -78,9 +82,10 @@ function register_block_core_post_excerpt()
         __DIR__ . '/post-excerpt',
         [
             'render_callback' => 'render_block_core_post_excerpt',
-        ]
+        ],
     );
 }
+
 add_action('init', 'register_block_core_post_excerpt');
 
 /**
@@ -89,13 +94,13 @@ add_action('init', 'register_block_core_post_excerpt');
  * the excerpt length block setting has no effect.
  * Returns 100 because 100 is the max length in the setting.
  */
-if (is_admin() ||
-    defined('REST_REQUEST') && REST_REQUEST) {
+if (is_admin()
+    || defined('REST_REQUEST') && REST_REQUEST) {
     add_filter(
         'excerpt_length',
         static function () {
             return 100;
         },
-        PHP_INT_MAX
+        PHP_INT_MAX,
     );
 }

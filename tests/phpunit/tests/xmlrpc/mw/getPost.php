@@ -14,12 +14,12 @@ class Tests_XMLRPC_mw_getPost extends WP_XMLRPC_UnitTestCase
                 'post_author' => $factory->user->create(
                     [
                         'user_login' => 'author',
-                        'user_pass'  => 'author',
-                        'role'       => 'author',
-                    ]
+                        'user_pass' => 'author',
+                        'role' => 'author',
+                    ],
                 ),
-                'post_date'   => date_format(date_create('+1 day'), 'Y-m-d H:i:s'),
-            ]
+                'post_date' => date_format(date_create('+1 day'), 'Y-m-d H:i:s'),
+            ],
         );
     }
 
@@ -103,7 +103,7 @@ class Tests_XMLRPC_mw_getPost extends WP_XMLRPC_UnitTestCase
         add_theme_support('post-thumbnails');
 
         // Create attachment.
-        $filename      = (DIR_TESTDATA . '/images/a2-small.jpg');
+        $filename = (DIR_TESTDATA . '/images/a2-small.jpg');
         $attachment_id = self::factory()->attachment->create_upload_object($filename);
 
         set_post_thumbnail(self::$post_id, $attachment_id);
@@ -134,8 +134,10 @@ class Tests_XMLRPC_mw_getPost extends WP_XMLRPC_UnitTestCase
         $this->assertSame(strtotime($post_data->post_date), $result['dateCreated']->getTimestamp());
         $this->assertSame(strtotime($post_data->post_date), $result['date_modified']->getTimestamp());
 
-        $post_date_gmt     = strtotime(get_gmt_from_date(mysql2date('Y-m-d H:i:s', $post_data->post_date, false), 'Ymd\TH:i:s'));
-        $post_modified_gmt = strtotime(get_gmt_from_date(mysql2date('Y-m-d H:i:s', $post_data->post_date, false), 'Ymd\TH:i:s'));
+        $post_date_gmt = strtotime(get_gmt_from_date(mysql2date('Y-m-d H:i:s', $post_data->post_date, false),
+            'Ymd\TH:i:s'));
+        $post_modified_gmt = strtotime(get_gmt_from_date(mysql2date('Y-m-d H:i:s', $post_data->post_date, false),
+            'Ymd\TH:i:s'));
 
         $this->assertSame($post_date_gmt, $result['date_created_gmt']->getTimestamp());
         $this->assertSame($post_modified_gmt, $result['date_modified_gmt']->getTimestamp());

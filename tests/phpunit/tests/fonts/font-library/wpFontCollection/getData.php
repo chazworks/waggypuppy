@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test WP_Font_Collection::get_data.
  *
@@ -18,14 +19,14 @@ class Tests_Fonts_WpFontCollection_GetData extends WP_UnitTestCase
     /**
      * @dataProvider data_create_font_collection
      *
-     * @param string $slug          Font collection slug.
-     * @param array  $config        Font collection config.
-     * @param array  $expected_data Expected collection data.
+     * @param string $slug Font collection slug.
+     * @param array $config Font collection config.
+     * @param array $expected_data Expected collection data.
      */
     public function test_should_get_data_from_config_array($slug, $config, $expected_data)
     {
         $collection = new WP_Font_Collection($slug, $config);
-        $data       = $collection->get_data();
+        $data = $collection->get_data();
 
         $this->assertSame($slug, $collection->slug, 'The slug should match.');
         $this->assertSame($expected_data, $data, 'The collection data should match.');
@@ -34,9 +35,9 @@ class Tests_Fonts_WpFontCollection_GetData extends WP_UnitTestCase
     /**
      * @dataProvider data_create_font_collection
      *
-     * @param string $slug          Font collection slug.
-     * @param array  $config        Font collection config.
-     * @param array  $expected_data Expected collection data.
+     * @param string $slug Font collection slug.
+     * @param array $config Font collection config.
+     * @param array $expected_data Expected collection data.
      */
     public function test_should_get_data_from_json_file($slug, $config, $expected_data)
     {
@@ -47,10 +48,10 @@ class Tests_Fonts_WpFontCollection_GetData extends WP_UnitTestCase
             $slug,
             array_merge(
                 $config,
-                ['font_families' => $mock_file]
-            )
+                ['font_families' => $mock_file],
+            ),
         );
-        $data       = $collection->get_data();
+        $data = $collection->get_data();
 
         $this->assertSame($slug, $collection->slug, 'The slug should match.');
         $this->assertEqualSetsWithIndex($expected_data, $data, 'The collection data should match.');
@@ -59,25 +60,25 @@ class Tests_Fonts_WpFontCollection_GetData extends WP_UnitTestCase
     /**
      * @dataProvider data_create_font_collection
      *
-     * @param string $slug          Font collection slug.
-     * @param array  $config        Font collection config.
-     * @param array  $expected_data Expected collection data.
+     * @param string $slug Font collection slug.
+     * @param array $config Font collection config.
+     * @param array $expected_data Expected collection data.
      */
     public function test_should_get_data_from_json_url($slug, $config, $expected_data)
     {
         add_filter('pre_http_request', [$this, 'mock_request'], 10, 3);
 
         self::$mock_collection_data = $config;
-        $collection                 = new WP_Font_Collection(
+        $collection = new WP_Font_Collection(
             $slug,
             array_merge(
                 $config,
                 [
                     'font_families' => 'https://example.com/fonts/mock-font-collection.json',
-                ]
-            )
+                ],
+            ),
         );
-        $data                       = $collection->get_data();
+        $data = $collection->get_data();
 
         remove_filter('pre_http_request', [$this, 'mock_request']);
 
@@ -94,58 +95,58 @@ class Tests_Fonts_WpFontCollection_GetData extends WP_UnitTestCase
     {
         return [
             'font collection with required data' => [
-                'slug'          => 'my-collection',
-                'config'        => [
-                    'name'          => 'My Collection',
+                'slug' => 'my-collection',
+                'config' => [
+                    'name' => 'My Collection',
                     'font_families' => [[]],
                 ],
                 'expected_data' => [
-                    'description'   => '',
-                    'categories'    => [],
-                    'name'          => 'My Collection',
+                    'description' => '',
+                    'categories' => [],
+                    'name' => 'My Collection',
                     'font_families' => [[]],
                 ],
             ],
 
-            'font collection with all data'      => [
-                'slug'          => 'my-collection',
-                'config'        => [
-                    'name'          => 'My Collection',
-                    'description'   => 'My collection description',
+            'font collection with all data' => [
+                'slug' => 'my-collection',
+                'config' => [
+                    'name' => 'My Collection',
+                    'description' => 'My collection description',
                     'font_families' => [[]],
-                    'categories'    => [],
+                    'categories' => [],
                 ],
                 'expected_data' => [
-                    'description'   => 'My collection description',
-                    'categories'    => [],
-                    'name'          => 'My Collection',
+                    'description' => 'My collection description',
+                    'categories' => [],
+                    'name' => 'My Collection',
                     'font_families' => [[]],
                 ],
             ],
 
-            'font collection with risky data'    => [
-                'slug'          => 'my-collection',
-                'config'        => [
-                    'name'              => 'My Collection<script>alert("xss")</script>',
-                    'description'       => 'My collection description<script>alert("xss")</script>',
-                    'font_families'     => [
+            'font collection with risky data' => [
+                'slug' => 'my-collection',
+                'config' => [
+                    'name' => 'My Collection<script>alert("xss")</script>',
+                    'description' => 'My collection description<script>alert("xss")</script>',
+                    'font_families' => [
                         [
                             'font_family_settings' => [
-                                'fontFamily'        => 'Open Sans, sans-serif<script>alert("xss")</script>',
-                                'slug'              => 'open-sans',
-                                'name'              => 'Open Sans<script>alert("xss")</script>',
-                                'fontFace'          => [
+                                'fontFamily' => 'Open Sans, sans-serif<script>alert("xss")</script>',
+                                'slug' => 'open-sans',
+                                'name' => 'Open Sans<script>alert("xss")</script>',
+                                'fontFace' => [
                                     [
                                         'fontFamily' => 'Open Sans',
-                                        'fontStyle'  => 'normal',
+                                        'fontStyle' => 'normal',
                                         'fontWeight' => '400',
-                                        'src'        => 'https://example.com/src-as-string.ttf?a=<script>alert("xss")</script>',
+                                        'src' => 'https://example.com/src-as-string.ttf?a=<script>alert("xss")</script>',
                                     ],
                                     [
                                         'fontFamily' => 'Open Sans',
-                                        'fontStyle'  => 'normal',
+                                        'fontStyle' => 'normal',
                                         'fontWeight' => '400',
-                                        'src'        => [
+                                        'src' => [
                                             'https://example.com/src-as-array.woff2?a=<script>alert("xss")</script>',
                                             'https://example.com/src-as-array.ttf',
                                         ],
@@ -153,52 +154,52 @@ class Tests_Fonts_WpFontCollection_GetData extends WP_UnitTestCase
                                 ],
                                 'unwanted_property' => 'potentially evil value',
                             ],
-                            'categories'           => ['sans-serif<script>alert("xss")</script>'],
+                            'categories' => ['sans-serif<script>alert("xss")</script>'],
                         ],
                     ],
-                    'categories'        => [
+                    'categories' => [
                         [
-                            'name'              => 'Mock col<script>alert("xss")</script>',
-                            'slug'              => 'mock-col<script>alert("xss")</script>',
+                            'name' => 'Mock col<script>alert("xss")</script>',
+                            'slug' => 'mock-col<script>alert("xss")</script>',
                             'unwanted_property' => 'potentially evil value',
                         ],
                     ],
                     'unwanted_property' => 'potentially evil value',
                 ],
                 'expected_data' => [
-                    'description'   => 'My collection description',
-                    'categories'    => [
+                    'description' => 'My collection description',
+                    'categories' => [
                         [
                             'name' => 'Mock col',
                             'slug' => 'mock-colalertxss',
                         ],
                     ],
-                    'name'          => 'My Collection',
+                    'name' => 'My Collection',
                     'font_families' => [
                         [
                             'font_family_settings' => [
                                 'fontFamily' => '"Open Sans", sans-serif',
-                                'slug'       => 'open-sans',
-                                'name'       => 'Open Sans',
-                                'fontFace'   => [
+                                'slug' => 'open-sans',
+                                'name' => 'Open Sans',
+                                'fontFace' => [
                                     [
                                         'fontFamily' => 'Open Sans',
-                                        'fontStyle'  => 'normal',
+                                        'fontStyle' => 'normal',
                                         'fontWeight' => '400',
-                                        'src'        => 'https://example.com/src-as-string.ttf?a=',
+                                        'src' => 'https://example.com/src-as-string.ttf?a=',
                                     ],
                                     [
                                         'fontFamily' => 'Open Sans',
-                                        'fontStyle'  => 'normal',
+                                        'fontStyle' => 'normal',
                                         'fontWeight' => '400',
-                                        'src'        => [
+                                        'src' => [
                                             'https://example.com/src-as-array.woff2?a=',
                                             'https://example.com/src-as-array.ttf',
                                         ],
                                     ],
                                 ],
                             ],
-                            'categories'           => ['sans-serifalertxss'],
+                            'categories' => ['sans-serifalertxss'],
                         ],
                     ],
                 ],
@@ -216,13 +217,13 @@ class Tests_Fonts_WpFontCollection_GetData extends WP_UnitTestCase
         $this->setExpectedIncorrectUsage('WP_Font_Collection::sanitize_and_validate_data');
 
         $collection = new WP_Font_Collection('my-collection', $config);
-        $data       = $collection->get_data();
+        $data = $collection->get_data();
 
         $this->assertWPError($data, 'Error is not returned when property is missing or invalid.');
         $this->assertSame(
             'font_collection_missing_property',
             $data->get_error_code(),
-            'Incorrect error code when property is missing or invalid.'
+            'Incorrect error code when property is missing or invalid.',
         );
     }
 
@@ -234,14 +235,14 @@ class Tests_Fonts_WpFontCollection_GetData extends WP_UnitTestCase
     public function data_should_error_when_missing_properties()
     {
         return [
-            'missing name'          => [
+            'missing name' => [
                 'config' => [
                     'font_families' => ['mock'],
                 ],
             ],
-            'empty name'            => [
+            'empty name' => [
                 'config' => [
-                    'name'          => '',
+                    'name' => '',
                     'font_families' => ['mock'],
                 ],
             ],
@@ -250,9 +251,9 @@ class Tests_Fonts_WpFontCollection_GetData extends WP_UnitTestCase
                     'name' => 'My Collection',
                 ],
             ],
-            'empty font_families'   => [
+            'empty font_families' => [
                 'config' => [
-                    'name'          => 'My Collection',
+                    'name' => 'My Collection',
                     'font_families' => [],
                 ],
             ],
@@ -266,17 +267,17 @@ class Tests_Fonts_WpFontCollection_GetData extends WP_UnitTestCase
         $collection = new WP_Font_Collection(
             'my-collection',
             [
-                'name'          => 'My collection',
+                'name' => 'My collection',
                 'font_families' => 'non-existing.json',
-            ]
+            ],
         );
-        $data       = $collection->get_data();
+        $data = $collection->get_data();
 
         $this->assertWPError($data, 'Error is not returned when invalid file path is provided.');
         $this->assertSame(
             'font_collection_json_missing',
             $data->get_error_code(),
-            'Incorrect error code when invalid file path is provided.'
+            'Incorrect error code when invalid file path is provided.',
         );
     }
 
@@ -288,9 +289,9 @@ class Tests_Fonts_WpFontCollection_GetData extends WP_UnitTestCase
         $collection = new WP_Font_Collection(
             'my-collection',
             [
-                'name'          => 'Invalid collection',
+                'name' => 'Invalid collection',
                 'font_families' => $mock_file,
-            ]
+            ],
         );
 
 
@@ -300,7 +301,7 @@ class Tests_Fonts_WpFontCollection_GetData extends WP_UnitTestCase
         $this->assertSame(
             'font_collection_decode_error',
             $data->get_error_code(),
-            'Incorrect error code with invalid json file contents.'
+            'Incorrect error code with invalid json file contents.',
         );
     }
 
@@ -311,17 +312,17 @@ class Tests_Fonts_WpFontCollection_GetData extends WP_UnitTestCase
         $collection = new WP_Font_Collection(
             'my-collection',
             [
-                'name'          => 'Invalid collection',
+                'name' => 'Invalid collection',
                 'font_families' => 'not-a-url',
-            ]
+            ],
         );
-        $data       = $collection->get_data();
+        $data = $collection->get_data();
 
         $this->assertWPError($data, 'Error is not returned when invalid url is provided.');
         $this->assertSame(
             'font_collection_json_missing',
             $data->get_error_code(),
-            'Incorrect error code when invalid url is provided.'
+            'Incorrect error code when invalid url is provided.',
         );
     }
 
@@ -332,11 +333,11 @@ class Tests_Fonts_WpFontCollection_GetData extends WP_UnitTestCase
         $collection = new WP_Font_Collection(
             'my-collection',
             [
-                'name'          => 'Missing collection',
+                'name' => 'Missing collection',
                 'font_families' => 'https://example.com/fonts/missing-collection.json',
-            ]
+            ],
         );
-        $data       = $collection->get_data();
+        $data = $collection->get_data();
 
         remove_filter('pre_http_request', [$this, 'mock_request_unsuccessful_response']);
 
@@ -344,7 +345,7 @@ class Tests_Fonts_WpFontCollection_GetData extends WP_UnitTestCase
         $this->assertSame(
             'font_collection_request_error',
             $data->get_error_code(),
-            'Incorrect error code when response is unsuccessful.'
+            'Incorrect error code when response is unsuccessful.',
         );
     }
 
@@ -355,11 +356,11 @@ class Tests_Fonts_WpFontCollection_GetData extends WP_UnitTestCase
         $collection = new WP_Font_Collection(
             'my-collection',
             [
-                'name'          => 'Invalid collection',
+                'name' => 'Invalid collection',
                 'font_families' => 'https://example.com/fonts/invalid-collection.json',
-            ]
+            ],
         );
-        $data       = $collection->get_data();
+        $data = $collection->get_data();
 
         remove_filter('pre_http_request', [$this, 'mock_request_invalid_json']);
 
@@ -367,7 +368,7 @@ class Tests_Fonts_WpFontCollection_GetData extends WP_UnitTestCase
         $this->assertSame(
             'font_collection_decode_error',
             $data->get_error_code(),
-            'Incorrect error code when response is invalid json.'
+            'Incorrect error code when response is invalid json.',
         );
     }
 
@@ -378,7 +379,7 @@ class Tests_Fonts_WpFontCollection_GetData extends WP_UnitTestCase
         }
 
         return [
-            'body'     => wp_json_encode(self::$mock_collection_data),
+            'body' => wp_json_encode(self::$mock_collection_data),
             'response' => [
                 'code' => 200,
             ],
@@ -392,7 +393,7 @@ class Tests_Fonts_WpFontCollection_GetData extends WP_UnitTestCase
         }
 
         return [
-            'body'     => '',
+            'body' => '',
             'response' => [
                 'code' => 404,
             ],
@@ -406,7 +407,7 @@ class Tests_Fonts_WpFontCollection_GetData extends WP_UnitTestCase
         }
 
         return [
-            'body'     => 'invalid',
+            'body' => 'invalid',
             'response' => [
                 'code' => 200,
             ],

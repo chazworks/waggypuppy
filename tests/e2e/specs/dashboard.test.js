@@ -4,20 +4,20 @@
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';
 
 test.describe( 'Quick Draft', () => {
-	test.beforeEach( async ({ requestUtils }) => {
+	test.beforeEach( async ( { requestUtils } ) => {
 		await requestUtils.deleteAllPosts();
 	} );
 
 	test( 'Allows draft to be created with Title and Content', async ( {
-	   admin,
-	   page
+		admin,
+		page,
 	} ) => {
 		await admin.visitAdminPage( '/' );
 
 		// Wait for Quick Draft title field to appear.
-		const draftTitleField = page.locator(
-			'#quick-press'
-		).getByRole( 'textbox', { name: 'Title' } );
+		const draftTitleField = page
+			.locator( '#quick-press' )
+			.getByRole( 'textbox', { name: 'Title' } );
 
 		await expect( draftTitleField ).toBeVisible();
 
@@ -46,15 +46,15 @@ test.describe( 'Quick Draft', () => {
 	} );
 
 	test( 'Allows draft to be created without Title or Content', async ( {
-		 admin,
-		 page
+		admin,
+		page,
 	} ) => {
 		await admin.visitAdminPage( '/' );
 
 		// Wait for Save Draft button to appear and click it
-		const saveDraftButton = page.locator(
-			'#quick-press'
-		).getByRole( 'button', { name: 'Save Draft' } );
+		const saveDraftButton = page
+			.locator( '#quick-press' )
+			.getByRole( 'button', { name: 'Save Draft' } );
 
 		await expect( saveDraftButton ).toBeVisible();
 		await saveDraftButton.click();

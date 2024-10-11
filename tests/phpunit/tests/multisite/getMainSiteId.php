@@ -18,11 +18,11 @@ if (is_multisite()) :
             self::$network_ids = [
                 'wp.org/' => [
                     'domain' => 'wp.org',
-                    'path'   => '/',
+                    'path' => '/',
                 ],
-                'wp.org/'        => [
+                'wp.org/' => [
                     'domain' => 'wp.org',
-                    'path'   => '/',
+                    'path' => '/',
                 ], // A network with no sites.
             ];
 
@@ -32,18 +32,18 @@ if (is_multisite()) :
             unset($id);
 
             self::$site_ids = [
-                'www.w.org/'         => [
+                'www.w.org/' => [
                     'domain' => 'www.w.org',
-                    'path'   => '/',
+                    'path' => '/',
                 ],
-                'wp.org/'     => [
-                    'domain'     => 'wp.org',
-                    'path'       => '/',
+                'wp.org/' => [
+                    'domain' => 'wp.org',
+                    'path' => '/',
                     'network_id' => self::$network_ids['wp.org/'],
                 ],
                 'wp.org/foo/' => [
-                    'domain'     => 'wp.org',
-                    'path'       => '/foo/',
+                    'domain' => 'wp.org',
+                    'path' => '/foo/',
                     'network_id' => self::$network_ids['wp.org/'],
                 ],
             ];
@@ -83,7 +83,7 @@ if (is_multisite()) :
          */
         public function test_get_main_site_id_returns_main_site_in_switched_context()
         {
-            $main_site_id  = get_current_blog_id();
+            $main_site_id = get_current_blog_id();
             $other_site_id = self::$site_ids['www.w.org/'];
 
             switch_to_blog($other_site_id);
@@ -98,11 +98,15 @@ if (is_multisite()) :
          */
         public function test_get_main_site_id_with_different_network_cache_id()
         {
-            $this->assertSame(self::$site_ids['wp.org/'], get_main_site_id(self::$network_ids['wp.org/']), 'Main blog id needs to match blog id of wp.org/');
-            $this->assertSame(self::$site_ids['wp.org/'], (int) get_network_option(self::$network_ids['wp.org/'], 'main_site'), 'Network option needs to match blog id of wp.org/');
+            $this->assertSame(self::$site_ids['wp.org/'], get_main_site_id(self::$network_ids['wp.org/']),
+                'Main blog id needs to match blog id of wp.org/');
+            $this->assertSame(self::$site_ids['wp.org/'],
+                (int)get_network_option(self::$network_ids['wp.org/'], 'main_site'),
+                'Network option needs to match blog id of wp.org/');
 
             $this->assertSame(0, get_main_site_id(self::$network_ids['wp.org/']), 'Main blog id should not be found');
-            $this->assertSame(0, (int) get_network_option(self::$network_ids['wp.org/'], 'main_site'), 'Network option should not be found');
+            $this->assertSame(0, (int)get_network_option(self::$network_ids['wp.org/'], 'main_site'),
+                'Network option should not be found');
         }
 
         /**
@@ -159,7 +163,7 @@ if (is_multisite()) :
         public function filter_get_main_site_id_depending_on_network($main_site_id, $network)
         {
             // Override main site ID for a specific network for the test.
-            if ($network->id === (int) self::$network_ids['wp.org/']) {
+            if ($network->id === (int)self::$network_ids['wp.org/']) {
                 return 333;
             }
 

@@ -33,19 +33,19 @@ class Tests_Post_Query extends WP_UnitTestCase
     {
         $q = new WP_Query();
 
-        $term_id  = self::factory()->category->create(
+        $term_id = self::factory()->category->create(
             [
                 'slug' => 'woo',
                 'name' => 'WOO!',
-            ]
+            ],
         );
         $term_id2 = self::factory()->category->create(
             [
                 'slug' => 'hoo',
                 'name' => 'HOO!',
-            ]
+            ],
         );
-        $post_id  = self::factory()->post->create();
+        $post_id = self::factory()->post->create();
 
         wp_set_post_categories($post_id, $term_id);
 
@@ -74,7 +74,7 @@ class Tests_Post_Query extends WP_UnitTestCase
      */
     public function test_empty_category__in()
     {
-        $cat_id  = self::factory()->category->create();
+        $cat_id = self::factory()->category->create();
         $post_id = self::factory()->post->create();
         wp_set_post_categories($post_id, $cat_id);
 
@@ -83,9 +83,9 @@ class Tests_Post_Query extends WP_UnitTestCase
         $q2 = get_posts(['category__in' => []]);
         $this->assertNotEmpty($q2);
 
-        $tag    = wp_insert_term('woo', 'post_tag');
+        $tag = wp_insert_term('woo', 'post_tag');
         $tag_id = $tag['term_id'];
-        $slug   = get_tag($tag_id)->slug;
+        $slug = get_tag($tag_id)->slug;
         wp_set_post_tags($post_id, $slug);
 
         $q3 = get_posts(['tag__in' => [$tag_id]]);
@@ -114,9 +114,9 @@ class Tests_Post_Query extends WP_UnitTestCase
 
         $query = new WP_Query(
             [
-                'post_type'      => 'post',
+                'post_type' => 'post',
                 'posts_per_page' => 3,
-            ]
+            ],
         );
 
         // Fourth post added in filter.
@@ -124,7 +124,6 @@ class Tests_Post_Query extends WP_UnitTestCase
         $this->assertSame(4, $query->post_count);
 
         foreach ($query->posts as $post) {
-
             // Posts are WP_Post objects.
             $this->assertInstanceOf('WP_Post', $post);
 
@@ -157,35 +156,35 @@ class Tests_Post_Query extends WP_UnitTestCase
     {
         $post_id1 = self::factory()->post->create(
             [
-                'post_type'  => 'page',
+                'post_type' => 'page',
                 'menu_order' => 1,
-            ]
+            ],
         );
         $post_id2 = self::factory()->post->create(
             [
-                'post_type'  => 'page',
+                'post_type' => 'page',
                 'menu_order' => 2,
-            ]
+            ],
         );
         $post_id3 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $post_id2,
-                'menu_order'  => 3,
-            ]
+                'menu_order' => 3,
+            ],
         );
         $post_id4 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $post_id2,
-                'menu_order'  => 4,
-            ]
+                'menu_order' => 4,
+            ],
         );
         $post_id5 = self::factory()->post->create(
             [
-                'post_type'  => 'page',
+                'post_type' => 'page',
                 'menu_order' => 5,
-            ]
+            ],
         );
 
         $ordered = [$post_id2, $post_id4, $post_id3, $post_id1, $post_id5];
@@ -193,9 +192,9 @@ class Tests_Post_Query extends WP_UnitTestCase
         $q = new WP_Query(
             [
                 'post_type' => 'any',
-                'post__in'  => $ordered,
-                'orderby'   => 'post__in',
-            ]
+                'post__in' => $ordered,
+                'orderby' => 'post__in',
+            ],
         );
         $this->assertSame($ordered, wp_list_pluck($q->posts, 'ID'));
     }
@@ -212,9 +211,9 @@ class Tests_Post_Query extends WP_UnitTestCase
         $q = new WP_Query(
             [
                 'post_type' => 'any',
-                'post__in'  => $ordered,
-                'orderby'   => ['post__in' => 'ASC'],
-            ]
+                'post__in' => $ordered,
+                'orderby' => ['post__in' => 'ASC'],
+            ],
         );
         $this->assertSame($ordered, wp_list_pluck($q->posts, 'ID'));
     }
@@ -231,71 +230,71 @@ class Tests_Post_Query extends WP_UnitTestCase
         $q = new WP_Query(
             [
                 'post_type' => 'any',
-                'post__in'  => $ordered,
-                'orderby'   => 'post__in',
-            ]
+                'post__in' => $ordered,
+                'orderby' => 'post__in',
+            ],
         );
         $this->assertSame($ordered, wp_list_pluck($q->posts, 'ID'));
     }
 
     public function test_post__in_attachment_ordering()
     {
-        $post_id    = self::factory()->post->create();
-        $att_ids    = [];
-        $file       = DIR_TESTDATA . '/images/canola.jpg';
+        $post_id = self::factory()->post->create();
+        $att_ids = [];
+        $file = DIR_TESTDATA . '/images/canola.jpg';
         $att_ids[1] = self::factory()->attachment->create_object(
             $file,
             $post_id,
             [
                 'post_mime_type' => 'image/jpeg',
-                'menu_order'     => 1,
-            ]
+                'menu_order' => 1,
+            ],
         );
         $att_ids[2] = self::factory()->attachment->create_object(
             $file,
             $post_id,
             [
                 'post_mime_type' => 'image/jpeg',
-                'menu_order'     => 2,
-            ]
+                'menu_order' => 2,
+            ],
         );
         $att_ids[3] = self::factory()->attachment->create_object(
             $file,
             $post_id,
             [
                 'post_mime_type' => 'image/jpeg',
-                'menu_order'     => 3,
-            ]
+                'menu_order' => 3,
+            ],
         );
         $att_ids[4] = self::factory()->attachment->create_object(
             $file,
             $post_id,
             [
                 'post_mime_type' => 'image/jpeg',
-                'menu_order'     => 4,
-            ]
+                'menu_order' => 4,
+            ],
         );
         $att_ids[5] = self::factory()->attachment->create_object(
             $file,
             $post_id,
             [
                 'post_mime_type' => 'image/jpeg',
-                'menu_order'     => 5,
-            ]
+                'menu_order' => 5,
+            ],
         );
 
         $ordered = [$att_ids[5], $att_ids[1], $att_ids[4], $att_ids[3], $att_ids[2]];
 
         $attached = new WP_Query(
             [
-                'post__in'       => $ordered,
-                'post_type'      => 'attachment',
-                'post_parent'    => $post_id,
+                'post__in' => $ordered,
+                'post_type' => 'attachment',
+                'post_parent' => $post_id,
                 'post_mime_type' => 'image',
-                'post_status'    => 'inherit',
+                'post_status' => 'inherit',
                 'posts_per_page' => '-1',
-                'orderby'        => 'post__in',
-            ]
+                'orderby' => 'post__in',
+            ],
         );
         $this->assertSame($ordered, wp_list_pluck($attached->posts, 'ID'));
     }
@@ -309,30 +308,30 @@ class Tests_Post_Query extends WP_UnitTestCase
             [
                 'post_name' => 'id-1',
                 'post_type' => 'page',
-            ]
+            ],
         );
         $post_id2 = self::factory()->post->create(
             [
                 'post_name' => 'id-2',
                 'post_type' => 'page',
-            ]
+            ],
         );
         $post_id3 = self::factory()->post->create(
             [
-                'post_name'   => 'id-3',
-                'post_type'   => 'page',
+                'post_name' => 'id-3',
+                'post_type' => 'page',
                 'post_parent' => $post_id2,
-            ]
+            ],
         );
 
         $ordered = ['id-2', 'id-3', 'id-1'];
 
         $q = new WP_Query(
             [
-                'post_type'     => 'any',
+                'post_type' => 'any',
                 'post_name__in' => $ordered,
-                'orderby'       => 'post_name__in',
-            ]
+                'orderby' => 'post_name__in',
+            ],
         );
 
         $this->assertSame($ordered, wp_list_pluck($q->posts, 'post_name'));
@@ -372,11 +371,11 @@ class Tests_Post_Query extends WP_UnitTestCase
                     'type' => 'DESC',
                     'name' => 'ASC',
                 ],
-            ]
+            ],
         );
         $this->assertStringContainsString(
             "ORDER BY $wpdb->posts.post_type DESC, $wpdb->posts.post_name ASC",
-            $q1->request
+            $q1->request,
         );
 
         $q2 = new WP_Query(['orderby' => []]);
@@ -386,13 +385,13 @@ class Tests_Post_Query extends WP_UnitTestCase
         $q3 = new WP_Query(['post_type' => 'post']);
         $this->assertStringContainsString(
             "ORDER BY $wpdb->posts.post_date DESC",
-            $q3->request
+            $q3->request,
         );
 
         $q4 = new WP_Query(['post_type' => 'post']);
         $this->assertStringContainsString(
             "ORDER BY $wpdb->posts.post_date DESC",
-            $q4->request
+            $q4->request,
         );
     }
 
@@ -408,32 +407,32 @@ class Tests_Post_Query extends WP_UnitTestCase
                 'orderby' => [
                     'post_type' => 'foo',
                 ],
-            ]
+            ],
         );
         $this->assertStringContainsString(
             "ORDER BY $wpdb->posts.post_type DESC",
-            $q1->request
+            $q1->request,
         );
 
         $q2 = new WP_Query(
             [
                 'orderby' => 'title',
-                'order'   => 'foo',
-            ]
+                'order' => 'foo',
+            ],
         );
         $this->assertStringContainsString(
             "ORDER BY $wpdb->posts.post_title DESC",
-            $q2->request
+            $q2->request,
         );
 
         $q3 = new WP_Query(
             [
                 'order' => 'asc',
-            ]
+            ],
         );
         $this->assertStringContainsString(
             "ORDER BY $wpdb->posts.post_date ASC",
-            $q3->request
+            $q3->request,
         );
     }
 
@@ -481,7 +480,7 @@ class Tests_Post_Query extends WP_UnitTestCase
         $q = new WP_Query(
             [
                 'orderby' => 'RAND(5)',
-            ]
+            ],
         );
 
         $this->assertStringContainsString('ORDER BY RAND(5)', $q->request);
@@ -495,7 +494,7 @@ class Tests_Post_Query extends WP_UnitTestCase
         $q = new WP_Query(
             [
                 'orderby' => 'RAND(foo)',
-            ]
+            ],
         );
 
         $this->assertStringNotContainsString('ORDER BY RAND', $q->request);
@@ -509,7 +508,7 @@ class Tests_Post_Query extends WP_UnitTestCase
         $q = new WP_Query(
             [
                 'orderby' => 'rand(5)',
-            ]
+            ],
         );
 
         $this->assertStringContainsString('ORDER BY RAND(5)', $q->request);
@@ -527,34 +526,34 @@ class Tests_Post_Query extends WP_UnitTestCase
         $post_ids[0] = self::factory()->post->create(
             [
                 'post_title' => 'woo',
-                'post_date'  => '2015-07-23 00:00:00',
-            ]
+                'post_date' => '2015-07-23 00:00:00',
+            ],
         );
         $post_ids[1] = self::factory()->post->create(
             [
                 'post_title' => 'hoo',
-                'post_date'  => '2015-07-23 00:00:00',
-            ]
+                'post_date' => '2015-07-23 00:00:00',
+            ],
         );
         $post_ids[2] = self::factory()->post->create(
             [
                 'post_title' => 'test',
-                'post_date'  => '2015-07-23 00:00:00',
-            ]
+                'post_date' => '2015-07-23 00:00:00',
+            ],
         );
         $post_ids[3] = self::factory()->post->create(
             [
                 'post_title' => 'me',
-                'post_date'  => '2015-07-23 00:00:00',
-            ]
+                'post_date' => '2015-07-23 00:00:00',
+            ],
         );
 
         $requested = [$post_ids[0], $post_ids[3]];
         $q->query(
             [
                 'post_name__in' => ['woo', 'me'],
-                'fields'        => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
         $actual_posts = $q->get_posts();
         $this->assertSameSets($requested, $actual_posts);
@@ -563,8 +562,8 @@ class Tests_Post_Query extends WP_UnitTestCase
         $q->query(
             [
                 'post_name__in' => ['hoo', 'test'],
-                'fields'        => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
         $actual_posts = $q->get_posts();
         $this->assertSameSets($requested, $actual_posts);
@@ -578,11 +577,11 @@ class Tests_Post_Query extends WP_UnitTestCase
         add_filter('posts_pre_query', [__CLASS__, 'filter_posts_pre_query']);
 
         $num_queries = get_num_queries();
-        $q           = new WP_Query(
+        $q = new WP_Query(
             [
-                'fields'        => 'ids',
+                'fields' => 'ids',
                 'no_found_rows' => true,
-            ]
+            ],
         );
 
         remove_filter('posts_pre_query', [__CLASS__, 'filter_posts_pre_query']);
@@ -649,10 +648,10 @@ class Tests_Post_Query extends WP_UnitTestCase
 
         $q = new WP_Query(
             [
-                'post_type'      => 'wptests_pt',
+                'post_type' => 'wptests_pt',
                 'posts_per_page' => 1,
-                'fields'         => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $this->assertSame(2, $q->found_posts);
@@ -673,10 +672,10 @@ class Tests_Post_Query extends WP_UnitTestCase
 
         $q = new WP_Query(
             [
-                'post_type'      => 'wptests_pt',
+                'post_type' => 'wptests_pt',
                 'posts_per_page' => 1,
-                'fields'         => 'id=>parent',
-            ]
+                'fields' => 'id=>parent',
+            ],
         );
 
         $this->assertSame(2, $q->found_posts);
@@ -699,9 +698,9 @@ class Tests_Post_Query extends WP_UnitTestCase
 
         $q = new WP_Query(
             [
-                'post_type'      => 'wptests_pt',
+                'post_type' => 'wptests_pt',
                 'posts_per_page' => 1,
-            ]
+            ],
         );
 
         remove_filter('split_the_query', '__return_true');
@@ -727,9 +726,9 @@ class Tests_Post_Query extends WP_UnitTestCase
 
         $q = new WP_Query(
             [
-                'post_type'      => 'wptests_pt',
+                'post_type' => 'wptests_pt',
                 'posts_per_page' => 1,
-            ]
+            ],
         );
 
         remove_filter('split_the_query', '__return_false');
@@ -747,9 +746,9 @@ class Tests_Post_Query extends WP_UnitTestCase
     {
         $q = new WP_Query(
             [
-                'post_type'      => 'wptests_pt',
+                'post_type' => 'wptests_pt',
                 'posts_per_page' => 1,
-            ]
+            ],
         );
 
         $q->posts = $posts;
@@ -782,7 +781,7 @@ class Tests_Post_Query extends WP_UnitTestCase
         $q = new WP_Query(
             [
                 'posts_per_page' => 1,
-            ]
+            ],
         );
 
         $this->assertIsInt($q->found_posts);
@@ -800,7 +799,7 @@ class Tests_Post_Query extends WP_UnitTestCase
         $q = new WP_Query(
             [
                 'posts_per_page' => 1,
-            ]
+            ],
         );
 
         remove_filter('found_posts', '__return_empty_string');
@@ -820,10 +819,10 @@ class Tests_Post_Query extends WP_UnitTestCase
         $q = new WP_Query(
             [
                 'posts_per_page' => 501,
-            ]
+            ],
         );
 
-        $this->assertSame((bool) wp_using_ext_object_cache(), $filter->get_args()[0][0]);
+        $this->assertSame((bool)wp_using_ext_object_cache(), $filter->get_args()[0][0]);
     }
 
     /**
@@ -836,7 +835,7 @@ class Tests_Post_Query extends WP_UnitTestCase
         $q = new WP_Query(
             [
                 'posts_per_page' => 501,
-            ]
+            ],
         );
 
         remove_filter('split_the_query', '__return_false');
@@ -854,7 +853,7 @@ class Tests_Post_Query extends WP_UnitTestCase
         $q = new WP_Query(
             [
                 'posts_per_page' => 501,
-            ]
+            ],
         );
 
         remove_filter('split_the_query', '__return_true');

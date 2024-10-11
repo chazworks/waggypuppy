@@ -14,7 +14,7 @@ if (version_compare($GLOBALS['wp_version'], '5.3', '<')) {
     require get_template_directory() . '/inc/back-compat.php';
 }
 
-if (! function_exists('twenty_twenty_one_setup')) {
+if (!function_exists('twenty_twenty_one_setup')) {
     /**
      * Sets up theme defaults and registers support for various WP features.
      *
@@ -22,13 +22,12 @@ if (! function_exists('twenty_twenty_one_setup')) {
      * runs before the init hook. The init hook is too late for some features, such
      * as indicating support for post thumbnails.
      *
+     * @return void
      * @since Twenty Twenty-One 1.0
      *
-     * @return void
      */
     function twenty_twenty_one_setup()
     {
-
         // Add default posts and comments RSS feed links to head.
         add_theme_support('automatic-feed-links');
 
@@ -54,7 +53,7 @@ if (! function_exists('twenty_twenty_one_setup')) {
                 'video',
                 'audio',
                 'chat',
-            ]
+            ],
         );
 
         /*
@@ -68,8 +67,8 @@ if (! function_exists('twenty_twenty_one_setup')) {
         register_nav_menus(
             [
                 'primary' => esc_html__('Primary menu', 'twentytwentyone'),
-                'footer'  => esc_html__('Secondary menu', 'twentytwentyone'),
-            ]
+                'footer' => esc_html__('Secondary menu', 'twentytwentyone'),
+            ],
         );
 
         /*
@@ -86,7 +85,7 @@ if (! function_exists('twenty_twenty_one_setup')) {
                 'style',
                 'script',
                 'navigation-widgets',
-            ]
+            ],
         );
 
         /*
@@ -94,18 +93,18 @@ if (! function_exists('twenty_twenty_one_setup')) {
          *
          * @link https://codex.wp.org/Theme_Logo
          */
-        $logo_width  = 300;
+        $logo_width = 300;
         $logo_height = 100;
 
         add_theme_support(
             'custom-logo',
             [
-                'height'               => $logo_height,
-                'width'                => $logo_width,
-                'flex-width'           => true,
-                'flex-height'          => true,
+                'height' => $logo_height,
+                'width' => $logo_width,
+                'flex-width' => true,
+                'flex-height' => true,
                 'unlink-homepage-logo' => true,
-            ]
+            ],
         );
 
         // Add theme support for selective refresh for widgets.
@@ -141,48 +140,48 @@ if (! function_exists('twenty_twenty_one_setup')) {
             'editor-font-sizes',
             [
                 [
-                    'name'      => esc_html__('Extra small', 'twentytwentyone'),
+                    'name' => esc_html__('Extra small', 'twentytwentyone'),
                     'shortName' => esc_html_x('XS', 'Font size', 'twentytwentyone'),
-                    'size'      => 16,
-                    'slug'      => 'extra-small',
+                    'size' => 16,
+                    'slug' => 'extra-small',
                 ],
                 [
-                    'name'      => esc_html__('Small', 'twentytwentyone'),
+                    'name' => esc_html__('Small', 'twentytwentyone'),
                     'shortName' => esc_html_x('S', 'Font size', 'twentytwentyone'),
-                    'size'      => 18,
-                    'slug'      => 'small',
+                    'size' => 18,
+                    'slug' => 'small',
                 ],
                 [
-                    'name'      => esc_html__('Normal', 'twentytwentyone'),
+                    'name' => esc_html__('Normal', 'twentytwentyone'),
                     'shortName' => esc_html_x('M', 'Font size', 'twentytwentyone'),
-                    'size'      => 20,
-                    'slug'      => 'normal',
+                    'size' => 20,
+                    'slug' => 'normal',
                 ],
                 [
-                    'name'      => esc_html__('Large', 'twentytwentyone'),
+                    'name' => esc_html__('Large', 'twentytwentyone'),
                     'shortName' => esc_html_x('L', 'Font size', 'twentytwentyone'),
-                    'size'      => 24,
-                    'slug'      => 'large',
+                    'size' => 24,
+                    'slug' => 'large',
                 ],
                 [
-                    'name'      => esc_html__('Extra large', 'twentytwentyone'),
+                    'name' => esc_html__('Extra large', 'twentytwentyone'),
                     'shortName' => esc_html_x('XL', 'Font size', 'twentytwentyone'),
-                    'size'      => 40,
-                    'slug'      => 'extra-large',
+                    'size' => 40,
+                    'slug' => 'extra-large',
                 ],
                 [
-                    'name'      => esc_html__('Huge', 'twentytwentyone'),
+                    'name' => esc_html__('Huge', 'twentytwentyone'),
                     'shortName' => esc_html_x('XXL', 'Font size', 'twentytwentyone'),
-                    'size'      => 96,
-                    'slug'      => 'huge',
+                    'size' => 96,
+                    'slug' => 'huge',
                 ],
                 [
-                    'name'      => esc_html__('Gigantic', 'twentytwentyone'),
+                    'name' => esc_html__('Gigantic', 'twentytwentyone'),
                     'shortName' => esc_html_x('XXXL', 'Font size', 'twentytwentyone'),
-                    'size'      => 144,
-                    'slug'      => 'gigantic',
+                    'size' => 144,
+                    'slug' => 'gigantic',
                 ],
-            ]
+            ],
         );
 
         // Custom background color.
@@ -190,121 +189,121 @@ if (! function_exists('twenty_twenty_one_setup')) {
             'custom-background',
             [
                 'default-color' => 'd1e4dd',
-            ]
+            ],
         );
 
         // Editor color palette.
-        $black     = '#000000';
+        $black = '#000000';
         $dark_gray = '#28303D';
-        $gray      = '#39414D';
-        $green     = '#D1E4DD';
-        $blue      = '#D1DFE4';
-        $purple    = '#D1D1E4';
-        $red       = '#E4D1D1';
-        $orange    = '#E4DAD1';
-        $yellow    = '#EEEADD';
-        $white     = '#FFFFFF';
+        $gray = '#39414D';
+        $green = '#D1E4DD';
+        $blue = '#D1DFE4';
+        $purple = '#D1D1E4';
+        $red = '#E4D1D1';
+        $orange = '#E4DAD1';
+        $yellow = '#EEEADD';
+        $white = '#FFFFFF';
 
         add_theme_support(
             'editor-color-palette',
             [
                 [
-                    'name'  => esc_html__('Black', 'twentytwentyone'),
-                    'slug'  => 'black',
+                    'name' => esc_html__('Black', 'twentytwentyone'),
+                    'slug' => 'black',
                     'color' => $black,
                 ],
                 [
-                    'name'  => esc_html__('Dark gray', 'twentytwentyone'),
-                    'slug'  => 'dark-gray',
+                    'name' => esc_html__('Dark gray', 'twentytwentyone'),
+                    'slug' => 'dark-gray',
                     'color' => $dark_gray,
                 ],
                 [
-                    'name'  => esc_html__('Gray', 'twentytwentyone'),
-                    'slug'  => 'gray',
+                    'name' => esc_html__('Gray', 'twentytwentyone'),
+                    'slug' => 'gray',
                     'color' => $gray,
                 ],
                 [
-                    'name'  => esc_html__('Green', 'twentytwentyone'),
-                    'slug'  => 'green',
+                    'name' => esc_html__('Green', 'twentytwentyone'),
+                    'slug' => 'green',
                     'color' => $green,
                 ],
                 [
-                    'name'  => esc_html__('Blue', 'twentytwentyone'),
-                    'slug'  => 'blue',
+                    'name' => esc_html__('Blue', 'twentytwentyone'),
+                    'slug' => 'blue',
                     'color' => $blue,
                 ],
                 [
-                    'name'  => esc_html__('Purple', 'twentytwentyone'),
-                    'slug'  => 'purple',
+                    'name' => esc_html__('Purple', 'twentytwentyone'),
+                    'slug' => 'purple',
                     'color' => $purple,
                 ],
                 [
-                    'name'  => esc_html__('Red', 'twentytwentyone'),
-                    'slug'  => 'red',
+                    'name' => esc_html__('Red', 'twentytwentyone'),
+                    'slug' => 'red',
                     'color' => $red,
                 ],
                 [
-                    'name'  => esc_html__('Orange', 'twentytwentyone'),
-                    'slug'  => 'orange',
+                    'name' => esc_html__('Orange', 'twentytwentyone'),
+                    'slug' => 'orange',
                     'color' => $orange,
                 ],
                 [
-                    'name'  => esc_html__('Yellow', 'twentytwentyone'),
-                    'slug'  => 'yellow',
+                    'name' => esc_html__('Yellow', 'twentytwentyone'),
+                    'slug' => 'yellow',
                     'color' => $yellow,
                 ],
                 [
-                    'name'  => esc_html__('White', 'twentytwentyone'),
-                    'slug'  => 'white',
+                    'name' => esc_html__('White', 'twentytwentyone'),
+                    'slug' => 'white',
                     'color' => $white,
                 ],
-            ]
+            ],
         );
 
         add_theme_support(
             'editor-gradient-presets',
             [
                 [
-                    'name'     => esc_html__('Purple to yellow', 'twentytwentyone'),
+                    'name' => esc_html__('Purple to yellow', 'twentytwentyone'),
                     'gradient' => 'linear-gradient(160deg, ' . $purple . ' 0%, ' . $yellow . ' 100%)',
-                    'slug'     => 'purple-to-yellow',
+                    'slug' => 'purple-to-yellow',
                 ],
                 [
-                    'name'     => esc_html__('Yellow to purple', 'twentytwentyone'),
+                    'name' => esc_html__('Yellow to purple', 'twentytwentyone'),
                     'gradient' => 'linear-gradient(160deg, ' . $yellow . ' 0%, ' . $purple . ' 100%)',
-                    'slug'     => 'yellow-to-purple',
+                    'slug' => 'yellow-to-purple',
                 ],
                 [
-                    'name'     => esc_html__('Green to yellow', 'twentytwentyone'),
+                    'name' => esc_html__('Green to yellow', 'twentytwentyone'),
                     'gradient' => 'linear-gradient(160deg, ' . $green . ' 0%, ' . $yellow . ' 100%)',
-                    'slug'     => 'green-to-yellow',
+                    'slug' => 'green-to-yellow',
                 ],
                 [
-                    'name'     => esc_html__('Yellow to green', 'twentytwentyone'),
+                    'name' => esc_html__('Yellow to green', 'twentytwentyone'),
                     'gradient' => 'linear-gradient(160deg, ' . $yellow . ' 0%, ' . $green . ' 100%)',
-                    'slug'     => 'yellow-to-green',
+                    'slug' => 'yellow-to-green',
                 ],
                 [
-                    'name'     => esc_html__('Red to yellow', 'twentytwentyone'),
+                    'name' => esc_html__('Red to yellow', 'twentytwentyone'),
                     'gradient' => 'linear-gradient(160deg, ' . $red . ' 0%, ' . $yellow . ' 100%)',
-                    'slug'     => 'red-to-yellow',
+                    'slug' => 'red-to-yellow',
                 ],
                 [
-                    'name'     => esc_html__('Yellow to red', 'twentytwentyone'),
+                    'name' => esc_html__('Yellow to red', 'twentytwentyone'),
                     'gradient' => 'linear-gradient(160deg, ' . $yellow . ' 0%, ' . $red . ' 100%)',
-                    'slug'     => 'yellow-to-red',
+                    'slug' => 'yellow-to-red',
                 ],
                 [
-                    'name'     => esc_html__('Purple to red', 'twentytwentyone'),
+                    'name' => esc_html__('Purple to red', 'twentytwentyone'),
                     'gradient' => 'linear-gradient(160deg, ' . $purple . ' 0%, ' . $red . ' 100%)',
-                    'slug'     => 'purple-to-red',
+                    'slug' => 'purple-to-red',
                 ],
                 [
-                    'name'     => esc_html__('Red to purple', 'twentytwentyone'),
+                    'name' => esc_html__('Red to purple', 'twentytwentyone'),
                     'gradient' => 'linear-gradient(160deg, ' . $red . ' 0%, ' . $purple . ' 100%)',
-                    'slug'     => 'red-to-purple',
+                    'slug' => 'red-to-purple',
                 ],
-            ]
+            ],
         );
 
         /*
@@ -342,27 +341,27 @@ add_action('after_setup_theme', 'twenty_twenty_one_setup');
 /**
  * Registers widget area.
  *
- * @since Twenty Twenty-One 1.0
- *
+ * @return void
  * @link https://developer.wp.org/themes/functionality/sidebars/#registering-a-sidebar
  *
- * @return void
+ * @since Twenty Twenty-One 1.0
+ *
  */
 function twenty_twenty_one_widgets_init()
 {
-
     register_sidebar(
         [
-            'name'          => esc_html__('Footer', 'twentytwentyone'),
-            'id'            => 'sidebar-1',
-            'description'   => esc_html__('Add widgets here to appear in your footer.', 'twentytwentyone'),
+            'name' => esc_html__('Footer', 'twentytwentyone'),
+            'id' => 'sidebar-1',
+            'description' => esc_html__('Add widgets here to appear in your footer.', 'twentytwentyone'),
             'before_widget' => '<section id="%1$s" class="widget %2$s">',
-            'after_widget'  => '</section>',
-            'before_title'  => '<h2 class="widget-title">',
-            'after_title'   => '</h2>',
-        ]
+            'after_widget' => '</section>',
+            'before_title' => '<h2 class="widget-title">',
+            'after_title' => '</h2>',
+        ],
     );
 }
+
 add_action('widgets_init', 'twenty_twenty_one_widgets_init');
 
 /**
@@ -370,11 +369,11 @@ add_action('widgets_init', 'twenty_twenty_one_widgets_init');
  *
  * Priority 0 to make it available to lower priority callbacks.
  *
- * @since Twenty Twenty-One 1.0
- *
+ * @return void
  * @global int $content_width Content width.
  *
- * @return void
+ * @since Twenty Twenty-One 1.0
+ *
  */
 function twenty_twenty_one_content_width()
 {
@@ -383,17 +382,18 @@ function twenty_twenty_one_content_width()
 
     $GLOBALS['content_width'] = apply_filters('twenty_twenty_one_content_width', 750);
 }
+
 add_action('after_setup_theme', 'twenty_twenty_one_content_width', 0);
 
 /**
  * Enqueues scripts and styles.
  *
- * @since Twenty Twenty-One 1.0
- *
- * @global bool       $is_IE
+ * @return void
+ * @global bool $is_IE
  * @global WP_Scripts $wp_scripts
  *
- * @return void
+ * @since Twenty Twenty-One 1.0
+ *
  */
 function twenty_twenty_one_scripts()
 {
@@ -402,17 +402,20 @@ function twenty_twenty_one_scripts()
     global $is_IE, $wp_scripts;
     if ($is_IE) {
         // If IE 11 or below, use a flattened stylesheet with static values replacing CSS Variables.
-        wp_enqueue_style('twenty-twenty-one-style', get_template_directory_uri() . '/assets/css/ie.css', [], wp_get_theme()->get('Version'));
+        wp_enqueue_style('twenty-twenty-one-style', get_template_directory_uri() . '/assets/css/ie.css', [],
+            wp_get_theme()->get('Version'));
     } else {
         // If not IE, use the standard stylesheet.
-        wp_enqueue_style('twenty-twenty-one-style', get_template_directory_uri() . '/style.css', [], wp_get_theme()->get('Version'));
+        wp_enqueue_style('twenty-twenty-one-style', get_template_directory_uri() . '/style.css', [],
+            wp_get_theme()->get('Version'));
     }
 
     // RTL styles.
     wp_style_add_data('twenty-twenty-one-style', 'rtl', 'replace');
 
     // Print styles.
-    wp_enqueue_style('twenty-twenty-one-print-style', get_template_directory_uri() . '/assets/css/print.css', [], wp_get_theme()->get('Version'), 'print');
+    wp_enqueue_style('twenty-twenty-one-print-style', get_template_directory_uri() . '/assets/css/print.css', [],
+        wp_get_theme()->get('Version'), 'print');
 
     // Threaded comment reply styles.
     if (is_singular() && comments_open() && get_option('thread_comments')) {
@@ -425,7 +428,7 @@ function twenty_twenty_one_scripts()
         get_template_directory_uri() . '/assets/js/polyfills.js',
         [],
         wp_get_theme()->get('Version'),
-        ['in_footer' => true]
+        ['in_footer' => true],
     );
 
     // Register the IE11 polyfill loader.
@@ -434,7 +437,7 @@ function twenty_twenty_one_scripts()
         null,
         [],
         wp_get_theme()->get('Version'),
-        ['in_footer' => true]
+        ['in_footer' => true],
     );
     wp_add_inline_script(
         'twenty-twenty-one-ie11-polyfills',
@@ -442,8 +445,8 @@ function twenty_twenty_one_scripts()
             $wp_scripts,
             [
                 'Element.prototype.matches && Element.prototype.closest && window.NodeList && NodeList.prototype.forEach' => 'twenty-twenty-one-ie11-polyfills-asset',
-            ]
-        )
+            ],
+        ),
     );
 
     // Main navigation scripts.
@@ -455,8 +458,8 @@ function twenty_twenty_one_scripts()
             wp_get_theme()->get('Version'),
             [
                 'in_footer' => false, // Because involves header.
-                'strategy'  => 'defer',
-            ]
+                'strategy' => 'defer',
+            ],
         );
     }
 
@@ -466,22 +469,23 @@ function twenty_twenty_one_scripts()
         get_template_directory_uri() . '/assets/js/responsive-embeds.js',
         ['twenty-twenty-one-ie11-polyfills'],
         wp_get_theme()->get('Version'),
-        ['in_footer' => true]
+        ['in_footer' => true],
     );
 }
+
 add_action('wp_enqueue_scripts', 'twenty_twenty_one_scripts');
 
 /**
  * Enqueues block editor script.
  *
+ * @return void
  * @since Twenty Twenty-One 1.0
  *
- * @return void
  */
 function twentytwentyone_block_editor_script()
 {
-
-    wp_enqueue_script('twentytwentyone-editor', get_theme_file_uri('/assets/js/editor.js'), ['wp-blocks', 'wp-dom'], wp_get_theme()->get('Version'), ['in_footer' => true]);
+    wp_enqueue_script('twentytwentyone-editor', get_theme_file_uri('/assets/js/editor.js'), ['wp-blocks', 'wp-dom'],
+        wp_get_theme()->get('Version'), ['in_footer' => true]);
 }
 
 add_action('enqueue_block_editor_assets', 'twentytwentyone_block_editor_script');
@@ -499,7 +503,6 @@ add_action('enqueue_block_editor_assets', 'twentytwentyone_block_editor_script')
  */
 function twenty_twenty_one_skip_link_focus_fix()
 {
-
     // If SCRIPT_DEBUG is defined and true, print the unminified file.
     if (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) {
         echo '<script>';
@@ -509,7 +512,10 @@ function twenty_twenty_one_skip_link_focus_fix()
         // The following is minified via `npx terser --compress --mangle -- assets/js/skip-link-focus-fix.js`.
         ?>
         <script>
-        /(trident|msie)/i.test(navigator.userAgent)&&document.getElementById&&window.addEventListener&&window.addEventListener("hashchange",(function(){var t,e=location.hash.substring(1);/^[A-z0-9_-]+$/.test(e)&&(t=document.getElementById(e))&&(/^(?:a|select|input|button|textarea)$/i.test(t.tagName)||(t.tabIndex=-1),t.focus())}),!1);
+            /(trident|msie)/i.test(navigator.userAgent) && document.getElementById && window.addEventListener && window.addEventListener("hashchange", (function () {
+                var t, e = location.hash.substring(1);
+                /^[A-z0-9_-]+$/.test(e) && (t = document.getElementById(e)) && (/^(?:a|select|input|button|textarea)$/i.test(t.tagName) || (t.tabIndex = -1), t.focus())
+            }), !1);
         </script>
         <?php
     }
@@ -518,9 +524,9 @@ function twenty_twenty_one_skip_link_focus_fix()
 /**
  * Enqueues non-latin language styles.
  *
+ * @return void
  * @since Twenty Twenty-One 1.0
  *
- * @return void
  */
 function twenty_twenty_one_non_latin_languages()
 {
@@ -530,6 +536,7 @@ function twenty_twenty_one_non_latin_languages()
         wp_add_inline_style('twenty-twenty-one-style', $custom_css);
     }
 }
+
 add_action('wp_enqueue_scripts', 'twenty_twenty_one_non_latin_languages');
 
 // SVG Icons class.
@@ -565,9 +572,9 @@ new Twenty_Twenty_One_Dark_Mode();
 /**
  * Enqueues scripts for the customizer preview.
  *
+ * @return void
  * @since Twenty Twenty-One 1.0
  *
- * @return void
  */
 function twentytwentyone_customize_preview_init()
 {
@@ -576,7 +583,7 @@ function twentytwentyone_customize_preview_init()
         get_theme_file_uri('/assets/js/customize-helpers.js'),
         [],
         wp_get_theme()->get('Version'),
-        ['in_footer' => true]
+        ['in_footer' => true],
     );
 
     wp_enqueue_script(
@@ -584,49 +591,50 @@ function twentytwentyone_customize_preview_init()
         get_theme_file_uri('/assets/js/customize-preview.js'),
         ['customize-preview', 'customize-selective-refresh', 'jquery', 'twentytwentyone-customize-helpers'],
         wp_get_theme()->get('Version'),
-        ['in_footer' => true]
+        ['in_footer' => true],
     );
 }
+
 add_action('customize_preview_init', 'twentytwentyone_customize_preview_init');
 
 /**
  * Enqueues scripts for the customizer.
  *
+ * @return void
  * @since Twenty Twenty-One 1.0
  *
- * @return void
  */
 function twentytwentyone_customize_controls_enqueue_scripts()
 {
-
     wp_enqueue_script(
         'twentytwentyone-customize-helpers',
         get_theme_file_uri('/assets/js/customize-helpers.js'),
         [],
         wp_get_theme()->get('Version'),
-        ['in_footer' => true]
+        ['in_footer' => true],
     );
 }
+
 add_action('customize_controls_enqueue_scripts', 'twentytwentyone_customize_controls_enqueue_scripts');
 
 /**
  * Calculates classes for the main <html> element.
  *
+ * @return void
  * @since Twenty Twenty-One 1.0
  *
- * @return void
  */
 function twentytwentyone_the_html_classes()
 {
     /**
      * Filters the classes for the main <html> element.
      *
+     * @param string The list of classes. Default empty string.
      * @since Twenty Twenty-One 1.0
      *
-     * @param string The list of classes. Default empty string.
      */
     $classes = apply_filters('twentytwentyone_html_classes', '');
-    if (! $classes) {
+    if (!$classes) {
         return;
     }
     echo 'class="' . esc_attr($classes) . '"';
@@ -635,23 +643,24 @@ function twentytwentyone_the_html_classes()
 /**
  * Adds "is-IE" class to body if the user is on Internet Explorer.
  *
+ * @return void
  * @since Twenty Twenty-One 1.0
  *
- * @return void
  */
 function twentytwentyone_add_ie_class()
 {
     ?>
     <script>
-    if ( -1 !== navigator.userAgent.indexOf( 'MSIE' ) || -1 !== navigator.appVersion.indexOf( 'Trident/' ) ) {
-        document.body.classList.add( 'is-IE' );
-    }
+        if (-1 !== navigator.userAgent.indexOf('MSIE') || -1 !== navigator.appVersion.indexOf('Trident/')) {
+            document.body.classList.add('is-IE');
+        }
     </script>
     <?php
 }
+
 add_action('wp_footer', 'twentytwentyone_add_ie_class');
 
-if (! function_exists('wp_get_list_item_separator')) :
+if (!function_exists('wp_get_list_item_separator')) :
     /**
      * Retrieves the list item separator based on the locale.
      *

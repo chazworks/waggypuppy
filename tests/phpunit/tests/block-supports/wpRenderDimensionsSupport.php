@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @group block-supports
  *
@@ -29,8 +30,8 @@ class Tests_Block_Supports_WpRenderDimensionsSupport extends WP_UnitTestCase
     {
         parent::set_up();
         $this->test_block_name = null;
-        $this->theme_root      = realpath(DIR_TESTDATA . '/themedir1');
-        $this->orig_theme_dir  = $GLOBALS['wp_theme_directories'];
+        $this->theme_root = realpath(DIR_TESTDATA . '/themedir1');
+        $this->orig_theme_dir = $GLOBALS['wp_theme_directories'];
 
         // /themes is necessary as theme.php functions assume /themes is the root if there is only one root.
         $GLOBALS['wp_theme_directories'] = [WP_CONTENT_DIR . '/themes', $this->theme_root];
@@ -76,15 +77,21 @@ class Tests_Block_Supports_WpRenderDimensionsSupport extends WP_UnitTestCase
      *
      * @dataProvider data_dimensions_block_support
      *
-     * @param string $theme_name          The theme to switch to.
-     * @param string $block_name          The test block name to register.
-     * @param mixed  $dimensions_settings The dimensions block support settings.
-     * @param mixed  $dimensions_style    The dimensions styles within the block attributes.
-     * @param string $expected_wrapper    Expected markup for the block wrapper.
-     * @param string $wrapper             Existing markup for the block wrapper.
+     * @param string $theme_name The theme to switch to.
+     * @param string $block_name The test block name to register.
+     * @param mixed $dimensions_settings The dimensions block support settings.
+     * @param mixed $dimensions_style The dimensions styles within the block attributes.
+     * @param string $expected_wrapper Expected markup for the block wrapper.
+     * @param string $wrapper Existing markup for the block wrapper.
      */
-    public function test_dimensions_block_support($theme_name, $block_name, $dimensions_settings, $dimensions_style, $expected_wrapper, $wrapper)
-    {
+    public function test_dimensions_block_support(
+        $theme_name,
+        $block_name,
+        $dimensions_settings,
+        $dimensions_style,
+        $expected_wrapper,
+        $wrapper,
+    ) {
         switch_theme($theme_name);
         $this->test_block_name = $block_name;
 
@@ -92,20 +99,20 @@ class Tests_Block_Supports_WpRenderDimensionsSupport extends WP_UnitTestCase
             $this->test_block_name,
             [
                 'api_version' => 2,
-                'attributes'  => [
+                'attributes' => [
                     'style' => [
                         'type' => 'object',
                     ],
                 ],
-                'supports'    => [
+                'supports' => [
                     'dimensions' => $dimensions_settings,
                 ],
-            ]
+            ],
         );
 
         $block = [
             'blockName' => $block_name,
-            'attrs'     => [
+            'attrs' => [
                 'style' => [
                     'dimensions' => $dimensions_style,
                 ],
@@ -117,7 +124,7 @@ class Tests_Block_Supports_WpRenderDimensionsSupport extends WP_UnitTestCase
         $this->assertSame(
             $expected_wrapper,
             $actual,
-            'Dimensions block wrapper markup should be correct'
+            'Dimensions block wrapper markup should be correct',
         );
     }
 
@@ -130,52 +137,52 @@ class Tests_Block_Supports_WpRenderDimensionsSupport extends WP_UnitTestCase
     {
         return [
             'aspect ratio style is applied, with min-height unset' => [
-                'theme_name'          => 'block-theme-child-with-fluid-typography',
-                'block_name'          => 'test/dimensions-rules-are-output',
+                'theme_name' => 'block-theme-child-with-fluid-typography',
+                'block_name' => 'test/dimensions-rules-are-output',
                 'dimensions_settings' => [
                     'aspectRatio' => true,
                 ],
-                'dimensions_style'    => [
+                'dimensions_style' => [
                     'aspectRatio' => '16/9',
                 ],
-                'expected_wrapper'    => '<div class="has-aspect-ratio" style="aspect-ratio:16/9;min-height:unset;">Content</div>',
-                'wrapper'             => '<div>Content</div>',
+                'expected_wrapper' => '<div class="has-aspect-ratio" style="aspect-ratio:16/9;min-height:unset;">Content</div>',
+                'wrapper' => '<div>Content</div>',
             ],
             'dimensions style is appended if a style attribute already exists' => [
-                'theme_name'          => 'block-theme-child-with-fluid-typography',
-                'block_name'          => 'test/dimensions-rules-are-output',
+                'theme_name' => 'block-theme-child-with-fluid-typography',
+                'block_name' => 'test/dimensions-rules-are-output',
                 'dimensions_settings' => [
                     'aspectRatio' => true,
                 ],
-                'dimensions_style'    => [
+                'dimensions_style' => [
                     'aspectRatio' => '16/9',
                 ],
-                'expected_wrapper'    => '<div class="wp-block-test has-aspect-ratio" style="color:red;aspect-ratio:16/9;min-height:unset;">Content</div>',
-                'wrapper'             => '<div class="wp-block-test" style="color:red;">Content</div>',
+                'expected_wrapper' => '<div class="wp-block-test has-aspect-ratio" style="color:red;aspect-ratio:16/9;min-height:unset;">Content</div>',
+                'wrapper' => '<div class="wp-block-test" style="color:red;">Content</div>',
             ],
             'aspect ratio style is unset if block has min-height set' => [
-                'theme_name'          => 'block-theme-child-with-fluid-typography',
-                'block_name'          => 'test/dimensions-rules-are-output',
+                'theme_name' => 'block-theme-child-with-fluid-typography',
+                'block_name' => 'test/dimensions-rules-are-output',
                 'dimensions_settings' => [
                     'aspectRatio' => true,
                 ],
-                'dimensions_style'    => [
+                'dimensions_style' => [
                     'minHeight' => '100px',
                 ],
-                'expected_wrapper'    => '<div style="min-height:100px;aspect-ratio:unset;">Content</div>',
-                'wrapper'             => '<div style="min-height:100px">Content</div>',
+                'expected_wrapper' => '<div style="min-height:100px;aspect-ratio:unset;">Content</div>',
+                'wrapper' => '<div style="min-height:100px">Content</div>',
             ],
             'aspect ratio style is not applied if the block does not support aspect ratio' => [
-                'theme_name'          => 'block-theme-child-with-fluid-typography',
-                'block_name'          => 'test/background-rules-are-not-output',
+                'theme_name' => 'block-theme-child-with-fluid-typography',
+                'block_name' => 'test/background-rules-are-not-output',
                 'dimensions_settings' => [
                     'aspectRatio' => false,
                 ],
-                'dimensions_style'    => [
+                'dimensions_style' => [
                     'aspectRatio' => '16/9',
                 ],
-                'expected_wrapper'    => '<div>Content</div>',
-                'wrapper'             => '<div>Content</div>',
+                'expected_wrapper' => '<div>Content</div>',
+                'wrapper' => '<div>Content</div>',
             ],
         ];
     }

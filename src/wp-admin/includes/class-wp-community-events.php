@@ -38,23 +38,23 @@ class WP_Community_Events
     /**
      * Constructor for WP_Community_Events.
      *
-     * @since 4.8.0
-     *
-     * @param int        $user_id       WP user ID.
+     * @param int $user_id WP user ID.
      * @param false|array $user_location {
      *     Stored location data for the user. false to pass no location.
      *
-     *     @type string $description The name of the location
-     *     @type string $latitude    The latitude in decimal degrees notation, without the degree
+     * @type string $description The name of the location
+     * @type string $latitude The latitude in decimal degrees notation, without the degree
      *                               symbol. e.g.: 47.615200.
-     *     @type string $longitude   The longitude in decimal degrees notation, without the degree
+     * @type string $longitude The longitude in decimal degrees notation, without the degree
      *                               symbol. e.g.: -122.341100.
-     *     @type string $country     The ISO 3166-1 alpha-2 country code. e.g.: BR
+     * @type string $country The ISO 3166-1 alpha-2 country code. e.g.: BR
      * }
+     * @since 4.8.0
+     *
      */
     public function __construct($user_id, $user_location = false)
     {
-        $this->user_id       = absint($user_id);
+        $this->user_id = absint($user_id);
         $this->user_location = $user_location;
     }
 
@@ -79,39 +79,39 @@ class WP_Community_Events
      * the opportunity to anonymize the IP before sending it to w.org, which
      * mitigates possible privacy concerns.
      *
-     * @since 4.8.0
-     * @since 5.5.2 Response no longer contains formatted date field. They're added
-     *              in `wp.communityEvents.populateDynamicEventFields()` now.
-     *
      * @param string $location_search Optional. City name to help determine the location.
      *                                e.g., "Seattle". Default empty string.
-     * @param string $timezone        Optional. Timezone to help determine the location.
+     * @param string $timezone Optional. Timezone to help determine the location.
      *                                Default empty string.
      * @return array|WP_Error A WP_Error on failure; an array with location and events on
      *                        success.
+     * @since 5.5.2 Response no longer contains formatted date field. They're added
+     *              in `wp.communityEvents.populateDynamicEventFields()` now.
+     *
+     * @since 4.8.0
      */
     public function get_events($location_search = '', $timezone = '')
     {
         $cached_events = $this->get_cached_events();
 
-        if (! $location_search && $cached_events) {
+        if (!$location_search && $cached_events) {
             return $cached_events;
         }
 
         // Include an unmodified $wp_version.
         require ABSPATH . WPINC . '/version.php';
 
-        $api_url                    = 'http://api.wp.org/events/1.0/';
-        $request_args               = $this->get_request_args($location_search, $timezone);
+        $api_url = 'http://api.wp.org/events/1.0/';
+        $request_args = $this->get_request_args($location_search, $timezone);
         $request_args['user-agent'] = 'WordPress/' . $wp_version . '; ' . home_url('/');
 
         if (wp_http_supports(['ssl'])) {
             $api_url = set_url_scheme($api_url, 'https');
         }
 
-        $response       = wp_remote_get($api_url, $request_args);
-        $response_code  = wp_remote_retrieve_response_code($response);
-        $response_body  = json_decode(wp_remote_retrieve_body($response), true);
+        $response = wp_remote_get($api_url, $request_args);
+        $response_code = wp_remote_retrieve_response_code($response);
+        $response_body = json_decode(wp_remote_retrieve_body($response), true);
         $response_error = null;
 
         if (is_wp_error($response)) {
@@ -120,12 +120,12 @@ class WP_Community_Events
             $response_error = new WP_Error(
                 'api-error',
                 /* translators: %d: Numeric HTTP status code, e.g. 400, 403, 500, 504, etc. */
-                sprintf(__('Invalid API response code (%d).'), $response_code)
+                sprintf(__('Invalid API response code (%d).'), $response_code),
             );
-        } elseif (! isset($response_body['location'], $response_body['events'])) {
+        } elseif (!isset($response_body['location'], $response_body['events'])) {
             $response_error = new WP_Error(
                 'api-invalid-response',
-                isset($response_body['error']) ? $response_body['error'] : __('Unknown API error.')
+                isset($response_body['error']) ? $response_body['error'] : __('Unknown API error.'),
             );
         }
 
@@ -151,7 +151,7 @@ class WP_Community_Events
              * would be generated based on the public IP when saving the cache, but generated
              * based on the private IP when retrieving the cache.
              */
-            if (! empty($response_body['location']['ip'])) {
+            if (!empty($response_body['location']['ip'])) {
                 $response_body['location']['ip'] = $request_args['body']['ip'];
             }
 
@@ -160,7 +160,8 @@ class WP_Community_Events
              * but the description is already saved in the user location, so that
              * one can be used instead.
              */
-            if ($this->coordinates_match($request_args['body'], $response_body['location']) && empty($response_body['location']['description'])) {
+            if ($this->coordinates_match($request_args['body'], $response_body['location'])
+                && empty($response_body['location']['description'])) {
                 $response_body['location']['description'] = $this->user_location['description'];
             }
 
@@ -179,17 +180,17 @@ class WP_Community_Events
     /**
      * Builds an array of args to use in an HTTP request to the w.org Events API.
      *
-     * @since 4.8.0
-     *
-     * @param string $search   Optional. City search string. Default empty string.
+     * @param string $search Optional. City search string. Default empty string.
      * @param string $timezone Optional. Timezone string. Default empty string.
      * @return array The request args.
+     * @since 4.8.0
+     *
      */
     protected function get_request_args($search = '', $timezone = '')
     {
         $args = [
             'number' => 5, // Get more than three in case some get trimmed out.
-            'ip'     => self::get_unsafe_client_ip(),
+            'ip' => self::get_unsafe_client_ip(),
         ];
 
         /*
@@ -197,7 +198,7 @@ class WP_Community_Events
          * chances of a cache-hit on the API side.
          */
         if (empty($search) && isset($this->user_location['latitude'], $this->user_location['longitude'])) {
-            $args['latitude']  = $this->user_location['latitude'];
+            $args['latitude'] = $this->user_location['latitude'];
             $args['longitude'] = $this->user_location['longitude'];
         } else {
             $args['locale'] = get_user_locale($this->user_id);
@@ -237,10 +238,10 @@ class WP_Community_Events
      * _NOT_ guarantee that the returned address is valid or accurate, and it can
      * be easily spoofed.
      *
-     * @since 4.8.0
-     *
      * @return string|false The anonymized address on success; the given address
      *                      or false on failure.
+     * @since 4.8.0
+     *
      */
     public static function get_unsafe_client_ip()
     {
@@ -265,13 +266,13 @@ class WP_Community_Events
                  * trusted for authenticity, but we don't need to for this purpose.
                  */
                 $address_chain = explode(',', $_SERVER[$header]);
-                $client_ip     = trim($address_chain[0]);
+                $client_ip = trim($address_chain[0]);
 
                 break;
             }
         }
 
-        if (! $client_ip) {
+        if (!$client_ip) {
             return false;
         }
 
@@ -287,15 +288,15 @@ class WP_Community_Events
     /**
      * Test if two pairs of latitude/longitude coordinates match each other.
      *
-     * @since 4.8.0
-     *
      * @param array $a The first pair, with indexes 'latitude' and 'longitude'.
      * @param array $b The second pair, with indexes 'latitude' and 'longitude'.
      * @return bool True if they match, false if they don't.
+     * @since 4.8.0
+     *
      */
     protected function coordinates_match($a, $b)
     {
-        if (! isset($a['latitude'], $a['longitude'], $b['latitude'], $b['longitude'])) {
+        if (!isset($a['latitude'], $a['longitude'], $b['latitude'], $b['longitude'])) {
             return false;
         }
 
@@ -310,10 +311,10 @@ class WP_Community_Events
      * functions, and having it abstracted keeps the logic consistent and DRY,
      * which is less prone to errors.
      *
-     * @since 4.8.0
-     *
      * @param array $location Should contain 'latitude' and 'longitude' indexes.
      * @return string|false Transient key on success, false on failure.
+     * @since 4.8.0
+     *
      */
     protected function get_events_transient_key($location)
     {
@@ -331,16 +332,16 @@ class WP_Community_Events
     /**
      * Caches an array of events data from the Events API.
      *
-     * @since 4.8.0
-     *
-     * @param array     $events     Response body from the API request.
+     * @param array $events Response body from the API request.
      * @param int|false $expiration Optional. Amount of time to cache the events. Defaults to false.
      * @return bool true if events were cached; false if not.
+     * @since 4.8.0
+     *
      */
     protected function cache_events($events, $expiration = false)
     {
-        $set              = false;
-        $transient_key    = $this->get_events_transient_key($events['location']);
+        $set = false;
+        $transient_key = $this->get_events_transient_key($events['location']);
         $cache_expiration = $expiration ? absint($expiration) : HOUR_IN_SECONDS * 12;
 
         if ($transient_key) {
@@ -353,17 +354,17 @@ class WP_Community_Events
     /**
      * Gets cached events.
      *
-     * @since 4.8.0
+     * @return array|false An array containing `location` and `events` items
+     *                     on success, false on failure.
      * @since 5.5.2 Response no longer contains formatted date field. They're added
      *              in `wp.communityEvents.populateDynamicEventFields()` now.
      *
-     * @return array|false An array containing `location` and `events` items
-     *                     on success, false on failure.
+     * @since 4.8.0
      */
     public function get_cached_events()
     {
         $transient_key = $this->get_events_transient_key($this->user_location);
-        if (! $transient_key) {
+        if (!$transient_key) {
             return false;
         }
 
@@ -383,18 +384,18 @@ class WP_Community_Events
      * the cache, then all users would see the events in the localized data/time
      * of the user who triggered the cache refresh, rather than their own.
      *
+     * @param array $response_body The response which contains the events.
+     * @return array The response with dates and times formatted.
      * @since 4.8.0
      * @deprecated 5.6.0 No longer used in core.
      *
-     * @param array $response_body The response which contains the events.
-     * @return array The response with dates and times formatted.
      */
     protected function format_event_data_time($response_body)
     {
         _deprecated_function(
             __METHOD__,
             '5.5.2',
-            'This is no longer used by core, and only kept for backward compatibility.'
+            'This is no longer used by core, and only kept for backward compatibility.',
         );
 
         if (isset($response_body['events'])) {
@@ -412,34 +413,34 @@ class WP_Community_Events
                 $formatted_time = date_i18n(get_option('time_format'), $timestamp);
 
                 if (isset($event['end_date'])) {
-                    $end_timestamp      = strtotime($event['end_date']);
+                    $end_timestamp = strtotime($event['end_date']);
                     $formatted_end_date = date_i18n(__('l, M j, Y'), $end_timestamp);
 
                     if ('meetup' !== $event['type'] && $formatted_end_date !== $formatted_date) {
                         /* translators: Upcoming events month format. See https://www.php.net/manual/datetime.format.php */
                         $start_month = date_i18n(_x('F', 'upcoming events month format'), $timestamp);
-                        $end_month   = date_i18n(_x('F', 'upcoming events month format'), $end_timestamp);
+                        $end_month = date_i18n(_x('F', 'upcoming events month format'), $end_timestamp);
 
                         if ($start_month === $end_month) {
                             $formatted_date = sprintf(
-                                /* translators: Date string for upcoming events. 1: Month, 2: Starting day, 3: Ending day, 4: Year. */
+                            /* translators: Date string for upcoming events. 1: Month, 2: Starting day, 3: Ending day, 4: Year. */
                                 __('%1$s %2$d–%3$d, %4$d'),
                                 $start_month,
                                 /* translators: Upcoming events day format. See https://www.php.net/manual/datetime.format.php */
                                 date_i18n(_x('j', 'upcoming events day format'), $timestamp),
                                 date_i18n(_x('j', 'upcoming events day format'), $end_timestamp),
                                 /* translators: Upcoming events year format. See https://www.php.net/manual/datetime.format.php */
-                                date_i18n(_x('Y', 'upcoming events year format'), $timestamp)
+                                date_i18n(_x('Y', 'upcoming events year format'), $timestamp),
                             );
                         } else {
                             $formatted_date = sprintf(
-                                /* translators: Date string for upcoming events. 1: Starting month, 2: Starting day, 3: Ending month, 4: Ending day, 5: Year. */
+                            /* translators: Date string for upcoming events. 1: Starting month, 2: Starting day, 3: Ending month, 4: Ending day, 5: Year. */
                                 __('%1$s %2$d – %3$s %4$d, %5$d'),
                                 $start_month,
                                 date_i18n(_x('j', 'upcoming events day format'), $timestamp),
                                 $end_month,
                                 date_i18n(_x('j', 'upcoming events day format'), $end_timestamp),
-                                date_i18n(_x('Y', 'upcoming events year format'), $timestamp)
+                                date_i18n(_x('Y', 'upcoming events year format'), $timestamp),
                             );
                         }
 
@@ -465,13 +466,13 @@ class WP_Community_Events
      * the event will be at the end of the list, and will need to be moved into a
      * higher position, so that it doesn't get trimmed off.
      *
-     * @since 4.8.0
-     * @since 4.9.7 Stick a WordCamp to the final list.
+     * @param array $events The events that will be prepared.
+     * @return array The response body with events trimmed.
      * @since 5.5.2 Accepts and returns only the events, rather than an entire HTTP response.
      * @since 6.0.0 Decode HTML entities from the event title.
      *
-     * @param array $events The events that will be prepared.
-     * @return array The response body with events trimmed.
+     * @since 4.8.0
+     * @since 4.9.7 Stick a WordCamp to the final list.
      */
     protected function trim_events(array $events)
     {
@@ -482,7 +483,7 @@ class WP_Community_Events
              * The API's `date` and `end_date` fields are in the _event's_ local timezone, but UTC is needed so
              * it can be converted to the _user's_ local time.
              */
-            $end_time = (int) $event['end_unix_timestamp'];
+            $end_time = (int)$event['end_unix_timestamp'];
 
             if (time() < $end_time) {
                 // Decode HTML entities from the event title.
@@ -496,15 +497,15 @@ class WP_Community_Events
             $future_events,
             static function ($wordcamp) {
                 return 'wordcamp' === $wordcamp['type'];
-            }
+            },
         );
 
-        $future_wordcamps    = array_values($future_wordcamps); // Remove gaps in indices.
-        $trimmed_events      = array_slice($future_events, 0, 3);
+        $future_wordcamps = array_values($future_wordcamps); // Remove gaps in indices.
+        $trimmed_events = array_slice($future_events, 0, 3);
         $trimmed_event_types = wp_list_pluck($trimmed_events, 'type');
 
         // Make sure the soonest upcoming WordCamp is pinned in the list.
-        if ($future_wordcamps && ! in_array('wordcamp', $trimmed_event_types, true)) {
+        if ($future_wordcamps && !in_array('wordcamp', $trimmed_event_types, true)) {
             array_pop($trimmed_events);
             array_push($trimmed_events, $future_wordcamps[0]);
         }
@@ -515,18 +516,18 @@ class WP_Community_Events
     /**
      * Logs responses to Events API requests.
      *
+     * @param string $message A description of what occurred.
+     * @param array $details Details that provide more context for the
+     *                        log entry.
      * @since 4.8.0
      * @deprecated 4.9.0 Use a plugin instead. See #41217 for an example.
      *
-     * @param string $message A description of what occurred.
-     * @param array  $details Details that provide more context for the
-     *                        log entry.
      */
     protected function maybe_log_events_response($message, $details)
     {
         _deprecated_function(__METHOD__, '4.9.0');
 
-        if (! WP_DEBUG_LOG) {
+        if (!WP_DEBUG_LOG) {
             return;
         }
 
@@ -535,8 +536,8 @@ class WP_Community_Events
                 '%s: %s. Details: %s',
                 __METHOD__,
                 trim($message, '.'),
-                wp_json_encode($details)
-            )
+                wp_json_encode($details),
+            ),
         );
     }
 }

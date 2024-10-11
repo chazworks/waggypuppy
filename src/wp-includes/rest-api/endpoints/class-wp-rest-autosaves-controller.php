@@ -53,30 +53,31 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
     /**
      * Constructor.
      *
+     * @param string $parent_post_type Post type of the parent.
      * @since 5.0.0
      *
-     * @param string $parent_post_type Post type of the parent.
      */
     public function __construct($parent_post_type)
     {
         $this->parent_post_type = $parent_post_type;
-        $post_type_object       = get_post_type_object($parent_post_type);
-        $parent_controller      = $post_type_object->get_rest_controller();
+        $post_type_object = get_post_type_object($parent_post_type);
+        $parent_controller = $post_type_object->get_rest_controller();
 
-        if (! $parent_controller) {
+        if (!$parent_controller) {
             $parent_controller = new WP_REST_Posts_Controller($parent_post_type);
         }
 
         $this->parent_controller = $parent_controller;
 
         $revisions_controller = $post_type_object->get_revisions_rest_controller();
-        if (! $revisions_controller) {
+        if (!$revisions_controller) {
             $revisions_controller = new WP_REST_Revisions_Controller($parent_post_type);
         }
         $this->revisions_controller = $revisions_controller;
-        $this->rest_base            = 'autosaves';
-        $this->parent_base          = ! empty($post_type_object->rest_base) ? $post_type_object->rest_base : $post_type_object->name;
-        $this->namespace            = ! empty($post_type_object->rest_namespace) ? $post_type_object->rest_namespace : 'wp/v2';
+        $this->rest_base = 'autosaves';
+        $this->parent_base = !empty($post_type_object->rest_base) ? $post_type_object->rest_base
+            : $post_type_object->name;
+        $this->namespace = !empty($post_type_object->rest_namespace) ? $post_type_object->rest_namespace : 'wp/v2';
     }
 
     /**
@@ -92,62 +93,62 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
             $this->namespace,
             '/' . $this->parent_base . '/(?P<id>[\d]+)/' . $this->rest_base,
             [
-                'args'   => [
+                'args' => [
                     'parent' => [
                         'description' => __('The ID for the parent of the autosave.'),
-                        'type'        => 'integer',
+                        'type' => 'integer',
                     ],
                 ],
                 [
-                    'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => [$this, 'get_items'],
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_items'],
                     'permission_callback' => [$this, 'get_items_permissions_check'],
-                    'args'                => $this->get_collection_params(),
+                    'args' => $this->get_collection_params(),
                 ],
                 [
-                    'methods'             => WP_REST_Server::CREATABLE,
-                    'callback'            => [$this, 'create_item'],
+                    'methods' => WP_REST_Server::CREATABLE,
+                    'callback' => [$this, 'create_item'],
                     'permission_callback' => [$this, 'create_item_permissions_check'],
-                    'args'                => $this->parent_controller->get_endpoint_args_for_item_schema(WP_REST_Server::EDITABLE),
+                    'args' => $this->parent_controller->get_endpoint_args_for_item_schema(WP_REST_Server::EDITABLE),
                 ],
                 'schema' => [$this, 'get_public_item_schema'],
-            ]
+            ],
         );
 
         register_rest_route(
             $this->namespace,
             '/' . $this->parent_base . '/(?P<parent>[\d]+)/' . $this->rest_base . '/(?P<id>[\d]+)',
             [
-                'args'   => [
+                'args' => [
                     'parent' => [
                         'description' => __('The ID for the parent of the autosave.'),
-                        'type'        => 'integer',
+                        'type' => 'integer',
                     ],
-                    'id'     => [
+                    'id' => [
                         'description' => __('The ID for the autosave.'),
-                        'type'        => 'integer',
+                        'type' => 'integer',
                     ],
                 ],
                 [
-                    'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => [$this, 'get_item'],
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_item'],
                     'permission_callback' => [$this->revisions_controller, 'get_item_permissions_check'],
-                    'args'                => [
+                    'args' => [
                         'context' => $this->get_context_param(['default' => 'view']),
                     ],
                 ],
                 'schema' => [$this, 'get_public_item_schema'],
-            ]
+            ],
         );
     }
 
     /**
      * Get the parent post.
      *
-     * @since 5.0.0
-     *
      * @param int $parent_id Supplied ID.
      * @return WP_Post|WP_Error Post object if ID is valid, WP_Error otherwise.
+     * @since 5.0.0
+     *
      */
     protected function get_parent($parent_id)
     {
@@ -157,10 +158,10 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
     /**
      * Checks if a given request has access to get autosaves.
      *
-     * @since 5.0.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
+     * @since 5.0.0
+     *
      */
     public function get_items_permissions_check($request)
     {
@@ -169,11 +170,11 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
             return $parent;
         }
 
-        if (! current_user_can('edit_post', $parent->ID)) {
+        if (!current_user_can('edit_post', $parent->ID)) {
             return new WP_Error(
                 'rest_cannot_read',
                 __('Sorry, you are not allowed to view autosaves of this post.'),
-                ['status' => rest_authorization_required_code()]
+                ['status' => rest_authorization_required_code()],
             );
         }
 
@@ -186,10 +187,10 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
      * Autosave revisions inherit permissions from the parent post,
      * check if the current user has permission to edit the post.
      *
-     * @since 5.0.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has access to create the item, WP_Error object otherwise.
+     * @since 5.0.0
+     *
      */
     public function create_item_permissions_check($request)
     {
@@ -199,7 +200,7 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
             return new WP_Error(
                 'rest_post_invalid_id',
                 __('Invalid item ID.'),
-                ['status' => 404]
+                ['status' => 404],
             );
         }
 
@@ -209,15 +210,14 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
     /**
      * Creates, updates or deletes an autosave revision.
      *
-     * @since 5.0.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     * @since 5.0.0
+     *
      */
     public function create_item($request)
     {
-
-        if (! defined('WP_RUN_CORE_TESTS') && ! defined('DOING_AUTOSAVE')) {
+        if (!defined('WP_RUN_CORE_TESTS') && !defined('DOING_AUTOSAVE')) {
             define('DOING_AUTOSAVE', true);
         }
 
@@ -227,27 +227,27 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
             return $post;
         }
 
-        $prepared_post     = $this->parent_controller->prepare_item_for_database($request);
+        $prepared_post = $this->parent_controller->prepare_item_for_database($request);
         $prepared_post->ID = $post->ID;
-        $user_id           = get_current_user_id();
+        $user_id = get_current_user_id();
 
         // We need to check post lock to ensure the original author didn't leave their browser tab open.
-        if (! function_exists('wp_check_post_lock')) {
+        if (!function_exists('wp_check_post_lock')) {
             require_once ABSPATH . 'wp-admin/includes/post.php';
         }
 
         $post_lock = wp_check_post_lock($post->ID);
-        $is_draft  = 'draft' === $post->post_status || 'auto-draft' === $post->post_status;
+        $is_draft = 'draft' === $post->post_status || 'auto-draft' === $post->post_status;
 
-        if ($is_draft && (int) $post->post_author === $user_id && ! $post_lock) {
+        if ($is_draft && (int)$post->post_author === $user_id && !$post_lock) {
             /*
              * Draft posts for the same author: autosaving updates the post and does not create a revision.
              * Convert the post object to an array and add slashes, wp_update_post() expects escaped array.
              */
-            $autosave_id = wp_update_post(wp_slash((array) $prepared_post), true);
+            $autosave_id = wp_update_post(wp_slash((array)$prepared_post), true);
         } else {
             // Non-draft posts: create or update the post autosave. Pass the meta data.
-            $autosave_id = $this->create_post_autosave((array) $prepared_post, (array) $request->get_param('meta'));
+            $autosave_id = $this->create_post_autosave((array)$prepared_post, (array)$request->get_param('meta'));
         }
 
         if (is_wp_error($autosave_id)) {
@@ -266,30 +266,30 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
     /**
      * Get the autosave, if the ID is valid.
      *
-     * @since 5.0.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_Post|WP_Error Revision post object if ID is valid, WP_Error otherwise.
+     * @since 5.0.0
+     *
      */
     public function get_item($request)
     {
-        $parent_id = (int) $request->get_param('parent');
+        $parent_id = (int)$request->get_param('parent');
 
         if ($parent_id <= 0) {
             return new WP_Error(
                 'rest_post_invalid_id',
                 __('Invalid post parent ID.'),
-                ['status' => 404]
+                ['status' => 404],
             );
         }
 
         $autosave = wp_get_post_autosave($parent_id);
 
-        if (! $autosave) {
+        if (!$autosave) {
             return new WP_Error(
                 'rest_post_no_autosave',
                 __('There is no autosave revision for this post.'),
-                ['status' => 404]
+                ['status' => 404],
             );
         }
 
@@ -302,10 +302,10 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
      *
      * Contains the user's autosave, for empty if it doesn't exist.
      *
-     * @since 5.0.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     * @since 5.0.0
+     *
      */
     public function get_items($request)
     {
@@ -314,13 +314,13 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
             return $parent;
         }
 
-        $response  = [];
+        $response = [];
         $parent_id = $parent->ID;
         $revisions = wp_get_post_revisions($parent_id, ['check_enabled' => false]);
 
         foreach ($revisions as $revision) {
             if (str_contains($revision->post_name, "{$parent_id}-autosave")) {
-                $data       = $this->prepare_item_for_response($revision, $request);
+                $data = $this->prepare_item_for_response($revision, $request);
                 $response[] = $this->prepare_response_for_collection($data);
             }
         }
@@ -332,9 +332,9 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
     /**
      * Retrieves the autosave's schema, conforming to JSON Schema.
      *
+     * @return array Item schema data.
      * @since 5.0.0
      *
-     * @return array Item schema data.
      */
     public function get_item_schema()
     {
@@ -346,10 +346,10 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
 
         $schema['properties']['preview_link'] = [
             'description' => __('Preview link for the post.'),
-            'type'        => 'string',
-            'format'      => 'uri',
-            'context'     => ['edit'],
-            'readonly'    => true,
+            'type' => 'string',
+            'format' => 'uri',
+            'context' => ['edit'],
+            'readonly' => true,
         ];
 
         $this->schema = $schema;
@@ -362,18 +362,17 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
      *
      * From wp-admin/post.php.
      *
-     * @since 5.0.0
+     * @param array $post_data Associative array containing the post data.
+     * @param array $meta Associative array containing the post meta data.
+     * @return mixed The autosave revision ID or WP_Error.
      * @since 6.4.0 The `$meta` parameter was added.
      *
-     * @param array $post_data Associative array containing the post data.
-     * @param array $meta      Associative array containing the post meta data.
-     * @return mixed The autosave revision ID or WP_Error.
+     * @since 5.0.0
      */
     public function create_post_autosave($post_data, array $meta = [])
     {
-
-        $post_id = (int) $post_data['ID'];
-        $post    = get_post($post_id);
+        $post_id = (int)$post_data['ID'];
+        $post = get_post($post_id);
 
         if (is_wp_error($post)) {
             return $post;
@@ -381,7 +380,7 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
 
         // Only create an autosave when it is different from the saved post.
         $autosave_is_different = false;
-        $new_autosave          = _wp_post_revision_data($post_data, true);
+        $new_autosave = _wp_post_revision_data($post_data, true);
 
         foreach (array_intersect(array_keys($new_autosave), array_keys(_wp_post_revision_fields($post))) as $field) {
             if (normalize_whitespace($new_autosave[$field]) !== normalize_whitespace($post->$field)) {
@@ -391,7 +390,7 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
         }
 
         // Check if meta values have changed.
-        if (! empty($meta)) {
+        if (!empty($meta)) {
             $revisioned_meta_keys = wp_post_revision_meta_keys($post->post_type);
             foreach ($revisioned_meta_keys as $meta_key) {
                 // get_metadata_raw is used to avoid retrieving the default value.
@@ -410,13 +409,13 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
         // Store one autosave per author. If there is already an autosave, overwrite it.
         $old_autosave = wp_get_post_autosave($post_id, $user_id);
 
-        if (! $autosave_is_different && $old_autosave) {
+        if (!$autosave_is_different && $old_autosave) {
             // Nothing to save, return the existing autosave.
             return $old_autosave->ID;
         }
 
         if ($old_autosave) {
-            $new_autosave['ID']          = $old_autosave->ID;
+            $new_autosave['ID'] = $old_autosave->ID;
             $new_autosave['post_author'] = $user_id;
 
             /** This filter is documented in wp-admin/post.php */
@@ -434,7 +433,7 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
         }
 
         // Attached any passed meta values that have revisions enabled.
-        if (! empty($meta)) {
+        if (!empty($meta)) {
             foreach ($revisioned_meta_keys as $meta_key) {
                 if (isset($meta[$meta_key])) {
                     update_metadata('post', $revision_id, $meta_key, wp_slash($meta[$meta_key]));
@@ -448,12 +447,12 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
     /**
      * Prepares the revision for the REST response.
      *
-     * @since 5.0.0
-     * @since 5.9.0 Renamed `$post` to `$item` to match parent class for PHP 8 named parameter support.
-     *
-     * @param WP_Post         $item    Post revision object.
+     * @param WP_Post $item Post revision object.
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response Response object.
+     * @since 5.9.0 Renamed `$post` to `$item` to match parent class for PHP 8 named parameter support.
+     *
+     * @since 5.0.0
      */
     public function prepare_item_for_response($item, $request)
     {
@@ -461,22 +460,22 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
         $post = $item;
 
         $response = $this->revisions_controller->prepare_item_for_response($post, $request);
-        $fields   = $this->get_fields_for_response($request);
+        $fields = $this->get_fields_for_response($request);
 
         if (in_array('preview_link', $fields, true)) {
-            $parent_id          = wp_is_post_autosave($post);
-            $preview_post_id    = false === $parent_id ? $post->ID : $parent_id;
+            $parent_id = wp_is_post_autosave($post);
+            $preview_post_id = false === $parent_id ? $post->ID : $parent_id;
             $preview_query_args = [];
 
             if (false !== $parent_id) {
-                $preview_query_args['preview_id']    = $parent_id;
+                $preview_query_args['preview_id'] = $parent_id;
                 $preview_query_args['preview_nonce'] = wp_create_nonce('post_preview_' . $parent_id);
             }
 
             $response->data['preview_link'] = get_preview_post_link($preview_post_id, $preview_query_args);
         }
 
-        $context        = ! empty($request['context']) ? $request['context'] : 'view';
+        $context = !empty($request['context']) ? $request['context'] : 'view';
         $response->data = $this->add_additional_fields_to_object($response->data, $request);
         $response->data = $this->filter_response_by_context($response->data, $context);
 
@@ -485,11 +484,11 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
          *
          * Allows modification of the revision right before it is returned.
          *
+         * @param WP_REST_Response $response The response object.
+         * @param WP_Post $post The original revision object.
+         * @param WP_REST_Request $request Request used to generate the response.
          * @since 5.0.0
          *
-         * @param WP_REST_Response $response The response object.
-         * @param WP_Post          $post     The original revision object.
-         * @param WP_REST_Request  $request  Request used to generate the response.
          */
         return apply_filters('rest_prepare_autosave', $response, $post, $request);
     }
@@ -497,9 +496,9 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
     /**
      * Retrieves the query params for the autosaves collection.
      *
+     * @return array Collection parameters.
      * @since 5.0.0
      *
-     * @return array Collection parameters.
      */
     public function get_collection_params()
     {

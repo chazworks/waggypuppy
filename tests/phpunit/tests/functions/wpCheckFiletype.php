@@ -18,9 +18,9 @@ class Tests_Functions_WpCheckFiletype extends WP_UnitTestCase
      *
      * @dataProvider data_wp_check_filetype
      *
-     * @param string     $filename   The filename to check.
-     * @param array|null $mimes      An array of MIME types, or null.
-     * @param array      $expected   An array containing the expected extension and MIME type.
+     * @param string $filename The filename to check.
+     * @param array|null $mimes An array of MIME types, or null.
+     * @param array $expected An array containing the expected extension and MIME type.
      */
     public function test_wp_check_filetype($filename, $mimes, $expected)
     {
@@ -35,76 +35,76 @@ class Tests_Functions_WpCheckFiletype extends WP_UnitTestCase
     public function data_wp_check_filetype()
     {
         return [
-            '.jpg filename and default allowed'       => [
+            '.jpg filename and default allowed' => [
                 'filename' => 'canola.jpg',
-                'mimes'    => null,
+                'mimes' => null,
                 'expected' => [
-                    'ext'  => 'jpg',
+                    'ext' => 'jpg',
                     'type' => 'image/jpeg',
                 ],
             ],
-            '.jpg filename and jpg|jpeg|jpe'          => [
+            '.jpg filename and jpg|jpeg|jpe' => [
                 'filename' => 'canola.jpg',
-                'mimes'    => [
+                'mimes' => [
                     'jpg|jpeg|jpe' => 'image/jpeg',
-                    'gif'          => 'image/gif',
+                    'gif' => 'image/gif',
                 ],
                 'expected' => [
-                    'ext'  => 'jpg',
+                    'ext' => 'jpg',
                     'type' => 'image/jpeg',
                 ],
             ],
-            '.jpeg filename and jpg|jpeg|jpe'         => [
+            '.jpeg filename and jpg|jpeg|jpe' => [
                 'filename' => 'canola.jpeg',
-                'mimes'    => [
+                'mimes' => [
                     'jpg|jpeg|jpe' => 'image/jpeg',
-                    'gif'          => 'image/gif',
+                    'gif' => 'image/gif',
                 ],
                 'expected' => [
-                    'ext'  => 'jpeg',
+                    'ext' => 'jpeg',
                     'type' => 'image/jpeg',
                 ],
             ],
-            '.jpe filename and jpg|jpeg|jpe'          => [
+            '.jpe filename and jpg|jpeg|jpe' => [
                 'filename' => 'canola.jpe',
-                'mimes'    => [
+                'mimes' => [
                     'jpg|jpeg|jpe' => 'image/jpeg',
-                    'gif'          => 'image/gif',
+                    'gif' => 'image/gif',
                 ],
                 'expected' => [
-                    'ext'  => 'jpe',
+                    'ext' => 'jpe',
                     'type' => 'image/jpeg',
                 ],
             ],
-            'uppercase filename and jpg|jpeg|jpe'     => [
+            'uppercase filename and jpg|jpeg|jpe' => [
                 'filename' => 'canola.JPG',
-                'mimes'    => [
+                'mimes' => [
                     'jpg|jpeg|jpe' => 'image/jpeg',
-                    'gif'          => 'image/gif',
+                    'gif' => 'image/gif',
                 ],
                 'expected' => [
-                    'ext'  => 'JPG',
+                    'ext' => 'JPG',
                     'type' => 'image/jpeg',
                 ],
             ],
             '.XXX filename and no matching MIME type' => [
                 'filename' => 'canola.XXX',
-                'mimes'    => [
+                'mimes' => [
                     'jpg|jpeg|jpe' => 'image/jpeg',
-                    'gif'          => 'image/gif',
-                ],
-                'expected' => [
-                    'ext'  => false,
-                    'type' => false,
-                ],
-            ],
-            '.jpg filename but only gif allowed'      => [
-                'filename' => 'canola.jpg',
-                'mimes'    => [
                     'gif' => 'image/gif',
                 ],
                 'expected' => [
-                    'ext'  => false,
+                    'ext' => false,
+                    'type' => false,
+                ],
+            ],
+            '.jpg filename but only gif allowed' => [
+                'filename' => 'canola.jpg',
+                'mimes' => [
+                    'gif' => 'image/gif',
+                ],
+                'expected' => [
+                    'ext' => false,
                     'type' => false,
                 ],
             ],

@@ -50,11 +50,11 @@ class WP_Term_Query
      * @var array
      */
     protected $sql_clauses = [
-        'select'  => '',
-        'from'    => '',
-        'where'   => [],
+        'select' => '',
+        'from' => '',
+        'where' => [],
         'orderby' => '',
-        'limits'  => '',
+        'limits' => '',
     ];
 
     /**
@@ -86,22 +86,14 @@ class WP_Term_Query
      *
      * Sets up the term query, based on the query vars passed.
      *
-     * @since 4.6.0
-     * @since 4.6.0 Introduced 'term_taxonomy_id' parameter.
-     * @since 4.7.0 Introduced 'object_ids' parameter.
-     * @since 4.9.0 Added 'slug__in' support for 'orderby'.
-     * @since 5.1.0 Introduced the 'meta_compare_key' parameter.
-     * @since 5.3.0 Introduced the 'meta_type_key' parameter.
-     * @since 6.4.0 Introduced the 'cache_results' parameter.
-     *
      * @param string|array $query {
      *     Optional. Array or query string of term query parameters. Default empty.
      *
-     *     @type string|string[] $taxonomy               Taxonomy name, or array of taxonomy names, to which results
+     * @type string|string[] $taxonomy Taxonomy name, or array of taxonomy names, to which results
      *                                                   should be limited.
-     *     @type int|int[]       $object_ids             Object ID, or array of object IDs. Results will be
+     * @type int|int[] $object_ids Object ID, or array of object IDs. Results will be
      *                                                   limited to terms associated with these objects.
-     *     @type string          $orderby                Field(s) to order terms by. Accepts:
+     * @type string $orderby Field(s) to order terms by. Accepts:
      *                                                   - Term fields ('name', 'slug', 'term_group', 'term_id', 'id',
      *                                                     'description', 'parent', 'term_order'). Unless `$object_ids`
      *                                                     is not empty, 'term_order' is treated the same as 'term_id'.
@@ -114,25 +106,25 @@ class WP_Term_Query
      *                                                   - The array keys of `$meta_query`.
      *                                                   - 'none' to omit the ORDER BY clause.
      *                                                   Default 'name'.
-     *     @type string          $order                  Whether to order terms in ascending or descending order.
+     * @type string $order Whether to order terms in ascending or descending order.
      *                                                   Accepts 'ASC' (ascending) or 'DESC' (descending).
      *                                                   Default 'ASC'.
-     *     @type bool|int        $hide_empty             Whether to hide terms not assigned to any posts. Accepts
+     * @type bool|int $hide_empty Whether to hide terms not assigned to any posts. Accepts
      *                                                   1|true or 0|false. Default 1|true.
-     *     @type int[]|string    $include                Array or comma/space-separated string of term IDs to include.
+     * @type int[]|string $include Array or comma/space-separated string of term IDs to include.
      *                                                   Default empty array.
-     *     @type int[]|string    $exclude                Array or comma/space-separated string of term IDs to exclude.
+     * @type int[]|string $exclude Array or comma/space-separated string of term IDs to exclude.
      *                                                   If `$include` is non-empty, `$exclude` is ignored.
      *                                                   Default empty array.
-     *     @type int[]|string    $exclude_tree           Array or comma/space-separated string of term IDs to exclude
+     * @type int[]|string $exclude_tree Array or comma/space-separated string of term IDs to exclude
      *                                                   along with all of their descendant terms. If `$include` is
      *                                                   non-empty, `$exclude_tree` is ignored. Default empty array.
-     *     @type int|string      $number                 Maximum number of terms to return. Accepts ''|0 (all) or any
+     * @type int|string $number Maximum number of terms to return. Accepts ''|0 (all) or any
      *                                                   positive number. Default ''|0 (all). Note that `$number` may
      *                                                   not return accurate results when coupled with `$object_ids`.
      *                                                   See #41796 for details.
-     *     @type int             $offset                 The number by which to offset the terms query. Default empty.
-     *     @type string          $fields                 Term fields to query for. Accepts:
+     * @type int $offset The number by which to offset the terms query. Default empty.
+     * @type string $fields Term fields to query for. Accepts:
      *                                                   - 'all' Returns an array of complete term objects (`WP_Term[]`).
      *                                                   - 'all_with_object_id' Returns an array of term objects
      *                                                     with the 'object_id' param (`WP_Term[]`). Works only
@@ -149,91 +141,99 @@ class WP_Term_Query
      *                                                   - 'id=>slug' Returns an associative array of term slugs,
      *                                                      keyed by term ID (`string[]`).
      *                                                   Default 'all'.
-     *     @type bool            $count                  Whether to return a term count. If true, will take precedence
+     * @type bool $count Whether to return a term count. If true, will take precedence
      *                                                   over `$fields`. Default false.
-     *     @type string|string[] $name                   Name or array of names to return term(s) for.
+     * @type string|string[] $name Name or array of names to return term(s) for.
      *                                                   Default empty.
-     *     @type string|string[] $slug                   Slug or array of slugs to return term(s) for.
+     * @type string|string[] $slug Slug or array of slugs to return term(s) for.
      *                                                   Default empty.
-     *     @type int|int[]       $term_taxonomy_id       Term taxonomy ID, or array of term taxonomy IDs,
+     * @type int|int[] $term_taxonomy_id Term taxonomy ID, or array of term taxonomy IDs,
      *                                                   to match when querying terms.
-     *     @type bool            $hierarchical           Whether to include terms that have non-empty descendants
+     * @type bool $hierarchical Whether to include terms that have non-empty descendants
      *                                                   (even if `$hide_empty` is set to true). Default true.
-     *     @type string          $search                 Search criteria to match terms. Will be SQL-formatted with
+     * @type string $search Search criteria to match terms. Will be SQL-formatted with
      *                                                   wildcards before and after. Default empty.
-     *     @type string          $name__like             Retrieve terms with criteria by which a term is LIKE
+     * @type string $name__like Retrieve terms with criteria by which a term is LIKE
      *                                                   `$name__like`. Default empty.
-     *     @type string          $description__like      Retrieve terms where the description is LIKE
+     * @type string $description__like Retrieve terms where the description is LIKE
      *                                                   `$description__like`. Default empty.
-     *     @type bool            $pad_counts             Whether to pad the quantity of a term's children in the
+     * @type bool $pad_counts Whether to pad the quantity of a term's children in the
      *                                                   quantity of each term's "count" object variable.
      *                                                   Default false.
-     *     @type string          $get                    Whether to return terms regardless of ancestry or whether the
+     * @type string $get Whether to return terms regardless of ancestry or whether the
      *                                                   terms are empty. Accepts 'all' or '' (disabled).
      *                                                   Default ''.
-     *     @type int             $child_of               Term ID to retrieve child terms of. If multiple taxonomies
+     * @type int $child_of Term ID to retrieve child terms of. If multiple taxonomies
      *                                                   are passed, `$child_of` is ignored. Default 0.
-     *     @type int             $parent                 Parent term ID to retrieve direct-child terms of.
+     * @type int $parent Parent term ID to retrieve direct-child terms of.
      *                                                   Default empty.
-     *     @type bool            $childless              True to limit results to terms that have no children.
+     * @type bool $childless True to limit results to terms that have no children.
      *                                                   This parameter has no effect on non-hierarchical taxonomies.
      *                                                   Default false.
-     *     @type string          $cache_domain           Unique cache key to be produced when this query is stored in
+     * @type string $cache_domain Unique cache key to be produced when this query is stored in
      *                                                   an object cache. Default 'core'.
-     *     @type bool            $cache_results          Whether to cache term information. Default true.
-     *     @type bool            $update_term_meta_cache Whether to prime meta caches for matched terms. Default true.
-     *     @type string|string[] $meta_key               Meta key or keys to filter by.
-     *     @type string|string[] $meta_value             Meta value or values to filter by.
-     *     @type string          $meta_compare           MySQL operator used for comparing the meta value.
+     * @type bool $cache_results Whether to cache term information. Default true.
+     * @type bool $update_term_meta_cache Whether to prime meta caches for matched terms. Default true.
+     * @type string|string[] $meta_key Meta key or keys to filter by.
+     * @type string|string[] $meta_value Meta value or values to filter by.
+     * @type string $meta_compare MySQL operator used for comparing the meta value.
      *                                                   See WP_Meta_Query::__construct() for accepted values and default value.
-     *     @type string          $meta_compare_key       MySQL operator used for comparing the meta key.
+     * @type string $meta_compare_key MySQL operator used for comparing the meta key.
      *                                                   See WP_Meta_Query::__construct() for accepted values and default value.
-     *     @type string          $meta_type              MySQL data type that the meta_value column will be CAST to for comparisons.
+     * @type string $meta_type MySQL data type that the meta_value column will be CAST to for comparisons.
      *                                                   See WP_Meta_Query::__construct() for accepted values and default value.
-     *     @type string          $meta_type_key          MySQL data type that the meta_key column will be CAST to for comparisons.
+     * @type string $meta_type_key MySQL data type that the meta_key column will be CAST to for comparisons.
      *                                                   See WP_Meta_Query::__construct() for accepted values and default value.
-     *     @type array           $meta_query             An associative array of WP_Meta_Query arguments.
+     * @type array $meta_query An associative array of WP_Meta_Query arguments.
      *                                                   See WP_Meta_Query::__construct() for accepted values.
      * }
+     * @since 4.6.0 Introduced 'term_taxonomy_id' parameter.
+     * @since 4.7.0 Introduced 'object_ids' parameter.
+     * @since 4.9.0 Added 'slug__in' support for 'orderby'.
+     * @since 5.1.0 Introduced the 'meta_compare_key' parameter.
+     * @since 5.3.0 Introduced the 'meta_type_key' parameter.
+     * @since 6.4.0 Introduced the 'cache_results' parameter.
+     *
+     * @since 4.6.0
      */
     public function __construct($query = '')
     {
         $this->query_var_defaults = [
-            'taxonomy'               => null,
-            'object_ids'             => null,
-            'orderby'                => 'name',
-            'order'                  => 'ASC',
-            'hide_empty'             => true,
-            'include'                => [],
-            'exclude'                => [],
-            'exclude_tree'           => [],
-            'number'                 => '',
-            'offset'                 => '',
-            'fields'                 => 'all',
-            'count'                  => false,
-            'name'                   => '',
-            'slug'                   => '',
-            'term_taxonomy_id'       => '',
-            'hierarchical'           => true,
-            'search'                 => '',
-            'name__like'             => '',
-            'description__like'      => '',
-            'pad_counts'             => false,
-            'get'                    => '',
-            'child_of'               => 0,
-            'parent'                 => '',
-            'childless'              => false,
-            'cache_domain'           => 'core',
-            'cache_results'          => true,
+            'taxonomy' => null,
+            'object_ids' => null,
+            'orderby' => 'name',
+            'order' => 'ASC',
+            'hide_empty' => true,
+            'include' => [],
+            'exclude' => [],
+            'exclude_tree' => [],
+            'number' => '',
+            'offset' => '',
+            'fields' => 'all',
+            'count' => false,
+            'name' => '',
+            'slug' => '',
+            'term_taxonomy_id' => '',
+            'hierarchical' => true,
+            'search' => '',
+            'name__like' => '',
+            'description__like' => '',
+            'pad_counts' => false,
+            'get' => '',
+            'child_of' => 0,
+            'parent' => '',
+            'childless' => false,
+            'cache_domain' => 'core',
+            'cache_results' => true,
             'update_term_meta_cache' => true,
-            'meta_query'             => '',
-            'meta_key'               => '',
-            'meta_value'             => '',
-            'meta_type'              => '',
-            'meta_compare'           => '',
+            'meta_query' => '',
+            'meta_key' => '',
+            'meta_value' => '',
+            'meta_type' => '',
+            'meta_compare' => '',
         ];
 
-        if (! empty($query)) {
+        if (!empty($query)) {
             $this->query($query);
         }
     }
@@ -241,9 +241,9 @@ class WP_Term_Query
     /**
      * Parse arguments passed to the term query with default query parameters.
      *
+     * @param string|array $query WP_Term_Query arguments. See WP_Term_Query::__construct() for accepted arguments.
      * @since 4.6.0
      *
-     * @param string|array $query WP_Term_Query arguments. See WP_Term_Query::__construct() for accepted arguments.
      */
     public function parse_query($query = '')
     {
@@ -251,17 +251,17 @@ class WP_Term_Query
             $query = $this->query_vars;
         }
 
-        $taxonomies = isset($query['taxonomy']) ? (array) $query['taxonomy'] : null;
+        $taxonomies = isset($query['taxonomy']) ? (array)$query['taxonomy'] : null;
 
         /**
          * Filters the terms query default arguments.
          *
          * Use {@see 'get_terms_args'} to filter the passed arguments.
          *
+         * @param array $defaults An array of default get_terms() arguments.
+         * @param string[] $taxonomies An array of taxonomy names.
          * @since 4.4.0
          *
-         * @param array    $defaults   An array of default get_terms() arguments.
-         * @param string[] $taxonomies An array of taxonomy names.
          */
         $this->query_var_defaults = apply_filters('get_terms_defaults', $this->query_var_defaults, $taxonomies);
 
@@ -271,16 +271,16 @@ class WP_Term_Query
         $query['offset'] = absint($query['offset']);
 
         // 'parent' overrides 'child_of'.
-        if (0 < (int) $query['parent']) {
+        if (0 < (int)$query['parent']) {
             $query['child_of'] = false;
         }
 
         if ('all' === $query['get']) {
-            $query['childless']    = false;
-            $query['child_of']     = 0;
-            $query['hide_empty']   = 0;
+            $query['childless'] = false;
+            $query['child_of'] = 0;
+            $query['hide_empty'] = 0;
             $query['hierarchical'] = false;
-            $query['pad_counts']   = false;
+            $query['pad_counts'] = false;
         }
 
         $query['taxonomy'] = $taxonomies;
@@ -290,9 +290,9 @@ class WP_Term_Query
         /**
          * Fires after term query vars have been parsed.
          *
+         * @param WP_Term_Query $query Current instance of WP_Term_Query.
          * @since 4.6.0
          *
-         * @param WP_Term_Query $query Current instance of WP_Term_Query.
          */
         do_action('parse_term_query', $this);
     }
@@ -303,11 +303,11 @@ class WP_Term_Query
      * The return type varies depending on the value passed to `$args['fields']`. See
      * WP_Term_Query::get_terms() for details.
      *
-     * @since 4.6.0
-     *
      * @param string|array $query Array or URL query string of parameters.
      * @return WP_Term[]|int[]|string[]|string Array of terms, or number of terms as numeric string
      *                                         when 'count' is passed as a query var.
+     * @since 4.6.0
+     *
      */
     public function query($query)
     {
@@ -345,12 +345,12 @@ class WP_Term_Query
      *   - 'ids'
      *   - 'tt_ids'
      *
-     * @since 4.6.0
-     *
-     * @global wpdb $wpdb waggypuppy database abstraction object.
-     *
      * @return WP_Term[]|int[]|string[]|string Array of terms, or number of terms as numeric string
      *                                         when 'count' is passed as a query var.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
+     *
+     * @since 4.6.0
+     *
      */
     public function get_terms()
     {
@@ -366,13 +366,13 @@ class WP_Term_Query
         /**
          * Fires before terms are retrieved.
          *
+         * @param WP_Term_Query $query Current instance of WP_Term_Query (passed by reference).
          * @since 4.6.0
          *
-         * @param WP_Term_Query $query Current instance of WP_Term_Query (passed by reference).
          */
         do_action_ref_array('pre_get_terms', [&$this]);
 
-        $taxonomies = (array) $args['taxonomy'];
+        $taxonomies = (array)$args['taxonomy'];
 
         // Save queries by not crawling the tree in the case of multiple taxes or a flat tax.
         $has_hierarchical_tax = false;
@@ -387,37 +387,37 @@ class WP_Term_Query
             $has_hierarchical_tax = true;
         }
 
-        if (! $has_hierarchical_tax) {
+        if (!$has_hierarchical_tax) {
             $args['hierarchical'] = false;
-            $args['pad_counts']   = false;
+            $args['pad_counts'] = false;
         }
 
         // 'parent' overrides 'child_of'.
-        if (0 < (int) $args['parent']) {
+        if (0 < (int)$args['parent']) {
             $args['child_of'] = false;
         }
 
         if ('all' === $args['get']) {
-            $args['childless']    = false;
-            $args['child_of']     = 0;
-            $args['hide_empty']   = 0;
+            $args['childless'] = false;
+            $args['child_of'] = 0;
+            $args['hide_empty'] = 0;
             $args['hierarchical'] = false;
-            $args['pad_counts']   = false;
+            $args['pad_counts'] = false;
         }
 
         /**
          * Filters the terms query arguments.
          *
+         * @param array $args An array of get_terms() arguments.
+         * @param string[] $taxonomies An array of taxonomy names.
          * @since 3.1.0
          *
-         * @param array    $args       An array of get_terms() arguments.
-         * @param string[] $taxonomies An array of taxonomy names.
          */
         $args = apply_filters('get_terms_args', $args, $taxonomies);
 
         // Avoid the query if the queried parent/child_of term has no descendants.
         $child_of = $args['child_of'];
-        $parent   = $args['parent'];
+        $parent = $args['parent'];
 
         if ($child_of) {
             $_parent = $child_of;
@@ -437,7 +437,7 @@ class WP_Term_Query
                 }
             }
 
-            if (! $in_hierarchy) {
+            if (!$in_hierarchy) {
                 if ('count' === $args['fields']) {
                     return 0;
                 } else {
@@ -474,57 +474,57 @@ class WP_Term_Query
             $args['include'] = [];
         }
 
-        $exclude      = $args['exclude'];
+        $exclude = $args['exclude'];
         $exclude_tree = $args['exclude_tree'];
-        $include      = $args['include'];
+        $include = $args['include'];
 
         $inclusions = '';
-        if (! empty($include)) {
-            $exclude      = '';
+        if (!empty($include)) {
+            $exclude = '';
             $exclude_tree = '';
-            $inclusions   = implode(',', wp_parse_id_list($include));
+            $inclusions = implode(',', wp_parse_id_list($include));
         }
 
-        if (! empty($inclusions)) {
+        if (!empty($inclusions)) {
             $this->sql_clauses['where']['inclusions'] = 't.term_id IN ( ' . $inclusions . ' )';
         }
 
         $exclusions = [];
-        if (! empty($exclude_tree)) {
-            $exclude_tree      = wp_parse_id_list($exclude_tree);
+        if (!empty($exclude_tree)) {
+            $exclude_tree = wp_parse_id_list($exclude_tree);
             $excluded_children = $exclude_tree;
 
             foreach ($exclude_tree as $extrunk) {
                 $excluded_children = array_merge(
                     $excluded_children,
-                    (array) get_terms(
+                    (array)get_terms(
                         [
-                            'taxonomy'   => reset($taxonomies),
-                            'child_of'   => (int) $extrunk,
-                            'fields'     => 'ids',
+                            'taxonomy' => reset($taxonomies),
+                            'child_of' => (int)$extrunk,
+                            'fields' => 'ids',
                             'hide_empty' => 0,
-                        ]
-                    )
+                        ],
+                    ),
                 );
             }
 
             $exclusions = array_merge($excluded_children, $exclusions);
         }
 
-        if (! empty($exclude)) {
+        if (!empty($exclude)) {
             $exclusions = array_merge(wp_parse_id_list($exclude), $exclusions);
         }
 
         // 'childless' terms are those without an entry in the flattened term hierarchy.
-        $childless = (bool) $args['childless'];
+        $childless = (bool)$args['childless'];
         if ($childless) {
             foreach ($taxonomies as $_tax) {
                 $term_hierarchy = _get_term_hierarchy($_tax);
-                $exclusions     = array_merge(array_keys($term_hierarchy), $exclusions);
+                $exclusions = array_merge(array_keys($term_hierarchy), $exclusions);
             }
         }
 
-        if (! empty($exclusions)) {
+        if (!empty($exclusions)) {
             $exclusions = 't.term_id NOT IN (' . implode(',', array_map('intval', $exclusions)) . ')';
         } else {
             $exclusions = '';
@@ -533,15 +533,15 @@ class WP_Term_Query
         /**
          * Filters the terms to exclude from the terms query.
          *
+         * @param string $exclusions `NOT IN` clause of the terms query.
+         * @param array $args An array of terms query arguments.
+         * @param string[] $taxonomies An array of taxonomy names.
          * @since 2.3.0
          *
-         * @param string   $exclusions `NOT IN` clause of the terms query.
-         * @param array    $args       An array of terms query arguments.
-         * @param string[] $taxonomies An array of taxonomy names.
          */
         $exclusions = apply_filters('list_terms_exclusions', $exclusions, $args, $taxonomies);
 
-        if (! empty($exclusions)) {
+        if (!empty($exclusions)) {
             // Strip leading 'AND'. Must do string manipulation here for backward compatibility with filter.
             $this->sql_clauses['where']['exclusions'] = preg_replace('/^\s*AND\s*/', '', $exclusions);
         }
@@ -549,10 +549,10 @@ class WP_Term_Query
         if ('' === $args['name']) {
             $args['name'] = [];
         } else {
-            $args['name'] = (array) $args['name'];
+            $args['name'] = (array)$args['name'];
         }
 
-        if (! empty($args['name'])) {
+        if (!empty($args['name'])) {
             $names = $args['name'];
 
             foreach ($names as &$_name) {
@@ -566,10 +566,10 @@ class WP_Term_Query
         if ('' === $args['slug']) {
             $args['slug'] = [];
         } else {
-            $args['slug'] = array_map('sanitize_title', (array) $args['slug']);
+            $args['slug'] = array_map('sanitize_title', (array)$args['slug']);
         }
 
-        if (! empty($args['slug'])) {
+        if (!empty($args['slug'])) {
             $slug = implode("', '", $args['slug']);
 
             $this->sql_clauses['where']['slug'] = "t.slug IN ('" . $slug . "')";
@@ -578,36 +578,36 @@ class WP_Term_Query
         if ('' === $args['term_taxonomy_id']) {
             $args['term_taxonomy_id'] = [];
         } else {
-            $args['term_taxonomy_id'] = array_map('intval', (array) $args['term_taxonomy_id']);
+            $args['term_taxonomy_id'] = array_map('intval', (array)$args['term_taxonomy_id']);
         }
 
-        if (! empty($args['term_taxonomy_id'])) {
+        if (!empty($args['term_taxonomy_id'])) {
             $tt_ids = implode(',', $args['term_taxonomy_id']);
 
             $this->sql_clauses['where']['term_taxonomy_id'] = "tt.term_taxonomy_id IN ({$tt_ids})";
         }
 
-        if (! empty($args['name__like'])) {
+        if (!empty($args['name__like'])) {
             $this->sql_clauses['where']['name__like'] = $wpdb->prepare(
                 't.name LIKE %s',
-                '%' . $wpdb->esc_like($args['name__like']) . '%'
+                '%' . $wpdb->esc_like($args['name__like']) . '%',
             );
         }
 
-        if (! empty($args['description__like'])) {
+        if (!empty($args['description__like'])) {
             $this->sql_clauses['where']['description__like'] = $wpdb->prepare(
                 'tt.description LIKE %s',
-                '%' . $wpdb->esc_like($args['description__like']) . '%'
+                '%' . $wpdb->esc_like($args['description__like']) . '%',
             );
         }
 
         if ('' === $args['object_ids']) {
             $args['object_ids'] = [];
         } else {
-            $args['object_ids'] = array_map('intval', (array) $args['object_ids']);
+            $args['object_ids'] = array_map('intval', (array)$args['object_ids']);
         }
 
-        if (! empty($args['object_ids'])) {
+        if (!empty($args['object_ids'])) {
             $object_ids = implode(', ', $args['object_ids']);
 
             $this->sql_clauses['where']['object_ids'] = "tr.object_id IN ($object_ids)";
@@ -617,12 +617,12 @@ class WP_Term_Query
          * When querying for object relationships, the 'count > 0' check
          * added by 'hide_empty' is superfluous.
          */
-        if (! empty($args['object_ids'])) {
+        if (!empty($args['object_ids'])) {
             $args['hide_empty'] = false;
         }
 
         if ('' !== $parent) {
-            $parent                               = (int) $parent;
+            $parent = (int)$parent;
             $this->sql_clauses['where']['parent'] = "tt.parent = '$parent'";
         }
 
@@ -630,7 +630,7 @@ class WP_Term_Query
         if ('count' === $args['fields']) {
             $hierarchical = false;
         }
-        if ($args['hide_empty'] && ! $hierarchical) {
+        if ($args['hide_empty'] && !$hierarchical) {
             $this->sql_clauses['where']['count'] = 'tt.count > 0';
         }
 
@@ -638,7 +638,7 @@ class WP_Term_Query
         $offset = $args['offset'];
 
         // Don't limit the query results when we have to descend the family tree.
-        if ($number && ! $hierarchical && ! $child_of && '' === $parent) {
+        if ($number && !$hierarchical && !$child_of && '' === $parent) {
             if ($offset) {
                 $limits = 'LIMIT ' . $offset . ',' . $number;
             } else {
@@ -648,39 +648,38 @@ class WP_Term_Query
             $limits = '';
         }
 
-        if (! empty($args['search'])) {
+        if (!empty($args['search'])) {
             $this->sql_clauses['where']['search'] = $this->get_search_sql($args['search']);
         }
 
         // Meta query support.
-        $join     = '';
+        $join = '';
         $distinct = '';
 
         // Reparse meta_query query_vars, in case they were modified in a 'pre_get_terms' callback.
         $this->meta_query->parse_query_vars($this->query_vars);
-        $mq_sql       = $this->meta_query->get_sql('term', 't', 'term_id');
+        $mq_sql = $this->meta_query->get_sql('term', 't', 'term_id');
         $meta_clauses = $this->meta_query->get_clauses();
 
-        if (! empty($meta_clauses)) {
+        if (!empty($meta_clauses)) {
             $join .= $mq_sql['join'];
 
             // Strip leading 'AND'.
             $this->sql_clauses['where']['meta_query'] = preg_replace('/^\s*AND\s*/', '', $mq_sql['where']);
 
             $distinct .= 'DISTINCT';
-
         }
 
         $selects = [];
         switch ($args['fields']) {
             case 'count':
                 $orderby = '';
-                $order   = '';
+                $order = '';
                 $selects = ['COUNT(*)'];
                 break;
             default:
                 $selects = ['t.term_id'];
-                if ('all_with_object_id' === $args['fields'] && ! empty($args['object_ids'])) {
+                if ('all_with_object_id' === $args['fields'] && !empty($args['object_ids'])) {
                     $selects[] = 'tr.object_id';
                 }
                 break;
@@ -698,18 +697,18 @@ class WP_Term_Query
          *
          * Use of this filter can result in unpredictable behavior, and is not recommended.
          *
+         * @param string[] $selects An array of fields to select for the terms query.
+         * @param array $args An array of term query arguments.
+         * @param string[] $taxonomies An array of taxonomy names.
          * @since 2.8.0
          *
-         * @param string[] $selects    An array of fields to select for the terms query.
-         * @param array    $args       An array of term query arguments.
-         * @param string[] $taxonomies An array of taxonomy names.
          */
         $fields = implode(', ', apply_filters('get_terms_fields', $selects, $args, $taxonomies));
 
         $join .= " INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id";
 
-        if (! empty($this->query_vars['object_ids'])) {
-            $join    .= " INNER JOIN {$wpdb->term_relationships} AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id";
+        if (!empty($this->query_vars['object_ids'])) {
+            $join .= " INNER JOIN {$wpdb->term_relationships} AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id";
             $distinct = 'DISTINCT';
         }
 
@@ -720,31 +719,31 @@ class WP_Term_Query
         /**
          * Filters the terms query SQL clauses.
          *
-         * @since 3.1.0
-         *
          * @param string[] $clauses {
          *     Associative array of the clauses for the query.
          *
-         *     @type string $fields   The SELECT clause of the query.
-         *     @type string $join     The JOIN clause of the query.
-         *     @type string $where    The WHERE clause of the query.
-         *     @type string $distinct The DISTINCT clause of the query.
-         *     @type string $orderby  The ORDER BY clause of the query.
-         *     @type string $order    The ORDER clause of the query.
-         *     @type string $limits   The LIMIT clause of the query.
+         * @type string $fields The SELECT clause of the query.
+         * @type string $join The JOIN clause of the query.
+         * @type string $where The WHERE clause of the query.
+         * @type string $distinct The DISTINCT clause of the query.
+         * @type string $orderby The ORDER BY clause of the query.
+         * @type string $order The ORDER clause of the query.
+         * @type string $limits The LIMIT clause of the query.
          * }
          * @param string[] $taxonomies An array of taxonomy names.
-         * @param array    $args       An array of term query arguments.
+         * @param array $args An array of term query arguments.
+         * @since 3.1.0
+         *
          */
         $clauses = apply_filters('terms_clauses', compact($pieces), $taxonomies, $args);
 
-        $fields   = isset($clauses['fields']) ? $clauses['fields'] : '';
-        $join     = isset($clauses['join']) ? $clauses['join'] : '';
-        $where    = isset($clauses['where']) ? $clauses['where'] : '';
+        $fields = isset($clauses['fields']) ? $clauses['fields'] : '';
+        $join = isset($clauses['join']) ? $clauses['join'] : '';
+        $where = isset($clauses['where']) ? $clauses['where'] : '';
         $distinct = isset($clauses['distinct']) ? $clauses['distinct'] : '';
-        $orderby  = isset($clauses['orderby']) ? $clauses['orderby'] : '';
-        $order    = isset($clauses['order']) ? $clauses['order'] : '';
-        $limits   = isset($clauses['limits']) ? $clauses['limits'] : '';
+        $orderby = isset($clauses['orderby']) ? $clauses['orderby'] : '';
+        $order = isset($clauses['order']) ? $clauses['order'] : '';
+        $limits = isset($clauses['limits']) ? $clauses['limits'] : '';
 
         $fields_is_filtered = implode(', ', $selects) !== $fields;
 
@@ -752,10 +751,10 @@ class WP_Term_Query
             $where = "WHERE $where";
         }
 
-        $this->sql_clauses['select']  = "SELECT $distinct $fields";
-        $this->sql_clauses['from']    = "FROM $wpdb->terms AS t $join";
+        $this->sql_clauses['select'] = "SELECT $distinct $fields";
+        $this->sql_clauses['from'] = "FROM $wpdb->terms AS t $join";
         $this->sql_clauses['orderby'] = $orderby ? "$orderby $order" : '';
-        $this->sql_clauses['limits']  = $limits;
+        $this->sql_clauses['limits'] = $limits;
 
         // Beginning of the string is on a new line to prevent leading whitespace. See https://core.trac.wp.org/ticket/56841.
         $this->request =
@@ -772,11 +771,11 @@ class WP_Term_Query
          *
          * Return a non-null value to bypass waggypuppy' default term queries.
          *
-         * @since 5.3.0
-         *
-         * @param array|null    $terms Return an array of term data to short-circuit WP's term query,
+         * @param array|null $terms Return an array of term data to short-circuit WP's term query,
          *                             or null to allow WP queries to run normally.
          * @param WP_Term_Query $query The WP_Term_Query instance, passed by reference.
+         * @since 5.3.0
+         *
          */
         $this->terms = apply_filters_ref_array('terms_pre_query', [$this->terms, &$this]);
 
@@ -786,14 +785,14 @@ class WP_Term_Query
 
         if ($args['cache_results']) {
             $cache_key = $this->generate_cache_key($args, $this->request);
-            $cache     = wp_cache_get($cache_key, 'term-queries');
+            $cache = wp_cache_get($cache_key, 'term-queries');
 
             if (false !== $cache) {
                 if ('ids' === $_fields) {
                     $cache = array_map('intval', $cache);
                 } elseif ('count' !== $_fields) {
-                    if (('all_with_object_id' === $_fields && ! empty($args['object_ids']))
-                    || ('all' === $_fields && $args['pad_counts'] || $fields_is_filtered)
+                    if (('all_with_object_id' === $_fields && !empty($args['object_ids']))
+                        || ('all' === $_fields && $args['pad_counts'] || $fields_is_filtered)
                     ) {
                         $term_ids = wp_list_pluck($cache, 'term_id');
                     } else {
@@ -803,7 +802,7 @@ class WP_Term_Query
                     _prime_term_caches($term_ids, $args['update_term_meta_cache']);
 
                     $term_objects = $this->populate_terms($cache);
-                    $cache        = $this->format_terms($term_objects, $_fields);
+                    $cache = $this->format_terms($term_objects, $_fields);
                 }
 
                 $this->terms = $cache;
@@ -835,7 +834,7 @@ class WP_Term_Query
         if ($child_of) {
             foreach ($taxonomies as $_tax) {
                 $children = _get_term_hierarchy($_tax);
-                if (! empty($children)) {
+                if (!empty($children)) {
                     $term_objects = _get_term_children($child_of, $term_objects, $_tax);
                 }
             }
@@ -851,7 +850,7 @@ class WP_Term_Query
         // Make sure we show empty categories that have children.
         if ($hierarchical && $args['hide_empty'] && is_array($term_objects)) {
             foreach ($term_objects as $k => $term) {
-                if (! $term->count) {
+                if (!$term->count) {
                     $children = get_term_children($term->term_id, $term->taxonomy);
 
                     if (is_array($children)) {
@@ -884,21 +883,21 @@ class WP_Term_Query
             wp_lazyload_term_meta($term_ids);
         }
 
-        if ('all_with_object_id' === $_fields && ! empty($args['object_ids'])) {
+        if ('all_with_object_id' === $_fields && !empty($args['object_ids'])) {
             $term_cache = [];
             foreach ($term_objects as $term) {
-                $object            = new stdClass();
-                $object->term_id   = $term->term_id;
+                $object = new stdClass();
+                $object->term_id = $term->term_id;
                 $object->object_id = $term->object_id;
-                $term_cache[]      = $object;
+                $term_cache[] = $object;
             }
         } elseif ('all' === $_fields && $args['pad_counts']) {
             $term_cache = [];
             foreach ($term_objects as $term) {
-                $object          = new stdClass();
+                $object = new stdClass();
                 $object->term_id = $term->term_id;
-                $object->count   = $term->count;
-                $term_cache[]    = $object;
+                $object->count = $term->count;
+                $term_cache[] = $object;
             }
         } elseif ($fields_is_filtered) {
             $term_cache = $term_objects;
@@ -918,14 +917,14 @@ class WP_Term_Query
     /**
      * Parse and sanitize 'orderby' keys passed to the term query.
      *
-     * @since 4.6.0
-     *
      * @param string $orderby_raw Alias for the field to order by.
      * @return string|false Value to used in the ORDER clause. False otherwise.
+     * @since 4.6.0
+     *
      */
     protected function parse_orderby($orderby_raw)
     {
-        $_orderby           = strtolower($orderby_raw);
+        $_orderby = strtolower($orderby_raw);
         $maybe_orderby_meta = false;
 
         if (in_array($_orderby, ['term_id', 'name', 'slug', 'term_group'], true)) {
@@ -934,11 +933,13 @@ class WP_Term_Query
             $orderby = "tt.$_orderby";
         } elseif ('term_order' === $_orderby) {
             $orderby = 'tr.term_order';
-        } elseif ('include' === $_orderby && ! empty($this->query_vars['include'])) {
+        } elseif ('include' === $_orderby && !empty($this->query_vars['include'])) {
             $include = implode(',', wp_parse_id_list($this->query_vars['include']));
             $orderby = "FIELD( t.term_id, $include )";
-        } elseif ('slug__in' === $_orderby && ! empty($this->query_vars['slug']) && is_array($this->query_vars['slug'])) {
-            $slugs   = implode("', '", array_map('sanitize_title_for_query', $this->query_vars['slug']));
+        } elseif ('slug__in' === $_orderby
+            && !empty($this->query_vars['slug'])
+            && is_array($this->query_vars['slug'])) {
+            $slugs = implode("', '", array_map('sanitize_title_for_query', $this->query_vars['slug']));
             $orderby = "FIELD( t.slug, '" . $slugs . "')";
         } elseif ('none' === $_orderby) {
             $orderby = '';
@@ -954,11 +955,11 @@ class WP_Term_Query
         /**
          * Filters the ORDERBY clause of the terms query.
          *
+         * @param string $orderby `ORDERBY` clause of the terms query.
+         * @param array $args An array of term query arguments.
+         * @param string[] $taxonomies An array of taxonomy names.
          * @since 2.8.0
          *
-         * @param string   $orderby    `ORDERBY` clause of the terms query.
-         * @param array    $args       An array of term query arguments.
-         * @param string[] $taxonomies An array of taxonomy names.
          */
         $orderby = apply_filters('get_terms_orderby', $orderby, $this->query_vars, $this->query_vars['taxonomy']);
 
@@ -976,12 +977,12 @@ class WP_Term_Query
     /**
      * Format response depending on field requested.
      *
-     * @since 6.0.0
-     *
      * @param WP_Term[] $term_objects Array of term objects.
-     * @param string    $_fields      Field to format.
+     * @param string $_fields Field to format.
      *
      * @return WP_Term[]|int[]|string[] Array of terms / strings / ints depending on field requested.
+     * @since 6.0.0
+     *
      */
     protected function format_terms($term_objects, $_fields)
     {
@@ -992,11 +993,11 @@ class WP_Term_Query
             }
         } elseif ('ids' === $_fields) {
             foreach ($term_objects as $term) {
-                $_terms[] = (int) $term->term_id;
+                $_terms[] = (int)$term->term_id;
             }
         } elseif ('tt_ids' === $_fields) {
             foreach ($term_objects as $term) {
-                $_terms[] = (int) $term->term_taxonomy_id;
+                $_terms[] = (int)$term->term_taxonomy_id;
             }
         } elseif ('names' === $_fields) {
             foreach ($term_objects as $term) {
@@ -1024,10 +1025,10 @@ class WP_Term_Query
     /**
      * Generate the ORDER BY clause for an 'orderby' param that is potentially related to a meta query.
      *
-     * @since 4.6.0
-     *
      * @param string $orderby_raw Raw 'orderby' value passed to WP_Term_Query.
      * @return string ORDER BY clause.
+     * @since 4.6.0
+     *
      */
     protected function parse_orderby_meta($orderby_raw)
     {
@@ -1036,29 +1037,29 @@ class WP_Term_Query
         // Tell the meta query to generate its SQL, so we have access to table aliases.
         $this->meta_query->get_sql('term', 't', 'term_id');
         $meta_clauses = $this->meta_query->get_clauses();
-        if (! $meta_clauses || ! $orderby_raw) {
+        if (!$meta_clauses || !$orderby_raw) {
             return $orderby;
         }
 
-        $allowed_keys       = [];
-        $primary_meta_key   = null;
+        $allowed_keys = [];
+        $primary_meta_key = null;
         $primary_meta_query = reset($meta_clauses);
-        if (! empty($primary_meta_query['key'])) {
+        if (!empty($primary_meta_query['key'])) {
             $primary_meta_key = $primary_meta_query['key'];
-            $allowed_keys[]   = $primary_meta_key;
+            $allowed_keys[] = $primary_meta_key;
         }
         $allowed_keys[] = 'meta_value';
         $allowed_keys[] = 'meta_value_num';
-        $allowed_keys   = array_merge($allowed_keys, array_keys($meta_clauses));
+        $allowed_keys = array_merge($allowed_keys, array_keys($meta_clauses));
 
-        if (! in_array($orderby_raw, $allowed_keys, true)) {
+        if (!in_array($orderby_raw, $allowed_keys, true)) {
             return $orderby;
         }
 
         switch ($orderby_raw) {
             case $primary_meta_key:
             case 'meta_value':
-                if (! empty($primary_meta_query['type'])) {
+                if (!empty($primary_meta_query['type'])) {
                     $orderby = "CAST({$primary_meta_query['alias']}.meta_value AS {$primary_meta_query['cast']})";
                 } else {
                     $orderby = "{$primary_meta_query['alias']}.meta_value";
@@ -1073,7 +1074,7 @@ class WP_Term_Query
                 if (array_key_exists($orderby_raw, $meta_clauses)) {
                     // $orderby corresponds to a meta_query clause.
                     $meta_clause = $meta_clauses[$orderby_raw];
-                    $orderby     = "CAST({$meta_clause['alias']}.meta_value AS {$meta_clause['cast']})";
+                    $orderby = "CAST({$meta_clause['alias']}.meta_value AS {$meta_clause['cast']})";
                 }
                 break;
         }
@@ -1084,14 +1085,14 @@ class WP_Term_Query
     /**
      * Parse an 'order' query variable and cast it to ASC or DESC as necessary.
      *
-     * @since 4.6.0
-     *
      * @param string $order The 'order' query variable.
      * @return string The sanitized 'order' query variable.
+     * @since 4.6.0
+     *
      */
     protected function parse_order($order)
     {
-        if (! is_string($order) || empty($order)) {
+        if (!is_string($order) || empty($order)) {
             return 'DESC';
         }
 
@@ -1105,12 +1106,12 @@ class WP_Term_Query
     /**
      * Used internally to generate a SQL string related to the 'search' parameter.
      *
+     * @param string $search Search string.
+     * @return string Search SQL.
      * @since 4.6.0
      *
      * @global wpdb $wpdb waggypuppy database abstraction object.
      *
-     * @param string $search Search string.
-     * @return string Search SQL.
      */
     protected function get_search_sql($search)
     {
@@ -1126,15 +1127,15 @@ class WP_Term_Query
      *
      * Also discards invalid term objects.
      *
-     * @since 4.9.8
-     *
      * @param Object[]|int[] $terms List of objects or term ids.
      * @return WP_Term[] Array of `WP_Term` objects.
+     * @since 4.9.8
+     *
      */
     protected function populate_terms($terms)
     {
         $term_objects = [];
-        if (! is_array($terms)) {
+        if (!is_array($terms)) {
             return $term_objects;
         }
 
@@ -1142,10 +1143,10 @@ class WP_Term_Query
             if (is_object($term_data) && property_exists($term_data, 'term_id')) {
                 $term = get_term($term_data->term_id);
                 if (property_exists($term_data, 'object_id')) {
-                    $term->object_id = (int) $term_data->object_id;
+                    $term->object_id = (int)$term_data->object_id;
                 }
                 if (property_exists($term_data, 'count')) {
-                    $term->count = (int) $term_data->count;
+                    $term->count = (int)$term_data->count;
                 }
             } else {
                 $term = get_term($term_data);
@@ -1162,14 +1163,14 @@ class WP_Term_Query
     /**
      * Generate cache key.
      *
-     * @since 6.2.0
-     *
-     * @global wpdb $wpdb waggypuppy database abstraction object.
-     *
-     * @param array  $args WP_Term_Query arguments.
-     * @param string $sql  SQL statement.
+     * @param array $args WP_Term_Query arguments.
+     * @param string $sql SQL statement.
      *
      * @return string Cache key.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
+     *
+     * @since 6.2.0
+     *
      */
     protected function generate_cache_key(array $args, $sql)
     {
@@ -1186,7 +1187,7 @@ class WP_Term_Query
         // Replace wpdb placeholder in the SQL statement used by the cache key.
         $sql = $wpdb->remove_placeholder_escape($sql);
 
-        $key          = md5(serialize($cache_args) . $sql);
+        $key = md5(serialize($cache_args) . $sql);
         $last_changed = wp_cache_get_last_changed('terms');
         return "get_terms:$key:$last_changed";
     }

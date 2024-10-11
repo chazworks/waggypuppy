@@ -72,16 +72,16 @@ class Tests_Date_GetPostTime extends WP_UnitTestCase
         $timezone = 'Europe/Helsinki';
         update_option('timezone_string', $timezone);
 
-        $datetime     = new DateTimeImmutable('now', new DateTimeZone($timezone));
-        $mysql        = $datetime->format('Y-m-d H:i:s');
-        $timestamp    = $datetime->getTimestamp();
+        $datetime = new DateTimeImmutable('now', new DateTimeZone($timezone));
+        $mysql = $datetime->format('Y-m-d H:i:s');
+        $timestamp = $datetime->getTimestamp();
         $wp_timestamp = $datetime->getTimestamp() + $datetime->getOffset();
 
         $post_id = self::factory()->post->create(
             [
-                'post_date'     => $mysql,
+                'post_date' => $mysql,
                 'post_modified' => $mysql,
-            ]
+            ],
         );
 
         $this->assertSame($wp_timestamp, get_post_time('U', false, $post_id));
@@ -102,15 +102,15 @@ class Tests_Date_GetPostTime extends WP_UnitTestCase
         $timezone = 'Europe/Helsinki';
         update_option('timezone_string', $timezone);
 
-        $datetime    = new DateTimeImmutable('now', new DateTimeZone($timezone));
-        $mysql       = $datetime->format('Y-m-d H:i:s');
-        $rfc3339     = $datetime->format(DATE_RFC3339);
+        $datetime = new DateTimeImmutable('now', new DateTimeZone($timezone));
+        $mysql = $datetime->format('Y-m-d H:i:s');
+        $rfc3339 = $datetime->format(DATE_RFC3339);
         $rfc3339_utc = $datetime->setTimezone(new DateTimeZone('UTC'))->format(DATE_RFC3339);
-        $post_id     = self::factory()->post->create(
+        $post_id = self::factory()->post->create(
             [
-                'post_date'     => $mysql,
+                'post_date' => $mysql,
                 'post_modified' => $mysql,
-            ]
+            ],
         );
 
         $this->assertSame($rfc3339, get_post_time(DATE_RFC3339, false, $post_id));
@@ -132,13 +132,13 @@ class Tests_Date_GetPostTime extends WP_UnitTestCase
         update_option('timezone_string', $timezone);
 
         $datetime = new DateTimeImmutable('now', new DateTimeZone($timezone));
-        $mysql    = $datetime->format('Y-m-d H:i:s');
-        $rfc3339  = $datetime->format(DATE_RFC3339);
-        $post_id  = self::factory()->post->create(
+        $mysql = $datetime->format('Y-m-d H:i:s');
+        $rfc3339 = $datetime->format(DATE_RFC3339);
+        $post_id = self::factory()->post->create(
             [
-                'post_date'     => $mysql,
+                'post_date' => $mysql,
                 'post_modified' => $mysql,
-            ]
+            ],
         );
 
         update_option('timezone_string', 'Europe/Helsinki');

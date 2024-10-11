@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests for methods in WP_Community_Events.
  *
@@ -49,17 +50,17 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
      * Simulates a stored user location.
      *
      * @access private
+     * @return array The mock location.
      * @since 4.8.0
      *
-     * @return array The mock location.
      */
     private function get_user_location()
     {
         return [
             'description' => 'San Francisco',
-            'latitude'    => '37.7749300',
-            'longitude'   => '-122.4194200',
-            'country'     => 'US',
+            'latitude' => '37.7749300',
+            'longitude' => '-122.4194200',
+            'country' => 'US',
         ];
     }
 
@@ -100,19 +101,19 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
     /**
      * Simulates an HTTP response with a non-200 response code.
      *
+     * @return array A mock response with a 404 HTTP status code
      * @since 4.8.0
      *
-     * @return array A mock response with a 404 HTTP status code
      */
     public function _http_request_bad_response_code()
     {
         return [
-            'headers'  => '',
-            'body'     => '',
+            'headers' => '',
+            'body' => '',
             'response' => [
                 'code' => 404,
             ],
-            'cookies'  => '',
+            'cookies' => '',
             'filename' => '',
         ];
     }
@@ -155,19 +156,19 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
     /**
      * Simulates an HTTP response with a body that does not have the required properties.
      *
+     * @return array A mock response that's missing required properties.
      * @since 4.8.0
      *
-     * @return array A mock response that's missing required properties.
      */
     public function _http_request_invalid_response()
     {
         return [
-            'headers'  => '',
-            'body'     => wp_json_encode([]),
+            'headers' => '',
+            'body' => wp_json_encode([]),
             'response' => [
                 'code' => 200,
             ],
-            'cookies'  => '',
+            'cookies' => '',
             'filename' => '',
         ];
     }
@@ -221,24 +222,24 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
     /**
      * Simulates an HTTP response with valid location and event data.
      *
+     * @return array A mock HTTP response with valid data.
      * @since 4.8.0
      *
-     * @return array A mock HTTP response with valid data.
      */
     public function _http_request_valid_response()
     {
         return [
-            'headers'  => '',
-            'body'     => wp_json_encode(
+            'headers' => '',
+            'body' => wp_json_encode(
                 [
                     'location' => $this->get_user_location(),
-                    'events'   => $this->get_valid_events(),
-                ]
+                    'events' => $this->get_valid_events(),
+                ],
             ),
             'response' => [
                 'code' => 200,
             ],
-            'cookies'  => '',
+            'cookies' => '',
             'filename' => '',
         ];
     }
@@ -252,52 +253,52 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
     {
         return [
             [
-                'type'                 => 'meetup',
-                'title'                => 'Flexbox + CSS Grid: Magic for Responsive Layouts',
-                'url'                  => 'https://www.meetup.com/Eastbay-WP-Meetup/events/236031233/',
-                'meetup'               => 'The East Bay WP Meetup Group',
-                'meetup_url'           => 'https://www.meetup.com/Eastbay-WP-Meetup/',
+                'type' => 'meetup',
+                'title' => 'Flexbox + CSS Grid: Magic for Responsive Layouts',
+                'url' => 'https://www.meetup.com/Eastbay-WP-Meetup/events/236031233/',
+                'meetup' => 'The East Bay WP Meetup Group',
+                'meetup_url' => 'https://www.meetup.com/Eastbay-WP-Meetup/',
                 'start_unix_timestamp' => strtotime('next Sunday 1pm'),
-                'end_unix_timestamp'   => strtotime('next Sunday 2pm'),
+                'end_unix_timestamp' => strtotime('next Sunday 2pm'),
 
-                'location'             => [
-                    'location'  => 'Oakland, CA, USA',
-                    'country'   => 'us',
-                    'latitude'  => 37.808453,
+                'location' => [
+                    'location' => 'Oakland, CA, USA',
+                    'country' => 'us',
+                    'latitude' => 37.808453,
                     'longitude' => -122.26593,
                 ],
             ],
 
             [
-                'type'                 => 'meetup',
-                'title'                => 'Part 3- Site Maintenance - Tools to Make It Easy',
-                'url'                  => 'https://www.meetup.com/Wordpress-Bay-Area-CA-Foothills/events/237706839/',
-                'meetup'               => 'WP Bay Area Foothills Group',
-                'meetup_url'           => 'https://www.meetup.com/Wordpress-Bay-Area-CA-Foothills/',
+                'type' => 'meetup',
+                'title' => 'Part 3- Site Maintenance - Tools to Make It Easy',
+                'url' => 'https://www.meetup.com/Wordpress-Bay-Area-CA-Foothills/events/237706839/',
+                'meetup' => 'WP Bay Area Foothills Group',
+                'meetup_url' => 'https://www.meetup.com/Wordpress-Bay-Area-CA-Foothills/',
                 'start_unix_timestamp' => strtotime('next Wednesday 1:30pm'),
-                'end_unix_timestamp'   => strtotime('next Wednesday 2:30pm'),
+                'end_unix_timestamp' => strtotime('next Wednesday 2:30pm'),
 
-                'location'             => [
-                    'location'  => 'Milpitas, CA, USA',
-                    'country'   => 'us',
-                    'latitude'  => 37.432813,
+                'location' => [
+                    'location' => 'Milpitas, CA, USA',
+                    'country' => 'us',
+                    'latitude' => 37.432813,
                     'longitude' => -121.907095,
                 ],
             ],
 
             [
-                'type'                 => 'wordcamp',
-                'title'                => 'WordCamp San Francisco',
-                'url'                  => 'https://sf.wordcamp.org/2020/',
-                'meetup'               => null,
-                'meetup_url'           => null,
+                'type' => 'wordcamp',
+                'title' => 'WordCamp San Francisco',
+                'url' => 'https://sf.wordcamp.org/2020/',
+                'meetup' => null,
+                'meetup_url' => null,
                 'start_unix_timestamp' => strtotime('next Saturday'),
-                'end_unix_timestamp'   => strtotime('next Saturday 8pm'),
+                'end_unix_timestamp' => strtotime('next Saturday 8pm'),
 
-                'location'             => [
-                    'location'  => 'San Francisco, CA',
-                    'country'   => 'US',
-                    'latitude'  => 37.432813,
+                'location' => [
+                    'location' => 'San Francisco, CA',
+                    'country' => 'US',
+                    'latitude' => 37.432813,
                     'longitude' => -121.907095,
                 ],
             ],
@@ -320,11 +321,11 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
 
         // This should be removed because it's already ended.
         $events[0]['start_unix_timestamp'] = strtotime('1 hour ago');
-        $events[0]['end_unix_timestamp']   = strtotime('2 seconds ago');
+        $events[0]['end_unix_timestamp'] = strtotime('2 seconds ago');
 
         // This should remain because it hasn't ended yet.
         $events[1]['start_unix_timestamp'] = strtotime('2 seconds ago');
-        $events[1]['end_unix_timestamp']   = strtotime('+1 hour');
+        $events[1]['end_unix_timestamp'] = strtotime('+1 hour');
 
         $actual = $trim_events->invoke($this->instance, $events);
 
@@ -361,78 +362,78 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
     /**
      * Simulates a scenario where a WordCamp needs to be pinned higher than it's default position.
      *
-     * @since 4.9.7
+     * @return array A list of mock events.
      * @since 5.5.2 Accepts and returns only the events, rather than an entire HTTP response.
      *
-     * @return array A list of mock events.
+     * @since 4.9.7
      */
     public function _events_with_unpinned_wordcamp()
     {
         return [
             [
-                'type'                 => 'meetup',
-                'title'                => 'Flexbox + CSS Grid: Magic for Responsive Layouts',
-                'url'                  => 'https://www.meetup.com/Eastbay-WP-Meetup/events/236031233/',
-                'meetup'               => 'The East Bay WP Meetup Group',
-                'meetup_url'           => 'https://www.meetup.com/Eastbay-WP-Meetup/',
+                'type' => 'meetup',
+                'title' => 'Flexbox + CSS Grid: Magic for Responsive Layouts',
+                'url' => 'https://www.meetup.com/Eastbay-WP-Meetup/events/236031233/',
+                'meetup' => 'The East Bay WP Meetup Group',
+                'meetup_url' => 'https://www.meetup.com/Eastbay-WP-Meetup/',
                 'start_unix_timestamp' => strtotime('next Monday 1pm'),
-                'end_unix_timestamp'   => strtotime('next Monday 2pm'),
+                'end_unix_timestamp' => strtotime('next Monday 2pm'),
 
-                'location'             => [
-                    'location'  => 'Oakland, CA, USA',
-                    'country'   => 'us',
-                    'latitude'  => 37.808453,
+                'location' => [
+                    'location' => 'Oakland, CA, USA',
+                    'country' => 'us',
+                    'latitude' => 37.808453,
                     'longitude' => -122.26593,
                 ],
             ],
 
             [
-                'type'                 => 'meetup',
-                'title'                => 'Part 3- Site Maintenance - Tools to Make It Easy',
-                'url'                  => 'https://www.meetup.com/Wordpress-Bay-Area-CA-Foothills/events/237706839/',
-                'meetup'               => 'WP Bay Area Foothills Group',
-                'meetup_url'           => 'https://www.meetup.com/Wordpress-Bay-Area-CA-Foothills/',
+                'type' => 'meetup',
+                'title' => 'Part 3- Site Maintenance - Tools to Make It Easy',
+                'url' => 'https://www.meetup.com/Wordpress-Bay-Area-CA-Foothills/events/237706839/',
+                'meetup' => 'WP Bay Area Foothills Group',
+                'meetup_url' => 'https://www.meetup.com/Wordpress-Bay-Area-CA-Foothills/',
                 'start_unix_timestamp' => strtotime('next Tuesday 1:30pm'),
-                'end_unix_timestamp'   => strtotime('next Tuesday 2:30pm'),
+                'end_unix_timestamp' => strtotime('next Tuesday 2:30pm'),
 
-                'location'             => [
-                    'location'  => 'Milpitas, CA, USA',
-                    'country'   => 'us',
-                    'latitude'  => 37.432813,
+                'location' => [
+                    'location' => 'Milpitas, CA, USA',
+                    'country' => 'us',
+                    'latitude' => 37.432813,
                     'longitude' => -121.907095,
                 ],
             ],
 
             [
-                'type'                 => 'meetup',
-                'title'                => 'WP Q&A',
-                'url'                  => 'https://www.meetup.com/sanjosewp/events/245419844/',
-                'meetup'               => 'The San Jose WP Meetup',
-                'meetup_url'           => 'https://www.meetup.com/sanjosewp/',
+                'type' => 'meetup',
+                'title' => 'WP Q&A',
+                'url' => 'https://www.meetup.com/sanjosewp/events/245419844/',
+                'meetup' => 'The San Jose WP Meetup',
+                'meetup_url' => 'https://www.meetup.com/sanjosewp/',
                 'start_unix_timestamp' => strtotime('next Wednesday 5:30pm'),
-                'end_unix_timestamp'   => strtotime('next Wednesday 6:30pm'),
+                'end_unix_timestamp' => strtotime('next Wednesday 6:30pm'),
 
-                'location'             => [
-                    'location'  => 'Milpitas, CA, USA',
-                    'country'   => 'us',
-                    'latitude'  => 37.244194,
+                'location' => [
+                    'location' => 'Milpitas, CA, USA',
+                    'country' => 'us',
+                    'latitude' => 37.244194,
                     'longitude' => -121.889313,
                 ],
             ],
 
             [
-                'type'                 => 'wordcamp',
-                'title'                => 'WordCamp San Diego',
-                'url'                  => 'https://2018.sandiego.wordcamp.org',
-                'meetup'               => null,
-                'meetup_url'           => null,
+                'type' => 'wordcamp',
+                'title' => 'WordCamp San Diego',
+                'url' => 'https://2018.sandiego.wordcamp.org',
+                'meetup' => null,
+                'meetup_url' => null,
                 'start_unix_timestamp' => strtotime('next Thursday 9am'),
-                'end_unix_timestamp'   => strtotime('next Thursday 10am'),
+                'end_unix_timestamp' => strtotime('next Thursday 10am'),
 
-                'location'             => [
-                    'location'  => 'San Diego, CA',
-                    'country'   => 'US',
-                    'latitude'  => 32.7220419,
+                'location' => [
+                    'location' => 'San Diego, CA',
+                    'country' => 'US',
+                    'latitude' => 32.7220419,
                     'longitude' => -117.1534513,
                 ],
             ],
@@ -469,95 +470,95 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
      * Simulates a valid HTTP response where a WordCamp needs to be pinned higher than it's default position.
      * no need to pin extra camp b/c one already exists in response
      *
-     * @since 4.9.7
+     * @return array A mock HTTP response.
      * @since 5.5.2 Tests `trim_events()` directly instead of indirectly via `get_events()`.
      *
-     * @return array A mock HTTP response.
+     * @since 4.9.7
      */
     public function _events_with_multiple_wordcamps()
     {
         return [
             [
-                'type'                 => 'meetup',
-                'title'                => 'Flexbox + CSS Grid: Magic for Responsive Layouts',
-                'url'                  => 'https://www.meetup.com/Eastbay-WP-Meetup/events/236031233/',
-                'meetup'               => 'The East Bay WP Meetup Group',
-                'meetup_url'           => 'https://www.meetup.com/Eastbay-WP-Meetup/',
+                'type' => 'meetup',
+                'title' => 'Flexbox + CSS Grid: Magic for Responsive Layouts',
+                'url' => 'https://www.meetup.com/Eastbay-WP-Meetup/events/236031233/',
+                'meetup' => 'The East Bay WP Meetup Group',
+                'meetup_url' => 'https://www.meetup.com/Eastbay-WP-Meetup/',
                 'start_unix_timestamp' => strtotime('2 days ago') - HOUR_IN_SECONDS,
-                'end_unix_timestamp'   => strtotime('2 days ago'),
+                'end_unix_timestamp' => strtotime('2 days ago'),
 
-                'location'             => [
-                    'location'  => 'Oakland, CA, USA',
-                    'country'   => 'us',
-                    'latitude'  => 37.808453,
+                'location' => [
+                    'location' => 'Oakland, CA, USA',
+                    'country' => 'us',
+                    'latitude' => 37.808453,
                     'longitude' => -122.26593,
                 ],
             ],
 
             [
-                'type'                 => 'wordcamp',
-                'title'                => 'WordCamp San Diego',
-                'url'                  => 'https://2018.sandiego.wordcamp.org',
-                'meetup'               => null,
-                'meetup_url'           => null,
+                'type' => 'wordcamp',
+                'title' => 'WordCamp San Diego',
+                'url' => 'https://2018.sandiego.wordcamp.org',
+                'meetup' => null,
+                'meetup_url' => null,
                 'start_unix_timestamp' => strtotime('next Tuesday 9am'),
-                'end_unix_timestamp'   => strtotime('next Tuesday 10am'),
+                'end_unix_timestamp' => strtotime('next Tuesday 10am'),
 
-                'location'             => [
-                    'location'  => 'San Diego, CA',
-                    'country'   => 'US',
-                    'latitude'  => 32.7220419,
+                'location' => [
+                    'location' => 'San Diego, CA',
+                    'country' => 'US',
+                    'latitude' => 32.7220419,
                     'longitude' => -117.1534513,
                 ],
             ],
 
             [
-                'type'                 => 'meetup',
-                'title'                => 'Part 3- Site Maintenance - Tools to Make It Easy',
-                'url'                  => 'https://www.meetup.com/Wordpress-Bay-Area-CA-Foothills/events/237706839/',
-                'meetup'               => 'WP Bay Area Foothills Group',
-                'meetup_url'           => 'https://www.meetup.com/Wordpress-Bay-Area-CA-Foothills/',
+                'type' => 'meetup',
+                'title' => 'Part 3- Site Maintenance - Tools to Make It Easy',
+                'url' => 'https://www.meetup.com/Wordpress-Bay-Area-CA-Foothills/events/237706839/',
+                'meetup' => 'WP Bay Area Foothills Group',
+                'meetup_url' => 'https://www.meetup.com/Wordpress-Bay-Area-CA-Foothills/',
                 'start_unix_timestamp' => strtotime('next Wednesday 1:30pm'),
-                'end_unix_timestamp'   => strtotime('next Wednesday 2:30pm'),
+                'end_unix_timestamp' => strtotime('next Wednesday 2:30pm'),
 
-                'location'             => [
-                    'location'  => 'Milpitas, CA, USA',
-                    'country'   => 'us',
-                    'latitude'  => 37.432813,
+                'location' => [
+                    'location' => 'Milpitas, CA, USA',
+                    'country' => 'us',
+                    'latitude' => 37.432813,
                     'longitude' => -121.907095,
                 ],
             ],
 
             [
-                'type'                 => 'meetup',
-                'title'                => 'WP Q&A',
-                'url'                  => 'https://www.meetup.com/sanjosewp/events/245419844/',
-                'meetup'               => 'The San Jose WP Meetup',
-                'meetup_url'           => 'https://www.meetup.com/sanjosewp/',
+                'type' => 'meetup',
+                'title' => 'WP Q&A',
+                'url' => 'https://www.meetup.com/sanjosewp/events/245419844/',
+                'meetup' => 'The San Jose WP Meetup',
+                'meetup_url' => 'https://www.meetup.com/sanjosewp/',
                 'start_unix_timestamp' => strtotime('next Thursday 5:30pm'),
-                'end_unix_timestamp'   => strtotime('next Thursday 6:30pm'),
+                'end_unix_timestamp' => strtotime('next Thursday 6:30pm'),
 
-                'location'             => [
-                    'location'  => 'Milpitas, CA, USA',
-                    'country'   => 'us',
-                    'latitude'  => 37.244194,
+                'location' => [
+                    'location' => 'Milpitas, CA, USA',
+                    'country' => 'us',
+                    'latitude' => 37.244194,
                     'longitude' => -121.889313,
                 ],
             ],
 
             [
-                'type'                 => 'wordcamp',
-                'title'                => 'WordCamp Los Angeles',
-                'url'                  => 'https://2018.la.wordcamp.org',
-                'meetup'               => null,
-                'meetup_url'           => null,
+                'type' => 'wordcamp',
+                'title' => 'WordCamp Los Angeles',
+                'url' => 'https://2018.la.wordcamp.org',
+                'meetup' => null,
+                'meetup_url' => null,
                 'start_unix_timestamp' => strtotime('next Friday 9am'),
-                'end_unix_timestamp'   => strtotime('next Friday 10am'),
+                'end_unix_timestamp' => strtotime('next Friday 10am'),
 
-                'location'             => [
-                    'location'  => 'Los Angeles, CA',
-                    'country'   => 'US',
-                    'latitude'  => 34.050888,
+                'location' => [
+                    'location' => 'Los Angeles, CA',
+                    'country' => 'US',
+                    'latitude' => 34.050888,
                     'longitude' => -118.285426,
                 ],
             ],
@@ -571,13 +572,13 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
      *
      * @ticket 41083
      *
-     * @covers WP_Community_Events::get_unsafe_client_ip
+     * @covers       WP_Community_Events::get_unsafe_client_ip
      */
     public function test_get_unsafe_client_ip($raw_ip, $expected_result)
     {
-        $_SERVER['REMOTE_ADDR']    = 'this should not be used';
+        $_SERVER['REMOTE_ADDR'] = 'this should not be used';
         $_SERVER['HTTP_CLIENT_IP'] = $raw_ip;
-        $actual_result             = WP_Community_Events::get_unsafe_client_ip();
+        $actual_result = WP_Community_Events::get_unsafe_client_ip();
 
         $this->assertSame($expected_result, $actual_result);
     }

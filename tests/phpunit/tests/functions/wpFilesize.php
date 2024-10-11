@@ -31,7 +31,7 @@ class Tests_Functions_wpFilesize extends WP_UnitTestCase
             'wp_filesize',
             static function () {
                 return 999;
-            }
+            },
         );
 
         $this->assertSame(999, wp_filesize($file));
@@ -40,7 +40,7 @@ class Tests_Functions_wpFilesize extends WP_UnitTestCase
             'pre_wp_filesize',
             static function () {
                 return 111;
-            }
+            },
         );
 
         $this->assertSame(111, wp_filesize($file));

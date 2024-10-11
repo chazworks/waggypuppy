@@ -53,8 +53,8 @@ abstract class WP_Test_REST_Controller_Testcase extends WP_Test_REST_TestCase
             $this->fail(
                 sprintf(
                     'REST API URL "%s" should have a leading slash.',
-                    $path
-                )
+                    $path,
+                ),
             );
         }
 

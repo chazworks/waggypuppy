@@ -27,24 +27,24 @@ if (is_multisite()) :
             self::$different_network_id = $factory->network->create(
                 [
                     'domain' => 'wp.org',
-                    'path'   => '/',
-                ]
+                    'path' => '/',
+                ],
             );
 
             $sites = [
                 [
-                    'domain'     => 'wp.org',
-                    'path'       => '/',
+                    'domain' => 'wp.org',
+                    'path' => '/',
                     'network_id' => self::$different_network_id,
                 ],
                 [
-                    'domain'     => 'wp.org',
-                    'path'       => '/foo/',
+                    'domain' => 'wp.org',
+                    'path' => '/foo/',
                     'network_id' => self::$different_network_id,
                 ],
                 [
-                    'domain'     => 'wp.org',
-                    'path'       => '/bar/',
+                    'domain' => 'wp.org',
+                    'path' => '/bar/',
                     'network_id' => self::$different_network_id,
                 ],
             ];
@@ -62,7 +62,8 @@ if (is_multisite()) :
                 wp_delete_site($id);
             }
 
-            $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->sitemeta} WHERE site_id = %d", self::$different_network_id));
+            $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->sitemeta} WHERE site_id = %d",
+                self::$different_network_id));
             $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->site} WHERE id= %d", self::$different_network_id));
 
             wp_update_network_site_counts();
@@ -97,7 +98,7 @@ if (is_multisite()) :
 
             $id = self::factory()->network->create();
 
-            $current_site->id = (int) $id;
+            $current_site->id = (int)$id;
 
             $this->assertSame(1, get_main_network_id());
         }
@@ -115,7 +116,7 @@ if (is_multisite()) :
 
             $temp_id = self::$different_network_id + 1;
 
-            $current_site->id = (int) self::$different_network_id;
+            $current_site->id = (int)self::$different_network_id;
             $wpdb->query($wpdb->prepare("UPDATE {$wpdb->site} SET id=%d WHERE id=1", $temp_id));
             $main_network_id = get_main_network_id();
             $wpdb->query($wpdb->prepare("UPDATE {$wpdb->site} SET id=1 WHERE id=%d", $temp_id));
@@ -148,7 +149,7 @@ if (is_multisite()) :
 
             $network = WP_Network::get_instance($id);
 
-            $this->assertSame((int) $id, $network->id);
+            $this->assertSame((int)$id, $network->id);
         }
 
         /**
@@ -168,10 +169,10 @@ if (is_multisite()) :
             $network = WP_Network::get_instance($id);
 
             $reflection = new ReflectionObject($network);
-            $property   = $reflection->getProperty('id');
+            $property = $reflection->getProperty('id');
             $property->setAccessible(true);
 
-            $this->assertSame((int) $id, $property->getValue($network));
+            $this->assertSame((int)$id, $property->getValue($network));
         }
 
         /**
@@ -207,7 +208,7 @@ if (is_multisite()) :
             $network = WP_Network::get_instance($id);
 
             $reflection = new ReflectionObject($network);
-            $property   = $reflection->getProperty('blog_id');
+            $property = $reflection->getProperty('blog_id');
             $property->setAccessible(true);
 
             $this->assertIsString($property->getValue($network));
@@ -222,7 +223,7 @@ if (is_multisite()) :
             $site_count_start = get_blog_count();
 
             $site_ids = self::factory()->blog->create_many(1);
-            $actual   = (int) get_blog_count(); // Count only updated when cron runs, so should be unchanged.
+            $actual = (int)get_blog_count(); // Count only updated when cron runs, so should be unchanged.
 
             foreach ($site_ids as $site_id) {
                 wp_delete_site($site_id);
@@ -242,7 +243,7 @@ if (is_multisite()) :
 
             add_filter('enable_live_network_counts', '__return_false');
             $site_ids = self::factory()->blog->create_many(1);
-            $actual   = (int) get_blog_count(); // Count only updated when cron runs, so should be unchanged.
+            $actual = (int)get_blog_count(); // Count only updated when cron runs, so should be unchanged.
             remove_filter('enable_live_network_counts', '__return_false');
 
             foreach ($site_ids as $site_id) {
@@ -263,7 +264,7 @@ if (is_multisite()) :
 
             add_filter('enable_live_network_counts', '__return_true');
             $site_ids = self::factory()->blog->create_many(1);
-            $actual   = get_blog_count();
+            $actual = get_blog_count();
             remove_filter('enable_live_network_counts', '__return_true');
 
             foreach ($site_ids as $site_id) {
@@ -395,11 +396,11 @@ if (is_multisite()) :
             $expected = get_sites(
                 [
                     'network_id' => get_current_network_id(),
-                    'spam'       => 0,
-                    'deleted'    => 0,
-                    'archived'   => 0,
-                    'count'      => true,
-                ]
+                    'spam' => 0,
+                    'deleted' => 0,
+                    'archived' => 0,
+                    'count' => true,
+                ],
             );
 
             wp_update_network_site_counts();
@@ -430,7 +431,7 @@ if (is_multisite()) :
 
             update_network_option(null, 'user_count', 40);
 
-            $expected = (int) $wpdb->get_var("SELECT COUNT(ID) as c FROM $wpdb->users WHERE spam = '0' AND deleted = '0'");
+            $expected = (int)$wpdb->get_var("SELECT COUNT(ID) as c FROM $wpdb->users WHERE spam = '0' AND deleted = '0'");
 
             wp_update_network_user_counts();
 
@@ -447,7 +448,7 @@ if (is_multisite()) :
 
             update_network_option(self::$different_network_id, 'user_count', 40);
 
-            $expected = (int) $wpdb->get_var("SELECT COUNT(ID) as c FROM $wpdb->users WHERE spam = '0' AND deleted = '0'");
+            $expected = (int)$wpdb->get_var("SELECT COUNT(ID) as c FROM $wpdb->users WHERE spam = '0' AND deleted = '0'");
 
             wp_update_network_user_counts(self::$different_network_id);
 
@@ -465,8 +466,8 @@ if (is_multisite()) :
 
             wp_update_network_counts();
 
-            $site_count = (int) get_blog_count();
-            $user_count = (int) get_user_count();
+            $site_count = (int)get_blog_count();
+            $user_count = (int)get_user_count();
 
             $this->assertGreaterThan(0, $site_count);
             $this->assertGreaterThan(0, $user_count);
@@ -482,8 +483,8 @@ if (is_multisite()) :
 
             wp_update_network_counts(self::$different_network_id);
 
-            $site_count = (int) get_blog_count(self::$different_network_id);
-            $user_count = (int) get_user_count(self::$different_network_id);
+            $site_count = (int)get_blog_count(self::$different_network_id);
+            $user_count = (int)get_user_count(self::$different_network_id);
 
             $this->assertGreaterThan(0, $site_count);
             $this->assertGreaterThan(0, $user_count);
@@ -547,7 +548,7 @@ if (is_multisite()) :
          */
         public function test_wp_is_large_network($using, $count, $expected, $different_network)
         {
-            $network_id     = $different_network ? self::$different_network_id : null;
+            $network_id = $different_network ? self::$different_network_id : null;
             $network_option = 'users' === $using ? 'user_count' : 'blog_count';
 
             update_network_option($network_id, $network_option, $count);
@@ -580,7 +581,7 @@ if (is_multisite()) :
          */
         public function test_wp_is_large_network_filtered_by_component($using, $count, $expected, $different_network)
         {
-            $network_id     = $different_network ? self::$different_network_id : null;
+            $network_id = $different_network ? self::$different_network_id : null;
             $network_option = 'users' === $using ? 'user_count' : 'blog_count';
 
             update_network_option($network_id, $network_option, $count);
@@ -625,7 +626,7 @@ if (is_multisite()) :
          */
         public function test_wp_is_large_network_filtered_by_network($using, $count, $expected, $different_network)
         {
-            $network_id     = $different_network ? self::$different_network_id : null;
+            $network_id = $different_network ? self::$different_network_id : null;
             $network_option = 'users' === $using ? 'user_count' : 'blog_count';
 
             update_network_option($network_id, $network_option, $count);
@@ -657,7 +658,7 @@ if (is_multisite()) :
 
         public function filter_wp_is_large_network_on_different_network($is_large_network, $using, $count, $network_id)
         {
-            if ($network_id === (int) self::$different_network_id) {
+            if ($network_id === (int)self::$different_network_id) {
                 return $count > 1000;
             }
 
@@ -674,7 +675,7 @@ if (is_multisite()) :
             $original_count = get_blog_count(self::$different_network_id);
 
             $suppress = $wpdb->suppress_errors();
-            $site_id  = wpmu_create_blog('example.org', '/', '', 1, [], self::$different_network_id);
+            $site_id = wpmu_create_blog('example.org', '/', '', 1, [], self::$different_network_id);
             $wpdb->suppress_errors($suppress);
 
             $result = get_blog_count(self::$different_network_id);
@@ -691,7 +692,7 @@ if (is_multisite()) :
         {
             $network = get_network(self::$different_network_id);
 
-            $this->assertSame((string) self::$different_site_ids[0], $network->blog_id);
+            $this->assertSame((string)self::$different_site_ids[0], $network->blog_id);
         }
 
         /**
@@ -735,7 +736,7 @@ if (is_multisite()) :
             global $wpdb;
             // Create an extra network, just to make sure we know the ID of the following one.
             static::factory()->network->create();
-            return (int) $wpdb->get_var('SELECT id FROM ' . $wpdb->site . ' ORDER BY id DESC LIMIT 1') + 1;
+            return (int)$wpdb->get_var('SELECT id FROM ' . $wpdb->site . ' ORDER BY id DESC LIMIT 1') + 1;
         }
     }
 

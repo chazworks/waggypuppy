@@ -7,9 +7,9 @@
 error_reporting(E_ALL & ~E_DEPRECATED);
 
 $config_file_path = $argv[1];
-$multisite        = in_array('run_ms_tests', $argv, true);
+$multisite = in_array('run_ms_tests', $argv, true);
 
-if (! defined('WP_RUN_CORE_TESTS') && in_array('run_core_tests', $argv, true)) {
+if (!defined('WP_RUN_CORE_TESTS') && in_array('run_core_tests', $argv, true)) {
     define('WP_RUN_CORE_TESTS', true);
 }
 
@@ -25,13 +25,13 @@ require_once $config_file_path;
 require_once __DIR__ . '/functions.php';
 
 // Set the theme to our special empty theme, to avoid interference from the current Twenty* theme.
-if (! defined('WP_DEFAULT_THEME')) {
+if (!defined('WP_DEFAULT_THEME')) {
     define('WP_DEFAULT_THEME', 'default');
 }
 
 tests_reset__SERVER();
 
-$PHP_SELF            = '/index.php';
+$PHP_SELF = '/index.php';
 $GLOBALS['PHP_SELF'] = '/index.php';
 $_SERVER['PHP_SELF'] = '/index.php';
 
@@ -64,12 +64,10 @@ echo 'Installing...' . PHP_EOL;
 
 $wpdb->query('SET foreign_key_checks = 0');
 foreach ($wpdb->tables() as $table => $prefixed_table) {
-
     $wpdb->query("DROP TABLE IF EXISTS $prefixed_table");
 }
 
 foreach ($wpdb->tables('ms_global') as $table => $prefixed_table) {
-
     $wpdb->query("DROP TABLE IF EXISTS $prefixed_table");
 
     // We need to create references to ms global tables.
@@ -85,7 +83,7 @@ add_action('populate_options', '_set_default_permalink_structure_for_tests');
 wp_install(WP_TESTS_TITLE, 'admin', WP_TESTS_EMAIL, true, null, 'password');
 
 // Delete dummy permalink structure, as prefilled above.
-if (! is_multisite()) {
+if (!is_multisite()) {
     delete_option('permalink_structure');
 }
 remove_action('populate_options', '_set_default_permalink_structure_for_tests');
@@ -95,7 +93,7 @@ if ($multisite) {
 
     define('WP_INSTALLING_NETWORK', true);
 
-    $title             = WP_TESTS_TITLE . ' Network';
+    $title = WP_TESTS_TITLE . ' Network';
     $subdomain_install = false;
 
     install_network();

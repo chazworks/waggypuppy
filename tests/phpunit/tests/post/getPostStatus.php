@@ -20,7 +20,7 @@ class Tests_Post_GetPostStatus extends WP_UnitTestCase
     {
         $post_statuses = ['publish', 'future', 'draft', 'auto-draft', 'trash', 'private', 'delete'];
         foreach ($post_statuses as $post_status) {
-            $date          = '';
+            $date = '';
             $actual_status = $post_status;
             if ('future' === $post_status) {
                 $date = date_format(date_create('+1 year'), 'Y-m-d H:i:s');
@@ -31,18 +31,18 @@ class Tests_Post_GetPostStatus extends WP_UnitTestCase
             self::$post_ids[$post_status] = $factory->post->create(
                 [
                     'post_status' => $actual_status,
-                    'post_date'   => $date,
-                    'post_name'   => "$post_status-post",
-                ]
+                    'post_date' => $date,
+                    'post_name' => "$post_status-post",
+                ],
             );
 
             // Attachments without parent or media.
             self::$post_ids["$post_status-attachment-no-parent"] = $factory->attachment->create_object(
                 [
                     'post_status' => $actual_status,
-                    'post_name'   => "$post_status-attachment-no-parent",
-                    'post_date'   => $date,
-                ]
+                    'post_name' => "$post_status-attachment-no-parent",
+                    'post_date' => $date,
+                ],
             );
 
             // Attachments without media.
@@ -50,9 +50,9 @@ class Tests_Post_GetPostStatus extends WP_UnitTestCase
                 [
                     'post_parent' => self::$post_ids[$post_status],
                     'post_status' => 'inherit',
-                    'post_name'   => "$post_status-attachment",
-                    'post_date'   => $date,
-                ]
+                    'post_name' => "$post_status-attachment",
+                    'post_date' => $date,
+                ],
             );
         }
 
@@ -61,9 +61,9 @@ class Tests_Post_GetPostStatus extends WP_UnitTestCase
             [
                 'post_parent' => PHP_INT_MAX, // Impossibly large number.
                 'post_status' => 'inherit',
-                'post_name'   => "$post_status-attachment",
-                'post_date'   => $date,
-            ]
+                'post_name' => "$post_status-attachment",
+                'post_date' => $date,
+            ],
         );
 
         // Trash the trash post and attachment.
@@ -93,8 +93,8 @@ class Tests_Post_GetPostStatus extends WP_UnitTestCase
      * Data provider for test_get_post_status_resolves().
      *
      * @return array[] {
-     *     @type string $post_key The post key in self::$post_ids.
-     *     @type string $expected The expected get_post_status() return value.
+     * @type string $post_key The post key in self::$post_ids.
+     * @type string $expected The expected get_post_status() return value.
      * }
      */
     public function data_get_post_status_resolves()
@@ -137,9 +137,9 @@ class Tests_Post_GetPostStatus extends WP_UnitTestCase
      * @ticket 52326
      * @dataProvider data_get_post_status_after_trashing
      *
-     * @param string $post_to_test  The post key in self::$post_ids.
+     * @param string $post_to_test The post key in self::$post_ids.
      * @param string $post_to_trash The post key to trash then delete in self::$post_ids.
-     * @param string $expected      The expected result after trashing the post.
+     * @param string $expected The expected result after trashing the post.
      */
     public function test_get_post_status_after_trashing($post_to_test, $post_to_trash, $expected)
     {
@@ -154,9 +154,9 @@ class Tests_Post_GetPostStatus extends WP_UnitTestCase
     /**
      * Data provider for test_get_post_status_after_trashing().
      * @return array[] {
-     *     @type string $post_to_test  The post key in self::$post_ids.
-     *     @type string $post_to_trash The post key to trash then delete in self::$post_ids.
-     *     @type string $expected      The expected result after trashing the post.
+     * @type string $post_to_test The post key in self::$post_ids.
+     * @type string $post_to_trash The post key to trash then delete in self::$post_ids.
+     * @type string $expected The expected result after trashing the post.
      * }
      */
     public function data_get_post_status_after_trashing()

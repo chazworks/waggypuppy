@@ -1,4 +1,5 @@
 <?php
+
 /**
  * WP_User_Request class.
  *
@@ -100,22 +101,22 @@ final class WP_User_Request
     /**
      * Constructor.
      *
+     * @param WP_Post|object $post Post object.
      * @since 4.9.6
      *
-     * @param WP_Post|object $post Post object.
      */
     public function __construct($post)
     {
-        $this->ID                  = $post->ID;
-        $this->user_id             = $post->post_author;
-        $this->email               = $post->post_title;
-        $this->action_name         = $post->post_name;
-        $this->status              = $post->post_status;
-        $this->created_timestamp   = strtotime($post->post_date_gmt);
-        $this->modified_timestamp  = strtotime($post->post_modified_gmt);
-        $this->confirmed_timestamp = (int) get_post_meta($post->ID, '_wp_user_request_confirmed_timestamp', true);
-        $this->completed_timestamp = (int) get_post_meta($post->ID, '_wp_user_request_completed_timestamp', true);
-        $this->request_data        = json_decode($post->post_content, true);
-        $this->confirm_key         = $post->post_password;
+        $this->ID = $post->ID;
+        $this->user_id = $post->post_author;
+        $this->email = $post->post_title;
+        $this->action_name = $post->post_name;
+        $this->status = $post->post_status;
+        $this->created_timestamp = strtotime($post->post_date_gmt);
+        $this->modified_timestamp = strtotime($post->post_modified_gmt);
+        $this->confirmed_timestamp = (int)get_post_meta($post->ID, '_wp_user_request_confirmed_timestamp', true);
+        $this->completed_timestamp = (int)get_post_meta($post->ID, '_wp_user_request_completed_timestamp', true);
+        $this->request_data = json_decode($post->post_content, true);
+        $this->confirm_key = $post->post_password;
     }
 }

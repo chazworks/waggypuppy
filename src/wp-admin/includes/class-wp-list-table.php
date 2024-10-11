@@ -117,46 +117,46 @@ class WP_List_Table
      * The child class should call this constructor from its own constructor to override
      * the default $args.
      *
-     * @since 3.1.0
-     *
      * @param array|string $args {
      *     Array or string of arguments.
      *
-     *     @type string $plural   Plural value used for labels and the objects being listed.
+     * @type string $plural Plural value used for labels and the objects being listed.
      *                            This affects things such as CSS class-names and nonces used
      *                            in the list table, e.g. 'posts'. Default empty.
-     *     @type string $singular Singular label for an object being listed, e.g. 'post'.
+     * @type string $singular Singular label for an object being listed, e.g. 'post'.
      *                            Default empty
-     *     @type bool   $ajax     Whether the list table supports Ajax. This includes loading
+     * @type bool $ajax Whether the list table supports Ajax. This includes loading
      *                            and sorting data, for example. If true, the class will call
      *                            the _js_vars() method in the footer to provide variables
      *                            to any scripts handling Ajax events. Default false.
-     *     @type string $screen   String containing the hook name used to determine the current
+     * @type string $screen String containing the hook name used to determine the current
      *                            screen. If left null, the current screen will be automatically set.
      *                            Default null.
      * }
+     * @since 3.1.0
+     *
      */
     public function __construct($args = [])
     {
         $args = wp_parse_args(
             $args,
             [
-                'plural'   => '',
+                'plural' => '',
                 'singular' => '',
-                'ajax'     => false,
-                'screen'   => null,
-            ]
+                'ajax' => false,
+                'screen' => null,
+            ],
         );
 
         $this->screen = convert_to_screen($args['screen']);
 
         add_filter("manage_{$this->screen->id}_columns", [$this, 'get_columns'], 0);
 
-        if (! $args['plural']) {
+        if (!$args['plural']) {
             $args['plural'] = $this->screen->base;
         }
 
-        $args['plural']   = sanitize_key($args['plural']);
+        $args['plural'] = sanitize_key($args['plural']);
         $args['singular'] = sanitize_key($args['singular']);
 
         $this->_args = $args;
@@ -168,7 +168,7 @@ class WP_List_Table
 
         if (empty($this->modes)) {
             $this->modes = [
-                'list'    => __('Compact view'),
+                'list' => __('Compact view'),
                 'excerpt' => __('Extended view'),
             ];
         }
@@ -177,11 +177,11 @@ class WP_List_Table
     /**
      * Makes private properties readable for backward compatibility.
      *
+     * @param string $name Property to get.
+     * @return mixed Property.
      * @since 4.0.0
      * @since 6.4.0 Getting a dynamic property is deprecated.
      *
-     * @param string $name Property to get.
-     * @return mixed Property.
      */
     public function __get($name)
     {
@@ -193,7 +193,7 @@ class WP_List_Table
             __METHOD__,
             "The property `{$name}` is not declared. Getting a dynamic property is " .
             'deprecated since version 6.4.0! Instead, declare the property on the class.',
-            E_USER_DEPRECATED
+            E_USER_DEPRECATED,
         );
         return null;
     }
@@ -201,11 +201,11 @@ class WP_List_Table
     /**
      * Makes private properties settable for backward compatibility.
      *
+     * @param string $name Property to check if set.
+     * @param mixed $value Property value.
      * @since 4.0.0
      * @since 6.4.0 Setting a dynamic property is deprecated.
      *
-     * @param string $name  Property to check if set.
-     * @param mixed  $value Property value.
      */
     public function __set($name, $value)
     {
@@ -218,18 +218,18 @@ class WP_List_Table
             __METHOD__,
             "The property `{$name}` is not declared. Setting a dynamic property is " .
             'deprecated since version 6.4.0! Instead, declare the property on the class.',
-            E_USER_DEPRECATED
+            E_USER_DEPRECATED,
         );
     }
 
     /**
      * Makes private properties checkable for backward compatibility.
      *
+     * @param string $name Property to check if set.
+     * @return bool Whether the property is a back-compat property and it is set.
      * @since 4.0.0
      * @since 6.4.0 Checking a dynamic property is deprecated.
      *
-     * @param string $name Property to check if set.
-     * @return bool Whether the property is a back-compat property and it is set.
      */
     public function __isset($name)
     {
@@ -241,7 +241,7 @@ class WP_List_Table
             __METHOD__,
             "The property `{$name}` is not declared. Checking `isset()` on a dynamic property " .
             'is deprecated since version 6.4.0! Instead, declare the property on the class.',
-            E_USER_DEPRECATED
+            E_USER_DEPRECATED,
         );
         return false;
     }
@@ -249,10 +249,10 @@ class WP_List_Table
     /**
      * Makes private properties un-settable for backward compatibility.
      *
-     * @since 4.0.0
+     * @param string $name Property to unset.
      * @since 6.4.0 Unsetting a dynamic property is deprecated.
      *
-     * @param string $name Property to unset.
+     * @since 4.0.0
      */
     public function __unset($name)
     {
@@ -265,18 +265,18 @@ class WP_List_Table
             __METHOD__,
             "A property `{$name}` is not declared. Unsetting a dynamic property is " .
             'deprecated since version 6.4.0! Instead, declare the property on the class.',
-            E_USER_DEPRECATED
+            E_USER_DEPRECATED,
         );
     }
 
     /**
      * Makes private/protected methods readable for backward compatibility.
      *
+     * @param string $name Method to call.
+     * @param array $arguments Arguments to pass when calling.
+     * @return mixed|bool Return value of the callback, false otherwise.
      * @since 4.0.0
      *
-     * @param string $name      Method to call.
-     * @param array  $arguments Arguments to pass when calling.
-     * @return mixed|bool Return value of the callback, false otherwise.
      */
     public function __call($name, $arguments)
     {
@@ -313,9 +313,9 @@ class WP_List_Table
     /**
      * Sets all the necessary pagination arguments.
      *
+     * @param array|string $args Array or string of arguments with information about the pagination.
      * @since 3.1.0
      *
-     * @param array|string $args Array or string of arguments with information about the pagination.
      */
     protected function set_pagination_args($args)
     {
@@ -324,16 +324,18 @@ class WP_List_Table
             [
                 'total_items' => 0,
                 'total_pages' => 0,
-                'per_page'    => 0,
-            ]
+                'per_page' => 0,
+            ],
         );
 
-        if (! $args['total_pages'] && $args['per_page'] > 0) {
-            $args['total_pages'] = (int) ceil($args['total_items'] / $args['per_page']);
+        if (!$args['total_pages'] && $args['per_page'] > 0) {
+            $args['total_pages'] = (int)ceil($args['total_items'] / $args['per_page']);
         }
 
         // Redirect if page number is invalid and headers are not already sent.
-        if (! headers_sent() && ! wp_doing_ajax() && $args['total_pages'] > 0 && $this->get_pagenum() > $args['total_pages']) {
+        if (!headers_sent() && !wp_doing_ajax() && $args['total_pages'] > 0
+            && $this->get_pagenum()
+            > $args['total_pages']) {
             wp_redirect(add_query_arg('paged', $args['total_pages']));
             exit;
         }
@@ -344,11 +346,11 @@ class WP_List_Table
     /**
      * Access the pagination args.
      *
-     * @since 3.1.0
-     *
      * @param string $key Pagination argument to retrieve. Common values include 'total_items',
      *                    'total_pages', 'per_page', or 'infinite_scroll'.
      * @return int Number of items that correspond to the given pagination argument.
+     * @since 3.1.0
+     *
      */
     public function get_pagination_arg($key)
     {
@@ -366,13 +368,13 @@ class WP_List_Table
     /**
      * Determines whether the table has items to display or not
      *
+     * @return bool
      * @since 3.1.0
      *
-     * @return bool
      */
     public function has_items()
     {
-        return ! empty($this->items);
+        return !empty($this->items);
     }
 
     /**
@@ -388,71 +390,76 @@ class WP_List_Table
     /**
      * Displays the search box.
      *
+     * @param string $text The 'submit' button label.
+     * @param string $input_id ID attribute value for the search input field.
      * @since 3.1.0
      *
-     * @param string $text     The 'submit' button label.
-     * @param string $input_id ID attribute value for the search input field.
      */
     public function search_box($text, $input_id)
     {
-        if (empty($_REQUEST['s']) && ! $this->has_items()) {
+        if (empty($_REQUEST['s']) && !$this->has_items()) {
             return;
         }
 
         $input_id = $input_id . '-search-input';
 
-        if (! empty($_REQUEST['orderby'])) {
+        if (!empty($_REQUEST['orderby'])) {
             if (is_array($_REQUEST['orderby'])) {
                 foreach ($_REQUEST['orderby'] as $key => $value) {
-                    echo '<input type="hidden" name="orderby[' . esc_attr($key) . ']" value="' . esc_attr($value) . '" />';
+                    echo '<input type="hidden" name="orderby['
+                        . esc_attr($key)
+                        . ']" value="'
+                        . esc_attr($value)
+                        . '" />';
                 }
             } else {
                 echo '<input type="hidden" name="orderby" value="' . esc_attr($_REQUEST['orderby']) . '" />';
             }
         }
-        if (! empty($_REQUEST['order'])) {
+        if (!empty($_REQUEST['order'])) {
             echo '<input type="hidden" name="order" value="' . esc_attr($_REQUEST['order']) . '" />';
         }
-        if (! empty($_REQUEST['post_mime_type'])) {
+        if (!empty($_REQUEST['post_mime_type'])) {
             echo '<input type="hidden" name="post_mime_type" value="' . esc_attr($_REQUEST['post_mime_type']) . '" />';
         }
-        if (! empty($_REQUEST['detached'])) {
+        if (!empty($_REQUEST['detached'])) {
             echo '<input type="hidden" name="detached" value="' . esc_attr($_REQUEST['detached']) . '" />';
         }
         ?>
-<p class="search-box">
-    <label class="screen-reader-text" for="<?php echo esc_attr($input_id); ?>"><?php echo $text; ?>:</label>
-    <input type="search" id="<?php echo esc_attr($input_id); ?>" name="s" value="<?php _admin_search_query(); ?>" />
-        <?php submit_button($text, '', '', false, ['id' => 'search-submit']); ?>
-</p>
+        <p class="search-box">
+            <label class="screen-reader-text" for="<?php echo esc_attr($input_id); ?>"><?php echo $text; ?>:</label>
+            <input type="search" id="<?php echo esc_attr($input_id); ?>" name="s"
+                   value="<?php _admin_search_query(); ?>"/>
+            <?php submit_button($text, '', '', false, ['id' => 'search-submit']); ?>
+        </p>
         <?php
     }
 
     /**
      * Generates views links.
      *
-     * @since 6.1.0
-     *
      * @param array $link_data {
      *     An array of link data.
      *
-     *     @type string $url     The link URL.
-     *     @type string $label   The link label.
-     *     @type bool   $current Optional. Whether this is the currently selected view.
+     * @type string $url The link URL.
+     * @type string $label The link label.
+     * @type bool $current Optional. Whether this is the currently selected view.
      * }
      * @return string[] An array of link markup. Keys match the `$link_data` input array.
+     * @since 6.1.0
+     *
      */
     protected function get_views_links($link_data = [])
     {
-        if (! is_array($link_data)) {
+        if (!is_array($link_data)) {
             _doing_it_wrong(
                 __METHOD__,
                 sprintf(
-                    /* translators: %s: The $link_data argument. */
+                /* translators: %s: The $link_data argument. */
                     __('The %s argument must be an array.'),
-                    '<code>$link_data</code>'
+                    '<code>$link_data</code>',
                 ),
-                '6.1.0'
+                '6.1.0',
             );
 
             return [''];
@@ -461,31 +468,31 @@ class WP_List_Table
         $views_links = [];
 
         foreach ($link_data as $view => $link) {
-            if (empty($link['url']) || ! is_string($link['url']) || '' === trim($link['url'])) {
+            if (empty($link['url']) || !is_string($link['url']) || '' === trim($link['url'])) {
                 _doing_it_wrong(
                     __METHOD__,
                     sprintf(
-                        /* translators: %1$s: The argument name. %2$s: The view name. */
+                    /* translators: %1$s: The argument name. %2$s: The view name. */
                         __('The %1$s argument must be a non-empty string for %2$s.'),
                         '<code>url</code>',
-                        '<code>' . esc_html($view) . '</code>'
+                        '<code>' . esc_html($view) . '</code>',
                     ),
-                    '6.1.0'
+                    '6.1.0',
                 );
 
                 continue;
             }
 
-            if (empty($link['label']) || ! is_string($link['label']) || '' === trim($link['label'])) {
+            if (empty($link['label']) || !is_string($link['label']) || '' === trim($link['label'])) {
                 _doing_it_wrong(
                     __METHOD__,
                     sprintf(
-                        /* translators: %1$s: The argument name. %2$s: The view name. */
+                    /* translators: %1$s: The argument name. %2$s: The view name. */
                         __('The %1$s argument must be a non-empty string for %2$s.'),
                         '<code>label</code>',
-                        '<code>' . esc_html($view) . '</code>'
+                        '<code>' . esc_html($view) . '</code>',
                     ),
-                    '6.1.0'
+                    '6.1.0',
                 );
 
                 continue;
@@ -495,7 +502,7 @@ class WP_List_Table
                 '<a href="%s"%s>%s</a>',
                 esc_url($link['url']),
                 isset($link['current']) && true === $link['current'] ? ' class="current" aria-current="page"' : '',
-                $link['label']
+                $link['label'],
             );
         }
 
@@ -508,9 +515,9 @@ class WP_List_Table
      * The format is an associative array:
      * - `'id' => 'link'`
      *
+     * @return array
      * @since 3.1.0
      *
-     * @return array
      */
     protected function get_views()
     {
@@ -531,9 +538,9 @@ class WP_List_Table
          * The dynamic portion of the hook name, `$this->screen->id`, refers
          * to the ID of the current screen.
          *
+         * @param string[] $views An array of available list table views.
          * @since 3.1.0
          *
-         * @param string[] $views An array of available list table views.
          */
         $views = apply_filters("views_{$this->screen->id}", $views);
 
@@ -573,10 +580,10 @@ class WP_List_Table
      *         ]
      *     ]
      *
-     * @since 3.1.0
+     * @return array
      * @since 5.6.0 A bulk action can now contain an array of options in order to create an optgroup.
      *
-     * @return array
+     * @since 3.1.0
      */
     protected function get_bulk_actions()
     {
@@ -586,10 +593,10 @@ class WP_List_Table
     /**
      * Displays the bulk actions dropdown.
      *
-     * @since 3.1.0
-     *
      * @param string $which The location of the bulk actions: Either 'top' or 'bottom'.
      *                      This is designated as optional for backward compatibility.
+     * @since 3.1.0
+     *
      */
     protected function bulk_actions($which = '')
     {
@@ -602,10 +609,10 @@ class WP_List_Table
              * The dynamic portion of the hook name, `$this->screen->id`, refers
              * to the ID of the current screen.
              *
-             * @since 3.1.0
+             * @param array $actions An array of the available bulk actions.
              * @since 5.6.0 A bulk action can now contain an array of options in order to create an optgroup.
              *
-             * @param array $actions An array of the available bulk actions.
+             * @since 3.1.0
              */
             $this->_actions = apply_filters("bulk_actions-{$this->screen->id}", $this->_actions);
 
@@ -621,7 +628,7 @@ class WP_List_Table
         echo '<label for="bulk-action-selector-' . esc_attr($which) . '" class="screen-reader-text">' .
             /* translators: Hidden accessibility text. */
             __('Select bulk action') .
-        '</label>';
+            '</label>';
         echo '<select name="action' . $two . '" id="bulk-action-selector-' . esc_attr($which) . "\">\n";
         echo '<option value="-1">' . __('Bulk actions') . "</option>\n";
 
@@ -651,13 +658,13 @@ class WP_List_Table
     /**
      * Gets the current action selected from the bulk actions dropdown.
      *
+     * @return string|false The action name. False if no action was selected.
      * @since 3.1.0
      *
-     * @return string|false The action name. False if no action was selected.
      */
     public function current_action()
     {
-        if (isset($_REQUEST['filter_action']) && ! empty($_REQUEST['filter_action'])) {
+        if (isset($_REQUEST['filter_action']) && !empty($_REQUEST['filter_action'])) {
             return false;
         }
 
@@ -671,17 +678,17 @@ class WP_List_Table
     /**
      * Generates the required HTML for a list of row action links.
      *
+     * @param string[] $actions An array of action links.
+     * @param bool $always_visible Whether the actions should be always visible.
+     * @return string The HTML for the row actions.
      * @since 3.1.0
      *
-     * @param string[] $actions        An array of action links.
-     * @param bool     $always_visible Whether the actions should be always visible.
-     * @return string The HTML for the row actions.
      */
     protected function row_actions($actions, $always_visible = false)
     {
         $action_count = count($actions);
 
-        if (! $action_count) {
+        if (!$action_count) {
             return '';
         }
 
@@ -708,7 +715,7 @@ class WP_List_Table
         $output .= '<button type="button" class="toggle-row"><span class="screen-reader-text">' .
             /* translators: Hidden accessibility text. */
             __('Show more details') .
-        '</span></button>';
+            '</span></button>';
 
         return $output;
     }
@@ -716,12 +723,12 @@ class WP_List_Table
     /**
      * Displays a dropdown for filtering items in the list table by month.
      *
-     * @since 3.1.0
-     *
-     * @global wpdb      $wpdb      waggypuppy database abstraction object.
+     * @param string $post_type The post type.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      * @global WP_Locale $wp_locale waggypuppy date and time locale object.
      *
-     * @param string $post_type The post type.
+     * @since 3.1.0
+     *
      */
     protected function months_dropdown($post_type)
     {
@@ -730,10 +737,10 @@ class WP_List_Table
         /**
          * Filters whether to remove the 'Months' drop-down from the post list table.
          *
+         * @param bool $disable Whether to disable the drop-down. Default false.
+         * @param string $post_type The post type.
          * @since 4.2.0
          *
-         * @param bool   $disable   Whether to disable the drop-down. Default false.
-         * @param string $post_type The post type.
          */
         if (apply_filters('disable_months_dropdown', false, $post_type)) {
             return;
@@ -742,16 +749,16 @@ class WP_List_Table
         /**
          * Filters whether to short-circuit performing the months dropdown query.
          *
+         * @param object[]|false $months 'Months' drop-down results. Default false.
+         * @param string $post_type The post type.
          * @since 5.7.0
          *
-         * @param object[]|false $months   'Months' drop-down results. Default false.
-         * @param string         $post_type The post type.
          */
         $months = apply_filters('pre_months_dropdown_query', false, $post_type);
 
-        if (! is_array($months)) {
+        if (!is_array($months)) {
             $extra_checks = "AND post_status != 'auto-draft'";
-            if (! isset($_GET['post_status']) || 'trash' !== $_GET['post_status']) {
+            if (!isset($_GET['post_status']) || 'trash' !== $_GET['post_status']) {
                 $extra_checks .= " AND post_status != 'trash'";
             } elseif (isset($_GET['post_status'])) {
                 $extra_checks = $wpdb->prepare(' AND post_status = %s', $_GET['post_status']);
@@ -764,50 +771,51 @@ class WP_List_Table
 					WHERE post_type = %s
 					$extra_checks
 					ORDER BY post_date DESC",
-                    $post_type
-                )
+                    $post_type,
+                ),
             );
         }
 
         /**
          * Filters the 'Months' drop-down results.
          *
+         * @param object[] $months Array of the months drop-down query results.
+         * @param string $post_type The post type.
          * @since 3.7.0
          *
-         * @param object[] $months    Array of the months drop-down query results.
-         * @param string   $post_type The post type.
          */
         $months = apply_filters('months_dropdown_results', $months, $post_type);
 
         $month_count = count($months);
 
-        if (! $month_count || (1 === $month_count && 0 === (int) $months[0]->month)) {
+        if (!$month_count || (1 === $month_count && 0 === (int)$months[0]->month)) {
             return;
         }
 
-        $m = isset($_GET['m']) ? (int) $_GET['m'] : 0;
+        $m = isset($_GET['m']) ? (int)$_GET['m'] : 0;
         ?>
-        <label for="filter-by-date" class="screen-reader-text"><?php echo get_post_type_object($post_type)->labels->filter_by_date; ?></label>
+        <label for="filter-by-date"
+               class="screen-reader-text"><?php echo get_post_type_object($post_type)->labels->filter_by_date; ?></label>
         <select name="m" id="filter-by-date">
             <option<?php selected($m, 0); ?> value="0"><?php _e('All dates'); ?></option>
-        <?php
-        foreach ($months as $arc_row) {
-            if (0 === (int) $arc_row->year) {
-                continue;
+            <?php
+            foreach ($months as $arc_row) {
+                if (0 === (int)$arc_row->year) {
+                    continue;
+                }
+
+                $month = zeroise($arc_row->month, 2);
+                $year = $arc_row->year;
+
+                printf(
+                    "<option %s value='%s'>%s</option>\n",
+                    selected($m, $year . $month, false),
+                    esc_attr($arc_row->year . $month),
+                    /* translators: 1: Month name, 2: 4-digit year. */
+                    sprintf(__('%1$s %2$d'), $wp_locale->get_month($month), $year),
+                );
             }
-
-            $month = zeroise($arc_row->month, 2);
-            $year  = $arc_row->year;
-
-            printf(
-                "<option %s value='%s'>%s</option>\n",
-                selected($m, $year . $month, false),
-                esc_attr($arc_row->year . $month),
-                /* translators: 1: Month name, 2: 4-digit year. */
-                sprintf(__('%1$s %2$d'), $wp_locale->get_month($month), $year)
-            );
-        }
-        ?>
+            ?>
         </select>
         <?php
     }
@@ -815,35 +823,35 @@ class WP_List_Table
     /**
      * Displays a view switcher.
      *
+     * @param string $current_mode
      * @since 3.1.0
      *
-     * @param string $current_mode
      */
     protected function view_switcher($current_mode)
     {
         ?>
-        <input type="hidden" name="mode" value="<?php echo esc_attr($current_mode); ?>" />
+        <input type="hidden" name="mode" value="<?php echo esc_attr($current_mode); ?>"/>
         <div class="view-switch">
-        <?php
-        foreach ($this->modes as $mode => $title) {
-            $classes      = ['view-' . $mode];
-            $aria_current = '';
+            <?php
+            foreach ($this->modes as $mode => $title) {
+                $classes = ['view-' . $mode];
+                $aria_current = '';
 
-            if ($current_mode === $mode) {
-                $classes[]    = 'current';
-                $aria_current = ' aria-current="page"';
-            }
+                if ($current_mode === $mode) {
+                    $classes[] = 'current';
+                    $aria_current = ' aria-current="page"';
+                }
 
-            printf(
-                "<a href='%s' class='%s' id='view-switch-$mode'$aria_current>" .
+                printf(
+                    "<a href='%s' class='%s' id='view-switch-$mode'$aria_current>" .
                     "<span class='screen-reader-text'>%s</span>" .
-                "</a>\n",
-                esc_url(remove_query_arg('attachment-filter', add_query_arg('mode', $mode))),
-                implode(' ', $classes),
-                $title
-            );
-        }
-        ?>
+                    "</a>\n",
+                    esc_url(remove_query_arg('attachment-filter', add_query_arg('mode', $mode))),
+                    implode(' ', $classes),
+                    $title,
+                );
+            }
+            ?>
         </div>
         <?php
     }
@@ -851,19 +859,19 @@ class WP_List_Table
     /**
      * Displays a comment count bubble.
      *
+     * @param int $post_id The post ID.
+     * @param int $pending_comments Number of pending comments.
      * @since 3.1.0
      *
-     * @param int $post_id          The post ID.
-     * @param int $pending_comments Number of pending comments.
      */
     protected function comments_bubble($post_id, $pending_comments)
     {
-        $post_object   = get_post($post_id);
+        $post_object = get_post($post_id);
         $edit_post_cap = $post_object ? 'edit_post' : 'edit_posts';
 
-        if (! current_user_can($edit_post_cap, $post_id)
+        if (!current_user_can($edit_post_cap, $post_id)
             && (post_password_required($post_id)
-                || ! current_user_can('read_post', $post_id))
+                || !current_user_can('read_post', $post_id))
         ) {
             // The user has no access to the post and thus cannot see the comments.
             return false;
@@ -872,108 +880,112 @@ class WP_List_Table
         $approved_comments = get_comments_number();
 
         $approved_comments_number = number_format_i18n($approved_comments);
-        $pending_comments_number  = number_format_i18n($pending_comments);
+        $pending_comments_number = number_format_i18n($pending_comments);
 
         $approved_only_phrase = sprintf(
-            /* translators: %s: Number of comments. */
+        /* translators: %s: Number of comments. */
             _n('%s comment', '%s comments', $approved_comments),
-            $approved_comments_number
+            $approved_comments_number,
         );
 
         $approved_phrase = sprintf(
-            /* translators: %s: Number of comments. */
+        /* translators: %s: Number of comments. */
             _n('%s approved comment', '%s approved comments', $approved_comments),
-            $approved_comments_number
+            $approved_comments_number,
         );
 
         $pending_phrase = sprintf(
-            /* translators: %s: Number of comments. */
+        /* translators: %s: Number of comments. */
             _n('%s pending comment', '%s pending comments', $pending_comments),
-            $pending_comments_number
+            $pending_comments_number,
         );
 
-        if (! $approved_comments && ! $pending_comments) {
+        if (!$approved_comments && !$pending_comments) {
             // No comments at all.
             printf(
                 '<span aria-hidden="true">&#8212;</span>' .
                 '<span class="screen-reader-text">%s</span>',
-                __('No comments')
+                __('No comments'),
             );
         } elseif ($approved_comments && 'trash' === get_post_status($post_id)) {
             // Don't link the comment bubble for a trashed post.
             printf(
                 '<span class="post-com-count post-com-count-approved">' .
-                    '<span class="comment-count-approved" aria-hidden="true">%s</span>' .
-                    '<span class="screen-reader-text">%s</span>' .
+                '<span class="comment-count-approved" aria-hidden="true">%s</span>' .
+                '<span class="screen-reader-text">%s</span>' .
                 '</span>',
                 $approved_comments_number,
-                $pending_comments ? $approved_phrase : $approved_only_phrase
+                $pending_comments ? $approved_phrase : $approved_only_phrase,
             );
         } elseif ($approved_comments) {
             // Link the comment bubble to approved comments.
             printf(
                 '<a href="%s" class="post-com-count post-com-count-approved">' .
-                    '<span class="comment-count-approved" aria-hidden="true">%s</span>' .
-                    '<span class="screen-reader-text">%s</span>' .
+                '<span class="comment-count-approved" aria-hidden="true">%s</span>' .
+                '<span class="screen-reader-text">%s</span>' .
                 '</a>',
                 esc_url(
                     add_query_arg(
                         [
-                            'p'              => $post_id,
+                            'p' => $post_id,
                             'comment_status' => 'approved',
                         ],
-                        admin_url('edit-comments.php')
-                    )
+                        admin_url('edit-comments.php'),
+                    ),
                 ),
                 $approved_comments_number,
-                $pending_comments ? $approved_phrase : $approved_only_phrase
+                $pending_comments ? $approved_phrase : $approved_only_phrase,
             );
         } else {
             // Don't link the comment bubble when there are no approved comments.
             printf(
                 '<span class="post-com-count post-com-count-no-comments">' .
-                    '<span class="comment-count comment-count-no-comments" aria-hidden="true">%s</span>' .
-                    '<span class="screen-reader-text">%s</span>' .
+                '<span class="comment-count comment-count-no-comments" aria-hidden="true">%s</span>' .
+                '<span class="screen-reader-text">%s</span>' .
                 '</span>',
                 $approved_comments_number,
-                $pending_comments ?
-                /* translators: Hidden accessibility text. */
-                __('No approved comments') :
-                /* translators: Hidden accessibility text. */
-                __('No comments')
+                $pending_comments
+                    ?
+                    /* translators: Hidden accessibility text. */
+                    __('No approved comments')
+                    :
+                    /* translators: Hidden accessibility text. */
+                    __('No comments'),
             );
         }
 
         if ($pending_comments) {
             printf(
                 '<a href="%s" class="post-com-count post-com-count-pending">' .
-                    '<span class="comment-count-pending" aria-hidden="true">%s</span>' .
-                    '<span class="screen-reader-text">%s</span>' .
+                '<span class="comment-count-pending" aria-hidden="true">%s</span>' .
+                '<span class="screen-reader-text">%s</span>' .
                 '</a>',
                 esc_url(
                     add_query_arg(
                         [
-                            'p'              => $post_id,
+                            'p' => $post_id,
                             'comment_status' => 'moderated',
                         ],
-                        admin_url('edit-comments.php')
-                    )
+                        admin_url('edit-comments.php'),
+                    ),
                 ),
                 $pending_comments_number,
-                $pending_phrase
+                $pending_phrase,
             );
         } else {
             printf(
                 '<span class="post-com-count post-com-count-pending post-com-count-no-pending">' .
-                    '<span class="comment-count comment-count-no-pending" aria-hidden="true">%s</span>' .
-                    '<span class="screen-reader-text">%s</span>' .
+                '<span class="comment-count comment-count-no-pending" aria-hidden="true">%s</span>' .
+                '<span class="screen-reader-text">%s</span>' .
                 '</span>',
                 $pending_comments_number,
-                $approved_comments ?
-                /* translators: Hidden accessibility text. */
-                __('No pending comments') :
-                /* translators: Hidden accessibility text. */
-                __('No comments')
+                $approved_comments
+                    ?
+                    /* translators: Hidden accessibility text. */
+                    __('No pending comments')
+                    :
+                    /* translators: Hidden accessibility text. */
+                    __('No comments'),
             );
         }
     }
@@ -981,9 +993,9 @@ class WP_List_Table
     /**
      * Gets the current page number.
      *
+     * @return int
      * @since 3.1.0
      *
-     * @return int
      */
     public function get_pagenum()
     {
@@ -999,15 +1011,15 @@ class WP_List_Table
     /**
      * Gets the number of items to display on a single page.
      *
+     * @param string $option User option name.
+     * @param int $default_value Optional. The number of items to display. Default 20.
+     * @return int
      * @since 3.1.0
      *
-     * @param string $option        User option name.
-     * @param int    $default_value Optional. The number of items to display. Default 20.
-     * @return int
      */
     protected function get_items_per_page($option, $default_value = 20)
     {
-        $per_page = (int) get_user_option($option);
+        $per_page = (int)get_user_option($option);
         if (empty($per_page) || $per_page < 1) {
             $per_page = $default_value;
         }
@@ -1032,19 +1044,19 @@ class WP_List_Table
          *  - `site_users_network_per_page`
          *  - `users_per_page`
          *
+         * @param int $per_page Number of items to be displayed. Default 20.
          * @since 2.9.0
          *
-         * @param int $per_page Number of items to be displayed. Default 20.
          */
-        return (int) apply_filters("{$option}", $per_page);
+        return (int)apply_filters("{$option}", $per_page);
     }
 
     /**
      * Displays the pagination.
      *
+     * @param string $which The location of the pagination: Either 'top' or 'bottom'.
      * @since 3.1.0
      *
-     * @param string $which The location of the pagination: Either 'top' or 'bottom'.
      */
     protected function pagination($which)
     {
@@ -1052,8 +1064,8 @@ class WP_List_Table
             return;
         }
 
-        $total_items     = $this->_pagination_args['total_items'];
-        $total_pages     = $this->_pagination_args['total_pages'];
+        $total_items = $this->_pagination_args['total_items'];
+        $total_pages = $this->_pagination_args['total_pages'];
         $infinite_scroll = false;
         if (isset($this->_pagination_args['infinite_scroll'])) {
             $infinite_scroll = $this->_pagination_args['infinite_scroll'];
@@ -1065,11 +1077,11 @@ class WP_List_Table
 
         $output = '<span class="displaying-num">' . sprintf(
             /* translators: %s: Number of items. */
-            _n('%s item', '%s items', $total_items),
-            number_format_i18n($total_items)
-        ) . '</span>';
+                _n('%s item', '%s items', $total_items),
+                number_format_i18n($total_items),
+            ) . '</span>';
 
-        $current              = $this->get_pagenum();
+        $current = $this->get_pagenum();
         $removable_query_args = wp_removable_query_args();
 
         $current_url = set_url_scheme('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
@@ -1079,16 +1091,16 @@ class WP_List_Table
         $page_links = [];
 
         $total_pages_before = '<span class="paging-input">';
-        $total_pages_after  = '</span></span>';
+        $total_pages_after = '</span></span>';
 
         $disable_first = false;
-        $disable_last  = false;
-        $disable_prev  = false;
-        $disable_next  = false;
+        $disable_last = false;
+        $disable_prev = false;
+        $disable_next = false;
 
         if (1 === $current) {
             $disable_first = true;
-            $disable_prev  = true;
+            $disable_prev = true;
         }
         if ($total_pages === $current) {
             $disable_last = true;
@@ -1100,13 +1112,13 @@ class WP_List_Table
         } else {
             $page_links[] = sprintf(
                 "<a class='first-page button' href='%s'>" .
-                    "<span class='screen-reader-text'>%s</span>" .
-                    "<span aria-hidden='true'>%s</span>" .
+                "<span class='screen-reader-text'>%s</span>" .
+                "<span aria-hidden='true'>%s</span>" .
                 '</a>',
                 esc_url(remove_query_arg('paged', $current_url)),
                 /* translators: Hidden accessibility text. */
                 __('First page'),
-                '&laquo;'
+                '&laquo;',
             );
         }
 
@@ -1115,24 +1127,24 @@ class WP_List_Table
         } else {
             $page_links[] = sprintf(
                 "<a class='prev-page button' href='%s'>" .
-                    "<span class='screen-reader-text'>%s</span>" .
-                    "<span aria-hidden='true'>%s</span>" .
+                "<span class='screen-reader-text'>%s</span>" .
+                "<span aria-hidden='true'>%s</span>" .
                 '</a>',
                 esc_url(add_query_arg('paged', max(1, $current - 1), $current_url)),
                 /* translators: Hidden accessibility text. */
                 __('Previous page'),
-                '&lsaquo;'
+                '&lsaquo;',
             );
         }
 
         if ('bottom' === $which) {
-            $html_current_page  = $current;
+            $html_current_page = $current;
             $total_pages_before = sprintf(
                 '<span class="screen-reader-text">%s</span>' .
                 '<span id="table-paging" class="paging-input">' .
                 '<span class="tablenav-paging-text">',
                 /* translators: Hidden accessibility text. */
-                __('Current Page')
+                __('Current Page'),
             );
         } else {
             $html_current_page = sprintf(
@@ -1143,7 +1155,7 @@ class WP_List_Table
                 /* translators: Hidden accessibility text. */
                 __('Current Page'),
                 $current,
-                strlen($total_pages)
+                strlen($total_pages),
             );
         }
 
@@ -1151,23 +1163,23 @@ class WP_List_Table
 
         $page_links[] = $total_pages_before . sprintf(
             /* translators: 1: Current page, 2: Total pages. */
-            _x('%1$s of %2$s', 'paging'),
-            $html_current_page,
-            $html_total_pages
-        ) . $total_pages_after;
+                _x('%1$s of %2$s', 'paging'),
+                $html_current_page,
+                $html_total_pages,
+            ) . $total_pages_after;
 
         if ($disable_next) {
             $page_links[] = '<span class="tablenav-pages-navspan button disabled" aria-hidden="true">&rsaquo;</span>';
         } else {
             $page_links[] = sprintf(
                 "<a class='next-page button' href='%s'>" .
-                    "<span class='screen-reader-text'>%s</span>" .
-                    "<span aria-hidden='true'>%s</span>" .
+                "<span class='screen-reader-text'>%s</span>" .
+                "<span aria-hidden='true'>%s</span>" .
                 '</a>',
                 esc_url(add_query_arg('paged', min($total_pages, $current + 1), $current_url)),
                 /* translators: Hidden accessibility text. */
                 __('Next page'),
-                '&rsaquo;'
+                '&rsaquo;',
             );
         }
 
@@ -1176,18 +1188,18 @@ class WP_List_Table
         } else {
             $page_links[] = sprintf(
                 "<a class='last-page button' href='%s'>" .
-                    "<span class='screen-reader-text'>%s</span>" .
-                    "<span aria-hidden='true'>%s</span>" .
+                "<span class='screen-reader-text'>%s</span>" .
+                "<span aria-hidden='true'>%s</span>" .
                 '</a>',
                 esc_url(add_query_arg('paged', $total_pages, $current_url)),
                 /* translators: Hidden accessibility text. */
                 __('Last page'),
-                '&raquo;'
+                '&raquo;',
             );
         }
 
         $pagination_links_class = 'pagination-links';
-        if (! empty($infinite_scroll)) {
+        if (!empty($infinite_scroll)) {
             $pagination_links_class .= ' hide-if-js';
         }
         $output .= "\n<span class='$pagination_links_class'>" . implode("\n", $page_links) . '</span>';
@@ -1208,10 +1220,10 @@ class WP_List_Table
      * The format is:
      * - `'internal-name' => 'Title'`
      *
+     * @return array
      * @since 3.1.0
      * @abstract
      *
-     * @return array
      */
     public function get_columns()
     {
@@ -1232,10 +1244,10 @@ class WP_List_Table
      * be used as 'abbr' attribute, a translatable string for the current sorting,
      * and the initial order for the initial sorted column, 'asc' or 'desc' (default: false).
      *
-     * @since 3.1.0
+     * @return array
      * @since 6.3.0 Added 'abbr', 'orderby-text' and 'initially-sorted-column-order'.
      *
-     * @return array
+     * @since 3.1.0
      */
     protected function get_sortable_columns()
     {
@@ -1245,14 +1257,14 @@ class WP_List_Table
     /**
      * Gets the name of the default primary column.
      *
+     * @return string Name of the default primary column, in this case, an empty string.
      * @since 4.3.0
      *
-     * @return string Name of the default primary column, in this case, an empty string.
      */
     protected function get_default_primary_column_name()
     {
         $columns = $this->get_columns();
-        $column  = '';
+        $column = '';
 
         if (empty($columns)) {
             return $column;
@@ -1279,9 +1291,9 @@ class WP_List_Table
      *
      * Public wrapper for WP_List_Table::get_default_primary_column_name().
      *
+     * @return string Name of the default primary column.
      * @since 4.4.0
      *
-     * @return string Name of the default primary column.
      */
     public function get_primary_column()
     {
@@ -1291,9 +1303,9 @@ class WP_List_Table
     /**
      * Gets the name of the primary column.
      *
+     * @return string The name of the primary column.
      * @since 4.3.0
      *
-     * @return string The name of the primary column.
      */
     protected function get_primary_column_name()
     {
@@ -1304,21 +1316,21 @@ class WP_List_Table
          * If the primary column doesn't exist,
          * fall back to the first non-checkbox column.
          */
-        if (! isset($columns[$default])) {
+        if (!isset($columns[$default])) {
             $default = self::get_default_primary_column_name();
         }
 
         /**
          * Filters the name of the primary column for the current list table.
          *
-         * @since 4.3.0
-         *
          * @param string $default Column name default for the specific list table, e.g. 'name'.
          * @param string $context Screen ID for specific list table, e.g. 'plugins'.
+         * @since 4.3.0
+         *
          */
         $column = apply_filters('list_table_primary_column', $default, $this->screen->id);
 
-        if (empty($column) || ! isset($columns[$column])) {
+        if (empty($column) || !isset($columns[$column])) {
             $column = $default;
         }
 
@@ -1328,15 +1340,14 @@ class WP_List_Table
     /**
      * Gets a list of all, hidden, and sortable columns, with filter applied.
      *
+     * @return array
      * @since 3.1.0
      *
-     * @return array
      */
     protected function get_column_info()
     {
         // $_column_headers is already set / cached.
-        if (isset($this->_column_headers) &&
-            is_array($this->_column_headers)
+        if (isset($this->_column_headers) && is_array($this->_column_headers)
         ) {
             /*
              * Backward compatibility for `$_column_headers` format prior to WP 4.3.
@@ -1360,7 +1371,7 @@ class WP_List_Table
         }
 
         $columns = get_column_headers($this->screen);
-        $hidden  = get_hidden_columns($this->screen);
+        $hidden = get_hidden_columns($this->screen);
 
         $sortable_columns = $this->get_sortable_columns();
         /**
@@ -1369,9 +1380,9 @@ class WP_List_Table
          * The dynamic portion of the hook name, `$this->screen->id`, refers
          * to the ID of the current screen.
          *
+         * @param array $sortable_columns An array of sortable columns.
          * @since 3.1.0
          *
-         * @param array $sortable_columns An array of sortable columns.
          */
         $_sortable = apply_filters("manage_{$this->screen->id}_sortable_columns", $sortable_columns);
 
@@ -1381,28 +1392,28 @@ class WP_List_Table
                 continue;
             }
 
-            $data = (array) $data;
+            $data = (array)$data;
             // Descending initial sorting.
-            if (! isset($data[1])) {
+            if (!isset($data[1])) {
                 $data[1] = false;
             }
             // Current sorting translatable string.
-            if (! isset($data[2])) {
+            if (!isset($data[2])) {
                 $data[2] = '';
             }
             // Initial view sorted column and asc/desc order, default: false.
-            if (! isset($data[3])) {
+            if (!isset($data[3])) {
                 $data[3] = false;
             }
             // Initial order for the initial sorted column, default: false.
-            if (! isset($data[4])) {
+            if (!isset($data[4])) {
                 $data[4] = false;
             }
 
             $sortable[$id] = $data;
         }
 
-        $primary               = $this->get_primary_column_name();
+        $primary = $this->get_primary_column_name();
         $this->_column_headers = [$columns, $hidden, $sortable, $primary];
 
         return $this->_column_headers;
@@ -1411,23 +1422,23 @@ class WP_List_Table
     /**
      * Returns the number of visible columns.
      *
+     * @return int
      * @since 3.1.0
      *
-     * @return int
      */
     public function get_column_count()
     {
         [$columns, $hidden] = $this->get_column_info();
-        $hidden             = array_intersect(array_keys($columns), array_filter($hidden));
+        $hidden = array_intersect(array_keys($columns), array_filter($hidden));
         return count($columns) - count($hidden);
     }
 
     /**
      * Prints column headers, accounting for hidden and sortable columns.
      *
+     * @param bool $with_id Whether to set the ID attribute or not
      * @since 3.1.0
      *
-     * @param bool $with_id Whether to set the ID attribute or not
      */
     public function print_column_headers($with_id = true)
     {
@@ -1452,23 +1463,23 @@ class WP_List_Table
             $current_order = 'asc';
         }
 
-        if (! empty($columns['cb'])) {
+        if (!empty($columns['cb'])) {
             static $cb_counter = 1;
-            $columns['cb']     = '<input id="cb-select-all-' . $cb_counter . '" type="checkbox" />
+            $columns['cb'] = '<input id="cb-select-all-' . $cb_counter . '" type="checkbox" />
 			<label for="cb-select-all-' . $cb_counter . '">' .
                 '<span class="screen-reader-text">' .
-                    /* translators: Hidden accessibility text. */
-                    __('Select All') .
+                /* translators: Hidden accessibility text. */
+                __('Select All') .
                 '</span>' .
                 '</label>';
             ++$cb_counter;
         }
 
         foreach ($columns as $column_key => $column_display_name) {
-            $class          = ['manage-column', "column-$column_key"];
+            $class = ['manage-column', "column-$column_key"];
             $aria_sort_attr = '';
-            $abbr_attr      = '';
-            $order_text     = '';
+            $abbr_attr = '';
+            $order_text = '';
 
             if (in_array($column_key, $hidden, true)) {
                 $class[] = 'hidden';
@@ -1485,10 +1496,10 @@ class WP_List_Table
             }
 
             if (isset($sortable[$column_key])) {
-                $orderby       = isset($sortable[$column_key][0]) ? $sortable[$column_key][0] : '';
-                $desc_first    = isset($sortable[$column_key][1]) ? $sortable[$column_key][1] : false;
-                $abbr          = isset($sortable[$column_key][2]) ? $sortable[$column_key][2] : '';
-                $orderby_text  = isset($sortable[$column_key][3]) ? $sortable[$column_key][3] : '';
+                $orderby = isset($sortable[$column_key][0]) ? $sortable[$column_key][0] : '';
+                $desc_first = isset($sortable[$column_key][1]) ? $sortable[$column_key][1] : false;
+                $abbr = isset($sortable[$column_key][2]) ? $sortable[$column_key][2] : '';
+                $orderby_text = isset($sortable[$column_key][3]) ? $sortable[$column_key][3] : '';
                 $initial_order = isset($sortable[$column_key][4]) ? $sortable[$column_key][4] : '';
 
                 /*
@@ -1509,10 +1520,10 @@ class WP_List_Table
                 if ($current_orderby === $orderby) {
                     // The sorted column. The `aria-sort` attribute must be set only on the sorted column.
                     if ('asc' === $current_order) {
-                        $order          = 'desc';
+                        $order = 'desc';
                         $aria_sort_attr = ' aria-sort="ascending"';
                     } else {
-                        $order          = 'asc';
+                        $order = 'asc';
                         $aria_sort_attr = ' aria-sort="descending"';
                     }
 
@@ -1522,7 +1533,7 @@ class WP_List_Table
                     // The other sortable columns.
                     $order = strtolower($desc_first);
 
-                    if (! in_array($order, ['desc', 'asc'], true)) {
+                    if (!in_array($order, ['desc', 'asc'], true)) {
                         $order = $desc_first ? 'desc' : 'asc';
                     }
 
@@ -1532,7 +1543,7 @@ class WP_List_Table
                     /* translators: Hidden accessibility text. */
                     $asc_text = __('Sort ascending.');
                     /* translators: Hidden accessibility text. */
-                    $desc_text  = __('Sort descending.');
+                    $desc_text = __('Sort descending.');
                     $order_text = 'asc' === $order ? $asc_text : $desc_text;
                 }
 
@@ -1545,24 +1556,24 @@ class WP_List_Table
 
                 $column_display_name = sprintf(
                     '<a href="%1$s">' .
-                        '<span>%2$s</span>' .
-                        '<span class="sorting-indicators">' .
-                            '<span class="sorting-indicator asc" aria-hidden="true"></span>' .
-                            '<span class="sorting-indicator desc" aria-hidden="true"></span>' .
-                        '</span>' .
-                        '%3$s' .
+                    '<span>%2$s</span>' .
+                    '<span class="sorting-indicators">' .
+                    '<span class="sorting-indicator asc" aria-hidden="true"></span>' .
+                    '<span class="sorting-indicator desc" aria-hidden="true"></span>' .
+                    '</span>' .
+                    '%3$s' .
                     '</a>',
                     esc_url(add_query_arg(compact('orderby', 'order'), $current_url)),
                     $column_display_name,
-                    $order_text
+                    $order_text,
                 );
             }
 
-            $tag   = ('cb' === $column_key) ? 'td' : 'th';
+            $tag = ('cb' === $column_key) ? 'td' : 'th';
             $scope = ('th' === $tag) ? 'scope="col"' : '';
-            $id    = $with_id ? "id='$column_key'" : '';
+            $id = $with_id ? "id='$column_key'" : '';
 
-            if (! empty($class)) {
+            if (!empty($class)) {
                 $class = "class='" . implode(' ', $class) . "'";
             }
 
@@ -1604,15 +1615,14 @@ class WP_List_Table
         }
 
         foreach (array_keys($columns) as $column_key) {
-
             if (isset($sortable[$column_key])) {
-                $orderby       = isset($sortable[$column_key][0]) ? $sortable[$column_key][0] : '';
-                $desc_first    = isset($sortable[$column_key][1]) ? $sortable[$column_key][1] : false;
-                $abbr          = isset($sortable[$column_key][2]) ? $sortable[$column_key][2] : '';
-                $orderby_text  = isset($sortable[$column_key][3]) ? $sortable[$column_key][3] : '';
+                $orderby = isset($sortable[$column_key][0]) ? $sortable[$column_key][0] : '';
+                $desc_first = isset($sortable[$column_key][1]) ? $sortable[$column_key][1] : false;
+                $abbr = isset($sortable[$column_key][2]) ? $sortable[$column_key][2] : '';
+                $orderby_text = isset($sortable[$column_key][3]) ? $sortable[$column_key][3] : '';
                 $initial_order = isset($sortable[$column_key][4]) ? $sortable[$column_key][4] : '';
 
-                if (! is_string($orderby_text) || '' === $orderby_text) {
+                if (!is_string($orderby_text) || '' === $orderby_text) {
                     return;
                 }
                 /*
@@ -1634,7 +1644,7 @@ class WP_List_Table
                     /* translators: Hidden accessibility text. */
                     $asc_text = __('Ascending.');
                     /* translators: Hidden accessibility text. */
-                    $desc_text  = __('Descending.');
+                    $desc_text = __('Descending.');
                     $order_text = 'asc' === $current_order ? $asc_text : $desc_text;
                     echo '<caption class="screen-reader-text">' . $orderby_text . ' ' . $order_text . '</caption>';
 
@@ -1657,31 +1667,31 @@ class WP_List_Table
 
         $this->screen->render_screen_reader_content('heading_list');
         ?>
-<table class="wp-list-table <?php echo implode(' ', $this->get_table_classes()); ?>">
-        <?php $this->print_table_description(); ?>
-    <thead>
-    <tr>
-        <?php $this->print_column_headers(); ?>
-    </tr>
-    </thead>
+        <table class="wp-list-table <?php echo implode(' ', $this->get_table_classes()); ?>">
+            <?php $this->print_table_description(); ?>
+            <thead>
+            <tr>
+                <?php $this->print_column_headers(); ?>
+            </tr>
+            </thead>
 
-    <tbody id="the-list"
-        <?php
-        if ($singular) {
-            echo " data-wp-lists='list:$singular'";
-        }
-        ?>
-        >
-        <?php $this->display_rows_or_placeholder(); ?>
-    </tbody>
+            <tbody id="the-list"
+                <?php
+                if ($singular) {
+                    echo " data-wp-lists='list:$singular'";
+                }
+                ?>
+            >
+            <?php $this->display_rows_or_placeholder(); ?>
+            </tbody>
 
-    <tfoot>
-    <tr>
-        <?php $this->print_column_headers(false); ?>
-    </tr>
-    </tfoot>
+            <tfoot>
+            <tr>
+                <?php $this->print_column_headers(false); ?>
+            </tr>
+            </tfoot>
 
-</table>
+        </table>
         <?php
         $this->display_tablenav('bottom');
     }
@@ -1689,9 +1699,9 @@ class WP_List_Table
     /**
      * Gets a list of CSS classes for the WP_List_Table table tag.
      *
+     * @return string[] Array of CSS classes for the table tag.
      * @since 3.1.0
      *
-     * @return string[] Array of CSS classes for the table tag.
      */
     protected function get_table_classes()
     {
@@ -1705,8 +1715,8 @@ class WP_List_Table
     /**
      * Generates the table navigation above or below the table
      *
-     * @since 3.1.0
      * @param string $which The location of the navigation: Either 'top' or 'bottom'.
+     * @since 3.1.0
      */
     protected function display_tablenav($which)
     {
@@ -1714,32 +1724,31 @@ class WP_List_Table
             wp_nonce_field('bulk-' . $this->_args['plural']);
         }
         ?>
-    <div class="tablenav <?php echo esc_attr($which); ?>">
+        <div class="tablenav <?php echo esc_attr($which); ?>">
 
-        <?php if ($this->has_items()) : ?>
-        <div class="alignleft actions bulkactions">
-            <?php $this->bulk_actions($which); ?>
-        </div>
+            <?php if ($this->has_items()) : ?>
+                <div class="alignleft actions bulkactions">
+                    <?php $this->bulk_actions($which); ?>
+                </div>
             <?php
-        endif;
-        $this->extra_tablenav($which);
-        $this->pagination($which);
-        ?>
+            endif;
+            $this->extra_tablenav($which);
+            $this->pagination($which);
+            ?>
 
-        <br class="clear" />
-    </div>
+            <br class="clear"/>
+        </div>
         <?php
     }
 
     /**
      * Displays extra controls between bulk actions and pagination.
      *
+     * @param string $which
      * @since 3.1.0
      *
-     * @param string $which
      */
-    protected function extra_tablenav($which)
-    {}
+    protected function extra_tablenav($which) {}
 
     /**
      * Generates the tbody element for the list table.
@@ -1772,9 +1781,9 @@ class WP_List_Table
     /**
      * Generates content for a single row of the table.
      *
+     * @param object|array $item The current item
      * @since 3.1.0
      *
-     * @param object|array $item The current item
      */
     public function single_row($item)
     {
@@ -1787,21 +1796,19 @@ class WP_List_Table
      * @param object|array $item
      * @param string $column_name
      */
-    protected function column_default($item, $column_name)
-    {}
+    protected function column_default($item, $column_name) {}
 
     /**
      * @param object|array $item
      */
-    protected function column_cb($item)
-    {}
+    protected function column_cb($item) {}
 
     /**
      * Generates the columns for a single row of the table.
      *
+     * @param object|array $item The current item.
      * @since 3.1.0
      *
-     * @param object|array $item The current item.
      */
     protected function single_row_columns($item)
     {
@@ -1835,7 +1842,7 @@ class WP_List_Table
                     $item,
                     $classes,
                     $data,
-                    $primary
+                    $primary,
                 );
             } elseif (method_exists($this, 'column_' . $column_name)) {
                 echo "<td $attributes>";
@@ -1854,20 +1861,22 @@ class WP_List_Table
     /**
      * Generates and display row actions links for the list table.
      *
-     * @since 4.3.0
-     *
-     * @param object|array $item        The item being acted upon.
-     * @param string       $column_name Current column name.
-     * @param string       $primary     Primary column name.
+     * @param object|array $item The item being acted upon.
+     * @param string $column_name Current column name.
+     * @param string $primary Primary column name.
      * @return string The row actions HTML, or an empty string
      *                if the current column is not the primary column.
+     * @since 4.3.0
+     *
      */
     protected function handle_row_actions($item, $column_name, $primary)
     {
-        return $column_name === $primary ? '<button type="button" class="toggle-row"><span class="screen-reader-text">' .
+        return $column_name === $primary ? '<button type="button" class="toggle-row"><span class="screen-reader-text">'
+            .
             /* translators: Hidden accessibility text. */
-            __('Show more details') .
-        '</span></button>' : '';
+            __('Show more details')
+            .
+            '</span></button>' : '';
     }
 
     /**
@@ -1880,7 +1889,7 @@ class WP_List_Table
         $this->prepare_items();
 
         ob_start();
-        if (! empty($_REQUEST['no_placeholder'])) {
+        if (!empty($_REQUEST['no_placeholder'])) {
             $this->display_rows();
         } else {
             $this->display_rows_or_placeholder();
@@ -1892,13 +1901,13 @@ class WP_List_Table
 
         if (isset($this->_pagination_args['total_items'])) {
             $response['total_items_i18n'] = sprintf(
-                /* translators: Number of items. */
+            /* translators: Number of items. */
                 _n('%s item', '%s items', $this->_pagination_args['total_items']),
-                number_format_i18n($this->_pagination_args['total_items'])
+                number_format_i18n($this->_pagination_args['total_items']),
             );
         }
         if (isset($this->_pagination_args['total_pages'])) {
-            $response['total_pages']      = $this->_pagination_args['total_pages'];
+            $response['total_pages'] = $this->_pagination_args['total_pages'];
             $response['total_pages_i18n'] = number_format_i18n($this->_pagination_args['total_pages']);
         }
 
@@ -1913,9 +1922,9 @@ class WP_List_Table
     public function _js_vars()
     {
         $args = [
-            'class'  => get_class($this),
+            'class' => get_class($this),
             'screen' => [
-                'id'   => $this->screen->id,
+                'id' => $this->screen->id,
                 'base' => $this->screen->base,
             ],
         ];

@@ -24,21 +24,21 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
      */
     public function test_should_respect_comment_order_asc_when_default_comments_page_is_newest()
     {
-        $now       = time();
-        $p         = self::factory()->post->create();
+        $now = time();
+        $p = self::factory()->post->create();
         $comment_1 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '1',
+                'comment_post_ID' => $p,
+                'comment_content' => '1',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
-            ]
+            ],
         );
         $comment_2 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '2',
+                'comment_post_ID' => $p,
+                'comment_content' => '2',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
-            ]
+            ],
         );
 
         update_option('comment_order', 'asc');
@@ -59,21 +59,21 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
      */
     public function test_should_respect_comment_order_desc_when_default_comments_page_is_newest()
     {
-        $now       = time();
-        $p         = self::factory()->post->create();
+        $now = time();
+        $p = self::factory()->post->create();
         $comment_1 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '1',
+                'comment_post_ID' => $p,
+                'comment_content' => '1',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
-            ]
+            ],
         );
         $comment_2 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '2',
+                'comment_post_ID' => $p,
+                'comment_content' => '2',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
-            ]
+            ],
         );
 
         update_option('comment_order', 'desc');
@@ -94,21 +94,21 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
      */
     public function test_should_respect_comment_order_asc_when_default_comments_page_is_oldest()
     {
-        $now       = time();
-        $p         = self::factory()->post->create();
+        $now = time();
+        $p = self::factory()->post->create();
         $comment_1 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '1',
+                'comment_post_ID' => $p,
+                'comment_content' => '1',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
-            ]
+            ],
         );
         $comment_2 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '2',
+                'comment_post_ID' => $p,
+                'comment_content' => '2',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
-            ]
+            ],
         );
 
         update_option('comment_order', 'asc');
@@ -129,21 +129,21 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
      */
     public function test_should_respect_comment_order_desc_when_default_comments_page_is_oldest()
     {
-        $now       = time();
-        $p         = self::factory()->post->create();
+        $now = time();
+        $p = self::factory()->post->create();
         $comment_1 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '1',
+                'comment_post_ID' => $p,
+                'comment_content' => '1',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
-            ]
+            ],
         );
         $comment_2 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '2',
+                'comment_post_ID' => $p,
+                'comment_content' => '2',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
-            ]
+            ],
         );
 
         update_option('comment_order', 'desc');
@@ -164,49 +164,49 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
      */
     public function test_should_respect_comment_order_asc_when_default_comments_page_is_newest_on_subsequent_pages()
     {
-        $now       = time();
-        $p         = self::factory()->post->create();
+        $now = time();
+        $p = self::factory()->post->create();
         $comment_1 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '1',
+                'comment_post_ID' => $p,
+                'comment_content' => '1',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
-            ]
+            ],
         );
         $comment_2 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '2',
+                'comment_post_ID' => $p,
+                'comment_content' => '2',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
-            ]
+            ],
         );
         $comment_3 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '3',
+                'comment_post_ID' => $p,
+                'comment_content' => '3',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 300),
-            ]
+            ],
         );
         $comment_4 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '4',
+                'comment_post_ID' => $p,
+                'comment_content' => '4',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 400),
-            ]
+            ],
         );
         $comment_5 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '3',
+                'comment_post_ID' => $p,
+                'comment_content' => '3',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 500),
-            ]
+            ],
         );
         $comment_6 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '4',
+                'comment_post_ID' => $p,
+                'comment_content' => '4',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 600),
-            ]
+            ],
         );
 
         update_option('comment_order', 'asc');
@@ -215,10 +215,10 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
 
         $link = add_query_arg(
             [
-                'cpage'             => 2,
+                'cpage' => 2,
                 'comments_per_page' => 2,
             ],
-            get_permalink($p)
+            get_permalink($p),
         );
 
         $this->go_to($link);
@@ -236,49 +236,49 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
      */
     public function test_should_respect_comment_order_desc_when_default_comments_page_is_newest_on_subsequent_pages()
     {
-        $now       = time();
-        $p         = self::factory()->post->create();
+        $now = time();
+        $p = self::factory()->post->create();
         $comment_1 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '1',
+                'comment_post_ID' => $p,
+                'comment_content' => '1',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
-            ]
+            ],
         );
         $comment_2 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '2',
+                'comment_post_ID' => $p,
+                'comment_content' => '2',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
-            ]
+            ],
         );
         $comment_3 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '3',
+                'comment_post_ID' => $p,
+                'comment_content' => '3',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 300),
-            ]
+            ],
         );
         $comment_4 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '4',
+                'comment_post_ID' => $p,
+                'comment_content' => '4',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 400),
-            ]
+            ],
         );
         $comment_5 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '3',
+                'comment_post_ID' => $p,
+                'comment_content' => '3',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 500),
-            ]
+            ],
         );
         $comment_6 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '4',
+                'comment_post_ID' => $p,
+                'comment_content' => '4',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 600),
-            ]
+            ],
         );
 
         update_option('comment_order', 'desc');
@@ -287,10 +287,10 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
 
         $link = add_query_arg(
             [
-                'cpage'             => 2,
+                'cpage' => 2,
                 'comments_per_page' => 2,
             ],
-            get_permalink($p)
+            get_permalink($p),
         );
 
         $this->go_to($link);
@@ -308,35 +308,35 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
      */
     public function test_should_respect_comment_order_asc_when_default_comments_page_is_oldest_on_subsequent_pages()
     {
-        $now       = time();
-        $p         = self::factory()->post->create();
+        $now = time();
+        $p = self::factory()->post->create();
         $comment_1 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '1',
+                'comment_post_ID' => $p,
+                'comment_content' => '1',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
-            ]
+            ],
         );
         $comment_2 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '2',
+                'comment_post_ID' => $p,
+                'comment_content' => '2',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
-            ]
+            ],
         );
         $comment_3 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '3',
+                'comment_post_ID' => $p,
+                'comment_content' => '3',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 300),
-            ]
+            ],
         );
         $comment_4 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '4',
+                'comment_post_ID' => $p,
+                'comment_content' => '4',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 400),
-            ]
+            ],
         );
 
         update_option('comment_order', 'asc');
@@ -345,10 +345,10 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
 
         $link = add_query_arg(
             [
-                'cpage'             => 2,
+                'cpage' => 2,
                 'comments_per_page' => 2,
             ],
-            get_permalink($p)
+            get_permalink($p),
         );
 
         $this->go_to($link);
@@ -366,35 +366,35 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
      */
     public function test_should_respect_comment_order_desc_when_default_comments_page_is_oldest_on_subsequent_pages()
     {
-        $now       = time();
-        $p         = self::factory()->post->create();
+        $now = time();
+        $p = self::factory()->post->create();
         $comment_1 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '1',
+                'comment_post_ID' => $p,
+                'comment_content' => '1',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
-            ]
+            ],
         );
         $comment_2 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '2',
+                'comment_post_ID' => $p,
+                'comment_content' => '2',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
-            ]
+            ],
         );
         $comment_3 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '3',
+                'comment_post_ID' => $p,
+                'comment_content' => '3',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 300),
-            ]
+            ],
         );
         $comment_4 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '4',
+                'comment_post_ID' => $p,
+                'comment_content' => '4',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 400),
-            ]
+            ],
         );
 
         update_option('comment_order', 'desc');
@@ -403,10 +403,10 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
 
         $link = add_query_arg(
             [
-                'cpage'             => 2,
+                'cpage' => 2,
                 'comments_per_page' => 2,
             ],
-            get_permalink($p)
+            get_permalink($p),
         );
 
         $this->go_to($link);
@@ -426,28 +426,28 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
      */
     public function test_last_page_of_comments_should_be_full_when_default_comment_page_is_newest()
     {
-        $now       = time();
-        $p         = self::factory()->post->create();
+        $now = time();
+        $p = self::factory()->post->create();
         $comment_1 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '1',
+                'comment_post_ID' => $p,
+                'comment_content' => '1',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
-            ]
+            ],
         );
         $comment_2 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '2',
+                'comment_post_ID' => $p,
+                'comment_content' => '2',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
-            ]
+            ],
         );
         $comment_3 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '3',
+                'comment_post_ID' => $p,
+                'comment_content' => '3',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 300),
-            ]
+            ],
         );
 
         update_option('default_comments_page', 'newest');
@@ -456,10 +456,10 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
 
         $link = add_query_arg(
             [
-                'cpage'             => 1,
+                'cpage' => 1,
                 'comments_per_page' => 2,
             ],
-            get_permalink($p)
+            get_permalink($p),
         );
 
         $this->go_to($link);
@@ -479,28 +479,28 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
      */
     public function test_first_page_of_comments_should_have_remainder_when_default_comments_page_is_newest()
     {
-        $now       = time();
-        $p         = self::factory()->post->create();
+        $now = time();
+        $p = self::factory()->post->create();
         $comment_1 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '1',
+                'comment_post_ID' => $p,
+                'comment_content' => '1',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
-            ]
+            ],
         );
         $comment_2 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '2',
+                'comment_post_ID' => $p,
+                'comment_content' => '2',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
-            ]
+            ],
         );
         $comment_3 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '3',
+                'comment_post_ID' => $p,
+                'comment_content' => '3',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 300),
-            ]
+            ],
         );
 
         update_option('default_comments_page', 'newest');
@@ -509,10 +509,10 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
 
         $link = add_query_arg(
             [
-                'cpage'             => 2,
+                'cpage' => 2,
                 'comments_per_page' => 2,
             ],
-            get_permalink($p)
+            get_permalink($p),
         );
 
         $this->go_to($link);
@@ -528,37 +528,38 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
     /**
      * @ticket 34073
      */
-    public function test_comment_permalinks_should_be_correct_when_using_default_display_callback_with_default_comment_page_oldest()
+    public function test_comment_permalinks_should_be_correct_when_using_default_display_callback_with_default_comment_page_oldest(
+    )
     {
-        $now       = time();
-        $p         = self::factory()->post->create();
+        $now = time();
+        $p = self::factory()->post->create();
         $comment_1 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '1',
+                'comment_post_ID' => $p,
+                'comment_content' => '1',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
-            ]
+            ],
         );
         $comment_2 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '2',
+                'comment_post_ID' => $p,
+                'comment_content' => '2',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
-            ]
+            ],
         );
         $comment_3 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '3',
+                'comment_post_ID' => $p,
+                'comment_content' => '3',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 300),
-            ]
+            ],
         );
         $comment_4 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '4',
+                'comment_post_ID' => $p,
+                'comment_content' => '4',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 400),
-            ]
+            ],
         );
 
         update_option('comment_order', 'desc');
@@ -569,7 +570,7 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
             [
                 'comments_per_page' => 2,
             ],
-            get_permalink($p)
+            get_permalink($p),
         );
 
         $this->go_to($link_p1);
@@ -586,10 +587,10 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
 
         $link_p2 = add_query_arg(
             [
-                'cpage'             => 2,
+                'cpage' => 2,
                 'comments_per_page' => 2,
             ],
-            get_permalink($p)
+            get_permalink($p),
         );
 
         $this->go_to($link_p2);
@@ -608,51 +609,52 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
     /**
      * @ticket 34073
      */
-    public function test_comment_permalinks_should_be_correct_when_using_default_display_callback_with_default_comment_page_newest()
+    public function test_comment_permalinks_should_be_correct_when_using_default_display_callback_with_default_comment_page_newest(
+    )
     {
-        $now       = time();
-        $p         = self::factory()->post->create();
+        $now = time();
+        $p = self::factory()->post->create();
         $comment_1 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '1',
+                'comment_post_ID' => $p,
+                'comment_content' => '1',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
-            ]
+            ],
         );
         $comment_2 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '2',
+                'comment_post_ID' => $p,
+                'comment_content' => '2',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
-            ]
+            ],
         );
         $comment_3 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '3',
+                'comment_post_ID' => $p,
+                'comment_content' => '3',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 300),
-            ]
+            ],
         );
         $comment_4 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '4',
+                'comment_post_ID' => $p,
+                'comment_content' => '4',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 400),
-            ]
+            ],
         );
         $comment_5 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '4',
+                'comment_post_ID' => $p,
+                'comment_content' => '4',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 500),
-            ]
+            ],
         );
         $comment_6 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '4',
+                'comment_post_ID' => $p,
+                'comment_content' => '4',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 600),
-            ]
+            ],
         );
 
         update_option('comment_order', 'desc');
@@ -663,7 +665,7 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
             [
                 'comments_per_page' => 2,
             ],
-            get_permalink($p)
+            get_permalink($p),
         );
 
         $this->go_to($link_p0);
@@ -679,10 +681,10 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
 
         $link_p2 = add_query_arg(
             [
-                'cpage'             => 2,
+                'cpage' => 2,
                 'comments_per_page' => 2,
             ],
-            get_permalink($p)
+            get_permalink($p),
         );
 
         $this->go_to($link_p2);
@@ -700,10 +702,10 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
         // p1 is the last page (neat!).
         $link_p1 = add_query_arg(
             [
-                'cpage'             => 1,
+                'cpage' => 1,
                 'comments_per_page' => 2,
             ],
-            get_permalink($p)
+            get_permalink($p),
         );
 
         $this->go_to($link_p1);
@@ -724,39 +726,39 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
      */
     public function test_query_offset_should_not_include_unapproved_comments()
     {
-        $now       = time();
-        $p         = self::factory()->post->create();
+        $now = time();
+        $p = self::factory()->post->create();
         $comment_1 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '1',
+                'comment_post_ID' => $p,
+                'comment_content' => '1',
                 'comment_approved' => '0',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
-            ]
+            ],
         );
         $comment_2 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '2',
+                'comment_post_ID' => $p,
+                'comment_content' => '2',
                 'comment_approved' => '0',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
-            ]
+            ],
         );
         $comment_3 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '3',
+                'comment_post_ID' => $p,
+                'comment_content' => '3',
                 'comment_approved' => '0',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 300),
-            ]
+            ],
         );
         $comment_4 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '4',
+                'comment_post_ID' => $p,
+                'comment_content' => '4',
                 'comment_approved' => '1',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 400),
-            ]
+            ],
         );
 
         update_option('comment_order', 'asc');
@@ -781,58 +783,58 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
     {
         $comment_author_email = 'foo@example.com';
 
-        $now       = time();
-        $p         = self::factory()->post->create();
+        $now = time();
+        $p = self::factory()->post->create();
         $comment_1 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '1',
+                'comment_post_ID' => $p,
+                'comment_content' => '1',
                 'comment_approved' => '0',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
-            ]
+            ],
         );
         $comment_2 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '2',
+                'comment_post_ID' => $p,
+                'comment_content' => '2',
                 'comment_approved' => '0',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
-            ]
+            ],
         );
         $comment_3 = self::factory()->comment->create(
             [
-                'comment_post_ID'      => $p,
-                'comment_content'      => '3',
-                'comment_approved'     => '0',
-                'comment_date_gmt'     => gmdate('Y-m-d H:i:s', $now - 100),
+                'comment_post_ID' => $p,
+                'comment_content' => '3',
+                'comment_approved' => '0',
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
                 'comment_author_email' => $comment_author_email,
-            ]
+            ],
         );
         $comment_4 = self::factory()->comment->create(
             [
-                'comment_post_ID'      => $p,
-                'comment_content'      => '4',
-                'comment_approved'     => '0',
-                'comment_date_gmt'     => gmdate('Y-m-d H:i:s', $now - 200),
+                'comment_post_ID' => $p,
+                'comment_content' => '4',
+                'comment_approved' => '0',
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
                 'comment_author_email' => $comment_author_email,
-            ]
+            ],
         );
         $comment_5 = self::factory()->comment->create(
             [
-                'comment_post_ID'      => $p,
-                'comment_content'      => '5',
-                'comment_approved'     => '0',
-                'comment_date_gmt'     => gmdate('Y-m-d H:i:s', $now - 300),
+                'comment_post_ID' => $p,
+                'comment_content' => '5',
+                'comment_approved' => '0',
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 300),
                 'comment_author_email' => $comment_author_email,
-            ]
+            ],
         );
         $comment_6 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '6',
+                'comment_post_ID' => $p,
+                'comment_content' => '6',
                 'comment_approved' => '1',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 400),
-            ]
+            ],
         );
 
         update_option('comment_order', 'asc');
@@ -863,27 +865,27 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
      */
     public function test_comments_list_should_include_just_posted_unapproved_comment()
     {
-        $now     = time();
-        $p       = self::factory()->post->create();
-        $c       = self::factory()->comment->create(
+        $now = time();
+        $p = self::factory()->post->create();
+        $c = self::factory()->comment->create(
             [
-                'comment_post_ID'      => $p,
-                'comment_content'      => '1',
-                'comment_approved'     => '0',
-                'comment_date_gmt'     => gmdate('Y-m-d H:i:s', $now),
+                'comment_post_ID' => $p,
+                'comment_content' => '1',
+                'comment_approved' => '0',
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now),
                 'comment_author_email' => 'foo@bar.mail',
-            ]
+            ],
         );
         $comment = get_comment($c);
 
         $this->go_to(
             add_query_arg(
                 [
-                    'unapproved'      => $comment->comment_ID,
+                    'unapproved' => $comment->comment_ID,
                     'moderation-hash' => wp_hash($comment->comment_date_gmt),
                 ],
-                get_comment_link($comment)
-            )
+                get_comment_link($comment),
+            ),
         );
 
         $found = get_echo('comments_template');
@@ -891,7 +893,7 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
         // Find the found comment in the markup.
         preg_match('|id="comment-([0-9]+)|', $found, $matches);
 
-        $found_cid = (int) $matches[1];
+        $found_cid = (int)$matches[1];
         $this->assertSame($c, $found_cid);
     }
 
@@ -900,32 +902,32 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
      */
     public function test_hierarchy_should_be_ignored_when_threading_is_disabled()
     {
-        $now       = time();
-        $p         = self::factory()->post->create();
+        $now = time();
+        $p = self::factory()->post->create();
         $comment_1 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '1',
+                'comment_post_ID' => $p,
+                'comment_content' => '1',
                 'comment_approved' => '1',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
-            ]
+            ],
         );
         $comment_2 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '2',
+                'comment_post_ID' => $p,
+                'comment_content' => '2',
                 'comment_approved' => '1',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 300),
-            ]
+            ],
         );
         $comment_3 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '3',
+                'comment_post_ID' => $p,
+                'comment_content' => '3',
                 'comment_approved' => '1',
-                'comment_parent'   => $comment_1,
+                'comment_parent' => $comment_1,
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
-            ]
+            ],
         );
 
         update_option('comment_order', 'asc');
@@ -946,32 +948,32 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
      */
     public function test_pagination_calculation_should_ignore_comment_hierarchy_when_threading_is_disabled()
     {
-        $now       = time();
-        $p         = self::factory()->post->create();
+        $now = time();
+        $p = self::factory()->post->create();
         $comment_1 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '1',
+                'comment_post_ID' => $p,
+                'comment_content' => '1',
                 'comment_approved' => '1',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 300),
-            ]
+            ],
         );
         $comment_2 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '2',
+                'comment_post_ID' => $p,
+                'comment_content' => '2',
                 'comment_approved' => '1',
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
-            ]
+            ],
         );
         $comment_3 = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $p,
-                'comment_content'  => '3',
+                'comment_post_ID' => $p,
+                'comment_content' => '3',
                 'comment_approved' => '1',
-                'comment_parent'   => $comment_1,
+                'comment_parent' => $comment_1,
                 'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
-            ]
+            ],
         );
 
         update_option('thread_comments', 0);
@@ -995,24 +997,24 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
      * @ticket 38074
      * @dataProvider data_comments_template_top_level_query_args
      *
-     * @param array $expected             Array of expected values.
-     * @param array $query_args           Args for the 'comments_template_query_args' filter.
+     * @param array $expected Array of expected values.
+     * @param array $query_args Args for the 'comments_template_query_args' filter.
      * @param array $top_level_query_args Args for the 'comments_template_top_level_query_args' filter.
      */
     public function test_comments_template_top_level_query_args($expected, $query_args, $top_level_query_args)
     {
-        $now         = time();
-        $offset      = 0;
-        $p           = self::factory()->post->create();
+        $now = time();
+        $offset = 0;
+        $p = self::factory()->post->create();
         $comment_ids = [];
 
         for ($num = 1; $num <= 6; $num++) {
             $comment_ids[$num] = self::factory()->comment->create(
                 [
-                    'comment_post_ID'  => $p,
-                    'comment_content'  => "{$num}",
+                    'comment_post_ID' => $p,
+                    'comment_content' => "{$num}",
                     'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100 * $num),
-                ]
+                ],
             );
             add_comment_meta($comment_ids[$num], 'featured', $num > 3 ? '1' : '0');
         }
@@ -1028,15 +1030,15 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
                 $offset = $args['offset'];
 
                 return array_merge($args, $query_args);
-            }
+            },
         );
 
-        if (! empty($top_level_query_args)) {
+        if (!empty($top_level_query_args)) {
             add_filter(
                 'comments_template_top_level_query_args',
                 static function ($args) use ($top_level_query_args) {
                     return array_merge($args, $top_level_query_args);
-                }
+                },
             );
         }
 
@@ -1059,54 +1061,54 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
         return [
             [
                 [
-                    'ids'    => [],
+                    'ids' => [],
                     'offset' => 3,
                 ],
                 [
-                    'meta_key'   => 'featured',
+                    'meta_key' => 'featured',
                     'meta_value' => '1',
                 ],
                 [],
             ],
             [
                 [
-                    'ids'    => [],
+                    'ids' => [],
                     'offset' => 3,
                 ],
                 [
-                    'order'      => 'DESC',
-                    'meta_key'   => 'featured',
+                    'order' => 'DESC',
+                    'meta_key' => 'featured',
                     'meta_value' => '0',
                 ],
                 [],
             ],
             [
                 [
-                    'ids'    => [6, 5, 4],
+                    'ids' => [6, 5, 4],
                     'offset' => 0,
                 ],
                 [
-                    'meta_key'   => 'featured',
+                    'meta_key' => 'featured',
                     'meta_value' => '1',
                 ],
                 [
-                    'meta_key'   => 'featured',
+                    'meta_key' => 'featured',
                     'meta_value' => '1',
                 ],
             ],
             [
                 [
-                    'ids'    => [4, 5, 6],
+                    'ids' => [4, 5, 6],
                     'offset' => 0,
                 ],
                 [
-                    'order'      => 'DESC',
-                    'meta_key'   => 'featured',
+                    'order' => 'DESC',
+                    'meta_key' => 'featured',
                     'meta_value' => '1',
                 ],
                 [
-                    'order'      => 'DESC',
-                    'meta_key'   => 'featured',
+                    'order' => 'DESC',
+                    'meta_key' => 'featured',
                     'meta_value' => '1',
                 ],
             ],

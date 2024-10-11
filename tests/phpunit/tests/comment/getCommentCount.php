@@ -26,7 +26,7 @@ class Tests_Comment_GetCommentCount extends WP_UnitTestCase
         self::factory()->comment->create(
             [
                 'comment_approved' => 1,
-            ]
+            ],
         );
 
         $count = get_comment_count();
@@ -44,7 +44,7 @@ class Tests_Comment_GetCommentCount extends WP_UnitTestCase
         self::factory()->comment->create(
             [
                 'comment_approved' => 0,
-            ]
+            ],
         );
 
         $count = get_comment_count();
@@ -62,7 +62,7 @@ class Tests_Comment_GetCommentCount extends WP_UnitTestCase
         self::factory()->comment->create(
             [
                 'comment_approved' => 'spam',
-            ]
+            ],
         );
 
         $count = get_comment_count();
@@ -80,7 +80,7 @@ class Tests_Comment_GetCommentCount extends WP_UnitTestCase
         self::factory()->comment->create(
             [
                 'comment_approved' => 'trash',
-            ]
+            ],
         );
 
         $count = get_comment_count();
@@ -98,7 +98,7 @@ class Tests_Comment_GetCommentCount extends WP_UnitTestCase
         self::factory()->comment->create(
             [
                 'comment_approved' => 'post-trashed',
-            ]
+            ],
         );
 
         $count = get_comment_count();
@@ -118,7 +118,6 @@ class Tests_Comment_GetCommentCount extends WP_UnitTestCase
      */
     public function test_get_comment_count_validate_cache_comment_deleted()
     {
-
         $comment_id = self::factory()->comment->create();
 
         $count = get_comment_count();
@@ -139,13 +138,12 @@ class Tests_Comment_GetCommentCount extends WP_UnitTestCase
      */
     public function test_get_comment_count_validate_cache_post_deleted()
     {
-
         $post_id = self::factory()->post->create();
 
         $comment_id = self::factory()->comment->create(
             [
                 'comment_post_ID' => $post_id,
-            ]
+            ],
         );
 
         $count = get_comment_count($post_id);

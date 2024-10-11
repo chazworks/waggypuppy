@@ -20,7 +20,7 @@ class Tests_Functions_wpToKebabCase extends WP_UnitTestCase
      * @ticket 53397
      *
      * @param string $test_value Test value.
-     * @param string $expected   Expected return value.
+     * @param string $expected Expected return value.
      */
     public function test_wp_to_kebab_case($test_value, $expected)
     {
@@ -31,8 +31,8 @@ class Tests_Functions_wpToKebabCase extends WP_UnitTestCase
      * Data provider for test_wp_to_kebab_case().
      *
      * @return array[] Test parameters {
-     *     @type string $test_value Test value.
-     *     @type string $expected   Expected return value.
+     * @type string $test_value Test value.
+     * @type string $expected Expected return value.
      * }
      */
     public function data_wp_to_kebab_case()

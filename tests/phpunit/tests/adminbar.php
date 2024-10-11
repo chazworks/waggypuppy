@@ -24,9 +24,9 @@ class Tests_AdminBar extends WP_UnitTestCase
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
-        self::$editor_id  = $factory->user->create(['role' => 'editor']);
+        self::$editor_id = $factory->user->create(['role' => 'editor']);
         self::$user_ids[] = self::$editor_id;
-        self::$admin_id   = $factory->user->create(['role' => 'administrator']);
+        self::$admin_id = $factory->user->create(['role' => 'administrator']);
         self::$user_ids[] = self::$admin_id;
         self::$no_role_id = $factory->user->create(['role' => '']);
         self::$user_ids[] = self::$no_role_id;
@@ -63,9 +63,9 @@ class Tests_AdminBar extends WP_UnitTestCase
 
         $admin_bar->add_node(
             [
-                'id'   => 'test-node',
+                'id' => 'test-node',
                 'meta' => ['class' => 'test-class'],
-            ]
+            ],
         );
 
         $node1 = $admin_bar->get_node('test-node');
@@ -73,18 +73,18 @@ class Tests_AdminBar extends WP_UnitTestCase
 
         $admin_bar->add_node(
             [
-                'id'   => 'test-node',
+                'id' => 'test-node',
                 'meta' => ['some-meta' => 'value'],
-            ]
+            ],
         );
 
         $node2 = $admin_bar->get_node('test-node');
         $this->assertSame(
             [
-                'class'     => 'test-class',
+                'class' => 'test-class',
                 'some-meta' => 'value',
             ],
-            $node2->meta
+            $node2->meta,
         );
     }
 
@@ -100,9 +100,9 @@ class Tests_AdminBar extends WP_UnitTestCase
 
         $wp_admin_bar = $this->get_standard_admin_bar();
 
-        $node_site_name  = $wp_admin_bar->get_node('site-name');
+        $node_site_name = $wp_admin_bar->get_node('site-name');
         $node_my_account = $wp_admin_bar->get_node('my-account');
-        $node_user_info  = $wp_admin_bar->get_node('user-info');
+        $node_user_info = $wp_admin_bar->get_node('user-info');
 
         // Site menu points to the home page instead of the admin URL.
         $this->assertSame(home_url('/'), $node_site_name->href);
@@ -124,9 +124,9 @@ class Tests_AdminBar extends WP_UnitTestCase
 
         $wp_admin_bar = $this->get_standard_admin_bar();
 
-        $node_site_name  = $wp_admin_bar->get_node('site-name');
+        $node_site_name = $wp_admin_bar->get_node('site-name');
         $node_my_account = $wp_admin_bar->get_node('my-account');
-        $node_user_info  = $wp_admin_bar->get_node('user-info');
+        $node_user_info = $wp_admin_bar->get_node('user-info');
 
         // Site menu points to the admin URL.
         $this->assertSame(admin_url('/'), $node_site_name->href);
@@ -148,7 +148,7 @@ class Tests_AdminBar extends WP_UnitTestCase
         $blog_id = self::factory()->blog->create(
             [
                 'user_id' => self::$admin_id,
-            ]
+            ],
         );
 
         $this->assertTrue(user_can(self::$admin_id, 'read'));
@@ -163,9 +163,9 @@ class Tests_AdminBar extends WP_UnitTestCase
 
         $wp_admin_bar = $this->get_standard_admin_bar();
 
-        $node_site_name  = $wp_admin_bar->get_node('site-name');
+        $node_site_name = $wp_admin_bar->get_node('site-name');
         $node_my_account = $wp_admin_bar->get_node('my-account');
-        $node_user_info  = $wp_admin_bar->get_node('user-info');
+        $node_user_info = $wp_admin_bar->get_node('user-info');
 
         // Get primary blog.
         $primary = get_active_blog_for_user(self::$editor_id);
@@ -199,7 +199,7 @@ class Tests_AdminBar extends WP_UnitTestCase
         $blog_id = self::factory()->blog->create(
             [
                 'user_id' => self::$admin_id,
-            ]
+            ],
         );
 
         $this->assertTrue(is_user_member_of_blog(self::$admin_id, $blog_id));
@@ -218,9 +218,9 @@ class Tests_AdminBar extends WP_UnitTestCase
 
         $wp_admin_bar = $this->get_standard_admin_bar();
 
-        $node_site_name  = $wp_admin_bar->get_node('site-name');
+        $node_site_name = $wp_admin_bar->get_node('site-name');
         $node_my_account = $wp_admin_bar->get_node('my-account');
-        $node_user_info  = $wp_admin_bar->get_node('user-info');
+        $node_user_info = $wp_admin_bar->get_node('user-info');
 
         // Get primary blog.
         $primary = get_active_blog_for_user(self::$no_role_id);
@@ -259,7 +259,7 @@ class Tests_AdminBar extends WP_UnitTestCase
      *
      * @dataProvider data_admin_bar_nodes_with_tabindex_meta
      *
-     * @param array  $node_data     The data for a node, passed to `WP_Admin_Bar::add_node()`.
+     * @param array $node_data The data for a node, passed to `WP_Admin_Bar::add_node()`.
      * @param string $expected_html The expected HTML when admin menu is rendered.
      */
     public function test_admin_bar_with_tabindex_meta($node_data, $expected_html)
@@ -274,9 +274,9 @@ class Tests_AdminBar extends WP_UnitTestCase
      * Data provider for test_admin_bar_with_tabindex_meta().
      *
      * @return array {
-     *     @type array {
-     *         @type array  $node_data     The data for a node, passed to `WP_Admin_Bar::add_node()`.
-     *         @type string $expected_html The expected HTML when admin bar is rendered.
+     * @type array {
+     * @type array $node_data The data for a node, passed to `WP_Admin_Bar::add_node()`.
+     * @type string $expected_html The expected HTML when admin bar is rendered.
      *     }
      * }
      */
@@ -293,7 +293,7 @@ class Tests_AdminBar extends WP_UnitTestCase
             [
                 // Empty string.
                 [
-                    'id'   => 'test-node',
+                    'id' => 'test-node',
                     'meta' => ['tabindex' => ''],
                 ],
                 '<div class="ab-item ab-empty-item" role="menuitem">',
@@ -301,7 +301,7 @@ class Tests_AdminBar extends WP_UnitTestCase
             [
                 // Integer 1 as string.
                 [
-                    'id'   => 'test-node',
+                    'id' => 'test-node',
                     'meta' => ['tabindex' => '1'],
                 ],
                 '<div class="ab-item ab-empty-item" tabindex="1" role="menuitem">',
@@ -309,7 +309,7 @@ class Tests_AdminBar extends WP_UnitTestCase
             [
                 // Integer -1 as string.
                 [
-                    'id'   => 'test-node',
+                    'id' => 'test-node',
                     'meta' => ['tabindex' => '-1'],
                 ],
                 '<div class="ab-item ab-empty-item" tabindex="-1" role="menuitem">',
@@ -317,7 +317,7 @@ class Tests_AdminBar extends WP_UnitTestCase
             [
                 // Integer 0 as string.
                 [
-                    'id'   => 'test-node',
+                    'id' => 'test-node',
                     'meta' => ['tabindex' => '0'],
                 ],
                 '<div class="ab-item ab-empty-item" tabindex="0" role="menuitem">',
@@ -325,7 +325,7 @@ class Tests_AdminBar extends WP_UnitTestCase
             [
                 // Integer, 0.
                 [
-                    'id'   => 'test-node',
+                    'id' => 'test-node',
                     'meta' => ['tabindex' => 0],
                 ],
                 '<div class="ab-item ab-empty-item" tabindex="0" role="menuitem">',
@@ -333,7 +333,7 @@ class Tests_AdminBar extends WP_UnitTestCase
             [
                 // Integer, 2.
                 [
-                    'id'   => 'test-node',
+                    'id' => 'test-node',
                     'meta' => ['tabindex' => 2],
                 ],
                 '<div class="ab-item ab-empty-item" tabindex="2" role="menuitem">',
@@ -341,7 +341,7 @@ class Tests_AdminBar extends WP_UnitTestCase
             [
                 // Boolean, false.
                 [
-                    'id'   => 'test-node',
+                    'id' => 'test-node',
                     'meta' => ['tabindex' => false],
                 ],
                 '<div class="ab-item ab-empty-item" role="menuitem">',
@@ -357,17 +357,17 @@ class Tests_AdminBar extends WP_UnitTestCase
         wp_set_current_user(self::$editor_id);
 
         $post = [
-            'post_author'  => self::$editor_id,
-            'post_status'  => 'publish',
+            'post_author' => self::$editor_id,
+            'post_status' => 'publish',
             'post_content' => 'Post Content',
-            'post_title'   => 'Post Title',
+            'post_title' => 'Post Title',
         ];
-        $id   = wp_insert_post($post);
+        $id = wp_insert_post($post);
 
         // Set queried object to the newly created post.
         global $wp_the_query;
-        $wp_the_query->queried_object = (object) [
-            'ID'        => $id,
+        $wp_the_query->queried_object = (object)[
+            'ID' => $id,
             'post_type' => 'post',
         ];
 
@@ -386,8 +386,8 @@ class Tests_AdminBar extends WP_UnitTestCase
 
         // Set queried object to a non-existing post.
         global $wp_the_query;
-        $wp_the_query->queried_object = (object) [
-            'ID'        => 0,
+        $wp_the_query->queried_object = (object)[
+            'ID' => 0,
             'post_type' => 'post',
         ];
 
@@ -405,7 +405,7 @@ class Tests_AdminBar extends WP_UnitTestCase
         set_current_screen('edit-post');
 
         $wp_admin_bar = $this->get_standard_admin_bar();
-        $node         = $wp_admin_bar->get_node('archive');
+        $node = $wp_admin_bar->get_node('archive');
 
         $this->assertNull($node);
     }
@@ -419,7 +419,7 @@ class Tests_AdminBar extends WP_UnitTestCase
         set_current_screen('edit-post');
 
         $wp_admin_bar = $this->get_standard_admin_bar();
-        $node         = $wp_admin_bar->get_node('archive');
+        $node = $wp_admin_bar->get_node('archive');
 
         $this->assertNotNull($node);
     }
@@ -432,7 +432,7 @@ class Tests_AdminBar extends WP_UnitTestCase
         set_current_screen('edit-page');
 
         $wp_admin_bar = $this->get_standard_admin_bar();
-        $node         = $wp_admin_bar->get_node('archive');
+        $node = $wp_admin_bar->get_node('archive');
 
         $this->assertNull($node);
     }
@@ -447,7 +447,7 @@ class Tests_AdminBar extends WP_UnitTestCase
 
         $wp_admin_bar = $this->get_standard_admin_bar();
         $wp_logo_node = $wp_admin_bar->get_node('wp-logo');
-        $about_node   = $wp_admin_bar->get_node('about');
+        $about_node = $wp_admin_bar->get_node('about');
 
         $this->assertNotNull($wp_logo_node);
         $this->assertSame(admin_url('about.php'), $wp_logo_node->href);
@@ -465,7 +465,7 @@ class Tests_AdminBar extends WP_UnitTestCase
 
         $wp_admin_bar = $this->get_standard_admin_bar();
         $wp_logo_node = $wp_admin_bar->get_node('wp-logo');
-        $about_node   = $wp_admin_bar->get_node('about');
+        $about_node = $wp_admin_bar->get_node('about');
 
         $this->assertNotNull($wp_logo_node);
         $this->assertFalse($wp_logo_node->href);
@@ -488,7 +488,7 @@ class Tests_AdminBar extends WP_UnitTestCase
 
         $wp_admin_bar = $this->get_standard_admin_bar();
         $wp_logo_node = $wp_admin_bar->get_node('wp-logo');
-        $about_node   = $wp_admin_bar->get_node('about');
+        $about_node = $wp_admin_bar->get_node('about');
 
         $this->assertNotNull($wp_logo_node);
         $this->assertSame(user_admin_url('about.php'), $wp_logo_node->href);
@@ -562,16 +562,16 @@ class Tests_AdminBar extends WP_UnitTestCase
         register_post_type(
             'foo-non-public',
             [
-                'public'            => false,
-                'has_archive'       => true,
+                'public' => false,
+                'has_archive' => true,
                 'show_in_admin_bar' => true,
-            ]
+            ],
         );
 
         set_current_screen('edit-foo-non-public');
 
         $wp_admin_bar = $this->get_standard_admin_bar();
-        $node         = $wp_admin_bar->get_node('archive');
+        $node = $wp_admin_bar->get_node('archive');
 
         unregister_post_type('foo-non-public');
 
@@ -586,16 +586,16 @@ class Tests_AdminBar extends WP_UnitTestCase
         register_post_type(
             'foo-non-public',
             [
-                'public'            => true,
-                'has_archive'       => false,
+                'public' => true,
+                'has_archive' => false,
                 'show_in_admin_bar' => true,
-            ]
+            ],
         );
 
         set_current_screen('edit-foo-non-public');
 
         $wp_admin_bar = $this->get_standard_admin_bar();
-        $node         = $wp_admin_bar->get_node('archive');
+        $node = $wp_admin_bar->get_node('archive');
 
         unregister_post_type('foo-non-public');
 
@@ -610,16 +610,16 @@ class Tests_AdminBar extends WP_UnitTestCase
         register_post_type(
             'foo-non-public',
             [
-                'public'            => true,
-                'has_archive'       => true,
+                'public' => true,
+                'has_archive' => true,
                 'show_in_admin_bar' => false,
-            ]
+            ],
         );
 
         set_current_screen('edit-foo-non-public');
 
         $wp_admin_bar = $this->get_standard_admin_bar();
-        $node         = $wp_admin_bar->get_node('archive');
+        $node = $wp_admin_bar->get_node('archive');
 
         unregister_post_type('foo-non-public');
 
@@ -676,7 +676,7 @@ class Tests_AdminBar extends WP_UnitTestCase
         $this->assertFalse(current_user_can('promote_users'));
 
         $wp_admin_bar = $this->get_standard_admin_bar();
-        $node         = $wp_admin_bar->get_node('new-user');
+        $node = $wp_admin_bar->get_node('new-user');
 
         // 'create_users' is sufficient in single- and multisite.
         $this->assertNotEmpty($node);
@@ -696,7 +696,7 @@ class Tests_AdminBar extends WP_UnitTestCase
         $this->assertTrue(current_user_can('promote_users'));
 
         $wp_admin_bar = $this->get_standard_admin_bar();
-        $node         = $wp_admin_bar->get_node('new-user');
+        $node = $wp_admin_bar->get_node('new-user');
 
         if (is_multisite()) {
             $this->assertNotEmpty($node);
@@ -720,7 +720,7 @@ class Tests_AdminBar extends WP_UnitTestCase
         $this->assertFalse(current_user_can('promote_users'));
 
         $wp_admin_bar = $this->get_standard_admin_bar();
-        $node         = $wp_admin_bar->get_node('new-user');
+        $node = $wp_admin_bar->get_node('new-user');
 
         $this->assertNull($node);
     }
@@ -739,23 +739,23 @@ class Tests_AdminBar extends WP_UnitTestCase
 
         self::factory()->post->create(
             [
-                'post_type'   => 'customize_changeset',
+                'post_type' => 'customize_changeset',
                 'post_status' => 'auto-draft',
-                'post_name'   => $uuid,
-            ]
+                'post_name' => $uuid,
+            ],
         );
         $wp_customize = new WP_Customize_Manager(
             [
                 'changeset_uuid' => $uuid,
-            ]
+            ],
         );
         $wp_customize->start_previewing_theme();
 
         $wp_admin_bar = $this->get_standard_admin_bar();
-        $node         = $wp_admin_bar->get_node('customize');
+        $node = $wp_admin_bar->get_node('customize');
         $this->assertNotEmpty($node);
 
-        $parsed_url   = wp_parse_url($node->href);
+        $parsed_url = wp_parse_url($node->href);
         $query_params = [];
         wp_parse_str($parsed_url['query'], $query_params);
         $this->assertSame($uuid, $query_params['changeset_uuid']);
@@ -819,9 +819,11 @@ class Tests_AdminBar extends WP_UnitTestCase
         $nodes = $wp_admin_bar->get_nodes();
         foreach ($this->get_my_sites_network_menu_items() as $id => $cap) {
             if (in_array($cap, $network_user_caps, true)) {
-                $this->assertArrayHasKey($id, $nodes, sprintf('Menu item %1$s must display for a user with the %2$s cap.', $id, $cap));
+                $this->assertArrayHasKey($id, $nodes,
+                    sprintf('Menu item %1$s must display for a user with the %2$s cap.', $id, $cap));
             } else {
-                $this->assertArrayNotHasKey($id, $nodes, sprintf('Menu item %1$s must not display for a user without the %2$s cap.', $id, $cap));
+                $this->assertArrayNotHasKey($id, $nodes,
+                    sprintf('Menu item %1$s must not display for a user without the %2$s cap.', $id, $cap));
             }
         }
     }
@@ -830,13 +832,13 @@ class Tests_AdminBar extends WP_UnitTestCase
     {
         return [
             'my-sites-super-admin' => 'manage_network',
-            'network-admin'        => 'manage_network',
-            'network-admin-d'      => 'manage_network',
-            'network-admin-s'      => 'manage_sites',
-            'network-admin-u'      => 'manage_network_users',
-            'network-admin-t'      => 'manage_network_themes',
-            'network-admin-p'      => 'manage_network_plugins',
-            'network-admin-o'      => 'manage_network_options',
+            'network-admin' => 'manage_network',
+            'network-admin-d' => 'manage_network',
+            'network-admin-s' => 'manage_sites',
+            'network-admin-u' => 'manage_network_users',
+            'network-admin-t' => 'manage_network_themes',
+            'network-admin-p' => 'manage_network_plugins',
+            'network-admin-o' => 'manage_network_options',
         ];
     }
 

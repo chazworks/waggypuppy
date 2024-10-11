@@ -20,11 +20,11 @@ class _WP_List_Table_Compat extends WP_List_Table
     /**
      * Constructor.
      *
+     * @param string|WP_Screen $screen The screen hook name or screen object.
+     * @param string[] $columns An array of columns with column IDs as the keys
+     *                                  and translated column names as the values.
      * @since 3.1.0
      *
-     * @param string|WP_Screen $screen  The screen hook name or screen object.
-     * @param string[]         $columns An array of columns with column IDs as the keys
-     *                                  and translated column names as the values.
      */
     public function __construct($screen, $columns = [])
     {
@@ -34,7 +34,7 @@ class _WP_List_Table_Compat extends WP_List_Table
 
         $this->_screen = $screen;
 
-        if (! empty($columns)) {
+        if (!empty($columns)) {
             $this->_columns = $columns;
             add_filter('manage_' . $screen->id . '_columns', [$this, 'get_columns'], 0);
         }
@@ -43,16 +43,16 @@ class _WP_List_Table_Compat extends WP_List_Table
     /**
      * Gets a list of all, hidden, and sortable columns.
      *
+     * @return array
      * @since 3.1.0
      *
-     * @return array
      */
     protected function get_column_info()
     {
-        $columns  = get_column_headers($this->_screen);
-        $hidden   = get_hidden_columns($this->_screen);
+        $columns = get_column_headers($this->_screen);
+        $hidden = get_hidden_columns($this->_screen);
         $sortable = [];
-        $primary  = $this->get_default_primary_column_name();
+        $primary = $this->get_default_primary_column_name();
 
         return [$columns, $hidden, $sortable, $primary];
     }
@@ -60,9 +60,9 @@ class _WP_List_Table_Compat extends WP_List_Table
     /**
      * Gets a list of columns.
      *
+     * @return array
      * @since 3.1.0
      *
-     * @return array
      */
     public function get_columns()
     {

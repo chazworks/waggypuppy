@@ -1,7 +1,9 @@
 /* global twentytwentyoneIsDarkMode, setTimeout */
 
 // Check the color scheme preference and inject the classes if necessary.
-if ( document.body.classList.contains( 'twentytwentyone-supports-dark-theme' ) ) {
+if (
+	document.body.classList.contains( 'twentytwentyone-supports-dark-theme' )
+) {
 	twentytwentyoneDarkModeEditorInit();
 }
 
@@ -27,7 +29,7 @@ function twentytwentyoneDarkModeEditorInit( attempt ) {
 			// Try again.
 			if ( attempt < maxAttempts ) {
 				setTimeout(
-					function() {
+					function () {
 						twentytwentyoneDarkModeEditorInit( attempt + 1 );
 					},
 					// Double the delay, give the server some time to breathe.

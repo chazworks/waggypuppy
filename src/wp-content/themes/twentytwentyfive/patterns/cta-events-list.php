@@ -12,7 +12,8 @@
 
 ?>
 <!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|50","bottom":"var:preset|spacing|50"}}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignfull" style="padding-top:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--50)">
+<div class="wp-block-group alignfull"
+     style="padding-top:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--50)">
     <!-- wp:group {"align":"wide","layout":{"type":"default"}} -->
     <div class="wp-block-group alignwide">
         <!-- wp:heading -->
@@ -26,7 +27,8 @@
         <!-- wp:group {"style":{"spacing":{"blockGap":"0","margin":{"top":"var:preset|spacing|70"}}},"layout":{"type":"default"}} -->
         <div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--70)">
             <!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40"}}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
-            <div class="wp-block-group" style="padding-top:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40)">
+            <div class="wp-block-group"
+                 style="padding-top:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40)">
                 <!-- wp:group {"layout":{"type":"constrained"}} -->
                 <div class="wp-block-group">
                     <!-- wp:heading {"level":3} -->
@@ -48,7 +50,8 @@
                     <!-- wp:buttons -->
                     <div class="wp-block-buttons">
                         <!-- wp:button {"fontSize":"small"} -->
-                        <div class="wp-block-button has-custom-font-size has-small-font-size"><a class="wp-block-button__link wp-element-button">Buy Tickets</a></div>
+                        <div class="wp-block-button has-custom-font-size has-small-font-size"><a
+                                class="wp-block-button__link wp-element-button">Buy Tickets</a></div>
                         <!-- /wp:button -->
                     </div>
                     <!-- /wp:buttons -->
@@ -58,7 +61,9 @@
             <!-- /wp:group -->
 
             <!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40"}},"border":{"top":{"color":"var:preset|color|accent-6","width":"1px"}}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
-            <div class="wp-block-group" style="border-top-color:var(--wp--preset--color--accent-6);border-top-width:1px;padding-top:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40)"><!-- wp:group {"layout":{"type":"constrained"}} -->
+            <div class="wp-block-group"
+                 style="border-top-color:var(--wp--preset--color--accent-6);border-top-width:1px;padding-top:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40)">
+                <!-- wp:group {"layout":{"type":"constrained"}} -->
                 <div class="wp-block-group">
                     <!-- wp:heading {"level":3} -->
                     <h3 class="wp-block-heading">“Stories, historias, iсторії, iστορίες”</h3>
@@ -79,7 +84,8 @@
                     <!-- wp:buttons -->
                     <div class="wp-block-buttons">
                         <!-- wp:button {"fontSize":"small"} -->
-                        <div class="wp-block-button has-custom-font-size has-small-font-size"><a class="wp-block-button__link wp-element-button">Buy Tickets</a></div>
+                        <div class="wp-block-button has-custom-font-size has-small-font-size"><a
+                                class="wp-block-button__link wp-element-button">Buy Tickets</a></div>
                         <!-- /wp:button -->
                     </div>
                     <!-- /wp:buttons -->
@@ -89,7 +95,9 @@
             <!-- /wp:group -->
 
             <!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40"}},"border":{"top":{"color":"var:preset|color|accent-6","width":"1px"}}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
-            <div class="wp-block-group" style="border-top-color:var(--wp--preset--color--accent-6);border-top-width:1px;padding-top:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40)"><!-- wp:group {"layout":{"type":"constrained"}} -->
+            <div class="wp-block-group"
+                 style="border-top-color:var(--wp--preset--color--accent-6);border-top-width:1px;padding-top:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40)">
+                <!-- wp:group {"layout":{"type":"constrained"}} -->
                 <div class="wp-block-group">
                     <!-- wp:heading {"level":3} -->
                     <h3 class="wp-block-heading">Tell your story</h3>
@@ -110,7 +118,8 @@
                     <!-- wp:buttons -->
                     <div class="wp-block-buttons">
                         <!-- wp:button {"fontSize":"small"} -->
-                        <div class="wp-block-button has-custom-font-size has-small-font-size"><a class="wp-block-button__link wp-element-button">Buy Tickets</a></div>
+                        <div class="wp-block-button has-custom-font-size has-small-font-size"><a
+                                class="wp-block-button__link wp-element-button">Buy Tickets</a></div>
                         <!-- /wp:button -->
                     </div>
                     <!-- /wp:buttons -->
@@ -120,7 +129,9 @@
             <!-- /wp:group -->
 
             <!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40"}},"border":{"top":{"color":"var:preset|color|accent-6","width":"1px"}}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
-            <div class="wp-block-group" style="border-top-color:var(--wp--preset--color--accent-6);border-top-width:1px;padding-top:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40)"><!-- wp:group {"layout":{"type":"constrained"}} -->
+            <div class="wp-block-group"
+                 style="border-top-color:var(--wp--preset--color--accent-6);border-top-width:1px;padding-top:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40)">
+                <!-- wp:group {"layout":{"type":"constrained"}} -->
                 <div class="wp-block-group">
                     <!-- wp:heading {"level":3} -->
                     <h3 class="wp-block-heading">“Stories, historias, iсторії, iστορίες”</h3>
@@ -141,7 +152,8 @@
                     <!-- wp:buttons -->
                     <div class="wp-block-buttons">
                         <!-- wp:button {"fontSize":"small"} -->
-                        <div class="wp-block-button has-custom-font-size has-small-font-size"><a class="wp-block-button__link wp-element-button">Buy Tickets</a></div>
+                        <div class="wp-block-button has-custom-font-size has-small-font-size"><a
+                                class="wp-block-button__link wp-element-button">Buy Tickets</a></div>
                         <!-- /wp:button -->
                     </div>
                     <!-- /wp:buttons -->

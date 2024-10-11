@@ -3,7 +3,6 @@
  */
 
 ( function () {
-
 	window.wp = window.wp || {};
 
 	/**
@@ -12,7 +11,6 @@
 	 * Helper functions to sanitize strings.
 	 */
 	wp.sanitize = {
-
 		/**
 		 * Strip HTML tags.
 		 *
@@ -20,14 +18,14 @@
 		 *
 		 * @return  Stripped text.
 		 */
-		stripTags: function( text ) {
+		stripTags: function ( text ) {
 			text = text || '';
 
 			// Do the replacement.
 			var _text = text
-					.replace( /<!--[\s\S]*?(-->|$)/g, '' )
-					.replace( /<(script|style)[^>]*>[\s\S]*?(<\/\1>|$)/ig, '' )
-					.replace( /<\/?[a-z][\s\S]*?(>|$)/ig, '' );
+				.replace( /<!--[\s\S]*?(-->|$)/g, '' )
+				.replace( /<(script|style)[^>]*>[\s\S]*?(<\/\1>|$)/gi, '' )
+				.replace( /<\/?[a-z][\s\S]*?(>|$)/gi, '' );
 
 			// If the initial text is not equal to the modified text,
 			// do the search-replace again, until there is nothing to be replaced.
@@ -46,7 +44,7 @@
 		 *
 		 * @return Sanitized text. False on failure.
 		 */
-		stripTagsAndEncodeText: function( text ) {
+		stripTagsAndEncodeText: function ( text ) {
 			var _text = wp.sanitize.stripTags( text ),
 				textarea = document.createElement( 'textarea' );
 
@@ -56,6 +54,6 @@
 			} catch ( er ) {}
 
 			return _text;
-		}
+		},
 	};
-}() );
+} )();

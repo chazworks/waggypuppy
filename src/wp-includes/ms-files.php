@@ -12,7 +12,7 @@ const MS_FILES_REQUEST = true;
 const SHORTINIT = true;
 require_once dirname(__DIR__) . '/wp-load.php';
 
-if (! is_multisite()) {
+if (!is_multisite()) {
     die('Multisite support not enabled');
 }
 
@@ -24,7 +24,7 @@ if ('1' === $current_blog->archived || '1' === $current_blog->spam || '1' === $c
 }
 
 $file = rtrim(BLOGUPLOADDIR, '/') . '/' . str_replace('..', '', $_GET['file']);
-if (! is_file($file)) {
+if (!is_file($file)) {
     status_header(404);
     die('404 &#8212; File not found.');
 }
@@ -41,7 +41,7 @@ if ($mime['type']) {
 }
 
 header('Content-Type: ' . $mimetype); // Always send this.
-if (! str_contains($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS')) {
+if (!str_contains($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS')) {
     header('Content-Length: ' . filesize($file));
 }
 
@@ -55,7 +55,7 @@ if (WPMU_ACCEL_REDIRECT) {
 }
 
 $wp_last_modified = gmdate('D, d M Y H:i:s', filemtime($file));
-$wp_etag          = '"' . md5($wp_last_modified) . '"';
+$wp_etag = '"' . md5($wp_last_modified) . '"';
 
 header("Last-Modified: $wp_last_modified GMT");
 header('ETag: ' . $wp_etag);

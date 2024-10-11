@@ -30,33 +30,33 @@ class Tests_Functions_wpParseIdList extends WP_UnitTestCase
     public function data_wp_parse_id_list()
     {
         return [
-            'regular'                  => [
+            'regular' => [
                 'input_list' => '1,2,3,4',
-                'expected'   => [1, 2, 3, 4],
+                'expected' => [1, 2, 3, 4],
             ],
-            'double comma'             => [
+            'double comma' => [
                 'input_list' => '1, 2,,3,4',
-                'expected'   => [1, 2, 3, 4],
+                'expected' => [1, 2, 3, 4],
             ],
             'duplicate id in a string' => [
                 'input_list' => '1,2,2,3,4',
-                'expected'   => [1, 2, 3, 4],
+                'expected' => [1, 2, 3, 4],
             ],
             'duplicate id in an array' => [
                 'input_list' => ['1', '2', '3', '4', '3'],
-                'expected'   => [1, 2, 3, 4],
+                'expected' => [1, 2, 3, 4],
             ],
-            'mixed type'               => [
+            'mixed type' => [
                 'input_list' => [1, '2', 3, '4'],
-                'expected'   => [1, 2, 3, 4],
+                'expected' => [1, 2, 3, 4],
             ],
             'negative ids in a string' => [
                 'input_list' => '-1,2,-3,4',
-                'expected'   => [1, 2, 3, 4],
+                'expected' => [1, 2, 3, 4],
             ],
             'negative ids in an array' => [
                 'input_list' => [-1, 2, '-3', '4'],
-                'expected'   => [1, 2, 3, 4],
+                'expected' => [1, 2, 3, 4],
             ],
         ];
     }
@@ -71,35 +71,35 @@ class Tests_Functions_wpParseIdList extends WP_UnitTestCase
         return [
             'string with commas' => [
                 'input_list' => '1,2,string with spaces',
-                'expected'   => [1, 2, 0],
+                'expected' => [1, 2, 0],
             ],
-            'array'              => [
+            'array' => [
                 'input_list' => ['1', 2, 'string with spaces'],
-                'expected'   => [1, 2, 0],
+                'expected' => [1, 2, 0],
             ],
             'string with spaces' => [
                 'input_list' => '1 2 string with spaces',
-                'expected'   => [1, 2, 0],
+                'expected' => [1, 2, 0],
             ],
-            'array with spaces'  => [
+            'array with spaces' => [
                 'input_list' => ['1 2 string with spaces'],
-                'expected'   => [1],
+                'expected' => [1],
             ],
-            'string with html'   => [
+            'string with html' => [
                 'input_list' => '1 2 string <strong>with</strong> <h1>HEADING</h1>',
-                'expected'   => [1, 2, 0],
+                'expected' => [1, 2, 0],
             ],
-            'array with html'    => [
+            'array with html' => [
                 'input_list' => ['1', 2, 'string <strong>with</strong> <h1>HEADING</h1>'],
-                'expected'   => [1, 2, 0],
+                'expected' => [1, 2, 0],
             ],
-            'array with null'    => [
+            'array with null' => [
                 'input_list' => [1, 2, null],
-                'expected'   => [1, 2],
+                'expected' => [1, 2],
             ],
-            'array with false'   => [
+            'array with false' => [
                 'input_list' => [1, 2, false],
-                'expected'   => [1, 2, 0],
+                'expected' => [1, 2, 0],
             ],
         ];
     }

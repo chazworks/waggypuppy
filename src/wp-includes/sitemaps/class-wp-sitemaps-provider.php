@@ -40,30 +40,30 @@ abstract class WP_Sitemaps_Provider
     /**
      * Gets a URL list for a sitemap.
      *
-     * @since 5.5.0
-     *
-     * @param int    $page_num       Page of results.
+     * @param int $page_num Page of results.
      * @param string $object_subtype Optional. Object subtype name. Default empty.
      * @return array[] Array of URL information for a sitemap.
+     * @since 5.5.0
+     *
      */
     abstract public function get_url_list($page_num, $object_subtype = '');
 
     /**
      * Gets the max number of pages available for the object type.
      *
-     * @since 5.5.0
-     *
      * @param string $object_subtype Optional. Object subtype. Default empty.
      * @return int Total number of pages.
+     * @since 5.5.0
+     *
      */
     abstract public function get_max_num_pages($object_subtype = '');
 
     /**
      * Gets data about each sitemap type.
      *
+     * @return array[] Array of sitemap types including object subtype name and number of pages.
      * @since 5.5.0
      *
-     * @return array[] Array of sitemap types including object subtype name and number of pages.
      */
     public function get_sitemap_type_data()
     {
@@ -77,7 +77,7 @@ abstract class WP_Sitemaps_Provider
          */
         if (empty($object_subtypes)) {
             $sitemap_data[] = [
-                'name'  => '',
+                'name' => '',
                 'pages' => $this->get_max_num_pages(),
             ];
             return $sitemap_data;
@@ -85,10 +85,10 @@ abstract class WP_Sitemaps_Provider
 
         // Otherwise, include individual sitemaps for every object subtype.
         foreach ($object_subtypes as $object_subtype_name => $data) {
-            $object_subtype_name = (string) $object_subtype_name;
+            $object_subtype_name = (string)$object_subtype_name;
 
             $sitemap_data[] = [
-                'name'  => $object_subtype_name,
+                'name' => $object_subtype_name,
                 'pages' => $this->get_max_num_pages($object_subtype_name),
             ];
         }
@@ -101,9 +101,9 @@ abstract class WP_Sitemaps_Provider
      *
      * The returned data is used to populate the sitemap entries of the index.
      *
+     * @return array[] Array of sitemap entries.
      * @since 5.5.0
      *
-     * @return array[] Array of sitemap entries.
      */
     public function get_sitemap_entries()
     {
@@ -120,15 +120,16 @@ abstract class WP_Sitemaps_Provider
                 /**
                  * Filters the sitemap entry for the sitemap index.
                  *
-                 * @since 5.5.0
-                 *
-                 * @param array  $sitemap_entry  Sitemap entry for the post.
-                 * @param string $object_type    Object empty name.
+                 * @param array $sitemap_entry Sitemap entry for the post.
+                 * @param string $object_type Object empty name.
                  * @param string $object_subtype Object subtype name.
                  *                               Empty string if the object type does not support subtypes.
-                 * @param int    $page           Page number of results.
+                 * @param int $page Page number of results.
+                 * @since 5.5.0
+                 *
                  */
-                $sitemap_entry = apply_filters('wp_sitemaps_index_entry', $sitemap_entry, $this->object_type, $type['name'], $page);
+                $sitemap_entry = apply_filters('wp_sitemaps_index_entry', $sitemap_entry, $this->object_type,
+                    $type['name'], $page);
 
                 $sitemaps[] = $sitemap_entry;
             }
@@ -140,13 +141,13 @@ abstract class WP_Sitemaps_Provider
     /**
      * Gets the URL of a sitemap entry.
      *
-     * @since 5.5.0
-     *
+     * @param string $name The name of the sitemap.
+     * @param int $page The page of the sitemap.
+     * @return string The composed URL for a sitemap entry.
      * @global WP_Rewrite $wp_rewrite waggypuppy rewrite component.
      *
-     * @param string $name The name of the sitemap.
-     * @param int    $page The page of the sitemap.
-     * @return string The composed URL for a sitemap entry.
+     * @since 5.5.0
+     *
      */
     public function get_sitemap_url($name, $page)
     {
@@ -155,18 +156,18 @@ abstract class WP_Sitemaps_Provider
         // Accounts for cases where name is not included, ex: sitemaps-users-1.xml.
         $params = array_filter(
             [
-                'sitemap'         => $this->name,
+                'sitemap' => $this->name,
                 'sitemap-subtype' => $name,
-                'paged'           => $page,
-            ]
+                'paged' => $page,
+            ],
         );
 
         $basename = sprintf(
             '/wp-sitemap-%1$s.xml',
-            implode('-', $params)
+            implode('-', $params),
         );
 
-        if (! $wp_rewrite->using_permalinks()) {
+        if (!$wp_rewrite->using_permalinks()) {
             $basename = '/?' . http_build_query($params, '', '&');
         }
 
@@ -176,9 +177,9 @@ abstract class WP_Sitemaps_Provider
     /**
      * Returns the list of supported object subtypes exposed by the provider.
      *
+     * @return array List of object subtypes objects keyed by their name.
      * @since 5.5.0
      *
-     * @return array List of object subtypes objects keyed by their name.
      */
     public function get_object_subtypes()
     {

@@ -28,7 +28,7 @@ class Tests_Theme_WpAddGlobalStylesForBlocks extends WP_Theme_UnitTestCase
     public function tear_down()
     {
         // Unregister test blocks.
-        if (! empty($this->test_blocks)) {
+        if (!empty($this->test_blocks)) {
             foreach ($this->test_blocks as $test_block) {
                 unregister_block_type($test_block);
             }
@@ -51,7 +51,7 @@ class Tests_Theme_WpAddGlobalStylesForBlocks extends WP_Theme_UnitTestCase
 
         $this->assertNotContains(
             ':root :where(.wp-block-my-third-party-block){background-color: hotpink;}',
-            $this->get_global_styles()
+            $this->get_global_styles(),
         );
     }
 
@@ -68,7 +68,7 @@ class Tests_Theme_WpAddGlobalStylesForBlocks extends WP_Theme_UnitTestCase
         $this->assertNotContains(
             ':root :where(.wp-block-my-third-party-block){background-color: hotpink;}',
             $this->get_global_styles(),
-            'Third party block inline style should not be registered before running wp_add_global_styles_for_blocks()'
+            'Third party block inline style should not be registered before running wp_add_global_styles_for_blocks()',
         );
 
         wp_add_global_styles_for_blocks();
@@ -76,7 +76,7 @@ class Tests_Theme_WpAddGlobalStylesForBlocks extends WP_Theme_UnitTestCase
         $this->assertContains(
             ':root :where(.wp-block-my-third-party-block){background-color: hotpink;}',
             $this->get_global_styles(),
-            'Third party block inline style should be registered after running wp_add_global_styles_for_blocks()'
+            'Third party block inline style should be registered after running wp_add_global_styles_for_blocks()',
         );
     }
 
@@ -94,7 +94,7 @@ class Tests_Theme_WpAddGlobalStylesForBlocks extends WP_Theme_UnitTestCase
         $this->assertNotContains(
             ':root :where(.wp-block-my-third-party-block){background-color: hotpink;}',
             $this->get_global_styles(),
-            'Third party block inline style should not be registered before running wp_add_global_styles_for_blocks()'
+            'Third party block inline style should not be registered before running wp_add_global_styles_for_blocks()',
         );
 
         wp_add_global_styles_for_blocks();
@@ -102,7 +102,7 @@ class Tests_Theme_WpAddGlobalStylesForBlocks extends WP_Theme_UnitTestCase
         $this->assertContains(
             ':root :where(.wp-block-my-third-party-block){background-color: hotpink;}',
             $this->get_global_styles(),
-            'Third party block inline style should be registered after running wp_add_global_styles_for_blocks()'
+            'Third party block inline style should be registered after running wp_add_global_styles_for_blocks()',
         );
     }
 
@@ -124,12 +124,12 @@ class Tests_Theme_WpAddGlobalStylesForBlocks extends WP_Theme_UnitTestCase
         $this->assertStringContainsString(
             ':root :where(.wp-block-my-third-party-block){background-color: hotpink;}',
             $actual,
-            'Third party block inline style should render'
+            'Third party block inline style should render',
         );
         $this->assertStringNotContainsString(
             '.wp-block-post-featured-image',
             $actual,
-            'Core block should not render'
+            'Core block should not render',
         );
     }
 
@@ -149,12 +149,12 @@ class Tests_Theme_WpAddGlobalStylesForBlocks extends WP_Theme_UnitTestCase
         $this->assertStringContainsString(
             ':root :where(.wp-block-my-third-party-block){background-color: hotpink;}',
             $actual,
-            'Third party block inline style should render'
+            'Third party block inline style should render',
         );
         $this->assertStringContainsString(
             '.wp-block-post-featured-image',
             $actual,
-            'Core block should render'
+            'Core block should render',
         );
     }
 
@@ -175,7 +175,7 @@ class Tests_Theme_WpAddGlobalStylesForBlocks extends WP_Theme_UnitTestCase
 
         $this->assertStringContainsString(
             ':root :where(.wp-block-my-third-party-block cite){color: white;}',
-            $actual
+            $actual,
         );
     }
 
@@ -194,7 +194,7 @@ class Tests_Theme_WpAddGlobalStylesForBlocks extends WP_Theme_UnitTestCase
 
         $this->assertStringContainsString(
             ':root :where(.wp-block-my-third-party-block cite){color: white;}',
-            $actual
+            $actual,
         );
     }
 
@@ -203,7 +203,7 @@ class Tests_Theme_WpAddGlobalStylesForBlocks extends WP_Theme_UnitTestCase
      *
      * @dataProvider data_wp_get_block_name_from_theme_json_path
      *
-     * @param array  $path     An array of keys describing the path to a property in theme.json.
+     * @param array $path An array of keys describing the path to a property in theme.json.
      * @param string $expected The expected block name.
      */
     public function test_wp_get_block_name_from_theme_json_path($path, $expected)
@@ -220,23 +220,23 @@ class Tests_Theme_WpAddGlobalStylesForBlocks extends WP_Theme_UnitTestCase
     public function data_wp_get_block_name_from_theme_json_path()
     {
         return [
-            'core block styles'             => [
+            'core block styles' => [
                 ['styles', 'blocks', 'core/navigation'],
                 'core/navigation',
             ],
-            'core block element styles'     => [
+            'core block element styles' => [
                 ['styles', 'blocks', 'core/navigation', 'elements', 'link'],
                 'core/navigation',
             ],
-            'custom block styles'           => [
+            'custom block styles' => [
                 ['styles', 'blocks', 'my/third-party-block'],
                 'my/third-party-block',
             ],
-            'custom block element styles'   => [
+            'custom block element styles' => [
                 ['styles', 'blocks', 'my/third-party-block', 'elements', 'cite'],
                 'my/third-party-block',
             ],
-            'custom block wrong format'     => [
+            'custom block wrong format' => [
                 ['styles', 'my/third-party-block'],
                 '',
             ],
@@ -251,10 +251,10 @@ class Tests_Theme_WpAddGlobalStylesForBlocks extends WP_Theme_UnitTestCase
     {
         switch_theme('block-theme');
 
-        $name     = 'my/third-party-block';
+        $name = 'my/third-party-block';
         $settings = [
-            'icon'            => 'text',
-            'category'        => 'common',
+            'icon' => 'text',
+            'category' => 'common',
             'render_callback' => 'foo',
         ];
         register_block_type($name, $settings);

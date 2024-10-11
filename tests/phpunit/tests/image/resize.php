@@ -41,7 +41,7 @@ abstract class WP_Tests_Image_Resize_UnitTestCase extends WP_Image_UnitTestCase
     {
         $image = $this->resize_helper(DIR_TESTDATA . '/images/test-image.png', 25, 25);
 
-        if (! is_string($image)) {  // WP_Error, stop GLib-GObject-CRITICAL assertion.
+        if (!is_string($image)) {  // WP_Error, stop GLib-GObject-CRITICAL assertion.
             $this->fail(sprintf('No PNG support in the editor engine %s on this system.', $this->editor_engine));
         }
 
@@ -59,7 +59,7 @@ abstract class WP_Tests_Image_Resize_UnitTestCase extends WP_Image_UnitTestCase
     {
         $image = $this->resize_helper(DIR_TESTDATA . '/images/test-image.gif', 25, 25);
 
-        if (! is_string($image)) {  // WP_Error, stop GLib-GObject-CRITICAL assertion.
+        if (!is_string($image)) {  // WP_Error, stop GLib-GObject-CRITICAL assertion.
             $this->fail(sprintf('No GIF support in the editor engine %s on this system.', $this->editor_engine));
         }
 
@@ -75,12 +75,13 @@ abstract class WP_Tests_Image_Resize_UnitTestCase extends WP_Image_UnitTestCase
 
     public function test_resize_webp()
     {
-        $file   = DIR_TESTDATA . '/images/test-image.webp';
+        $file = DIR_TESTDATA . '/images/test-image.webp';
         $editor = wp_get_image_editor($file);
 
         // Check if the editor supports the webp mime type.
-        if (is_wp_error($editor) || ! $editor->supports_mime_type('image/webp')) {
-            $this->markTestSkipped(sprintf('No WebP support in the editor engine %s on this system.', $this->editor_engine));
+        if (is_wp_error($editor) || !$editor->supports_mime_type('image/webp')) {
+            $this->markTestSkipped(sprintf('No WebP support in the editor engine %s on this system.',
+                $this->editor_engine));
         }
 
         $image = $this->resize_helper($file, 25, 25);
@@ -102,12 +103,13 @@ abstract class WP_Tests_Image_Resize_UnitTestCase extends WP_Image_UnitTestCase
      */
     public function test_resize_avif()
     {
-        $file   = DIR_TESTDATA . '/images/avif-lossy.avif';
+        $file = DIR_TESTDATA . '/images/avif-lossy.avif';
         $editor = wp_get_image_editor($file);
 
         // Check if the editor supports the avif mime type.
-        if (is_wp_error($editor) || ! $editor->supports_mime_type('image/avif')) {
-            $this->markTestSkipped(sprintf('No AVIF support in the editor engine %s on this system.', $this->editor_engine));
+        if (is_wp_error($editor) || !$editor->supports_mime_type('image/avif')) {
+            $this->markTestSkipped(sprintf('No AVIF support in the editor engine %s on this system.',
+                $this->editor_engine));
         }
 
         $image = $this->resize_helper($file, 25, 25);
@@ -129,11 +131,11 @@ abstract class WP_Tests_Image_Resize_UnitTestCase extends WP_Image_UnitTestCase
      */
     public function test_resize_heic()
     {
-        $file   = DIR_TESTDATA . '/images/test-image.heic';
+        $file = DIR_TESTDATA . '/images/test-image.heic';
         $editor = wp_get_image_editor($file);
 
         // Check if the editor supports the HEIC mime type.
-        if (is_wp_error($editor) || ! $editor->supports_mime_type('image/heic')) {
+        if (is_wp_error($editor) || !$editor->supports_mime_type('image/heic')) {
             $this->markTestSkipped('No HEIC support in the editor engine on this system.');
         }
 
@@ -273,7 +275,7 @@ abstract class WP_Tests_Image_Resize_UnitTestCase extends WP_Image_UnitTestCase
         }
 
         $dest_file = $editor->generate_filename();
-        $saved     = $editor->save($dest_file);
+        $saved = $editor->save($dest_file);
 
         if (is_wp_error($saved)) {
             return $saved;

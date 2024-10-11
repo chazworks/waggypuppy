@@ -16,27 +16,31 @@ var Details = wp.media.view.Attachment.Details,
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-TwoColumn = Details.extend(/** @lends wp.media.view.Attachment.Details.TwoColumn.prototype */{
-	template: wp.template( 'attachment-details-two-column' ),
+TwoColumn = Details.extend(
+	/** @lends wp.media.view.Attachment.Details.TwoColumn.prototype */ {
+		template: wp.template( 'attachment-details-two-column' ),
 
-	initialize: function() {
-		this.controller.on( 'content:activate:edit-details', _.bind( this.editAttachment, this ) );
+		initialize: function () {
+			this.controller.on(
+				'content:activate:edit-details',
+				_.bind( this.editAttachment, this )
+			);
 
-		Details.prototype.initialize.apply( this, arguments );
-	},
+			Details.prototype.initialize.apply( this, arguments );
+		},
 
-	editAttachment: function( event ) {
-		if ( event ) {
-			event.preventDefault();
-		}
-		this.controller.content.mode( 'edit-image' );
-	},
+		editAttachment: function ( event ) {
+			if ( event ) {
+				event.preventDefault();
+			}
+			this.controller.content.mode( 'edit-image' );
+		},
 
-	/**
-	 * Noop this from parent class, doesn't apply here.
-	 */
-	toggleSelectionHandler: function() {}
-
-});
+		/**
+		 * Noop this from parent class, doesn't apply here.
+		 */
+		toggleSelectionHandler: function () {},
+	}
+);
 
 module.exports = TwoColumn;

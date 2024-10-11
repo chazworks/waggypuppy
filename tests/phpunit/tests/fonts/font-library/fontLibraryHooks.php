@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test deleting wp_font_family and wp_font_face post types.
  *
@@ -13,27 +14,27 @@ class Tests_Fonts_FontLibraryHooks extends WP_UnitTestCase
 
     public function test_deleting_font_family_deletes_child_font_faces()
     {
-        $font_family_id       = self::factory()->post->create(
+        $font_family_id = self::factory()->post->create(
             [
                 'post_type' => 'wp_font_family',
-            ]
+            ],
         );
-        $font_face_id         = self::factory()->post->create(
+        $font_face_id = self::factory()->post->create(
             [
-                'post_type'   => 'wp_font_face',
+                'post_type' => 'wp_font_face',
                 'post_parent' => $font_family_id,
-            ]
+            ],
         );
         $other_font_family_id = self::factory()->post->create(
             [
                 'post_type' => 'wp_font_family',
-            ]
+            ],
         );
-        $other_font_face_id   = self::factory()->post->create(
+        $other_font_face_id = self::factory()->post->create(
             [
-                'post_type'   => 'wp_font_face',
+                'post_type' => 'wp_font_face',
                 'post_parent' => $other_font_family_id,
-            ]
+            ],
         );
 
         wp_delete_post($font_family_id, true);
@@ -45,7 +46,7 @@ class Tests_Fonts_FontLibraryHooks extends WP_UnitTestCase
     public function test_deleting_font_faces_deletes_associated_font_files()
     {
         [$font_face_id, $font_path] = $this->create_font_face_with_file('OpenSans-Regular.woff2');
-        [, $other_font_path]        = $this->create_font_face_with_file('OpenSans-Regular.ttf');
+        [, $other_font_path] = $this->create_font_face_with_file('OpenSans-Regular.ttf');
 
         wp_delete_post($font_face_id, true);
 
@@ -58,7 +59,7 @@ class Tests_Fonts_FontLibraryHooks extends WP_UnitTestCase
         $font_face_id = self::factory()->post->create(
             [
                 'post_type' => 'wp_font_face',
-            ]
+            ],
         );
 
         $font_file = $this->upload_font_file($filename);
@@ -66,7 +67,7 @@ class Tests_Fonts_FontLibraryHooks extends WP_UnitTestCase
         // Make sure the font file uploaded successfully.
         $this->assertFalse($font_file['error']);
 
-        $font_path     = $font_file['file'];
+        $font_path = $font_file['file'];
         $font_filename = basename($font_path);
         add_post_meta($font_face_id, '_wp_font_face_file', $font_filename);
 
@@ -82,7 +83,7 @@ class Tests_Fonts_FontLibraryHooks extends WP_UnitTestCase
         $font_file = wp_upload_bits(
             $font_filename,
             null,
-            file_get_contents($font_file_path)
+            file_get_contents($font_file_path),
         );
         remove_filter('upload_dir', '_wp_filter_font_directory');
         remove_filter('upload_mimes', ['WP_Font_Utils', 'get_allowed_font_mime_types']);

@@ -45,9 +45,9 @@ class Tests_Comment_DateQuery extends WP_UnitTestCase
         foreach ($comment_dates as $comment_date => $comment_parent) {
             $result = self::factory()->comment->create(
                 [
-                    'comment_date'    => $comment_date,
+                    'comment_date' => $comment_date,
                     'comment_post_ID' => $this->posts[$comment_parent],
-                ]
+                ],
             );
         }
     }
@@ -59,8 +59,8 @@ class Tests_Comment_DateQuery extends WP_UnitTestCase
             [
                 'post_id' => $this->posts[1],
                 'orderby' => 'comment_ID',  // Same order they were created.
-                'order'   => 'ASC',
-            ]
+                'order' => 'ASC',
+            ],
         );
 
         return get_comments($args);
@@ -75,7 +75,7 @@ class Tests_Comment_DateQuery extends WP_UnitTestCase
                         'year' => 2008,
                     ],
                 ],
-            ]
+            ],
         );
 
         $expected_dates = [

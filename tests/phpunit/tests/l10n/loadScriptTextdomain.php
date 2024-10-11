@@ -21,7 +21,7 @@ class Tests_L10n_LoadScriptTextdomain extends WP_UnitTestCase
      */
     public function test_resolve_relative_path($translation_path, $handle, $src, $textdomain, $filter = [])
     {
-        if (! empty($filter)) {
+        if (!empty($filter)) {
             add_filter($filter[0], $filter[1], 10, isset($filter[2]) ? $filter[2] : 1);
         }
         wp_enqueue_script($handle, $src, [], null);
@@ -170,7 +170,7 @@ class Tests_L10n_LoadScriptTextdomain extends WP_UnitTestCase
     public function test_does_not_throw_deprecation_notice_for_rtrim_with_default_parameters()
     {
         $handle = 'test-example-root';
-        $src    = '/wp-includes/js/script.js';
+        $src = '/wp-includes/js/script.js';
 
         wp_enqueue_script($handle, $src);
 

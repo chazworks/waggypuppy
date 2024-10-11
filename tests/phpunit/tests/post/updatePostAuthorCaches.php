@@ -44,9 +44,9 @@ class Tests_Post_UpdatePostAuthorCaches extends WP_UnitTestCase
             self::$user_ids[$i] = $factory->user->create();
             $factory->post->create(
                 [
-                    'post_type'   => 'post',
+                    'post_type' => 'post',
                     'post_author' => self::$user_ids[$i],
-                ]
+                ],
             );
         }
     }
@@ -61,16 +61,16 @@ class Tests_Post_UpdatePostAuthorCaches extends WP_UnitTestCase
 
         $q = new WP_Query(
             [
-                'post_type'      => 'post',
+                'post_type' => 'post',
                 'posts_per_page' => self::$post_author_count,
-            ]
+            ],
         );
 
         while ($q->have_posts()) {
             $q->the_post();
         }
 
-        $args      = $action->get_args();
+        $args = $action->get_args();
         $last_args = end($args);
 
         $this->assertSameSets(self::$user_ids, $last_args[1], 'Ensure that user IDs are primed');

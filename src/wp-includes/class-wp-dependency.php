@@ -90,16 +90,16 @@ class _WP_Dependency
     /**
      * Setup dependencies.
      *
-     * @since 2.6.0
+     * @param mixed ...$args Dependency information.
      * @since 5.3.0 Formalized the existing `...$args` parameter by adding it
      *              to the function signature.
      *
-     * @param mixed ...$args Dependency information.
+     * @since 2.6.0
      */
     public function __construct(...$args)
     {
         [$this->handle, $this->src, $this->deps, $this->ver, $this->args] = $args;
-        if (! is_array($this->deps)) {
+        if (!is_array($this->deps)) {
             $this->deps = [];
         }
     }
@@ -107,15 +107,15 @@ class _WP_Dependency
     /**
      * Add handle data.
      *
+     * @param string $name The data key to add.
+     * @param mixed $data The data value to add.
+     * @return bool False if not scalar, true otherwise.
      * @since 2.6.0
      *
-     * @param string $name The data key to add.
-     * @param mixed  $data The data value to add.
-     * @return bool False if not scalar, true otherwise.
      */
     public function add_data($name, $data)
     {
-        if (! is_scalar($name)) {
+        if (!is_scalar($name)) {
             return false;
         }
         $this->extra[$name] = $data;
@@ -125,18 +125,18 @@ class _WP_Dependency
     /**
      * Sets the translation domain for this dependency.
      *
+     * @param string $domain The translation textdomain.
+     * @param string $path Optional. The full file path to the directory containing translation files.
+     * @return bool False if $domain is not a string, true otherwise.
      * @since 5.0.0
      *
-     * @param string $domain The translation textdomain.
-     * @param string $path   Optional. The full file path to the directory containing translation files.
-     * @return bool False if $domain is not a string, true otherwise.
      */
     public function set_translations($domain, $path = '')
     {
-        if (! is_string($domain)) {
+        if (!is_string($domain)) {
             return false;
         }
-        $this->textdomain        = $domain;
+        $this->textdomain = $domain;
         $this->translations_path = $path;
         return true;
     }

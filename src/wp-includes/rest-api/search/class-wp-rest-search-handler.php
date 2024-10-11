@@ -45,9 +45,9 @@ abstract class WP_REST_Search_Handler
     /**
      * Gets the object type managed by this search handler.
      *
+     * @return string Object type identifier.
      * @since 5.0.0
      *
-     * @return string Object type identifier.
      */
     public function get_type()
     {
@@ -57,9 +57,9 @@ abstract class WP_REST_Search_Handler
     /**
      * Gets the object subtypes managed by this search handler.
      *
+     * @return string[] Array of object subtype identifiers.
      * @since 5.0.0
      *
-     * @return string[] Array of object subtype identifiers.
      */
     public function get_subtypes()
     {
@@ -69,35 +69,35 @@ abstract class WP_REST_Search_Handler
     /**
      * Searches the object type content for a given search request.
      *
-     * @since 5.0.0
-     *
      * @param WP_REST_Request $request Full REST request.
      * @return array Associative array containing an `WP_REST_Search_Handler::RESULT_IDS` containing
      *               an array of found IDs and `WP_REST_Search_Handler::RESULT_TOTAL` containing the
      *               total count for the matching search results.
+     * @since 5.0.0
+     *
      */
     abstract public function search_items(WP_REST_Request $request);
 
     /**
      * Prepares the search result for a given ID.
      *
-     * @since 5.0.0
+     * @param int|string $id Item ID.
+     * @param array $fields Fields to include for the item.
+     * @return array Associative array containing all fields for the item.
      * @since 5.6.0 The `$id` parameter can accept a string.
      *
-     * @param int|string $id     Item ID.
-     * @param array      $fields Fields to include for the item.
-     * @return array Associative array containing all fields for the item.
+     * @since 5.0.0
      */
     abstract public function prepare_item($id, array $fields);
 
     /**
      * Prepares links for the search result of a given ID.
      *
+     * @param int|string $id Item ID.
+     * @return array Links for the given item.
      * @since 5.0.0
      * @since 5.6.0 The `$id` parameter can accept a string.
      *
-     * @param int|string $id Item ID.
-     * @return array Links for the given item.
      */
     abstract public function prepare_item_links($id);
 }

@@ -29,7 +29,7 @@ class Tests_Filesystem_WpFilesystemDirect_GetContents extends WP_Filesystem_Dire
 
         $this->assertSame(
             "Contents of a file.\r\nNext line of a file.\r\n",
-            self::$filesystem->get_contents($file)
+            self::$filesystem->get_contents($file),
         );
     }
 

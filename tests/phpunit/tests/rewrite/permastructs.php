@@ -20,16 +20,16 @@ class Tests_Rewrite_Permastructs extends WP_UnitTestCase
         add_permastruct('foo', 'bar/%foo%');
         $this->assertSameSetsWithIndex(
             [
-                'with_front'  => true,
-                'ep_mask'     => EP_NONE,
-                'paged'       => true,
-                'feed'        => true,
-                'walk_dirs'   => true,
-                'endpoints'   => true,
+                'with_front' => true,
+                'ep_mask' => EP_NONE,
+                'paged' => true,
+                'feed' => true,
+                'walk_dirs' => true,
+                'endpoints' => true,
                 'forcomments' => false,
-                'struct'      => '/bar/%foo%',
+                'struct' => '/bar/%foo%',
             ],
-            $wp_rewrite->extra_permastructs['foo']
+            $wp_rewrite->extra_permastructs['foo'],
         );
     }
 

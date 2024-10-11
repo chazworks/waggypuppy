@@ -26,10 +26,11 @@ class Tests_Formatting_RemoveAccents extends WP_UnitTestCase
      */
     public function test_remove_accents_latin1_supplement_nfd_encoding()
     {
-        $input  = 'ªºÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿ';
+        $input = 'ªºÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿ';
         $output = 'aoAAAAAAAECEEEEIIIIDNOOOOOOUUUUYTHsaaaaaaaeceeeeiiiidnoooooouuuuythy';
 
-        $this->assertSame($output, remove_accents($input), 'remove_accents replaces Latin-1 Supplement with NFD encoding');
+        $this->assertSame($output, remove_accents($input),
+            'remove_accents replaces Latin-1 Supplement with NFD encoding');
     }
 
     /**
@@ -37,7 +38,7 @@ class Tests_Formatting_RemoveAccents extends WP_UnitTestCase
      */
     public function test_remove_accents_latin1_supplement()
     {
-        $input  = 'ªºÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿ';
+        $input = 'ªºÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿ';
         $output = 'aoAAAAAAAECEEEEIIIIDNOOOOOOUUUUYTHsaaaaaaaeceeeeiiiidnoooooouuuuythy';
 
         $this->assertSame($output, remove_accents($input), 'remove_accents replaces Latin-1 Supplement');
@@ -45,7 +46,7 @@ class Tests_Formatting_RemoveAccents extends WP_UnitTestCase
 
     public function test_remove_accents_latin_extended_a()
     {
-        $input  = 'ĀāĂăĄąĆćĈĉĊċČčĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħĨĩĪīĬĭĮįİıĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłŃńŅņŇňŉŊŋŌōŎŏŐőŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžſ';
+        $input = 'ĀāĂăĄąĆćĈĉĊċČčĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħĨĩĪīĬĭĮįİıĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłŃńŅņŇňŉŊŋŌōŎŏŐőŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžſ';
         $output = 'AaAaAaCcCcCcCcDdDdEeEeEeEeEeGgGgGgGgHhHhIiIiIiIiIiIJijJjKkkLlLlLlLlLlNnNnNnnNnOoOoOoOEoeRrRrRrSsSsSsSsTtTtTtUuUuUuUuUuUuWwYyYZzZzZzs';
 
         $this->assertSame($output, remove_accents($input), 'remove_accents replaces Latin Extended A');
@@ -65,9 +66,9 @@ class Tests_Formatting_RemoveAccents extends WP_UnitTestCase
     public function test_remove_accents_iso8859()
     {
         // File is Latin1-encoded.
-        $file   = DIR_TESTDATA . '/formatting/remove_accents.01.input.txt';
-        $input  = file_get_contents($file);
-        $input  = trim($input);
+        $file = DIR_TESTDATA . '/formatting/remove_accents.01.input.txt';
+        $input = file_get_contents($file);
+        $input = trim($input);
         $output = 'EfSZszYcYuAAAAAACEEEEIIIINOOOOOOUUUUYaaaaaaceeeeiiiinoooooouuuuyyOEoeAEDHTHssaedhth';
 
         $this->assertSame($output, remove_accents($input), 'remove_accents from ISO-8859-1 text');

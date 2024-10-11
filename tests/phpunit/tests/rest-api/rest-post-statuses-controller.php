@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering WP_REST_Posts_Statuses_Controller functionality.
  *
@@ -20,25 +21,25 @@ class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Test
     public function test_context_param()
     {
         // Collection.
-        $request  = new WP_REST_Request('OPTIONS', '/wp/v2/statuses');
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/statuses');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
         $this->assertSameSets(['embed', 'view', 'edit'], $data['endpoints'][0]['args']['context']['enum']);
         // Single.
-        $request  = new WP_REST_Request('OPTIONS', '/wp/v2/statuses/publish');
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/statuses/publish');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
         $this->assertSameSets(['embed', 'view', 'edit'], $data['endpoints'][0]['args']['context']['enum']);
     }
 
     public function test_get_items()
     {
-        $request  = new WP_REST_Request('GET', '/wp/v2/statuses');
+        $request = new WP_REST_Request('GET', '/wp/v2/statuses');
         $response = rest_get_server()->dispatch($request);
 
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $statuses = get_post_stati(['public' => true], 'objects');
         $this->assertCount(1, $data);
         $this->assertSame('publish', $data['publish']['slug']);
@@ -49,7 +50,7 @@ class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Test
         $user_id = self::factory()->user->create(['role' => 'author']);
         wp_set_current_user($user_id);
 
-        $request  = new WP_REST_Request('GET', '/wp/v2/statuses');
+        $request = new WP_REST_Request('GET', '/wp/v2/statuses');
         $response = rest_get_server()->dispatch($request);
 
         $data = $response->get_data();
@@ -63,7 +64,7 @@ class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Test
                 'trash',
                 'future',
             ],
-            array_keys($data)
+            array_keys($data),
         );
     }
 
@@ -87,7 +88,7 @@ class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Test
 
     public function test_get_item_invalid_status()
     {
-        $request  = new WP_REST_Request('GET', '/wp/v2/statuses/invalid');
+        $request = new WP_REST_Request('GET', '/wp/v2/statuses/invalid');
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_status_invalid', $response, 404);
     }
@@ -95,7 +96,7 @@ class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Test
     public function test_get_item_invalid_access()
     {
         wp_set_current_user(0);
-        $request  = new WP_REST_Request('GET', '/wp/v2/statuses/draft');
+        $request = new WP_REST_Request('GET', '/wp/v2/statuses/draft');
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_cannot_read_status', $response, 401);
     }
@@ -105,7 +106,7 @@ class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Test
         $user_id = self::factory()->user->create();
         wp_set_current_user($user_id);
 
-        $request  = new WP_REST_Request('GET', '/wp/v2/statuses/inherit');
+        $request = new WP_REST_Request('GET', '/wp/v2/statuses/inherit');
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_cannot_read_status', $response, 403);
     }
@@ -113,7 +114,7 @@ class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Test
     public function test_create_item()
     {
         /** Post statuses can't be created */
-        $request  = new WP_REST_Request('POST', '/wp/v2/statuses');
+        $request = new WP_REST_Request('POST', '/wp/v2/statuses');
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(404, $response->get_status());
     }
@@ -121,7 +122,7 @@ class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Test
     public function test_update_item()
     {
         /** Post statuses can't be updated */
-        $request  = new WP_REST_Request('POST', '/wp/v2/statuses/draft');
+        $request = new WP_REST_Request('POST', '/wp/v2/statuses/draft');
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(404, $response->get_status());
     }
@@ -129,16 +130,16 @@ class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Test
     public function test_delete_item()
     {
         /** Post statuses can't be deleted */
-        $request  = new WP_REST_Request('DELETE', '/wp/v2/statuses/draft');
+        $request = new WP_REST_Request('DELETE', '/wp/v2/statuses/draft');
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(404, $response->get_status());
     }
 
     public function test_prepare_item()
     {
-        $obj      = get_post_status_object('publish');
+        $obj = get_post_status_object('publish');
         $endpoint = new WP_REST_Post_Statuses_Controller();
-        $request  = new WP_REST_Request();
+        $request = new WP_REST_Request();
         $request->set_param('context', 'edit');
         $data = $endpoint->prepare_item_for_response($obj, $request);
         $this->check_post_status_obj($obj, $data->get_data(), $data->get_links());
@@ -146,8 +147,8 @@ class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Test
 
     public function test_prepare_item_limit_fields()
     {
-        $obj      = get_post_status_object('publish');
-        $request  = new WP_REST_Request();
+        $obj = get_post_status_object('publish');
+        $request = new WP_REST_Request();
         $endpoint = new WP_REST_Post_Statuses_Controller();
         $request->set_param('context', 'edit');
         $request->set_param('_fields', 'id,name');
@@ -157,15 +158,15 @@ class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Test
                 // 'id' doesn't exist in this context.
                 'name',
             ],
-            array_keys($response->get_data())
+            array_keys($response->get_data()),
         );
     }
 
     public function test_get_item_schema()
     {
-        $request    = new WP_REST_Request('OPTIONS', '/wp/v2/statuses');
-        $response   = rest_get_server()->dispatch($request);
-        $data       = $response->get_data();
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/statuses');
+        $response = rest_get_server()->dispatch($request);
+        $data = $response->get_data();
         $properties = $data['schema']['properties'];
         $this->assertCount(8, $properties);
         $this->assertArrayHasKey('name', $properties);
@@ -180,28 +181,27 @@ class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Test
 
     public function test_get_additional_field_registration()
     {
-
         $schema = [
-            'type'        => 'integer',
+            'type' => 'integer',
             'description' => 'Some integer of mine',
-            'enum'        => [1, 2, 3, 4],
-            'context'     => ['view', 'edit'],
+            'enum' => [1, 2, 3, 4],
+            'context' => ['view', 'edit'],
         ];
 
         register_rest_field(
             'status',
             'my_custom_int',
             [
-                'schema'          => $schema,
-                'get_callback'    => [$this, 'additional_field_get_callback'],
+                'schema' => $schema,
+                'get_callback' => [$this, 'additional_field_get_callback'],
                 'update_callback' => [$this, 'additional_field_update_callback'],
-            ]
+            ],
         );
 
         $request = new WP_REST_Request('OPTIONS', '/wp/v2/statuses');
 
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         $this->assertArrayHasKey('my_custom_int', $data['schema']['properties']);
         $this->assertSame($schema, $data['schema']['properties']['my_custom_int']);
@@ -233,7 +233,7 @@ class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Test
             [
                 'archives',
             ],
-            array_keys($links)
+            array_keys($links),
         );
         $this->assertSame($status_obj->date_floating, $data['date_floating']);
     }
@@ -242,7 +242,7 @@ class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Test
     {
         $this->assertSame(200, $response->get_status());
         $data = $response->get_data();
-        $obj  = get_post_status_object('publish');
+        $obj = get_post_status_object('publish');
         $this->check_post_status_obj($obj, $data, $response->get_links());
     }
 }

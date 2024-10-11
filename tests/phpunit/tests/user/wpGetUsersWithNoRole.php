@@ -13,25 +13,25 @@ class Tests_User_wpGetUsersWithNoRole extends WP_UnitTestCase
     public function test_get_users_with_no_role_is_accurate()
     {
         // Setup users.
-        $admin       = self::factory()->user->create(
+        $admin = self::factory()->user->create(
             [
                 'role' => 'administrator',
-            ]
+            ],
         );
-        $editor      = self::factory()->user->create(
+        $editor = self::factory()->user->create(
             [
                 'role' => 'editor',
-            ]
+            ],
         );
-        $nobody      = self::factory()->user->create(
+        $nobody = self::factory()->user->create(
             [
                 'role' => '',
-            ]
+            ],
         );
         $nobody_else = self::factory()->user->create(
             [
                 'role' => '',
-            ]
+            ],
         );
 
         // Test users.
@@ -42,7 +42,7 @@ class Tests_User_wpGetUsersWithNoRole extends WP_UnitTestCase
                 $nobody,
                 $nobody_else,
             ],
-            $users
+            $users,
         );
     }
 
@@ -55,27 +55,27 @@ class Tests_User_wpGetUsersWithNoRole extends WP_UnitTestCase
     public function test_get_users_with_no_role_multisite_is_accurate()
     {
         // Setup users.
-        $admin  = self::factory()->user->create(
+        $admin = self::factory()->user->create(
             [
                 'role' => 'administrator',
-            ]
+            ],
         );
         $editor = self::factory()->user->create(
             [
                 'role' => 'editor',
-            ]
+            ],
         );
         $nobody = self::factory()->user->create(
             [
                 'role' => '',
-            ]
+            ],
         );
 
         // Setup blogs.
-        $blog_1 = (int) self::factory()->blog->create(
+        $blog_1 = (int)self::factory()->blog->create(
             [
                 'user_id' => $editor,
-            ]
+            ],
         );
 
         // Add editor to blog 1.
@@ -85,9 +85,9 @@ class Tests_User_wpGetUsersWithNoRole extends WP_UnitTestCase
         $users = wp_get_users_with_no_role();
         $this->assertSame(
             [
-                (string) $nobody,
+                (string)$nobody,
             ],
-            $users
+            $users,
         );
 
         // Test users counts on blog 1.
@@ -101,9 +101,9 @@ class Tests_User_wpGetUsersWithNoRole extends WP_UnitTestCase
         $users = wp_get_users_with_no_role($blog_1);
         $this->assertSame(
             [
-                (string) $admin,
+                (string)$admin,
             ],
-            $users
+            $users,
         );
     }
 
@@ -121,7 +121,7 @@ class Tests_User_wpGetUsersWithNoRole extends WP_UnitTestCase
         self::factory()->user->create(
             [
                 'role' => 'somerole',
-            ]
+            ],
         );
 
         $users = wp_get_users_with_no_role();
@@ -138,14 +138,14 @@ class Tests_User_wpGetUsersWithNoRole extends WP_UnitTestCase
      */
     public function test_get_users_with_no_role_matches_on_role_name_different_site()
     {
-        $site_id = (int) self::factory()->blog->create();
+        $site_id = (int)self::factory()->blog->create();
 
         switch_to_blog($site_id);
         wp_roles()->add_role('somerole', 'Some role display name');
         $user_id = self::factory()->user->create(
             [
                 'role' => 'somerole',
-            ]
+            ],
         );
         restore_current_blog();
 

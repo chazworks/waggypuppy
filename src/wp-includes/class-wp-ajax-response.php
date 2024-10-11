@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Send XML response back to Ajax request.
  *
@@ -19,15 +20,15 @@ class WP_Ajax_Response
     /**
      * Constructor - Passes args to WP_Ajax_Response::add().
      *
-     * @since 2.1.0
-     *
+     * @param string|array $args Optional. Will be passed to add() method.
      * @see WP_Ajax_Response::add()
      *
-     * @param string|array $args Optional. Will be passed to add() method.
+     * @since 2.1.0
+     *
      */
     public function __construct($args = '')
     {
-        if (! empty($args)) {
+        if (!empty($args)) {
             $this->add($args);
         }
     }
@@ -43,66 +44,66 @@ class WP_Ajax_Response
      *      </$what>
      *     </response>
      *
-     * @since 2.1.0
-     *
      * @param string|array $args {
      *     Optional. An array or string of XML response arguments.
      *
-     *     @type string          $what         XML-RPC response type. Used as a child element of `<response>`.
+     * @type string $what XML-RPC response type. Used as a child element of `<response>`.
      *                                         Default 'object' (`<object>`).
-     *     @type string|false    $action       Value to use for the `action` attribute in `<response>`. Will be
+     * @type string|false $action Value to use for the `action` attribute in `<response>`. Will be
      *                                         appended with `_$id` on output. If false, `$action` will default to
      *                                         the value of `$_POST['action']`. Default false.
-     *     @type int|WP_Error    $id           The response ID, used as the response type `id` attribute. Also
+     * @type int|WP_Error $id The response ID, used as the response type `id` attribute. Also
      *                                         accepts a `WP_Error` object if the ID does not exist. Default 0.
-     *     @type int|false       $old_id       The previous response ID. Used as the value for the response type
+     * @type int|false $old_id The previous response ID. Used as the value for the response type
      *                                         `old_id` attribute. False hides the attribute. Default false.
-     *     @type string          $position     Value of the response type `position` attribute. Accepts 1 (bottom),
+     * @type string $position Value of the response type `position` attribute. Accepts 1 (bottom),
      *                                         -1 (top), HTML ID (after), or -HTML ID (before). Default 1 (bottom).
-     *     @type string|WP_Error $data         The response content/message. Also accepts a WP_Error object if the
+     * @type string|WP_Error $data The response content/message. Also accepts a WP_Error object if the
      *                                         ID does not exist. Default empty.
-     *     @type array           $supplemental An array of extra strings that will be output within a `<supplemental>`
+     * @type array $supplemental An array of extra strings that will be output within a `<supplemental>`
      *                                         element as CDATA. Default empty array.
      * }
      * @return string XML response.
+     * @since 2.1.0
+     *
      */
     public function add($args = '')
     {
         $defaults = [
-            'what'         => 'object',
-            'action'       => false,
-            'id'           => '0',
-            'old_id'       => false,
-            'position'     => 1,
-            'data'         => '',
+            'what' => 'object',
+            'action' => false,
+            'id' => '0',
+            'old_id' => false,
+            'position' => 1,
+            'data' => '',
             'supplemental' => [],
         ];
 
         $parsed_args = wp_parse_args($args, $defaults);
 
         $position = preg_replace('/[^a-z0-9:_-]/i', '', $parsed_args['position']);
-        $id       = $parsed_args['id'];
-        $what     = $parsed_args['what'];
-        $action   = $parsed_args['action'];
-        $old_id   = $parsed_args['old_id'];
-        $data     = $parsed_args['data'];
+        $id = $parsed_args['id'];
+        $what = $parsed_args['what'];
+        $action = $parsed_args['action'];
+        $old_id = $parsed_args['old_id'];
+        $data = $parsed_args['data'];
 
         if (is_wp_error($id)) {
             $data = $id;
-            $id   = 0;
+            $id = 0;
         }
 
         $response = '';
         if (is_wp_error($data)) {
-            foreach ((array) $data->get_error_codes() as $code) {
-                $response  .= "<wp_error code='$code'><![CDATA[" . $data->get_error_message($code) . ']]></wp_error>';
+            foreach ((array)$data->get_error_codes() as $code) {
+                $response .= "<wp_error code='$code'><![CDATA[" . $data->get_error_message($code) . ']]></wp_error>';
                 $error_data = $data->get_error_data($code);
-                if (! $error_data) {
+                if (!$error_data) {
                     continue;
                 }
                 $class = '';
                 if (is_object($error_data)) {
-                    $class      = ' class="' . get_class($error_data) . '"';
+                    $class = ' class="' . get_class($error_data) . '"';
                     $error_data = get_object_vars($error_data);
                 }
 
@@ -133,7 +134,7 @@ class WP_Ajax_Response
         if (false === $action) {
             $action = $_POST['action'];
         }
-        $x  = '';
+        $x = '';
         $x .= "<response action='{$action}_$id'>"; // The action attribute in the xml output is formatted like a nonce action.
         $x .= "<$what id='$id' " . (false === $old_id ? '' : "old_id='$old_id' ") . "position='$position'>";
         $x .= $response;
@@ -156,7 +157,7 @@ class WP_Ajax_Response
     {
         header('Content-Type: text/xml; charset=' . get_option('blog_charset'));
         echo "<?xml version='1.0' encoding='" . get_option('blog_charset') . "' standalone='yes'?><wp_ajax>";
-        foreach ((array) $this->responses as $response) {
+        foreach ((array)$this->responses as $response) {
             echo $response;
         }
         echo '</wp_ajax>';

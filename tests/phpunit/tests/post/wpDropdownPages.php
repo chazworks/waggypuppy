@@ -14,19 +14,19 @@ class Tests_Post_wpDropdownPages extends WP_UnitTestCase
         $none = wp_dropdown_pages(['echo' => 0]);
         $this->assertEmpty($none);
 
-        $bump          = '&nbsp;&nbsp;&nbsp;';
-        $page_id       = self::factory()->post->create(['post_type' => 'page']);
-        $child_id      = self::factory()->post->create(
+        $bump = '&nbsp;&nbsp;&nbsp;';
+        $page_id = self::factory()->post->create(['post_type' => 'page']);
+        $child_id = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $page_id,
-            ]
+            ],
         );
         $grandchild_id = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $child_id,
-            ]
+            ],
         );
 
         $title1 = get_post($page_id)->post_title;
@@ -34,67 +34,63 @@ class Tests_Post_wpDropdownPages extends WP_UnitTestCase
         $title3 = get_post($grandchild_id)->post_title;
 
         $lineage = <<<LINEAGE
-<select name='page_id' id='page_id'>
-	<option class="level-0" value="$page_id">$title1</option>
-	<option class="level-1" value="$child_id">{$bump}$title2</option>
-	<option class="level-2" value="$grandchild_id">{$bump}{$bump}$title3</option>
-</select>
-
-LINEAGE;
+            <select name='page_id' id='page_id'>
+            	<option class="level-0" value="$page_id">$title1</option>
+            	<option class="level-1" value="$child_id">{$bump}$title2</option>
+            	<option class="level-2" value="$grandchild_id">{$bump}{$bump}$title3</option>
+            </select>
+            LINEAGE;
 
         $output = wp_dropdown_pages(['echo' => 0]);
         $this->assertSameIgnoreEOL($lineage, $output);
 
         $depth = <<<DEPTH
-<select name='page_id' id='page_id'>
-	<option class="level-0" value="$page_id">$title1</option>
-</select>
-
-DEPTH;
+            <select name='page_id' id='page_id'>
+            	<option class="level-0" value="$page_id">$title1</option>
+            </select>
+            DEPTH;
 
         $output = wp_dropdown_pages(
             [
-                'echo'  => 0,
+                'echo' => 0,
                 'depth' => 1,
-            ]
+            ],
         );
         $this->assertSameIgnoreEOL($depth, $output);
 
         $option_none = <<<NONE
-<select name='page_id' id='page_id'>
-	<option value="Woo">Hoo</option>
-	<option class="level-0" value="$page_id">$title1</option>
-</select>
-
-NONE;
+            <select name='page_id' id='page_id'>
+            	<option value="Woo">Hoo</option>
+            	<option class="level-0" value="$page_id">$title1</option>
+            </select>
+            NONE;
 
         $output = wp_dropdown_pages(
             [
-                'echo'              => 0,
-                'depth'             => 1,
-                'show_option_none'  => 'Hoo',
+                'echo' => 0,
+                'depth' => 1,
+                'show_option_none' => 'Hoo',
                 'option_none_value' => 'Woo',
-            ]
+            ],
         );
         $this->assertSameIgnoreEOL($option_none, $output);
 
         $option_no_change = <<<NO
-<select name='page_id' id='page_id'>
-	<option value="-1">Burrito</option>
-	<option value="Woo">Hoo</option>
-	<option class="level-0" value="$page_id">$title1</option>
-</select>
-
-NO;
+            <select name='page_id' id='page_id'>
+            	<option value="-1">Burrito</option>
+            	<option value="Woo">Hoo</option>
+            	<option class="level-0" value="$page_id">$title1</option>
+            </select>
+            NO;
 
         $output = wp_dropdown_pages(
             [
-                'echo'                  => 0,
-                'depth'                 => 1,
-                'show_option_none'      => 'Hoo',
-                'option_none_value'     => 'Woo',
+                'echo' => 0,
+                'depth' => 1,
+                'show_option_none' => 'Hoo',
+                'option_none_value' => 'Woo',
                 'show_option_no_change' => 'Burrito',
-            ]
+            ],
         );
         $this->assertSameIgnoreEOL($option_no_change, $output);
     }
@@ -107,13 +103,13 @@ NO;
         $p = self::factory()->post->create(
             [
                 'post_type' => 'page',
-            ]
+            ],
         );
 
         $found = wp_dropdown_pages(
             [
                 'echo' => 0,
-            ]
+            ],
         );
 
         // Should contain page ID by default.
@@ -128,14 +124,14 @@ NO;
         $p = self::factory()->post->create(
             [
                 'post_type' => 'page',
-            ]
+            ],
         );
 
         $found = wp_dropdown_pages(
             [
-                'echo'        => 0,
+                'echo' => 0,
                 'value_field' => 'ID',
-            ]
+            ],
         );
 
         $this->assertStringContainsString('value="' . $p . '"', $found);
@@ -150,14 +146,14 @@ NO;
             [
                 'post_type' => 'page',
                 'post_name' => 'foo',
-            ]
+            ],
         );
 
         $found = wp_dropdown_pages(
             [
-                'echo'        => 0,
+                'echo' => 0,
                 'value_field' => 'post_name',
-            ]
+            ],
         );
 
         $this->assertStringContainsString('value="foo"', $found);
@@ -172,14 +168,14 @@ NO;
             [
                 'post_type' => 'page',
                 'post_name' => 'foo',
-            ]
+            ],
         );
 
         $found = wp_dropdown_pages(
             [
-                'echo'        => 0,
+                'echo' => 0,
                 'value_field' => 'foo',
-            ]
+            ],
         );
 
         $this->assertStringContainsString('value="' . $p . '"', $found);
@@ -194,13 +190,13 @@ NO;
             [
                 'post_type' => 'page',
                 'post_name' => 'foo',
-            ]
+            ],
         );
 
         $found = wp_dropdown_pages(
             [
                 'echo' => 0,
-            ]
+            ],
         );
 
         $this->assertDoesNotMatchRegularExpression('/<select[^>]+class=\'/', $found);
@@ -215,14 +211,14 @@ NO;
             [
                 'post_type' => 'page',
                 'post_name' => 'foo',
-            ]
+            ],
         );
 
         $found = wp_dropdown_pages(
             [
-                'echo'  => 0,
+                'echo' => 0,
                 'class' => 'bar',
-            ]
+            ],
         );
 
         $this->assertMatchesRegularExpression('/<select[^>]+class=\'bar\'/', $found);

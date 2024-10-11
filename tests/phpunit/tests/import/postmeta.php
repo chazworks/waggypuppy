@@ -13,11 +13,11 @@ class Tests_Import_Postmeta extends WP_Import_UnitTestCase
     {
         parent::set_up();
 
-        if (! defined('WP_IMPORTING')) {
+        if (!defined('WP_IMPORTING')) {
             define('WP_IMPORTING', true);
         }
 
-        if (! defined('WP_LOAD_IMPORTERS')) {
+        if (!defined('WP_LOAD_IMPORTERS')) {
             define('WP_LOAD_IMPORTERS', true);
         }
 
@@ -28,7 +28,7 @@ class Tests_Import_Postmeta extends WP_Import_UnitTestCase
     {
         $this->_import_wp(DIR_TESTDATA . '/export/test-serialized-postmeta-no-cdata.xml', ['johncoswell' => 'john']);
         $expected['special_post_title'] = 'A special title';
-        $expected['is_calendar']        = '';
+        $expected['is_calendar'] = '';
         $this->assertSame($expected, get_post_meta(122, 'post-options', true));
     }
 
@@ -36,45 +36,45 @@ class Tests_Import_Postmeta extends WP_Import_UnitTestCase
     {
         $this->_import_wp(DIR_TESTDATA . '/export/test-utw-post-meta-import.xml', ['johncoswell' => 'john']);
 
-        $classy      = new StdClass();
+        $classy = new StdClass();
         $classy->tag = 'album';
-        $expected[]  = $classy;
-        $classy      = new StdClass();
+        $expected[] = $classy;
+        $classy = new StdClass();
         $classy->tag = 'apple';
-        $expected[]  = $classy;
-        $classy      = new StdClass();
+        $expected[] = $classy;
+        $classy = new StdClass();
         $classy->tag = 'art';
-        $expected[]  = $classy;
-        $classy      = new StdClass();
+        $expected[] = $classy;
+        $classy = new StdClass();
         $classy->tag = 'artwork';
-        $expected[]  = $classy;
-        $classy      = new StdClass();
+        $expected[] = $classy;
+        $classy = new StdClass();
         $classy->tag = 'dead-tracks';
-        $expected[]  = $classy;
-        $classy      = new StdClass();
+        $expected[] = $classy;
+        $classy = new StdClass();
         $classy->tag = 'ipod';
-        $expected[]  = $classy;
-        $classy      = new StdClass();
+        $expected[] = $classy;
+        $classy = new StdClass();
         $classy->tag = 'itunes';
-        $expected[]  = $classy;
-        $classy      = new StdClass();
+        $expected[] = $classy;
+        $classy = new StdClass();
         $classy->tag = 'javascript';
-        $expected[]  = $classy;
-        $classy      = new StdClass();
+        $expected[] = $classy;
+        $classy = new StdClass();
         $classy->tag = 'lyrics';
-        $expected[]  = $classy;
-        $classy      = new StdClass();
+        $expected[] = $classy;
+        $classy = new StdClass();
         $classy->tag = 'script';
-        $expected[]  = $classy;
-        $classy      = new StdClass();
+        $expected[] = $classy;
+        $classy = new StdClass();
         $classy->tag = 'tracks';
-        $expected[]  = $classy;
-        $classy      = new StdClass();
+        $expected[] = $classy;
+        $classy = new StdClass();
         $classy->tag = 'windows-scripting-host';
-        $expected[]  = $classy;
-        $classy      = new StdClass();
+        $expected[] = $classy;
+        $classy = new StdClass();
         $classy->tag = 'wscript';
-        $expected[]  = $classy;
+        $expected[] = $classy;
 
         $this->assertEqualSets($expected, get_post_meta(150, 'test', true));
     }
@@ -84,13 +84,14 @@ class Tests_Import_Postmeta extends WP_Import_UnitTestCase
      */
     public function test_serialized_postmeta_with_cdata()
     {
-        $this->_import_wp(DIR_TESTDATA . '/export/test-serialized-postmeta-with-cdata.xml', ['johncoswell' => 'johncoswell']);
+        $this->_import_wp(DIR_TESTDATA . '/export/test-serialized-postmeta-with-cdata.xml',
+            ['johncoswell' => 'johncoswell']);
 
         // HTML in the CDATA should work with old waggypuppy version.
         $this->assertSame('<pre>some html</pre>', get_post_meta(10, 'contains-html', true));
         // Serialised will only work with 3.0 onwards.
         $expected['special_post_title'] = 'A special title';
-        $expected['is_calendar']        = '';
+        $expected['is_calendar'] = '';
         $this->assertSame($expected, get_post_meta(10, 'post-options', true));
     }
 
@@ -99,7 +100,8 @@ class Tests_Import_Postmeta extends WP_Import_UnitTestCase
      */
     public function test_serialized_postmeta_with_evil_stuff_in_cdata()
     {
-        $this->_import_wp(DIR_TESTDATA . '/export/test-serialized-postmeta-with-cdata.xml', ['johncoswell' => 'johncoswell']);
+        $this->_import_wp(DIR_TESTDATA . '/export/test-serialized-postmeta-with-cdata.xml',
+            ['johncoswell' => 'johncoswell']);
         // Evil content in the CDATA.
         $this->assertSame('<wp:meta_value>evil</wp:meta_value>', get_post_meta(10, 'evil', true));
     }

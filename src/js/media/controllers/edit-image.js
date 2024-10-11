@@ -21,72 +21,79 @@ var l10n = wp.media.view.l10n,
  * @param {string}                    [attributes.menu=false]         Initial mode for the menu region.
  * @param {string}                    [attributes.url]                Unused. @todo Consider removal.
  */
-EditImage = wp.media.controller.State.extend(/** @lends wp.media.controller.EditImage.prototype */{
-	defaults: {
-		id:      'edit-image',
-		title:   l10n.editImage,
-		menu:    false,
-		toolbar: 'edit-image',
-		content: 'edit-image',
-		url:     ''
-	},
+EditImage = wp.media.controller.State.extend(
+	/** @lends wp.media.controller.EditImage.prototype */ {
+		defaults: {
+			id: 'edit-image',
+			title: l10n.editImage,
+			menu: false,
+			toolbar: 'edit-image',
+			content: 'edit-image',
+			url: '',
+		},
 
-	/**
-	 * Activates a frame for editing a featured image.
-	 *
-	 * @since 3.9.0
-	 *
-	 * @return {void}
-	 */
-	activate: function() {
-		this.frame.on( 'toolbar:render:edit-image', _.bind( this.toolbar, this ) );
-	},
+		/**
+		 * Activates a frame for editing a featured image.
+		 *
+		 * @since 3.9.0
+		 *
+		 * @return {void}
+		 */
+		activate: function () {
+			this.frame.on(
+				'toolbar:render:edit-image',
+				_.bind( this.toolbar, this )
+			);
+		},
 
-	/**
-	 * Deactivates a frame for editing a featured image.
-	 *
-	 * @since 3.9.0
-	 *
-	 * @return {void}
-	 */
-	deactivate: function() {
-		this.frame.off( 'toolbar:render:edit-image' );
-	},
+		/**
+		 * Deactivates a frame for editing a featured image.
+		 *
+		 * @since 3.9.0
+		 *
+		 * @return {void}
+		 */
+		deactivate: function () {
+			this.frame.off( 'toolbar:render:edit-image' );
+		},
 
-	/**
-	 * Adds a toolbar with a back button.
-	 *
-	 * When the back button is pressed it checks whether there is a previous state.
-	 * In case there is a previous state it sets that previous state otherwise it
-	 * closes the frame.
-	 *
-	 * @since 3.9.0
-	 *
-	 * @return {void}
-	 */
-	toolbar: function() {
-		var frame = this.frame,
-			lastState = frame.lastState(),
-			previous = lastState && lastState.id;
+		/**
+		 * Adds a toolbar with a back button.
+		 *
+		 * When the back button is pressed it checks whether there is a previous state.
+		 * In case there is a previous state it sets that previous state otherwise it
+		 * closes the frame.
+		 *
+		 * @since 3.9.0
+		 *
+		 * @return {void}
+		 */
+		toolbar: function () {
+			var frame = this.frame,
+				lastState = frame.lastState(),
+				previous = lastState && lastState.id;
 
-		frame.toolbar.set( new wp.media.view.Toolbar({
-			controller: frame,
-			items: {
-				back: {
-					style: 'primary',
-					text:     l10n.back,
-					priority: 20,
-					click:    function() {
-						if ( previous ) {
-							frame.setState( previous );
-						} else {
-							frame.close();
-						}
-					}
-				}
-			}
-		}) );
+			frame.toolbar.set(
+				new wp.media.view.Toolbar( {
+					controller: frame,
+					items: {
+						back: {
+							style: 'primary',
+							text: l10n.back,
+							priority: 20,
+							click: function () {
+								if ( previous ) {
+									frame.setState( previous );
+								} else {
+									frame.close();
+								}
+							},
+						},
+					},
+				} )
+			);
+		},
 	}
-});
+);
 
 module.exports = EditImage;

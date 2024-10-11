@@ -9,37 +9,37 @@
 class Tests_Functions_wpFilterObjectList extends WP_UnitTestCase
 {
     public $object_list = [];
-    public $array_list  = [];
+    public $array_list = [];
 
     public function set_up()
     {
         parent::set_up();
         $this->array_list['foo'] = [
-            'name'   => 'foo',
-            'id'     => 'f',
+            'name' => 'foo',
+            'id' => 'f',
             'field1' => true,
             'field2' => true,
             'field3' => true,
             'field4' => ['red'],
         ];
         $this->array_list['bar'] = [
-            'name'   => 'bar',
-            'id'     => 'b',
+            'name' => 'bar',
+            'id' => 'b',
             'field1' => true,
             'field2' => true,
             'field3' => false,
             'field4' => ['green'],
         ];
         $this->array_list['baz'] = [
-            'name'   => 'baz',
-            'id'     => 'z',
+            'name' => 'baz',
+            'id' => 'z',
             'field1' => true,
             'field2' => false,
             'field3' => false,
             'field4' => ['blue'],
         ];
         foreach ($this->array_list as $key => $value) {
-            $this->object_list[$key] = (object) $value;
+            $this->object_list[$key] = (object)$value;
         }
     }
 
@@ -51,7 +51,7 @@ class Tests_Functions_wpFilterObjectList extends WP_UnitTestCase
                 'field1' => true,
                 'field2' => true,
             ],
-            'AND'
+            'AND',
         );
         $this->assertCount(2, $list);
         $this->assertArrayHasKey('foo', $list);
@@ -66,7 +66,7 @@ class Tests_Functions_wpFilterObjectList extends WP_UnitTestCase
                 'field1' => true,
                 'field2' => true,
             ],
-            'OR'
+            'OR',
         );
         $this->assertCount(3, $list);
         $this->assertArrayHasKey('foo', $list);
@@ -82,7 +82,7 @@ class Tests_Functions_wpFilterObjectList extends WP_UnitTestCase
                 'field2' => true,
                 'field3' => true,
             ],
-            'NOT'
+            'NOT',
         );
         $this->assertCount(1, $list);
         $this->assertArrayHasKey('baz', $list);
@@ -97,14 +97,14 @@ class Tests_Functions_wpFilterObjectList extends WP_UnitTestCase
                 'field2' => true,
             ],
             'AND',
-            'name'
+            'name',
         );
         $this->assertSame(
             [
                 'foo' => 'foo',
                 'bar' => 'bar',
             ],
-            $list
+            $list,
         );
     }
 
@@ -117,14 +117,14 @@ class Tests_Functions_wpFilterObjectList extends WP_UnitTestCase
                 'field3' => true,
             ],
             'OR',
-            'name'
+            'name',
         );
         $this->assertSame(
             [
                 'foo' => 'foo',
                 'bar' => 'bar',
             ],
-            $list
+            $list,
         );
     }
 
@@ -137,7 +137,7 @@ class Tests_Functions_wpFilterObjectList extends WP_UnitTestCase
                 'field3' => true,
             ],
             'NOT',
-            'name'
+            'name',
         );
         $this->assertSame(['baz' => 'baz'], $list);
     }
@@ -165,7 +165,7 @@ class Tests_Functions_wpFilterObjectList extends WP_UnitTestCase
                 'field3' => true,
                 'field4' => ['blue'],
             ],
-            'OR'
+            'OR',
         );
         $this->assertCount(2, $list);
         $this->assertArrayHasKey('foo', $list);
@@ -193,7 +193,7 @@ class Tests_Functions_wpFilterObjectList extends WP_UnitTestCase
                 'foo' => 'foo',
                 'baz' => 'baz',
             ],
-            $list
+            $list,
         );
     }
 
@@ -206,14 +206,14 @@ class Tests_Functions_wpFilterObjectList extends WP_UnitTestCase
                 'field4' => ['blue'],
             ],
             'OR',
-            'name'
+            'name',
         );
         $this->assertSame(
             [
                 'foo' => 'foo',
                 'baz' => 'baz',
             ],
-            $list
+            $list,
         );
     }
 }

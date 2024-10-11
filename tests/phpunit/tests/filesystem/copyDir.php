@@ -67,7 +67,7 @@ class Tests_Filesystem_CopyDir extends WP_UnitTestCase
         global $wp_filesystem;
 
         $from = self::$test_dir . 'folder1/folder2/';
-        $to   = self::$test_dir . 'folder3/folder2/';
+        $to = self::$test_dir . 'folder3/folder2/';
 
         // Create the file structure for the test.
         $wp_filesystem->mkdir(self::$test_dir . 'folder1');

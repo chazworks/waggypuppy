@@ -30,16 +30,16 @@ class Tests_Term_GetTagLink extends WP_UnitTestCase
         self::$tag_id = $factory->term->create(
             [
                 'taxonomy' => 'post_tag',
-                'slug'     => 'test-tag',
-            ]
+                'slug' => 'test-tag',
+            ],
         );
 
         register_taxonomy('wptests_tax', 'post');
         self::$term_id = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-                'slug'     => 'test-term',
-            ]
+                'slug' => 'test-term',
+            ],
         );
     }
 
@@ -57,7 +57,7 @@ class Tests_Term_GetTagLink extends WP_UnitTestCase
     {
         $tag_id = self::$tag_id;
 
-        $found    = get_tag_link($tag_id);
+        $found = get_tag_link($tag_id);
         $expected = home_url('?tag=test-tag');
 
         $this->assertSame($expected, $found);
@@ -72,7 +72,7 @@ class Tests_Term_GetTagLink extends WP_UnitTestCase
 
         $term = get_term($term_id);
 
-        $found    = get_tag_link($term_id);
+        $found = get_tag_link($term_id);
         $expected = home_url('?wptests_tax=test-term');
 
         $this->assertSame($expected, $found);
@@ -87,7 +87,7 @@ class Tests_Term_GetTagLink extends WP_UnitTestCase
 
         clean_term_cache($term_id);
 
-        $found    = get_tag_link($term_id);
+        $found = get_tag_link($term_id);
         $expected = home_url('?wptests_tax=test-term');
 
         $this->assertSame($expected, $found);

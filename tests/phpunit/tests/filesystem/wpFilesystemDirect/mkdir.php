@@ -40,7 +40,7 @@ class Tests_Filesystem_WpFilesystemDirect_Mkdir extends WP_Filesystem_Direct_Uni
     {
         define('FS_CHMOD_DIR', 0755);
 
-        $path   = str_replace('TEST_DIR', self::$file_structure['test_dir']['path'], $path);
+        $path = str_replace('TEST_DIR', self::$file_structure['test_dir']['path'], $path);
         $actual = self::$filesystem->mkdir($path);
 
         if ($path !== self::$file_structure['test_dir']['path'] && is_dir($path)) {
@@ -61,7 +61,7 @@ class Tests_Filesystem_WpFilesystemDirect_Mkdir extends WP_Filesystem_Direct_Uni
             'no trailing slash' => [
                 'path' => 'TEST_DIR/directory-to-create',
             ],
-            'a trailing slash'  => [
+            'a trailing slash' => [
                 'path' => 'TEST_DIR/directory-to-create/',
             ],
         ];
@@ -84,13 +84,13 @@ class Tests_Filesystem_WpFilesystemDirect_Mkdir extends WP_Filesystem_Direct_Uni
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      *
-     * @param mixed $path     The path to create.
+     * @param mixed $path The path to create.
      */
     public function test_should_not_create_directory($path)
     {
         define('FS_CHMOD_DIR', 0755);
 
-        $path   = str_replace('TEST_DIR', self::$file_structure['test_dir']['path'], $path);
+        $path = str_replace('TEST_DIR', self::$file_structure['test_dir']['path'], $path);
         $actual = self::$filesystem->mkdir($path);
 
         if ($path !== self::$file_structure['test_dir']['path'] && is_dir($path)) {
@@ -108,7 +108,7 @@ class Tests_Filesystem_WpFilesystemDirect_Mkdir extends WP_Filesystem_Direct_Uni
     public function data_should_not_create_directory()
     {
         return [
-            'empty path'         => [
+            'empty path' => [
                 'path' => '',
             ],
             'a path that exists' => [
@@ -127,7 +127,7 @@ class Tests_Filesystem_WpFilesystemDirect_Mkdir extends WP_Filesystem_Direct_Uni
         $path = self::$file_structure['test_dir']['path'] . 'directory-to-create';
 
         $created = self::$filesystem->mkdir($path, 0644);
-        $chmod   = substr(sprintf('%o', fileperms($path)), -4);
+        $chmod = substr(sprintf('%o', fileperms($path)), -4);
 
         if ($path !== self::$file_structure['test_dir']['path'] && is_dir($path)) {
             rmdir($path);
@@ -167,7 +167,7 @@ class Tests_Filesystem_WpFilesystemDirect_Mkdir extends WP_Filesystem_Direct_Uni
         rmdir($path);
 
         $created = self::$filesystem->mkdir($path, 0755, $original_owner);
-        $owner   = fileowner($path);
+        $owner = fileowner($path);
 
         if ($path !== self::$file_structure['test_dir']['path'] && is_dir($path)) {
             rmdir($path);
@@ -205,7 +205,7 @@ class Tests_Filesystem_WpFilesystemDirect_Mkdir extends WP_Filesystem_Direct_Uni
         rmdir($path);
 
         $created = self::$filesystem->mkdir($path, 0755, false, $original_group);
-        $group   = filegroup($path);
+        $group = filegroup($path);
 
         if ($path !== self::$file_structure['test_dir']['path'] && is_dir($path)) {
             rmdir($path);

@@ -25,7 +25,8 @@ class Tests_Filesystem_WpFilesystemDirect_IsFile extends WP_Filesystem_Direct_Un
      */
     public function test_should_determine_that_a_path_is_a_file()
     {
-        $this->assertTrue(self::$filesystem->is_file(self::$file_structure['test_dir']['path'] . 'a_file_that_exists.txt'));
+        $this->assertTrue(self::$filesystem->is_file(self::$file_structure['test_dir']['path']
+            . 'a_file_that_exists.txt'));
     }
 
     /**
@@ -51,10 +52,10 @@ class Tests_Filesystem_WpFilesystemDirect_IsFile extends WP_Filesystem_Direct_Un
     public function data_should_determine_if_a_path_is_not_a_file()
     {
         return [
-            'a file that does not exist'      => [
+            'a file that does not exist' => [
                 'path' => 'a_file_that_does_not_exist.txt',
             ],
-            'a directory that exists'         => [
+            'a directory that exists' => [
                 'path' => '',
             ],
             'a directory that does not exist' => [

@@ -22,26 +22,26 @@ class Tests_General_wpGetDocumentTitle extends WP_UnitTestCase
         self::$category_id = $factory->category->create(
             [
                 'name' => 'test_category',
-            ]
+            ],
         );
 
         self::$author_id = $factory->user->create(
             [
-                'role'        => 'author',
-                'user_login'  => 'test_author',
+                'role' => 'author',
+                'user_login' => 'test_author',
                 'description' => 'test_author',
-            ]
+            ],
         );
 
         self::$post_id = $factory->post->create(
             [
                 'post_author' => self::$author_id,
                 'post_status' => 'publish',
-                'post_title'  => 'test_title',
-                'post_type'   => 'post',
-                'post_date'   => '2015-09-22 18:52:17',
-                'category'    => self::$category_id,
-            ]
+                'post_title' => 'test_title',
+                'post_type' => 'post',
+                'post_date' => '2015-09-22 18:52:17',
+                'category' => self::$category_id,
+            ],
         );
     }
 
@@ -78,7 +78,8 @@ class Tests_General_wpGetDocumentTitle extends WP_UnitTestCase
 
         update_option('blogdescription', 'A blog description');
 
-        $this->expectOutputString(sprintf("<title>%s &#8211; %s</title>\n", $this->blog_name, get_option('blogdescription')));
+        $this->expectOutputString(sprintf("<title>%s &#8211; %s</title>\n", $this->blog_name,
+            get_option('blogdescription')));
         _wp_render_title_tag();
     }
 
@@ -114,9 +115,9 @@ class Tests_General_wpGetDocumentTitle extends WP_UnitTestCase
             self::factory()->post->create(
                 [
                     'post_title' => 'front-page',
-                    'post_type'  => 'page',
-                ]
-            )
+                    'post_type' => 'page',
+                ],
+            ),
         );
         add_filter('document_title_parts', [$this, 'front_page_title_parts']);
 
@@ -143,8 +144,8 @@ class Tests_General_wpGetDocumentTitle extends WP_UnitTestCase
         $blog_page_id = self::factory()->post->create(
             [
                 'post_title' => 'blog-page',
-                'post_type'  => 'page',
-            ]
+                'post_type' => 'page',
+            ],
         );
         update_option('show_on_front', 'page');
         update_option('page_for_posts', $blog_page_id);
@@ -202,7 +203,8 @@ class Tests_General_wpGetDocumentTitle extends WP_UnitTestCase
     {
         $this->go_to('?s=test_title');
 
-        $this->assertSame(sprintf('Search Results for &#8220;test_title&#8221; &#8211; %s', $this->blog_name), wp_get_document_title());
+        $this->assertSame(sprintf('Search Results for &#8220;test_title&#8221; &#8211; %s', $this->blog_name),
+            wp_get_document_title());
     }
 
     public function test_author_title()
@@ -217,18 +219,18 @@ class Tests_General_wpGetDocumentTitle extends WP_UnitTestCase
         register_post_type(
             'cpt',
             [
-                'public'      => true,
+                'public' => true,
                 'has_archive' => true,
-                'labels'      => [
+                'labels' => [
                     'name' => 'test_cpt',
                 ],
-            ]
+            ],
         );
 
         self::factory()->post->create(
             [
                 'post_type' => 'cpt',
-            ]
+            ],
         );
 
         $this->go_to('?post_type=cpt');

@@ -12,13 +12,13 @@ class Tests_Post_wpPost extends WP_UnitTestCase
         global $wpdb;
 
         // Ensure that there is a post with ID 1.
-        if (! get_post(1)) {
+        if (!get_post(1)) {
             $wpdb->insert(
                 $wpdb->posts,
                 [
-                    'ID'         => 1,
+                    'ID' => 1,
                     'post_title' => 'Post 1',
-                ]
+                ],
             );
         }
 
@@ -30,7 +30,7 @@ class Tests_Post_wpPost extends WP_UnitTestCase
      */
     public function test_get_instance_should_work_for_numeric_string()
     {
-        $found = WP_Post::get_instance((string) self::$post_id);
+        $found = WP_Post::get_instance((string)self::$post_id);
 
         $this->assertSame(self::$post_id, $found->ID);
     }

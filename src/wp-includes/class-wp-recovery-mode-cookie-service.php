@@ -18,13 +18,13 @@ final class WP_Recovery_Mode_Cookie_Service
     /**
      * Checks whether the recovery mode cookie is set.
      *
+     * @return bool True if the cookie is set, false otherwise.
      * @since 5.2.0
      *
-     * @return bool True if the cookie is set, false otherwise.
      */
     public function is_cookie_set()
     {
-        return ! empty($_COOKIE[RECOVERY_MODE_COOKIE]);
+        return !empty($_COOKIE[RECOVERY_MODE_COOKIE]);
     }
 
     /**
@@ -36,15 +36,14 @@ final class WP_Recovery_Mode_Cookie_Service
      */
     public function set_cookie()
     {
-
         $value = $this->generate_cookie();
 
         /**
          * Filters the length of time a Recovery Mode cookie is valid for.
          *
+         * @param int $length Length in seconds.
          * @since 5.2.0
          *
-         * @param int $length Length in seconds.
          */
         $length = apply_filters('recovery_mode_cookie_length', WEEK_IN_SECONDS);
 
@@ -71,16 +70,15 @@ final class WP_Recovery_Mode_Cookie_Service
     /**
      * Validates the recovery mode cookie.
      *
-     * @since 5.2.0
-     *
      * @param string $cookie Optionally specify the cookie string.
      *                       If omitted, it will be retrieved from the super global.
      * @return true|WP_Error True on success, error object on failure.
+     * @since 5.2.0
+     *
      */
     public function validate_cookie($cookie = '')
     {
-
-        if (! $cookie) {
+        if (!$cookie) {
             if (empty($_COOKIE[RECOVERY_MODE_COOKIE])) {
                 return new WP_Error('no_cookie', __('No cookie present.'));
             }
@@ -96,7 +94,7 @@ final class WP_Recovery_Mode_Cookie_Service
 
         [, $created_at, $random, $signature] = $parts;
 
-        if (! ctype_digit($created_at)) {
+        if (!ctype_digit($created_at)) {
             return new WP_Error('invalid_created_at', __('Invalid cookie format.'));
         }
 
@@ -108,9 +106,9 @@ final class WP_Recovery_Mode_Cookie_Service
         }
 
         $to_sign = sprintf('recovery_mode|%s|%s', $created_at, $random);
-        $hashed  = $this->recovery_mode_hash($to_sign);
+        $hashed = $this->recovery_mode_hash($to_sign);
 
-        if (! hash_equals($signature, $hashed)) {
+        if (!hash_equals($signature, $hashed)) {
             return new WP_Error('signature_mismatch', __('Invalid cookie.'));
         }
 
@@ -122,15 +120,15 @@ final class WP_Recovery_Mode_Cookie_Service
      *
      * The cookie should be validated before calling this API.
      *
-     * @since 5.2.0
-     *
      * @param string $cookie Optionally specify the cookie string.
      *                       If omitted, it will be retrieved from the super global.
      * @return string|WP_Error Session ID on success, or error object on failure.
+     * @since 5.2.0
+     *
      */
     public function get_session_id_from_cookie($cookie = '')
     {
-        if (! $cookie) {
+        if (!$cookie) {
             if (empty($_COOKIE[RECOVERY_MODE_COOKIE])) {
                 return new WP_Error('no_cookie', __('No cookie present.'));
             }
@@ -151,15 +149,15 @@ final class WP_Recovery_Mode_Cookie_Service
     /**
      * Parses the cookie into its four parts.
      *
-     * @since 5.2.0
-     *
      * @param string $cookie Cookie content.
      * @return array|WP_Error Cookie parts array, or error object on failure.
+     * @since 5.2.0
+     *
      */
     private function parse_cookie($cookie)
     {
         $cookie = base64_decode($cookie);
-        $parts  = explode('|', $cookie);
+        $parts = explode('|', $cookie);
 
         if (4 !== count($parts)) {
             return new WP_Error('invalid_format', __('Invalid cookie format.'));
@@ -180,14 +178,14 @@ final class WP_Recovery_Mode_Cookie_Service
      * rand is a randomly generated password that is also used as a session identifier
      * and signature is an hmac of the preceding 3 parts.
      *
+     * @return string Generated cookie content.
      * @since 5.2.0
      *
-     * @return string Generated cookie content.
      */
     private function generate_cookie()
     {
         $to_sign = sprintf('recovery_mode|%s|%s', time(), wp_generate_password(20, false));
-        $signed  = $this->recovery_mode_hash($to_sign);
+        $signed = $this->recovery_mode_hash($to_sign);
 
         return base64_encode(sprintf('%s|%s', $to_sign, $signed));
     }
@@ -200,10 +198,10 @@ final class WP_Recovery_Mode_Cookie_Service
      *
      * This tries to use the `AUTH` salts first, but if they aren't valid specific salts will be generated and stored.
      *
-     * @since 5.2.0
-     *
      * @param string $data Data to hash.
      * @return string|false The hashed $data, or false on failure.
+     * @since 5.2.0
+     *
      */
     private function recovery_mode_hash($data)
     {
@@ -216,14 +214,14 @@ final class WP_Recovery_Mode_Cookie_Service
                  * https://i18n.svn.wp.org/<locale code>/branches/<wp version>/dist/wp-config-sample.php
                  */
                 __('put your unique phrase here'),
-            ]
+            ],
         );
 
-        if (! defined('AUTH_KEY') || in_array(AUTH_KEY, $default_keys, true)) {
+        if (!defined('AUTH_KEY') || in_array(AUTH_KEY, $default_keys, true)) {
             $auth_key = get_site_option('recovery_mode_auth_key');
 
-            if (! $auth_key) {
-                if (! function_exists('wp_generate_password')) {
+            if (!$auth_key) {
+                if (!function_exists('wp_generate_password')) {
                     require_once ABSPATH . WPINC . '/pluggable.php';
                 }
 
@@ -234,11 +232,11 @@ final class WP_Recovery_Mode_Cookie_Service
             $auth_key = AUTH_KEY;
         }
 
-        if (! defined('AUTH_SALT') || in_array(AUTH_SALT, $default_keys, true) || AUTH_SALT === $auth_key) {
+        if (!defined('AUTH_SALT') || in_array(AUTH_SALT, $default_keys, true) || AUTH_SALT === $auth_key) {
             $auth_salt = get_site_option('recovery_mode_auth_salt');
 
-            if (! $auth_salt) {
-                if (! function_exists('wp_generate_password')) {
+            if (!$auth_salt) {
+                if (!function_exists('wp_generate_password')) {
                     require_once ABSPATH . WPINC . '/pluggable.php';
                 }
 

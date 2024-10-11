@@ -27,27 +27,27 @@ class Tests_Ajax_wpAjaxInlineSave extends WP_Ajax_UnitTestCase
             'post',
             [
                 'show_in_quick_edit' => false,
-                'hierarchical'       => true,
-            ]
+                'hierarchical' => true,
+            ],
         );
         register_taxonomy(
             'wptests_tax_2',
             'post',
             [
                 'show_in_quick_edit' => true,
-                'hierarchical'       => true,
-            ]
+                'hierarchical' => true,
+            ],
         );
 
         $t1 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax_1',
-            ]
+            ],
         );
         $t2 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax_2',
-            ]
+            ],
         );
 
         // Become an administrator.
@@ -56,20 +56,20 @@ class Tests_Ajax_wpAjaxInlineSave extends WP_Ajax_UnitTestCase
         $post = self::factory()->post->create_and_get(
             [
                 'post_author' => get_current_user_id(),
-            ]
+            ],
         );
 
         // Set up a request.
         $_POST['_inline_edit'] = wp_create_nonce('inlineeditnonce');
-        $_POST['post_ID']      = $post->ID;
-        $_POST['post_type']    = $post->post_type;
-        $_POST['content']      = $post->post_content;
-        $_POST['excerpt']      = $post->post_excerpt;
-        $_POST['_status']      = $post->post_status;
-        $_POST['post_status']  = $post->post_status;
-        $_POST['screen']       = 'post';
-        $_POST['post_view']    = 'excerpt';
-        $_POST['tax_input']    = [
+        $_POST['post_ID'] = $post->ID;
+        $_POST['post_type'] = $post->post_type;
+        $_POST['content'] = $post->post_content;
+        $_POST['excerpt'] = $post->post_excerpt;
+        $_POST['_status'] = $post->post_status;
+        $_POST['post_status'] = $post->post_status;
+        $_POST['screen'] = 'post';
+        $_POST['post_view'] = 'excerpt';
+        $_POST['tax_input'] = [
             'wptests_tax_1' => [$t1],
             'wptests_tax_2' => [$t2],
         ];
@@ -108,7 +108,7 @@ class Tests_Ajax_wpAjaxInlineSave extends WP_Ajax_UnitTestCase
             [
                 'post_status' => 'draft',
                 'post_author' => $user,
-            ]
+            ],
         );
 
         $this->assertSame('draft', $post->post_status);
@@ -117,22 +117,22 @@ class Tests_Ajax_wpAjaxInlineSave extends WP_Ajax_UnitTestCase
 
         // Set up a request.
         $_POST['_inline_edit'] = wp_create_nonce('inlineeditnonce');
-        $_POST['post_ID']      = $post->ID;
-        $_POST['post_type']    = 'post';
-        $_POST['content']      = 'content test';
-        $_POST['excerpt']      = 'excerpt test';
-        $_POST['_status']      = $post->post_status;
-        $_POST['post_status']  = $post->post_status;
-        $_POST['post_author']  = $user;
-        $_POST['screen']       = 'edit-post';
-        $_POST['post_view']    = 'list';
-        $_POST['edit_date']    = 'false';
-        $_POST['mm']           = get_the_date('m', $post);
-        $_POST['jj']           = get_the_date('d', $post);
-        $_POST['aa']           = get_the_date('Y', $post);
-        $_POST['hh']           = get_the_date('H', $post);
-        $_POST['mn']           = get_the_date('i', $post);
-        $_POST['ss']           = get_the_date('s', $post);
+        $_POST['post_ID'] = $post->ID;
+        $_POST['post_type'] = 'post';
+        $_POST['content'] = 'content test';
+        $_POST['excerpt'] = 'excerpt test';
+        $_POST['_status'] = $post->post_status;
+        $_POST['post_status'] = $post->post_status;
+        $_POST['post_author'] = $user;
+        $_POST['screen'] = 'edit-post';
+        $_POST['post_view'] = 'list';
+        $_POST['edit_date'] = 'false';
+        $_POST['mm'] = get_the_date('m', $post);
+        $_POST['jj'] = get_the_date('d', $post);
+        $_POST['aa'] = get_the_date('Y', $post);
+        $_POST['hh'] = get_the_date('H', $post);
+        $_POST['mn'] = get_the_date('i', $post);
+        $_POST['ss'] = get_the_date('s', $post);
 
         // Make the request.
         try {
@@ -143,7 +143,8 @@ class Tests_Ajax_wpAjaxInlineSave extends WP_Ajax_UnitTestCase
 
         $post = get_post($post->ID);
 
-        $post_date = sprintf('%04d-%02d-%02d %02d:%02d:%02d', $_POST['aa'], $_POST['mm'], $_POST['jj'], $_POST['hh'], $_POST['mn'], $_POST['ss']);
+        $post_date = sprintf('%04d-%02d-%02d %02d:%02d:%02d', $_POST['aa'], $_POST['mm'], $_POST['jj'], $_POST['hh'],
+            $_POST['mn'], $_POST['ss']);
 
         $this->assertSame('0000-00-00 00:00:00', $post->post_date_gmt);
     }
@@ -166,7 +167,7 @@ class Tests_Ajax_wpAjaxInlineSave extends WP_Ajax_UnitTestCase
             [
                 'post_status' => 'draft',
                 'post_author' => $user,
-            ]
+            ],
         );
 
         $this->assertSame('draft', $post->post_status);
@@ -175,22 +176,22 @@ class Tests_Ajax_wpAjaxInlineSave extends WP_Ajax_UnitTestCase
 
         // Set up a request.
         $_POST['_inline_edit'] = wp_create_nonce('inlineeditnonce');
-        $_POST['post_ID']      = $post->ID;
-        $_POST['post_type']    = 'post';
-        $_POST['content']      = 'content test';
-        $_POST['excerpt']      = 'excerpt test';
-        $_POST['_status']      = $post->post_status;
-        $_POST['post_status']  = $post->post_status;
-        $_POST['post_author']  = $user;
-        $_POST['screen']       = 'edit-post';
-        $_POST['post_view']    = 'list';
-        $_POST['edit_date']    = 'true';
-        $_POST['mm']           = '09';
-        $_POST['jj']           = 11;
-        $_POST['aa']           = 2020;
-        $_POST['hh']           = 19;
-        $_POST['mn']           = 20;
-        $_POST['ss']           = 11;
+        $_POST['post_ID'] = $post->ID;
+        $_POST['post_type'] = 'post';
+        $_POST['content'] = 'content test';
+        $_POST['excerpt'] = 'excerpt test';
+        $_POST['_status'] = $post->post_status;
+        $_POST['post_status'] = $post->post_status;
+        $_POST['post_author'] = $user;
+        $_POST['screen'] = 'edit-post';
+        $_POST['post_view'] = 'list';
+        $_POST['edit_date'] = 'true';
+        $_POST['mm'] = '09';
+        $_POST['jj'] = 11;
+        $_POST['aa'] = 2020;
+        $_POST['hh'] = 19;
+        $_POST['mn'] = 20;
+        $_POST['ss'] = 11;
 
         // Make the request.
         try {

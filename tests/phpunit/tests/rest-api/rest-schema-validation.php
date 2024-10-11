@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering schema validation and sanitization functionality.
  *
@@ -13,7 +14,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_type_number()
     {
         $schema = [
-            'type'    => 'number',
+            'type' => 'number',
             'minimum' => 1,
             'maximum' => 2,
         ];
@@ -27,7 +28,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_type_integer()
     {
         $schema = [
-            'type'    => 'integer',
+            'type' => 'integer',
             'minimum' => 1,
             'maximum' => 2,
         ];
@@ -68,7 +69,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_format_email()
     {
         $schema = [
-            'type'   => 'string',
+            'type' => 'string',
             'format' => 'email',
         ];
         $this->assertTrue(rest_validate_value_from_schema('email@example.com', $schema));
@@ -82,7 +83,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_format_hex_color()
     {
         $schema = [
-            'type'   => 'string',
+            'type' => 'string',
             'format' => 'hex-color',
         ];
         $this->assertTrue(rest_validate_value_from_schema('#000000', $schema));
@@ -96,7 +97,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_format_uuid()
     {
         $schema = [
-            'type'   => 'string',
+            'type' => 'string',
             'format' => 'uuid',
         ];
         $this->assertTrue(rest_validate_value_from_schema('123e4567-e89b-12d3-a456-426655440000', $schema));
@@ -107,7 +108,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_format_date_time()
     {
         $schema = [
-            'type'   => 'string',
+            'type' => 'string',
             'format' => 'date-time',
         ];
         $this->assertTrue(rest_validate_value_from_schema('2016-06-30T05:43:21', $schema));
@@ -121,7 +122,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_format_ip()
     {
         $schema = [
-            'type'   => 'string',
+            'type' => 'string',
             'format' => 'ip',
         ];
 
@@ -137,11 +138,13 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
         $this->assertTrue(rest_validate_value_from_schema('0:0:0:0:0:0:0:0', $schema)); // Unspecified, full.
         $this->assertTrue(rest_validate_value_from_schema('2001:DB8:0:0:8:800:200C:417A', $schema)); // Unicast, full.
         $this->assertTrue(rest_validate_value_from_schema('FF01:0:0:0:0:0:0:101', $schema)); // Multicast, full.
-        $this->assertTrue(rest_validate_value_from_schema('2001:DB8::8:800:200C:417A', $schema)); // Unicast, compressed.
+        $this->assertTrue(rest_validate_value_from_schema('2001:DB8::8:800:200C:417A',
+            $schema)); // Unicast, compressed.
         $this->assertTrue(rest_validate_value_from_schema('FF01::101', $schema)); // Multicast, compressed.
         $this->assertTrue(rest_validate_value_from_schema('fe80::217:f2ff:fe07:ed62', $schema));
         $this->assertWPError(rest_validate_value_from_schema('', $schema)); // Empty string.
-        $this->assertWPError(rest_validate_value_from_schema('2001:DB8:0:0:8:800:200C:417A:221', $schema)); // Unicast, full.
+        $this->assertWPError(rest_validate_value_from_schema('2001:DB8:0:0:8:800:200C:417A:221',
+            $schema)); // Unicast, full.
         $this->assertWPError(rest_validate_value_from_schema('FF01::101::2', $schema)); // Multicast, compressed.
     }
 
@@ -151,8 +154,8 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_format_validation_is_skipped_if_non_string_type()
     {
         $schema = [
-            'type'   => 'array',
-            'items'  => [
+            'type' => 'array',
+            'items' => [
                 'type' => 'string',
             ],
             'format' => 'email',
@@ -188,7 +191,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
 
         $schema = [
             'format' => 'email',
-            'type'   => 'str',
+            'type' => 'str',
         ];
         $this->assertTrue(rest_validate_value_from_schema('email@example.com', $schema));
         $this->assertWPError(rest_validate_value_from_schema('email', $schema));
@@ -197,7 +200,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_type_array()
     {
         $schema = [
-            'type'  => 'array',
+            'type' => 'array',
             'items' => [
                 'type' => 'number',
             ],
@@ -210,9 +213,9 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_type_array_nested()
     {
         $schema = [
-            'type'  => 'array',
+            'type' => 'array',
             'items' => [
-                'type'  => 'array',
+                'type' => 'array',
                 'items' => [
                     'type' => 'number',
                 ],
@@ -224,7 +227,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_type_array_as_csv()
     {
         $schema = [
-            'type'  => 'array',
+            'type' => 'array',
             'items' => [
                 'type' => 'number',
             ],
@@ -239,7 +242,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_type_array_with_enum()
     {
         $schema = [
-            'type'  => 'array',
+            'type' => 'array',
             'items' => [
                 'enum' => ['chicken', 'ribs', 'brisket'],
                 'type' => 'string',
@@ -252,7 +255,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_type_array_with_enum_as_csv()
     {
         $schema = [
-            'type'  => 'array',
+            'type' => 'array',
             'items' => [
                 'enum' => ['chicken', 'ribs', 'brisket'],
                 'type' => 'string',
@@ -272,7 +275,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
      *
      * @param mixed $value
      * @param array $args
-     * @param bool  $expected
+     * @param bool $expected
      */
     public function test_different_types_of_value_and_enum_elements($value, $args, $expected)
     {
@@ -556,63 +559,63 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
             [
                 [0, 1],
                 [
-                    'type'  => 'array',
+                    'type' => 'array',
                     'items' => ['type' => 'integer'],
-                    'enum'  => [[0, 1], [1, 2]],
+                    'enum' => [[0, 1], [1, 2]],
                 ],
                 true,
             ],
             [
                 ['0', 1],
                 [
-                    'type'  => 'array',
+                    'type' => 'array',
                     'items' => ['type' => 'integer'],
-                    'enum'  => [[0, 1], [1, 2]],
+                    'enum' => [[0, 1], [1, 2]],
                 ],
                 true,
             ],
             [
                 [0, '1'],
                 [
-                    'type'  => 'array',
+                    'type' => 'array',
                     'items' => ['type' => 'integer'],
-                    'enum'  => [[0, 1], [1, 2]],
+                    'enum' => [[0, 1], [1, 2]],
                 ],
                 true,
             ],
             [
                 ['0', '1'],
                 [
-                    'type'  => 'array',
+                    'type' => 'array',
                     'items' => ['type' => 'integer'],
-                    'enum'  => [[0, 1], [1, 2]],
+                    'enum' => [[0, 1], [1, 2]],
                 ],
                 true,
             ],
             [
                 [1, 2],
                 [
-                    'type'  => 'array',
+                    'type' => 'array',
                     'items' => ['type' => 'integer'],
-                    'enum'  => [[0, 1], [1, 2]],
+                    'enum' => [[0, 1], [1, 2]],
                 ],
                 true,
             ],
             [
                 [2, 3],
                 [
-                    'type'  => 'array',
+                    'type' => 'array',
                     'items' => ['type' => 'integer'],
-                    'enum'  => [[0, 1], [1, 2]],
+                    'enum' => [[0, 1], [1, 2]],
                 ],
                 false,
             ],
             [
                 [1, 0],
                 [
-                    'type'  => 'array',
+                    'type' => 'array',
                     'items' => ['type' => 'integer'],
-                    'enum'  => [[0, 1], [1, 2]],
+                    'enum' => [[0, 1], [1, 2]],
                 ],
                 false,
             ],
@@ -624,9 +627,9 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
                     'b' => 2,
                 ],
                 [
-                    'type'                 => 'object',
+                    'type' => 'object',
                     'additionalProperties' => ['type' => 'integer'],
-                    'enum'                 => [
+                    'enum' => [
                         [
                             'a' => 1,
                             'b' => 2,
@@ -645,9 +648,9 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
                     'b' => 2,
                 ],
                 [
-                    'type'                 => 'object',
+                    'type' => 'object',
                     'additionalProperties' => ['type' => 'integer'],
-                    'enum'                 => [
+                    'enum' => [
                         [
                             'a' => 1,
                             'b' => 2,
@@ -666,9 +669,9 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
                     'b' => '2',
                 ],
                 [
-                    'type'                 => 'object',
+                    'type' => 'object',
                     'additionalProperties' => ['type' => 'integer'],
-                    'enum'                 => [
+                    'enum' => [
                         [
                             'a' => 1,
                             'b' => 2,
@@ -687,9 +690,9 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
                     'b' => '2',
                 ],
                 [
-                    'type'                 => 'object',
+                    'type' => 'object',
                     'additionalProperties' => ['type' => 'integer'],
-                    'enum'                 => [
+                    'enum' => [
                         [
                             'a' => 1,
                             'b' => 2,
@@ -708,9 +711,9 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
                     'a' => 1,
                 ],
                 [
-                    'type'                 => 'object',
+                    'type' => 'object',
                     'additionalProperties' => ['type' => 'integer'],
-                    'enum'                 => [
+                    'enum' => [
                         [
                             'a' => 1,
                             'b' => 2,
@@ -729,9 +732,9 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
                     'c' => 3,
                 ],
                 [
-                    'type'                 => 'object',
+                    'type' => 'object',
                     'additionalProperties' => ['type' => 'integer'],
-                    'enum'                 => [
+                    'enum' => [
                         [
                             'a' => 1,
                             'b' => 2,
@@ -750,9 +753,9 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
                     'b' => 3,
                 ],
                 [
-                    'type'                 => 'object',
+                    'type' => 'object',
                     'additionalProperties' => ['type' => 'integer'],
-                    'enum'                 => [
+                    'enum' => [
                         [
                             'a' => 1,
                             'b' => 2,
@@ -771,9 +774,9 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
                     'd' => 4,
                 ],
                 [
-                    'type'                 => 'object',
+                    'type' => 'object',
                     'additionalProperties' => ['type' => 'integer'],
-                    'enum'                 => [
+                    'enum' => [
                         [
                             'a' => 1,
                             'b' => 2,
@@ -792,7 +795,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_type_array_is_associative()
     {
         $schema = [
-            'type'  => 'array',
+            'type' => 'array',
             'items' => [
                 'type' => 'string',
             ],
@@ -800,18 +803,18 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
         $this->assertWPError(
             rest_validate_value_from_schema(
                 [
-                    'first'  => '1',
+                    'first' => '1',
                     'second' => '2',
                 ],
-                $schema
-            )
+                $schema,
+            ),
         );
     }
 
     public function test_type_object()
     {
         $schema = [
-            'type'       => 'object',
+            'type' => 'object',
             'properties' => [
                 'a' => [
                     'type' => 'number',
@@ -825,8 +828,8 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
                     'a' => 1,
                     'b' => 2,
                 ],
-                $schema
-            )
+                $schema,
+            ),
         );
         $this->assertWPError(rest_validate_value_from_schema(['a' => 'invalid'], $schema));
     }
@@ -843,11 +846,11 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_type_object_pattern_properties($pattern_properties, $value, $expected)
     {
         $schema = [
-            'type'                 => 'object',
-            'properties'           => [
+            'type' => 'object',
+            'properties' => [
                 'propA' => ['type' => 'string'],
             ],
-            'patternProperties'    => $pattern_properties,
+            'patternProperties' => $pattern_properties,
             'additionalProperties' => false,
         ];
 
@@ -926,7 +929,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
                     '.+' => ['type' => 'string'],
                 ],
                 [
-                    ''      => '',
+                    '' => '',
                     'propA' => 'a',
                 ],
                 false,
@@ -937,8 +940,8 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_type_object_additional_properties_false()
     {
         $schema = [
-            'type'                 => 'object',
-            'properties'           => [
+            'type' => 'object',
+            'properties' => [
                 'a' => [
                     'type' => 'number',
                 ],
@@ -952,18 +955,18 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
                     'a' => 1,
                     'b' => 2,
                 ],
-                $schema
-            )
+                $schema,
+            ),
         );
     }
 
     public function test_type_object_nested()
     {
         $schema = [
-            'type'       => 'object',
+            'type' => 'object',
             'properties' => [
                 'a' => [
-                    'type'       => 'object',
+                    'type' => 'object',
                     'properties' => [
                         'b' => ['type' => 'number'],
                         'c' => ['type' => 'number'],
@@ -979,8 +982,8 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
                         'c' => 3,
                     ],
                 ],
-                $schema
-            )
+                $schema,
+            ),
         );
         $this->assertWPError(
             rest_validate_value_from_schema(
@@ -990,8 +993,8 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
                         'c' => 'invalid',
                     ],
                 ],
-                $schema
-            )
+                $schema,
+            ),
         );
         $this->assertWPError(rest_validate_value_from_schema(['a' => 1], $schema));
     }
@@ -999,14 +1002,14 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_type_object_stdclass()
     {
         $schema = [
-            'type'       => 'object',
+            'type' => 'object',
             'properties' => [
                 'a' => [
                     'type' => 'number',
                 ],
             ],
         ];
-        $this->assertTrue(rest_validate_value_from_schema((object) ['a' => 1], $schema));
+        $this->assertTrue(rest_validate_value_from_schema((object)['a' => 1], $schema));
     }
 
     /**
@@ -1039,7 +1042,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_nullable_date()
     {
         $schema = [
-            'type'   => ['string', 'null'],
+            'type' => ['string', 'null'],
             'format' => 'date-time',
         ];
 
@@ -1057,7 +1060,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_epoch()
     {
         $schema = [
-            'type'   => 'string',
+            'type' => 'string',
             'format' => 'date-time',
         ];
         $this->assertTrue(rest_validate_value_from_schema('1970-01-01T00:00:00Z', $schema));
@@ -1066,7 +1069,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_object_or_string()
     {
         $schema = [
-            'type'       => ['object', 'string'],
+            'type' => ['object', 'string'],
             'properties' => [
                 'raw' => [
                     'type' => 'string',
@@ -1088,7 +1091,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_null_or_integer()
     {
         $schema = [
-            'type'    => ['null', 'integer'],
+            'type' => ['null', 'integer'],
             'minimum' => 10,
             'maximum' => 20,
         ];
@@ -1109,12 +1112,12 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
      *
      * @param int|float $value
      * @param int|float $divisor
-     * @param bool      $expected
+     * @param bool $expected
      */
     public function test_numeric_multiple_of($value, $divisor, $expected)
     {
         $schema = [
-            'type'       => 'number',
+            'type' => 'number',
             'multipleOf' => $divisor,
         ];
 
@@ -1176,7 +1179,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_string_min_length()
     {
         $schema = [
-            'type'      => 'string',
+            'type' => 'string',
             'minLength' => 2,
         ];
 
@@ -1201,7 +1204,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_string_max_length()
     {
         $schema = [
-            'type'      => 'string',
+            'type' => 'string',
             'maxLength' => 2,
         ];
 
@@ -1228,13 +1231,13 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_property_is_required($data, $expected)
     {
         $schema = [
-            'type'       => 'object',
+            'type' => 'object',
             'properties' => [
-                'my_prop'          => [
+                'my_prop' => [
                     'type' => 'string',
                 ],
                 'my_required_prop' => [
-                    'type'     => 'string',
+                    'type' => 'string',
                     'required' => true,
                 ],
             ],
@@ -1257,16 +1260,16 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_property_is_required_v4($data, $expected)
     {
         $schema = [
-            'type'       => 'object',
+            'type' => 'object',
             'properties' => [
-                'my_prop'          => [
+                'my_prop' => [
                     'type' => 'string',
                 ],
                 'my_required_prop' => [
                     'type' => 'string',
                 ],
             ],
-            'required'   => ['my_required_prop'],
+            'required' => ['my_required_prop'],
         ];
 
         $valid = rest_validate_value_from_schema($data, $schema);
@@ -1284,7 +1287,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
             [
                 [
                     'my_required_prop' => 'test',
-                    'my_prop'          => 'test',
+                    'my_prop' => 'test',
                 ],
                 true,
             ],
@@ -1301,16 +1304,16 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_nested_property_is_required($data, $expected)
     {
         $schema = [
-            'type'       => 'object',
+            'type' => 'object',
             'properties' => [
                 'my_object' => [
-                    'type'       => 'object',
+                    'type' => 'object',
                     'properties' => [
-                        'my_nested_prop'          => [
+                        'my_nested_prop' => [
                             'type' => 'string',
                         ],
                         'my_required_nested_prop' => [
-                            'type'     => 'string',
+                            'type' => 'string',
                             'required' => true,
                         ],
                     ],
@@ -1335,19 +1338,19 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_nested_property_is_required_v4($data, $expected)
     {
         $schema = [
-            'type'       => 'object',
+            'type' => 'object',
             'properties' => [
                 'my_object' => [
-                    'type'       => 'object',
+                    'type' => 'object',
                     'properties' => [
-                        'my_nested_prop'          => [
+                        'my_nested_prop' => [
                             'type' => 'string',
                         ],
                         'my_required_nested_prop' => [
                             'type' => 'string',
                         ],
                     ],
-                    'required'   => ['my_required_nested_prop'],
+                    'required' => ['my_required_nested_prop'],
                 ],
             ],
         ];
@@ -1368,7 +1371,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
                 [
                     'my_object' => [
                         'my_required_nested_prop' => 'test',
-                        'my_nested_prop'          => 'test',
+                        'my_nested_prop' => 'test',
                     ],
                 ],
                 true,
@@ -1396,18 +1399,18 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_deeply_nested_v3_required_property($value, $expected)
     {
         $schema = [
-            'type'       => 'object',
+            'type' => 'object',
             'properties' => [
                 'propA' => [
-                    'type'       => 'object',
-                    'required'   => true,
+                    'type' => 'object',
+                    'required' => true,
                     'properties' => [
                         'propB' => [
-                            'type'       => 'object',
-                            'required'   => true,
+                            'type' => 'object',
+                            'required' => true,
                             'properties' => [
                                 'propC' => [
-                                    'type'     => 'string',
+                                    'type' => 'string',
                                     'required' => true,
                                 ],
                                 'propD' => [
@@ -1437,16 +1440,16 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_deeply_nested_v4_required_property($value, $expected)
     {
         $schema = [
-            'type'       => 'object',
-            'required'   => ['propA'],
+            'type' => 'object',
+            'required' => ['propA'],
             'properties' => [
                 'propA' => [
-                    'type'       => 'object',
-                    'required'   => ['propB'],
+                    'type' => 'object',
+                    'required' => ['propB'],
                     'properties' => [
                         'propB' => [
-                            'type'       => 'object',
-                            'required'   => ['propC'],
+                            'type' => 'object',
+                            'required' => ['propC'],
                             'properties' => [
                                 'propC' => [
                                     'type' => 'string',
@@ -1478,18 +1481,18 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_deeply_nested_mixed_version_required_property($value, $expected)
     {
         $schema = [
-            'type'       => 'object',
-            'required'   => ['propA'],
+            'type' => 'object',
+            'required' => ['propA'],
             'properties' => [
                 'propA' => [
-                    'type'       => 'object',
-                    'required'   => ['propB'],
+                    'type' => 'object',
+                    'required' => ['propB'],
                     'properties' => [
                         'propB' => [
-                            'type'       => 'object',
+                            'type' => 'object',
                             'properties' => [
                                 'propC' => [
-                                    'type'     => 'string',
+                                    'type' => 'string',
                                     'required' => true,
                                 ],
                                 'propD' => [
@@ -1561,7 +1564,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_object_min_properties()
     {
         $schema = [
-            'type'          => 'object',
+            'type' => 'object',
             'minProperties' => 1,
         ];
 
@@ -1571,8 +1574,8 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
                     'propA' => 'a',
                     'propB' => 'b',
                 ],
-                $schema
-            )
+                $schema,
+            ),
         );
         $this->assertTrue(rest_validate_value_from_schema(['propA' => 'a'], $schema));
         $this->assertWPError(rest_validate_value_from_schema([], $schema));
@@ -1585,7 +1588,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_object_max_properties()
     {
         $schema = [
-            'type'          => 'object',
+            'type' => 'object',
             'maxProperties' => 2,
         ];
 
@@ -1596,8 +1599,8 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
                     'propA' => 'a',
                     'propB' => 'b',
                 ],
-                $schema
-            )
+                $schema,
+            ),
         );
         $this->assertWPError(
             rest_validate_value_from_schema(
@@ -1606,8 +1609,8 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
                     'propB' => 'b',
                     'propC' => 'c',
                 ],
-                $schema
-            )
+                $schema,
+            ),
         );
         $this->assertWPError(rest_validate_value_from_schema('foobar', $schema));
     }
@@ -1618,7 +1621,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_string_pattern()
     {
         $schema = [
-            'type'    => 'string',
+            'type' => 'string',
             'pattern' => '^a*$',
         ];
 
@@ -1632,7 +1635,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_string_pattern_with_escaped_delimiter()
     {
         $schema = [
-            'type'    => 'string',
+            'type' => 'string',
             'pattern' => '#[0-9]+',
         ];
 
@@ -1646,7 +1649,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_string_pattern_with_utf8()
     {
         $schema = [
-            'type'    => 'string',
+            'type' => 'string',
             'pattern' => '^â{1}$',
         ];
 
@@ -1660,9 +1663,9 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_array_min_items()
     {
         $schema = [
-            'type'     => 'array',
+            'type' => 'array',
             'minItems' => 1,
-            'items'    => [
+            'items' => [
                 'type' => 'number',
             ],
         ];
@@ -1679,9 +1682,9 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_array_max_items()
     {
         $schema = [
-            'type'     => 'array',
+            'type' => 'array',
             'maxItems' => 2,
-            'items'    => [
+            'items' => [
                 'type' => 'number',
             ],
         ];
@@ -1700,7 +1703,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_unique_items($test, $suite)
     {
         $test_description = $suite['description'] . ': ' . $test['description'];
-        $message          = $test_description . ': ' . var_export($test['data'], true);
+        $message = $test_description . ': ' . var_export($test['data'], true);
 
         $valid = rest_validate_value_from_schema($test['data'], $suite['schema']);
 
@@ -1716,7 +1719,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
         $all_types = ['object', 'array', 'null', 'number', 'integer', 'boolean', 'string'];
 
         // the following test suites is not supported at the moment
-        $skip   = [
+        $skip = [
             'uniqueItems with an array of items',
             'uniqueItems with an array of items and additionalItems=false',
             'uniqueItems=false with an array of items',
@@ -1731,13 +1734,13 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
                 continue;
             }
             // type is required for our implementation
-            if (! isset($suite['schema']['type'])) {
+            if (!isset($suite['schema']['type'])) {
                 $suite['schema']['type'] = 'array';
             }
             // items is required for our implementation
-            if (! isset($suite['schema']['items'])) {
+            if (!isset($suite['schema']['items'])) {
                 $suite['schema']['items'] = [
-                    'type'  => $all_types,
+                    'type' => $all_types,
                     'items' => [
                         'type' => $all_types,
                     ],
@@ -1757,15 +1760,15 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_unique_items_deep_objects()
     {
         $schema = [
-            'type'        => 'array',
+            'type' => 'array',
             'uniqueItems' => true,
-            'items'       => [
-                'type'       => 'object',
+            'items' => [
+                'type' => 'object',
                 'properties' => [
                     'release' => [
-                        'type'       => 'object',
+                        'type' => 'object',
                         'properties' => [
-                            'name'    => [
+                            'name' => [
                                 'type' => 'string',
                             ],
                             'version' => [
@@ -1780,14 +1783,14 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
         $data = [
             [
                 'release' => [
-                    'name'    => 'Kirk',
+                    'name' => 'Kirk',
                     'version' => '5.3',
                 ],
             ],
             [
                 'release' => [
                     'version' => '5.3',
-                    'name'    => 'Kirk',
+                    'name' => 'Kirk',
                 ],
             ],
         ];
@@ -1804,10 +1807,10 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function test_unique_items_deep_arrays()
     {
         $schema = [
-            'type'        => 'array',
+            'type' => 'array',
             'uniqueItems' => true,
-            'items'       => [
-                'type'  => 'array',
+            'items' => [
+                'type' => 'array',
                 'items' => [
                     'type' => 'string',
                 ],
@@ -1873,7 +1876,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function data_any_of()
     {
         $suites = json_decode(file_get_contents(__DIR__ . '/json_schema_test_suite/anyof.json'), true);
-        $skip   = [
+        $skip = [
             'anyOf with boolean schemas, all true',
             'anyOf with boolean schemas, some true',
             'anyOf with boolean schemas, all false',
@@ -1926,7 +1929,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
     public function data_one_of()
     {
         $suites = json_decode(file_get_contents(__DIR__ . '/json_schema_test_suite/oneof.json'), true);
-        $skip   = [
+        $skip = [
             'oneOf with boolean schemas, all true',
             'oneOf with boolean schemas, one true',
             'oneOf with boolean schemas, more than one true',
@@ -1982,8 +1985,8 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
                 [
                     'anyOf' => [
                         [
-                            'title'   => 'circle',
-                            'type'    => 'integer',
+                            'title' => 'circle',
+                            'type' => 'integer',
                             'maximum' => 5,
                         ],
                     ],
@@ -1995,7 +1998,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
                 [
                     'anyOf' => [
                         [
-                            'type'    => 'integer',
+                            'type' => 'integer',
                             'maximum' => 5,
                         ],
                     ],
@@ -2008,8 +2011,8 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
                     'anyOf' => [
                         ['type' => 'boolean'],
                         [
-                            'title'      => 'circle',
-                            'type'       => 'object',
+                            'title' => 'circle',
+                            'type' => 'object',
                             'properties' => [
                                 'a' => ['type' => 'string'],
                             ],
@@ -2024,7 +2027,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
                     'anyOf' => [
                         ['type' => 'boolean'],
                         [
-                            'type'       => 'object',
+                            'type' => 'object',
                             'properties' => [
                                 'a' => ['type' => 'string'],
                             ],
@@ -2043,21 +2046,21 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
                     'anyOf' => [
                         ['type' => 'boolean'],
                         [
-                            'type'       => 'object',
+                            'type' => 'object',
                             'properties' => [
                                 'a' => ['type' => 'string'],
                             ],
                         ],
                         [
-                            'title'      => 'square',
-                            'type'       => 'object',
+                            'title' => 'square',
+                            'type' => 'object',
                             'properties' => [
                                 'b' => ['type' => 'string'],
                                 'c' => ['type' => 'string'],
                             ],
                         ],
                         [
-                            'type'       => 'object',
+                            'type' => 'object',
                             'properties' => [
                                 'b' => ['type' => 'boolean'],
                                 'x' => ['type' => 'boolean'],
@@ -2077,20 +2080,20 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
                     'anyOf' => [
                         ['type' => 'boolean'],
                         [
-                            'type'       => 'object',
+                            'type' => 'object',
                             'properties' => [
                                 'a' => ['type' => 'string'],
                             ],
                         ],
                         [
-                            'type'       => 'object',
+                            'type' => 'object',
                             'properties' => [
                                 'b' => ['type' => 'string'],
                                 'c' => ['type' => 'string'],
                             ],
                         ],
                         [
-                            'type'       => 'object',
+                            'type' => 'object',
                             'properties' => [
                                 'b' => ['type' => 'boolean'],
                                 'x' => ['type' => 'boolean'],
@@ -2106,15 +2109,15 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
                     'anyOf' => [
                         [
                             'title' => 'circle',
-                            'type'  => 'boolean',
+                            'type' => 'boolean',
                         ],
                         [
                             'title' => 'square',
-                            'type'  => 'integer',
+                            'type' => 'integer',
                         ],
                         [
                             'title' => 'triangle',
-                            'type'  => 'null',
+                            'type' => 'null',
                         ],
                     ],
                 ],
@@ -2137,12 +2140,12 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
                     'oneOf' => [
                         [
                             'title' => 'circle',
-                            'type'  => 'string',
+                            'type' => 'string',
                         ],
                         ['type' => 'integer'],
                         [
                             'title' => 'triangle',
-                            'type'  => 'string',
+                            'type' => 'string',
                         ],
                     ],
                 ],

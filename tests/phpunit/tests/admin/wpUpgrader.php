@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tests the `WP_Upgrader` class.
  *
@@ -112,8 +113,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
      *
      * @ticket 54245
      *
-     * @covers WP_Upgrader::init
-     * @covers WP_Upgrader::generic_strings
+     * @covers       WP_Upgrader::init
+     * @covers       WP_Upgrader::generic_strings
      *
      * @dataProvider data_init_should_initialize_strings
      *
@@ -159,7 +160,7 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                 'temp_backup_move_failed',
                 'temp_backup_restore_failed',
                 'temp_backup_delete_failed',
-            ]
+            ],
         );
     }
 
@@ -170,14 +171,17 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
      *
      * @dataProvider data_should_flatten_dirlist
      *
-     * @covers WP_Upgrader::flatten_dirlist
+     * @covers       WP_Upgrader::flatten_dirlist
      *
-     * @param array  $expected     The expected flattened dirlist.
-     * @param array  $nested_files Array of files as returned by WP_Filesystem_Base::dirlist().
-     * @param string $path         Optional. Relative path to prepend to child nodes. Default empty string.
+     * @param array $expected The expected flattened dirlist.
+     * @param array $nested_files Array of files as returned by WP_Filesystem_Base::dirlist().
+     * @param string $path Optional. Relative path to prepend to child nodes. Default empty string.
      */
-    public function test_flatten_dirlist_should_flatten_the_provided_directory_list($expected, $nested_files, $path = '')
-    {
+    public function test_flatten_dirlist_should_flatten_the_provided_directory_list(
+        $expected,
+        $nested_files,
+        $path = '',
+    ) {
         $flatten_dirlist = new ReflectionMethod(self::$instance, 'flatten_dirlist');
         $flatten_dirlist->setAccessible(true);
         $actual = $flatten_dirlist->invoke(self::$instance, $nested_files, $path);
@@ -194,12 +198,12 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
     public function data_should_flatten_dirlist()
     {
         return [
-            'empty array, default path'       => [
-                'expected'     => [],
+            'empty array, default path' => [
+                'expected' => [],
                 'nested_files' => [],
             ],
-            'root only'                       => [
-                'expected'     => [
+            'root only' => [
+                'expected' => [
                     'file1.php' => ['name' => 'file1.php'],
                     'file2.php' => ['name' => 'file2.php'],
                 ],
@@ -208,8 +212,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                     'file2.php' => ['name' => 'file2.php'],
                 ],
             ],
-            'root only and custom path'       => [
-                'expected'     => [
+            'root only and custom path' => [
+                'expected' => [
                     'custom_path/file1.php' => ['name' => 'file1.php'],
                     'custom_path/file2.php' => ['name' => 'file2.php'],
                 ],
@@ -217,17 +221,17 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                     'file1.php' => ['name' => 'file1.php'],
                     'file2.php' => ['name' => 'file2.php'],
                 ],
-                'path'         => 'custom_path/',
+                'path' => 'custom_path/',
             ],
-            'one level deep'                  => [
-                'expected'     => [
-                    'subdir1'              => [
+            'one level deep' => [
+                'expected' => [
+                    'subdir1' => [
                         'files' => [
                             'subfile1.php' => ['name' => 'subfile1.php'],
                             'subfile2.php' => ['name' => 'subfile2.php'],
                         ],
                     ],
-                    'subdir2'              => [
+                    'subdir2' => [
                         'files' => [
                             'subfile3.php' => ['name' => 'subfile3.php'],
                             'subfile4.php' => ['name' => 'subfile4.php'],
@@ -254,14 +258,14 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                 ],
             ],
             'one level deep and numeric keys' => [
-                'expected'     => [
-                    'subdir1'   => [
+                'expected' => [
+                    'subdir1' => [
                         'files' => [
                             0 => ['name' => '0'],
                             1 => ['name' => '1'],
                         ],
                     ],
-                    'subdir2'   => [
+                    'subdir2' => [
                         'files' => [
                             2 => ['name' => '2'],
                             3 => ['name' => '3'],
@@ -287,15 +291,15 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                     ],
                 ],
             ],
-            'one level deep and custom path'  => [
-                'expected'     => [
-                    'custom_path/subdir1'              => [
+            'one level deep and custom path' => [
+                'expected' => [
+                    'custom_path/subdir1' => [
                         'files' => [
                             'subfile1.php' => ['name' => 'subfile1.php'],
                             'subfile2.php' => ['name' => 'subfile2.php'],
                         ],
                     ],
-                    'custom_path/subdir2'              => [
+                    'custom_path/subdir2' => [
                         'files' => [
                             'subfile3.php' => ['name' => 'subfile3.php'],
                             'subfile4.php' => ['name' => 'subfile4.php'],
@@ -328,11 +332,11 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                         ],
                     ],
                 ],
-                'path'         => 'custom_path/',
+                'path' => 'custom_path/',
             ],
-            'two levels deep'                 => [
-                'expected'     => [
-                    'subdir1'                            => [
+            'two levels deep' => [
+                'expected' => [
+                    'subdir1' => [
                         'files' => [
                             'subfile1.php' => [
                                 'name' => 'subfile1.php',
@@ -340,7 +344,7 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                             'subfile2.php' => [
                                 'name' => 'subfile2.php',
                             ],
-                            'subsubdir1'   => [
+                            'subsubdir1' => [
                                 'files' => [
                                     'subsubfile1.php' => [
                                         'name' => 'subsubfile1.php',
@@ -352,13 +356,13 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                             ],
                         ],
                     ],
-                    'subdir1/subfile1.php'               => [
+                    'subdir1/subfile1.php' => [
                         'name' => 'subfile1.php',
                     ],
-                    'subdir1/subfile2.php'               => [
+                    'subdir1/subfile2.php' => [
                         'name' => 'subfile2.php',
                     ],
-                    'subdir1/subsubdir1'                 => [
+                    'subdir1/subsubdir1' => [
                         'files' => [
                             'subsubfile1.php' => [
                                 'name' => 'subsubfile1.php',
@@ -374,11 +378,11 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                     'subdir1/subsubdir1/subsubfile2.php' => [
                         'name' => 'subsubfile2.php',
                     ],
-                    'subdir2'                            => [
+                    'subdir2' => [
                         'files' => [
                             'subfile3.php' => ['name' => 'subfile3.php'],
                             'subfile4.php' => ['name' => 'subfile4.php'],
-                            'subsubdir2'   => [
+                            'subsubdir2' => [
                                 'files' => [
                                     'subsubfile3.php' => [
                                         'name' => 'subsubfile3.php',
@@ -390,13 +394,13 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                             ],
                         ],
                     ],
-                    'subdir2/subfile3.php'               => [
+                    'subdir2/subfile3.php' => [
                         'name' => 'subfile3.php',
                     ],
-                    'subdir2/subfile4.php'               => [
+                    'subdir2/subfile4.php' => [
                         'name' => 'subfile4.php',
                     ],
-                    'subdir2/subsubdir2'                 => [
+                    'subdir2/subsubdir2' => [
                         'files' => [
                             'subsubfile3.php' => [
                                 'name' => 'subsubfile3.php',
@@ -418,7 +422,7 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                         'files' => [
                             'subfile1.php' => ['name' => 'subfile1.php'],
                             'subfile2.php' => ['name' => 'subfile2.php'],
-                            'subsubdir1'   => [
+                            'subsubdir1' => [
                                 'files' => [
                                     'subsubfile1.php' => [
                                         'name' => 'subsubfile1.php',
@@ -434,7 +438,7 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                         'files' => [
                             'subfile3.php' => ['name' => 'subfile3.php'],
                             'subfile4.php' => ['name' => 'subfile4.php'],
-                            'subsubdir2'   => [
+                            'subsubdir2' => [
                                 'files' => [
                                     'subsubfile3.php' => [
                                         'name' => 'subsubfile3.php',
@@ -449,8 +453,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                 ],
             ],
             'two levels deep and custom path' => [
-                'expected'     => [
-                    'custom_path/subdir1'              => [
+                'expected' => [
+                    'custom_path/subdir1' => [
                         'files' => [
                             'subfile1.php' => [
                                 'name' => 'subfile1.php',
@@ -458,7 +462,7 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                             'subfile2.php' => [
                                 'name' => 'subfile2.php',
                             ],
-                            'subsubdir1'   => [
+                            'subsubdir1' => [
                                 'files' => [
                                     'subsubfile1.php' => [
                                         'name' => 'subsubfile1.php',
@@ -476,7 +480,7 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                     'custom_path/subdir1/subfile2.php' => [
                         'name' => 'subfile2.php',
                     ],
-                    'custom_path/subdir1/subsubdir1'   => [
+                    'custom_path/subdir1/subsubdir1' => [
                         'files' => [
                             'subsubfile1.php' => [
                                 'name' => 'subsubfile1.php',
@@ -492,11 +496,11 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                     'custom_path/subdir1/subsubdir1/subsubfile2.php' => [
                         'name' => 'subsubfile2.php',
                     ],
-                    'custom_path/subdir2'              => [
+                    'custom_path/subdir2' => [
                         'files' => [
                             'subfile3.php' => ['name' => 'subfile3.php'],
                             'subfile4.php' => ['name' => 'subfile4.php'],
-                            'subsubdir2'   => [
+                            'subsubdir2' => [
                                 'files' => [
                                     'subsubfile3.php' => [
                                         'name' => 'subsubfile3.php',
@@ -514,7 +518,7 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                     'custom_path/subdir2/subfile4.php' => [
                         'name' => 'subfile4.php',
                     ],
-                    'custom_path/subdir2/subsubdir2'   => [
+                    'custom_path/subdir2/subsubdir2' => [
                         'files' => [
                             'subsubfile3.php' => [
                                 'name' => 'subsubfile3.php',
@@ -536,7 +540,7 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                         'files' => [
                             'subfile1.php' => ['name' => 'subfile1.php'],
                             'subfile2.php' => ['name' => 'subfile2.php'],
-                            'subsubdir1'   => [
+                            'subsubdir1' => [
                                 'files' => [
                                     'subsubfile1.php' => [
                                         'name' => 'subsubfile1.php',
@@ -552,7 +556,7 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                         'files' => [
                             'subfile3.php' => ['name' => 'subfile3.php'],
                             'subfile4.php' => ['name' => 'subfile4.php'],
-                            'subsubdir2'   => [
+                            'subsubdir2' => [
                                 'files' => [
                                     'subsubfile3.php' => [
                                         'name' => 'subsubfile3.php',
@@ -565,7 +569,7 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                         ],
                     ],
                 ],
-                'path'         => 'custom_path/',
+                'path' => 'custom_path/',
             ],
         ];
     }
@@ -587,10 +591,10 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
         $destination = DIR_TESTDATA . '/upgrade/';
 
         self::$wp_filesystem_mock
-                ->expects($this->once())
-                ->method('dirlist')
-                ->with($destination)
-                ->willReturn(false);
+            ->expects($this->once())
+            ->method('dirlist')
+            ->with($destination)
+            ->willReturn(false);
 
         $this->assertTrue(self::$instance->clear_destination($destination));
     }
@@ -608,16 +612,16 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
         $destination = DIR_TESTDATA . '/upgrade/';
 
         self::$wp_filesystem_mock
-                ->expects($this->once())
-                ->method('dirlist')
-                ->with($destination)
-                ->willReturn([]);
+            ->expects($this->once())
+            ->method('dirlist')
+            ->with($destination)
+            ->willReturn([]);
 
         self::$wp_filesystem_mock
-                ->expects($this->once())
-                ->method('delete')
-                ->with($destination)
-                ->willReturn(true);
+            ->expects($this->once())
+            ->method('delete')
+            ->with($destination)
+            ->willReturn(true);
 
         $this->assertTrue(self::$instance->clear_destination($destination));
     }
@@ -650,22 +654,22 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
         self::$wp_filesystem_mock->expects($this->never())->method('delete');
 
         $destination = DIR_TESTDATA . '/upgrade/';
-        $dirlist     = [
+        $dirlist = [
             'file1.php' => [
                 'name' => 'file1.php',
                 'type' => 'f',
             ],
-            'subdir'    => [
+            'subdir' => [
                 'name' => 'subdir',
                 'type' => 'd',
             ],
         ];
 
         self::$wp_filesystem_mock
-                ->expects($this->once())
-                ->method('dirlist')
-                ->with($destination)
-                ->willReturn($dirlist);
+            ->expects($this->once())
+            ->method('dirlist')
+            ->with($destination)
+            ->willReturn($dirlist);
 
         $unwritable_checks = [
             [$destination . 'file1.php'],
@@ -675,28 +679,28 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
         ];
 
         self::$wp_filesystem_mock
-                ->expects($this->exactly(4))
-                ->method('is_writable')
-                ->withConsecutive(...$unwritable_checks)
-                ->willReturn(false);
+            ->expects($this->exactly(4))
+            ->method('is_writable')
+            ->withConsecutive(...$unwritable_checks)
+            ->willReturn(false);
 
         $actual = self::$instance->clear_destination($destination);
 
         $this->assertWPError(
             $actual,
-            'WP_Upgrader::clear_destination() did not return a WP_Error object'
+            'WP_Upgrader::clear_destination() did not return a WP_Error object',
         );
 
         $this->assertSame(
             'files_not_writable',
             $actual->get_error_code(),
-            'Unexpected WP_Error code'
+            'Unexpected WP_Error code',
         );
 
         $this->assertSameSets(
             ['file1.php, subdir'],
             $actual->get_all_error_data(),
-            'Unexpected WP_Error data'
+            'Unexpected WP_Error data',
         );
     }
 
@@ -706,7 +710,7 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
      *
      * @ticket 54245
      *
-     * @covers WP_Upgrader::install_package
+     * @covers       WP_Upgrader::install_package
      *
      * @dataProvider data_install_package_invalid_paths
      *
@@ -725,7 +729,7 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
         self::$wp_filesystem_mock->expects($this->never())->method('mkdir');
 
         $args = [
-            'source'      => $path,
+            'source' => $path,
             'destination' => '/',
         ];
 
@@ -733,13 +737,13 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
 
         $this->assertWPError(
             $actual,
-            'WP_Upgrader::install_package() did not return a WP_Error object'
+            'WP_Upgrader::install_package() did not return a WP_Error object',
         );
 
         $this->assertSame(
             'bad_request',
             $actual->get_error_code(),
-            'Unexpected WP_Error code'
+            'Unexpected WP_Error code',
         );
     }
 
@@ -749,7 +753,7 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
      *
      * @ticket 54245
      *
-     * @covers WP_Upgrader::install_package
+     * @covers       WP_Upgrader::install_package
      *
      * @dataProvider data_install_package_invalid_paths
      *
@@ -768,7 +772,7 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
         self::$wp_filesystem_mock->expects($this->never())->method('mkdir');
 
         $args = [
-            'source'      => '/',
+            'source' => '/',
             'destination' => $path,
         ];
 
@@ -776,13 +780,13 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
 
         $this->assertWPError(
             $actual,
-            'WP_Upgrader::install_package() did not return a WP_Error object'
+            'WP_Upgrader::install_package() did not return a WP_Error object',
         );
 
         $this->assertSame(
             'bad_request',
             $actual->get_error_code(),
-            'Unexpected WP_Error code'
+            'Unexpected WP_Error code',
         );
     }
 
@@ -794,36 +798,36 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
     public function data_install_package_invalid_paths()
     {
         return [
-            'empty string'                   => ['path' => ''],
+            'empty string' => ['path' => ''],
 
             // Type checks.
-            'empty array'                    => ['path' => []],
-            'populated array'                => ['path' => ['/']],
-            '(int) 0'                        => ['path' => 0],
-            '(int) -0'                       => ['path' => -0],
-            '(int) -1'                       => ['path' => -1],
-            '(int) 1'                        => ['path' => 1],
-            '(float) 0.0'                    => ['path' => 0.0],
-            '(float) -0.0'                   => ['path' => -0.0],
-            '(float) 1.0'                    => ['path' => 1.0],
-            '(float) -1.0'                   => ['path' => -1.0],
-            '(bool) false'                   => ['path' => false],
-            '(bool) true'                    => ['path' => true],
-            'null'                           => ['path' => null],
-            'empty object'                   => ['path' => new stdClass()],
-            'populated object'               => ['path' => (object) ['/']],
+            'empty array' => ['path' => []],
+            'populated array' => ['path' => ['/']],
+            '(int) 0' => ['path' => 0],
+            '(int) -0' => ['path' => -0],
+            '(int) -1' => ['path' => -1],
+            '(int) 1' => ['path' => 1],
+            '(float) 0.0' => ['path' => 0.0],
+            '(float) -0.0' => ['path' => -0.0],
+            '(float) 1.0' => ['path' => 1.0],
+            '(float) -1.0' => ['path' => -1.0],
+            '(bool) false' => ['path' => false],
+            '(bool) true' => ['path' => true],
+            'null' => ['path' => null],
+            'empty object' => ['path' => new stdClass()],
+            'populated object' => ['path' => (object)['/']],
 
             // Ensures that `trim()` is run triggering an empty array.
-            'a string with spaces'           => ['path' => '   '],
-            'a string with tabs'             => ['path' => "\t\t"],
-            'a string with new lines'        => ['path' => "\n\n"],
+            'a string with spaces' => ['path' => '   '],
+            'a string with tabs' => ['path' => "\t\t"],
+            'a string with new lines' => ['path' => "\n\n"],
             'a string with carriage returns' => ['path' => "\r\r"],
 
             // Ensure that strings with leading/trailing whitespace are invalid.
-            'a path with a leading space'    => ['path' => ' /path'],
-            'a path with a trailing space'   => ['path' => '/path '],
-            'a path with a leading tab'      => ['path' => "\t/path"],
-            'a path with a trailing tab'     => ['path' => "/path\t"],
+            'a path with a leading space' => ['path' => ' /path'],
+            'a path with a trailing space' => ['path' => '/path '],
+            'a path with a leading tab' => ['path' => "\t/path"],
+            'a path with a trailing tab' => ['path' => "/path\t"],
         ];
     }
 
@@ -840,19 +844,19 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
         self::$instance->generic_strings();
 
         self::$upgrader_skin_mock
-                ->expects($this->once())
-                ->method('feedback')
-                ->with('installing_package');
+            ->expects($this->once())
+            ->method('feedback')
+            ->with('installing_package');
 
         add_filter(
             'upgrader_pre_install',
             static function () {
                 return new WP_Error('from_upgrader_pre_install');
-            }
+            },
         );
 
         $args = [
-            'source'      => '/',
+            'source' => '/',
             'destination' => '/',
         ];
 
@@ -860,13 +864,13 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
 
         $this->assertWPError(
             $actual,
-            'WP_Upgrader::install_package() did not return a WP_Error object'
+            'WP_Upgrader::install_package() did not return a WP_Error object',
         );
 
         $this->assertSame(
             'from_upgrader_pre_install',
             $actual->get_error_code(),
-            'The WP_Error object was not returned from the filter'
+            'The WP_Error object was not returned from the filter',
         );
     }
 
@@ -883,29 +887,29 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
         self::$instance->generic_strings();
 
         self::$upgrader_skin_mock
-                ->expects($this->once())
-                ->method('feedback')
-                ->with('installing_package');
+            ->expects($this->once())
+            ->method('feedback')
+            ->with('installing_package');
 
         $dirlist = [
             'subdir' => [
-                'name'  => 'subdir',
-                'type'  => 'd',
+                'name' => 'subdir',
+                'type' => 'd',
                 'files' => ['subfile.php'],
             ],
         ];
 
         self::$wp_filesystem_mock
-                ->expects($this->once())
-                ->method('dirlist')
-                ->with('/source_dir')
-                ->willReturn($dirlist);
+            ->expects($this->once())
+            ->method('dirlist')
+            ->with('/source_dir')
+            ->willReturn($dirlist);
 
         self::$wp_filesystem_mock
-                ->expects($this->once())
-                ->method('is_dir')
-                ->with('/source_dir/subdir/')
-                ->willReturn(true);
+            ->expects($this->once())
+            ->method('is_dir')
+            ->with('/source_dir/subdir/')
+            ->willReturn(true);
 
         add_filter(
             'upgrader_source_selection',
@@ -914,11 +918,11 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
 
                 // Return a WP_Error to exit before `move_dir()/copy_dir()`.
                 return new WP_Error();
-            }
+            },
         );
 
         $args = [
-            'source'      => '/source_dir',
+            'source' => '/source_dir',
             'destination' => '/dest_dir',
         ];
 
@@ -938,18 +942,18 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
         self::$instance->generic_strings();
 
         self::$upgrader_skin_mock
-                ->expects($this->once())
-                ->method('feedback')
-                ->with('installing_package');
+            ->expects($this->once())
+            ->method('feedback')
+            ->with('installing_package');
 
         self::$wp_filesystem_mock
-                ->expects($this->once())
-                ->method('dirlist')
-                ->with('/')
-                ->willReturn([]);
+            ->expects($this->once())
+            ->method('dirlist')
+            ->with('/')
+            ->willReturn([]);
 
         $args = [
-            'source'      => '/',
+            'source' => '/',
             'destination' => '/',
         ];
 
@@ -957,13 +961,13 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
 
         $this->assertWPError(
             $actual,
-            'WP_Upgrader::install_package() did not return a WP_Error object'
+            'WP_Upgrader::install_package() did not return a WP_Error object',
         );
 
         $this->assertSame(
             'incompatible_archive_empty',
             $actual->get_error_code(),
-            'Unexpected WP_Error code'
+            'Unexpected WP_Error code',
         );
     }
 
@@ -980,15 +984,15 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
         self::$instance->generic_strings();
 
         self::$upgrader_skin_mock
-                ->expects($this->once())
-                ->method('feedback')
-                ->with('installing_package');
+            ->expects($this->once())
+            ->method('feedback')
+            ->with('installing_package');
 
         self::$wp_filesystem_mock
-                ->expects($this->once())
-                ->method('dirlist')
-                ->with('/source_dir')
-                ->willReturn(['file1.php']);
+            ->expects($this->once())
+            ->method('dirlist')
+            ->with('/source_dir')
+            ->willReturn(['file1.php']);
 
         add_filter(
             'upgrader_source_selection',
@@ -997,11 +1001,11 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
 
                 // Return a WP_Error to exit before `move_dir()/copy_dir()`.
                 return new WP_Error();
-            }
+            },
         );
 
         $args = [
-            'source'      => '/source_dir',
+            'source' => '/source_dir',
             'destination' => '/dest_dir',
         ];
 
@@ -1033,18 +1037,18 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
         self::$instance->generic_strings();
 
         self::$upgrader_skin_mock
-                ->expects($this->exactly(2))
-                ->method('feedback')
-                ->withConsecutive(
-                    ['installing_package'],
-                    ['remove_old']
-                );
+            ->expects($this->exactly(2))
+            ->method('feedback')
+            ->withConsecutive(
+                ['installing_package'],
+                ['remove_old'],
+            );
 
         self::$wp_filesystem_mock
-                ->expects($this->once())
-                ->method('find_folder')
-                ->with('/dest_dir')
-                ->willReturn('/dest_dir/');
+            ->expects($this->once())
+            ->method('find_folder')
+            ->with('/dest_dir')
+            ->willReturn('/dest_dir/');
 
         $dirlist_args = [
             ['/source_dir'],
@@ -1060,43 +1064,43 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
         ];
 
         self::$wp_filesystem_mock
-                ->expects($this->exactly(3))
-                ->method('dirlist')
-                ->withConsecutive(...$dirlist_args)
-                ->willReturn($dirlist_results);
+            ->expects($this->exactly(3))
+            ->method('dirlist')
+            ->withConsecutive(...$dirlist_args)
+            ->willReturn($dirlist_results);
 
         add_filter(
             'upgrader_clear_destination',
             function ($removed, $local_destination, $remote_destination, $hook_extra) {
                 $this->assertTrue(
                     is_bool($removed) || is_wp_error($removed),
-                    'The "removed" argument is not a bool or WP_Error'
+                    'The "removed" argument is not a bool or WP_Error',
                 );
 
                 $this->assertIsString(
                     $local_destination,
-                    'The "local_destination" argument is not a string'
+                    'The "local_destination" argument is not a string',
                 );
 
                 $this->assertIsString(
                     $remote_destination,
-                    'The "remote_destination" argument is not a string'
+                    'The "remote_destination" argument is not a string',
                 );
 
                 $this->assertIsArray(
                     $hook_extra,
-                    'The "hook_extra" argument is not an array'
+                    'The "hook_extra" argument is not an array',
                 );
 
                 return new WP_Error('exit_early');
             },
             10,
-            4
+            4,
         );
 
         $args = [
-            'source'            => '/source_dir',
-            'destination'       => '/dest_dir',
+            'source' => '/source_dir',
+            'destination' => '/dest_dir',
             'clear_destination' => true,
         ];
 
@@ -1116,7 +1120,7 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
      *
      * @ticket 54245
      *
-     * @covers WP_Upgrader::install_package
+     * @covers       WP_Upgrader::install_package
      *
      * @dataProvider data_install_package_should_make_remote_destination_safe_when_set_to_a_protected_directory
      *
@@ -1124,27 +1128,29 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
      * @preserveGlobalState disabled
      *
      * @param string $protected_directory The path to a protected directory.
-     * @param string $expected            The expected safe remote destination.
+     * @param string $expected The expected safe remote destination.
      */
-    public function test_install_package_should_make_remote_destination_safe_when_set_to_a_protected_directory($protected_directory, $expected)
-    {
+    public function test_install_package_should_make_remote_destination_safe_when_set_to_a_protected_directory(
+        $protected_directory,
+        $expected,
+    ) {
         define('FS_CHMOD_FILE', 0644);
 
         self::$instance->generic_strings();
 
         self::$upgrader_skin_mock
-                ->expects($this->exactly(2))
-                ->method('feedback')
-                ->withConsecutive(
-                    ['installing_package'],
-                    ['remove_old']
-                );
+            ->expects($this->exactly(2))
+            ->method('feedback')
+            ->withConsecutive(
+                ['installing_package'],
+                ['remove_old'],
+            );
 
         self::$wp_filesystem_mock
-                ->expects($this->once())
-                ->method('find_folder')
-                ->with($protected_directory)
-                ->willReturn(trailingslashit($protected_directory));
+            ->expects($this->once())
+            ->method('find_folder')
+            ->with($protected_directory)
+            ->willReturn(trailingslashit($protected_directory));
 
         $dirlist_args = [
             ['/source_dir'],
@@ -1160,10 +1166,10 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
         ];
 
         self::$wp_filesystem_mock
-                ->expects($this->exactly(3))
-                ->method('dirlist')
-                ->withConsecutive(...$dirlist_args)
-                ->willReturn($dirlist_results);
+            ->expects($this->exactly(3))
+            ->method('dirlist')
+            ->withConsecutive(...$dirlist_args)
+            ->willReturn($dirlist_results);
 
         add_filter(
             'upgrader_clear_destination',
@@ -1172,12 +1178,12 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                 return new WP_Error('exit_early');
             },
             10,
-            3
+            3,
         );
 
         $args = [
-            'source'            => '/source_dir',
-            'destination'       => $protected_directory,
+            'source' => '/source_dir',
+            'destination' => $protected_directory,
             'clear_destination' => true,
         ];
 
@@ -1192,21 +1198,21 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
     public function data_install_package_should_make_remote_destination_safe_when_set_to_a_protected_directory()
     {
         return [
-            'ABSPATH'               => [
+            'ABSPATH' => [
                 'protected_directory' => ABSPATH,
-                'expected'            => ABSPATH . 'source_dir/',
+                'expected' => ABSPATH . 'source_dir/',
             ],
-            'WP_CONTENT_DIR'        => [
+            'WP_CONTENT_DIR' => [
                 'protected_directory' => WP_CONTENT_DIR,
-                'expected'            => WP_CONTENT_DIR . '/source_dir/',
+                'expected' => WP_CONTENT_DIR . '/source_dir/',
             ],
-            'WP_PLUGIN_DIR'         => [
+            'WP_PLUGIN_DIR' => [
                 'protected_directory' => WP_PLUGIN_DIR,
-                'expected'            => WP_PLUGIN_DIR . '/source_dir/',
+                'expected' => WP_PLUGIN_DIR . '/source_dir/',
             ],
             'WP_CONTENT_DIR/themes' => [
                 'protected_directory' => WP_CONTENT_DIR . '/themes',
-                'expected'            => WP_CONTENT_DIR . '/themes/source_dir/',
+                'expected' => WP_CONTENT_DIR . '/themes/source_dir/',
             ],
         ];
     }
@@ -1224,15 +1230,15 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
         self::$instance->generic_strings();
 
         self::$upgrader_skin_mock
-                ->expects($this->once())
-                ->method('feedback')
-                ->with('installing_package');
+            ->expects($this->once())
+            ->method('feedback')
+            ->with('installing_package');
 
         self::$wp_filesystem_mock
-                ->expects($this->once())
-                ->method('find_folder')
-                ->with('/dest_dir')
-                ->willReturn('/dest_dir/');
+            ->expects($this->once())
+            ->method('find_folder')
+            ->with('/dest_dir')
+            ->willReturn('/dest_dir/');
 
         $dirlist_args = [
             ['/source_dir'],
@@ -1248,19 +1254,19 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
         ];
 
         self::$wp_filesystem_mock
-                ->expects($this->exactly(3))
-                ->method('dirlist')
-                ->withConsecutive(...$dirlist_args)
-                ->willReturn($dirlist_results);
+            ->expects($this->exactly(3))
+            ->method('dirlist')
+            ->withConsecutive(...$dirlist_args)
+            ->willReturn($dirlist_results);
 
         self::$wp_filesystem_mock
-                ->expects($this->once())
-                ->method('exists')
-                ->with('/dest_dir/')
-                ->willReturn(true);
+            ->expects($this->once())
+            ->method('exists')
+            ->with('/dest_dir/')
+            ->willReturn(true);
 
         $args = [
-            'source'      => '/source_dir',
+            'source' => '/source_dir',
             'destination' => '/dest_dir',
         ];
 
@@ -1268,13 +1274,13 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
 
         $this->assertWPError(
             $actual,
-            'WP_Upgrader::install_package() did not return a WP_Error object'
+            'WP_Upgrader::install_package() did not return a WP_Error object',
         );
 
         $this->assertSame(
             'folder_exists',
             $actual->get_error_code(),
-            'Unexpected WP_Error code'
+            'Unexpected WP_Error code',
         );
     }
 
@@ -1303,15 +1309,15 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
         self::$instance->generic_strings();
 
         self::$upgrader_skin_mock
-                ->expects($this->once())
-                ->method('feedback')
-                ->with('installing_package');
+            ->expects($this->once())
+            ->method('feedback')
+            ->with('installing_package');
 
         self::$wp_filesystem_mock
-                ->expects($this->once())
-                ->method('find_folder')
-                ->with('/dest_dir')
-                ->willReturn('/dest_dir/');
+            ->expects($this->once())
+            ->method('find_folder')
+            ->with('/dest_dir')
+            ->willReturn('/dest_dir/');
 
         $dirlist_args = [
             ['/source_dir'],
@@ -1326,26 +1332,26 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
         ];
 
         self::$wp_filesystem_mock
-                ->expects($this->exactly(2))
-                ->method('dirlist')
-                ->withConsecutive(...$dirlist_args)
-                ->willReturn($dirlist_results);
+            ->expects($this->exactly(2))
+            ->method('dirlist')
+            ->withConsecutive(...$dirlist_args)
+            ->willReturn($dirlist_results);
 
         self::$wp_filesystem_mock
-                ->expects($this->once())
-                ->method('exists')
-                ->with('/dest_dir/')
-                ->willReturn(false);
+            ->expects($this->once())
+            ->method('exists')
+            ->with('/dest_dir/')
+            ->willReturn(false);
 
         self::$wp_filesystem_mock
-                ->expects($this->once())
-                ->method('mkdir')
-                ->with('/dest_dir/')
-                ->willReturn(false);
+            ->expects($this->once())
+            ->method('mkdir')
+            ->with('/dest_dir/')
+            ->willReturn(false);
 
         $args = [
-            'source'                      => '/source_dir',
-            'destination'                 => '/dest_dir',
+            'source' => '/source_dir',
+            'destination' => '/dest_dir',
             'abort_if_destination_exists' => false,
         ];
 
@@ -1353,13 +1359,13 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
 
         $this->assertWPError(
             $actual,
-            'WP_Upgrader::install_package() did not return a WP_Error object'
+            'WP_Upgrader::install_package() did not return a WP_Error object',
         );
 
         $this->assertSame(
             'mkdir_failed_destination',
             $actual->get_error_code(),
-            'Unexpected WP_Error code'
+            'Unexpected WP_Error code',
         );
     }
 
@@ -1374,13 +1380,13 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
     public function test_run_should_return_false_when_requesting_filesystem_credentials_fails()
     {
         self::$upgrader_skin_mock
-                ->expects($this->once())
-                ->method('request_filesystem_credentials')
-                ->willReturn(false);
+            ->expects($this->once())
+            ->method('request_filesystem_credentials')
+            ->willReturn(false);
 
         self::$upgrader_skin_mock
-                ->expects($this->once())
-                ->method('footer');
+            ->expects($this->once())
+            ->method('footer');
 
         $this->assertFalse(self::$instance->run([]));
     }
@@ -1395,25 +1401,25 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
     public function test_maintenance_mode_should_disable_maintenance_mode_if_maintenance_file_exists()
     {
         self::$wp_filesystem_mock
-                ->expects($this->once())
-                ->method('abspath')
-                ->willReturn('/');
+            ->expects($this->once())
+            ->method('abspath')
+            ->willReturn('/');
 
         self::$wp_filesystem_mock
-                ->expects($this->once())
-                ->method('exists')
-                ->with('/.maintenance')
-                ->willReturn(true);
+            ->expects($this->once())
+            ->method('exists')
+            ->with('/.maintenance')
+            ->willReturn(true);
 
         self::$upgrader_skin_mock
-                ->expects($this->once())
-                ->method('feedback')
-                ->with('maintenance_end');
+            ->expects($this->once())
+            ->method('feedback')
+            ->with('maintenance_end');
 
         self::$wp_filesystem_mock
-                ->expects($this->once())
-                ->method('delete')
-                ->with('/.maintenance');
+            ->expects($this->once())
+            ->method('delete')
+            ->with('/.maintenance');
 
         self::$instance->maintenance_mode();
     }
@@ -1432,15 +1438,15 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
         self::$wp_filesystem_mock->expects($this->never())->method('delete');
 
         self::$wp_filesystem_mock
-                ->expects($this->once())
-                ->method('abspath')
-                ->willReturn('/');
+            ->expects($this->once())
+            ->method('abspath')
+            ->willReturn('/');
 
         self::$wp_filesystem_mock
-                ->expects($this->once())
-                ->method('exists')
-                ->with('/.maintenance')
-                ->willReturn(false);
+            ->expects($this->once())
+            ->method('exists')
+            ->with('/.maintenance')
+            ->willReturn(false);
 
         self::$instance->maintenance_mode();
     }
@@ -1468,28 +1474,28 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
         define('FS_CHMOD_FILE', 0644);
 
         self::$wp_filesystem_mock
-                ->expects($this->once())
-                ->method('abspath')
-                ->willReturn('/');
+            ->expects($this->once())
+            ->method('abspath')
+            ->willReturn('/');
 
         self::$upgrader_skin_mock
-                ->expects($this->once())
-                ->method('feedback')
-                ->with('maintenance_start');
+            ->expects($this->once())
+            ->method('feedback')
+            ->with('maintenance_start');
 
         self::$wp_filesystem_mock
-                ->expects($this->once())
-                ->method('delete')
-                ->with('/.maintenance');
+            ->expects($this->once())
+            ->method('delete')
+            ->with('/.maintenance');
 
         self::$wp_filesystem_mock
-                ->expects($this->once())
-                ->method('put_contents')
-                ->with(
-                    '/.maintenance',
-                    $this->stringContains('<?php $upgrading ='),
-                    FS_CHMOD_FILE
-                );
+            ->expects($this->once())
+            ->method('put_contents')
+            ->with(
+                '/.maintenance',
+                $this->stringContains('<?php $upgrading ='),
+                FS_CHMOD_FILE,
+            );
 
         self::$instance->maintenance_mode(true);
     }
@@ -1510,12 +1516,12 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
             $wpdb->insert(
                 $wpdb->options,
                 [
-                    'option_name'  => 'lock.lock',
+                    'option_name' => 'lock.lock',
                     'option_value' => 'content',
                 ],
-                '%s'
+                '%s',
             ),
-            'The initial lock was not created.'
+            'The initial lock was not created.',
         );
 
         WP_Upgrader::release_lock('lock');
@@ -1539,7 +1545,7 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
             'upgrader_pre_download',
             static function () {
                 return 'a non-false value';
-            }
+            },
         );
 
         $result = self::$instance->download_package('package');
@@ -1567,32 +1573,32 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                 $this->assertSame(
                     'package',
                     $package,
-                    'The package file name was not "package"'
+                    'The package file name was not "package"',
                 );
 
                 $this->assertSame(
                     self::$instance,
                     $upgrader,
-                    'The wrong WP_Upgrader instance was passed'
+                    'The wrong WP_Upgrader instance was passed',
                 );
 
                 $this->assertSameSets(
                     ['hook_extra'],
                     $hook_extra,
-                    'The "$hook_extra" array was not the expected array'
+                    'The "$hook_extra" array was not the expected array',
                 );
 
-                return ! $reply;
+                return !$reply;
             },
             10,
-            4
+            4,
         );
 
         $result = self::$instance->download_package('package', false, ['hook_extra']);
 
         $this->assertTrue(
             $result,
-            'WP_Upgrader::download_package() did not return true'
+            'WP_Upgrader::download_package() did not return true',
         );
     }
 
@@ -1626,13 +1632,13 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
 
         $this->assertWPError(
             $result,
-            'WP_Upgrader::download_package() did not return a WP_Error object'
+            'WP_Upgrader::download_package() did not return a WP_Error object',
         );
 
         $this->assertSame(
             'no_package',
             $result->get_error_code(),
-            'Unexpected WP_Error code'
+            'Unexpected WP_Error code',
         );
     }
 
@@ -1650,7 +1656,7 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
             'pre_http_request',
             static function () {
                 return ['response' => ['code' => 200]];
-            }
+            },
         );
 
         $result = self::$instance->download_package('wordpress-seo');
@@ -1675,24 +1681,24 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
             static function () {
                 return [
                     'response' => [
-                        'code'    => 400,
+                        'code' => 400,
                         'message' => 'error',
                     ],
                 ];
-            }
+            },
         );
 
         $result = self::$instance->download_package('wordpress-seo');
 
         $this->assertWPError(
             $result,
-            'WP_Upgrader::download_package() did not return a WP_Error object'
+            'WP_Upgrader::download_package() did not return a WP_Error object',
         );
 
         $this->assertSame(
             'download_failed',
             $result->get_error_code(),
-            'Unexpected WP_Error code'
+            'Unexpected WP_Error code',
         );
     }
 }

@@ -50,15 +50,15 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
             '/' . $this->rest_base,
             [
                 [
-                    'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => [$this, 'get_items'],
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_items'],
                     'permission_callback' => [$this, 'get_items_permissions_check'],
-                    'args'                => [
+                    'args' => [
                         'context' => $this->get_context_param(['default' => 'view']),
                     ],
                 ],
                 'schema' => [$this, 'get_public_item_schema'],
-            ]
+            ],
         );
 
         register_rest_route(
@@ -66,35 +66,35 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
             '/' . $this->rest_base . '/(?P<id>[\w-]+)',
             [
                 [
-                    'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => [$this, 'get_item'],
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_item'],
                     'permission_callback' => [$this, 'get_item_permissions_check'],
-                    'args'                => [
-                        'id'      => [
+                    'args' => [
+                        'id' => [
                             'description' => __('The id of a registered sidebar'),
-                            'type'        => 'string',
+                            'type' => 'string',
                         ],
                         'context' => $this->get_context_param(['default' => 'view']),
                     ],
                 ],
                 [
-                    'methods'             => WP_REST_Server::EDITABLE,
-                    'callback'            => [$this, 'update_item'],
+                    'methods' => WP_REST_Server::EDITABLE,
+                    'callback' => [$this, 'update_item'],
                     'permission_callback' => [$this, 'update_item_permissions_check'],
-                    'args'                => $this->get_endpoint_args_for_item_schema(WP_REST_Server::EDITABLE),
+                    'args' => $this->get_endpoint_args_for_item_schema(WP_REST_Server::EDITABLE),
                 ],
                 'schema' => [$this, 'get_public_item_schema'],
-            ]
+            ],
         );
     }
 
     /**
      * Checks if a given request has access to get sidebars.
      *
-     * @since 5.8.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
+     * @since 5.8.0
+     *
      */
     public function get_items_permissions_check($request)
     {
@@ -102,7 +102,7 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
         foreach (wp_get_sidebars_widgets() as $id => $widgets) {
             $sidebar = $this->get_sidebar($id);
 
-            if (! $sidebar) {
+            if (!$sidebar) {
                 continue;
             }
 
@@ -117,31 +117,31 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
     /**
      * Retrieves the list of sidebars (active or inactive).
      *
-     * @since 5.8.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response Response object on success.
+     * @since 5.8.0
+     *
      */
     public function get_items($request)
     {
         $this->retrieve_widgets();
 
-        $data              = [];
+        $data = [];
         $permissions_check = $this->do_permissions_check();
 
         foreach (wp_get_sidebars_widgets() as $id => $widgets) {
             $sidebar = $this->get_sidebar($id);
 
-            if (! $sidebar) {
+            if (!$sidebar) {
                 continue;
             }
 
-            if (is_wp_error($permissions_check) && ! $this->check_read_permission($sidebar)) {
+            if (is_wp_error($permissions_check) && !$this->check_read_permission($sidebar)) {
                 continue;
             }
 
             $data[] = $this->prepare_response_for_collection(
-                $this->prepare_item_for_response($sidebar, $request)
+                $this->prepare_item_for_response($sidebar, $request),
             );
         }
 
@@ -151,10 +151,10 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
     /**
      * Checks if a given request has access to get a single sidebar.
      *
-     * @since 5.8.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
+     * @since 5.8.0
+     *
      */
     public function get_item_permissions_check($request)
     {
@@ -171,30 +171,30 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
     /**
      * Checks if a sidebar can be read publicly.
      *
-     * @since 5.9.0
-     *
      * @param array $sidebar The registered sidebar configuration.
      * @return bool Whether the side can be read.
+     * @since 5.9.0
+     *
      */
     protected function check_read_permission($sidebar)
     {
-        return ! empty($sidebar['show_in_rest']);
+        return !empty($sidebar['show_in_rest']);
     }
 
     /**
      * Retrieves one sidebar from the collection.
      *
-     * @since 5.8.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     * @since 5.8.0
+     *
      */
     public function get_item($request)
     {
         $this->retrieve_widgets();
 
         $sidebar = $this->get_sidebar($request['id']);
-        if (! $sidebar) {
+        if (!$sidebar) {
             return new WP_Error('rest_sidebar_not_found', __('No sidebar exists with that id.'), ['status' => 404]);
         }
 
@@ -204,10 +204,10 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
     /**
      * Checks if a given request has access to update sidebars.
      *
-     * @since 5.8.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
+     * @since 5.8.0
+     *
      */
     public function update_item_permissions_check($request)
     {
@@ -217,10 +217,10 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
     /**
      * Updates a sidebar.
      *
-     * @since 5.8.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response Response object on success, or WP_Error object on failure.
+     * @since 5.8.0
+     *
      */
     public function update_item($request)
     {
@@ -235,7 +235,7 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
                     }
 
                     // This automatically removes omitted widget IDs to the inactive sidebar.
-                    if ($sidebar_id === $request['id'] && ! in_array($widget_id, $request['widgets'], true)) {
+                    if ($sidebar_id === $request['id'] && !in_array($widget_id, $request['widgets'], true)) {
                         $sidebars['wp_inactive_widgets'][] = $widget_id;
                     }
                 }
@@ -253,10 +253,10 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
         /**
          * Fires after a sidebar is updated via the REST API.
          *
+         * @param array $sidebar The updated sidebar.
+         * @param WP_REST_Request $request Request object.
          * @since 5.8.0
          *
-         * @param array           $sidebar The updated sidebar.
-         * @param WP_REST_Request $request Request object.
          */
         do_action('rest_save_sidebar', $sidebar, $request);
 
@@ -266,9 +266,9 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
     /**
      * Checks if the user has permissions to make the request.
      *
+     * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
      * @since 5.8.0
      *
-     * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
      */
     protected function do_permissions_check()
     {
@@ -276,11 +276,11 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
          * Verify if the current user has edit_theme_options capability.
          * This capability is required to access the widgets screen.
          */
-        if (! current_user_can('edit_theme_options')) {
+        if (!current_user_can('edit_theme_options')) {
             return new WP_Error(
                 'rest_cannot_manage_widgets',
                 __('Sorry, you are not allowed to manage widgets on this site.'),
-                ['status' => rest_authorization_required_code()]
+                ['status' => rest_authorization_required_code()],
             );
         }
 
@@ -290,10 +290,10 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
     /**
      * Retrieves the registered sidebar with the given id.
      *
-     * @since 5.8.0
-     *
      * @param string|int $id ID of the sidebar.
      * @return array|null The discovered sidebar, or null if it is not registered.
+     * @since 5.8.0
+     *
      */
     protected function get_sidebar($id)
     {
@@ -309,7 +309,7 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
      */
     protected function retrieve_widgets()
     {
-        if (! $this->widgets_retrieved) {
+        if (!$this->widgets_retrieved) {
             retrieve_widgets();
             $this->widgets_retrieved = true;
         }
@@ -318,15 +318,15 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
     /**
      * Prepares a single sidebar output for response.
      *
+     * @param array $item Sidebar instance.
+     * @param WP_REST_Request $request Full details about the request.
+     * @return WP_REST_Response Prepared response object.
+     * @global array $wp_registered_widgets The registered widgets.
+     *
      * @since 5.8.0
      * @since 5.9.0 Renamed `$raw_sidebar` to `$item` to match parent class for PHP 8 named parameter support.
      *
      * @global array $wp_registered_sidebars The registered sidebars.
-     * @global array $wp_registered_widgets  The registered widgets.
-     *
-     * @param array           $item    Sidebar instance.
-     * @param WP_REST_Request $request Full details about the request.
-     * @return WP_REST_Response Prepared response object.
      */
     public function prepare_item_for_response($item, $request)
     {
@@ -335,25 +335,29 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
         // Restores the more descriptive, specific name for use within this method.
         $raw_sidebar = $item;
 
-        $id      = $raw_sidebar['id'];
+        $id = $raw_sidebar['id'];
         $sidebar = ['id' => $id];
 
         if (isset($wp_registered_sidebars[$id])) {
             $registered_sidebar = $wp_registered_sidebars[$id];
 
-            $sidebar['status']        = 'active';
-            $sidebar['name']          = isset($registered_sidebar['name']) ? $registered_sidebar['name'] : '';
-            $sidebar['description']   = isset($registered_sidebar['description']) ? wp_sidebar_description($id) : '';
-            $sidebar['class']         = isset($registered_sidebar['class']) ? $registered_sidebar['class'] : '';
-            $sidebar['before_widget'] = isset($registered_sidebar['before_widget']) ? $registered_sidebar['before_widget'] : '';
-            $sidebar['after_widget']  = isset($registered_sidebar['after_widget']) ? $registered_sidebar['after_widget'] : '';
-            $sidebar['before_title']  = isset($registered_sidebar['before_title']) ? $registered_sidebar['before_title'] : '';
-            $sidebar['after_title']   = isset($registered_sidebar['after_title']) ? $registered_sidebar['after_title'] : '';
+            $sidebar['status'] = 'active';
+            $sidebar['name'] = isset($registered_sidebar['name']) ? $registered_sidebar['name'] : '';
+            $sidebar['description'] = isset($registered_sidebar['description']) ? wp_sidebar_description($id) : '';
+            $sidebar['class'] = isset($registered_sidebar['class']) ? $registered_sidebar['class'] : '';
+            $sidebar['before_widget'] = isset($registered_sidebar['before_widget'])
+                ? $registered_sidebar['before_widget'] : '';
+            $sidebar['after_widget'] = isset($registered_sidebar['after_widget']) ? $registered_sidebar['after_widget']
+                : '';
+            $sidebar['before_title'] = isset($registered_sidebar['before_title']) ? $registered_sidebar['before_title']
+                : '';
+            $sidebar['after_title'] = isset($registered_sidebar['after_title']) ? $registered_sidebar['after_title']
+                : '';
         } else {
-            $sidebar['status']      = 'inactive';
-            $sidebar['name']        = $raw_sidebar['name'];
+            $sidebar['status'] = 'inactive';
+            $sidebar['name'] = $raw_sidebar['name'];
             $sidebar['description'] = '';
-            $sidebar['class']       = '';
+            $sidebar['class'] = '';
         }
 
         if (wp_is_block_theme()) {
@@ -363,29 +367,30 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
         $fields = $this->get_fields_for_response($request);
         if (rest_is_field_included('widgets', $fields)) {
             $sidebars = wp_get_sidebars_widgets();
-            $widgets  = array_filter(
+            $widgets = array_filter(
                 isset($sidebars[$sidebar['id']]) ? $sidebars[$sidebar['id']] : [],
                 static function ($widget_id) use ($wp_registered_widgets) {
                     return isset($wp_registered_widgets[$widget_id]);
-                }
+                },
             );
 
             $sidebar['widgets'] = array_values($widgets);
         }
 
         $schema = $this->get_item_schema();
-        $data   = [];
+        $data = [];
         foreach ($schema['properties'] as $property_id => $property) {
-            if (isset($sidebar[$property_id]) && true === rest_validate_value_from_schema($sidebar[$property_id], $property)) {
+            if (isset($sidebar[$property_id])
+                && true === rest_validate_value_from_schema($sidebar[$property_id], $property)) {
                 $data[$property_id] = $sidebar[$property_id];
             } elseif (isset($property['default'])) {
                 $data[$property_id] = $property['default'];
             }
         }
 
-        $context = ! empty($request['context']) ? $request['context'] : 'view';
-        $data    = $this->add_additional_fields_to_object($data, $request);
-        $data    = $this->filter_response_by_context($data, $context);
+        $context = !empty($request['context']) ? $request['context'] : 'view';
+        $data = $this->add_additional_fields_to_object($data, $request);
+        $data = $this->filter_response_by_context($data, $context);
 
         $response = rest_ensure_response($data);
 
@@ -396,11 +401,11 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
         /**
          * Filters the REST API response for a sidebar.
          *
+         * @param WP_REST_Response $response The response object.
+         * @param array $raw_sidebar The raw sidebar data.
+         * @param WP_REST_Request $request The request object.
          * @since 5.8.0
          *
-         * @param WP_REST_Response $response    The response object.
-         * @param array            $raw_sidebar The raw sidebar data.
-         * @param WP_REST_Request  $request     The request object.
          */
         return apply_filters('rest_prepare_sidebar', $response, $raw_sidebar, $request);
     }
@@ -408,22 +413,22 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
     /**
      * Prepares links for the sidebar.
      *
-     * @since 5.8.0
-     *
      * @param array $sidebar Sidebar.
      * @return array Links for the given widget.
+     * @since 5.8.0
+     *
      */
     protected function prepare_links($sidebar)
     {
         return [
-            'collection'               => [
+            'collection' => [
                 'href' => rest_url(sprintf('%s/%s', $this->namespace, $this->rest_base)),
             ],
-            'self'                     => [
+            'self' => [
                 'href' => rest_url(sprintf('%s/%s/%s', $this->namespace, $this->rest_base, $sidebar['id'])),
             ],
             'https://api.w.org/widget' => [
-                'href'       => add_query_arg('sidebar', $sidebar['id'], rest_url('/wp/v2/widgets')),
+                'href' => add_query_arg('sidebar', $sidebar['id'], rest_url('/wp/v2/widgets')),
                 'embeddable' => true,
             ],
         ];
@@ -432,9 +437,9 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
     /**
      * Retrieves the block type' schema, conforming to JSON Schema.
      *
+     * @return array Item schema data.
      * @since 5.8.0
      *
-     * @return array Item schema data.
      */
     public function get_item_schema()
     {
@@ -443,77 +448,77 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
         }
 
         $schema = [
-            '$schema'    => 'http://json-schema.org/draft-04/schema#',
-            'title'      => 'sidebar',
-            'type'       => 'object',
+            '$schema' => 'http://json-schema.org/draft-04/schema#',
+            'title' => 'sidebar',
+            'type' => 'object',
             'properties' => [
-                'id'            => [
+                'id' => [
                     'description' => __('ID of sidebar.'),
-                    'type'        => 'string',
-                    'context'     => ['embed', 'view', 'edit'],
-                    'readonly'    => true,
+                    'type' => 'string',
+                    'context' => ['embed', 'view', 'edit'],
+                    'readonly' => true,
                 ],
-                'name'          => [
+                'name' => [
                     'description' => __('Unique name identifying the sidebar.'),
-                    'type'        => 'string',
-                    'context'     => ['embed', 'view', 'edit'],
-                    'readonly'    => true,
+                    'type' => 'string',
+                    'context' => ['embed', 'view', 'edit'],
+                    'readonly' => true,
                 ],
-                'description'   => [
+                'description' => [
                     'description' => __('Description of sidebar.'),
-                    'type'        => 'string',
-                    'context'     => ['embed', 'view', 'edit'],
-                    'readonly'    => true,
+                    'type' => 'string',
+                    'context' => ['embed', 'view', 'edit'],
+                    'readonly' => true,
                 ],
-                'class'         => [
+                'class' => [
                     'description' => __('Extra CSS class to assign to the sidebar in the Widgets interface.'),
-                    'type'        => 'string',
-                    'context'     => ['embed', 'view', 'edit'],
-                    'readonly'    => true,
+                    'type' => 'string',
+                    'context' => ['embed', 'view', 'edit'],
+                    'readonly' => true,
                 ],
                 'before_widget' => [
                     'description' => __('HTML content to prepend to each widget\'s HTML output when assigned to this sidebar. Default is an opening list item element.'),
-                    'type'        => 'string',
-                    'default'     => '',
-                    'context'     => ['embed', 'view', 'edit'],
-                    'readonly'    => true,
+                    'type' => 'string',
+                    'default' => '',
+                    'context' => ['embed', 'view', 'edit'],
+                    'readonly' => true,
                 ],
-                'after_widget'  => [
+                'after_widget' => [
                     'description' => __('HTML content to append to each widget\'s HTML output when assigned to this sidebar. Default is a closing list item element.'),
-                    'type'        => 'string',
-                    'default'     => '',
-                    'context'     => ['embed', 'view', 'edit'],
-                    'readonly'    => true,
+                    'type' => 'string',
+                    'default' => '',
+                    'context' => ['embed', 'view', 'edit'],
+                    'readonly' => true,
                 ],
-                'before_title'  => [
+                'before_title' => [
                     'description' => __('HTML content to prepend to the sidebar title when displayed. Default is an opening h2 element.'),
-                    'type'        => 'string',
-                    'default'     => '',
-                    'context'     => ['embed', 'view', 'edit'],
-                    'readonly'    => true,
+                    'type' => 'string',
+                    'default' => '',
+                    'context' => ['embed', 'view', 'edit'],
+                    'readonly' => true,
                 ],
-                'after_title'   => [
+                'after_title' => [
                     'description' => __('HTML content to append to the sidebar title when displayed. Default is a closing h2 element.'),
-                    'type'        => 'string',
-                    'default'     => '',
-                    'context'     => ['embed', 'view', 'edit'],
-                    'readonly'    => true,
+                    'type' => 'string',
+                    'default' => '',
+                    'context' => ['embed', 'view', 'edit'],
+                    'readonly' => true,
                 ],
-                'status'        => [
+                'status' => [
                     'description' => __('Status of sidebar.'),
-                    'type'        => 'string',
-                    'enum'        => ['active', 'inactive'],
-                    'context'     => ['embed', 'view', 'edit'],
-                    'readonly'    => true,
+                    'type' => 'string',
+                    'enum' => ['active', 'inactive'],
+                    'context' => ['embed', 'view', 'edit'],
+                    'readonly' => true,
                 ],
-                'widgets'       => [
+                'widgets' => [
                     'description' => __('Nested widgets.'),
-                    'type'        => 'array',
-                    'items'       => [
+                    'type' => 'array',
+                    'items' => [
                         'type' => ['object', 'string'],
                     ],
-                    'default'     => [],
-                    'context'     => ['embed', 'view', 'edit'],
+                    'default' => [],
+                    'context' => ['embed', 'view', 'edit'],
                 ],
             ],
         ];

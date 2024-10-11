@@ -21,7 +21,7 @@ class Tests_XMLRPC_wp_uploadFile extends WP_XMLRPC_UnitTestCase
         // Create attachment.
         $filename = (DIR_TESTDATA . '/images/a2-small.jpg');
         $contents = file_get_contents($filename);
-        $data     = [
+        $data = [
             'name' => 'a2-small.jpg',
             'type' => 'image/jpeg',
             'bits' => $contents,

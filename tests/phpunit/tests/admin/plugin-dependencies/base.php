@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test case for the Plugin Dependencies tests.
  *
@@ -24,16 +25,16 @@ abstract class WP_PluginDependencies_UnitTestCase extends WP_UnitTestCase
      * @var array
      */
     protected static $static_properties = [
-        'plugins'                     => null,
-        'plugin_dirnames'             => null,
-        'dependencies'                => null,
-        'dependency_slugs'            => null,
-        'dependent_slugs'             => null,
-        'dependency_api_data'         => null,
-        'dependency_filepaths'        => null,
+        'plugins' => null,
+        'plugin_dirnames' => null,
+        'dependencies' => null,
+        'dependency_slugs' => null,
+        'dependent_slugs' => null,
+        'dependency_api_data' => null,
+        'dependency_filepaths' => null,
         'circular_dependencies_pairs' => null,
         'circular_dependencies_slugs' => null,
-        'initialized'                 => false,
+        'initialized' => false,
     ];
 
     /**
@@ -79,11 +80,11 @@ abstract class WP_PluginDependencies_UnitTestCase extends WP_UnitTestCase
      * Temporarily modifies the accessibility of a property to change its value.
      *
      * @param string $property The property's name.
-     * @param mixed  $value The new value.
+     * @param mixed $value The new value.
      */
     public function set_property_value($property, $value)
     {
-        if (! isset(self::$reflected_members[$property])) {
+        if (!isset(self::$reflected_members[$property])) {
             self::$reflected_members[$property] = new ReflectionProperty(self::$instance, $property);
         }
 
@@ -100,7 +101,7 @@ abstract class WP_PluginDependencies_UnitTestCase extends WP_UnitTestCase
      */
     public function get_property_value($property)
     {
-        if (! isset(self::$reflected_members[$property])) {
+        if (!isset(self::$reflected_members[$property])) {
             self::$reflected_members[$property] = new ReflectionProperty(self::$instance, $property);
         }
 
@@ -115,13 +116,13 @@ abstract class WP_PluginDependencies_UnitTestCase extends WP_UnitTestCase
      * Temporarily modifies the accessibility of a method to invoke it
      * and return its result.
      *
-     * @param string $method  The method's name.
-     * @param mixed  ...$args Arguments for the method.
+     * @param string $method The method's name.
+     * @param mixed ...$args Arguments for the method.
      * @return mixed The result of the method call.
      */
     protected function call_method($method, ...$args)
     {
-        if (! isset(self::$reflected_members[$method])) {
+        if (!isset(self::$reflected_members[$method])) {
             self::$reflected_members[$method] = new ReflectionMethod(self::$instance, $method);
         }
 

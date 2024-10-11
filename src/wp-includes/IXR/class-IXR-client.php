@@ -17,15 +17,15 @@ class IXR_Client
     var $message = false;
     var $debug = false;
     var $timeout;
-    var $headers = array();
+    var $headers = [];
 
     // Storage place for an error message
     var $error = false;
 
-	/**
-	 * PHP5 constructor.
-	 */
-    function __construct( $server, $path = false, $port = 80, $timeout = 15 )
+    /**
+     * PHP5 constructor.
+     */
+    function __construct($server, $path = false, $port = 80, $timeout = 15)
     {
         if (!$path) {
             // Assume we have been given a URL instead
@@ -39,7 +39,7 @@ class IXR_Client
                 $this->path = '/';
             }
 
-            if ( ! empty( $bits['query'] ) ) {
+            if (!empty($bits['query'])) {
                 $this->path .= '?' . $bits['query'];
             }
         } else {
@@ -51,36 +51,37 @@ class IXR_Client
         $this->timeout = $timeout;
     }
 
-	/**
-	 * PHP4 constructor.
-	 */
-	public function IXR_Client( $server, $path = false, $port = 80, $timeout = 15 ) {
-		self::__construct( $server, $path, $port, $timeout );
-	}
+    /**
+     * PHP4 constructor.
+     */
+    public function IXR_Client($server, $path = false, $port = 80, $timeout = 15)
+    {
+        self::__construct($server, $path, $port, $timeout);
+    }
 
-	/**
-	 * @since 1.5.0
-	 * @since 5.5.0 Formalized the existing `...$args` parameter by adding it
-	 *              to the function signature.
-	 *
-	 * @return bool
-	 */
-    function query( ...$args )
+    /**
+     * @return bool
+     * @since 5.5.0 Formalized the existing `...$args` parameter by adding it
+     *              to the function signature.
+     *
+     * @since 1.5.0
+     */
+    function query(...$args)
     {
         $method = array_shift($args);
         $request = new IXR_Request($method, $args);
         $length = $request->getLength();
         $xml = $request->getXml();
         $r = "\r\n";
-        $request  = "POST {$this->path} HTTP/1.0$r";
+        $request = "POST {$this->path} HTTP/1.0$r";
 
         // Merged from WP #8145 - allow custom headers
-        $this->headers['Host']          = $this->server;
-        $this->headers['Content-Type']  = 'text/xml';
-        $this->headers['User-Agent']    = $this->useragent;
-        $this->headers['Content-Length']= $length;
+        $this->headers['Host'] = $this->server;
+        $this->headers['Content-Type'] = 'text/xml';
+        $this->headers['User-Agent'] = $this->useragent;
+        $this->headers['Content-Length'] = $length;
 
-        foreach( $this->headers as $header => $value ) {
+        foreach ($this->headers as $header => $value) {
             $request .= "{$header}: {$value}{$r}";
         }
         $request .= $r;
@@ -89,7 +90,7 @@ class IXR_Client
 
         // Now send the request
         if ($this->debug) {
-            echo '<pre class="ixr_request">'.htmlspecialchars($request)."\n</pre>\n\n";
+            echo '<pre class="ixr_request">' . htmlspecialchars($request) . "\n</pre>\n\n";
         }
 
         if ($this->timeout) {
@@ -120,15 +121,15 @@ class IXR_Client
                 $gettingHeaders = false;
             }
             if (!$gettingHeaders) {
-            	// merged from WP #12559 - remove trim
+                // merged from WP #12559 - remove trim
                 $contents .= $line;
             }
             if ($this->debug) {
-            	$debugContents .= $line;
+                $debugContents .= $line;
             }
         }
         if ($this->debug) {
-            echo '<pre class="ixr_response">'.htmlspecialchars($debugContents)."\n</pre>\n\n";
+            echo '<pre class="ixr_response">' . htmlspecialchars($debugContents) . "\n</pre>\n\n";
         }
 
         // Now parse what we've got back

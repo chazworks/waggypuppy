@@ -12,81 +12,87 @@ var Settings = wp.media.view.Settings,
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-AttachmentDisplay = Settings.extend(/** @lends wp.media.view.Settings.AttachmentDisplay.prototype */{
-	className: 'attachment-display-settings',
-	template:  wp.template('attachment-display-settings'),
+AttachmentDisplay = Settings.extend(
+	/** @lends wp.media.view.Settings.AttachmentDisplay.prototype */ {
+		className: 'attachment-display-settings',
+		template: wp.template( 'attachment-display-settings' ),
 
-	initialize: function() {
-		var attachment = this.options.attachment;
+		initialize: function () {
+			var attachment = this.options.attachment;
 
-		_.defaults( this.options, {
-			userSettings: false
-		});
-		// Call 'initialize' directly on the parent class.
-		Settings.prototype.initialize.apply( this, arguments );
-		this.listenTo( this.model, 'change:link', this.updateLinkTo );
+			_.defaults( this.options, {
+				userSettings: false,
+			} );
+			// Call 'initialize' directly on the parent class.
+			Settings.prototype.initialize.apply( this, arguments );
+			this.listenTo( this.model, 'change:link', this.updateLinkTo );
 
-		if ( attachment ) {
-			attachment.on( 'change:uploading', this.render, this );
-		}
-	},
+			if ( attachment ) {
+				attachment.on( 'change:uploading', this.render, this );
+			}
+		},
 
-	dispose: function() {
-		var attachment = this.options.attachment;
-		if ( attachment ) {
-			attachment.off( null, null, this );
-		}
+		dispose: function () {
+			var attachment = this.options.attachment;
+			if ( attachment ) {
+				attachment.off( null, null, this );
+			}
+			/**
+			 * call 'dispose' directly on the parent class
+			 */
+			Settings.prototype.dispose.apply( this, arguments );
+		},
 		/**
-		 * call 'dispose' directly on the parent class
+		 * @return {wp.media.view.AttachmentDisplay} Returns itself to allow chaining.
 		 */
-		Settings.prototype.dispose.apply( this, arguments );
-	},
-	/**
-	 * @return {wp.media.view.AttachmentDisplay} Returns itself to allow chaining.
-	 */
-	render: function() {
-		var attachment = this.options.attachment;
-		if ( attachment ) {
-			_.extend( this.options, {
-				sizes: attachment.get('sizes'),
-				type:  attachment.get('type')
-			});
-		}
-		/**
-		 * call 'render' directly on the parent class
-		 */
-		Settings.prototype.render.call( this );
-		this.updateLinkTo();
-		return this;
-	},
+		render: function () {
+			var attachment = this.options.attachment;
+			if ( attachment ) {
+				_.extend( this.options, {
+					sizes: attachment.get( 'sizes' ),
+					type: attachment.get( 'type' ),
+				} );
+			}
+			/**
+			 * call 'render' directly on the parent class
+			 */
+			Settings.prototype.render.call( this );
+			this.updateLinkTo();
+			return this;
+		},
 
-	updateLinkTo: function() {
-		var linkTo = this.model.get('link'),
-			$input = this.$('.link-to-custom'),
-			attachment = this.options.attachment;
+		updateLinkTo: function () {
+			var linkTo = this.model.get( 'link' ),
+				$input = this.$( '.link-to-custom' ),
+				attachment = this.options.attachment;
 
-		if ( 'none' === linkTo || 'embed' === linkTo || ( ! attachment && 'custom' !== linkTo ) ) {
-			$input.closest( '.setting' ).addClass( 'hidden' );
-			return;
-		}
-
-		if ( attachment ) {
-			if ( 'post' === linkTo ) {
-				$input.val( attachment.get('link') );
-			} else if ( 'file' === linkTo ) {
-				$input.val( attachment.get('url') );
-			} else if ( ! this.model.get('linkUrl') ) {
-				$input.val('http://');
+			if (
+				'none' === linkTo ||
+				'embed' === linkTo ||
+				( ! attachment && 'custom' !== linkTo )
+			) {
+				$input.closest( '.setting' ).addClass( 'hidden' );
+				return;
 			}
 
-			$input.prop( 'readonly', 'custom' !== linkTo );
-		}
+			if ( attachment ) {
+				if ( 'post' === linkTo ) {
+					$input.val( attachment.get( 'link' ) );
+				} else if ( 'file' === linkTo ) {
+					$input.val( attachment.get( 'url' ) );
+				} else if ( ! this.model.get( 'linkUrl' ) ) {
+					$input.val( 'http://' );
+				}
 
-		$input.closest( '.setting' ).removeClass( 'hidden' );
-		if ( $input.length ) {
-			$input[0].scrollIntoView();
-		}
+				$input.prop( 'readonly', 'custom' !== linkTo );
+			}
+
+			$input.closest( '.setting' ).removeClass( 'hidden' );
+			if ( $input.length ) {
+				$input[ 0 ].scrollIntoView();
+			}
+		},
 	}
-});
+);
 
 module.exports = AttachmentDisplay;

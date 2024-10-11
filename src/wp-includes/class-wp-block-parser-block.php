@@ -73,20 +73,20 @@ class WP_Block_Parser_Block
      *
      * Will populate object properties from the provided arguments.
      *
+     * @param string $name Name of block.
+     * @param array $attrs Optional set of attributes from block comment delimiters.
+     * @param array $inner_blocks List of inner blocks (of this same class).
+     * @param string $inner_html Resultant HTML from inside block comment delimiters after removing inner blocks.
+     * @param array $inner_content List of string fragments and null markers where inner blocks were found.
      * @since 5.0.0
      *
-     * @param string $name          Name of block.
-     * @param array  $attrs         Optional set of attributes from block comment delimiters.
-     * @param array  $inner_blocks  List of inner blocks (of this same class).
-     * @param string $inner_html    Resultant HTML from inside block comment delimiters after removing inner blocks.
-     * @param array  $inner_content List of string fragments and null markers where inner blocks were found.
      */
     public function __construct($name, $attrs, $inner_blocks, $inner_html, $inner_content)
     {
-        $this->blockName    = $name;
-        $this->attrs        = $attrs;
-        $this->innerBlocks  = $inner_blocks;
-        $this->innerHTML    = $inner_html;
+        $this->blockName = $name;
+        $this->attrs = $attrs;
+        $this->innerBlocks = $inner_blocks;
+        $this->innerHTML = $inner_html;
         $this->innerContent = $inner_content;
     }
 }

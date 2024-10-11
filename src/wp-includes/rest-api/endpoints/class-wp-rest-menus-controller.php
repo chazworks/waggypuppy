@@ -20,10 +20,10 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
     /**
      * Checks if a request has access to read menus.
      *
-     * @since 5.9.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return bool|WP_Error True if the request has read access, otherwise false or WP_Error object.
+     * @since 5.9.0
+     *
      */
     public function get_items_permissions_check($request)
     {
@@ -39,10 +39,10 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
     /**
      * Checks if a request has access to read or edit the specified menu.
      *
-     * @since 5.9.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access for the item, otherwise WP_Error object.
+     * @since 5.9.0
+     *
      */
     public function get_item_permissions_check($request)
     {
@@ -58,10 +58,10 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
     /**
      * Gets the term, if the ID is valid.
      *
-     * @since 5.9.0
-     *
      * @param int $id Supplied ID.
      * @return WP_Term|WP_Error Term object if ID is valid, WP_Error otherwise.
+     * @since 5.9.0
+     *
      */
     protected function get_term($id)
     {
@@ -71,7 +71,7 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
             return $term;
         }
 
-        $nav_term           = wp_get_nav_menu_object($term);
+        $nav_term = wp_get_nav_menu_object($term);
         $nav_term->auto_add = $this->get_menu_auto_add($nav_term->term_id);
 
         return $nav_term;
@@ -82,10 +82,10 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
      *
      * This allows for any user that can `edit_theme_options` or edit any REST API available post type.
      *
-     * @since 5.9.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the current user has permission, WP_Error object otherwise.
+     * @since 5.9.0
+     *
      */
     protected function check_has_read_only_access($request)
     {
@@ -106,18 +106,18 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
         return new WP_Error(
             'rest_cannot_view',
             __('Sorry, you are not allowed to view menus.'),
-            ['status' => rest_authorization_required_code()]
+            ['status' => rest_authorization_required_code()],
         );
     }
 
     /**
      * Prepares a single term output for response.
      *
-     * @since 5.9.0
-     *
-     * @param WP_Term         $term    Term object.
+     * @param WP_Term $term Term object.
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response Response object.
+     * @since 5.9.0
+     *
      */
     public function prepare_item_for_response($term, $request)
     {
@@ -125,7 +125,7 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
         $response = parent::prepare_item_for_response($nav_menu, $request);
 
         $fields = $this->get_fields_for_response($request);
-        $data   = $response->get_data();
+        $data = $response->get_data();
 
         if (rest_is_field_included('locations', $fields)) {
             $data['locations'] = $this->get_menu_locations($nav_menu->term_id);
@@ -135,9 +135,9 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
             $data['auto_add'] = $this->get_menu_auto_add($nav_menu->term_id);
         }
 
-        $context = ! empty($request['context']) ? $request['context'] : 'view';
-        $data    = $this->add_additional_fields_to_object($data, $request);
-        $data    = $this->filter_response_by_context($data, $context);
+        $context = !empty($request['context']) ? $request['context'] : 'view';
+        $data = $this->add_additional_fields_to_object($data, $request);
+        $data = $this->filter_response_by_context($data, $context);
 
         $response = rest_ensure_response($data);
 
@@ -152,10 +152,10 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
     /**
      * Prepares links for the request.
      *
-     * @since 5.9.0
-     *
      * @param WP_Term $term Term object.
      * @return array Links for the given term.
+     * @since 5.9.0
+     *
      */
     protected function prepare_links($term)
     {
@@ -166,7 +166,7 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
             $url = rest_url(sprintf('wp/v2/menu-locations/%s', $location));
 
             $links['https://api.w.org/menu-location'][] = [
-                'href'       => $url,
+                'href' => $url,
                 'embeddable' => true,
             ];
         }
@@ -177,10 +177,10 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
     /**
      * Prepares a single term for create or update.
      *
-     * @since 5.9.0
-     *
      * @param WP_REST_Request $request Request object.
      * @return object Prepared term data.
+     * @since 5.9.0
+     *
      */
     public function prepare_item_for_database($request)
     {
@@ -188,7 +188,7 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
 
         $schema = $this->get_item_schema();
 
-        if (isset($request['name']) && ! empty($schema['properties']['name'])) {
+        if (isset($request['name']) && !empty($schema['properties']['name'])) {
             $prepared_term->{'menu-name'} = $request['name'];
         }
 
@@ -198,28 +198,29 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
     /**
      * Creates a single term in a taxonomy.
      *
-     * @since 5.9.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     * @since 5.9.0
+     *
      */
     public function create_item($request)
     {
         if (isset($request['parent'])) {
-            if (! is_taxonomy_hierarchical($this->taxonomy)) {
-                return new WP_Error('rest_taxonomy_not_hierarchical', __('Cannot set parent term, taxonomy is not hierarchical.'), ['status' => 400]);
+            if (!is_taxonomy_hierarchical($this->taxonomy)) {
+                return new WP_Error('rest_taxonomy_not_hierarchical',
+                    __('Cannot set parent term, taxonomy is not hierarchical.'), ['status' => 400]);
             }
 
-            $parent = wp_get_nav_menu_object((int) $request['parent']);
+            $parent = wp_get_nav_menu_object((int)$request['parent']);
 
-            if (! $parent) {
+            if (!$parent) {
                 return new WP_Error('rest_term_invalid', __('Parent term does not exist.'), ['status' => 400]);
             }
         }
 
         $prepared_term = $this->prepare_item_for_database($request);
 
-        $term = wp_update_nav_menu_object(0, wp_slash((array) $prepared_term));
+        $term = wp_update_nav_menu_object(0, wp_slash((array)$prepared_term));
 
         if (is_wp_error($term)) {
             /*
@@ -232,9 +233,9 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
                 $term->add_data($existing_term->term_id, 'menu_exists');
                 $term->add_data(
                     [
-                        'status'  => 400,
+                        'status' => 400,
                         'term_id' => $existing_term->term_id,
-                    ]
+                    ],
                 );
             } else {
                 $term->add_data(['status' => 400]);
@@ -249,7 +250,7 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
         do_action("rest_insert_{$this->taxonomy}", $term, $request, true);
 
         $schema = $this->get_item_schema();
-        if (! empty($schema['properties']['meta']) && isset($request['meta'])) {
+        if (!empty($schema['properties']['meta']) && isset($request['meta'])) {
             $meta_update = $this->meta->update_value($request['meta'], $term->term_id);
 
             if (is_wp_error($meta_update)) {
@@ -288,10 +289,10 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
     /**
      * Updates a single term from a taxonomy.
      *
-     * @since 5.9.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     * @since 5.9.0
+     *
      */
     public function update_item($request)
     {
@@ -301,13 +302,14 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
         }
 
         if (isset($request['parent'])) {
-            if (! is_taxonomy_hierarchical($this->taxonomy)) {
-                return new WP_Error('rest_taxonomy_not_hierarchical', __('Cannot set parent term, taxonomy is not hierarchical.'), ['status' => 400]);
+            if (!is_taxonomy_hierarchical($this->taxonomy)) {
+                return new WP_Error('rest_taxonomy_not_hierarchical',
+                    __('Cannot set parent term, taxonomy is not hierarchical.'), ['status' => 400]);
             }
 
-            $parent = get_term((int) $request['parent'], $this->taxonomy);
+            $parent = get_term((int)$request['parent'], $this->taxonomy);
 
-            if (! $parent) {
+            if (!$parent) {
                 return new WP_Error('rest_term_invalid', __('Parent term does not exist.'), ['status' => 400]);
             }
         }
@@ -315,13 +317,13 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
         $prepared_term = $this->prepare_item_for_database($request);
 
         // Only update the term if we have something to update.
-        if (! empty($prepared_term)) {
-            if (! isset($prepared_term->{'menu-name'})) {
+        if (!empty($prepared_term)) {
+            if (!isset($prepared_term->{'menu-name'})) {
                 // wp_update_nav_menu_object() requires that the menu-name is always passed.
                 $prepared_term->{'menu-name'} = $term->name;
             }
 
-            $update = wp_update_nav_menu_object($term->term_id, wp_slash((array) $prepared_term));
+            $update = wp_update_nav_menu_object($term->term_id, wp_slash((array)$prepared_term));
 
             if (is_wp_error($update)) {
                 return $update;
@@ -334,7 +336,7 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
         do_action("rest_insert_{$this->taxonomy}", $term, $request, false);
 
         $schema = $this->get_item_schema();
-        if (! empty($schema['properties']['meta']) && isset($request['meta'])) {
+        if (!empty($schema['properties']['meta']) && isset($request['meta'])) {
             $meta_update = $this->meta->update_value($request['meta'], $term->term_id);
 
             if (is_wp_error($meta_update)) {
@@ -369,10 +371,10 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
     /**
      * Deletes a single term from a taxonomy.
      *
-     * @since 5.9.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     * @since 5.9.0
+     *
      */
     public function delete_item($request)
     {
@@ -382,9 +384,10 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
         }
 
         // We don't support trashing for terms.
-        if (! $request['force']) {
+        if (!$request['force']) {
             /* translators: %s: force=true */
-            return new WP_Error('rest_trash_not_supported', sprintf(__("Menus do not support trashing. Set '%s' to delete."), 'force=true'), ['status' => 501]);
+            return new WP_Error('rest_trash_not_supported',
+                sprintf(__("Menus do not support trashing. Set '%s' to delete."), 'force=true'), ['status' => 501]);
         }
 
         $request->set_param('context', 'view');
@@ -393,16 +396,16 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
 
         $result = wp_delete_nav_menu($term);
 
-        if (! $result || is_wp_error($result)) {
+        if (!$result || is_wp_error($result)) {
             return new WP_Error('rest_cannot_delete', __('The menu cannot be deleted.'), ['status' => 500]);
         }
 
         $response = new WP_REST_Response();
         $response->set_data(
             [
-                'deleted'  => true,
+                'deleted' => true,
                 'previous' => $previous->get_data(),
-            ]
+            ],
         );
 
         /** This action is documented in wp-includes/rest-api/endpoints/class-wp-rest-terms-controller.php */
@@ -414,14 +417,14 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
     /**
      * Returns the value of a menu's auto_add setting.
      *
-     * @since 5.9.0
-     *
      * @param int $menu_id The menu id to query.
      * @return bool The value of auto_add.
+     * @since 5.9.0
+     *
      */
     protected function get_menu_auto_add($menu_id)
     {
-        $nav_menu_option = (array) get_option('nav_menu_options', ['auto_add' => []]);
+        $nav_menu_option = (array)get_option('nav_menu_options', ['auto_add' => []]);
 
         return in_array($menu_id, $nav_menu_option['auto_add'], true);
     }
@@ -429,21 +432,21 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
     /**
      * Updates the menu's auto add from a REST request.
      *
-     * @since 5.9.0
-     *
-     * @param int             $menu_id The menu id to update.
+     * @param int $menu_id The menu id to update.
      * @param WP_REST_Request $request Full details about the request.
      * @return bool True if the auto add setting was successfully updated.
+     * @since 5.9.0
+     *
      */
     protected function handle_auto_add($menu_id, $request)
     {
-        if (! isset($request['auto_add'])) {
+        if (!isset($request['auto_add'])) {
             return true;
         }
 
-        $nav_menu_option = (array) get_option('nav_menu_options', ['auto_add' => []]);
+        $nav_menu_option = (array)get_option('nav_menu_options', ['auto_add' => []]);
 
-        if (! isset($nav_menu_option['auto_add'])) {
+        if (!isset($nav_menu_option['auto_add'])) {
             $nav_menu_option['auto_add'] = [];
         }
 
@@ -453,7 +456,7 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
 
         if ($auto_add && false === $i) {
             $nav_menu_option['auto_add'][] = $menu_id;
-        } elseif (! $auto_add && false !== $i) {
+        } elseif (!$auto_add && false !== $i) {
             array_splice($nav_menu_option['auto_add'], $i, 1);
         }
 
@@ -468,14 +471,14 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
     /**
      * Returns the names of the locations assigned to the menu.
      *
-     * @since 5.9.0
-     *
      * @param int $menu_id The menu id.
      * @return string[] The locations assigned to the menu.
+     * @since 5.9.0
+     *
      */
     protected function get_menu_locations($menu_id)
     {
-        $locations      = get_nav_menu_locations();
+        $locations = get_nav_menu_locations();
         $menu_locations = [];
 
         foreach ($locations as $location => $assigned_menu_id) {
@@ -490,30 +493,30 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
     /**
      * Updates the menu's locations from a REST request.
      *
-     * @since 5.9.0
-     *
-     * @param int             $menu_id The menu id to update.
+     * @param int $menu_id The menu id to update.
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True on success, a WP_Error on an error updating any of the locations.
+     * @since 5.9.0
+     *
      */
     protected function handle_locations($menu_id, $request)
     {
-        if (! isset($request['locations'])) {
+        if (!isset($request['locations'])) {
             return true;
         }
 
         $menu_locations = get_registered_nav_menus();
         $menu_locations = array_keys($menu_locations);
-        $new_locations  = [];
+        $new_locations = [];
         foreach ($request['locations'] as $location) {
-            if (! in_array($location, $menu_locations, true)) {
+            if (!in_array($location, $menu_locations, true)) {
                 return new WP_Error(
                     'rest_invalid_menu_location',
                     __('Invalid menu location.'),
                     [
-                        'status'   => 400,
+                        'status' => 400,
                         'location' => $location,
-                    ]
+                    ],
                 );
             }
             $new_locations[$location] = $menu_id;
@@ -533,9 +536,9 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
     /**
      * Retrieves the term's schema, conforming to JSON Schema.
      *
+     * @return array Item schema data.
      * @since 5.9.0
      *
-     * @return array Item schema data.
      */
     public function get_item_schema()
     {
@@ -548,11 +551,11 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
 
         $schema['properties']['locations'] = [
             'description' => __('The locations assigned to the menu.'),
-            'type'        => 'array',
-            'items'       => [
+            'type' => 'array',
+            'items' => [
                 'type' => 'string',
             ],
-            'context'     => ['view', 'edit'],
+            'context' => ['view', 'edit'],
             'arg_options' => [
                 'validate_callback' => static function ($locations, $request, $param) {
                     $valid = rest_validate_request_arg($locations, $request, $param);
@@ -564,13 +567,13 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
                     $locations = rest_sanitize_request_arg($locations, $request, $param);
 
                     foreach ($locations as $location) {
-                        if (! array_key_exists($location, get_registered_nav_menus())) {
+                        if (!array_key_exists($location, get_registered_nav_menus())) {
                             return new WP_Error(
                                 'rest_invalid_menu_location',
                                 __('Invalid menu location.'),
                                 [
                                     'location' => $location,
-                                ]
+                                ],
                             );
                         }
                     }
@@ -582,8 +585,8 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
 
         $schema['properties']['auto_add'] = [
             'description' => __('Whether to automatically add top level pages to this menu.'),
-            'context'     => ['view', 'edit'],
-            'type'        => 'boolean',
+            'context' => ['view', 'edit'],
+            'type' => 'boolean',
         ];
 
         $this->schema = $schema;

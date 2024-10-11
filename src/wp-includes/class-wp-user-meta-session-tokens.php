@@ -20,15 +20,15 @@ class WP_User_Meta_Session_Tokens extends WP_Session_Tokens
     /**
      * Retrieves all sessions of the user.
      *
+     * @return array Sessions of the user.
      * @since 4.0.0
      *
-     * @return array Sessions of the user.
      */
     protected function get_sessions()
     {
         $sessions = get_user_meta($this->user_id, 'session_tokens', true);
 
-        if (! is_array($sessions)) {
+        if (!is_array($sessions)) {
             return [];
         }
 
@@ -54,10 +54,10 @@ class WP_User_Meta_Session_Tokens extends WP_Session_Tokens
     /**
      * Retrieves a session based on its verifier (token hash).
      *
-     * @since 4.0.0
-     *
      * @param string $verifier Verifier for the session to retrieve.
      * @return array|null The session, or null if it does not exist
+     * @since 4.0.0
+     *
      */
     protected function get_session($verifier)
     {
@@ -73,10 +73,10 @@ class WP_User_Meta_Session_Tokens extends WP_Session_Tokens
     /**
      * Updates a session based on its verifier (token hash).
      *
+     * @param string $verifier Verifier for the session to update.
+     * @param array $session Optional. Session. Omitting this argument destroys the session.
      * @since 4.0.0
      *
-     * @param string $verifier Verifier for the session to update.
-     * @param array  $session  Optional. Session. Omitting this argument destroys the session.
      */
     protected function update_session($verifier, $session = null)
     {
@@ -94,9 +94,9 @@ class WP_User_Meta_Session_Tokens extends WP_Session_Tokens
     /**
      * Updates the user's sessions in the usermeta table.
      *
+     * @param array $sessions Sessions.
      * @since 4.0.0
      *
-     * @param array $sessions Sessions.
      */
     protected function update_sessions($sessions)
     {
@@ -110,9 +110,9 @@ class WP_User_Meta_Session_Tokens extends WP_Session_Tokens
     /**
      * Destroys all sessions for this user, except the single session with the given verifier.
      *
+     * @param string $verifier Verifier of the session to keep.
      * @since 4.0.0
      *
-     * @param string $verifier Verifier of the session to keep.
      */
     protected function destroy_other_sessions($verifier)
     {

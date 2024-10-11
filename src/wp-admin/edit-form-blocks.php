@@ -9,16 +9,16 @@
  */
 
 // Don't load directly.
-if (! defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
     die('-1');
 }
 
 /**
- * @global string       $post_type        Global post type.
+ * @global string $post_type Global post type.
  * @global WP_Post_Type $post_type_object Global post type object.
- * @global WP_Post      $post             Global post object.
- * @global string       $title            The title of the current screen.
- * @global array        $wp_meta_boxes    Global meta box state.
+ * @global WP_Post $post Global post object.
+ * @global string $title The title of the current screen.
+ * @global array $wp_meta_boxes Global meta box state.
  */
 global $post_type, $post_type_object, $post, $title, $wp_meta_boxes;
 
@@ -33,7 +33,7 @@ add_filter(
     'admin_body_class',
     static function ($classes) {
         return "$classes is-fullscreen-mode";
-    }
+    },
 );
 
 /*
@@ -75,7 +75,7 @@ block_editor_rest_api_preload($preload_paths, $block_editor_context);
 wp_add_inline_script(
     'wp-blocks',
     sprintf('wp.blocks.setCategories( %s );', wp_json_encode(get_block_categories($post))),
-    'after'
+    'after',
 );
 
 /*
@@ -83,7 +83,7 @@ wp_add_inline_script(
  * but should be included in its save payload.
  */
 $initial_edits = [];
-$is_new_post   = false;
+$is_new_post = false;
 if ('auto-draft' === $post->post_status) {
     $is_new_post = true;
     // Override "(Auto Draft)" new post default title with empty string, or filtered value.
@@ -103,24 +103,26 @@ if ('auto-draft' === $post->post_status) {
 // Preload server-registered block schemas.
 wp_add_inline_script(
     'wp-blocks',
-    'wp.blocks.unstable__bootstrapServerSideBlockDefinitions(' . wp_json_encode(get_block_editor_server_block_settings()) . ');'
+    'wp.blocks.unstable__bootstrapServerSideBlockDefinitions('
+    . wp_json_encode(get_block_editor_server_block_settings())
+    . ');',
 );
 
 // Get admin url for handling meta boxes.
 $meta_box_url = admin_url('post.php');
 $meta_box_url = add_query_arg(
     [
-        'post'                  => $post->ID,
-        'action'                => 'edit',
-        'meta-box-loader'       => true,
+        'post' => $post->ID,
+        'action' => 'edit',
+        'meta-box-loader' => true,
         'meta-box-loader-nonce' => wp_create_nonce('meta-box-loader'),
     ],
-    $meta_box_url
+    $meta_box_url,
 );
 wp_add_inline_script(
     'wp-editor',
     sprintf('var _wpMetaBoxUrl = %s;', wp_json_encode($meta_box_url)),
-    'before'
+    'before',
 );
 
 // Set Heartbeat interval to 10 seconds, used to refresh post locks.
@@ -129,7 +131,7 @@ wp_add_inline_script(
     'jQuery( function() {
 		wp.heartbeat.interval( 10 );
 	} );',
-    'after'
+    'after',
 );
 
 /*
@@ -139,12 +141,12 @@ wp_add_inline_script(
  * besides the default value.
  */
 $available_templates = wp_get_theme()->get_page_templates(get_post($post->ID));
-$available_templates = ! empty($available_templates) ? array_replace(
+$available_templates = !empty($available_templates) ? array_replace(
     [
         /** This filter is documented in wp-admin/includes/meta-boxes.php */
         '' => apply_filters('default_page_template_title', __('Default template'), 'rest-api'),
     ],
-    $available_templates
+    $available_templates,
 ) : $available_templates;
 
 // Lock settings.
@@ -159,7 +161,7 @@ if ($user_id) {
 
     $user_details = null;
     if ($locked) {
-        $user         = get_userdata($user_id);
+        $user = get_userdata($user_id);
         $user_details = [
             'name' => $user->display_name,
         ];
@@ -171,7 +173,7 @@ if ($user_id) {
 
     $lock_details = [
         'isLocked' => $locked,
-        'user'     => $user_details,
+        'user' => $user_details,
     ];
 } else {
     // Lock the post.
@@ -181,7 +183,7 @@ if ($user_id) {
     }
 
     $lock_details = [
-        'isLocked'       => false,
+        'isLocked' => false,
         'activePostLock' => $active_post_lock,
     ];
 }
@@ -189,38 +191,38 @@ if ($user_id) {
 /**
  * Filters the body placeholder text.
  *
+ * @param string $text Placeholder text. Default 'Type / to choose a block'.
+ * @param WP_Post $post Post object.
  * @since 5.0.0
  * @since 5.8.0 Changed the default placeholder text.
  *
- * @param string  $text Placeholder text. Default 'Type / to choose a block'.
- * @param WP_Post $post Post object.
  */
 $body_placeholder = apply_filters('write_your_story', __('Type / to choose a block'), $post);
 
 $editor_settings = [
-    'availableTemplates'   => $available_templates,
-    'disablePostFormats'   => ! current_theme_supports('post-formats'),
+    'availableTemplates' => $available_templates,
+    'disablePostFormats' => !current_theme_supports('post-formats'),
     /** This filter is documented in wp-admin/edit-form-advanced.php */
-    'titlePlaceholder'     => apply_filters('enter_title_here', __('Add title'), $post),
-    'bodyPlaceholder'      => $body_placeholder,
-    'autosaveInterval'     => AUTOSAVE_INTERVAL,
-    'richEditingEnabled'   => user_can_richedit(),
-    'postLock'             => $lock_details,
-    'postLockUtils'        => [
-        'nonce'       => wp_create_nonce('lock-post_' . $post->ID),
+    'titlePlaceholder' => apply_filters('enter_title_here', __('Add title'), $post),
+    'bodyPlaceholder' => $body_placeholder,
+    'autosaveInterval' => AUTOSAVE_INTERVAL,
+    'richEditingEnabled' => user_can_richedit(),
+    'postLock' => $lock_details,
+    'postLockUtils' => [
+        'nonce' => wp_create_nonce('lock-post_' . $post->ID),
         'unlockNonce' => wp_create_nonce('update-post_' . $post->ID),
-        'ajaxUrl'     => admin_url('admin-ajax.php'),
+        'ajaxUrl' => admin_url('admin-ajax.php'),
     ],
-    'supportsLayout'       => wp_theme_has_theme_json(),
+    'supportsLayout' => wp_theme_has_theme_json(),
     'supportsTemplateMode' => current_theme_supports('block-templates'),
 
     // Whether or not to load the 'postcustom' meta box is stored as a user meta
     // field so that we're not always loading its assets.
-    'enableCustomFields'   => (bool) get_user_meta(get_current_user_id(), 'enable_custom_fields', true),
+    'enableCustomFields' => (bool)get_user_meta(get_current_user_id(), 'enable_custom_fields', true),
 ];
 
 // Add additional back-compat patterns registered by `current_screen` et al.
-$editor_settings['__experimentalAdditionalBlockPatterns']          = WP_Block_Patterns_Registry::get_instance()->get_all_registered(true);
+$editor_settings['__experimentalAdditionalBlockPatterns'] = WP_Block_Patterns_Registry::get_instance()->get_all_registered(true);
 $editor_settings['__experimentalAdditionalBlockPatternCategories'] = WP_Block_Pattern_Categories_Registry::get_instance()->get_all_registered(true);
 
 $autosave = wp_get_post_autosave($post->ID);
@@ -234,13 +236,14 @@ if ($autosave) {
     }
 }
 
-if (! empty($post_type_object->template)) {
-    $editor_settings['template']     = $post_type_object->template;
-    $editor_settings['templateLock'] = ! empty($post_type_object->template_lock) ? $post_type_object->template_lock : false;
+if (!empty($post_type_object->template)) {
+    $editor_settings['template'] = $post_type_object->template;
+    $editor_settings['templateLock'] = !empty($post_type_object->template_lock) ? $post_type_object->template_lock
+        : false;
 }
 
 // If there's no template set on a new post, use the post format, instead.
-if ($is_new_post && ! isset($editor_settings['template']) && 'post' === $post->post_type) {
+if ($is_new_post && !isset($editor_settings['template']) && 'post' === $post->post_type) {
     $post_format = get_post_format($post);
     if (in_array($post_format, ['audio', 'gallery', 'image', 'quote', 'video'], true)) {
         $editor_settings['template'] = [["core/$post_format"]];
@@ -257,7 +260,7 @@ if (wp_is_block_theme() && $editor_settings['supportsTemplateMode']) {
 wp_enqueue_media(
     [
         'post' => $post->ID,
-    ]
+    ],
 );
 wp_tinymce_inline_scripts();
 wp_enqueue_editor();
@@ -285,32 +288,32 @@ register_and_do_post_meta_boxes($post);
 
 // Check if the Custom Fields meta box has been removed at some point.
 $core_meta_boxes = $wp_meta_boxes[$current_screen->id]['normal']['core'];
-if (! isset($core_meta_boxes['postcustom']) || ! $core_meta_boxes['postcustom']) {
+if (!isset($core_meta_boxes['postcustom']) || !$core_meta_boxes['postcustom']) {
     unset($editor_settings['enableCustomFields']);
 }
 
 $editor_settings = get_block_editor_settings($editor_settings, $block_editor_context);
 
 $init_script = <<<JS
-( function() {
-	window._wpLoadBlockEditor = new Promise( function( resolve ) {
-		wp.domReady( function() {
-			resolve( wp.editPost.initializeEditor( 'editor', "%s", %d, %s, %s ) );
-		} );
-	} );
-} )();
-JS;
+    ( function() {
+    	window._wpLoadBlockEditor = new Promise( function( resolve ) {
+    		wp.domReady( function() {
+    			resolve( wp.editPost.initializeEditor( 'editor', "%s", %d, %s, %s ) );
+    		} );
+    	} );
+    } )();
+    JS;
 
 $script = sprintf(
     $init_script,
     $post->post_type,
     $post->ID,
     wp_json_encode($editor_settings),
-    wp_json_encode($initial_edits)
+    wp_json_encode($initial_edits),
 );
 wp_add_inline_script('wp-edit-post', $script);
 
-if ((int) get_option('page_for_posts') === $post->ID) {
+if ((int)get_option('page_for_posts') === $post->ID) {
     add_action('admin_enqueue_scripts', '_wp_block_editor_posts_page_notice');
 }
 
@@ -330,21 +333,23 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
         <?php
         if (file_exists(WP_PLUGIN_DIR . '/classic-editor/classic-editor.php')) {
             // If Classic Editor is already installed, provide a link to activate the plugin.
-            $installed           = true;
-            $plugin_activate_url = wp_nonce_url('plugins.php?action=activate&amp;plugin=classic-editor/classic-editor.php', 'activate-plugin_classic-editor/classic-editor.php');
-            $message             = sprintf(
-                /* translators: %s: Link to activate the Classic Editor plugin. */
+            $installed = true;
+            $plugin_activate_url = wp_nonce_url('plugins.php?action=activate&amp;plugin=classic-editor/classic-editor.php',
+                'activate-plugin_classic-editor/classic-editor.php');
+            $message = sprintf(
+            /* translators: %s: Link to activate the Classic Editor plugin. */
                 __('The block editor requires JavaScript. Please enable JavaScript in your browser settings, or activate the <a href="%s">Classic Editor plugin</a>.'),
-                esc_url($plugin_activate_url)
+                esc_url($plugin_activate_url),
             );
         } else {
             // If Classic Editor is not installed, provide a link to install it.
-            $installed          = false;
-            $plugin_install_url = wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=classic-editor'), 'install-plugin_classic-editor');
-            $message            = sprintf(
-                /* translators: %s: Link to install the Classic Editor plugin. */
+            $installed = false;
+            $plugin_install_url = wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=classic-editor'),
+                'install-plugin_classic-editor');
+            $message = sprintf(
+            /* translators: %s: Link to install the Classic Editor plugin. */
                 __('The block editor requires JavaScript. Please enable JavaScript in your browser settings, or install the <a href="%s">Classic Editor plugin</a>.'),
-                esc_url($plugin_install_url)
+                esc_url($plugin_install_url),
             );
         }
 
@@ -352,19 +357,19 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
          * Filters the message displayed in the block editor interface when JavaScript is
          * not enabled in the browser.
          *
-         * @since 5.0.3
+         * @param string $message The message being displayed.
+         * @param WP_Post $post The post being edited.
+         * @param bool $installed Whether the classic editor is installed.
          * @since 6.4.0 Added `$installed` parameter.
          *
-         * @param string  $message   The message being displayed.
-         * @param WP_Post $post      The post being edited.
-         * @param bool    $installed Whether the classic editor is installed.
+         * @since 5.0.3
          */
         $message = apply_filters('block_editor_no_javascript_message', $message, $post, $installed);
         wp_admin_notice(
             $message,
             [
                 'type' => 'error',
-            ]
+            ],
         );
         ?>
     </div>

@@ -19,160 +19,191 @@ var Select = wp.media.view.MediaFrame.Select,
  * @augments Backbone.View
  * @mixes wp.media.controller.StateMachine
  */
-ImageDetails = Select.extend(/** @lends wp.media.view.MediaFrame.ImageDetails.prototype */{
-	defaults: {
-		id:      'image',
-		url:     '',
-		menu:    'image-details',
-		content: 'image-details',
-		toolbar: 'image-details',
-		type:    'link',
-		title:    l10n.imageDetailsTitle,
-		priority: 120
-	},
+ImageDetails = Select.extend(
+	/** @lends wp.media.view.MediaFrame.ImageDetails.prototype */ {
+		defaults: {
+			id: 'image',
+			url: '',
+			menu: 'image-details',
+			content: 'image-details',
+			toolbar: 'image-details',
+			type: 'link',
+			title: l10n.imageDetailsTitle,
+			priority: 120,
+		},
 
-	initialize: function( options ) {
-		this.image = new wp.media.model.PostImage( options.metadata );
-		this.options.selection = new wp.media.model.Selection( this.image.attachment, { multiple: false } );
-		Select.prototype.initialize.apply( this, arguments );
-	},
+		initialize: function ( options ) {
+			this.image = new wp.media.model.PostImage( options.metadata );
+			this.options.selection = new wp.media.model.Selection(
+				this.image.attachment,
+				{ multiple: false }
+			);
+			Select.prototype.initialize.apply( this, arguments );
+		},
 
-	bindHandlers: function() {
-		Select.prototype.bindHandlers.apply( this, arguments );
-		this.on( 'menu:create:image-details', this.createMenu, this );
-		this.on( 'content:create:image-details', this.imageDetailsContent, this );
-		this.on( 'content:render:edit-image', this.editImageContent, this );
-		this.on( 'toolbar:render:image-details', this.renderImageDetailsToolbar, this );
-		// Override the select toolbar.
-		this.on( 'toolbar:render:replace', this.renderReplaceImageToolbar, this );
-	},
+		bindHandlers: function () {
+			Select.prototype.bindHandlers.apply( this, arguments );
+			this.on( 'menu:create:image-details', this.createMenu, this );
+			this.on(
+				'content:create:image-details',
+				this.imageDetailsContent,
+				this
+			);
+			this.on( 'content:render:edit-image', this.editImageContent, this );
+			this.on(
+				'toolbar:render:image-details',
+				this.renderImageDetailsToolbar,
+				this
+			);
+			// Override the select toolbar.
+			this.on(
+				'toolbar:render:replace',
+				this.renderReplaceImageToolbar,
+				this
+			);
+		},
 
-	createStates: function() {
-		this.states.add([
-			new wp.media.controller.ImageDetails({
-				image: this.image,
-				editable: false
-			}),
-			new wp.media.controller.ReplaceImage({
-				id: 'replace-image',
-				library: wp.media.query( { type: 'image' } ),
-				image: this.image,
-				multiple:  false,
-				title:     l10n.imageReplaceTitle,
-				toolbar: 'replace',
-				priority:  80,
-				displaySettings: true
-			}),
-			new wp.media.controller.EditImage( {
-				image: this.image,
-				selection: this.options.selection
-			} )
-		]);
-	},
-
-	imageDetailsContent: function( options ) {
-		options.view = new wp.media.view.ImageDetails({
-			controller: this,
-			model: this.state().image,
-			attachment: this.state().image.attachment
-		});
-	},
-
-	editImageContent: function() {
-		var state = this.state(),
-			model = state.get('image'),
-			view;
-
-		if ( ! model ) {
-			return;
-		}
-
-		view = new wp.media.view.EditImage( { model: model, controller: this } ).render();
-
-		this.content.set( view );
-
-		// After bringing in the frame, load the actual editor via an Ajax call.
-		view.loadEditor();
-
-	},
-
-	renderImageDetailsToolbar: function() {
-		this.toolbar.set( new wp.media.view.Toolbar({
-			controller: this,
-			items: {
-				select: {
-					style:    'primary',
-					text:     l10n.update,
+		createStates: function () {
+			this.states.add( [
+				new wp.media.controller.ImageDetails( {
+					image: this.image,
+					editable: false,
+				} ),
+				new wp.media.controller.ReplaceImage( {
+					id: 'replace-image',
+					library: wp.media.query( { type: 'image' } ),
+					image: this.image,
+					multiple: false,
+					title: l10n.imageReplaceTitle,
+					toolbar: 'replace',
 					priority: 80,
+					displaySettings: true,
+				} ),
+				new wp.media.controller.EditImage( {
+					image: this.image,
+					selection: this.options.selection,
+				} ),
+			] );
+		},
 
-					click: function() {
-						var controller = this.controller,
-							state = controller.state();
+		imageDetailsContent: function ( options ) {
+			options.view = new wp.media.view.ImageDetails( {
+				controller: this,
+				model: this.state().image,
+				attachment: this.state().image.attachment,
+			} );
+		},
 
-						controller.close();
+		editImageContent: function () {
+			var state = this.state(),
+				model = state.get( 'image' ),
+				view;
 
-						// Not sure if we want to use wp.media.string.image which will create a shortcode or
-						// perhaps wp.html.string to at least to build the <img />.
-						state.trigger( 'update', controller.image.toJSON() );
-
-						// Restore and reset the default state.
-						controller.setState( controller.options.state );
-						controller.reset();
-					}
-				}
+			if ( ! model ) {
+				return;
 			}
-		}) );
-	},
 
-	renderReplaceImageToolbar: function() {
-		var frame = this,
-			lastState = frame.lastState(),
-			previous = lastState && lastState.id;
+			view = new wp.media.view.EditImage( {
+				model: model,
+				controller: this,
+			} ).render();
 
-		this.toolbar.set( new wp.media.view.Toolbar({
-			controller: this,
-			items: {
-				back: {
-					text:     l10n.back,
-					priority: 80,
-					click:    function() {
-						if ( previous ) {
-							frame.setState( previous );
-						} else {
-							frame.close();
-						}
-					}
-				},
+			this.content.set( view );
 
-				replace: {
-					style:    'primary',
-					text:     l10n.replace,
-					priority: 20,
-					requires: { selection: true },
+			// After bringing in the frame, load the actual editor via an Ajax call.
+			view.loadEditor();
+		},
 
-					click: function() {
-						var controller = this.controller,
-							state = controller.state(),
-							selection = state.get( 'selection' ),
-							attachment = selection.single();
+		renderImageDetailsToolbar: function () {
+			this.toolbar.set(
+				new wp.media.view.Toolbar( {
+					controller: this,
+					items: {
+						select: {
+							style: 'primary',
+							text: l10n.update,
+							priority: 80,
 
-						controller.close();
+							click: function () {
+								var controller = this.controller,
+									state = controller.state();
 
-						controller.image.changeAttachment( attachment, state.display( attachment ) );
+								controller.close();
 
-						// Not sure if we want to use wp.media.string.image which will create a shortcode or
-						// perhaps wp.html.string to at least to build the <img />.
-						state.trigger( 'replace', controller.image.toJSON() );
+								// Not sure if we want to use wp.media.string.image which will create a shortcode or
+								// perhaps wp.html.string to at least to build the <img />.
+								state.trigger(
+									'update',
+									controller.image.toJSON()
+								);
 
-						// Restore and reset the default state.
-						controller.setState( controller.options.state );
-						controller.reset();
-					}
-				}
-			}
-		}) );
+								// Restore and reset the default state.
+								controller.setState( controller.options.state );
+								controller.reset();
+							},
+						},
+					},
+				} )
+			);
+		},
+
+		renderReplaceImageToolbar: function () {
+			var frame = this,
+				lastState = frame.lastState(),
+				previous = lastState && lastState.id;
+
+			this.toolbar.set(
+				new wp.media.view.Toolbar( {
+					controller: this,
+					items: {
+						back: {
+							text: l10n.back,
+							priority: 80,
+							click: function () {
+								if ( previous ) {
+									frame.setState( previous );
+								} else {
+									frame.close();
+								}
+							},
+						},
+
+						replace: {
+							style: 'primary',
+							text: l10n.replace,
+							priority: 20,
+							requires: { selection: true },
+
+							click: function () {
+								var controller = this.controller,
+									state = controller.state(),
+									selection = state.get( 'selection' ),
+									attachment = selection.single();
+
+								controller.close();
+
+								controller.image.changeAttachment(
+									attachment,
+									state.display( attachment )
+								);
+
+								// Not sure if we want to use wp.media.string.image which will create a shortcode or
+								// perhaps wp.html.string to at least to build the <img />.
+								state.trigger(
+									'replace',
+									controller.image.toJSON()
+								);
+
+								// Restore and reset the default state.
+								controller.setState( controller.options.state );
+								controller.reset();
+							},
+						},
+					},
+				} )
+			);
+		},
 	}
-
-});
+);
 
 module.exports = ImageDetails;

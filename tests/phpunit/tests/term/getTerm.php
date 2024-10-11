@@ -65,20 +65,20 @@ class Tests_Term_GetTerm extends WP_UnitTestCase
             ['term_id' => $term_1['term_id']],
             ['term_taxonomy_id' => $term_2['term_taxonomy_id']],
             ['%d'],
-            ['%d']
+            ['%d'],
         );
 
         clean_term_cache($term_1['term_id']);
 
         return [
             [
-                'term_id'          => $term_1['term_id'],
-                'old_term_id'      => $term_1['term_id'],
+                'term_id' => $term_1['term_id'],
+                'old_term_id' => $term_1['term_id'],
                 'term_taxonomy_id' => $term_1['term_taxonomy_id'],
             ],
             [
-                'term_id'          => $term_1['term_id'],
-                'old_term_id'      => $term_2['term_id'],
+                'term_id' => $term_1['term_id'],
+                'old_term_id' => $term_2['term_id'],
                 'term_taxonomy_id' => $term_2['term_taxonomy_id'],
             ],
         ];
@@ -126,7 +126,7 @@ class Tests_Term_GetTerm extends WP_UnitTestCase
         clean_term_cache($term_id, 'wptests_tax');
 
         // Prime cache.
-        $term_a      = get_term($term_id, 'wptests_tax');
+        $term_a = get_term($term_id, 'wptests_tax');
         $num_queries = get_num_queries();
 
         // Second call shouldn't require a database query.
@@ -144,7 +144,7 @@ class Tests_Term_GetTerm extends WP_UnitTestCase
     public function test_output_array_a()
     {
         $term_id = self::$term->term_id;
-        $term    = get_term($term_id, 'wptests_tax', ARRAY_A);
+        $term = get_term($term_id, 'wptests_tax', ARRAY_A);
         $this->assertIsArray($term);
         $this->assertArrayHasKey('term_id', $term);
     }
@@ -152,7 +152,7 @@ class Tests_Term_GetTerm extends WP_UnitTestCase
     public function test_output_array_n()
     {
         $term_id = self::$term->term_id;
-        $term    = get_term($term_id, 'wptests_tax', ARRAY_N);
+        $term = get_term($term_id, 'wptests_tax', ARRAY_N);
         $this->assertIsArray($term);
         $this->assertArrayNotHasKey('term_id', $term);
         foreach ($term as $k => $v) {
@@ -177,7 +177,8 @@ class Tests_Term_GetTerm extends WP_UnitTestCase
         $term_id = self::$term->term_id;
 
         // Get raw data from the database.
-        $term_data = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->terms t JOIN $wpdb->term_taxonomy tt ON ( t.term_id = tt.term_id ) WHERE t.term_id = %d", $term_id));
+        $term_data = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->terms t JOIN $wpdb->term_taxonomy tt ON ( t.term_id = tt.term_id ) WHERE t.term_id = %d",
+            $term_id));
 
         $contexts = ['raw', 'edit', 'db', 'display', 'rss', 'attribute', 'js'];
 

@@ -19,10 +19,10 @@ define('DIR_TESTROOT', realpath(__DIR__));
 const TEST_WP = true;
 define('WP_DEBUG', array_key_exists('d', $opts));
 
-if (! empty($opts['r'])) {
+if (!empty($opts['r'])) {
     define('DIR_WP', realpath($opts['r']));
-} elseif (! empty($opts['v'])) {
-        define('DIR_WP', DIR_TESTROOT . '/wordpress-' . $opts['v']);
+} elseif (!empty($opts['v'])) {
+    define('DIR_WP', DIR_TESTROOT . '/wordpress-' . $opts['v']);
 } else {
     define('DIR_WP', DIR_TESTROOT . '/wordpress');
 }
@@ -60,25 +60,25 @@ const PHPUnit_MAIN_METHOD = false;
 $original_wpdb = $GLOBALS['wpdb'];
 
 // Hide warnings during testing, since that's the normal WP behavior.
-if (! WP_DEBUG) {
+if (!WP_DEBUG) {
     error_reporting(E_ALL ^ E_NOTICE);
 }
 
-$to        = 'To <wp.mail.testing@gmail.com>';
-$from      = 'From <wp.mail.testing+from@gmail.com>';
-$cc        = 'CC <wp.mail.testing+cc@gmail.com>';
-$bcc       = 'BCC <wp.mail.testing+bcc@gmail.com>';
-$subject   = 'RFC2822 Testing';
-$message   = 'My RFC822 Test Message';
+$to = 'To <wp.mail.testing@gmail.com>';
+$from = 'From <wp.mail.testing+from@gmail.com>';
+$cc = 'CC <wp.mail.testing+cc@gmail.com>';
+$bcc = 'BCC <wp.mail.testing+bcc@gmail.com>';
+$subject = 'RFC2822 Testing';
+$message = 'My RFC822 Test Message';
 $headers[] = "From: {$from}";
 $headers[] = "CC: {$cc}";
 
 wp_mail($to, $subject, $message, $headers);
 
-$headers   = [];
-$subject   = 'RFC2822 Testing 2';
-$message   = 'My RFC822 Test Message 2';
-$to        = 'To <wp.mail.testing+to@gmail.com>';
+$headers = [];
+$subject = 'RFC2822 Testing 2';
+$message = 'My RFC822 Test Message 2';
+$to = 'To <wp.mail.testing+to@gmail.com>';
 $headers[] = "BCC: {$bcc}";
 wp_mail('', $subject, $message, $headers);
 echo "Test emails sent!\n";

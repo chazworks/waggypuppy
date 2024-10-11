@@ -23,19 +23,18 @@ class Tests_Comment_wpCommentsPersonalDataEraser extends WP_UnitTestCase
      */
     public function test_wp_comments_personal_data_eraser()
     {
-
         $user_id = self::factory()->user->create();
 
-        $args       = [
-            'user_id'              => $user_id,
-            'comment_post_ID'      => self::$post_id,
-            'comment_author'       => 'Comment Author',
+        $args = [
+            'user_id' => $user_id,
+            'comment_post_ID' => self::$post_id,
+            'comment_author' => 'Comment Author',
             'comment_author_email' => 'personal@local.host',
-            'comment_author_url'   => 'https://local.host/',
-            'comment_author_IP'    => '192.168.0.1',
-            'comment_date'         => '2018-04-14 17:20:00',
-            'comment_agent'        => 'COMMENT_AGENT',
-            'comment_content'      => 'Comment Content',
+            'comment_author_url' => 'https://local.host/',
+            'comment_author_IP' => '192.168.0.1',
+            'comment_date' => '2018-04-14 17:20:00',
+            'comment_agent' => 'COMMENT_AGENT',
+            'comment_content' => 'Comment Content',
         ];
         $comment_id = self::factory()->comment->create($args);
 
@@ -44,29 +43,29 @@ class Tests_Comment_wpCommentsPersonalDataEraser extends WP_UnitTestCase
         $comment = get_comment($comment_id);
 
         $actual = [
-            'comment_ID'           => $comment->comment_ID,
-            'user_id'              => $comment->user_id,
-            'comment_author'       => $comment->comment_author,
+            'comment_ID' => $comment->comment_ID,
+            'user_id' => $comment->user_id,
+            'comment_author' => $comment->comment_author,
             'comment_author_email' => $comment->comment_author_email,
-            'comment_author_url'   => $comment->comment_author_url,
-            'comment_author_IP'    => $comment->comment_author_IP,
-            'comment_date'         => $comment->comment_date,
-            'comment_date_gmt'     => $comment->comment_date_gmt,
-            'comment_agent'        => $comment->comment_agent,
-            'comment_content'      => $comment->comment_content,
+            'comment_author_url' => $comment->comment_author_url,
+            'comment_author_IP' => $comment->comment_author_IP,
+            'comment_date' => $comment->comment_date,
+            'comment_date_gmt' => $comment->comment_date_gmt,
+            'comment_agent' => $comment->comment_agent,
+            'comment_content' => $comment->comment_content,
         ];
 
         $expected = [
-            'comment_ID'           => (string) $comment_id,
-            'user_id'              => '0', // Anonymized.
-            'comment_author'       => 'Anonymous', // Anonymized.
+            'comment_ID' => (string)$comment_id,
+            'user_id' => '0', // Anonymized.
+            'comment_author' => 'Anonymous', // Anonymized.
             'comment_author_email' => '', // Anonymized.
-            'comment_author_url'   => '', // Anonymized.
-            'comment_author_IP'    => '192.168.0.0', // Anonymized.
-            'comment_date'         => '2018-04-14 17:20:00',
-            'comment_date_gmt'     => '2018-04-14 17:20:00',
-            'comment_agent'        => '', // Anonymized.
-            'comment_content'      => 'Comment Content',
+            'comment_author_url' => '', // Anonymized.
+            'comment_author_IP' => '192.168.0.0', // Anonymized.
+            'comment_date' => '2018-04-14 17:20:00',
+            'comment_date_gmt' => '2018-04-14 17:20:00',
+            'comment_agent' => '', // Anonymized.
+            'comment_content' => 'Comment Content',
         ];
 
         $this->assertSame($expected, $actual);
@@ -79,13 +78,12 @@ class Tests_Comment_wpCommentsPersonalDataEraser extends WP_UnitTestCase
      */
     public function test_wp_comments_personal_data_eraser_empty_first_page_output()
     {
-
-        $actual   = wp_comments_personal_data_eraser('nocommentsfound@local.host');
+        $actual = wp_comments_personal_data_eraser('nocommentsfound@local.host');
         $expected = [
-            'items_removed'  => false,
+            'items_removed' => false,
             'items_retained' => false,
-            'messages'       => [],
-            'done'           => true,
+            'messages' => [],
+            'done' => true,
         ];
 
         $this->assertSame($expected, $actual);
@@ -98,25 +96,24 @@ class Tests_Comment_wpCommentsPersonalDataEraser extends WP_UnitTestCase
      */
     public function test_wp_comments_personal_data_eraser_non_empty_first_page_output()
     {
-
         $args = [
-            'comment_post_ID'      => self::$post_id,
-            'comment_author'       => 'Comment Author',
+            'comment_post_ID' => self::$post_id,
+            'comment_author' => 'Comment Author',
             'comment_author_email' => 'personal@local.host',
-            'comment_author_url'   => 'https://local.host/',
-            'comment_author_IP'    => '192.168.0.1',
-            'comment_date'         => '2018-04-14 17:20:00',
-            'comment_agent'        => 'COMMENT_AGENT',
-            'comment_content'      => 'Comment Content',
+            'comment_author_url' => 'https://local.host/',
+            'comment_author_IP' => '192.168.0.1',
+            'comment_date' => '2018-04-14 17:20:00',
+            'comment_agent' => 'COMMENT_AGENT',
+            'comment_content' => 'Comment Content',
         ];
         self::factory()->comment->create($args);
 
-        $actual   = wp_comments_personal_data_eraser($args['comment_author_email']);
+        $actual = wp_comments_personal_data_eraser($args['comment_author_email']);
         $expected = [
-            'items_removed'  => true,
+            'items_removed' => true,
             'items_retained' => false,
-            'messages'       => [],
-            'done'           => true,
+            'messages' => [],
+            'done' => true,
         ];
 
         $this->assertSame($expected, $actual);
@@ -129,25 +126,24 @@ class Tests_Comment_wpCommentsPersonalDataEraser extends WP_UnitTestCase
      */
     public function test_wp_comments_personal_data_eraser_empty_second_page_output()
     {
-
         $args = [
-            'comment_post_ID'      => self::$post_id,
-            'comment_author'       => 'Comment Author',
+            'comment_post_ID' => self::$post_id,
+            'comment_author' => 'Comment Author',
             'comment_author_email' => 'personal@local.host',
-            'comment_author_url'   => 'https://local.host/',
-            'comment_author_IP'    => '192.168.0.1',
-            'comment_date'         => '2018-04-14 17:20:00',
-            'comment_agent'        => 'COMMENT_AGENT',
-            'comment_content'      => 'Comment Content',
+            'comment_author_url' => 'https://local.host/',
+            'comment_author_IP' => '192.168.0.1',
+            'comment_date' => '2018-04-14 17:20:00',
+            'comment_agent' => 'COMMENT_AGENT',
+            'comment_content' => 'Comment Content',
         ];
         self::factory()->comment->create($args);
 
-        $actual   = wp_comments_personal_data_eraser($args['comment_author_email'], 2);
+        $actual = wp_comments_personal_data_eraser($args['comment_author_email'], 2);
         $expected = [
-            'items_removed'  => false,
+            'items_removed' => false,
             'items_retained' => false,
-            'messages'       => [],
-            'done'           => true,
+            'messages' => [],
+            'done' => true,
         ];
 
         $this->assertSame($expected, $actual);
@@ -160,16 +156,15 @@ class Tests_Comment_wpCommentsPersonalDataEraser extends WP_UnitTestCase
      */
     public function test_wp_anonymize_comment_filter_to_prevent_comment_anonymization()
     {
-
-        $args       = [
-            'comment_post_ID'      => self::$post_id,
-            'comment_author'       => 'Comment Author',
+        $args = [
+            'comment_post_ID' => self::$post_id,
+            'comment_author' => 'Comment Author',
             'comment_author_email' => 'personal@local.host',
-            'comment_author_url'   => 'https://local.host/',
-            'comment_author_IP'    => '192.168.0.1',
-            'comment_date'         => '2018-04-14 17:20:00',
-            'comment_agent'        => 'COMMENT_AGENT',
-            'comment_content'      => 'Comment Content',
+            'comment_author_url' => 'https://local.host/',
+            'comment_author_IP' => '192.168.0.1',
+            'comment_date' => '2018-04-14 17:20:00',
+            'comment_agent' => 'COMMENT_AGENT',
+            'comment_content' => 'Comment Content',
         ];
         $comment_id = self::factory()->comment->create($args);
 
@@ -180,10 +175,10 @@ class Tests_Comment_wpCommentsPersonalDataEraser extends WP_UnitTestCase
         $message = sprintf('Comment %d contains personal data but could not be anonymized.', $comment_id);
 
         $expected = [
-            'items_removed'  => false,
+            'items_removed' => false,
             'items_retained' => true,
-            'messages'       => [$message],
-            'done'           => true,
+            'messages' => [$message],
+            'done' => true,
         ];
 
         $this->assertSame($expected, $actual);
@@ -196,16 +191,15 @@ class Tests_Comment_wpCommentsPersonalDataEraser extends WP_UnitTestCase
      */
     public function test_wp_anonymize_comment_filter_to_prevent_comment_anonymization_with_custom_message()
     {
-
-        $args       = [
-            'comment_post_ID'      => self::$post_id,
-            'comment_author'       => 'Comment Author',
+        $args = [
+            'comment_post_ID' => self::$post_id,
+            'comment_author' => 'Comment Author',
             'comment_author_email' => 'personal@local.host',
-            'comment_author_url'   => 'https://local.host/',
-            'comment_author_IP'    => '192.168.0.1',
-            'comment_date'         => '2018-04-14 17:20:00',
-            'comment_agent'        => 'COMMENT_AGENT',
-            'comment_content'      => 'Comment Content',
+            'comment_author_url' => 'https://local.host/',
+            'comment_author_IP' => '192.168.0.1',
+            'comment_date' => '2018-04-14 17:20:00',
+            'comment_agent' => 'COMMENT_AGENT',
+            'comment_content' => 'Comment Content',
         ];
         $comment_id = self::factory()->comment->create($args);
 
@@ -216,10 +210,10 @@ class Tests_Comment_wpCommentsPersonalDataEraser extends WP_UnitTestCase
         $message = sprintf('Some custom message for comment %d.', $comment_id);
 
         $expected = [
-            'items_removed'  => false,
+            'items_removed' => false,
             'items_retained' => true,
-            'messages'       => [$message],
-            'done'           => true,
+            'messages' => [$message],
+            'done' => true,
         ];
 
         $this->assertSame($expected, $actual);
@@ -228,10 +222,10 @@ class Tests_Comment_wpCommentsPersonalDataEraser extends WP_UnitTestCase
     /**
      * Callback for the `wp_anonymize_comment` filter.
      *
-     * @param  bool|string $anonymize          Whether to apply the comment anonymization (bool).
+     * @param bool|string $anonymize Whether to apply the comment anonymization (bool).
      *                                         Custom prevention message (string). Default true.
-     * @param  WP_Comment  $comment            WP_Comment object.
-     * @param  array       $anonymized_comment Anonymized comment data.
+     * @param WP_Comment $comment WP_Comment object.
+     * @param array $anonymized_comment Anonymized comment data.
      * @return string
      */
     public function wp_anonymize_comment_custom_message($anonymize, $comment, $anonymized_comment)
@@ -246,16 +240,15 @@ class Tests_Comment_wpCommentsPersonalDataEraser extends WP_UnitTestCase
      */
     public function test_wp_comments_personal_data_eraser_orders_comments_by_id()
     {
-
         $args = [
-            'comment_post_ID'      => self::$post_id,
-            'comment_author'       => 'Comment Author',
+            'comment_post_ID' => self::$post_id,
+            'comment_author' => 'Comment Author',
             'comment_author_email' => 'personal@local.host',
-            'comment_author_url'   => 'https://local.host/',
-            'comment_author_IP'    => '192.168.0.1',
-            'comment_date'         => '2018-04-14 17:20:00',
-            'comment_agent'        => 'COMMENT_AGENT',
-            'comment_content'      => 'Comment Content',
+            'comment_author_url' => 'https://local.host/',
+            'comment_author_IP' => '192.168.0.1',
+            'comment_date' => '2018-04-14 17:20:00',
+            'comment_agent' => 'COMMENT_AGENT',
+            'comment_content' => 'Comment Content',
         ];
         self::factory()->comment->create($args);
 

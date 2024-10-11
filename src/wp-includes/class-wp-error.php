@@ -53,11 +53,11 @@ class WP_Error
      * Though the class is constructed with a single error code and
      * message, multiple codes can be added using the `add()` method.
      *
+     * @param string|int $code Error code.
+     * @param string $message Error message.
+     * @param mixed $data Optional. Error data. Default empty string.
      * @since 2.1.0
      *
-     * @param string|int $code    Error code.
-     * @param string     $message Error message.
-     * @param mixed      $data    Optional. Error data. Default empty string.
      */
     public function __construct($code = '', $message = '', $data = '')
     {
@@ -71,13 +71,13 @@ class WP_Error
     /**
      * Retrieves all error codes.
      *
+     * @return array List of error codes, if available.
      * @since 2.1.0
      *
-     * @return array List of error codes, if available.
      */
     public function get_error_codes()
     {
-        if (! $this->has_errors()) {
+        if (!$this->has_errors()) {
             return [];
         }
 
@@ -87,9 +87,9 @@ class WP_Error
     /**
      * Retrieves the first error code available.
      *
+     * @return string|int Empty string, if no error codes.
      * @since 2.1.0
      *
-     * @return string|int Empty string, if no error codes.
      */
     public function get_error_code()
     {
@@ -105,18 +105,18 @@ class WP_Error
     /**
      * Retrieves all error messages, or the error messages for the given error code.
      *
-     * @since 2.1.0
-     *
      * @param string|int $code Optional. Error code to retrieve the messages for.
      *                         Default empty string.
      * @return string[] Error strings on success, or empty array if there are none.
+     * @since 2.1.0
+     *
      */
     public function get_error_messages($code = '')
     {
         // Return all messages if no code specified.
         if (empty($code)) {
             $all_messages = [];
-            foreach ((array) $this->errors as $code => $messages) {
+            foreach ((array)$this->errors as $code => $messages) {
                 $all_messages = array_merge($all_messages, $messages);
             }
 
@@ -136,11 +136,11 @@ class WP_Error
      * This will get the first message available for the code. If no code is
      * given then the first code available will be used.
      *
-     * @since 2.1.0
-     *
      * @param string|int $code Optional. Error code to retrieve the message for.
      *                         Default empty string.
      * @return string The error message.
+     * @since 2.1.0
+     *
      */
     public function get_error_message($code = '')
     {
@@ -157,10 +157,10 @@ class WP_Error
     /**
      * Retrieves the most recently added error data for an error code.
      *
-     * @since 2.1.0
-     *
      * @param string|int $code Optional. Error code. Default empty string.
      * @return mixed Error data, if it exists.
+     * @since 2.1.0
+     *
      */
     public function get_error_data($code = '')
     {
@@ -176,13 +176,13 @@ class WP_Error
     /**
      * Verifies if the instance contains errors.
      *
+     * @return bool If the instance contains errors.
      * @since 5.1.0
      *
-     * @return bool If the instance contains errors.
      */
     public function has_errors()
     {
-        if (! empty($this->errors)) {
+        if (!empty($this->errors)) {
             return true;
         }
         return false;
@@ -191,29 +191,29 @@ class WP_Error
     /**
      * Adds an error or appends an additional message to an existing error.
      *
+     * @param string|int $code Error code.
+     * @param string $message Error message.
+     * @param mixed $data Optional. Error data. Default empty string.
      * @since 2.1.0
      *
-     * @param string|int $code    Error code.
-     * @param string     $message Error message.
-     * @param mixed      $data    Optional. Error data. Default empty string.
      */
     public function add($code, $message, $data = '')
     {
         $this->errors[$code][] = $message;
 
-        if (! empty($data)) {
+        if (!empty($data)) {
             $this->add_data($data, $code);
         }
 
         /**
          * Fires when an error is added to a WP_Error object.
          *
+         * @param string|int $code Error code.
+         * @param string $message Error message.
+         * @param mixed $data Error data. Might be empty.
+         * @param WP_Error $wp_error The WP_Error object.
          * @since 5.6.0
          *
-         * @param string|int $code     Error code.
-         * @param string     $message  Error message.
-         * @param mixed      $data     Error data. Might be empty.
-         * @param WP_Error   $wp_error The WP_Error object.
          */
         do_action('wp_error_added', $code, $message, $data, $this);
     }
@@ -221,11 +221,11 @@ class WP_Error
     /**
      * Adds data to an error with the given code.
      *
+     * @param mixed $data Error data.
+     * @param string|int $code Error code.
      * @since 2.1.0
      * @since 5.6.0 Errors can now contain more than one item of error data. {@see WP_Error::$additional_data}.
      *
-     * @param mixed      $data Error data.
-     * @param string|int $code Error code.
      */
     public function add_data($data, $code = '')
     {
@@ -243,10 +243,10 @@ class WP_Error
     /**
      * Retrieves all error data for an error code in the order in which the data was added.
      *
-     * @since 5.6.0
-     *
      * @param string|int $code Error code.
      * @return mixed[] Array of error data, if it exists.
+     * @since 5.6.0
+     *
      */
     public function get_all_error_data($code = '')
     {
@@ -273,9 +273,9 @@ class WP_Error
      * This function removes all error messages associated with the specified
      * error code, along with any error data for that code.
      *
+     * @param string|int $code Error code.
      * @since 4.1.0
      *
-     * @param string|int $code Error code.
      */
     public function remove($code)
     {
@@ -287,9 +287,9 @@ class WP_Error
     /**
      * Merges the errors in the given error object into this one.
      *
+     * @param WP_Error $error Error object to merge.
      * @since 5.6.0
      *
-     * @param WP_Error $error Error object to merge.
      */
     public function merge_from(WP_Error $error)
     {
@@ -299,9 +299,9 @@ class WP_Error
     /**
      * Exports the errors in this object into the given one.
      *
+     * @param WP_Error $error Error object to export into.
      * @since 5.6.0
      *
-     * @param WP_Error $error Error object to export into.
      */
     public function export_to(WP_Error $error)
     {
@@ -311,10 +311,10 @@ class WP_Error
     /**
      * Copies errors from one WP_Error instance to another.
      *
+     * @param WP_Error $from The WP_Error to copy from.
+     * @param WP_Error $to The WP_Error to copy to.
      * @since 5.6.0
      *
-     * @param WP_Error $from The WP_Error to copy from.
-     * @param WP_Error $to   The WP_Error to copy to.
      */
     protected static function copy_errors(WP_Error $from, WP_Error $to)
     {

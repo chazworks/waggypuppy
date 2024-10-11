@@ -12,7 +12,7 @@ class Tests_Query_GeneratePostdata extends WP_UnitTestCase
      */
     public function test_setup_by_id()
     {
-        $p    = self::factory()->post->create_and_get();
+        $p = self::factory()->post->create_and_get();
         $data = generate_postdata($p->ID);
         $this->assertSame($p->ID, $data['id']);
     }
@@ -22,9 +22,9 @@ class Tests_Query_GeneratePostdata extends WP_UnitTestCase
      */
     public function test_setup_by_fake_post()
     {
-        $fake     = new stdClass();
+        $fake = new stdClass();
         $fake->ID = 98765;
-        $data     = generate_postdata($fake->ID);
+        $data = generate_postdata($fake->ID);
 
         // Fails because there's no post with this ID.
         $this->assertFalse($data);
@@ -37,9 +37,9 @@ class Tests_Query_GeneratePostdata extends WP_UnitTestCase
     {
         $p = self::factory()->post->create();
 
-        $post     = new stdClass();
+        $post = new stdClass();
         $post->ID = $p;
-        $data     = generate_postdata($p);
+        $data = generate_postdata($p);
 
         $this->assertSame($p, $data['id']);
     }
@@ -49,11 +49,11 @@ class Tests_Query_GeneratePostdata extends WP_UnitTestCase
      */
     public function test_authordata()
     {
-        $u    = self::factory()->user->create_and_get();
-        $p    = self::factory()->post->create_and_get(
+        $u = self::factory()->user->create_and_get();
+        $p = self::factory()->post->create_and_get(
             [
                 'post_author' => $u->ID,
-            ]
+            ],
         );
         $data = generate_postdata($p);
 
@@ -66,10 +66,10 @@ class Tests_Query_GeneratePostdata extends WP_UnitTestCase
      */
     public function test_currentday()
     {
-        $p    = self::factory()->post->create_and_get(
+        $p = self::factory()->post->create_and_get(
             [
                 'post_date' => '1980-09-09 06:30:00',
-            ]
+            ],
         );
         $data = generate_postdata($p);
 
@@ -78,10 +78,10 @@ class Tests_Query_GeneratePostdata extends WP_UnitTestCase
 
     public function test_currentmonth()
     {
-        $p    = self::factory()->post->create_and_get(
+        $p = self::factory()->post->create_and_get(
             [
                 'post_date' => '1980-09-09 06:30:00',
-            ]
+            ],
         );
         $data = generate_postdata($p);
 
@@ -96,7 +96,7 @@ class Tests_Query_GeneratePostdata extends WP_UnitTestCase
         $post = self::factory()->post->create_and_get(
             [
                 'post_content' => 'Page 0',
-            ]
+            ],
         );
         $data = generate_postdata($post);
 
@@ -113,7 +113,7 @@ class Tests_Query_GeneratePostdata extends WP_UnitTestCase
         $post = self::factory()->post->create_and_get(
             [
                 'post_content' => 'Page 0<!--nextpage-->Page 1<!--nextpage-->Page 2<!--nextpage-->Page 3',
-            ]
+            ],
         );
         $data = generate_postdata($post);
 
@@ -130,7 +130,7 @@ class Tests_Query_GeneratePostdata extends WP_UnitTestCase
         $post = self::factory()->post->create_and_get(
             [
                 'post_content' => '<!--nextpage-->Page 1<!--nextpage-->Page 2<!--nextpage-->Page 3',
-            ]
+            ],
         );
         $data = generate_postdata($post);
 
@@ -147,7 +147,7 @@ class Tests_Query_GeneratePostdata extends WP_UnitTestCase
         $post = self::factory()->post->create_and_get(
             [
                 'post_content' => "Page 0\n<!--nextpage-->\nPage 1\nhas a line break\n<!--nextpage-->Page 2<!--nextpage-->\n\nPage 3",
-            ]
+            ],
         );
         $data = generate_postdata($post);
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tests for WP_Block_Type_Registry.
  *
@@ -102,7 +103,7 @@ class Tests_Blocks_wpBlockTypeRegistry extends WP_UnitTestCase
      */
     public function test_register_block_type()
     {
-        $name     = 'core/paragraph';
+        $name = 'core/paragraph';
         $settings = [
             'icon' => 'editor-paragraph',
         ];
@@ -122,7 +123,7 @@ class Tests_Blocks_wpBlockTypeRegistry extends WP_UnitTestCase
      */
     public function test_register_block_type_twice()
     {
-        $name     = 'core/paragraph';
+        $name = 'core/paragraph';
         $settings = [
             'icon' => 'editor-paragraph',
         ];
@@ -166,7 +167,7 @@ class Tests_Blocks_wpBlockTypeRegistry extends WP_UnitTestCase
      */
     public function test_unregister_block_type()
     {
-        $name     = 'core/paragraph';
+        $name = 'core/paragraph';
         $settings = [
             'icon' => 'editor-paragraph',
         ];
@@ -183,7 +184,7 @@ class Tests_Blocks_wpBlockTypeRegistry extends WP_UnitTestCase
      */
     public function test_get_all_registered()
     {
-        $names    = ['core/paragraph', 'core/image', 'core/blockquote'];
+        $names = ['core/paragraph', 'core/image', 'core/blockquote'];
         $settings = [
             'icon' => 'random',
         ];

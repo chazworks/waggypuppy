@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering WP_REST_Blocks_Controller functionality.
  *
@@ -35,24 +36,24 @@ class REST_Blocks_Controller_Test extends WP_UnitTestCase
     /**
      * Create fake data before our tests run.
      *
+     * @param WP_UnitTest_Factory $factory Helper that lets us create fake data.
      * @since 5.0.0
      *
-     * @param WP_UnitTest_Factory $factory Helper that lets us create fake data.
      */
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$post_id = wp_insert_post(
             [
-                'post_type'    => 'wp_block',
-                'post_status'  => 'publish',
-                'post_title'   => 'My cool block',
+                'post_type' => 'wp_block',
+                'post_status' => 'publish',
+                'post_title' => 'My cool block',
                 'post_content' => '<!-- wp:paragraph --><p>Hello!</p><!-- /wp:paragraph -->',
-            ]
+            ],
         );
 
         self::$user_ids = [
-            'editor'      => $factory->user->create(['role' => 'editor']),
-            'author'      => $factory->user->create(['role' => 'author']),
+            'editor' => $factory->user->create(['role' => 'editor']),
+            'author' => $factory->user->create(['role' => 'author']),
             'contributor' => $factory->user->create(['role' => 'contributor']),
         ];
     }
@@ -108,9 +109,9 @@ class REST_Blocks_Controller_Test extends WP_UnitTestCase
      *
      * @dataProvider data_capabilities
      *
-     * @param string $action          Action to perform in the test.
-     * @param string $role            User role to test.
-     * @param int    $expected_status Expected HTTP response status.
+     * @param string $action Action to perform in the test.
+     * @param string $role User role to test.
+     * @param int $expected_status Expected HTTP response status.
      */
     public function test_capabilities($action, $role, $expected_status)
     {
@@ -126,9 +127,9 @@ class REST_Blocks_Controller_Test extends WP_UnitTestCase
                 $request = new WP_REST_Request('POST', '/wp/v2/blocks');
                 $request->set_body_params(
                     [
-                        'title'   => 'Test',
+                        'title' => 'Test',
                         'content' => '<!-- wp:paragraph --><p>Test</p><!-- /wp:paragraph -->',
-                    ]
+                    ],
                 );
 
                 $response = rest_get_server()->dispatch($request);
@@ -147,20 +148,20 @@ class REST_Blocks_Controller_Test extends WP_UnitTestCase
             case 'update_delete_own':
                 $post_id = wp_insert_post(
                     [
-                        'post_type'    => 'wp_block',
-                        'post_status'  => 'publish',
-                        'post_title'   => 'My cool block',
+                        'post_type' => 'wp_block',
+                        'post_status' => 'publish',
+                        'post_title' => 'My cool block',
                         'post_content' => '<!-- wp:paragraph --><p>Hello!</p><!-- /wp:paragraph -->',
-                        'post_author'  => $user_id,
-                    ]
+                        'post_author' => $user_id,
+                    ],
                 );
 
                 $request = new WP_REST_Request('PUT', '/wp/v2/blocks/' . $post_id);
                 $request->set_body_params(
                     [
-                        'title'   => 'Test',
+                        'title' => 'Test',
                         'content' => '<!-- wp:paragraph --><p>Test</p><!-- /wp:paragraph -->',
-                    ]
+                    ],
                 );
 
                 $response = rest_get_server()->dispatch($request);
@@ -179,9 +180,9 @@ class REST_Blocks_Controller_Test extends WP_UnitTestCase
                 $request = new WP_REST_Request('PUT', '/wp/v2/blocks/' . self::$post_id);
                 $request->set_body_params(
                     [
-                        'title'   => 'Test',
+                        'title' => 'Test',
                         'content' => '<!-- wp:paragraph --><p>Test</p><!-- /wp:paragraph -->',
-                    ]
+                    ],
                 );
 
                 $response = rest_get_server()->dispatch($request);
@@ -208,22 +209,22 @@ class REST_Blocks_Controller_Test extends WP_UnitTestCase
     {
         wp_set_current_user(self::$user_ids['author']);
 
-        $request  = new WP_REST_Request('GET', '/wp/v2/blocks/' . self::$post_id);
+        $request = new WP_REST_Request('GET', '/wp/v2/blocks/' . self::$post_id);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         $this->assertSame(
             [
                 'raw' => 'My cool block',
             ],
-            $data['title']
+            $data['title'],
         );
         $this->assertSame(
             [
-                'raw'       => '<!-- wp:paragraph --><p>Hello!</p><!-- /wp:paragraph -->',
+                'raw' => '<!-- wp:paragraph --><p>Hello!</p><!-- /wp:paragraph -->',
                 'protected' => false,
             ],
-            $data['content']
+            $data['content'],
         );
     }
 
@@ -239,11 +240,11 @@ class REST_Blocks_Controller_Test extends WP_UnitTestCase
             'wp_block',
             'wp_pattern_sync_status',
             [
-                'single'       => true,
-                'type'         => 'string',
+                'single' => true,
+                'type' => 'string',
                 'show_in_rest' => [
                     'schema' => [
-                        'type'       => 'string',
+                        'type' => 'string',
                         'properties' => [
                             'sync_status' => [
                                 'type' => 'string',
@@ -251,13 +252,13 @@ class REST_Blocks_Controller_Test extends WP_UnitTestCase
                         ],
                     ],
                 ],
-            ]
+            ],
         );
         wp_set_current_user(self::$user_ids['author']);
 
-        $request  = new WP_REST_Request('GET', '/wp/v2/blocks/' . self::$post_id);
+        $request = new WP_REST_Request('GET', '/wp/v2/blocks/' . self::$post_id);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         $this->assertArrayHasKey('wp_pattern_sync_status', $data);
         $this->assertArrayNotHasKey('wp_pattern_sync_status', $data['meta']);

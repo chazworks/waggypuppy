@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test cases for the `wp_privacy_delete_old_export_files()` function.
  *
@@ -47,13 +48,13 @@ class Tests_Privacy_wpPrivacyDeleteOldExportFiles extends WP_UnitTestCase
     {
         $exports_dir = wp_privacy_exports_dir();
 
-        if (! is_dir($exports_dir)) {
+        if (!is_dir($exports_dir)) {
             wp_mkdir_p($exports_dir);
         }
 
-        self::$index_path          = $exports_dir . 'index.php';
+        self::$index_path = $exports_dir . 'index.php';
         self::$expired_export_file = $exports_dir . 'wp-personal-data-file-0123456789abcdef.zip';
-        self::$active_export_file  = $exports_dir . 'wp-personal-data-file-fedcba9876543210.zip';
+        self::$active_export_file = $exports_dir . 'wp-personal-data-file-fedcba9876543210.zip';
     }
 
     /**
@@ -98,11 +99,11 @@ class Tests_Privacy_wpPrivacyDeleteOldExportFiles extends WP_UnitTestCase
     /**
      * Return the path to a non-existent folder.
      *
-     * @since 4.9.6
-     *
      * @param string $exports_dir The default personal data export directory.
      *
      * @return string The path to a folder that doesn't exist.
+     * @since 4.9.6
+     *
      */
     public function filter_bad_exports_dir($exports_dir)
     {
@@ -166,9 +167,9 @@ class Tests_Privacy_wpPrivacyDeleteOldExportFiles extends WP_UnitTestCase
     /**
      * Filters the expiration time for export files.
      *
+     * @return int New, longer expiration time.
      * @since 4.9.9
      *
-     * @return int New, longer expiration time.
      */
     public function filter_export_file_expiration_time()
     {

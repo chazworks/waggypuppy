@@ -34,9 +34,9 @@ class Tests_Formatting_ConvertSmilies extends WP_UnitTestCase
      * Data provider.
      *
      * @return array {
-     *     @type array {
-     *         @type string $input     Input content.
-     *         @type string $converted Converted output.
+     * @type array {
+     * @type string $input Input content.
+     * @type string $converted Converted output.
      *     }
      * }
      */
@@ -84,15 +84,15 @@ class Tests_Formatting_ConvertSmilies extends WP_UnitTestCase
         // Custom smilies, use_smilies: ON.
         update_option('use_smilies', 1);
 
-        if (! isset($wpsmiliestrans)) {
+        if (!isset($wpsmiliestrans)) {
             smilies_init();
         }
 
         $trans_orig = $wpsmiliestrans; // Save original translations array.
 
         $wpsmiliestrans = [
-            ':PP'      => 'icon_tongue.gif',
-            ':arrow:'  => 'icon_arrow.gif',
+            ':PP' => 'icon_tongue.gif',
+            ':arrow:' => 'icon_arrow.gif',
             ':monkey:' => 'icon_shock_the_monkey.gif',
             ':nervou:' => 'icon_nervou.gif',
         ];
@@ -113,9 +113,9 @@ class Tests_Formatting_ConvertSmilies extends WP_UnitTestCase
      * Data provider.
      *
      * @return array {
-     *     @type array {
-     *         @type string $input     Input content.
-     *         @type string $converted Converted output.
+     * @type array {
+     * @type string $input Input content.
+     * @type string $converted Converted output.
      *     }
      * }
      */
@@ -126,15 +126,27 @@ class Tests_Formatting_ConvertSmilies extends WP_UnitTestCase
         return [
             [
                 'Peter Brian Gabriel (born 13 February 1950) is a British singer, musician, and songwriter who rose to fame as the lead vocalist and flautist of the progressive rock group Genesis. :monkey:',
-                'Peter Brian Gabriel (born 13 February 1950) is a British singer, musician, and songwriter who rose to fame as the lead vocalist and flautist of the progressive rock group Genesis. <img src="' . $includes_path . 'icon_shock_the_monkey.gif" alt=":monkey:" class="wp-smiley" style="height: 1em; max-height: 1em;" />',
+                'Peter Brian Gabriel (born 13 February 1950) is a British singer, musician, and songwriter who rose to fame as the lead vocalist and flautist of the progressive rock group Genesis. <img src="'
+                . $includes_path
+                . 'icon_shock_the_monkey.gif" alt=":monkey:" class="wp-smiley" style="height: 1em; max-height: 1em;" />',
             ],
             [
                 'Star Wars Jedi Knight :arrow: Jedi Academy is a first and third-person shooter action game set in the Star Wars universe. It was developed by Raven Software and published, distributed and marketed by LucasArts in North America and by Activision in the rest of the world. :nervou:',
-                'Star Wars Jedi Knight <img src="' . $includes_path . 'icon_arrow.gif" alt=":arrow:" class="wp-smiley" style="height: 1em; max-height: 1em;" /> Jedi Academy is a first and third-person shooter action game set in the Star Wars universe. It was developed by Raven Software and published, distributed and marketed by LucasArts in North America and by Activision in the rest of the world. <img src="' . $includes_path . 'icon_nervou.gif" alt=":nervou:" class="wp-smiley" style="height: 1em; max-height: 1em;" />',
+                'Star Wars Jedi Knight <img src="'
+                . $includes_path
+                . 'icon_arrow.gif" alt=":arrow:" class="wp-smiley" style="height: 1em; max-height: 1em;" /> Jedi Academy is a first and third-person shooter action game set in the Star Wars universe. It was developed by Raven Software and published, distributed and marketed by LucasArts in North America and by Activision in the rest of the world. <img src="'
+                . $includes_path
+                . 'icon_nervou.gif" alt=":nervou:" class="wp-smiley" style="height: 1em; max-height: 1em;" />',
             ],
             [
                 ':arrow: monkey: Lorem ipsum dolor sit amet enim. Etiam ullam :PP <br />corper. Suspendisse a pellentesque dui, non felis.<a> :arrow: :arrow</a>',
-                '<img src="' . $includes_path . 'icon_arrow.gif" alt=":arrow:" class="wp-smiley" style="height: 1em; max-height: 1em;" /> monkey: Lorem ipsum dolor sit amet enim. Etiam ullam <img src="' . $includes_path . 'icon_tongue.gif" alt=":PP" class="wp-smiley" style="height: 1em; max-height: 1em;" /> <br />corper. Suspendisse a pellentesque dui, non felis.<a> <img src="' . $includes_path . 'icon_arrow.gif" alt=":arrow:" class="wp-smiley" style="height: 1em; max-height: 1em;" /> :arrow</a>',
+                '<img src="'
+                . $includes_path
+                . 'icon_arrow.gif" alt=":arrow:" class="wp-smiley" style="height: 1em; max-height: 1em;" /> monkey: Lorem ipsum dolor sit amet enim. Etiam ullam <img src="'
+                . $includes_path
+                . 'icon_tongue.gif" alt=":PP" class="wp-smiley" style="height: 1em; max-height: 1em;" /> <br />corper. Suspendisse a pellentesque dui, non felis.<a> <img src="'
+                . $includes_path
+                . 'icon_arrow.gif" alt=":arrow:" class="wp-smiley" style="height: 1em; max-height: 1em;" /> :arrow</a>',
             ],
         ];
     }
@@ -150,7 +162,13 @@ class Tests_Formatting_ConvertSmilies extends WP_UnitTestCase
     {
         $includes_path = includes_url('images/smilies/');
 
-        $input    = 'Do we ignore smilies ;-) in ' . $element . ' tags <' . $element . ' class="foo">My Content Here :?: </' . $element . '>';
+        $input = 'Do we ignore smilies ;-) in '
+            . $element
+            . ' tags <'
+            . $element
+            . ' class="foo">My Content Here :?: </'
+            . $element
+            . '>';
         $expected = "Do we ignore smilies \xf0\x9f\x98\x89 in $element tags <$element class=\"foo\">My Content Here :?: </$element>";
 
         // Standard smilies, use_smilies: ON.
@@ -167,8 +185,8 @@ class Tests_Formatting_ConvertSmilies extends WP_UnitTestCase
      * Data provider.
      *
      * @return array {
-     *     @type array {
-     *         @type string $element HTML tag name.
+     * @type array {
+     * @type string $element HTML tag name.
      *     }
      * }
      */
@@ -208,9 +226,9 @@ class Tests_Formatting_ConvertSmilies extends WP_UnitTestCase
      * Data provider.
      *
      * @return array {
-     *     @type array {
-     *         @type string $input     Input content.
-     *         @type string $converted Converted output.
+     * @type array {
+     * @type string $input Input content.
+     * @type string $converted Converted output.
      *     }
      * }
      */
@@ -260,7 +278,7 @@ class Tests_Formatting_ConvertSmilies extends WP_UnitTestCase
         // Standard smilies, use_smilies: ON.
         update_option('use_smilies', 1);
 
-        if (! isset($wpsmiliestrans)) {
+        if (!isset($wpsmiliestrans)) {
             smilies_init();
         }
 
@@ -286,9 +304,9 @@ class Tests_Formatting_ConvertSmilies extends WP_UnitTestCase
      * Data provider.
      *
      * @return array {
-     *     @type array {
-     *         @type string $input     Input content.
-     *         @type string $converted Converted output.
+     * @type array {
+     * @type string $input Input content.
+     * @type string $converted Converted output.
      *     }
      * }
      */
@@ -303,11 +321,23 @@ class Tests_Formatting_ConvertSmilies extends WP_UnitTestCase
             ],
             [
                 '8O :) additional text here :)',
-                '8O <img src="' . $includes_path . 'simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /> additional text here <img src="' . $includes_path . 'simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" />',
+                '8O <img src="'
+                . $includes_path
+                . 'simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /> additional text here <img src="'
+                . $includes_path
+                . 'simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" />',
             ],
             [
                 ':) :) :) :)',
-                '<img src="' . $includes_path . 'simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /> <img src="' . $includes_path . 'simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /> <img src="' . $includes_path . 'simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /> <img src="' . $includes_path . 'simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" />',
+                '<img src="'
+                . $includes_path
+                . 'simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /> <img src="'
+                . $includes_path
+                . 'simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /> <img src="'
+                . $includes_path
+                . 'simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /> <img src="'
+                . $includes_path
+                . 'simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" />',
             ],
         ];
     }
@@ -339,9 +369,9 @@ class Tests_Formatting_ConvertSmilies extends WP_UnitTestCase
      * Data provider.
      *
      * @return array {
-     *     @type array {
-     *         @type string $input     Input content.
-     *         @type string $converted Converted output.
+     * @type array {
+     * @type string $input Input content.
+     * @type string $converted Converted output.
      *     }
      * }
      */
@@ -392,7 +422,7 @@ class Tests_Formatting_ConvertSmilies extends WP_UnitTestCase
         smilies_init();
         remove_filter('smilies', [$this, '_filter_add_smilies']);
 
-        $txt          = 'You played with my <3';
+        $txt = 'You played with my <3';
         $expected_txt = 'You played with my \xe2\x9d\xa4';
 
         $this->assertSame($expected_txt, convert_smilies($txt));

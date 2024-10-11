@@ -11,16 +11,16 @@ class Tests_XMLRPC_wp_getPage extends WP_XMLRPC_UnitTestCase
     {
         self::$post_id = $factory->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_author' => $factory->user->create(
                     [
                         'user_login' => 'author',
-                        'user_pass'  => 'author',
-                        'role'       => 'author',
-                    ]
+                        'user_pass' => 'author',
+                        'role' => 'author',
+                    ],
                 ),
-                'post_date'   => date_format(date_create('+1 day'), 'Y-m-d H:i:s'),
-            ]
+                'post_date' => date_format(date_create('+1 day'), 'Y-m-d H:i:s'),
+            ],
         );
     }
 

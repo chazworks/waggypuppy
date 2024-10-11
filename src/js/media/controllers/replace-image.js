@@ -35,84 +35,97 @@ var Library = wp.media.controller.Library,
  * @param {boolean}                    [attributes.contentUserSetting=true] Whether the content region's mode should be set and persisted per user.
  * @param {boolean}                    [attributes.syncSelection=true]      Whether the Attachments selection should be persisted from the last state.
  */
-ReplaceImage = Library.extend(/** @lends wp.media.controller.ReplaceImage.prototype */{
-	defaults: _.defaults({
-		id:            'replace-image',
-		title:         l10n.replaceImageTitle,
-		multiple:      false,
-		filterable:    'uploaded',
-		toolbar:       'replace',
-		menu:          false,
-		priority:      60,
-		syncSelection: true
-	}, Library.prototype.defaults ),
+ReplaceImage = Library.extend(
+	/** @lends wp.media.controller.ReplaceImage.prototype */ {
+		defaults: _.defaults(
+			{
+				id: 'replace-image',
+				title: l10n.replaceImageTitle,
+				multiple: false,
+				filterable: 'uploaded',
+				toolbar: 'replace',
+				menu: false,
+				priority: 60,
+				syncSelection: true,
+			},
+			Library.prototype.defaults
+		),
 
-	/**
-	 * @since 3.9.0
-	 *
-	 * @param options
-	 */
-	initialize: function( options ) {
-		var library, comparator;
+		/**
+		 * @since 3.9.0
+		 *
+		 * @param options
+		 */
+		initialize: function ( options ) {
+			var library, comparator;
 
-		this.image = options.image;
-		// If we haven't been provided a `library`, create a `Selection`.
-		if ( ! this.get('library') ) {
-			this.set( 'library', wp.media.query({ type: 'image' }) );
-		}
-
-		Library.prototype.initialize.apply( this, arguments );
-
-		library    = this.get('library');
-		comparator = library.comparator;
-
-		// Overload the library's comparator to push items that are not in
-		// the mirrored query to the front of the aggregate collection.
-		library.comparator = function( a, b ) {
-			var aInQuery = !! this.mirroring.get( a.cid ),
-				bInQuery = !! this.mirroring.get( b.cid );
-
-			if ( ! aInQuery && bInQuery ) {
-				return -1;
-			} else if ( aInQuery && ! bInQuery ) {
-				return 1;
-			} else {
-				return comparator.apply( this, arguments );
+			this.image = options.image;
+			// If we haven't been provided a `library`, create a `Selection`.
+			if ( ! this.get( 'library' ) ) {
+				this.set( 'library', wp.media.query( { type: 'image' } ) );
 			}
-		};
 
-		// Add all items in the selection to the library, so any featured
-		// images that are not initially loaded still appear.
-		library.observe( this.get('selection') );
-	},
+			Library.prototype.initialize.apply( this, arguments );
 
-	/**
-	 * @since 3.9.0
-	 */
-	activate: function() {
-		this.frame.on( 'content:render:browse', this.updateSelection, this );
+			library = this.get( 'library' );
+			comparator = library.comparator;
 
-		Library.prototype.activate.apply( this, arguments );
-	},
+			// Overload the library's comparator to push items that are not in
+			// the mirrored query to the front of the aggregate collection.
+			library.comparator = function ( a, b ) {
+				var aInQuery = !! this.mirroring.get( a.cid ),
+					bInQuery = !! this.mirroring.get( b.cid );
 
-	/**
-	 * @since 5.9.0
-	 */
-	deactivate: function() {
-		this.frame.off( 'content:render:browse', this.updateSelection, this );
+				if ( ! aInQuery && bInQuery ) {
+					return -1;
+				} else if ( aInQuery && ! bInQuery ) {
+					return 1;
+				} else {
+					return comparator.apply( this, arguments );
+				}
+			};
 
-		Library.prototype.deactivate.apply( this, arguments );
-	},
+			// Add all items in the selection to the library, so any featured
+			// images that are not initially loaded still appear.
+			library.observe( this.get( 'selection' ) );
+		},
 
-	/**
-	 * @since 3.9.0
-	 */
-	updateSelection: function() {
-		var selection = this.get('selection'),
-			attachment = this.image.attachment;
+		/**
+		 * @since 3.9.0
+		 */
+		activate: function () {
+			this.frame.on(
+				'content:render:browse',
+				this.updateSelection,
+				this
+			);
 
-		selection.reset( attachment ? [ attachment ] : [] );
+			Library.prototype.activate.apply( this, arguments );
+		},
+
+		/**
+		 * @since 5.9.0
+		 */
+		deactivate: function () {
+			this.frame.off(
+				'content:render:browse',
+				this.updateSelection,
+				this
+			);
+
+			Library.prototype.deactivate.apply( this, arguments );
+		},
+
+		/**
+		 * @since 3.9.0
+		 */
+		updateSelection: function () {
+			var selection = this.get( 'selection' ),
+				attachment = this.image.attachment;
+
+			selection.reset( attachment ? [ attachment ] : [] );
+		},
 	}
-});
+);
 
 module.exports = ReplaceImage;

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering WP_REST_Plugins_Controller functionality.
  *
@@ -10,8 +11,8 @@
 class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
 {
 
-    const BASE        = '/wp/v2/plugins';
-    const PLUGIN      = 'test-plugin/test-plugin';
+    const BASE = '/wp/v2/plugins';
+    const PLUGIN = 'test-plugin/test-plugin';
     const PLUGIN_FILE = self::PLUGIN . '.php';
 
     /**
@@ -51,33 +52,34 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
     /**
      * Set up class test fixtures.
      *
+     * @param WP_UnitTest_Factory $factory waggypuppy unit test factory.
      * @since 5.5.0
      *
-     * @param WP_UnitTest_Factory $factory waggypuppy unit test factory.
      */
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$subscriber_id = $factory->user->create(
             [
                 'role' => 'subscriber',
-            ]
+            ],
         );
-        self::$super_admin   = $factory->user->create(
+        self::$super_admin = $factory->user->create(
             [
                 'role' => 'administrator',
-            ]
+            ],
         );
-        self::$admin         = $factory->user->create(
+        self::$admin = $factory->user->create(
             [
                 'role' => 'administrator',
-            ]
+            ],
         );
 
         if (is_multisite()) {
             grant_super_admin(self::$super_admin);
         }
 
-        self::$plugin_api_decoded_response = json_decode(file_get_contents(DIR_TESTDATA . '/plugins/link-manager.json'));
+        self::$plugin_api_decoded_response = json_decode(file_get_contents(DIR_TESTDATA
+            . '/plugins/link-manager.json'));
     }
 
     /**
@@ -131,15 +133,15 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
     public function test_context_param()
     {
         // Collection.
-        $request  = new WP_REST_Request('OPTIONS', self::BASE);
+        $request = new WP_REST_Request('OPTIONS', self::BASE);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
         $this->assertSame(['view', 'embed', 'edit'], $data['endpoints'][0]['args']['context']['enum']);
         // Single.
-        $request  = new WP_REST_Request('OPTIONS', self::BASE . '/' . self::PLUGIN);
+        $request = new WP_REST_Request('OPTIONS', self::BASE . '/' . self::PLUGIN);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
         $this->assertSame(['view', 'embed', 'edit'], $data['endpoints'][0]['args']['context']['enum']);
     }
@@ -264,7 +266,7 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
         $this->create_test_plugin();
         wp_set_current_user(self::$admin);
 
-        $request  = new WP_REST_Request('GET', self::BASE);
+        $request = new WP_REST_Request('GET', self::BASE);
         $response = rest_do_request($request);
 
         $this->assertErrorResponse('rest_cannot_view_plugins', $response->as_error(), 403);
@@ -377,7 +379,7 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
         $this->create_test_plugin();
         wp_set_current_user(self::$admin);
 
-        $request  = new WP_REST_Request('GET', self::BASE . '/' . self::PLUGIN);
+        $request = new WP_REST_Request('GET', self::BASE . '/' . self::PLUGIN);
         $response = rest_do_request($request);
 
         $this->assertErrorResponse('rest_cannot_view_plugin', $response->as_error(), 403);
@@ -435,9 +437,9 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
         $request = new WP_REST_Request('POST', self::BASE);
         $request->set_body_params(
             [
-                'slug'   => 'link-manager',
+                'slug' => 'link-manager',
                 'status' => 'active',
-            ]
+            ],
         );
 
         $response = rest_do_request($request);
@@ -459,9 +461,9 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
         $request = new WP_REST_Request('POST', self::BASE);
         $request->set_body_params(
             [
-                'slug'   => 'link-manager',
+                'slug' => 'link-manager',
                 'status' => 'active',
-            ]
+            ],
         );
 
         $response = rest_do_request($request);
@@ -481,9 +483,9 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
         $request = new WP_REST_Request('POST', self::BASE);
         $request->set_body_params(
             [
-                'slug'   => 'link-manager',
+                'slug' => 'link-manager',
                 'status' => 'network-active',
-            ]
+            ],
         );
 
         $response = rest_do_request($request);
@@ -502,9 +504,9 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
         $request = new WP_REST_Request('POST', self::BASE);
         $request->set_body_params(
             [
-                'slug'   => 'link-manager',
+                'slug' => 'link-manager',
                 'status' => 'network-active',
-            ]
+            ],
         );
 
         $response = rest_do_request($request);
@@ -586,16 +588,16 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
                  * https://api.wp.org/plugins/info/1.2/?action=plugin_information&request%5Bslug%5D=alex-says-this-block-definitely-doesnt-exist&request%5Bfields%5D%5Bsections%5D=0&request%5Bfields%5D%5Blanguage_packs%5D=1&request%5Blocale%5D=en_US&request%5Bwp_version%5D=5.9
                  */
                 return [
-                    'headers'  => [],
+                    'headers' => [],
                     'response' => [
-                        'code'    => 404,
+                        'code' => 404,
                         'message' => 'Not Found',
                     ],
-                    'body'     => '{"error":"Plugin not found."}',
-                    'cookies'  => [],
+                    'body' => '{"error":"Plugin not found."}',
+                    'cookies' => [],
                     'filename' => null,
                 ];
-            }
+            },
         );
 
         $request = new WP_REST_Request('POST', self::BASE);
@@ -614,7 +616,7 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
         $this->create_test_plugin();
         wp_set_current_user(self::$super_admin);
 
-        $request  = new WP_REST_Request('PUT', self::BASE . '/' . self::PLUGIN);
+        $request = new WP_REST_Request('PUT', self::BASE . '/' . self::PLUGIN);
         $response = rest_do_request($request);
 
         $this->assertSame(200, $response->get_status());
@@ -625,7 +627,7 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
      */
     public function test_update_item_logged_out()
     {
-        $request  = new WP_REST_Request('PUT', self::BASE . '/' . self::PLUGIN);
+        $request = new WP_REST_Request('PUT', self::BASE . '/' . self::PLUGIN);
         $response = rest_do_request($request);
 
         $this->assertSame(401, $response->get_status());
@@ -638,7 +640,7 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
     {
         wp_set_current_user(self::$subscriber_id);
 
-        $request  = new WP_REST_Request('PUT', self::BASE . '/' . self::PLUGIN);
+        $request = new WP_REST_Request('PUT', self::BASE . '/' . self::PLUGIN);
         $response = rest_do_request($request);
 
         $this->assertSame(403, $response->get_status());
@@ -653,7 +655,7 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
         $this->create_test_plugin();
         wp_set_current_user(self::$admin);
 
-        $request  = new WP_REST_Request('PUT', self::BASE . '/' . self::PLUGIN);
+        $request = new WP_REST_Request('PUT', self::BASE . '/' . self::PLUGIN);
         $response = rest_do_request($request);
 
         $this->assertErrorResponse('rest_cannot_manage_plugins', $response->as_error(), 403);
@@ -906,7 +908,7 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
         $this->create_test_plugin();
         wp_set_current_user(self::$super_admin);
 
-        $request  = new WP_REST_Request('DELETE', self::BASE . '/' . self::PLUGIN);
+        $request = new WP_REST_Request('DELETE', self::BASE . '/' . self::PLUGIN);
         $response = rest_do_request($request);
 
         $this->assertNotWPError($response->as_error());
@@ -921,7 +923,7 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
      */
     public function test_delete_item_logged_out()
     {
-        $request  = new WP_REST_Request('DELETE', self::BASE . '/' . self::PLUGIN);
+        $request = new WP_REST_Request('DELETE', self::BASE . '/' . self::PLUGIN);
         $response = rest_do_request($request);
 
         $this->assertSame(401, $response->get_status());
@@ -934,7 +936,7 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
     {
         wp_set_current_user(self::$subscriber_id);
 
-        $request  = new WP_REST_Request('DELETE', self::BASE . '/' . self::PLUGIN);
+        $request = new WP_REST_Request('DELETE', self::BASE . '/' . self::PLUGIN);
         $response = rest_do_request($request);
 
         $this->assertSame(403, $response->get_status());
@@ -948,7 +950,7 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
     {
         wp_set_current_user(self::$admin);
 
-        $request  = new WP_REST_Request('DELETE', self::BASE . '/' . self::PLUGIN);
+        $request = new WP_REST_Request('DELETE', self::BASE . '/' . self::PLUGIN);
         $response = rest_do_request($request);
 
         $this->assertErrorResponse('rest_cannot_manage_plugins', $response->as_error(), 403);
@@ -963,7 +965,7 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
         wp_set_current_user(self::$admin);
         $this->enable_plugins_menu_item();
 
-        $request  = new WP_REST_Request('DELETE', self::BASE . '/' . self::PLUGIN);
+        $request = new WP_REST_Request('DELETE', self::BASE . '/' . self::PLUGIN);
         $response = rest_do_request($request);
 
         $this->assertErrorResponse('rest_cannot_manage_plugins', $response->as_error(), 403);
@@ -978,7 +980,7 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
         activate_plugin(self::PLUGIN_FILE);
         wp_set_current_user(self::$super_admin);
 
-        $request  = new WP_REST_Request('DELETE', self::BASE . '/' . self::PLUGIN);
+        $request = new WP_REST_Request('DELETE', self::BASE . '/' . self::PLUGIN);
         $response = rest_do_request($request);
 
         $this->assertErrorResponse('rest_cannot_delete_active_plugin', $response);
@@ -991,11 +993,12 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
     {
         $this->create_test_plugin();
 
-        $item          = get_plugins()[self::PLUGIN_FILE];
+        $item = get_plugins()[self::PLUGIN_FILE];
         $item['_file'] = self::PLUGIN_FILE;
 
         $endpoint = new WP_REST_Plugins_Controller();
-        $response = $endpoint->prepare_item_for_response($item, new WP_REST_Request('GET', self::BASE . '/' . self::PLUGIN));
+        $response = $endpoint->prepare_item_for_response($item,
+            new WP_REST_Request('GET', self::BASE . '/' . self::PLUGIN));
 
         $this->check_get_plugin_data($response->get_data());
         $links = $response->get_links();
@@ -1012,11 +1015,12 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
         $this->create_test_plugin();
         activate_plugin(self::PLUGIN_FILE, '', true);
 
-        $item          = get_plugins()[self::PLUGIN_FILE];
+        $item = get_plugins()[self::PLUGIN_FILE];
         $item['_file'] = self::PLUGIN_FILE;
 
         $endpoint = new WP_REST_Plugins_Controller();
-        $response = $endpoint->prepare_item_for_response($item, new WP_REST_Request('GET', self::BASE . '/' . self::PLUGIN));
+        $response = $endpoint->prepare_item_for_response($item,
+            new WP_REST_Request('GET', self::BASE . '/' . self::PLUGIN));
 
         $this->assertSame('network-active', $response->get_data()['status']);
     }
@@ -1029,11 +1033,12 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
     {
         $this->create_test_plugin(true);
 
-        $item          = get_plugins()[self::PLUGIN_FILE];
+        $item = get_plugins()[self::PLUGIN_FILE];
         $item['_file'] = self::PLUGIN_FILE;
 
         $endpoint = new WP_REST_Plugins_Controller();
-        $response = $endpoint->prepare_item_for_response($item, new WP_REST_Request('GET', self::BASE . '/' . self::PLUGIN));
+        $response = $endpoint->prepare_item_for_response($item,
+            new WP_REST_Request('GET', self::BASE . '/' . self::PLUGIN));
 
         $this->check_get_plugin_data($response->get_data(), true);
     }
@@ -1043,9 +1048,9 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
      */
     public function test_get_item_schema()
     {
-        $request    = new WP_REST_Request('OPTIONS', self::BASE);
-        $response   = rest_get_server()->dispatch($request);
-        $data       = $response->get_data();
+        $request = new WP_REST_Request('OPTIONS', self::BASE);
+        $response = rest_get_server()->dispatch($request);
+        $data = $response->get_data();
         $properties = $data['schema']['properties'];
 
         $this->assertCount(12, $properties);
@@ -1066,10 +1071,10 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
     /**
      * Checks the response data.
      *
+     * @param array $data Prepared plugin data.
+     * @param bool $network_only Whether the plugin is network only.
      * @since 5.5.0
      *
-     * @param array $data         Prepared plugin data.
-     * @param bool  $network_only Whether the plugin is network only.
      */
     protected function check_get_plugin_data($data, $network_only = false)
     {
@@ -1081,7 +1086,8 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
         $this->assertSame('wp.org', $data['author']);
         $this->assertSame('https://wp.org/', $data['author_uri']);
         $this->assertSame("My 'Cool' Plugin", $data['description']['raw']);
-        $this->assertSame('My &#8216;Cool&#8217; Plugin <cite>By <a href="https://wp.org/">wp.org</a>.</cite>', $data['description']['rendered']);
+        $this->assertSame('My &#8216;Cool&#8217; Plugin <cite>By <a href="https://wp.org/">wp.org</a>.</cite>',
+            $data['description']['rendered']);
         $this->assertSame($network_only, $data['network_only']);
         $this->assertSame('5.6.0', $data['requires_php']);
         $this->assertSame('5.4', $data['requires_wp']);
@@ -1111,7 +1117,7 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
                 return $reply;
             },
             10,
-            3
+            3,
         );
 
         add_filter(
@@ -1124,7 +1130,7 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
                 return self::$plugin_api_decoded_response;
             },
             10,
-            3
+            3,
         );
 
         /*
@@ -1140,9 +1146,9 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
     /**
      * Disables permission for activating a specific plugin.
      *
+     * @param string $plugin The plugin file to disable.
      * @since 5.5.0
      *
-     * @param string $plugin The plugin file to disable.
      */
     protected function disable_activate_permission($plugin)
     {
@@ -1156,16 +1162,16 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
                 return $caps;
             },
             10,
-            4
+            4,
         );
     }
 
     /**
      * Disables permission for deactivating a specific plugin.
      *
+     * @param string $plugin The plugin file to disable.
      * @since 5.5.0
      *
-     * @param string $plugin The plugin file to disable.
      */
     protected function disable_deactivate_permission($plugin)
     {
@@ -1179,7 +1185,7 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
                 return $caps;
             },
             10,
-            4
+            4,
         );
     }
 
@@ -1190,7 +1196,7 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
      */
     protected function enable_plugins_menu_item()
     {
-        $menu_perms            = get_site_option('menu_items', []);
+        $menu_perms = get_site_option('menu_items', []);
         $menu_perms['plugins'] = true;
         update_site_option('menu_items', $menu_perms);
     }
@@ -1198,28 +1204,28 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
     /**
      * Creates a test plugin.
      *
+     * @param bool $network_only Whether to make this a network only plugin.
      * @since 5.5.0
      *
-     * @param bool $network_only Whether to make this a network only plugin.
      */
     private function create_test_plugin($network_only = false)
     {
         $network = $network_only ? PHP_EOL . ' * Network: true' . PHP_EOL : '';
 
         $php = <<<PHP
-<?php
-/*
- * Plugin Name: Test Plugin
- * Plugin URI: https://wp.org/plugins/test-plugin/
- * Description: My 'Cool' Plugin
- * Version: 1.5.4
- * Author: wp.org
- * Author URI: https://wp.org/
- * Text Domain: test-plugin
- * Requires PHP: 5.6.0
- * Requires at least: 5.4{$network}
- */
-PHP;
+            <?php
+            /*
+             * Plugin Name: Test Plugin
+             * Plugin URI: https://wp.org/plugins/test-plugin/
+             * Description: My 'Cool' Plugin
+             * Version: 1.5.4
+             * Author: wp.org
+             * Author URI: https://wp.org/
+             * Text Domain: test-plugin
+             * Requires PHP: 5.6.0
+             * Requires at least: 5.4{$network}
+             */
+            PHP;
         wp_mkdir_p(WP_PLUGIN_DIR . '/test-plugin');
         file_put_contents(WP_PLUGIN_DIR . '/test-plugin/test-plugin.php', $php);
     }
@@ -1227,9 +1233,9 @@ PHP;
     /**
      * Simulate a network failure on outbound http requests to a given hostname.
      *
+     * @param string $blocked_host The host to block connections to.
      * @since 5.5.0
      *
-     * @param string $blocked_host The host to block connections to.
      */
     private function prevent_requests_to_host($blocked_host = 'api.wp.org')
     {
@@ -1237,14 +1243,15 @@ PHP;
             'pre_http_request',
             static function ($response, $parsed_args, $url) use ($blocked_host) {
                 if (@parse_url($url, PHP_URL_HOST) === $blocked_host) {
-                    return new WP_Error('plugins_api_failed', "An expected error occurred connecting to $blocked_host because of a unit test", "cURL error 7: Failed to connect to $blocked_host port 80: Connection refused");
-
+                    return new WP_Error('plugins_api_failed',
+                        "An expected error occurred connecting to $blocked_host because of a unit test",
+                        "cURL error 7: Failed to connect to $blocked_host port 80: Connection refused");
                 }
 
                 return $response;
             },
             10,
-            3
+            3,
         );
     }
 }

@@ -15,7 +15,7 @@ class Tests_Formatting_SanitizeTrackbackUrls extends WP_UnitTestCase
     {
         $this->assertSame(
             "http://example.com\nhttp://example.org",
-            sanitize_trackback_urls("http://example.com{$separator}http://example.org")
+            sanitize_trackback_urls("http://example.com{$separator}http://example.org"),
         );
     }
 

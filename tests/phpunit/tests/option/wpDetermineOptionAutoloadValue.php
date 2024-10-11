@@ -30,43 +30,43 @@ class Tests_WP_Determine_Option_Autoload_Value extends WP_UnitTestCase
     public function data_values()
     {
         return [
-            'yes'      => [
+            'yes' => [
                 'autoload' => 'yes',
                 'expected' => 'on',
             ],
-            'on'       => [
+            'on' => [
                 'autoload' => 'on',
                 'expected' => 'on',
             ],
-            'true'     => [
+            'true' => [
                 'autoload' => true,
                 'expected' => 'on',
             ],
-            'no'       => [
+            'no' => [
                 'autoload' => 'no',
                 'expected' => 'off',
             ],
-            'off'      => [
+            'off' => [
                 'autoload' => 'off',
                 'expected' => 'off',
             ],
-            'false'    => [
+            'false' => [
                 'autoload' => false,
                 'expected' => 'off',
             ],
-            'invalid'  => [
+            'invalid' => [
                 'autoload' => 'foo',
                 'expected' => 'auto',
             ],
-            'null'     => [
+            'null' => [
                 'autoload' => null,
                 'expected' => 'auto',
             ],
-            'auto'     => [
+            'auto' => [
                 'autoload' => 'auto',
                 'expected' => 'auto',
             ],
-            'auto-on'  => [
+            'auto-on' => [
                 'autoload' => 'auto-on',
                 'expected' => 'auto',
             ],
@@ -91,9 +91,9 @@ class Tests_WP_Determine_Option_Autoload_Value extends WP_UnitTestCase
      */
     public function test_large_option()
     {
-        $value            = file(DIR_TESTDATA . '/formatting/entities.txt');
+        $value = file(DIR_TESTDATA . '/formatting/entities.txt');
         $serialized_value = maybe_serialize($value);
-        $test             = wp_determine_option_autoload_value('foo', $value, $serialized_value, null);
+        $test = wp_determine_option_autoload_value('foo', $value, $serialized_value, null);
         $this->assertSame('auto-off', $test);
     }
 
@@ -102,9 +102,9 @@ class Tests_WP_Determine_Option_Autoload_Value extends WP_UnitTestCase
      */
     public function test_large_option_json()
     {
-        $value            = file(DIR_TESTDATA . '/themedir1/block-theme/theme.json');
+        $value = file(DIR_TESTDATA . '/themedir1/block-theme/theme.json');
         $serialized_value = maybe_serialize($value);
-        $test             = wp_determine_option_autoload_value('foo', $value, $serialized_value, null);
+        $test = wp_determine_option_autoload_value('foo', $value, $serialized_value, null);
         $this->assertSame('auto-off', $test);
     }
 

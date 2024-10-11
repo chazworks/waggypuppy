@@ -30,29 +30,29 @@ class Tests_Functions_WpParseSlugList extends WP_UnitTestCase
     public function data_wp_parse_slug_list()
     {
         return [
-            'regular'                    => [
+            'regular' => [
                 'input_list' => 'apple,banana,carrot,dog',
-                'expected'   => ['apple', 'banana', 'carrot', 'dog'],
+                'expected' => ['apple', 'banana', 'carrot', 'dog'],
             ],
-            'double comma'               => [
+            'double comma' => [
                 'input_list' => 'apple, banana,,carrot,dog',
-                'expected'   => ['apple', 'banana', 'carrot', 'dog'],
+                'expected' => ['apple', 'banana', 'carrot', 'dog'],
             ],
             'duplicate slug in a string' => [
                 'input_list' => 'apple,banana,carrot,carrot,dog',
-                'expected'   => ['apple', 'banana', 'carrot', 'dog'],
+                'expected' => ['apple', 'banana', 'carrot', 'dog'],
             ],
             'duplicate slug in an array' => [
                 'input_list' => ['apple', 'banana', 'carrot', 'carrot', 'dog'],
-                'expected'   => ['apple', 'banana', 'carrot', 'dog'],
+                'expected' => ['apple', 'banana', 'carrot', 'dog'],
             ],
-            'string with spaces'         => [
+            'string with spaces' => [
                 'input_list' => 'apple banana carrot dog',
-                'expected'   => ['apple', 'banana', 'carrot', 'dog'],
+                'expected' => ['apple', 'banana', 'carrot', 'dog'],
             ],
-            'array with spaces'          => [
+            'array with spaces' => [
                 'input_list' => ['apple ', 'banana carrot', 'd o g'],
-                'expected'   => ['apple', 'banana-carrot', 'd-o-g'],
+                'expected' => ['apple', 'banana-carrot', 'd-o-g'],
             ],
         ];
     }
@@ -67,35 +67,35 @@ class Tests_Functions_WpParseSlugList extends WP_UnitTestCase
         return [
             'string with commas' => [
                 'input_list' => '1,2,string with spaces',
-                'expected'   => ['1', '2', 'string', 'with', 'spaces'],
+                'expected' => ['1', '2', 'string', 'with', 'spaces'],
             ],
-            'array'              => [
+            'array' => [
                 'input_list' => ['1', 2, 'string with spaces'],
-                'expected'   => ['1', '2', 'string-with-spaces'],
+                'expected' => ['1', '2', 'string-with-spaces'],
             ],
             'string with spaces' => [
                 'input_list' => '1 2 string with spaces',
-                'expected'   => ['1', '2', 'string', 'with', 'spaces'],
+                'expected' => ['1', '2', 'string', 'with', 'spaces'],
             ],
-            'array with spaces'  => [
+            'array with spaces' => [
                 'input_list' => ['1 2 string with spaces'],
-                'expected'   => ['1-2-string-with-spaces'],
+                'expected' => ['1-2-string-with-spaces'],
             ],
-            'string with html'   => [
+            'string with html' => [
                 'input_list' => '1 2 string <strong>with</strong> <h1>HEADING</h1>',
-                'expected'   => ['1', '2', 'string', 'with', 'heading'],
+                'expected' => ['1', '2', 'string', 'with', 'heading'],
             ],
-            'array with html'    => [
+            'array with html' => [
                 'input_list' => ['1', 2, 'string <strong>with</strong> <h1>HEADING</h1>'],
-                'expected'   => ['1', '2', 'string-with-heading'],
+                'expected' => ['1', '2', 'string-with-heading'],
             ],
-            'array with null'    => [
+            'array with null' => [
                 'input_list' => [1, 2, null],
-                'expected'   => ['1', '2'],
+                'expected' => ['1', '2'],
             ],
-            'array with false'   => [
+            'array with false' => [
                 'input_list' => [1, 2, false],
-                'expected'   => ['1', '2', ''],
+                'expected' => ['1', '2', ''],
             ],
         ];
     }

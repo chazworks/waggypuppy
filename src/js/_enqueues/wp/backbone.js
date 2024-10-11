@@ -5,7 +5,7 @@
 /** @namespace wp */
 window.wp = window.wp || {};
 
-(function ($) {
+( function ( $ ) {
 	/**
 	 * Create the waggypuppy Backbone namespace.
 	 *
@@ -26,7 +26,7 @@ window.wp = window.wp || {};
 	 * @param {wp.Backbone.View} view  The main view.
 	 * @param {Array|Object}     views The subviews for the main view.
 	 */
-	wp.Backbone.Subviews = function( view, views ) {
+	wp.Backbone.Subviews = function ( view, views ) {
 		this.view = view;
 		this._views = _.isArray( views ) ? { '': views } : views || {};
 	};
@@ -41,7 +41,7 @@ window.wp = window.wp || {};
 		 *
 		 * @return {Array} All the subviews.
 		 */
-		all: function() {
+		all: function () {
 			return _.flatten( _.values( this._views ) );
 		},
 
@@ -57,7 +57,7 @@ window.wp = window.wp || {};
 		 *
 		 * @return {Array} All the subviews that match the selector.
 		 */
-		get: function( selector ) {
+		get: function ( selector ) {
 			selector = selector || '';
 			return this._views[ selector ];
 		},
@@ -76,9 +76,9 @@ window.wp = window.wp || {};
 		 *
 		 * @return {Backbone.View} The view.
 		 */
-		first: function( selector ) {
+		first: function ( selector ) {
 			var views = this.get( selector );
-			return views && views.length ? views[0] : null;
+			return views && views.length ? views[ 0 ] : null;
 		},
 
 		/**
@@ -123,19 +123,19 @@ window.wp = window.wp || {};
 		 *
 		 * @return {wp.Backbone.Subviews} The current Subviews instance.
 		 */
-		set: function( selector, views, options ) {
+		set: function ( selector, views, options ) {
 			var existing, next;
 
 			if ( ! _.isString( selector ) ) {
-				options  = views;
-				views    = selector;
+				options = views;
+				views = selector;
 				selector = '';
 			}
 
-			options  = options || {};
-			views    = _.isArray( views ) ? views : [ views ];
+			options = options || {};
+			views = _.isArray( views ) ? views : [ views ];
 			existing = this.get( selector );
-			next     = views;
+			next = views;
 
 			if ( existing ) {
 				if ( options.add ) {
@@ -143,37 +143,47 @@ window.wp = window.wp || {};
 						next = existing.concat( views );
 					} else {
 						next = existing;
-						next.splice.apply( next, [ options.at, 0 ].concat( views ) );
+						next.splice.apply(
+							next,
+							[ options.at, 0 ].concat( views )
+						);
 					}
 				} else {
-					_.each( next, function( view ) {
+					_.each( next, function ( view ) {
 						view.__detach = true;
-					});
+					} );
 
-					_.each( existing, function( view ) {
-						if ( view.__detach )
-							view.$el.detach();
-						else
-							view.remove();
-					});
+					_.each( existing, function ( view ) {
+						if ( view.__detach ) view.$el.detach();
+						else view.remove();
+					} );
 
-					_.each( next, function( view ) {
+					_.each( next, function ( view ) {
 						delete view.__detach;
-					});
+					} );
 				}
 			}
 
 			this._views[ selector ] = next;
 
-			_.each( views, function( subview ) {
-				var constructor = subview.Views || wp.Backbone.Subviews,
-					subviews = subview.views = subview.views || new constructor( subview );
-				subviews.parent   = this.view;
-				subviews.selector = selector;
-			}, this );
+			_.each(
+				views,
+				function ( subview ) {
+					var constructor = subview.Views || wp.Backbone.Subviews,
+						subviews = ( subview.views =
+							subview.views || new constructor( subview ) );
+					subviews.parent = this.view;
+					subviews.selector = selector;
+				},
+				this
+			);
 
 			if ( ! options.silent )
-				this._attach( selector, views, _.extend({ ready: this._isReady() }, options ) );
+				this._attach(
+					selector,
+					views,
+					_.extend( { ready: this._isReady() }, options )
+				);
 
 			return this;
 		},
@@ -209,14 +219,18 @@ window.wp = window.wp || {};
 		 *
 		 * @return {wp.Backbone.Subviews} The current subviews instance.
 		 */
-		add: function( selector, views, options ) {
+		add: function ( selector, views, options ) {
 			if ( ! _.isString( selector ) ) {
-				options  = views;
-				views    = selector;
+				options = views;
+				views = selector;
 				selector = '';
 			}
 
-			return this.set( selector, views, _.extend({ add: true }, options ) );
+			return this.set(
+				selector,
+				views,
+				_.extend( { add: true }, options )
+			);
 		},
 
 		/**
@@ -239,7 +253,7 @@ window.wp = window.wp || {};
 		 *
 		 * @return {wp.Backbone.Subviews} The current Subviews instance.
 		 */
-		unset: function( selector, views, options ) {
+		unset: function ( selector, views, options ) {
 			var existing;
 
 			if ( ! _.isString( selector ) ) {
@@ -250,13 +264,14 @@ window.wp = window.wp || {};
 
 			views = views || [];
 
-			if ( existing = this.get( selector ) ) {
+			if ( ( existing = this.get( selector ) ) ) {
 				views = _.isArray( views ) ? views : [ views ];
-				this._views[ selector ] = views.length ? _.difference( existing, views ) : [];
+				this._views[ selector ] = views.length
+					? _.difference( existing, views )
+					: [];
 			}
 
-			if ( ! options || ! options.silent )
-				_.invoke( views, 'remove' );
+			if ( ! options || ! options.silent ) _.invoke( views, 'remove' );
 
 			return this;
 		},
@@ -271,7 +286,7 @@ window.wp = window.wp || {};
 		 *
 		 * @return {wp.Backbone.Subviews} The current Subviews instance.
 		 */
-		detach: function() {
+		detach: function () {
 			$( _.pluck( this.all(), 'el' ) ).detach();
 			return this;
 		},
@@ -284,15 +299,19 @@ window.wp = window.wp || {};
 		 * @since 3.5.0
 		 *
 		 * @return {wp.Backbone.Subviews} The current Subviews instance.
-		*/
-		render: function() {
+		 */
+		render: function () {
 			var options = {
-					ready: this._isReady()
-				};
+				ready: this._isReady(),
+			};
 
-			_.each( this._views, function( views, selector ) {
-				this._attach( selector, views, options );
-			}, this );
+			_.each(
+				this._views,
+				function ( views, selector ) {
+					this._attach( selector, views, options );
+				},
+				this
+			);
 
 			this.rendered = true;
 			return this;
@@ -314,11 +333,13 @@ window.wp = window.wp || {};
 		 *                                 the master views' parent.
 		 *
 		 * @return {wp.Backbone.Subviews} The current Subviews instance.
-		*/
-		remove: function( options ) {
+		 */
+		remove: function ( options ) {
 			if ( ! options || ! options.silent ) {
 				if ( this.parent && this.parent.views )
-					this.parent.views.unset( this.selector, this.view, { silent: true });
+					this.parent.views.unset( this.selector, this.view, {
+						silent: true,
+					} );
 				delete this.parent;
 				delete this.selector;
 			}
@@ -342,7 +363,7 @@ window.wp = window.wp || {};
 		 *
 		 * @return {wp.Backbone.Subviews} The current Subviews instance.
 		 */
-		replace: function( $target, els ) {
+		replace: function ( $target, els ) {
 			$target.html( els );
 			return this;
 		},
@@ -366,14 +387,16 @@ window.wp = window.wp || {};
 		 *
 		 * @return {wp.Backbone.Subviews} The current Subviews instance.
 		 */
-		insert: function( $target, els, options ) {
+		insert: function ( $target, els, options ) {
 			var at = options && options.at,
 				$children;
 
-			if ( _.isNumber( at ) && ($children = $target.children()).length > at )
+			if (
+				_.isNumber( at ) &&
+				( $children = $target.children() ).length > at
+			)
 				$children.eq( at ).before( els );
-			else
-				$target.append( els );
+			else $target.append( els );
 
 			return this;
 		},
@@ -389,13 +412,17 @@ window.wp = window.wp || {};
 		 *
 		 * @since 3.5.0
 		 */
-		ready: function() {
-			this.view.trigger('ready');
+		ready: function () {
+			this.view.trigger( 'ready' );
 
 			// Find all attached subviews, and call ready on them.
-			_.chain( this.all() ).map( function( view ) {
-				return view.views;
-			}).flatten().where({ attached: true }).invoke('ready');
+			_.chain( this.all() )
+				.map( function ( view ) {
+					return view.views;
+				} )
+				.flatten()
+				.where( { attached: true } )
+				.invoke( 'ready' );
 		},
 		/**
 		 * Attaches a series of views to a selector. Internal.
@@ -415,38 +442,47 @@ window.wp = window.wp || {};
 		 *
 		 * @return {wp.Backbone.Subviews} The current Subviews instance.
 		 */
-		_attach: function( selector, views, options ) {
+		_attach: function ( selector, views, options ) {
 			var $selector = selector ? this.view.$( selector ) : this.view.$el,
 				managers;
 
 			// Check if we found a location to attach the views.
-			if ( ! $selector.length )
-				return this;
+			if ( ! $selector.length ) return this;
 
-			managers = _.chain( views ).pluck('views').flatten().value();
+			managers = _.chain( views ).pluck( 'views' ).flatten().value();
 
 			// Render the views if necessary.
-			_.each( managers, function( manager ) {
-				if ( manager.rendered )
-					return;
+			_.each(
+				managers,
+				function ( manager ) {
+					if ( manager.rendered ) return;
 
-				manager.view.render();
-				manager.rendered = true;
-			}, this );
+					manager.view.render();
+					manager.rendered = true;
+				},
+				this
+			);
 
 			// Insert or replace the views.
-			this[ options.add ? 'insert' : 'replace' ]( $selector, _.pluck( views, 'el' ), options );
+			this[ options.add ? 'insert' : 'replace' ](
+				$selector,
+				_.pluck( views, 'el' ),
+				options
+			);
 
 			/*
 			 * Set attached and trigger ready if the current view is already
 			 * attached to the DOM.
 			 */
-			_.each( managers, function( manager ) {
-				manager.attached = true;
+			_.each(
+				managers,
+				function ( manager ) {
+					manager.attached = true;
 
-				if ( options.ready )
-					manager.ready();
-			}, this );
+					if ( options.ready ) manager.ready();
+				},
+				this
+			);
 
 			return this;
 		},
@@ -460,20 +496,18 @@ window.wp = window.wp || {};
 		 *
 		 * @return {boolean} Whether or not the current view is in the DOM.
 		 */
-		_isReady: function() {
+		_isReady: function () {
 			var node = this.view.el;
 			while ( node ) {
-				if ( node === document.body )
-					return true;
+				if ( node === document.body ) return true;
 				node = node.parentNode;
 			}
 
 			return false;
-		}
-	});
+		},
+	} );
 
-	wp.Backbone.View = Backbone.View.extend({
-
+	wp.Backbone.View = Backbone.View.extend( {
 		// The constructor for the `Views` manager.
 		Subviews: wp.Backbone.Subviews,
 
@@ -494,7 +528,7 @@ window.wp = window.wp || {};
 		 *
 		 * @param {Object} options The options for this view.
 		 */
-		constructor: function( options ) {
+		constructor: function ( options ) {
 			this.views = new this.Subviews( this, this.views );
 			this.on( 'ready', this.ready, this );
 
@@ -510,12 +544,14 @@ window.wp = window.wp || {};
 		 *
 		 * @return {wp.Backbone.Subviews} The current Subviews instance.
 		 */
-		remove: function() {
-			var result = Backbone.View.prototype.remove.apply( this, arguments );
+		remove: function () {
+			var result = Backbone.View.prototype.remove.apply(
+				this,
+				arguments
+			);
 
 			// Recursively remove child views.
-			if ( this.views )
-				this.views.remove();
+			if ( this.views ) this.views.remove();
 
 			return result;
 		},
@@ -527,11 +563,10 @@ window.wp = window.wp || {};
 		 *
 		 * @return {wp.Backbone.View} The current instance of the view.
 		 */
-		render: function() {
+		render: function () {
 			var options;
 
-			if ( this.prepare )
-				options = this.prepare();
+			if ( this.prepare ) options = this.prepare();
 
 			this.views.detach();
 
@@ -552,7 +587,7 @@ window.wp = window.wp || {};
 		 *
 		 * @return {Object} The options for this view.
 		 */
-		prepare: function() {
+		prepare: function () {
 			return this.options;
 		},
 
@@ -561,6 +596,6 @@ window.wp = window.wp || {};
 		 *
 		 * @since 3.5.0
 		 */
-		ready: function() {}
-	});
-}(jQuery));
+		ready: function () {},
+	} );
+} )( jQuery );

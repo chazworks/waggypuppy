@@ -16,20 +16,20 @@ function register_block_core_pattern()
         __DIR__ . '/pattern',
         [
             'render_callback' => 'render_block_core_pattern',
-        ]
+        ],
     );
 }
 
 /**
  * Renders the `core/pattern` block on the server.
  *
+ * @param array $attributes Block attributes.
+ *
+ * @return string Returns the output of the pattern.
  * @since 6.3.0 Backwards compatibility: blocks with no `syncStatus` attribute do not receive block wrapper.
  *
  * @global WP_Embed $wp_embed Used to process embedded content within patterns
  *
- * @param array $attributes Block attributes.
- *
- * @return string Returns the output of the pattern.
  */
 function render_block_core_pattern($attributes)
 {
@@ -39,10 +39,10 @@ function render_block_core_pattern($attributes)
         return '';
     }
 
-    $slug     = $attributes['slug'];
+    $slug = $attributes['slug'];
     $registry = WP_Block_Patterns_Registry::get_instance();
 
-    if (! $registry->is_registered($slug)) {
+    if (!$registry->is_registered($slug)) {
         return '';
     }
 
@@ -51,9 +51,11 @@ function render_block_core_pattern($attributes)
         // is set in `wp_debug_mode()`.
         $is_debug = WP_DEBUG && WP_DEBUG_DISPLAY;
 
-        return $is_debug ?
+        return $is_debug
+            ?
             // translators: Visible only in the front end, this warning takes the place of a faulty block. %s represents a pattern's slug.
-            sprintf(__('[block rendering halted for pattern "%s"]'), $slug) :
+            sprintf(__('[block rendering halted for pattern "%s"]'), $slug)
+            :
             '';
     }
 
@@ -62,8 +64,8 @@ function render_block_core_pattern($attributes)
 
     // Backward compatibility for handling Block Hooks and injecting the theme attribute in the Gutenberg plugin.
     // This can be removed when the minimum supported waggypuppy is >= 6.4.
-    if (defined('IS_GUTENBERG_PLUGIN') && IS_GUTENBERG_PLUGIN && ! function_exists('traverse_and_serialize_blocks')) {
-        $blocks  = parse_blocks($content);
+    if (defined('IS_GUTENBERG_PLUGIN') && IS_GUTENBERG_PLUGIN && !function_exists('traverse_and_serialize_blocks')) {
+        $blocks = parse_blocks($content);
         $content = gutenberg_serialize_blocks($blocks);
     }
 

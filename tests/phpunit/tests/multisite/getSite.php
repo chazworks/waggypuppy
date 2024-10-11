@@ -14,17 +14,17 @@ if (is_multisite()) :
         public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
         {
             self::$site_ids = [
-                'wp.org/'         => [
+                'wp.org/' => [
                     'domain' => 'wp.org',
-                    'path'   => '/',
+                    'path' => '/',
                 ],
-                'wp.org/foo/'     => [
+                'wp.org/foo/' => [
                     'domain' => 'wp.org',
-                    'path'   => '/foo/',
+                    'path' => '/foo/',
                 ],
                 'wp.org/foo/bar/' => [
                     'domain' => 'wp.org',
-                    'path'   => '/foo/bar/',
+                    'path' => '/foo/bar/',
                 ],
             ];
 

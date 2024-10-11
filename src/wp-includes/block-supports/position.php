@@ -9,21 +9,21 @@
 /**
  * Registers the style block attribute for block types that support it.
  *
+ * @param WP_Block_Type $block_type Block Type.
  * @since 6.2.0
  * @access private
  *
- * @param WP_Block_Type $block_type Block Type.
  */
 function wp_register_position_support($block_type)
 {
     $has_position_support = block_has_support($block_type, 'position', false);
 
     // Set up attributes and styles within that if needed.
-    if (! $block_type->attributes) {
+    if (!$block_type->attributes) {
         $block_type->attributes = [];
     }
 
-    if ($has_position_support && ! array_key_exists('style', $block_type->attributes)) {
+    if ($has_position_support && !array_key_exists('style', $block_type->attributes)) {
         $block_type->attributes['style'] = [
             'type' => 'object',
         ];
@@ -33,27 +33,29 @@ function wp_register_position_support($block_type)
 /**
  * Renders position styles to the block wrapper.
  *
+ * @param string $block_content Rendered block content.
+ * @param array $block Block object.
+ * @return string                Filtered block content.
  * @since 6.2.0
  * @access private
  *
- * @param  string $block_content Rendered block content.
- * @param  array  $block         Block object.
- * @return string                Filtered block content.
  */
 function wp_render_position_support($block_content, $block)
 {
-    $block_type           = WP_Block_Type_Registry::get_instance()->get_registered($block['blockName']);
+    $block_type = WP_Block_Type_Registry::get_instance()->get_registered($block['blockName']);
     $has_position_support = block_has_support($block_type, 'position', false);
 
-    if (! $has_position_support ||
-        empty($block['attrs']['style']['position'])
+    if (!$has_position_support
+        || empty($block['attrs']['style']['position'])
     ) {
         return $block_content;
     }
 
-    $global_settings          = wp_get_global_settings();
-    $theme_has_sticky_support = isset($global_settings['position']['sticky']) ? $global_settings['position']['sticky'] : false;
-    $theme_has_fixed_support  = isset($global_settings['position']['fixed']) ? $global_settings['position']['fixed'] : false;
+    $global_settings = wp_get_global_settings();
+    $theme_has_sticky_support = isset($global_settings['position']['sticky']) ? $global_settings['position']['sticky']
+        : false;
+    $theme_has_fixed_support = isset($global_settings['position']['fixed']) ? $global_settings['position']['fixed']
+        : false;
 
     // Only allow output for position types that the theme supports.
     $allowed_position_types = [];
@@ -65,17 +67,17 @@ function wp_render_position_support($block_content, $block)
     }
 
     $style_attribute = isset($block['attrs']['style']) ? $block['attrs']['style'] : null;
-    $class_name      = wp_unique_id('wp-container-');
-    $selector        = ".$class_name";
+    $class_name = wp_unique_id('wp-container-');
+    $selector = ".$class_name";
     $position_styles = [];
-    $position_type   = isset($style_attribute['position']['type']) ? $style_attribute['position']['type'] : '';
+    $position_type = isset($style_attribute['position']['type']) ? $style_attribute['position']['type'] : '';
     $wrapper_classes = [];
 
     if (in_array($position_type, $allowed_position_types, true)
     ) {
         $wrapper_classes[] = $class_name;
         $wrapper_classes[] = 'is-position-' . $position_type;
-        $sides             = ['top', 'right', 'bottom', 'left'];
+        $sides = ['top', 'right', 'bottom', 'left'];
 
         foreach ($sides as $side) {
             $side_value = isset($style_attribute['position'][$side]) ? $style_attribute['position'][$side] : null;
@@ -84,8 +86,8 @@ function wp_render_position_support($block_content, $block)
                  * For fixed or sticky top positions,
                  * ensure the value includes an offset for the logged in admin bar.
                  */
-                if ('top' === $side &&
-                    ('fixed' === $position_type || 'sticky' === $position_type)
+                if ('top' === $side
+                    && ('fixed' === $position_type || 'sticky' === $position_type)
                 ) {
                     // Ensure 0 values can be used in `calc()` calculations.
                     if ('0' === $side_value || 0 === $side_value) {
@@ -98,7 +100,7 @@ function wp_render_position_support($block_content, $block)
 
                 $position_styles[] =
                     [
-                        'selector'     => $selector,
+                        'selector' => $selector,
                         'declarations' => [
                             $side => $side_value,
                         ],
@@ -108,24 +110,24 @@ function wp_render_position_support($block_content, $block)
 
         $position_styles[] =
             [
-                'selector'     => $selector,
+                'selector' => $selector,
                 'declarations' => [
                     'position' => $position_type,
-                    'z-index'  => '10',
+                    'z-index' => '10',
                 ],
             ];
     }
 
-    if (! empty($position_styles)) {
+    if (!empty($position_styles)) {
         /*
          * Add to the style engine store to enqueue and render position styles.
          */
         wp_style_engine_get_stylesheet_from_css_rules(
             $position_styles,
             [
-                'context'  => 'block-supports',
+                'context' => 'block-supports',
                 'prettify' => false,
-            ]
+            ],
         );
 
         // Inject class name to block container markup.
@@ -134,7 +136,7 @@ function wp_render_position_support($block_content, $block)
         foreach ($wrapper_classes as $class) {
             $content->add_class($class);
         }
-        return (string) $content;
+        return (string)$content;
     }
 
     return $block_content;
@@ -145,6 +147,6 @@ WP_Block_Supports::get_instance()->register(
     'position',
     [
         'register_attribute' => 'wp_register_position_support',
-    ]
+    ],
 );
 add_filter('render_block', 'wp_render_position_support', 10, 2);

@@ -23,13 +23,13 @@ class WP_Http_Encoding
      *
      * Supports the RFC 1951 standard.
      *
-     * @since 2.8.0
-     *
-     * @param string $raw      String to compress.
-     * @param int    $level    Optional. Compression level, 9 is highest. Default 9.
+     * @param string $raw String to compress.
+     * @param int $level Optional. Compression level, 9 is highest. Default 9.
      * @param string $supports Optional, not used. When implemented it will choose
      *                         the right compression based on what the server supports.
      * @return string|false Compressed string on success, false on failure.
+     * @since 2.8.0
+     *
      */
     public static function compress($raw, $level = 9, $supports = null)
     {
@@ -44,15 +44,14 @@ class WP_Http_Encoding
      * 1952 standard gzip decode will be attempted. If all fail, then the
      * original compressed string will be returned.
      *
+     * @param string $compressed String to decompress.
+     * @param int $length The optional length of the compressed data.
+     * @return string|false Decompressed string on success, false on failure.
      * @since 2.8.0
      *
-     * @param string $compressed String to decompress.
-     * @param int    $length     The optional length of the compressed data.
-     * @return string|false Decompressed string on success, false on failure.
      */
     public static function decompress($compressed, $length = null)
     {
-
         if (empty($compressed)) {
             return $compressed;
         }
@@ -95,26 +94,25 @@ class WP_Http_Encoding
      * takes place. For a simple pragmatic way to determine the magic offset in use, see:
      * https://core.trac.wp.org/ticket/18273
      *
-     * @since 2.8.1
-     *
-     * @link https://core.trac.wp.org/ticket/18273
+     * @param string $gz_data String to decompress.
+     * @return string|false Decompressed string on success, false on failure.
      * @link https://www.php.net/manual/en/function.gzinflate.php#70875
      * @link https://www.php.net/manual/en/function.gzinflate.php#77336
      *
-     * @param string $gz_data String to decompress.
-     * @return string|false Decompressed string on success, false on failure.
+     * @since 2.8.1
+     *
+     * @link https://core.trac.wp.org/ticket/18273
      */
     public static function compatible_gzinflate($gz_data)
     {
-
         // Compressed data might contain a full header, if so strip it for gzinflate().
         if (str_starts_with($gz_data, "\x1f\x8b\x08")) {
-            $i   = 10;
+            $i = 10;
             $flg = ord(substr($gz_data, 3, 1));
             if ($flg > 0) {
                 if ($flg & 4) {
                     [$xlen] = unpack('v', substr($gz_data, $i, 2));
-                    $i      = $i + 2 + $xlen;
+                    $i = $i + 2 + $xlen;
                 }
                 if ($flg & 8) {
                     $i = strpos($gz_data, "\0", $i) + 1;
@@ -144,18 +142,18 @@ class WP_Http_Encoding
     /**
      * What encoding types to accept and their priority values.
      *
+     * @param string $url
+     * @param array $args
+     * @return string Types of encoding to accept.
      * @since 2.8.0
      *
-     * @param string $url
-     * @param array  $args
-     * @return string Types of encoding to accept.
      */
     public static function accept_encoding($url, $args)
     {
-        $type                = [];
+        $type = [];
         $compression_enabled = self::is_available();
 
-        if (! $args['decompress']) { // Decompression specifically disabled.
+        if (!$args['decompress']) { // Decompression specifically disabled.
             $compression_enabled = false;
         } elseif ($args['stream']) { // Disable when streaming to file.
             $compression_enabled = false;
@@ -180,11 +178,11 @@ class WP_Http_Encoding
         /**
          * Filters the allowed encoding types.
          *
+         * @param string[] $type Array of what encoding types to accept and their priority values.
+         * @param string $url URL of the HTTP request.
+         * @param array $args HTTP request arguments.
          * @since 3.6.0
          *
-         * @param string[] $type Array of what encoding types to accept and their priority values.
-         * @param string   $url  URL of the HTTP request.
-         * @param array    $args HTTP request arguments.
          */
         $type = apply_filters('wp_http_accept_encoding', $type, $url, $args);
 
@@ -194,9 +192,9 @@ class WP_Http_Encoding
     /**
      * What encoding the content used when it was compressed to send in the headers.
      *
+     * @return string Content-Encoding string to send in the header.
      * @since 2.8.0
      *
-     * @return string Content-Encoding string to send in the header.
      */
     public static function content_encoding()
     {
@@ -206,15 +204,15 @@ class WP_Http_Encoding
     /**
      * Whether the content be decoded based on the headers.
      *
-     * @since 2.8.0
-     *
      * @param array|string $headers All of the available headers.
      * @return bool
+     * @since 2.8.0
+     *
      */
     public static function should_decode($headers)
     {
         if (is_array($headers)) {
-            if (array_key_exists('content-encoding', $headers) && ! empty($headers['content-encoding'])) {
+            if (array_key_exists('content-encoding', $headers) && !empty($headers['content-encoding'])) {
                 return true;
             }
         } elseif (is_string($headers)) {
@@ -231,9 +229,9 @@ class WP_Http_Encoding
      * ensure that the functions all exist in the PHP version and aren't
      * disabled.
      *
+     * @return bool
      * @since 2.8.0
      *
-     * @return bool
      */
     public static function is_available()
     {

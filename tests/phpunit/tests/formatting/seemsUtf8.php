@@ -23,7 +23,7 @@ class Tests_Formatting_SeemsUtf8 extends WP_UnitTestCase
     {
         $utf8_strings = file(DIR_TESTDATA . '/formatting/utf-8/utf-8.txt');
         foreach ($utf8_strings as &$string) {
-            $string = (array) trim($string);
+            $string = (array)trim($string);
         }
         unset($string);
         return $utf8_strings;
@@ -42,7 +42,7 @@ class Tests_Formatting_SeemsUtf8 extends WP_UnitTestCase
         // Get data from formatting/big5.txt.
         $big5_strings = file(DIR_TESTDATA . '/formatting/big5.txt');
         foreach ($big5_strings as &$string) {
-            $string = (array) trim($string);
+            $string = (array)trim($string);
         }
         unset($string);
         return $big5_strings;

@@ -26,7 +26,7 @@ class Tests_Comment_wpCountComments extends WP_UnitTestCase
         self::factory()->comment->create(
             [
                 'comment_approved' => 1,
-            ]
+            ],
         );
 
         $count = wp_count_comments();
@@ -45,7 +45,7 @@ class Tests_Comment_wpCountComments extends WP_UnitTestCase
         self::factory()->comment->create(
             [
                 'comment_approved' => 0,
-            ]
+            ],
         );
 
         $count = wp_count_comments();
@@ -64,7 +64,7 @@ class Tests_Comment_wpCountComments extends WP_UnitTestCase
         self::factory()->comment->create(
             [
                 'comment_approved' => 'spam',
-            ]
+            ],
         );
 
         $count = wp_count_comments();
@@ -83,7 +83,7 @@ class Tests_Comment_wpCountComments extends WP_UnitTestCase
         self::factory()->comment->create(
             [
                 'comment_approved' => 'trash',
-            ]
+            ],
         );
 
         $count = wp_count_comments();
@@ -102,7 +102,7 @@ class Tests_Comment_wpCountComments extends WP_UnitTestCase
         self::factory()->comment->create(
             [
                 'comment_approved' => 'post-trashed',
-            ]
+            ],
         );
 
         $count = wp_count_comments();
@@ -118,16 +118,16 @@ class Tests_Comment_wpCountComments extends WP_UnitTestCase
 
     public function test_wp_count_comments_cache()
     {
-        $post_id    = self::factory()->post->create(
+        $post_id = self::factory()->post->create(
             [
                 'post_status' => 'publish',
-            ]
+            ],
         );
         $comment_id = self::factory()->comment->create(
             [
                 'comment_approved' => '1',
-                'comment_post_ID'  => $post_id,
-            ]
+                'comment_post_ID' => $post_id,
+            ],
         );
 
         $count1 = wp_count_comments($post_id);

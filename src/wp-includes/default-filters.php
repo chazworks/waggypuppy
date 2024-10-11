@@ -24,14 +24,34 @@
  */
 
 // Strip, trim, kses, special chars for string saves.
-foreach (['pre_term_name', 'pre_comment_author_name', 'pre_link_name', 'pre_link_target', 'pre_link_rel', 'pre_user_display_name', 'pre_user_first_name', 'pre_user_last_name', 'pre_user_nickname'] as $filter) {
+foreach ([
+             'pre_term_name',
+             'pre_comment_author_name',
+             'pre_link_name',
+             'pre_link_target',
+             'pre_link_rel',
+             'pre_user_display_name',
+             'pre_user_first_name',
+             'pre_user_last_name',
+             'pre_user_nickname',
+         ] as $filter) {
     add_filter($filter, 'sanitize_text_field');
     add_filter($filter, 'wp_filter_kses');
     add_filter($filter, '_wp_specialchars', 30);
 }
 
 // Strip, kses, special chars for string display.
-foreach (['term_name', 'comment_author_name', 'link_name', 'link_target', 'link_rel', 'user_display_name', 'user_first_name', 'user_last_name', 'user_nickname'] as $filter) {
+foreach ([
+             'term_name',
+             'comment_author_name',
+             'link_name',
+             'link_target',
+             'link_rel',
+             'user_display_name',
+             'user_first_name',
+             'user_last_name',
+             'user_nickname',
+         ] as $filter) {
     if (is_admin()) {
         // These are expensive. Run only on admin pages for defense in depth.
         add_filter($filter, 'sanitize_text_field');
@@ -70,13 +90,13 @@ foreach (['comment_author_email', 'user_email'] as $filter) {
 
 // Save URL.
 foreach ([
-    'pre_comment_author_url',
-    'pre_user_url',
-    'pre_link_url',
-    'pre_link_image',
-    'pre_link_rss',
-    'pre_post_guid',
-] as $filter) {
+             'pre_comment_author_url',
+             'pre_user_url',
+             'pre_link_url',
+             'pre_link_image',
+             'pre_link_rss',
+             'pre_post_guid',
+         ] as $filter) {
     add_filter($filter, 'wp_strip_all_tags');
     add_filter($filter, 'sanitize_url');
     add_filter($filter, 'wp_filter_kses');
@@ -154,7 +174,17 @@ foreach (['content_save_pre', 'excerpt_save_pre', 'comment_save_pre', 'pre_comme
 }
 
 // Format strings for display.
-foreach (['comment_author', 'term_name', 'link_name', 'link_description', 'link_notes', 'bloginfo', 'wp_title', 'document_title', 'widget_title'] as $filter) {
+foreach ([
+             'comment_author',
+             'term_name',
+             'link_name',
+             'link_description',
+             'link_notes',
+             'bloginfo',
+             'wp_title',
+             'document_title',
+             'widget_title',
+         ] as $filter) {
     add_filter($filter, 'wptexturize');
     add_filter($filter, 'convert_chars');
     add_filter($filter, 'esc_html');
@@ -167,7 +197,14 @@ foreach (['the_content', 'the_title', 'wp_title', 'document_title'] as $filter) 
 add_filter('comment_text', 'capital_P_dangit', 31);
 
 // Format titles.
-foreach (['single_post_title', 'single_cat_title', 'single_tag_title', 'single_month_title', 'nav_menu_attr_title', 'nav_menu_description'] as $filter) {
+foreach ([
+             'single_post_title',
+             'single_cat_title',
+             'single_tag_title',
+             'single_month_title',
+             'nav_menu_attr_title',
+             'nav_menu_description',
+         ] as $filter) {
     add_filter($filter, 'wptexturize');
     add_filter($filter, 'strip_tags');
 }
@@ -235,7 +272,8 @@ add_filter('widget_text_content', 'convert_smilies', 20);
 add_filter('widget_text_content', 'wpautop');
 add_filter('widget_text_content', 'shortcode_unautop');
 add_filter('widget_text_content', 'wp_replace_insecure_home_url');
-add_filter('widget_text_content', 'do_shortcode', 11); // Runs after wpautop(); note that $post global will be null when shortcodes run.
+add_filter('widget_text_content', 'do_shortcode',
+    11); // Runs after wpautop(); note that $post global will be null when shortcodes run.
 add_filter('widget_text_content', 'wp_filter_content_tags', 12); // Runs after do_shortcode().
 
 add_filter('widget_block_content', 'do_blocks', 9);
@@ -274,23 +312,25 @@ add_filter('wp_robots', 'wp_robots_max_image_preview_large');
 
 // Mark site as no longer fresh.
 foreach ([
-    'publish_post',
-    'publish_page',
-    'wp_ajax_save-widget',
-    'wp_ajax_widgets-order',
-    'customize_save_after',
-    'rest_after_save_widget',
-    'rest_delete_widget',
-    'rest_save_sidebar',
-] as $action
+             'publish_post',
+             'publish_page',
+             'wp_ajax_save-widget',
+             'wp_ajax_widgets-order',
+             'customize_save_after',
+             'rest_after_save_widget',
+             'rest_delete_widget',
+             'rest_save_sidebar',
+         ] as $action
 ) {
     add_action($action, '_delete_option_fresh_site', 0);
 }
 
 // Misc filters.
-add_filter('wp_default_autoload_value', 'wp_filter_default_autoload_value_via_option_size', 5, 4); // Allow the value to be overridden at the default priority.
+add_filter('wp_default_autoload_value', 'wp_filter_default_autoload_value_via_option_size', 5,
+    4); // Allow the value to be overridden at the default priority.
 add_filter('option_ping_sites', 'privacy_ping_filter');
-add_filter('option_blog_charset', '_wp_specialchars'); // IMPORTANT: This must not be wp_specialchars() or esc_html() or it'll cause an infinite loop.
+add_filter('option_blog_charset',
+    '_wp_specialchars'); // IMPORTANT: This must not be wp_specialchars() or esc_html() or it'll cause an infinite loop.
 add_filter('option_blog_charset', '_canonical_charset');
 add_filter('option_home', '_config_wp_home');
 add_filter('option_siteurl', '_config_wp_siteurl');
@@ -362,7 +402,8 @@ add_action('start_previewing_theme', 'wp_clean_theme_json_cache');
 add_action('after_switch_theme', '_wp_menus_changed');
 add_action('after_switch_theme', '_wp_sidebars_changed');
 add_action('wp_enqueue_scripts', 'wp_enqueue_emoji_styles');
-add_action('wp_print_styles', 'print_emoji_styles'); // Retained for backwards-compatibility. Unhooked by wp_enqueue_emoji_styles().
+add_action('wp_print_styles',
+    'print_emoji_styles'); // Retained for backwards-compatibility. Unhooked by wp_enqueue_emoji_styles().
 
 if (isset($_GET['replytocom'])) {
     add_filter('wp_robots', 'wp_robots_no_robots');
@@ -378,7 +419,16 @@ add_action('login_footer', 'wp_print_footer_scripts', 20);
 add_action('login_init', 'send_frame_options_header', 10, 0);
 
 // Feed generator tags.
-foreach (['rss2_head', 'commentsrss2_head', 'rss_head', 'rdf_header', 'atom_head', 'comments_atom_head', 'opml_head', 'app_head'] as $action) {
+foreach ([
+             'rss2_head',
+             'commentsrss2_head',
+             'rss_head',
+             'rdf_header',
+             'atom_head',
+             'comments_atom_head',
+             'opml_head',
+             'app_head',
+         ] as $action) {
     add_action($action, 'the_generator');
 }
 
@@ -388,7 +438,7 @@ add_action('rss2_head', 'rss2_site_icon');
 
 
 // WP Cron.
-if (! defined('DOING_CRON')) {
+if (!defined('DOING_CRON')) {
     add_action('init', 'wp_cron');
 }
 
@@ -423,7 +473,8 @@ add_action('comment_form', 'wp_comment_form_unfiltered_html_nonce');
 
 // Privacy.
 add_action('user_request_action_confirmed', '_wp_privacy_account_request_confirmed');
-add_action('user_request_action_confirmed', '_wp_privacy_send_request_confirmation_notification', 12); // After request marked as completed.
+add_action('user_request_action_confirmed', '_wp_privacy_send_request_confirmation_notification',
+    12); // After request marked as completed.
 add_filter('wp_privacy_personal_data_exporters', 'wp_register_comment_personal_data_exporter');
 add_filter('wp_privacy_personal_data_exporters', 'wp_register_media_personal_data_exporter');
 add_filter('wp_privacy_personal_data_exporters', 'wp_register_user_personal_data_exporter', 1);
@@ -682,7 +733,8 @@ add_filter('embed_oembed_html', 'wp_maybe_enqueue_oembed_host_js');
 add_action('embed_head', 'enqueue_embed_scripts', 1);
 add_action('embed_head', 'print_emoji_detection_script');
 add_action('embed_head', 'wp_enqueue_embed_styles', 9);
-add_action('embed_head', 'print_embed_styles'); // Retained for backwards-compatibility. Unhooked by wp_enqueue_embed_styles().
+add_action('embed_head',
+    'print_embed_styles'); // Retained for backwards-compatibility. Unhooked by wp_enqueue_embed_styles().
 add_action('embed_head', 'wp_print_head_scripts', 20);
 add_action('embed_head', 'wp_print_styles', 20);
 add_action('embed_head', 'wp_robots');
@@ -719,7 +771,8 @@ add_filter('render_block_context', '_block_template_render_without_post_block_co
 add_filter('pre_wp_unique_post_slug', 'wp_filter_wp_template_unique_post_slug', 10, 5);
 add_action('save_post_wp_template_part', 'wp_set_unique_slug_on_create_template_part');
 add_action('wp_enqueue_scripts', 'wp_enqueue_block_template_skip_link');
-add_action('wp_footer', 'the_block_template_skip_link'); // Retained for backwards-compatibility. Unhooked by wp_enqueue_block_template_skip_link().
+add_action('wp_footer',
+    'the_block_template_skip_link'); // Retained for backwards-compatibility. Unhooked by wp_enqueue_block_template_skip_link().
 add_action('after_setup_theme', 'wp_enable_block_templates', 1);
 add_action('wp_loaded', '_add_template_loader_filters');
 

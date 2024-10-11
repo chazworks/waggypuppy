@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tests for block supports related to layout.
  *
@@ -30,7 +31,7 @@ class Tests_Block_Supports_Layout extends WP_UnitTestCase
     public function set_up()
     {
         parent::set_up();
-        $this->theme_root     = realpath(DIR_TESTDATA . '/themedir1');
+        $this->theme_root = realpath(DIR_TESTDATA . '/themedir1');
         $this->orig_theme_dir = $GLOBALS['wp_theme_directories'];
 
         // /themes is necessary as theme.php functions assume /themes is the root if there is only one root.
@@ -72,12 +73,12 @@ class Tests_Block_Supports_Layout extends WP_UnitTestCase
     {
         // The "default" theme doesn't have theme.json support.
         switch_theme('default');
-        $block         = [
+        $block = [
             'blockName' => 'core/image',
-            'attrs'     => [],
+            'attrs' => [],
         ];
         $block_content = '<figure class="wp-block-image size-full"><img src="/my-image.jpg"/></figure>';
-        $expected      = '<figure class="wp-block-image size-full"><img src="/my-image.jpg"/></figure>';
+        $expected = '<figure class="wp-block-image size-full"><img src="/my-image.jpg"/></figure>';
 
         $this->assertSame($expected, wp_restore_image_outer_container($block_content, $block));
     }
@@ -89,12 +90,12 @@ class Tests_Block_Supports_Layout extends WP_UnitTestCase
     {
         // The "default" theme doesn't have theme.json support.
         switch_theme('default');
-        $block         = [
+        $block = [
             'blockName' => 'core/image',
-            'attrs'     => [],
+            'attrs' => [],
         ];
         $block_content = '<figure class="wp-block-image alignright size-full"><img src="/my-image.jpg"/></figure>';
-        $expected      = '<div class="wp-block-image"><figure class="alignright size-full"><img src="/my-image.jpg"/></figure></div>';
+        $expected = '<div class="wp-block-image"><figure class="alignright size-full"><img src="/my-image.jpg"/></figure></div>';
 
         $this->assertSame($expected, wp_restore_image_outer_container($block_content, $block));
     }
@@ -105,15 +106,17 @@ class Tests_Block_Supports_Layout extends WP_UnitTestCase
      * @dataProvider data_block_image_html_restored_outer_container
      *
      * @param string $block_image_html The block image HTML passed to `wp_restore_image_outer_container`.
-     * @param string $expected         The expected block image HTML.
+     * @param string $expected The expected block image HTML.
      */
-    public function test_additional_styles_moved_to_restored_outer_container_for_aligned_image_block_with_non_themejson_theme($block_image_html, $expected)
-    {
+    public function test_additional_styles_moved_to_restored_outer_container_for_aligned_image_block_with_non_themejson_theme(
+        $block_image_html,
+        $expected,
+    ) {
         // The "default" theme doesn't have theme.json support.
         switch_theme('default');
         $block = [
             'blockName' => 'core/image',
-            'attrs'     => [
+            'attrs' => [
                 'className' => 'is-style-round my-custom-classname',
             ],
         ];
@@ -125,9 +128,9 @@ class Tests_Block_Supports_Layout extends WP_UnitTestCase
      * Data provider for test_additional_styles_moved_to_restored_outer_container_for_aligned_image_block_with_non_themejson_theme().
      *
      * @return array {
-     *     @type array {
-     *         @type string $block_image_html The block image HTML passed to `wp_restore_image_outer_container`.
-     *         @type string $expected         The expected block image HTML.
+     * @type array {
+     * @type string $block_image_html The block image HTML passed to `wp_restore_image_outer_container`.
+     * @type string $expected The expected block image HTML.
      *     }
      * }
      */
@@ -165,14 +168,14 @@ class Tests_Block_Supports_Layout extends WP_UnitTestCase
     public function test_outer_container_not_restored_for_aligned_image_block_with_themejson_theme()
     {
         switch_theme('block-theme');
-        $block         = [
+        $block = [
             'blockName' => 'core/image',
-            'attrs'     => [
+            'attrs' => [
                 'className' => 'is-style-round my-custom-classname',
             ],
         ];
         $block_content = '<figure class="wp-block-image alignright size-full is-style-round my-custom-classname"><img src="/my-image.jpg"/></figure>';
-        $expected      = '<figure class="wp-block-image alignright size-full is-style-round my-custom-classname"><img src="/my-image.jpg"/></figure>';
+        $expected = '<figure class="wp-block-image alignright size-full is-style-round my-custom-classname"><img src="/my-image.jpg"/></figure>';
 
         $this->assertSame($expected, wp_restore_image_outer_container($block_content, $block));
     }
@@ -187,7 +190,7 @@ class Tests_Block_Supports_Layout extends WP_UnitTestCase
      *
      * @covers ::wp_render_layout_support_flag
      *
-     * @param array  $args            Dataset to test.
+     * @param array $args Dataset to test.
      * @param string $expected_output The expected output.
      */
     public function test_layout_support_flag_renders_classnames_on_wrapper($args, $expected_output)
@@ -205,18 +208,18 @@ class Tests_Block_Supports_Layout extends WP_UnitTestCase
     public function data_layout_support_flag_renders_classnames_on_wrapper()
     {
         return [
-            'single wrapper block layout with flow type'   => [
-                'args'            => [
+            'single wrapper block layout with flow type' => [
+                'args' => [
                     'block_content' => '<div class="wp-block-group"></div>',
-                    'block'         => [
-                        'blockName'    => 'core/group',
-                        'attrs'        => [
+                    'block' => [
+                        'blockName' => 'core/group',
+                        'attrs' => [
                             'layout' => [
                                 'type' => 'default',
                             ],
                         ],
-                        'innerBlocks'  => [],
-                        'innerHTML'    => '<div class="wp-block-group"></div>',
+                        'innerBlocks' => [],
+                        'innerHTML' => '<div class="wp-block-group"></div>',
                         'innerContent' => [
                             '<div class="wp-block-group"></div>',
                         ],
@@ -225,17 +228,17 @@ class Tests_Block_Supports_Layout extends WP_UnitTestCase
                 'expected_output' => '<div class="wp-block-group is-layout-flow wp-block-group-is-layout-flow"></div>',
             ],
             'single wrapper block layout with constrained type' => [
-                'args'            => [
+                'args' => [
                     'block_content' => '<div class="wp-block-group"></div>',
-                    'block'         => [
-                        'blockName'    => 'core/group',
-                        'attrs'        => [
+                    'block' => [
+                        'blockName' => 'core/group',
+                        'attrs' => [
                             'layout' => [
                                 'type' => 'constrained',
                             ],
                         ],
-                        'innerBlocks'  => [],
-                        'innerHTML'    => '<div class="wp-block-group"></div>',
+                        'innerBlocks' => [],
+                        'innerHTML' => '<div class="wp-block-group"></div>',
                         'innerContent' => [
                             '<div class="wp-block-group"></div>',
                         ],
@@ -244,17 +247,17 @@ class Tests_Block_Supports_Layout extends WP_UnitTestCase
                 'expected_output' => '<div class="wp-block-group is-layout-constrained wp-block-group-is-layout-constrained"></div>',
             ],
             'multiple wrapper block layout with flow type' => [
-                'args'            => [
+                'args' => [
                     'block_content' => '<div class="wp-block-group"><div class="wp-block-group__inner-wrapper"></div></div>',
-                    'block'         => [
-                        'blockName'    => 'core/group',
-                        'attrs'        => [
+                    'block' => [
+                        'blockName' => 'core/group',
+                        'attrs' => [
                             'layout' => [
                                 'type' => 'default',
                             ],
                         ],
-                        'innerBlocks'  => [],
-                        'innerHTML'    => '<div class="wp-block-group"><div class="wp-block-group__inner-wrapper"></div></div>',
+                        'innerBlocks' => [],
+                        'innerHTML' => '<div class="wp-block-group"><div class="wp-block-group__inner-wrapper"></div></div>',
                         'innerContent' => [
                             '<div class="wp-block-group"><div class="wp-block-group__inner-wrapper">',
                             ' ',
@@ -264,41 +267,42 @@ class Tests_Block_Supports_Layout extends WP_UnitTestCase
                 ],
                 'expected_output' => '<div class="wp-block-group"><div class="wp-block-group__inner-wrapper is-layout-flow wp-block-group-is-layout-flow"></div></div>',
             ],
-            'block with child layout'                      => [
-                'args'            => [
+            'block with child layout' => [
+                'args' => [
                     'block_content' => '<p>Some text.</p>',
-                    'block'         => [
-                        'blockName'    => 'core/paragraph',
-                        'attrs'        => [
+                    'block' => [
+                        'blockName' => 'core/paragraph',
+                        'attrs' => [
                             'style' => [
                                 'layout' => [
                                     'columnSpan' => '2',
                                 ],
                             ],
                         ],
-                        'innerBlocks'  => [],
-                        'innerHTML'    => '<p>Some text.</p>',
+                        'innerBlocks' => [],
+                        'innerHTML' => '<p>Some text.</p>',
                         'innerContent' => [
                             '<p>Some text.</p>',
                         ],
                     ],
                 ],
-                'expected_output' => '<p class="wp-container-content-1">Some text.</p>', // The generated classname number assumes `wp_unique_prefixed_id( 'wp-container-content-' )` will not have run previously in this test.
+                'expected_output' => '<p class="wp-container-content-1">Some text.</p>',
+                // The generated classname number assumes `wp_unique_prefixed_id( 'wp-container-content-' )` will not have run previously in this test.
             ],
             'skip classname output if block does not support layout and there are no child layout classes to be output' => [
-                'args'            => [
+                'args' => [
                     'block_content' => '<p>A paragraph</p>',
-                    'block'         => [
-                        'blockName'    => 'core/paragraph',
-                        'attrs'        => [
+                    'block' => [
+                        'blockName' => 'core/paragraph',
+                        'attrs' => [
                             'style' => [
                                 'layout' => [
                                     'selfStretch' => 'fit',
                                 ],
                             ],
                         ],
-                        'innerBlocks'  => [],
-                        'innerHTML'    => '<p>A paragraph</p>',
+                        'innerBlocks' => [],
+                        'innerHTML' => '<p>A paragraph</p>',
                         'innerContent' => ['<p>A paragraph</p>'],
                     ],
                 ],
@@ -316,7 +320,7 @@ class Tests_Block_Supports_Layout extends WP_UnitTestCase
      *
      * @dataProvider data_restore_group_inner_container
      *
-     * @param array  $args            Dataset to test.
+     * @param array $args Dataset to test.
      * @param string $expected_output The expected output.
      */
     public function test_restore_group_inner_container($args, $expected_output)
@@ -333,18 +337,18 @@ class Tests_Block_Supports_Layout extends WP_UnitTestCase
     public function data_restore_group_inner_container()
     {
         return [
-            'group block with existing inner container'    => [
-                'args'            => [
+            'group block with existing inner container' => [
+                'args' => [
                     'block_content' => '<div class="wp-block-group"><div class="wp-block-group__inner-container"></div></div>',
-                    'block'         => [
-                        'blockName'    => 'core/group',
-                        'attrs'        => [
+                    'block' => [
+                        'blockName' => 'core/group',
+                        'attrs' => [
                             'layout' => [
                                 'type' => 'default',
                             ],
                         ],
-                        'innerBlocks'  => [],
-                        'innerHTML'    => '<div class="wp-block-group"><div class="wp-block-group__inner-container"></div></div>',
+                        'innerBlocks' => [],
+                        'innerHTML' => '<div class="wp-block-group"><div class="wp-block-group__inner-container"></div></div>',
                         'innerContent' => [
                             '<div class="wp-block-group"><div class="wp-block-group__inner-container">',
                             ' ',
@@ -355,17 +359,17 @@ class Tests_Block_Supports_Layout extends WP_UnitTestCase
                 'expected_output' => '<div class="wp-block-group"><div class="wp-block-group__inner-container"></div></div>',
             ],
             'group block with no existing inner container' => [
-                'args'            => [
+                'args' => [
                     'block_content' => '<div class="wp-block-group"></div>',
-                    'block'         => [
-                        'blockName'    => 'core/group',
-                        'attrs'        => [
+                    'block' => [
+                        'blockName' => 'core/group',
+                        'attrs' => [
                             'layout' => [
                                 'type' => 'default',
                             ],
                         ],
-                        'innerBlocks'  => [],
-                        'innerHTML'    => '<div class="wp-block-group"></div>',
+                        'innerBlocks' => [],
+                        'innerHTML' => '<div class="wp-block-group"></div>',
                         'innerContent' => [
                             '<div class="wp-block-group">',
                             ' ',
@@ -375,18 +379,18 @@ class Tests_Block_Supports_Layout extends WP_UnitTestCase
                 ],
                 'expected_output' => '<div class="wp-block-group"><div class="wp-block-group__inner-container"></div></div>',
             ],
-            'group block with layout classnames'           => [
-                'args'            => [
+            'group block with layout classnames' => [
+                'args' => [
                     'block_content' => '<div class="wp-block-group is-layout-constrained wp-block-group-is-layout-constrained"></div>',
-                    'block'         => [
-                        'blockName'    => 'core/group',
-                        'attrs'        => [
+                    'block' => [
+                        'blockName' => 'core/group',
+                        'attrs' => [
                             'layout' => [
                                 'type' => 'default',
                             ],
                         ],
-                        'innerBlocks'  => [],
-                        'innerHTML'    => '<div class="wp-block-group"></div>',
+                        'innerBlocks' => [],
+                        'innerHTML' => '<div class="wp-block-group"></div>',
                         'innerContent' => [
                             '<div class="wp-block-group">',
                             ' ',
@@ -408,9 +412,9 @@ class Tests_Block_Supports_Layout extends WP_UnitTestCase
      *
      * @dataProvider data_wp_add_parent_layout_to_parsed_block
      *
-     * @param array    $block        The block object.
+     * @param array $block The block object.
      * @param WP_Block $parent_block The parent block object.
-     * @param array    $expected     The expected block object.
+     * @param array $expected The expected block object.
      */
     public function test_wp_add_parent_layout_to_parsed_block($block, $parent_block, $expected)
     {
@@ -427,28 +431,28 @@ class Tests_Block_Supports_Layout extends WP_UnitTestCase
     {
         return [
             'block with no parent layout' => [
-                'block'        => [
+                'block' => [
                     'blockName' => 'core/group',
-                    'attrs'     => [
+                    'attrs' => [
                         'layout' => [
                             'type' => 'default',
                         ],
                     ],
                 ],
                 'parent_block' => [],
-                'expected'     => [
+                'expected' => [
                     'blockName' => 'core/group',
-                    'attrs'     => [
+                    'attrs' => [
                         'layout' => [
                             'type' => 'default',
                         ],
                     ],
                 ],
             ],
-            'block with parent layout'    => [
-                'block'        => [
+            'block with parent layout' => [
+                'block' => [
                     'blockName' => 'core/group',
-                    'attrs'     => [
+                    'attrs' => [
                         'layout' => [
                             'type' => 'default',
                         ],
@@ -457,16 +461,16 @@ class Tests_Block_Supports_Layout extends WP_UnitTestCase
                 'parent_block' => new WP_Block(
                     [
                         'blockName' => 'core/group',
-                        'attrs'     => [
+                        'attrs' => [
                             'layout' => [
                                 'type' => 'grid',
                             ],
                         ],
-                    ]
+                    ],
                 ),
-                'expected'     => [
-                    'blockName'    => 'core/group',
-                    'attrs'        => [
+                'expected' => [
+                    'blockName' => 'core/group',
+                    'attrs' => [
                         'layout' => [
                             'type' => 'default',
                         ],

@@ -25,9 +25,9 @@ class Tests_Media_wpCopyParentAttachmentProperties extends WP_UnitTestCase
         // Add image description.
         wp_update_post(
             [
-                'ID'           => $attachment,
+                'ID' => $attachment,
                 'post_excerpt' => 'Image description',
-            ]
+            ],
         );
         $file = wp_crop_image(
             DIR_TESTDATA . '/images/canola.jpg',
@@ -36,10 +36,10 @@ class Tests_Media_wpCopyParentAttachmentProperties extends WP_UnitTestCase
             100,
             100,
             100,
-            100
+            100,
         );
 
-        $object  = wp_copy_parent_attachment_properties($file, $attachment);
+        $object = wp_copy_parent_attachment_properties($file, $attachment);
         $cropped = str_replace(wp_basename($parent_url), 'cropped-canola.jpg', $parent_url);
 
         $this->assertSame($object['post_title'], 'cropped-canola.jpg', 'Attachment title is not identical');
@@ -47,7 +47,8 @@ class Tests_Media_wpCopyParentAttachmentProperties extends WP_UnitTestCase
         $this->assertSame($object['post_mime_type'], 'image/jpeg', 'Attachment mime type is not identical');
         $this->assertSame($object['post_content'], $cropped, 'Attachment content is not identical');
         $this->assertSame($object['guid'], $cropped, 'Attachment GUID is not identical');
-        $this->assertSame($object['meta_input']['_wp_attachment_image_alt'], 'Alt text', 'Attachment alt text is not identical');
+        $this->assertSame($object['meta_input']['_wp_attachment_image_alt'], 'Alt text',
+            'Attachment alt text is not identical');
         $this->assertSame($object['post_excerpt'], 'Image description', 'Attachment description is not identical');
 
         unlink($file);

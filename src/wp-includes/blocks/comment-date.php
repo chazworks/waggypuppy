@@ -8,16 +8,16 @@
 /**
  * Renders the `core/comment-date` block on the server.
  *
+ * @param array $attributes Block attributes.
+ * @param string $content Block default content.
+ * @param WP_Block $block Block instance.
+ * @return string Return the post comment's date.
  * @since 6.0.0
  *
- * @param array    $attributes Block attributes.
- * @param string   $content    Block default content.
- * @param WP_Block $block      Block instance.
- * @return string Return the post comment's date.
  */
 function render_block_core_comment_date($attributes, $content, $block)
 {
-    if (! isset($block->context['commentId'])) {
+    if (!isset($block->context['commentId'])) {
         return '';
     }
 
@@ -37,7 +37,7 @@ function render_block_core_comment_date($attributes, $content, $block)
     }
     $link = get_comment_link($comment);
 
-    if (! empty($attributes['isLink'])) {
+    if (!empty($attributes['isLink'])) {
         $formatted_date = sprintf('<a href="%1s">%2s</a>', esc_url($link), $formatted_date);
     }
 
@@ -45,7 +45,7 @@ function render_block_core_comment_date($attributes, $content, $block)
         '<div %1$s><time datetime="%2$s">%3$s</time></div>',
         $wrapper_attributes,
         esc_attr(get_comment_date('c', $comment)),
-        $formatted_date
+        $formatted_date,
     );
 }
 
@@ -60,7 +60,8 @@ function register_block_core_comment_date()
         __DIR__ . '/comment-date',
         [
             'render_callback' => 'render_block_core_comment_date',
-        ]
+        ],
     );
 }
+
 add_action('init', 'register_block_core_comment_date');

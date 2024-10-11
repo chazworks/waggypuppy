@@ -15,14 +15,14 @@ if (function_exists('error_reporting')) {
 }
 
 // Set ABSPATH for execution.
-if (! defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
     define('ABSPATH', dirname(__DIR__) . '/');
 }
 
 const WPINC = 'wp-includes';
 
 $protocol = $_SERVER['SERVER_PROTOCOL'];
-if (! in_array($protocol, ['HTTP/1.1', 'HTTP/2', 'HTTP/2.0', 'HTTP/3'], true)) {
+if (!in_array($protocol, ['HTTP/1.1', 'HTTP/2', 'HTTP/2.0', 'HTTP/3'], true)) {
     $protocol = 'HTTP/1.0';
 }
 
@@ -45,7 +45,7 @@ require ABSPATH . WPINC . '/script-loader.php';
 require ABSPATH . WPINC . '/version.php';
 
 $expires_offset = 31536000; // 1 year.
-$out            = '';
+$out = '';
 
 $wp_scripts = new WP_Scripts();
 wp_default_scripts($wp_scripts);
@@ -60,7 +60,7 @@ if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && stripslashes($_SERVER['HTTP_IF_NONE
 }
 
 foreach ($load as $handle) {
-    if (! array_key_exists($handle, $wp_scripts->registered)) {
+    if (!array_key_exists($handle, $wp_scripts->registered)) {
         continue;
     }
 

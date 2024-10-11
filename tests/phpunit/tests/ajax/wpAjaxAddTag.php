@@ -22,19 +22,19 @@ class Tests_Ajax_wpAjaxAddTag extends WP_Ajax_UnitTestCase
      *
      * @covers ::wp_insert_term
      *
-     * @param array                 $post_data Data to populate $_POST.
-     * @param string                $expected  Expected response.
-     * @param array|string|callable $callback  Optional. Callback to register to 'term_updated_messages'
+     * @param array $post_data Data to populate $_POST.
+     * @param string $expected Expected response.
+     * @param array|string|callable $callback Optional. Callback to register to 'term_updated_messages'
      *                                         filter. Default empty string (no callback).
      */
     public function test_add_tag(array $post_data, $expected, $callback = '')
     {
         $this->_setRole('administrator');
 
-        $_POST                     = $post_data;
+        $_POST = $post_data;
         $_POST['_wpnonce_add-tag'] = wp_create_nonce('add-tag');
 
-        if (! empty($callback)) {
+        if (!empty($callback)) {
             add_filter('term_updated_messages', $callback);
         }
 
@@ -45,9 +45,9 @@ class Tests_Ajax_wpAjaxAddTag extends WP_Ajax_UnitTestCase
         }
 
         // The response message is in the `data` property in WP 5.9.
-        $this->assertSame($expected, (string) $this->get_xml_response_taxonomy()->response_data);
+        $this->assertSame($expected, (string)$this->get_xml_response_taxonomy()->response_data);
         // The response message is in the `supplemental->notice` property in WP 6.0+.
-        $this->assertSame($expected, (string) $this->get_xml_response_taxonomy()->supplemental->notice);
+        $this->assertSame($expected, (string)$this->get_xml_response_taxonomy()->supplemental->notice);
     }
 
     /**
@@ -58,39 +58,39 @@ class Tests_Ajax_wpAjaxAddTag extends WP_Ajax_UnitTestCase
     public function data_add_tag()
     {
         return [
-            'add a category'                        => [
+            'add a category' => [
                 'post_data' => [
-                    'taxonomy'  => 'category',
+                    'taxonomy' => 'category',
                     'post_type' => 'post',
-                    'screen'    => 'edit-category',
-                    'action'    => 'add-tag',
-                    'tag-name'  => 'blues',
+                    'screen' => 'edit-category',
+                    'action' => 'add-tag',
+                    'tag-name' => 'blues',
                 ],
-                'expected'  => 'Category added.',
+                'expected' => 'Category added.',
             ],
             'add a category with message filtering' => [
                 'post_data' => [
-                    'taxonomy'  => 'category',
+                    'taxonomy' => 'category',
                     'post_type' => 'post',
-                    'screen'    => 'edit-category',
-                    'action'    => 'add-tag',
-                    'tag-name'  => 'techno',
+                    'screen' => 'edit-category',
+                    'action' => 'add-tag',
+                    'tag-name' => 'techno',
                 ],
-                'expected'  => 'A new category added.',
-                'callback'  => static function (array $messages) {
+                'expected' => 'A new category added.',
+                'callback' => static function (array $messages) {
                     $messages['category'][1] = 'A new category added.';
                     return $messages;
                 },
             ],
-            'add a post_tag'                        => [
+            'add a post_tag' => [
                 'post_data' => [
-                    'taxonomy'  => 'post_tag',
+                    'taxonomy' => 'post_tag',
                     'post_type' => 'post',
-                    'screen'    => 'edit-post_tag',
-                    'action'    => 'add-tag',
-                    'tag-name'  => 'Louis Armstrong',
+                    'screen' => 'edit-post_tag',
+                    'action' => 'add-tag',
+                    'tag-name' => 'Louis Armstrong',
                 ],
-                'expected'  => 'Tag added.',
+                'expected' => 'Tag added.',
             ],
         ];
     }
@@ -102,11 +102,11 @@ class Tests_Ajax_wpAjaxAddTag extends WP_Ajax_UnitTestCase
     {
         $this->_setRole('subscriber');
 
-        $_POST['taxonomy']         = 'category';
-        $_POST['post_type']        = 'post';
-        $_POST['screen']           = 'edit-category';
-        $_POST['action']           = 'add-tag';
-        $_POST['tag - name']       = 'disco';
+        $_POST['taxonomy'] = 'category';
+        $_POST['post_type'] = 'post';
+        $_POST['screen'] = 'edit-category';
+        $_POST['action'] = 'add-tag';
+        $_POST['tag - name'] = 'disco';
         $_POST['_wpnonce_add-tag'] = wp_create_nonce('add-tag');
 
         $this->expectException('WPAjaxDieStopException');
@@ -126,11 +126,11 @@ class Tests_Ajax_wpAjaxAddTag extends WP_Ajax_UnitTestCase
         wp_insert_term('testcat', 'category');
 
         $_POST = [
-            'taxonomy'         => 'category',
-            'post_type'        => 'post',
-            'screen'           => 'edit-category',
-            'action'           => 'add-tag',
-            'tag-name'         => 'testcat',
+            'taxonomy' => 'category',
+            'post_type' => 'post',
+            'screen' => 'edit-category',
+            'action' => 'add-tag',
+            'tag-name' => 'testcat',
             '_wpnonce_add-tag' => wp_create_nonce('add-tag'),
         ];
 
@@ -141,15 +141,15 @@ class Tests_Ajax_wpAjaxAddTag extends WP_Ajax_UnitTestCase
         }
 
         $expected = 'A term with the name provided already exists with this parent.';
-        $this->assertSame($expected, (string) $this->get_xml_response_taxonomy()->wp_error);
+        $this->assertSame($expected, (string)$this->get_xml_response_taxonomy()->wp_error);
     }
 
     /**
      * Helper method to get the taxonomy's response or error.
      *
+     * @return SimpleXMLElement Response or error object.
      * @since 5.9.0
      *
-     * @return SimpleXMLElement Response or error object.
      */
     private function get_xml_response_taxonomy()
     {

@@ -137,23 +137,23 @@ class WP_Customize_Panel
      *
      * Any supplied $args override class property defaults.
      *
-     * @since 4.0.0
-     *
      * @param WP_Customize_Manager $manager Customizer bootstrap instance.
-     * @param string               $id      A specific ID for the panel.
-     * @param array                $args    {
+     * @param string $id A specific ID for the panel.
+     * @param array $args {
      *     Optional. Array of properties for the new Panel object. Default empty array.
      *
-     *     @type int             $priority        Priority of the panel, defining the display order
+     * @type int $priority Priority of the panel, defining the display order
      *                                            of panels and sections. Default 160.
-     *     @type string          $capability      Capability required for the panel.
+     * @type string $capability Capability required for the panel.
      *                                            Default `edit_theme_options`.
-     *     @type mixed[]         $theme_supports  Theme features required to support the panel.
-     *     @type string          $title           Title of the panel to show in UI.
-     *     @type string          $description     Description to show in the UI.
-     *     @type string          $type            Type of the panel.
-     *     @type callable        $active_callback Active callback.
+     * @type mixed[] $theme_supports Theme features required to support the panel.
+     * @type string $title Title of the panel to show in UI.
+     * @type string $description Description to show in the UI.
+     * @type string $type Type of the panel.
+     * @type callable $active_callback Active callback.
      * }
+     * @since 4.0.0
+     *
      */
     public function __construct($manager, $id, $args = [])
     {
@@ -165,7 +165,7 @@ class WP_Customize_Panel
         }
 
         $this->manager = $manager;
-        $this->id      = $id;
+        $this->id = $id;
         if (empty($this->active_callback)) {
             $this->active_callback = [$this, 'active_callback'];
         }
@@ -178,22 +178,22 @@ class WP_Customize_Panel
     /**
      * Check whether panel is active to current Customizer preview.
      *
+     * @return bool Whether the panel is active to the current preview.
      * @since 4.1.0
      *
-     * @return bool Whether the panel is active to the current preview.
      */
     final public function active()
     {
-        $panel  = $this;
+        $panel = $this;
         $active = call_user_func($this->active_callback, $this);
 
         /**
          * Filters response of WP_Customize_Panel::active().
          *
+         * @param bool $active Whether the Customizer panel is active.
+         * @param WP_Customize_Panel $panel WP_Customize_Panel instance.
          * @since 4.1.0
          *
-         * @param bool               $active Whether the Customizer panel is active.
-         * @param WP_Customize_Panel $panel  WP_Customize_Panel instance.
          */
         $active = apply_filters('customize_panel_active', $active, $panel);
 
@@ -206,9 +206,9 @@ class WP_Customize_Panel
      * Subclasses can override this with their specific logic, or they may
      * provide an 'active_callback' argument to the constructor.
      *
+     * @return bool Always true.
      * @since 4.1.0
      *
-     * @return bool Always true.
      */
     public function active_callback()
     {
@@ -218,17 +218,17 @@ class WP_Customize_Panel
     /**
      * Gather the parameters passed to client JavaScript via JSON.
      *
+     * @return array The array to be exported to the client as JSON.
      * @since 4.1.0
      *
-     * @return array The array to be exported to the client as JSON.
      */
     public function json()
     {
-        $array                          = wp_array_slice_assoc((array) $this, ['id', 'description', 'priority', 'type']);
-        $array['title']                 = html_entity_decode($this->title, ENT_QUOTES, get_bloginfo('charset'));
-        $array['content']               = $this->get_content();
-        $array['active']                = $this->active();
-        $array['instanceNumber']        = $this->instance_number;
+        $array = wp_array_slice_assoc((array)$this, ['id', 'description', 'priority', 'type']);
+        $array['title'] = html_entity_decode($this->title, ENT_QUOTES, get_bloginfo('charset'));
+        $array['content'] = $this->get_content();
+        $array['active'] = $this->active();
+        $array['instanceNumber'] = $this->instance_number;
         $array['autoExpandSoleSection'] = $this->auto_expand_sole_section;
         return $array;
     }
@@ -237,18 +237,18 @@ class WP_Customize_Panel
      * Checks required user capabilities and whether the theme has the
      * feature support required by the panel.
      *
-     * @since 4.0.0
+     * @return bool False if theme doesn't support the panel or the user doesn't have the capability.
      * @since 5.9.0 Method was marked non-final.
      *
-     * @return bool False if theme doesn't support the panel or the user doesn't have the capability.
+     * @since 4.0.0
      */
     public function check_capabilities()
     {
-        if ($this->capability && ! current_user_can($this->capability)) {
+        if ($this->capability && !current_user_can($this->capability)) {
             return false;
         }
 
-        if ($this->theme_supports && ! current_theme_supports(...(array) $this->theme_supports)) {
+        if ($this->theme_supports && !current_theme_supports(...(array)$this->theme_supports)) {
             return false;
         }
 
@@ -258,9 +258,9 @@ class WP_Customize_Panel
     /**
      * Get the panel's content template for insertion into the Customizer pane.
      *
+     * @return string Content for the panel.
      * @since 4.1.0
      *
-     * @return string Content for the panel.
      */
     final public function get_content()
     {
@@ -276,16 +276,16 @@ class WP_Customize_Panel
      */
     final public function maybe_render()
     {
-        if (! $this->check_capabilities()) {
+        if (!$this->check_capabilities()) {
             return;
         }
 
         /**
          * Fires before rendering a Customizer panel.
          *
+         * @param WP_Customize_Panel $panel WP_Customize_Panel instance.
          * @since 4.0.0
          *
-         * @param WP_Customize_Panel $panel WP_Customize_Panel instance.
          */
         do_action('customize_render_panel', $this);
 
@@ -309,8 +309,7 @@ class WP_Customize_Panel
      *
      * @since 4.0.0
      */
-    protected function render()
-    {}
+    protected function render() {}
 
     /**
      * Render the panel UI in a subclass.
@@ -319,8 +318,7 @@ class WP_Customize_Panel
      *
      * @since 4.1.0
      */
-    protected function render_content()
-    {}
+    protected function render_content() {}
 
     /**
      * Render the panel's JS templates.
@@ -357,7 +355,8 @@ class WP_Customize_Panel
     protected function render_template()
     {
         ?>
-        <li id="accordion-panel-{{ data.id }}" class="accordion-section control-section control-panel control-panel-{{ data.type }}">
+        <li id="accordion-panel-{{ data.id }}"
+            class="accordion-section control-section control-panel control-panel-{{ data.type }}">
             <h3 class="accordion-section-title" tabindex="0">
                 {{ data.title }}
                 <span class="screen-reader-text">
@@ -395,12 +394,13 @@ class WP_Customize_Panel
             <div class="accordion-section-title">
                 <span class="preview-notice">
                 <?php
-                    /* translators: %s: The site/panel title in the Customizer. */
-                    printf(__('You are customizing %s'), '<strong class="panel-title">{{ data.title }}</strong>');
+                /* translators: %s: The site/panel title in the Customizer. */
+                printf(__('You are customizing %s'), '<strong class="panel-title">{{ data.title }}</strong>');
                 ?>
                 </span>
                 <# if ( data.description ) { #>
-                    <button type="button" class="customize-help-toggle dashicons dashicons-editor-help" aria-expanded="false"><span class="screen-reader-text">
+                <button type="button" class="customize-help-toggle dashicons dashicons-editor-help"
+                        aria-expanded="false"><span class="screen-reader-text">
                         <?php
                         /* translators: Hidden accessibility text. */
                         _e('Help');
@@ -409,9 +409,9 @@ class WP_Customize_Panel
                 <# } #>
             </div>
             <# if ( data.description ) { #>
-                <div class="description customize-panel-description">
-                    {{{ data.description }}}
-                </div>
+            <div class="description customize-panel-description">
+                {{{ data.description }}}
+            </div>
             <# } #>
 
             <div class="customize-control-notifications-container"></div>

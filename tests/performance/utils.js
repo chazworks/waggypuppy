@@ -48,16 +48,16 @@ function camelCaseDashes( str ) {
  * For example, this array:
  *
  * [
- * 	{
- * 	    foo: 123,
- * 	    bar: 456,
- * 	    baz: 'Yes',
- * 	},
- * 	{
- * 	    foo: 777,
- * 	    bar: 999,
- * 	    baz: 'No',
- * 	}
+ *  {
+ *      foo: 123,
+ *      bar: 456,
+ *      baz: 'Yes',
+ *  },
+ *  {
+ *      foo: 777,
+ *      bar: 999,
+ *      baz: 'No',
+ *  }
  * ]
  *
  * Will result in the following table:

@@ -14,16 +14,16 @@
  * Would be transformed to:
  *  <h2 class="align-left wp-block-heading">Hello World</h2>
  *
- * @since 6.2.0
- *
- * @param array  $attributes Attributes of the block being rendered.
+ * @param array $attributes Attributes of the block being rendered.
  * @param string $content Content of the block being rendered.
  *
  * @return string The content of the block being rendered.
+ * @since 6.2.0
+ *
  */
 function block_core_heading_render($attributes, $content)
 {
-    if (! $content) {
+    if (!$content) {
         return $content;
     }
 
@@ -51,7 +51,7 @@ function register_block_core_heading()
         __DIR__ . '/heading',
         [
             'render_callback' => 'block_core_heading_render',
-        ]
+        ],
     );
 }
 

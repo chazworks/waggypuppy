@@ -8,20 +8,20 @@
 /**
  * Renders the `core/site-logo` block on the server.
  *
- * @since 5.8.0
- *
  * @param array $attributes The block attributes.
  *
  * @return string The render.
+ * @since 5.8.0
+ *
  */
 function render_block_core_site_logo($attributes)
 {
     $adjust_width_height_filter = static function ($image) use ($attributes) {
-        if (empty($attributes['width']) || empty($image) || ! $image[1] || ! $image[2]) {
+        if (empty($attributes['width']) || empty($image) || !$image[1] || !$image[2]) {
             return $image;
         }
-        $height = (float) $attributes['width'] / ((float) $image[1] / (float) $image[2]);
-        return [$image[0], (int) $attributes['width'], (int) $height];
+        $height = (float)$attributes['width'] / ((float)$image[1] / (float)$image[2]);
+        return [$image[0], (int)$attributes['width'], (int)$height];
     };
 
     add_filter('wp_get_attachment_image_src', $adjust_width_height_filter);
@@ -34,7 +34,7 @@ function render_block_core_site_logo($attributes)
         return ''; // Return early if no custom logo is set, avoiding extraneous wrapper div.
     }
 
-    if (! $attributes['isLink']) {
+    if (!$attributes['isLink']) {
         // Remove the link.
         $custom_logo = preg_replace('#<a.*?>(.*?)</a>#i', '\1', $custom_logo);
     }
@@ -57,7 +57,7 @@ function render_block_core_site_logo($attributes)
     }
 
     $wrapper_attributes = get_block_wrapper_attributes(['class' => implode(' ', $classnames)]);
-    $html               = sprintf('<div %s>%s</div>', $wrapper_attributes, $custom_logo);
+    $html = sprintf('<div %s>%s</div>', $wrapper_attributes, $custom_logo);
     return $html;
 }
 
@@ -75,10 +75,10 @@ function register_block_core_site_logo_setting()
             'show_in_rest' => [
                 'name' => 'site_logo',
             ],
-            'type'         => 'integer',
-            'label'        => __('Logo'),
-            'description'  => __('Site logo.'),
-        ]
+            'type' => 'integer',
+            'label' => __('Logo'),
+            'description' => __('Site logo.'),
+        ],
     );
 }
 
@@ -96,10 +96,10 @@ function register_block_core_site_icon_setting()
         'site_icon',
         [
             'show_in_rest' => true,
-            'type'         => 'integer',
-            'label'        => __('Icon'),
-            'description'  => __('Site icon.'),
-        ]
+            'type' => 'integer',
+            'label' => __('Icon'),
+            'description' => __('Site icon.'),
+        ],
     );
 }
 
@@ -116,7 +116,7 @@ function register_block_core_site_logo()
         __DIR__ . '/site-logo',
         [
             'render_callback' => 'render_block_core_site_logo',
-        ]
+        ],
     );
 }
 
@@ -125,11 +125,11 @@ add_action('init', 'register_block_core_site_logo');
 /**
  * Overrides the custom logo with a site logo, if the option is set.
  *
- * @since 5.8.0
- *
  * @param string $custom_logo The custom logo set by a theme.
  *
  * @return string The site logo if set.
+ * @since 5.8.0
+ *
  */
 function _override_custom_logo_theme_mod($custom_logo)
 {
@@ -142,10 +142,10 @@ add_filter('theme_mod_custom_logo', '_override_custom_logo_theme_mod');
 /**
  * Updates the site_logo option when the custom_logo theme-mod gets updated.
  *
+ * @param mixed $value Attachment ID of the custom logo or an empty value.
+ * @return mixed
  * @since 5.8.0
  *
- * @param  mixed $value Attachment ID of the custom logo or an empty value.
- * @return mixed
  */
 function _sync_custom_logo_to_site_logo($value)
 {
@@ -163,12 +163,12 @@ add_filter('pre_set_theme_mod_custom_logo', '_sync_custom_logo_to_site_logo');
 /**
  * Deletes the site_logo when the custom_logo theme mod is removed.
  *
+ * @param array $old_value Previous theme mod settings.
+ * @param array $value Updated theme mod settings.
  * @since 5.8.0
  *
  * @global array $_ignore_site_logo_changes
  *
- * @param array $old_value Previous theme mod settings.
- * @param array $value     Updated theme mod settings.
  */
 function _delete_site_logo_on_remove_custom_logo($old_value, $value)
 {
@@ -179,7 +179,7 @@ function _delete_site_logo_on_remove_custom_logo($old_value, $value)
     }
 
     // If the custom_logo is being unset, it's being removed from theme mods.
-    if (isset($old_value['custom_logo']) && ! isset($value['custom_logo'])) {
+    if (isset($old_value['custom_logo']) && !isset($value['custom_logo'])) {
         delete_option('site_logo');
     }
 }
@@ -218,6 +218,7 @@ function _delete_site_logo_on_remove_custom_logo_on_setup_theme()
     add_action("update_option_theme_mods_$theme", '_delete_site_logo_on_remove_custom_logo', 10, 2);
     add_action("delete_option_theme_mods_$theme", '_delete_site_logo_on_remove_theme_mods');
 }
+
 add_action('setup_theme', '_delete_site_logo_on_remove_custom_logo_on_setup_theme', 11);
 
 /**
@@ -241,4 +242,5 @@ function _delete_custom_logo_on_remove_site_logo()
 
     $_ignore_site_logo_changes = false;
 }
+
 add_action('delete_option_site_logo', '_delete_custom_logo_on_remove_site_logo');

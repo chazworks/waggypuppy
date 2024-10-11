@@ -40,30 +40,30 @@ final class WP_Block_Pattern_Categories_Registry
     /**
      * Registers a pattern category.
      *
-     * @since 5.5.0
-     *
-     * @param string $category_name       Pattern category name including namespace.
-     * @param array  $category_properties {
+     * @param string $category_name Pattern category name including namespace.
+     * @param array $category_properties {
      *     List of properties for the block pattern category.
      *
-     *     @type string $label Required. A human-readable label for the pattern category.
+     * @type string $label Required. A human-readable label for the pattern category.
      * }
      * @return bool True if the pattern was registered with success and false otherwise.
+     * @since 5.5.0
+     *
      */
     public function register($category_name, $category_properties)
     {
-        if (! isset($category_name) || ! is_string($category_name)) {
+        if (!isset($category_name) || !is_string($category_name)) {
             _doing_it_wrong(
                 __METHOD__,
                 __('Block pattern category name must be a string.'),
-                '5.5.0'
+                '5.5.0',
             );
             return false;
         }
 
         $category = array_merge(
             ['name' => $category_name],
-            $category_properties
+            $category_properties,
         );
 
         $this->registered_categories[$category_name] = $category;
@@ -81,19 +81,19 @@ final class WP_Block_Pattern_Categories_Registry
     /**
      * Unregisters a pattern category.
      *
-     * @since 5.5.0
-     *
      * @param string $category_name Pattern category name including namespace.
      * @return bool True if the pattern was unregistered with success and false otherwise.
+     * @since 5.5.0
+     *
      */
     public function unregister($category_name)
     {
-        if (! $this->is_registered($category_name)) {
+        if (!$this->is_registered($category_name)) {
             _doing_it_wrong(
                 __METHOD__,
                 /* translators: %s: Block pattern name. */
                 sprintf(__('Block pattern category "%s" not found.'), $category_name),
-                '5.5.0'
+                '5.5.0',
             );
             return false;
         }
@@ -107,14 +107,14 @@ final class WP_Block_Pattern_Categories_Registry
     /**
      * Retrieves an array containing the properties of a registered pattern category.
      *
-     * @since 5.5.0
-     *
      * @param string $category_name Pattern category name including namespace.
      * @return array Registered pattern properties.
+     * @since 5.5.0
+     *
      */
     public function get_registered($category_name)
     {
-        if (! $this->is_registered($category_name)) {
+        if (!$this->is_registered($category_name)) {
             return null;
         }
 
@@ -124,27 +124,27 @@ final class WP_Block_Pattern_Categories_Registry
     /**
      * Retrieves all registered pattern categories.
      *
-     * @since 5.5.0
-     *
      * @param bool $outside_init_only Return only categories registered outside the `init` action.
      * @return array[] Array of arrays containing the registered pattern categories properties.
+     * @since 5.5.0
+     *
      */
     public function get_all_registered($outside_init_only = false)
     {
         return array_values(
             $outside_init_only
                 ? $this->registered_categories_outside_init
-                : $this->registered_categories
+                : $this->registered_categories,
         );
     }
 
     /**
      * Checks if a pattern category is registered.
      *
-     * @since 5.5.0
-     *
      * @param string $category_name Pattern category name including namespace.
      * @return bool True if the pattern category is registered, false otherwise.
+     * @since 5.5.0
+     *
      */
     public function is_registered($category_name)
     {
@@ -156,9 +156,9 @@ final class WP_Block_Pattern_Categories_Registry
      *
      * The instance will be created if it does not exist yet.
      *
+     * @return WP_Block_Pattern_Categories_Registry The main instance.
      * @since 5.5.0
      *
-     * @return WP_Block_Pattern_Categories_Registry The main instance.
      */
     public static function get_instance()
     {
@@ -173,13 +173,13 @@ final class WP_Block_Pattern_Categories_Registry
 /**
  * Registers a new pattern category.
  *
- * @since 5.5.0
- *
- * @param string $category_name       Pattern category name including namespace.
- * @param array  $category_properties List of properties for the block pattern.
+ * @param string $category_name Pattern category name including namespace.
+ * @param array $category_properties List of properties for the block pattern.
  *                                    See WP_Block_Pattern_Categories_Registry::register() for
  *                                    accepted arguments.
  * @return bool True if the pattern category was registered with success and false otherwise.
+ * @since 5.5.0
+ *
  */
 function register_block_pattern_category($category_name, $category_properties)
 {
@@ -189,10 +189,10 @@ function register_block_pattern_category($category_name, $category_properties)
 /**
  * Unregisters a pattern category.
  *
- * @since 5.5.0
- *
  * @param string $category_name Pattern category name including namespace.
  * @return bool True if the pattern category was unregistered with success and false otherwise.
+ * @since 5.5.0
+ *
  */
 function unregister_block_pattern_category($category_name)
 {

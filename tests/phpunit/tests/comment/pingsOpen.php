@@ -29,7 +29,7 @@ class Tests_Comment_PingsOpen extends WP_UnitTestCase
      */
     public function test_post_exist_status_closed()
     {
-        $post              = self::factory()->post->create_and_get();
+        $post = self::factory()->post->create_and_get();
         $post->ping_status = 'closed';
 
         $this->assertFalse(pings_open($post));

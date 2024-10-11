@@ -12,7 +12,7 @@ class Tests_WP_Customize_Section extends WP_UnitTestCase
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
-        self::$admin_id   = $factory->user->create(['role' => 'administrator']);
+        self::$admin_id = $factory->user->create(['role' => 'administrator']);
         self::$user_ids[] = self::$admin_id;
     }
 
@@ -26,7 +26,7 @@ class Tests_WP_Customize_Section extends WP_UnitTestCase
         parent::set_up();
         require_once ABSPATH . WPINC . '/class-wp-customize-manager.php';
         $GLOBALS['wp_customize'] = new WP_Customize_Manager();
-        $this->manager           = $GLOBALS['wp_customize'];
+        $this->manager = $GLOBALS['wp_customize'];
     }
 
     public function tear_down()
@@ -61,14 +61,14 @@ class Tests_WP_Customize_Section extends WP_UnitTestCase
     public function test_construct_custom_args()
     {
         $args = [
-            'priority'        => 200,
-            'capability'      => 'edit_posts',
-            'theme_supports'  => 'html5',
-            'title'           => 'Hello World',
-            'description'     => 'Lorem Ipsum',
-            'type'            => 'horizontal',
+            'priority' => 200,
+            'capability' => 'edit_posts',
+            'theme_supports' => 'html5',
+            'title' => 'Hello World',
+            'description' => 'Lorem Ipsum',
+            'type' => 'horizontal',
             'active_callback' => '__return_true',
-            'panel'           => 'bar',
+            'panel' => 'bar',
         ];
 
         $this->manager->add_panel('bar');
@@ -102,7 +102,7 @@ class Tests_WP_Customize_Section extends WP_UnitTestCase
             'foo',
             [
                 'active_callback' => '__return_false',
-            ]
+            ],
         );
         $this->assertFalse($section->active());
         add_filter('customize_section_active', [$this, 'filter_active_test'], 10, 2);
@@ -128,20 +128,20 @@ class Tests_WP_Customize_Section extends WP_UnitTestCase
     public function test_json()
     {
         $args = [
-            'priority'        => 200,
-            'capability'      => 'edit_posts',
-            'theme_supports'  => 'html5',
-            'title'           => 'Hello World',
-            'description'     => 'Lorem Ipsum',
-            'type'            => 'horizontal',
-            'panel'           => 'bar',
+            'priority' => 200,
+            'capability' => 'edit_posts',
+            'theme_supports' => 'html5',
+            'title' => 'Hello World',
+            'description' => 'Lorem Ipsum',
+            'type' => 'horizontal',
+            'panel' => 'bar',
             'active_callback' => '__return_true',
         ];
 
         $this->manager->add_panel('bar');
 
         $section = new WP_Customize_Section($this->manager, 'foo', $args);
-        $data    = $section->json();
+        $data = $section->json();
         $this->assertSame('foo', $data['id']);
         foreach (['title', 'description', 'priority', 'panel', 'type'] as $key) {
             $this->assertSame($args[$key], $data[$key]);
@@ -160,7 +160,7 @@ class Tests_WP_Customize_Section extends WP_UnitTestCase
 
         $section = new WP_Customize_Section($this->manager, 'foo');
         $this->assertTrue($section->check_capabilities());
-        $old_cap             = $section->capability;
+        $old_cap = $section->capability;
         $section->capability = 'do_not_allow';
         $this->assertFalse($section->check_capabilities());
         $section->capability = $old_cap;
@@ -184,7 +184,7 @@ class Tests_WP_Customize_Section extends WP_UnitTestCase
     public function test_maybe_render()
     {
         wp_set_current_user(self::$admin_id);
-        $section                        = new WP_Customize_Section($this->manager, 'bar');
+        $section = new WP_Customize_Section($this->manager, 'bar');
         $customize_render_section_count = did_action('customize_render_section');
         add_action('customize_render_section', [$this, 'action_customize_render_section_test']);
         ob_start();
@@ -192,13 +192,15 @@ class Tests_WP_Customize_Section extends WP_UnitTestCase
         $content = ob_get_clean();
         $this->assertTrue($section->check_capabilities());
         $this->assertEmpty($content);
-        $this->assertSame($customize_render_section_count + 1, did_action('customize_render_section'), 'Unexpected did_action count for customize_render_section');
-        $this->assertSame(1, did_action("customize_render_section_{$section->id}"), "Unexpected did_action count for customize_render_section_{$section->id}");
+        $this->assertSame($customize_render_section_count + 1, did_action('customize_render_section'),
+            'Unexpected did_action count for customize_render_section');
+        $this->assertSame(1, did_action("customize_render_section_{$section->id}"),
+            "Unexpected did_action count for customize_render_section_{$section->id}");
     }
 
     /**
-     * @see WP_Customize_Section::maybe_render()
      * @param WP_Customize_Section $section
+     * @see WP_Customize_Section::maybe_render()
      */
     public function action_customize_render_section_test($section)
     {
@@ -239,6 +241,7 @@ class Tests_WP_Customize_Section extends WP_UnitTestCase
 }
 
 require_once ABSPATH . WPINC . '/class-wp-customize-section.php';
+
 class Custom_Section_Test extends WP_Customize_Section
 {
     public $type = 'titleless';
@@ -246,12 +249,13 @@ class Custom_Section_Test extends WP_Customize_Section
     protected function render_template()
     {
         ?>
-        <li id="accordion-section-{{ data.id }}" class="accordion-section control-section control-section-{{ data.type }}">
+        <li id="accordion-section-{{ data.id }}"
+            class="accordion-section control-section control-section-{{ data.type }}">
             <ul class="accordion-section-content">
                 <# if ( data.description ) { #>
-                    <li class="customize-section-description-container">
-                        <p class="description customize-section-description">{{{ data.description }}}</p>
-                    </li>
+                <li class="customize-section-description-container">
+                    <p class="description customize-section-description">{{{ data.description }}}</p>
+                </li>
                 <# } #>
             </ul>
         </li>

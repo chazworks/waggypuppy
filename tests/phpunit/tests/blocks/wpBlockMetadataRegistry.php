@@ -24,10 +24,10 @@ class Tests_Blocks_WpBlockMetadataRegistry extends WP_UnitTestCase
 
     public function test_register_collection_and_get_metadata()
     {
-        $path          = WP_PLUGIN_DIR . '/test/path';
+        $path = WP_PLUGIN_DIR . '/test/path';
         $manifest_data = [
             'test-block' => [
-                'name'  => 'test-block',
+                'name' => 'test-block',
                 'title' => 'Test Block',
             ],
         ];
@@ -42,40 +42,40 @@ class Tests_Blocks_WpBlockMetadataRegistry extends WP_UnitTestCase
 
     public function test_get_nonexistent_metadata()
     {
-        $path               = WP_PLUGIN_DIR . '/nonexistent/path';
+        $path = WP_PLUGIN_DIR . '/nonexistent/path';
         $retrieved_metadata = WP_Block_Metadata_Registry::get_metadata($path . '/nonexistent-block');
         $this->assertNull($retrieved_metadata);
     }
 
     public function test_has_metadata()
     {
-            $path          = WP_PLUGIN_DIR . '/another/test/path';
-            $manifest_data = [
-                'existing-block' => [
-                    'name'  => 'existing-block',
-                    'title' => 'Existing Block',
-                ],
-            ];
+        $path = WP_PLUGIN_DIR . '/another/test/path';
+        $manifest_data = [
+            'existing-block' => [
+                'name' => 'existing-block',
+                'title' => 'Existing Block',
+            ],
+        ];
 
-            file_put_contents($this->temp_manifest_file, '<?php return ' . var_export($manifest_data, true) . ';');
+        file_put_contents($this->temp_manifest_file, '<?php return ' . var_export($manifest_data, true) . ';');
 
-            WP_Block_Metadata_Registry::register_collection($path, $this->temp_manifest_file);
+        WP_Block_Metadata_Registry::register_collection($path, $this->temp_manifest_file);
 
-            $this->assertTrue(WP_Block_Metadata_Registry::has_metadata($path . '/existing-block'));
-            $this->assertFalse(WP_Block_Metadata_Registry::has_metadata($path . '/non-existing-block'));
+        $this->assertTrue(WP_Block_Metadata_Registry::has_metadata($path . '/existing-block'));
+        $this->assertFalse(WP_Block_Metadata_Registry::has_metadata($path . '/non-existing-block'));
     }
 
     public function test_register_collection_with_core_path()
     {
         $core_path = ABSPATH . WPINC . '/blocks';
-        $result    = WP_Block_Metadata_Registry::register_collection($core_path, $this->temp_manifest_file);
+        $result = WP_Block_Metadata_Registry::register_collection($core_path, $this->temp_manifest_file);
         $this->assertTrue($result, 'Core path should be registered successfully');
     }
 
     public function test_register_collection_with_valid_plugin_path()
     {
         $plugin_path = WP_PLUGIN_DIR . '/my-plugin/blocks';
-        $result      = WP_Block_Metadata_Registry::register_collection($plugin_path, $this->temp_manifest_file);
+        $result = WP_Block_Metadata_Registry::register_collection($plugin_path, $this->temp_manifest_file);
         $this->assertTrue($result, 'Valid plugin path should be registered successfully');
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @group block-supports
  *
@@ -34,36 +35,36 @@ class Tests_Block_Supports_Colors extends WP_UnitTestCase
             $this->test_block_name,
             [
                 'api_version' => 2,
-                'attributes'  => [
-                    'textColor'       => [
+                'attributes' => [
+                    'textColor' => [
                         'type' => 'string',
                     ],
                     'backgroundColor' => [
                         'type' => 'string',
                     ],
-                    'gradient'        => [
+                    'gradient' => [
                         'type' => 'string',
                     ],
                 ],
-                'supports'    => [
+                'supports' => [
                     'color' => [
-                        'text'       => true,
+                        'text' => true,
                         'background' => true,
-                        'gradients'  => true,
+                        'gradients' => true,
                     ],
                 ],
-            ]
+            ],
         );
-        $registry   = WP_Block_Type_Registry::get_instance();
+        $registry = WP_Block_Type_Registry::get_instance();
         $block_type = $registry->get_registered($this->test_block_name);
 
         $block_atts = [
-            'textColor'       => 'fg1',
+            'textColor' => 'fg1',
             'backgroundColor' => 'bg2',
-            'gradient'        => 'gr3',
+            'gradient' => 'gr3',
         ];
 
-        $actual   = wp_apply_colors_support($block_type, $block_atts);
+        $actual = wp_apply_colors_support($block_type, $block_atts);
         $expected = ['class' => 'has-text-color has-fg-1-color has-background has-bg-2-background-color has-gr-3-gradient-background'];
 
         $this->assertSame($expected, $actual);
@@ -79,33 +80,33 @@ class Tests_Block_Supports_Colors extends WP_UnitTestCase
             $this->test_block_name,
             [
                 'api_version' => 2,
-                'attributes'  => [
+                'attributes' => [
                     'style' => [
                         'type' => 'object',
                     ],
                 ],
-                'supports'    => [
+                'supports' => [
                     'color' => [
-                        'text'                            => true,
-                        'gradients'                       => true,
+                        'text' => true,
+                        'gradients' => true,
                         '__experimentalSkipSerialization' => true,
                     ],
                 ],
-            ]
+            ],
         );
 
-        $registry   = WP_Block_Type_Registry::get_instance();
+        $registry = WP_Block_Type_Registry::get_instance();
         $block_type = $registry->get_registered($this->test_block_name);
         $block_atts = [
             'style' => [
                 'color' => [
-                    'text'     => '#d92828',
+                    'text' => '#d92828',
                     'gradient' => 'linear-gradient(135deg,rgb(6,147,227) 0%,rgb(223,13,13) 46%,rgb(155,81,224) 100%)',
                 ],
             ],
         ];
 
-        $actual   = wp_apply_colors_support($block_type, $block_atts);
+        $actual = wp_apply_colors_support($block_type, $block_atts);
         $expected = [];
 
         $this->assertSame($expected, $actual);
@@ -121,22 +122,22 @@ class Tests_Block_Supports_Colors extends WP_UnitTestCase
             $this->test_block_name,
             [
                 'api_version' => 2,
-                'attributes'  => [
+                'attributes' => [
                     'style' => [
                         'type' => 'object',
                     ],
                 ],
-                'supports'    => [
+                'supports' => [
                     'color' => [
-                        'text'                            => true,
-                        'gradients'                       => true,
+                        'text' => true,
+                        'gradients' => true,
                         '__experimentalSkipSerialization' => ['gradients'],
                     ],
                 ],
-            ]
+            ],
         );
 
-        $registry   = WP_Block_Type_Registry::get_instance();
+        $registry = WP_Block_Type_Registry::get_instance();
         $block_type = $registry->get_registered($this->test_block_name);
         $block_atts = [
             'style' => [
@@ -146,7 +147,7 @@ class Tests_Block_Supports_Colors extends WP_UnitTestCase
             ],
         ];
 
-        $actual   = wp_apply_colors_support($block_type, $block_atts);
+        $actual = wp_apply_colors_support($block_type, $block_atts);
         $expected = [
             'class' => 'has-text-color',
             'style' => 'color:#d92828;',

@@ -8,10 +8,10 @@ class Tests_POMO_Translations extends WP_UnitTestCase
 
     public function test_add_entry()
     {
-        $entry  = new Translation_Entry(['singular' => 'baba']);
+        $entry = new Translation_Entry(['singular' => 'baba']);
         $entry2 = new Translation_Entry(['singular' => 'dyado']);
-        $empty  = new Translation_Entry();
-        $po     = new Translations();
+        $empty = new Translation_Entry();
+        $po = new Translations();
         $po->add_entry($entry);
         $this->assertSame([$entry->key() => $entry], $po->entries);
         // Add the same entry more than once.
@@ -22,19 +22,19 @@ class Tests_POMO_Translations extends WP_UnitTestCase
         $po->add_entry($entry2);
         $this->assertSame(
             [
-                $entry->key()  => $entry,
+                $entry->key() => $entry,
                 $entry2->key() => $entry2,
             ],
-            $po->entries
+            $po->entries,
         );
         // Add empty entry.
         $this->assertFalse($po->add_entry($empty));
         $this->assertSame(
             [
-                $entry->key()  => $entry,
+                $entry->key() => $entry,
                 $entry2->key() => $entry2,
             ],
-            $po->entries
+            $po->entries,
         );
 
         // Give add_entry() the arguments and let it create the entry itself.
@@ -48,16 +48,16 @@ class Tests_POMO_Translations extends WP_UnitTestCase
     {
         $entry1 = new Translation_Entry(
             [
-                'singular'     => 'baba',
+                'singular' => 'baba',
                 'translations' => ['babax'],
-            ]
+            ],
         );
         $entry2 = new Translation_Entry(
             [
-                'singular'     => 'baba',
+                'singular' => 'baba',
                 'translations' => ['babay'],
-                'context'      => 'x',
-            ]
+                'context' => 'x',
+            ],
         );
         $domain = new Translations();
         $domain->add_entry($entry1);
@@ -72,26 +72,26 @@ class Tests_POMO_Translations extends WP_UnitTestCase
     {
         $entry_incomplete = new Translation_Entry(
             [
-                'singular'     => 'baba',
-                'plural'       => 'babas',
+                'singular' => 'baba',
+                'plural' => 'babas',
                 'translations' => ['babax'],
-            ]
+            ],
         );
-        $entry_toomany    = new Translation_Entry(
+        $entry_toomany = new Translation_Entry(
             [
-                'singular'     => 'wink',
-                'plural'       => 'winks',
+                'singular' => 'wink',
+                'plural' => 'winks',
                 'translations' => ['winki', 'winka', 'winko'],
-            ]
+            ],
         );
-        $entry_2          = new Translation_Entry(
+        $entry_2 = new Translation_Entry(
             [
-                'singular'     => 'dyado',
-                'plural'       => 'dyados',
+                'singular' => 'dyado',
+                'plural' => 'dyados',
                 'translations' => ['dyadox', 'dyadoy'],
-            ]
+            ],
         );
-        $domain           = new Translations();
+        $domain = new Translations();
         $domain->add_entry($entry_incomplete);
         $domain->add_entry($entry_toomany);
         $domain->add_entry($entry_2);
@@ -113,17 +113,17 @@ class Tests_POMO_Translations extends WP_UnitTestCase
     {
         $entry_digit_1 = new Translation_Entry(
             [
-                'singular'     => 1,
+                'singular' => 1,
                 'translations' => ['1'],
-            ]
+            ],
         );
         $entry_digit_2 = new Translation_Entry(
             [
-                'singular'     => 2,
+                'singular' => 2,
                 'translations' => ['2'],
-            ]
+            ],
         );
-        $domain        = new Translations();
+        $domain = new Translations();
         $domain->add_entry($entry_digit_1);
         $domain->add_entry($entry_digit_2);
         $dummy_translation = new Translations();
@@ -139,21 +139,21 @@ class Tests_POMO_Translations extends WP_UnitTestCase
     {
         $entry_empty = new Translation_Entry(
             [
-                'singular'     => '',
+                'singular' => '',
                 'translations' => [
                     '',
                 ],
-            ]
+            ],
         );
-        $entry_zero  = new Translation_Entry(
+        $entry_zero = new Translation_Entry(
             [
-                'singular'     => '0',
+                'singular' => '0',
                 'translations' => [
                     '0',
                 ],
-            ]
+            ],
         );
-        $po          = new Translations();
+        $po = new Translations();
         $po->add_entry($entry_empty);
         $po->add_entry($entry_zero);
 

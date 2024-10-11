@@ -794,65 +794,65 @@ global $_old_requests_files;
 
 $_old_requests_files = [
     // Interfaces.
-    'Requests_Auth'                              => 'wp-includes/Requests/Auth.php',
-    'Requests_Hooker'                            => 'wp-includes/Requests/Hooker.php',
-    'Requests_Proxy'                             => 'wp-includes/Requests/Proxy.php',
-    'Requests_Transport'                         => 'wp-includes/Requests/Transport.php',
+    'Requests_Auth' => 'wp-includes/Requests/Auth.php',
+    'Requests_Hooker' => 'wp-includes/Requests/Hooker.php',
+    'Requests_Proxy' => 'wp-includes/Requests/Proxy.php',
+    'Requests_Transport' => 'wp-includes/Requests/Transport.php',
 
     // Classes.
-    'Requests_Auth_Basic'                        => 'wp-includes/Requests/Auth/Basic.php',
-    'Requests_Cookie_Jar'                        => 'wp-includes/Requests/Cookie/Jar.php',
-    'Requests_Exception_HTTP'                    => 'wp-includes/Requests/Exception/HTTP.php',
-    'Requests_Exception_Transport'               => 'wp-includes/Requests/Exception/Transport.php',
-    'Requests_Exception_HTTP_304'                => 'wp-includes/Requests/Exception/HTTP/304.php',
-    'Requests_Exception_HTTP_305'                => 'wp-includes/Requests/Exception/HTTP/305.php',
-    'Requests_Exception_HTTP_306'                => 'wp-includes/Requests/Exception/HTTP/306.php',
-    'Requests_Exception_HTTP_400'                => 'wp-includes/Requests/Exception/HTTP/400.php',
-    'Requests_Exception_HTTP_401'                => 'wp-includes/Requests/Exception/HTTP/401.php',
-    'Requests_Exception_HTTP_402'                => 'wp-includes/Requests/Exception/HTTP/402.php',
-    'Requests_Exception_HTTP_403'                => 'wp-includes/Requests/Exception/HTTP/403.php',
-    'Requests_Exception_HTTP_404'                => 'wp-includes/Requests/Exception/HTTP/404.php',
-    'Requests_Exception_HTTP_405'                => 'wp-includes/Requests/Exception/HTTP/405.php',
-    'Requests_Exception_HTTP_406'                => 'wp-includes/Requests/Exception/HTTP/406.php',
-    'Requests_Exception_HTTP_407'                => 'wp-includes/Requests/Exception/HTTP/407.php',
-    'Requests_Exception_HTTP_408'                => 'wp-includes/Requests/Exception/HTTP/408.php',
-    'Requests_Exception_HTTP_409'                => 'wp-includes/Requests/Exception/HTTP/409.php',
-    'Requests_Exception_HTTP_410'                => 'wp-includes/Requests/Exception/HTTP/410.php',
-    'Requests_Exception_HTTP_411'                => 'wp-includes/Requests/Exception/HTTP/411.php',
-    'Requests_Exception_HTTP_412'                => 'wp-includes/Requests/Exception/HTTP/412.php',
-    'Requests_Exception_HTTP_413'                => 'wp-includes/Requests/Exception/HTTP/413.php',
-    'Requests_Exception_HTTP_414'                => 'wp-includes/Requests/Exception/HTTP/414.php',
-    'Requests_Exception_HTTP_415'                => 'wp-includes/Requests/Exception/HTTP/415.php',
-    'Requests_Exception_HTTP_416'                => 'wp-includes/Requests/Exception/HTTP/416.php',
-    'Requests_Exception_HTTP_417'                => 'wp-includes/Requests/Exception/HTTP/417.php',
-    'Requests_Exception_HTTP_418'                => 'wp-includes/Requests/Exception/HTTP/418.php',
-    'Requests_Exception_HTTP_428'                => 'wp-includes/Requests/Exception/HTTP/428.php',
-    'Requests_Exception_HTTP_429'                => 'wp-includes/Requests/Exception/HTTP/429.php',
-    'Requests_Exception_HTTP_431'                => 'wp-includes/Requests/Exception/HTTP/431.php',
-    'Requests_Exception_HTTP_500'                => 'wp-includes/Requests/Exception/HTTP/500.php',
-    'Requests_Exception_HTTP_501'                => 'wp-includes/Requests/Exception/HTTP/501.php',
-    'Requests_Exception_HTTP_502'                => 'wp-includes/Requests/Exception/HTTP/502.php',
-    'Requests_Exception_HTTP_503'                => 'wp-includes/Requests/Exception/HTTP/503.php',
-    'Requests_Exception_HTTP_504'                => 'wp-includes/Requests/Exception/HTTP/504.php',
-    'Requests_Exception_HTTP_505'                => 'wp-includes/Requests/Exception/HTTP/505.php',
-    'Requests_Exception_HTTP_511'                => 'wp-includes/Requests/Exception/HTTP/511.php',
-    'Requests_Exception_HTTP_Unknown'            => 'wp-includes/Requests/Exception/HTTP/Unknown.php',
-    'Requests_Exception_Transport_cURL'          => 'wp-includes/Requests/Exception/Transport/cURL.php',
-    'Requests_Proxy_HTTP'                        => 'wp-includes/Requests/Proxy/HTTP.php',
-    'Requests_Response_Headers'                  => 'wp-includes/Requests/Response/Headers.php',
-    'Requests_Transport_cURL'                    => 'wp-includes/Requests/Transport/cURL.php',
-    'Requests_Transport_fsockopen'               => 'wp-includes/Requests/Transport/fsockopen.php',
+    'Requests_Auth_Basic' => 'wp-includes/Requests/Auth/Basic.php',
+    'Requests_Cookie_Jar' => 'wp-includes/Requests/Cookie/Jar.php',
+    'Requests_Exception_HTTP' => 'wp-includes/Requests/Exception/HTTP.php',
+    'Requests_Exception_Transport' => 'wp-includes/Requests/Exception/Transport.php',
+    'Requests_Exception_HTTP_304' => 'wp-includes/Requests/Exception/HTTP/304.php',
+    'Requests_Exception_HTTP_305' => 'wp-includes/Requests/Exception/HTTP/305.php',
+    'Requests_Exception_HTTP_306' => 'wp-includes/Requests/Exception/HTTP/306.php',
+    'Requests_Exception_HTTP_400' => 'wp-includes/Requests/Exception/HTTP/400.php',
+    'Requests_Exception_HTTP_401' => 'wp-includes/Requests/Exception/HTTP/401.php',
+    'Requests_Exception_HTTP_402' => 'wp-includes/Requests/Exception/HTTP/402.php',
+    'Requests_Exception_HTTP_403' => 'wp-includes/Requests/Exception/HTTP/403.php',
+    'Requests_Exception_HTTP_404' => 'wp-includes/Requests/Exception/HTTP/404.php',
+    'Requests_Exception_HTTP_405' => 'wp-includes/Requests/Exception/HTTP/405.php',
+    'Requests_Exception_HTTP_406' => 'wp-includes/Requests/Exception/HTTP/406.php',
+    'Requests_Exception_HTTP_407' => 'wp-includes/Requests/Exception/HTTP/407.php',
+    'Requests_Exception_HTTP_408' => 'wp-includes/Requests/Exception/HTTP/408.php',
+    'Requests_Exception_HTTP_409' => 'wp-includes/Requests/Exception/HTTP/409.php',
+    'Requests_Exception_HTTP_410' => 'wp-includes/Requests/Exception/HTTP/410.php',
+    'Requests_Exception_HTTP_411' => 'wp-includes/Requests/Exception/HTTP/411.php',
+    'Requests_Exception_HTTP_412' => 'wp-includes/Requests/Exception/HTTP/412.php',
+    'Requests_Exception_HTTP_413' => 'wp-includes/Requests/Exception/HTTP/413.php',
+    'Requests_Exception_HTTP_414' => 'wp-includes/Requests/Exception/HTTP/414.php',
+    'Requests_Exception_HTTP_415' => 'wp-includes/Requests/Exception/HTTP/415.php',
+    'Requests_Exception_HTTP_416' => 'wp-includes/Requests/Exception/HTTP/416.php',
+    'Requests_Exception_HTTP_417' => 'wp-includes/Requests/Exception/HTTP/417.php',
+    'Requests_Exception_HTTP_418' => 'wp-includes/Requests/Exception/HTTP/418.php',
+    'Requests_Exception_HTTP_428' => 'wp-includes/Requests/Exception/HTTP/428.php',
+    'Requests_Exception_HTTP_429' => 'wp-includes/Requests/Exception/HTTP/429.php',
+    'Requests_Exception_HTTP_431' => 'wp-includes/Requests/Exception/HTTP/431.php',
+    'Requests_Exception_HTTP_500' => 'wp-includes/Requests/Exception/HTTP/500.php',
+    'Requests_Exception_HTTP_501' => 'wp-includes/Requests/Exception/HTTP/501.php',
+    'Requests_Exception_HTTP_502' => 'wp-includes/Requests/Exception/HTTP/502.php',
+    'Requests_Exception_HTTP_503' => 'wp-includes/Requests/Exception/HTTP/503.php',
+    'Requests_Exception_HTTP_504' => 'wp-includes/Requests/Exception/HTTP/504.php',
+    'Requests_Exception_HTTP_505' => 'wp-includes/Requests/Exception/HTTP/505.php',
+    'Requests_Exception_HTTP_511' => 'wp-includes/Requests/Exception/HTTP/511.php',
+    'Requests_Exception_HTTP_Unknown' => 'wp-includes/Requests/Exception/HTTP/Unknown.php',
+    'Requests_Exception_Transport_cURL' => 'wp-includes/Requests/Exception/Transport/cURL.php',
+    'Requests_Proxy_HTTP' => 'wp-includes/Requests/Proxy/HTTP.php',
+    'Requests_Response_Headers' => 'wp-includes/Requests/Response/Headers.php',
+    'Requests_Transport_cURL' => 'wp-includes/Requests/Transport/cURL.php',
+    'Requests_Transport_fsockopen' => 'wp-includes/Requests/Transport/fsockopen.php',
     'Requests_Utility_CaseInsensitiveDictionary' => 'wp-includes/Requests/Utility/CaseInsensitiveDictionary.php',
-    'Requests_Utility_FilteredIterator'          => 'wp-includes/Requests/Utility/FilteredIterator.php',
-    'Requests_Cookie'                            => 'wp-includes/Requests/Cookie.php',
-    'Requests_Exception'                         => 'wp-includes/Requests/Exception.php',
-    'Requests_Hooks'                             => 'wp-includes/Requests/Hooks.php',
-    'Requests_IDNAEncoder'                       => 'wp-includes/Requests/IDNAEncoder.php',
-    'Requests_IPv6'                              => 'wp-includes/Requests/IPv6.php',
-    'Requests_IRI'                               => 'wp-includes/Requests/IRI.php',
-    'Requests_Response'                          => 'wp-includes/Requests/Response.php',
-    'Requests_SSL'                               => 'wp-includes/Requests/SSL.php',
-    'Requests_Session'                           => 'wp-includes/Requests/Session.php',
+    'Requests_Utility_FilteredIterator' => 'wp-includes/Requests/Utility/FilteredIterator.php',
+    'Requests_Cookie' => 'wp-includes/Requests/Cookie.php',
+    'Requests_Exception' => 'wp-includes/Requests/Exception.php',
+    'Requests_Hooks' => 'wp-includes/Requests/Hooks.php',
+    'Requests_IDNAEncoder' => 'wp-includes/Requests/IDNAEncoder.php',
+    'Requests_IPv6' => 'wp-includes/Requests/IPv6.php',
+    'Requests_IRI' => 'wp-includes/Requests/IRI.php',
+    'Requests_Response' => 'wp-includes/Requests/Response.php',
+    'Requests_SSL' => 'wp-includes/Requests/SSL.php',
+    'Requests_Session' => 'wp-includes/Requests/Session.php',
 
     // Directories.
     'wp-includes/Requests/Auth/',
@@ -890,22 +890,22 @@ $_old_requests_files = [
 global $_new_bundled_files;
 
 $_new_bundled_files = [
-    'plugins/akismet/'          => '2.0',
-    'themes/twentyten/'         => '3.0',
-    'themes/twentyeleven/'      => '3.2',
-    'themes/twentytwelve/'      => '3.5',
-    'themes/twentythirteen/'    => '3.6',
-    'themes/twentyfourteen/'    => '3.8',
-    'themes/twentyfifteen/'     => '4.1',
-    'themes/twentysixteen/'     => '4.4',
-    'themes/twentyseventeen/'   => '4.7',
-    'themes/twentynineteen/'    => '5.0',
-    'themes/twentytwenty/'      => '5.3',
-    'themes/twentytwentyone/'   => '5.6',
-    'themes/twentytwentytwo/'   => '5.9',
+    'plugins/akismet/' => '2.0',
+    'themes/twentyten/' => '3.0',
+    'themes/twentyeleven/' => '3.2',
+    'themes/twentytwelve/' => '3.5',
+    'themes/twentythirteen/' => '3.6',
+    'themes/twentyfourteen/' => '3.8',
+    'themes/twentyfifteen/' => '4.1',
+    'themes/twentysixteen/' => '4.4',
+    'themes/twentyseventeen/' => '4.7',
+    'themes/twentynineteen/' => '5.0',
+    'themes/twentytwenty/' => '5.3',
+    'themes/twentytwentyone/' => '5.6',
+    'themes/twentytwentytwo/' => '5.9',
     'themes/twentytwentythree/' => '6.1',
-    'themes/twentytwentyfour/'  => '6.4',
-    'themes/twentytwentyfive/'  => '6.7',
+    'themes/twentytwentyfour/' => '6.4',
+    'themes/twentytwentyfive/' => '6.7',
 ];
 
 /**
@@ -948,20 +948,20 @@ $_new_bundled_files = [
  * themes, then if you edit the default theme, you should rename it, so that
  * your changes remain.
  *
+ * @param string $from New release unzipped path.
+ * @param string $to Path to old waggypuppy installation.
+ * @return string|WP_Error New waggypuppy version on success, WP_Error on failure.
  * @since 2.7.0
  *
- * @global WP_Filesystem_Base $wp_filesystem          waggypuppy filesystem subclass.
- * @global array              $_old_files
- * @global array              $_old_requests_files
- * @global array              $_new_bundled_files
- * @global wpdb               $wpdb                   waggypuppy database abstraction object.
- * @global string             $wp_version
- * @global string             $required_php_version
- * @global string             $required_mysql_version
+ * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
+ * @global array $_old_files
+ * @global array $_old_requests_files
+ * @global array $_new_bundled_files
+ * @global wpdb $wpdb waggypuppy database abstraction object.
+ * @global string $wp_version
+ * @global string $required_php_version
+ * @global string $required_mysql_version
  *
- * @param string $from New release unzipped path.
- * @param string $to   Path to old waggypuppy installation.
- * @return string|WP_Error New waggypuppy version on success, WP_Error on failure.
  */
 function update_core($from, $to)
 {
@@ -993,15 +993,15 @@ function update_core($from, $to)
      * 4. Before Maintenance Mode is disabled.
      * 5. Before the database is upgraded.
      *
+     * @param string $feedback The core update feedback messages.
      * @since 2.5.0
      *
-     * @param string $feedback The core update feedback messages.
      */
     apply_filters('update_feedback', __('Verifying the unpacked files&#8230;'));
 
     // Confidence check the unzipped distribution.
     $distro = '';
-    $roots  = ['/wordpress/', '/wordpress-mu/'];
+    $roots = ['/wordpress/', '/wordpress-mu/'];
 
     foreach ($roots as $root) {
         if ($wp_filesystem->exists($from . $root . 'readme.html')
@@ -1012,7 +1012,7 @@ function update_core($from, $to)
         }
     }
 
-    if (! $distro) {
+    if (!$distro) {
         $wp_filesystem->delete($from, true);
 
         return new WP_Error('insane_distro', __('The update could not be unpacked'));
@@ -1026,13 +1026,13 @@ function update_core($from, $to)
      */
     $versions_file = trailingslashit($wp_filesystem->wp_content_dir()) . 'upgrade/version-current.php';
 
-    if (! $wp_filesystem->copy($from . $distro . 'wp-includes/version.php', $versions_file)) {
+    if (!$wp_filesystem->copy($from . $distro . 'wp-includes/version.php', $versions_file)) {
         $wp_filesystem->delete($from, true);
 
         return new WP_Error(
             'copy_failed_for_version_file',
             __('The update cannot be installed because some files could not be copied. This is usually due to inconsistent file permissions.'),
-            'wp-includes/version.php'
+            'wp-includes/version.php',
         );
     }
 
@@ -1049,16 +1049,17 @@ function update_core($from, $to)
     require WP_CONTENT_DIR . '/upgrade/version-current.php';
     $wp_filesystem->delete($versions_file);
 
-    $php_version    = PHP_VERSION;
-    $mysql_version  = $wpdb->db_version();
+    $php_version = PHP_VERSION;
+    $mysql_version = $wpdb->db_version();
     $old_wp_version = $GLOBALS['wp_version']; // The version of waggypuppy we're updating from.
     /*
      * Note: str_contains() is not used here, as this file is included
      * when updating from older waggypuppy versions, in which case
      * the polyfills from wp-includes/compat.php may not be available.
      */
-    $development_build = (false !== strpos($old_wp_version . $wp_version, '-')); // A dash in the version indicates a development release.
-    $php_compat        = version_compare($php_version, $required_php_version, '>=');
+    $development_build = (false !== strpos($old_wp_version . $wp_version,
+            '-')); // A dash in the version indicates a development release.
+    $php_compat = version_compare($php_version, $required_php_version, '>=');
 
     if (file_exists(WP_CONTENT_DIR . '/db.php') && empty($wpdb->is_mysql)) {
         $mysql_compat = true;
@@ -1066,7 +1067,7 @@ function update_core($from, $to)
         $mysql_compat = version_compare($mysql_version, $required_mysql_version, '>=');
     }
 
-    if (! $mysql_compat || ! $php_compat) {
+    if (!$mysql_compat || !$php_compat) {
         $wp_filesystem->delete($from, true);
     }
 
@@ -1075,9 +1076,9 @@ function update_core($from, $to)
     if (function_exists('wp_get_update_php_url')) {
         $php_update_message = '</p><p>' . sprintf(
             /* translators: %s: URL to Update PHP page. */
-            __('<a href="%s">Learn more about updating PHP</a>.'),
-            esc_url(wp_get_update_php_url())
-        );
+                __('<a href="%s">Learn more about updating PHP</a>.'),
+                esc_url(wp_get_update_php_url()),
+            );
 
         if (function_exists('wp_get_update_php_annotation')) {
             $annotation = wp_get_update_php_annotation();
@@ -1088,53 +1089,53 @@ function update_core($from, $to)
         }
     }
 
-    if (! $mysql_compat && ! $php_compat) {
+    if (!$mysql_compat && !$php_compat) {
         return new WP_Error(
             'php_mysql_not_compatible',
             sprintf(
-                /* translators: 1: waggypuppy version number, 2: Minimum required PHP version number, 3: Minimum required MySQL version number, 4: Current PHP version number, 5: Current MySQL version number. */
+            /* translators: 1: waggypuppy version number, 2: Minimum required PHP version number, 3: Minimum required MySQL version number, 4: Current PHP version number, 5: Current MySQL version number. */
                 __('The update cannot be installed because waggypuppy %1$s requires PHP version %2$s or higher and MySQL version %3$s or higher. You are running PHP version %4$s and MySQL version %5$s.'),
                 $wp_version,
                 $required_php_version,
                 $required_mysql_version,
                 $php_version,
-                $mysql_version
-            ) . $php_update_message
+                $mysql_version,
+            ) . $php_update_message,
         );
-    } elseif (! $php_compat) {
+    } elseif (!$php_compat) {
         return new WP_Error(
             'php_not_compatible',
             sprintf(
-                /* translators: 1: waggypuppy version number, 2: Minimum required PHP version number, 3: Current PHP version number. */
+            /* translators: 1: waggypuppy version number, 2: Minimum required PHP version number, 3: Current PHP version number. */
                 __('The update cannot be installed because waggypuppy %1$s requires PHP version %2$s or higher. You are running version %3$s.'),
                 $wp_version,
                 $required_php_version,
-                $php_version
-            ) . $php_update_message
+                $php_version,
+            ) . $php_update_message,
         );
-    } elseif (! $mysql_compat) {
+    } elseif (!$mysql_compat) {
         return new WP_Error(
             'mysql_not_compatible',
             sprintf(
-                /* translators: 1: waggypuppy version number, 2: Minimum required MySQL version number, 3: Current MySQL version number. */
+            /* translators: 1: waggypuppy version number, 2: Minimum required MySQL version number, 3: Current MySQL version number. */
                 __('The update cannot be installed because waggypuppy %1$s requires MySQL version %2$s or higher. You are running version %3$s.'),
                 $wp_version,
                 $required_mysql_version,
-                $mysql_version
-            )
+                $mysql_version,
+            ),
         );
     }
 
     // Add a warning when the JSON PHP extension is missing.
-    if (! extension_loaded('json')) {
+    if (!extension_loaded('json')) {
         return new WP_Error(
             'php_not_compatible_json',
             sprintf(
-                /* translators: 1: waggypuppy version number, 2: The PHP extension name needed. */
+            /* translators: 1: waggypuppy version number, 2: The PHP extension name needed. */
                 __('The update cannot be installed because waggypuppy %1$s requires the %2$s PHP extension.'),
                 $wp_version,
-                'JSON'
-            )
+                'JSON',
+            ),
         );
     }
 
@@ -1145,7 +1146,7 @@ function update_core($from, $to)
      * Don't copy wp-content, we'll deal with that below.
      * We also copy version.php last so failed updates report their old version.
      */
-    $skip              = ['wp-content', 'wp-includes/version.php'];
+    $skip = ['wp-content', 'wp-includes/version.php'];
     $check_is_writable = [];
 
     // Check to see which files don't really need updating - only available for 3.7 and higher.
@@ -1170,11 +1171,11 @@ function update_core($from, $to)
                     continue;
                 }
 
-                if (! file_exists(ABSPATH . $file)) {
+                if (!file_exists(ABSPATH . $file)) {
                     continue;
                 }
 
-                if (! file_exists($working_dir_local . $file)) {
+                if (!file_exists($working_dir_local . $file)) {
                     continue;
                 }
 
@@ -1216,7 +1217,7 @@ function update_core($from, $to)
                 return new WP_Error(
                     'files_not_writable',
                     __('The update cannot be installed because your site is unable to copy some files. This is usually due to inconsistent file permissions.'),
-                    implode(', ', $error_data)
+                    implode(', ', $error_data),
                 );
             }
         }
@@ -1227,7 +1228,7 @@ function update_core($from, $to)
 
     // Create maintenance file to signal that we are upgrading.
     $maintenance_string = '<?php $upgrading = ' . time() . '; ?>';
-    $maintenance_file   = $to . '.maintenance';
+    $maintenance_file = $to . '.maintenance';
     $wp_filesystem->delete($maintenance_file);
     $wp_filesystem->put_contents($maintenance_file, $maintenance_string, FS_CHMOD_FILE);
 
@@ -1241,18 +1242,19 @@ function update_core($from, $to)
         $result = new WP_Error(
             $result->get_error_code(),
             $result->get_error_message(),
-            substr($result->get_error_data(), strlen($to))
+            substr($result->get_error_data(), strlen($to)),
         );
     }
 
     // Since we know the core files have copied over, we can now copy the version file.
-    if (! is_wp_error($result)) {
-        if (! $wp_filesystem->copy($from . $distro . 'wp-includes/version.php', $to . 'wp-includes/version.php', true /* overwrite */)) {
+    if (!is_wp_error($result)) {
+        if (!$wp_filesystem->copy($from . $distro . 'wp-includes/version.php', $to . 'wp-includes/version.php',
+            true /* overwrite */)) {
             $wp_filesystem->delete($from, true);
             $result = new WP_Error(
                 'copy_failed_for_version_file',
                 __('The update cannot be installed because your site is unable to copy some files. This is usually due to inconsistent file permissions.'),
-                'wp-includes/version.php'
+                'wp-includes/version.php',
             );
         }
 
@@ -1268,7 +1270,7 @@ function update_core($from, $to)
     }
 
     // Check to make sure everything copied correctly, ignoring the contents of wp-content.
-    $skip   = ['wp-content'];
+    $skip = ['wp-content'];
     $failed = [];
 
     if (isset($checksums) && is_array($checksums)) {
@@ -1282,7 +1284,7 @@ function update_core($from, $to)
                 continue;
             }
 
-            if (! file_exists($working_dir_local . $file)) {
+            if (!file_exists($working_dir_local . $file)) {
                 continue;
             }
 
@@ -1302,7 +1304,7 @@ function update_core($from, $to)
     }
 
     // Some files didn't copy properly.
-    if (! empty($failed)) {
+    if (!empty($failed)) {
         $total_size = 0;
 
         foreach ($failed as $file) {
@@ -1326,7 +1328,7 @@ function update_core($from, $to)
                 $result = new WP_Error(
                     $result->get_error_code() . '_retry',
                     $result->get_error_message(),
-                    substr($result->get_error_data(), strlen($to))
+                    substr($result->get_error_data(), strlen($to)),
                 );
             }
         }
@@ -1336,7 +1338,7 @@ function update_core($from, $to)
      * Custom content directory needs updating now.
      * Copy languages.
      */
-    if (! is_wp_error($result) && $wp_filesystem->is_dir($from . $distro . 'wp-content/languages')) {
+    if (!is_wp_error($result) && $wp_filesystem->is_dir($from . $distro . 'wp-content/languages')) {
         if (WP_LANG_DIR !== ABSPATH . WPINC . '/languages' || @is_dir(WP_LANG_DIR)) {
             $lang_dir = WP_LANG_DIR;
         } else {
@@ -1348,7 +1350,7 @@ function update_core($from, $to)
          * the polyfills from wp-includes/compat.php may not be available.
          */
         // Check if the language directory exists first.
-        if (! @is_dir($lang_dir) && 0 === strpos($lang_dir, ABSPATH)) {
+        if (!@is_dir($lang_dir) && 0 === strpos($lang_dir, ABSPATH)) {
             // If it's within the ABSPATH we can handle it here, otherwise they're out of luck.
             $wp_filesystem->mkdir($to . str_replace(ABSPATH, '', $lang_dir), FS_CHMOD_DIR);
             clearstatcache(); // For FTP, need to clear the stat cache.
@@ -1364,7 +1366,7 @@ function update_core($from, $to)
                     $result = new WP_Error(
                         $result->get_error_code() . '_languages',
                         $result->get_error_message(),
-                        substr($result->get_error_data(), strlen($wp_lang_dir))
+                        substr($result->get_error_data(), strlen($wp_lang_dir)),
                     );
                 }
             }
@@ -1383,7 +1385,7 @@ function update_core($from, $to)
      */
     if ('3.5' === $old_wp_version) {
         if (is_dir(WP_CONTENT_DIR . '/themes/twentytwelve')
-            && ! file_exists(WP_CONTENT_DIR . '/themes/twentytwelve/style.css')
+            && !file_exists(WP_CONTENT_DIR . '/themes/twentytwelve/style.css')
         ) {
             $wp_filesystem->delete($wp_filesystem->wp_themes_dir() . 'twentytwelve/');
         }
@@ -1395,10 +1397,10 @@ function update_core($from, $to)
      * future versions of waggypuppy whilst avoiding the re-install upon upgrade issue.
      * $development_build controls us overwriting bundled themes and plugins when a non-stable release is being updated.
      */
-    if (! is_wp_error($result)
-        && (! defined('CORE_UPGRADE_SKIP_NEW_BUNDLED') || ! CORE_UPGRADE_SKIP_NEW_BUNDLED)
+    if (!is_wp_error($result)
+        && (!defined('CORE_UPGRADE_SKIP_NEW_BUNDLED') || !CORE_UPGRADE_SKIP_NEW_BUNDLED)
     ) {
-        foreach ((array) $_new_bundled_files as $file => $introduced_version) {
+        foreach ((array)$_new_bundled_files as $file => $introduced_version) {
             // If a $development_build or if $introduced version is greater than what the site was previously running.
             if ($development_build || version_compare($introduced_version, $old_wp_version, '>')) {
                 $directory = ('/' === $file[strlen($file) - 1]);
@@ -1406,7 +1408,7 @@ function update_core($from, $to)
                 [$type, $filename] = explode('/', $file, 2);
 
                 // Check to see if the bundled items exist before attempting to copy them.
-                if (! $wp_filesystem->exists($from . $distro . 'wp-content/' . $file)) {
+                if (!$wp_filesystem->exists($from . $distro . 'wp-content/' . $file)) {
                     continue;
                 }
 
@@ -1419,16 +1421,18 @@ function update_core($from, $to)
                     continue;
                 }
 
-                if (! $directory) {
-                    if (! $development_build && $wp_filesystem->exists($dest . $filename)) {
+                if (!$directory) {
+                    if (!$development_build && $wp_filesystem->exists($dest . $filename)) {
                         continue;
                     }
 
-                    if (! $wp_filesystem->copy($from . $distro . 'wp-content/' . $file, $dest . $filename, FS_CHMOD_FILE)) {
-                        $result = new WP_Error("copy_failed_for_new_bundled_$type", __('Could not copy file.'), $dest . $filename);
+                    if (!$wp_filesystem->copy($from . $distro . 'wp-content/' . $file, $dest . $filename,
+                        FS_CHMOD_FILE)) {
+                        $result = new WP_Error("copy_failed_for_new_bundled_$type", __('Could not copy file.'),
+                            $dest . $filename);
                     }
                 } else {
-                    if (! $development_build && $wp_filesystem->is_dir($dest . $filename)) {
+                    if (!$development_build && $wp_filesystem->is_dir($dest . $filename)) {
                         continue;
                     }
 
@@ -1440,14 +1444,14 @@ function update_core($from, $to)
                      * keep the error flowing through, but keep the process going.
                      */
                     if (is_wp_error($_result)) {
-                        if (! is_wp_error($result)) {
+                        if (!is_wp_error($result)) {
                             $result = new WP_Error();
                         }
 
                         $result->add(
                             $_result->get_error_code() . "_$type",
                             $_result->get_error_message(),
-                            substr($_result->get_error_data(), strlen($dest))
+                            substr($_result->get_error_data(), strlen($dest)),
                         );
                     }
                 }
@@ -1466,12 +1470,12 @@ function update_core($from, $to)
     foreach ($_old_files as $old_file) {
         $old_file = $to . $old_file;
 
-        if (! $wp_filesystem->exists($old_file)) {
+        if (!$wp_filesystem->exists($old_file)) {
             continue;
         }
 
         // If the file isn't deleted, try writing an empty string to the file instead.
-        if (! $wp_filesystem->delete($old_file, true) && $wp_filesystem->is_file($old_file)) {
+        if (!$wp_filesystem->delete($old_file, true) && $wp_filesystem->is_file($old_file)) {
             $wp_filesystem->put_contents($old_file, '');
         }
     }
@@ -1510,9 +1514,9 @@ function update_core($from, $to)
     /**
      * Fires after waggypuppy core has been successfully updated.
      *
+     * @param string $wp_version The current waggypuppy version.
      * @since 3.3.0
      *
-     * @param string $wp_version The current waggypuppy version.
      */
     do_action('_core_updated_successfully', $wp_version);
 
@@ -1536,12 +1540,12 @@ function update_core($from, $to)
  * a fatal error. Preloading ensures the code is in memory before the
  * code is updated.
  *
+ * @param string $to Path to old waggypuppy installation.
+ * @global array $_old_requests_files Requests files to be preloaded.
+ * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
+ *
  * @since 6.2.0
  *
- * @global array              $_old_requests_files Requests files to be preloaded.
- * @global WP_Filesystem_Base $wp_filesystem       waggypuppy filesystem subclass.
- *
- * @param string $to Path to old waggypuppy installation.
  */
 function _preload_old_requests_classes_and_interfaces($to)
 {
@@ -1558,7 +1562,7 @@ function _preload_old_requests_classes_and_interfaces($to)
         return;
     }
 
-    if (! defined('REQUESTS_SILENCE_PSR0_DEPRECATIONS')) {
+    if (!defined('REQUESTS_SILENCE_PSR0_DEPRECATIONS')) {
         define('REQUESTS_SILENCE_PSR0_DEPRECATIONS', true);
     }
 
@@ -1574,7 +1578,7 @@ function _preload_old_requests_classes_and_interfaces($to)
         }
 
         // Skip if the file is missing.
-        if (! $wp_filesystem->is_file($to . $file)) {
+        if (!$wp_filesystem->is_file($to . $file)) {
             continue;
         }
 
@@ -1587,12 +1591,12 @@ function _preload_old_requests_classes_and_interfaces($to)
  *
  * This function is only needed when the existing installation is older than 3.4.0.
  *
- * @since 3.3.0
- *
+ * @param string $new_version
  * @global string $pagenow The filename of the current screen.
  * @global string $action
  *
- * @param string $new_version
+ * @since 3.3.0
+ *
  */
 function _redirect_to_about_wordpress($new_version)
 {
@@ -1621,25 +1625,25 @@ function _redirect_to_about_wordpress($new_version)
     // self_admin_url() won't exist when upgrading from <= 3.0, so relative URLs are intentional.
     show_message(
         '<span class="hide-if-no-js">' . sprintf(
-            /* translators: 1: waggypuppy version, 2: URL to About screen. */
+        /* translators: 1: waggypuppy version, 2: URL to About screen. */
             __('Welcome to waggypuppy %1$s. You will be redirected to the About waggypuppy screen. If not, click <a href="%2$s">here</a>.'),
             $new_version,
-            'about.php?updated'
-        ) . '</span>'
+            'about.php?updated',
+        ) . '</span>',
     );
     show_message(
         '<span class="hide-if-js">' . sprintf(
-            /* translators: 1: waggypuppy version, 2: URL to About screen. */
+        /* translators: 1: waggypuppy version, 2: URL to About screen. */
             __('Welcome to waggypuppy %1$s. <a href="%2$s">Learn more</a>.'),
             $new_version,
-            'about.php?updated'
-        ) . '</span>'
+            'about.php?updated',
+        ) . '</span>',
     );
     echo '</div>';
     ?>
-<script type="text/javascript">
-window.location = 'about.php?updated';
-</script>
+    <script type="text/javascript">
+        window.location = 'about.php?updated';
+    </script>
     <?php
 
     // Include admin-footer.php and exit.
@@ -1652,7 +1656,7 @@ window.location = 'about.php?updated';
  *
  * @since 4.2.2
  *
- * @global array              $wp_theme_directories
+ * @global array $wp_theme_directories
  * @global WP_Filesystem_Base $wp_filesystem
  */
 function _upgrade_422_remove_genericons()
@@ -1665,12 +1669,12 @@ function _upgrade_422_remove_genericons()
     // Themes.
     foreach ($wp_theme_directories as $directory) {
         $affected_theme_files = _upgrade_422_find_genericons_files_in_folder($directory);
-        $affected_files       = array_merge($affected_files, $affected_theme_files);
+        $affected_files = array_merge($affected_files, $affected_theme_files);
     }
 
     // Plugins.
     $affected_plugin_files = _upgrade_422_find_genericons_files_in_folder(WP_PLUGIN_DIR);
-    $affected_files        = array_merge($affected_files, $affected_plugin_files);
+    $affected_files = array_merge($affected_files, $affected_plugin_files);
 
     foreach ($affected_files as $file) {
         $gen_dir = $wp_filesystem->find_folder(trailingslashit(dirname($file)));
@@ -1682,11 +1686,11 @@ function _upgrade_422_remove_genericons()
         // The path when the file is accessed via WP_Filesystem may differ in the case of FTP.
         $remote_file = $gen_dir . basename($file);
 
-        if (! $wp_filesystem->exists($remote_file)) {
+        if (!$wp_filesystem->exists($remote_file)) {
             continue;
         }
 
-        if (! $wp_filesystem->delete($remote_file, false, 'f')) {
+        if (!$wp_filesystem->delete($remote_file, false, 'f')) {
             $wp_filesystem->put_contents($remote_file, '');
         }
     }
@@ -1695,16 +1699,16 @@ function _upgrade_422_remove_genericons()
 /**
  * Recursively find Genericons example files in a given folder.
  *
+ * @param string $directory Directory path. Expects trailingslashed.
+ * @return array
  * @ignore
  * @since 4.2.2
  *
- * @param string $directory Directory path. Expects trailingslashed.
- * @return array
  */
 function _upgrade_422_find_genericons_files_in_folder($directory)
 {
     $directory = trailingslashit($directory);
-    $files     = [];
+    $files = [];
 
     if (file_exists("{$directory}example.html")
         /*
@@ -1729,7 +1733,7 @@ function _upgrade_422_find_genericons_files_in_folder($directory)
              * the polyfills from wp-includes/compat.php may not be available.
              */
             return false === strpos($dir, 'node_modules');
-        }
+        },
     );
 
     if ($dirs) {
@@ -1765,9 +1769,9 @@ function _upgrade_core_deactivate_incompatible_plugins()
 {
     if (defined('GUTENBERG_VERSION') && version_compare(GUTENBERG_VERSION, '17.6', '<')) {
         $deactivated_gutenberg['gutenberg'] = [
-            'plugin_name'         => 'Gutenberg',
+            'plugin_name' => 'Gutenberg',
             'version_deactivated' => GUTENBERG_VERSION,
-            'version_compatible'  => '17.6',
+            'version_compatible' => '17.6',
         ];
         if (is_plugin_active_for_network('gutenberg/gutenberg.php')) {
             $deactivated_plugins = get_site_option('wp_force_deactivated_plugins', []);

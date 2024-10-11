@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tests for the Test_WP_Customize_Control class.
  *
@@ -27,7 +28,7 @@ class Test_WP_Customize_Control extends WP_UnitTestCase
         wp_set_current_user(self::factory()->user->create(['role' => 'administrator']));
         require_once ABSPATH . WPINC . '/class-wp-customize-manager.php';
         $GLOBALS['wp_customize'] = new WP_Customize_Manager();
-        $this->wp_customize      = $GLOBALS['wp_customize'];
+        $this->wp_customize = $GLOBALS['wp_customize'];
     }
 
     /**
@@ -43,7 +44,7 @@ class Test_WP_Customize_Control extends WP_UnitTestCase
             'blogname',
             [
                 'settings' => ['blogname'],
-            ]
+            ],
         );
         $this->assertTrue($control->check_capabilities());
 
@@ -52,7 +53,7 @@ class Test_WP_Customize_Control extends WP_UnitTestCase
             'blogname',
             [
                 'settings' => ['blogname', 'non_existing'],
-            ]
+            ],
         );
         $this->assertFalse($control->check_capabilities());
 
@@ -60,14 +61,14 @@ class Test_WP_Customize_Control extends WP_UnitTestCase
             'top_secret_message',
             [
                 'capability' => 'top_secret_clearance',
-            ]
+            ],
         );
         $control = new WP_Customize_Control(
             $this->wp_customize,
             'blogname',
             [
                 'settings' => ['blogname', 'top_secret_clearance'],
-            ]
+            ],
         );
         $this->assertFalse($control->check_capabilities());
 
@@ -76,7 +77,7 @@ class Test_WP_Customize_Control extends WP_UnitTestCase
             'no_setting',
             [
                 'settings' => [],
-            ]
+            ],
         );
         $this->assertTrue($control->check_capabilities());
 
@@ -84,9 +85,9 @@ class Test_WP_Customize_Control extends WP_UnitTestCase
             $this->wp_customize,
             'no_setting',
             [
-                'settings'   => [],
+                'settings' => [],
                 'capability' => 'top_secret_clearance',
-            ]
+            ],
         );
         $this->assertFalse($control->check_capabilities());
 
@@ -94,9 +95,9 @@ class Test_WP_Customize_Control extends WP_UnitTestCase
             $this->wp_customize,
             'no_setting',
             [
-                'settings'   => [],
+                'settings' => [],
                 'capability' => 'edit_theme_options',
-            ]
+            ],
         );
         $this->assertTrue($control->check_capabilities());
     }
@@ -135,36 +136,39 @@ class Test_WP_Customize_Control extends WP_UnitTestCase
         ob_start();
         $page_on_front_control->maybe_render();
         $content = ob_get_clean();
-        $this->assertStringContainsString('<option value="0">', $content, 'Dropdown-pages renders select even without any pages published.');
+        $this->assertStringContainsString('<option value="0">', $content,
+            'Dropdown-pages renders select even without any pages published.');
 
         // Ensure that auto-draft pages are included if they are among the nav_menus_created_posts.
         $auto_draft_page_id = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_status' => 'auto-draft',
-                'post_title'  => 'Auto Draft Page',
-            ]
+                'post_title' => 'Auto Draft Page',
+            ],
         );
         self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_status' => 'auto-draft',
-                'post_title'  => 'Orphan Auto Draft Page',
-            ]
+                'post_title' => 'Orphan Auto Draft Page',
+            ],
         );
         $auto_draft_post_id = self::factory()->post->create(
             [
-                'post_type'   => 'post',
+                'post_type' => 'post',
                 'post_status' => 'auto-draft',
-                'post_title'  => 'Auto Draft Post',
-            ]
+                'post_title' => 'Auto Draft Post',
+            ],
         );
-        $this->wp_customize->set_post_value($nav_menus_created_posts_setting->id, [$auto_draft_page_id, $auto_draft_post_id]);
+        $this->wp_customize->set_post_value($nav_menus_created_posts_setting->id,
+            [$auto_draft_page_id, $auto_draft_post_id]);
         $nav_menus_created_posts_setting->preview();
         ob_start();
         $page_on_front_control->maybe_render();
         $content = ob_get_clean();
-        $this->assertStringContainsString(sprintf('<option value="%d">Auto Draft Page</option>', $auto_draft_page_id), $content);
+        $this->assertStringContainsString(sprintf('<option value="%d">Auto Draft Page</option>', $auto_draft_page_id),
+            $content);
         $this->assertStringNotContainsString('Auto Draft Post', $content);
         $this->assertStringNotContainsString('Orphan Auto Draft Page', $content);
     }

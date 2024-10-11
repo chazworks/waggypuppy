@@ -13,7 +13,8 @@
 
 ?>
 <!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignfull" style="padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)">
+<div class="wp-block-group alignfull"
+     style="padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)">
     <!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|10"}},"layout":{"type":"flex","orientation":"vertical","justifyContent":"center"}} -->
     <div class="wp-block-group">
         <!-- wp:site-title {"level":0,"textAlign":"center"} /-->
@@ -29,9 +30,9 @@
     <p class="has-text-align-center has-small-font-size">
         <?php
         printf(
-            /* Translators: Designed with WP. %1$s: WP link. */
+        /* Translators: Designed with WP. %1$s: WP link. */
             esc_html__('Designed with %1$s', 'twentytwentyfive'),
-            '<a href="' . esc_url(__('https://wp.org', 'twentytwentyfive')) . '" rel="nofollow">WP</a>'
+            '<a href="' . esc_url(__('https://wp.org', 'twentytwentyfive')) . '" rel="nofollow">WP</a>',
         );
         ?>
     </p>

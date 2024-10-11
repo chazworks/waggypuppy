@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test anonymization functions.
  *
@@ -24,7 +25,7 @@ class Tests_Functions_Anonymization extends WP_UnitTestCase
      *
      * @covers ::wp_privacy_anonymize_ip
      *
-     * @param string $raw_ip          Raw IP address.
+     * @param string $raw_ip Raw IP address.
      * @param string $expected_result Expected result.
      */
     public function test_wp_privacy_anonymize_ip($raw_ip, $expected_result)
@@ -39,14 +40,14 @@ class Tests_Functions_Anonymization extends WP_UnitTestCase
     /**
      * Data provider for `test_wp_privacy_anonymize_ip()`.
      *
-     * @since 4.9.6 Moved from `Test_WP_Community_Events::data_get_unsafe_client_ip_anonymization()`.
-     *
      * @return array {
-     *     @type array {
-     *         @type string $raw_ip          Raw IP address.
-     *         @type string $expected_result Expected result.
+     * @type array {
+     * @type string $raw_ip Raw IP address.
+     * @type string $expected_result Expected result.
      *     }
      * }
+     * @since 4.9.6 Moved from `Test_WP_Community_Events::data_get_unsafe_client_ip_anonymization()`.
+     *
      */
     public function data_wp_privacy_anonymize_ip()
     {
@@ -184,7 +185,7 @@ class Tests_Functions_Anonymization extends WP_UnitTestCase
      *
      * @covers ::wp_privacy_anonymize_ip
      *
-     * @param string $raw_ip          Raw IP address.
+     * @param string $raw_ip Raw IP address.
      * @param string $expected_result Expected result.
      */
     public function test_wp_privacy_anonymize_ip_with_inet_dependency($raw_ip, $expected_result)
@@ -195,14 +196,14 @@ class Tests_Functions_Anonymization extends WP_UnitTestCase
     /**
      * Data provider for `test_wp_privacy_anonymize_ip()`.
      *
-     * @since 4.9.6 Moved from `Test_WP_Community_Events::data_get_unsafe_client_ip_anonymization()`.
-     *
      * @return array {
-     *     @type array {
-     *         @type string $raw_ip          Raw IP address.
-     *         @type string $expected_result Expected result.
+     * @type array {
+     * @type string $raw_ip Raw IP address.
+     * @type string $expected_result Expected result.
      *     }
      * }
+     * @since 4.9.6 Moved from `Test_WP_Community_Events::data_get_unsafe_client_ip_anonymization()`.
+     *
      */
     public function data_wp_privacy_anonymize_ip_with_inet_dependency()
     {
@@ -273,7 +274,8 @@ class Tests_Functions_Anonymization extends WP_UnitTestCase
      */
     public function test_anonymize_url()
     {
-        $this->assertSame('https://site.invalid', wp_privacy_anonymize_data('url', 'https://example.com/author/username'));
+        $this->assertSame('https://site.invalid',
+            wp_privacy_anonymize_data('url', 'https://example.com/author/username'));
     }
 
     /**
@@ -319,12 +321,12 @@ class Tests_Functions_Anonymization extends WP_UnitTestCase
     /**
      * Changes the anonymized value for URLs.
      *
+     * @param string $anonymous Anonymized data.
+     * @param string $type Type of the data.
+     * @param string $data Original data.
+     * @return string Anonymized data.
      * @since 4.9.8
      *
-     * @param string  $anonymous Anonymized data.
-     * @param string  $type      Type of the data.
-     * @param string  $data      Original data.
-     * @return string Anonymized data.
      */
     public function filter_wp_privacy_anonymize_data($anonymous, $type, $data)
     {

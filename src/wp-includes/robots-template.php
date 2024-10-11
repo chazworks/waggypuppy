@@ -24,11 +24,11 @@ function wp_robots()
      *
      * The meta tag will only be included as necessary.
      *
-     * @since 5.7.0
-     *
      * @param array $robots Associative array of directives. Every key must be the name of the directive, and the
      *                      corresponding value must either be a string to provide as value for the directive or a
      *                      boolean `true` if it is a boolean directive, i.e. without a value.
+     * @since 5.7.0
+     *
      */
     $robots = apply_filters('wp_robots', []);
 
@@ -61,16 +61,16 @@ function wp_robots()
  *
  *     add_filter( 'wp_robots', 'wp_robots_noindex' );
  *
+ * @param array $robots Associative array of robots directives.
+ * @return array Filtered robots directives.
  * @since 5.7.0
  *
  * @see wp_robots_no_robots()
  *
- * @param array $robots Associative array of robots directives.
- * @return array Filtered robots directives.
  */
 function wp_robots_noindex(array $robots)
 {
-    if (! get_option('blog_public')) {
+    if (!get_option('blog_public')) {
         return wp_robots_no_robots($robots);
     }
 
@@ -84,12 +84,12 @@ function wp_robots_noindex(array $robots)
  *
  *     add_filter( 'wp_robots', 'wp_robots_noindex_embeds' );
  *
+ * @param array $robots Associative array of robots directives.
+ * @return array Filtered robots directives.
  * @since 5.7.0
  *
  * @see wp_robots_no_robots()
  *
- * @param array $robots Associative array of robots directives.
- * @return array Filtered robots directives.
  */
 function wp_robots_noindex_embeds(array $robots)
 {
@@ -111,12 +111,12 @@ function wp_robots_noindex_embeds(array $robots)
  *
  *     add_filter( 'wp_robots', 'wp_robots_noindex_search' );
  *
+ * @param array $robots Associative array of robots directives.
+ * @return array Filtered robots directives.
  * @since 5.7.0
  *
  * @see wp_robots_no_robots()
  *
- * @param array $robots Associative array of robots directives.
- * @return array Filtered robots directives.
  */
 function wp_robots_noindex_search(array $robots)
 {
@@ -136,10 +136,10 @@ function wp_robots_noindex_search(array $robots)
  *
  *     add_filter( 'wp_robots', 'wp_robots_no_robots' );
  *
- * @since 5.7.0
- *
  * @param array $robots Associative array of robots directives.
  * @return array Filtered robots directives.
+ * @since 5.7.0
+ *
  */
 function wp_robots_no_robots(array $robots)
 {
@@ -164,14 +164,14 @@ function wp_robots_no_robots(array $robots)
  *
  *     add_filter( 'wp_robots', 'wp_robots_sensitive_page' );
  *
- * @since 5.7.0
- *
  * @param array $robots Associative array of robots directives.
  * @return array Filtered robots directives.
+ * @since 5.7.0
+ *
  */
 function wp_robots_sensitive_page(array $robots)
 {
-    $robots['noindex']   = true;
+    $robots['noindex'] = true;
     $robots['noarchive'] = true;
     return $robots;
 }
@@ -186,10 +186,10 @@ function wp_robots_sensitive_page(array $robots)
  *
  *     add_filter( 'wp_robots', 'wp_robots_max_image_preview_large' );
  *
- * @since 5.7.0
- *
  * @param array $robots Associative array of robots directives.
  * @return array Filtered robots directives.
+ * @since 5.7.0
+ *
  */
 function wp_robots_max_image_preview_large(array $robots)
 {

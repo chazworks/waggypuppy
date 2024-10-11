@@ -24,14 +24,14 @@ class Tests_Term_IsTermPubliclyViewable extends WP_UnitTestCase
      * @ticket 56215
      *
      * @param string $taxonomy The taxonomy name.
-     * @param bool   $expected The expected result of the function call.
+     * @param bool $expected The expected result of the function call.
      */
     public function test_is_term_publicly_viewable($taxonomy, $expected)
     {
         $term_id = self::factory()->term->create(
             [
                 'taxonomy' => $taxonomy,
-            ]
+            ],
         );
 
         $this->assertSame($expected, is_term_publicly_viewable($term_id));
@@ -41,8 +41,8 @@ class Tests_Term_IsTermPubliclyViewable extends WP_UnitTestCase
      * Data provider for test_is_term_publicly_viewable().
      *
      * return array[] {
-     *     @type string $taxonomy The taxonomy.
-     *     @type bool   $expected The expected result of the function call.
+     * @type string $taxonomy The taxonomy.
+     * @type bool $expected The expected result of the function call.
      * }
      */
     public function data_is_term_publicly_viewable()

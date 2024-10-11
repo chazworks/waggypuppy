@@ -51,9 +51,9 @@ class WP_HTTP_Proxy
      * - `WP_PROXY_HOST`
      * - `WP_PROXY_PORT`
      *
+     * @return bool
      * @since 2.8.0
      *
-     * @return bool
      */
     public function is_enabled()
     {
@@ -68,9 +68,9 @@ class WP_HTTP_Proxy
      * - `WP_PROXY_USERNAME`
      * - `WP_PROXY_PASSWORD`
      *
+     * @return bool
      * @since 2.8.0
      *
-     * @return bool
      */
     public function use_authentication()
     {
@@ -80,9 +80,9 @@ class WP_HTTP_Proxy
     /**
      * Retrieve the host for the proxy server.
      *
+     * @return string
      * @since 2.8.0
      *
-     * @return string
      */
     public function host()
     {
@@ -96,9 +96,9 @@ class WP_HTTP_Proxy
     /**
      * Retrieve the port for the proxy server.
      *
+     * @return string
      * @since 2.8.0
      *
-     * @return string
      */
     public function port()
     {
@@ -112,9 +112,9 @@ class WP_HTTP_Proxy
     /**
      * Retrieve the username for proxy authentication.
      *
+     * @return string
      * @since 2.8.0
      *
-     * @return string
      */
     public function username()
     {
@@ -128,9 +128,9 @@ class WP_HTTP_Proxy
     /**
      * Retrieve the password for proxy authentication.
      *
+     * @return string
      * @since 2.8.0
      *
-     * @return string
      */
     public function password()
     {
@@ -144,9 +144,9 @@ class WP_HTTP_Proxy
     /**
      * Retrieve authentication string for proxy authentication.
      *
+     * @return string
      * @since 2.8.0
      *
-     * @return string
      */
     public function authentication()
     {
@@ -156,9 +156,9 @@ class WP_HTTP_Proxy
     /**
      * Retrieve header string for proxy authentication.
      *
+     * @return string
      * @since 2.8.0
      *
-     * @return string
      */
     public function authentication_header()
     {
@@ -172,10 +172,10 @@ class WP_HTTP_Proxy
      * some proxies can not handle this. We also have the constant available for defining other
      * hosts that won't be sent through the proxy.
      *
-     * @since 2.8.0
-     *
      * @param string $uri URL of the request.
      * @return bool Whether to send the request through the proxy.
+     * @since 2.8.0
+     *
      */
     public function send_through_proxy($uri)
     {
@@ -194,15 +194,15 @@ class WP_HTTP_Proxy
          * Returning false will bypass the proxy; returning true will send
          * the request through the proxy. Returning null bypasses the filter.
          *
+         * @param bool|null $override Whether to send the request through the proxy. Default null.
+         * @param string $uri URL of the request.
+         * @param array $check Associative array result of parsing the request URL with `parse_url()`.
+         * @param array $home Associative array result of parsing the site URL with `parse_url()`.
          * @since 3.5.0
          *
-         * @param bool|null $override Whether to send the request through the proxy. Default null.
-         * @param string    $uri      URL of the request.
-         * @param array     $check    Associative array result of parsing the request URL with `parse_url()`.
-         * @param array     $home     Associative array result of parsing the site URL with `parse_url()`.
          */
         $result = apply_filters('pre_http_send_through_proxy', null, $uri, $check, $home);
-        if (! is_null($result)) {
+        if (!is_null($result)) {
             return $result;
         }
 
@@ -210,11 +210,11 @@ class WP_HTTP_Proxy
             return false;
         }
 
-        if (! defined('WP_PROXY_BYPASS_HOSTS')) {
+        if (!defined('WP_PROXY_BYPASS_HOSTS')) {
             return true;
         }
 
-        static $bypass_hosts   = null;
+        static $bypass_hosts = null;
         static $wildcard_regex = [];
         if (null === $bypass_hosts) {
             $bypass_hosts = preg_split('|,\s*|', WP_PROXY_BYPASS_HOSTS);
@@ -228,10 +228,10 @@ class WP_HTTP_Proxy
             }
         }
 
-        if (! empty($wildcard_regex)) {
-            return ! preg_match($wildcard_regex, $check['host']);
+        if (!empty($wildcard_regex)) {
+            return !preg_match($wildcard_regex, $check['host']);
         } else {
-            return ! in_array($check['host'], $bypass_hosts, true);
+            return !in_array($check['host'], $bypass_hosts, true);
         }
     }
 }

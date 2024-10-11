@@ -11,13 +11,13 @@ class Tests_Category_CategoryDescription extends WP_UnitTestCase
     public function test_success_query_by_id()
     {
         $description = 'Foo';
-        $c           = self::factory()->category->create(
+        $c = self::factory()->category->create(
             [
                 'description' => $description,
-            ]
+            ],
         );
 
-        $found    = category_description($c);
+        $found = category_description($c);
         $expected = apply_filters('term_description', $description);
 
         $this->assertSame($expected, $found);
@@ -26,16 +26,16 @@ class Tests_Category_CategoryDescription extends WP_UnitTestCase
     public function test_success_query_by_object()
     {
         $description = 'Foo';
-        $c           = self::factory()->category->create(
+        $c = self::factory()->category->create(
             [
                 'description' => $description,
-                'slug'        => 'bar',
-            ]
+                'slug' => 'bar',
+            ],
         );
 
         $category = get_term($c);
 
-        $found    = category_description($c);
+        $found = category_description($c);
         $expected = apply_filters('term_description', $description);
 
         $this->assertSame($expected, $found);
@@ -53,14 +53,14 @@ class Tests_Category_CategoryDescription extends WP_UnitTestCase
 
         $t = self::factory()->term->create(
             [
-                'taxonomy'    => 'wptests_tax',
+                'taxonomy' => 'wptests_tax',
                 'description' => $description,
-            ]
+            ],
         );
 
         $term = get_term($t);
 
-        $found    = category_description($t);
+        $found = category_description($t);
         $expected = apply_filters('term_description', $description);
 
         $this->assertSame($expected, $found);
@@ -78,14 +78,14 @@ class Tests_Category_CategoryDescription extends WP_UnitTestCase
 
         $t = self::factory()->term->create(
             [
-                'taxonomy'    => 'wptests_tax',
+                'taxonomy' => 'wptests_tax',
                 'description' => $description,
-            ]
+            ],
         );
 
         clean_term_cache($t);
 
-        $found    = category_description($t);
+        $found = category_description($t);
         $expected = apply_filters('term_description', $description);
 
         $this->assertSame($expected, $found);

@@ -12,7 +12,6 @@ class Tests_Date_mysql2date extends WP_UnitTestCase
 
     public function tear_down()
     {
-
         date_default_timezone_set('UTC');
 
         // Reset the timezone option to the default value.
@@ -46,8 +45,8 @@ class Tests_Date_mysql2date extends WP_UnitTestCase
         $timezone = 'Europe/Helsinki';
         update_option('timezone_string', $timezone);
         $datetime = new DateTime('now', new DateTimeZone($timezone));
-        $rfc3339  = $datetime->format(DATE_RFC3339);
-        $mysql    = $datetime->format('Y-m-d H:i:s');
+        $rfc3339 = $datetime->format(DATE_RFC3339);
+        $mysql = $datetime->format('Y-m-d H:i:s');
 
         $this->assertSame($rfc3339, mysql2date(DATE_RFC3339, $mysql));
         $this->assertSame($rfc3339, mysql2date(DATE_RFC3339, $mysql, false));
@@ -63,8 +62,8 @@ class Tests_Date_mysql2date extends WP_UnitTestCase
         date_default_timezone_set($timezone);
         update_option('timezone_string', $timezone);
         $datetime = new DateTime('now', new DateTimeZone($timezone));
-        $rfc3339  = $datetime->format(DATE_RFC3339);
-        $mysql    = $datetime->format('Y-m-d H:i:s');
+        $rfc3339 = $datetime->format(DATE_RFC3339);
+        $mysql = $datetime->format('Y-m-d H:i:s');
 
         $this->assertSame($rfc3339, mysql2date(DATE_RFC3339, $mysql));
         $this->assertSame($rfc3339, mysql2date(DATE_RFC3339, $mysql, false));
@@ -80,8 +79,8 @@ class Tests_Date_mysql2date extends WP_UnitTestCase
         $timezone = 'America/Buenos_Aires'; // This timezone was deprecated pre-PHP 5.6.
         update_option('timezone_string', $timezone);
         $datetime = new DateTime('now', new DateTimeZone($timezone));
-        $rfc3339  = $datetime->format(DATE_RFC3339);
-        $mysql    = $datetime->format('Y-m-d H:i:s');
+        $rfc3339 = $datetime->format(DATE_RFC3339);
+        $mysql = $datetime->format('Y-m-d H:i:s');
 
         $this->assertSame($rfc3339, mysql2date(DATE_RFC3339, $mysql));
         $this->assertSame($rfc3339, mysql2date(DATE_RFC3339, $mysql, false));
@@ -94,9 +93,9 @@ class Tests_Date_mysql2date extends WP_UnitTestCase
     {
         $timezone = 'Europe/Helsinki';
         update_option('timezone_string', $timezone);
-        $datetime     = new DateTime('now', new DateTimeZone($timezone));
+        $datetime = new DateTime('now', new DateTimeZone($timezone));
         $wp_timestamp = $datetime->getTimestamp() + $datetime->getOffset();
-        $mysql        = $datetime->format('Y-m-d H:i:s');
+        $mysql = $datetime->format('Y-m-d H:i:s');
 
         $this->assertSame($wp_timestamp, mysql2date('U', $mysql, false));
         $this->assertSame($wp_timestamp, mysql2date('G', $mysql, false));
@@ -109,9 +108,9 @@ class Tests_Date_mysql2date extends WP_UnitTestCase
     {
         $timezone = 'Europe/Helsinki';
         update_option('timezone_string', $timezone);
-        $datetime  = new DateTime('now', new DateTimeZone('UTC'));
+        $datetime = new DateTime('now', new DateTimeZone('UTC'));
         $timestamp = $datetime->getTimestamp();
-        $mysql     = $datetime->format('Y-m-d H:i:s');
+        $mysql = $datetime->format('Y-m-d H:i:s');
 
         $this->assertSame($timestamp, mysql2date('U', $mysql, false));
         $this->assertSame($timestamp, mysql2date('G', $mysql, false));

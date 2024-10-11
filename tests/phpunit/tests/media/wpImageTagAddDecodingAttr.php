@@ -16,8 +16,8 @@ class Tests_Media_Wp_Img_Tag_Add_Decoding_Attr extends WP_UnitTestCase
      *
      * @dataProvider data_should_add_decoding_attr
      *
-     * @param string $image    The HTML `img` tag where the attribute should be added.
-     * @param string $context  Additional context to pass to the filters.
+     * @param string $image The HTML `img` tag where the attribute should be added.
+     * @param string $context Additional context to pass to the filters.
      * @param string $decoding The value for the 'decoding' attribute. 'no value' for default.
      * @param string $expected The expected `img` tag.
      *
@@ -31,7 +31,7 @@ class Tests_Media_Wp_Img_Tag_Add_Decoding_Attr extends WP_UnitTestCase
                 'wp_img_tag_add_decoding_attr',
                 static function ($value) use ($decoding) {
                     return $decoding;
-                }
+                },
             );
         }
 
@@ -47,26 +47,26 @@ class Tests_Media_Wp_Img_Tag_Add_Decoding_Attr extends WP_UnitTestCase
     {
         return [
             'default' => [
-                'image'    => '<img src="my-image.png">',
-                'context'  => '',
+                'image' => '<img src="my-image.png">',
+                'context' => '',
                 'decoding' => 'no value',
                 'expected' => '<img decoding="async" src="my-image.png">',
             ],
-            'async'   => [
-                'image'    => '<img src="my-image.png">',
-                'context'  => '',
+            'async' => [
+                'image' => '<img src="my-image.png">',
+                'context' => '',
                 'decoding' => 'async',
                 'expected' => '<img decoding="async" src="my-image.png">',
             ],
-            'sync'    => [
-                'image'    => '<img src="my-image.png">',
-                'context'  => '',
+            'sync' => [
+                'image' => '<img src="my-image.png">',
+                'context' => '',
                 'decoding' => 'sync',
                 'expected' => '<img decoding="sync" src="my-image.png">',
             ],
-            'auto'    => [
-                'image'    => '<img src="my-image.png">',
-                'context'  => '',
+            'auto' => [
+                'image' => '<img src="my-image.png">',
+                'context' => '',
                 'decoding' => 'auto',
                 'expected' => '<img decoding="auto" src="my-image.png">',
             ],
@@ -81,9 +81,9 @@ class Tests_Media_Wp_Img_Tag_Add_Decoding_Attr extends WP_UnitTestCase
      *
      * @dataProvider data_should_not_add_decoding_attr
      *
-     * @param string $image    The HTML `img` tag where the attribute should be added.
-     * @param string $context  Additional context to pass to the filters.
-     * @param mixed  $decoding The value for the 'decoding' attribute. 'no value' for default.
+     * @param string $image The HTML `img` tag where the attribute should be added.
+     * @param string $context Additional context to pass to the filters.
+     * @param mixed $decoding The value for the 'decoding' attribute. 'no value' for default.
      * @param string $expected The expected `img` tag.
      *
      * @expectedDeprecated wp_img_tag_add_decoding_attr
@@ -96,7 +96,7 @@ class Tests_Media_Wp_Img_Tag_Add_Decoding_Attr extends WP_UnitTestCase
                 'wp_img_tag_add_decoding_attr',
                 static function ($value) use ($decoding) {
                     return $decoding;
-                }
+                },
             );
         }
 
@@ -113,58 +113,58 @@ class Tests_Media_Wp_Img_Tag_Add_Decoding_Attr extends WP_UnitTestCase
         return [
             // Unhappy paths.
             'lazy (unaccepted value)' => [
-                'image'    => '<img src="my-image.png">',
-                'context'  => '',
+                'image' => '<img src="my-image.png">',
+                'context' => '',
                 'decoding' => 'lazy',
                 'expected' => '<img src="my-image.png">',
             ],
-            'a non-string value'      => [
-                'image'    => '<img src="my-image.png">',
-                'context'  => '',
+            'a non-string value' => [
+                'image' => '<img src="my-image.png">',
+                'context' => '',
                 'decoding' => ['sync'],
                 'expected' => '<img src="my-image.png">',
             ],
 
             // Falsey values.
-            'false'                   => [
-                'image'    => '<img src="my-image.png">',
-                'context'  => '',
+            'false' => [
+                'image' => '<img src="my-image.png">',
+                'context' => '',
                 'decoding' => false,
                 'expected' => '<img src="my-image.png">',
             ],
-            'null'                    => [
-                'image'    => '<img src="my-image.png">',
-                'context'  => '',
+            'null' => [
+                'image' => '<img src="my-image.png">',
+                'context' => '',
                 'decoding' => null,
                 'expected' => '<img src="my-image.png">',
             ],
-            'empty string'            => [
-                'image'    => '<img src="my-image.png">',
-                'context'  => '',
+            'empty string' => [
+                'image' => '<img src="my-image.png">',
+                'context' => '',
                 'decoding' => '',
                 'expected' => '<img src="my-image.png">',
             ],
-            'empty array'             => [
-                'image'    => '<img src="my-image.png">',
-                'context'  => '',
+            'empty array' => [
+                'image' => '<img src="my-image.png">',
+                'context' => '',
                 'decoding' => [],
                 'expected' => '<img src="my-image.png">',
             ],
-            '0 int'                   => [
-                'image'    => '<img src="my-image.png">',
-                'context'  => '',
+            '0 int' => [
+                'image' => '<img src="my-image.png">',
+                'context' => '',
                 'decoding' => 0,
                 'expected' => '<img src="my-image.png">',
             ],
-            '0 string'                => [
-                'image'    => '<img src="my-image.png">',
-                'context'  => '',
+            '0 string' => [
+                'image' => '<img src="my-image.png">',
+                'context' => '',
                 'decoding' => '0',
                 'expected' => '<img src="my-image.png">',
             ],
-            '0.0 float'               => [
-                'image'    => '<img src="my-image.png">',
-                'context'  => '',
+            '0.0 float' => [
+                'image' => '<img src="my-image.png">',
+                'context' => '',
                 'decoding' => 0.0,
                 'expected' => '<img src="my-image.png">',
             ],

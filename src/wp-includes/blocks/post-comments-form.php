@@ -8,16 +8,16 @@
 /**
  * Renders the `core/post-comments-form` block on the server.
  *
+ * @param array $attributes Block attributes.
+ * @param string $content Block default content.
+ * @param WP_Block $block Block instance.
+ * @return string Returns the filtered post comments form for the current post.
  * @since 6.0.0
  *
- * @param array    $attributes Block attributes.
- * @param string   $content    Block default content.
- * @param WP_Block $block      Block instance.
- * @return string Returns the filtered post comments form for the current post.
  */
 function render_block_core_post_comments_form($attributes, $content, $block)
 {
-    if (! isset($block->context['postId'])) {
+    if (!isset($block->context['postId'])) {
         return '';
     }
 
@@ -66,25 +66,28 @@ function register_block_core_post_comments_form()
         __DIR__ . '/post-comments-form',
         [
             'render_callback' => 'render_block_core_post_comments_form',
-        ]
+        ],
     );
 }
+
 add_action('init', 'register_block_core_post_comments_form');
 
 /**
  * Use the button block classes for the form-submit button.
  *
- * @since 6.0.0
- *
  * @param array $fields The default comment form arguments.
  *
  * @return array Returns the modified fields.
+ * @since 6.0.0
+ *
  */
 function post_comments_form_block_form_defaults($fields)
 {
     if (wp_is_block_theme()) {
-        $fields['submit_button'] = '<input name="%1$s" type="submit" id="%2$s" class="wp-block-button__link ' . wp_theme_get_element_class_name('button') . '" value="%4$s" />';
-        $fields['submit_field']  = '<p class="form-submit wp-block-button">%1$s %2$s</p>';
+        $fields['submit_button'] = '<input name="%1$s" type="submit" id="%2$s" class="wp-block-button__link '
+            . wp_theme_get_element_class_name('button')
+            . '" value="%4$s" />';
+        $fields['submit_field'] = '<p class="form-submit wp-block-button">%1$s %2$s</p>';
     }
 
     return $fields;

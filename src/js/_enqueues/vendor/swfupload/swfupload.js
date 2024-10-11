@@ -9,16 +9,18 @@ var SWFUpload;
 ( function () {
 	function noop() {}
 
-	if (SWFUpload == undefined) {
-		SWFUpload = function (settings) {
-			this.initSWFUpload(settings);
+	if ( SWFUpload == undefined ) {
+		SWFUpload = function ( settings ) {
+			this.initSWFUpload( settings );
 		};
 	}
 
 	SWFUpload.prototype.initSWFUpload = function ( settings ) {
 		function fallback() {
 			var $ = window.jQuery;
-			var $placeholder = settings.button_placeholder_id ? $( '#' + settings.button_placeholder_id ) : $( settings.button_placeholder );
+			var $placeholder = settings.button_placeholder_id
+				? $( '#' + settings.button_placeholder_id )
+				: $( settings.button_placeholder );
 
 			if ( ! $placeholder.length ) {
 				return;
@@ -27,7 +29,9 @@ var SWFUpload;
 			var $form = $placeholder.closest( 'form' );
 
 			if ( ! $form.length ) {
-				$form = $( '<form enctype="multipart/form-data" method="post">' );
+				$form = $(
+					'<form enctype="multipart/form-data" method="post">'
+				);
 				$form.attr( 'action', settings.upload_url );
 				$form.insertAfter( $placeholder ).append( $placeholder );
 			}
@@ -35,22 +39,27 @@ var SWFUpload;
 			$placeholder.replaceWith(
 				$( '<div>' )
 					.append(
-						$( '<input type="file" multiple />' ).attr({
+						$( '<input type="file" multiple />' ).attr( {
 							name: settings.file_post_name || 'async-upload',
-							accepts: settings.file_types || '*.*'
-						})
-					).append(
-						$( '<input type="submit" name="html-upload" class="button" value="Upload" />' )
+							accepts: settings.file_types || '*.*',
+						} )
+					)
+					.append(
+						$(
+							'<input type="submit" name="html-upload" class="button" value="Upload" />'
+						)
 					)
 			);
 		}
 
 		try {
 			// Try the built-in fallback.
-			if ( typeof settings.swfupload_load_failed_handler === 'function' && settings.custom_settings ) {
-
+			if (
+				typeof settings.swfupload_load_failed_handler === 'function' &&
+				settings.custom_settings
+			) {
 				window.swfu = {
-					customSettings: settings.custom_settings
+					customSettings: settings.custom_settings,
 				};
 
 				settings.swfupload_load_failed_handler();
@@ -64,7 +73,7 @@ var SWFUpload;
 
 	SWFUpload.instances = {};
 	SWFUpload.movieCount = 0;
-	SWFUpload.version = "0";
+	SWFUpload.version = '0';
 	SWFUpload.QUEUE_ERROR = {};
 	SWFUpload.UPLOAD_ERROR = {};
 	SWFUpload.FILE_STATUS = {};
@@ -135,6 +144,6 @@ var SWFUpload;
 	SWFUpload.prototype.debug = noop;
 	SWFUpload.prototype.debugMessage = noop;
 	SWFUpload.Console = {
-		writeLine: noop
+		writeLine: noop,
 	};
-}() );
+} )();

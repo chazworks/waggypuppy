@@ -37,16 +37,15 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
      * We require Imagick 2.2.0 or greater, based on whether the queryFormats()
      * method can be called statically.
      *
-     * @since 3.5.0
-     *
      * @param array $args
      * @return bool
+     * @since 3.5.0
+     *
      */
     public static function test($args = [])
     {
-
         // First, test Imagick's extension and classes.
-        if (! extension_loaded('imagick') || ! class_exists('Imagick', false) || ! class_exists('ImagickPixel', false)) {
+        if (!extension_loaded('imagick') || !class_exists('Imagick', false) || !class_exists('ImagickPixel', false)) {
             return false;
         }
 
@@ -78,7 +77,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
         ];
 
         // Now, test for deep requirements within Imagick.
-        if (! defined('imagick::COMPRESSION_JPEG')) {
+        if (!defined('imagick::COMPRESSION_JPEG')) {
             return false;
         }
 
@@ -93,16 +92,16 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
     /**
      * Checks to see if editor supports the mime-type specified.
      *
-     * @since 3.5.0
-     *
      * @param string $mime_type
      * @return bool
+     * @since 3.5.0
+     *
      */
     public static function supports_mime_type($mime_type)
     {
         $imagick_extension = strtoupper(self::get_extension($mime_type));
 
-        if (! $imagick_extension) {
+        if (!$imagick_extension) {
             return false;
         }
 
@@ -110,13 +109,12 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
          * setIteratorIndex is optional unless mime is an animated format.
          * Here, we just say no if you are missing it and aren't loading a jpeg.
          */
-        if (! method_exists('Imagick', 'setIteratorIndex') && 'image/jpeg' !== $mime_type) {
-                return false;
+        if (!method_exists('Imagick', 'setIteratorIndex') && 'image/jpeg' !== $mime_type) {
+            return false;
         }
 
         try {
-
-            return ((bool) @Imagick::queryFormats($imagick_extension));
+            return ((bool)@Imagick::queryFormats($imagick_extension));
         } catch (Exception $e) {
             return false;
         }
@@ -125,9 +123,9 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
     /**
      * Loads image from $this->file into new Imagick Object.
      *
+     * @return true|WP_Error True if loaded; WP_Error on failure.
      * @since 3.5.0
      *
-     * @return true|WP_Error True if loaded; WP_Error on failure.
      */
     public function load()
     {
@@ -135,7 +133,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
             return true;
         }
 
-        if (! is_file($this->file) && ! wp_is_stream($this->file)) {
+        if (!is_file($this->file) && !wp_is_stream($this->file)) {
             return new WP_Error('error_loading_image', __('File does not exist?'), $this->file);
         }
 
@@ -146,7 +144,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
         wp_raise_memory_limit('image');
 
         try {
-            $this->image    = new Imagick();
+            $this->image = new Imagick();
             $file_extension = strtolower(pathinfo($this->file, PATHINFO_EXTENSION));
 
             if ('pdf' === $file_extension) {
@@ -164,7 +162,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
                 }
             }
 
-            if (! $this->image->valid()) {
+            if (!$this->image->valid()) {
                 return new WP_Error('invalid_image', __('File is not an image.'), $this->file);
             }
 
@@ -194,10 +192,10 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
     /**
      * Sets Image Compression quality on a 1-100% scale.
      *
-     * @since 3.5.0
-     *
      * @param int $quality Compression Quality. Range: [1,100]
      * @return true|WP_Error True if set successfully; WP_Error on failure.
+     * @since 3.5.0
+     *
      */
     public function set_quality($quality = null)
     {
@@ -244,16 +242,16 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
     /**
      * Sets or updates current image size.
      *
-     * @since 3.5.0
-     *
      * @param int $width
      * @param int $height
      * @return true|WP_Error
+     * @since 3.5.0
+     *
      */
     protected function update_size($width = null, $height = null)
     {
         $size = null;
-        if (! $width || ! $height) {
+        if (!$width || !$height) {
             try {
                 $size = $this->image->getImageGeometry();
             } catch (Exception $e) {
@@ -261,11 +259,11 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
             }
         }
 
-        if (! $width) {
+        if (!$width) {
             $width = $size['width'];
         }
 
-        if (! $height) {
+        if (!$height) {
             $height = $size['height'];
         }
 
@@ -273,9 +271,9 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
          * If we still don't have the image size, fall back to `wp_getimagesize`. This ensures AVIF and HEIC images
          * are properly sized without affecting previous `getImageGeometry` behavior.
          */
-        if ((! $width || ! $height) && ('image/avif' === $this->mime_type || 'image/heic' === $this->mime_type)) {
-            $size   = wp_getimagesize($this->file);
-            $width  = $size[0];
+        if ((!$width || !$height) && ('image/avif' === $this->mime_type || 'image/heic' === $this->mime_type)) {
+            $size = wp_getimagesize($this->file);
+            $width = $size[0];
             $height = $size[1];
         }
 
@@ -304,16 +302,16 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
      *  - The resource limit is not saved/restored. It applies to subsequent
      *    image operations within the time of the HTTP request.
      *
-     * @since 6.2.0
+     * @return int|null The new limit on success, null on failure.
      * @since 6.3.0 This method was deprecated.
      *
-     * @return int|null The new limit on success, null on failure.
+     * @since 6.2.0
      */
     public static function set_imagick_time_limit()
     {
         _deprecated_function(__METHOD__, '6.3.0');
 
-        if (! defined('Imagick::RESOURCETYPE_TIME')) {
+        if (!defined('Imagick::RESOURCETYPE_TIME')) {
             return null;
         }
 
@@ -321,12 +319,12 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
         $imagick_timeout = Imagick::getResourceLimit(Imagick::RESOURCETYPE_TIME);
 
         // Convert to an integer, keeping in mind that: 0 === (int) PHP_FLOAT_MAX.
-        $imagick_timeout = $imagick_timeout > PHP_INT_MAX ? PHP_INT_MAX : (int) $imagick_timeout;
+        $imagick_timeout = $imagick_timeout > PHP_INT_MAX ? PHP_INT_MAX : (int)$imagick_timeout;
 
-        $php_timeout = (int) ini_get('max_execution_time');
+        $php_timeout = (int)ini_get('max_execution_time');
 
         if ($php_timeout > 1 && $php_timeout < $imagick_timeout) {
-            $limit = (float) 0.8 * $php_timeout;
+            $limit = (float)0.8 * $php_timeout;
             Imagick::setResourceLimit(Imagick::RESOURCETYPE_TIME, $limit);
 
             return $limit;
@@ -340,19 +338,19 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
      * If one of the two is set to null, the resize will
      * maintain aspect ratio according to the provided dimension.
      *
-     * @since 3.5.0
-     *
-     * @param int|null   $max_w Image width.
-     * @param int|null   $max_h Image height.
-     * @param bool|array $crop  {
+     * @param int|null $max_w Image width.
+     * @param int|null $max_h Image height.
+     * @param bool|array $crop {
      *     Optional. Image cropping behavior. If false, the image will be scaled (default).
      *     If true, image will be cropped to the specified dimensions using center positions.
      *     If an array, the image will be cropped using the array to specify the crop location:
      *
-     *     @type string $0 The x crop position. Accepts 'left' 'center', or 'right'.
-     *     @type string $1 The y crop position. Accepts 'top', 'center', or 'bottom'.
+     * @type string $0 The x crop position. Accepts 'left' 'center', or 'right'.
+     * @type string $1 The y crop position. Accepts 'top', 'center', or 'bottom'.
      * }
      * @return true|WP_Error
+     * @since 3.5.0
+     *
      */
     public function resize($max_w, $max_h, $crop = false)
     {
@@ -361,7 +359,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
         }
 
         $dims = image_resize_dimensions($this->size['width'], $this->size['height'], $max_w, $max_h, $crop);
-        if (! $dims) {
+        if (!$dims) {
             return new WP_Error('error_getting_dimensions', __('Could not calculate resized image dimensions'));
         }
 
@@ -386,13 +384,13 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
      * This is a waggypuppy specific implementation of Imagick::thumbnailImage(),
      * which resizes an image to given dimensions and removes any associated profiles.
      *
+     * @param int $dst_w The destination width.
+     * @param int $dst_h The destination height.
+     * @param string $filter_name Optional. The Imagick filter to use when resizing. Default 'FILTER_TRIANGLE'.
+     * @param bool $strip_meta Optional. Strip all profiles, excluding color profiles, from the image. Default true.
+     * @return void|WP_Error
      * @since 4.5.0
      *
-     * @param int    $dst_w       The destination width.
-     * @param int    $dst_h       The destination height.
-     * @param string $filter_name Optional. The Imagick filter to use when resizing. Default 'FILTER_TRIANGLE'.
-     * @param bool   $strip_meta  Optional. Strip all profiles, excluding color profiles, from the image. Default true.
-     * @return void|WP_Error
      */
     protected function thumbnail_image($dst_w, $dst_h, $filter_name = 'FILTER_TRIANGLE', $strip_meta = true)
     {
@@ -430,9 +428,9 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
          * This filter only applies when resizing using the Imagick editor since GD
          * always strips profiles by default.
          *
+         * @param bool $strip_meta Whether to strip image metadata during resizing. Default true.
          * @since 4.5.0
          *
-         * @param bool $strip_meta Whether to strip image metadata during resizing. Default true.
          */
         if (apply_filters('image_strip_meta', $strip_meta)) {
             $this->strip_meta(); // Fail silently if not supported.
@@ -445,7 +443,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
              * unless we would be resampling to a scale smaller than 128x128.
              */
             if (is_callable([$this->image, 'sampleImage'])) {
-                $resize_ratio  = ($dst_w / $this->size['width']) * ($dst_h / $this->size['height']);
+                $resize_ratio = ($dst_w / $this->size['width']) * ($dst_h / $this->size['height']);
                 $sample_factor = 5;
 
                 if ($resize_ratio < .111 && ($dst_w * $sample_factor > 128 && $dst_h * $sample_factor > 128)) {
@@ -520,8 +518,6 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
      * the new images one at a time and allows for the meta data to be saved after
      * each new image is created.
      *
-     * @since 3.5.0
-     *
      * @param array $sizes {
      *     An array of image size data arrays.
      *
@@ -529,15 +525,17 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
      *     If one of the two is set to null, the resize will
      *     maintain aspect ratio according to the provided dimension.
      *
-     *     @type array ...$0 {
+     * @type array ...$0 {
      *         Array of height, width values, and whether to crop.
      *
-     *         @type int        $width  Image width. Optional if `$height` is specified.
-     *         @type int        $height Image height. Optional if `$width` is specified.
-     *         @type bool|array $crop   Optional. Whether to crop the image. Default false.
+     * @type int $width Image width. Optional if `$height` is specified.
+     * @type int $height Image height. Optional if `$width` is specified.
+     * @type bool|array $crop Optional. Whether to crop the image. Default false.
      *     }
      * }
      * @return array An array of resized images' metadata by size.
+     * @since 3.5.0
+     *
      */
     public function multi_resize($sizes)
     {
@@ -546,7 +544,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
         foreach ($sizes as $size => $size_data) {
             $meta = $this->make_subsize($size_data);
 
-            if (! is_wp_error($meta)) {
+            if (!is_wp_error($meta)) {
                 $metadata[$size] = $meta;
             }
         }
@@ -557,36 +555,37 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
     /**
      * Create an image sub-size and return the image meta data value for it.
      *
-     * @since 5.3.0
-     *
      * @param array $size_data {
      *     Array of size data.
      *
-     *     @type int        $width  The maximum width in pixels.
-     *     @type int        $height The maximum height in pixels.
-     *     @type bool|array $crop   Whether to crop the image to exact dimensions.
+     * @type int $width The maximum width in pixels.
+     * @type int $height The maximum height in pixels.
+     * @type bool|array $crop Whether to crop the image to exact dimensions.
      * }
      * @return array|WP_Error The image data array for inclusion in the `sizes` array in the image meta,
      *                        WP_Error object on error.
+     * @since 5.3.0
+     *
      */
     public function make_subsize($size_data)
     {
-        if (! isset($size_data['width']) && ! isset($size_data['height'])) {
-            return new WP_Error('image_subsize_create_error', __('Cannot resize the image. Both width and height are not set.'));
+        if (!isset($size_data['width']) && !isset($size_data['height'])) {
+            return new WP_Error('image_subsize_create_error',
+                __('Cannot resize the image. Both width and height are not set.'));
         }
 
-        $orig_size  = $this->size;
+        $orig_size = $this->size;
         $orig_image = $this->image->getImage();
 
-        if (! isset($size_data['width'])) {
+        if (!isset($size_data['width'])) {
             $size_data['width'] = null;
         }
 
-        if (! isset($size_data['height'])) {
+        if (!isset($size_data['height'])) {
             $size_data['height'] = null;
         }
 
-        if (! isset($size_data['crop'])) {
+        if (!isset($size_data['crop'])) {
             $size_data['crop'] = false;
         }
 
@@ -606,10 +605,10 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
             $this->image = null;
         }
 
-        $this->size  = $orig_size;
+        $this->size = $orig_size;
         $this->image = $orig_image;
 
-        if (! is_wp_error($saved)) {
+        if (!is_wp_error($saved)) {
             unset($saved['path']);
         }
 
@@ -619,16 +618,16 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
     /**
      * Crops Image.
      *
-     * @since 3.5.0
-     *
-     * @param int  $src_x   The start x position to crop from.
-     * @param int  $src_y   The start y position to crop from.
-     * @param int  $src_w   The width to crop.
-     * @param int  $src_h   The height to crop.
-     * @param int  $dst_w   Optional. The destination width.
-     * @param int  $dst_h   Optional. The destination height.
+     * @param int $src_x The start x position to crop from.
+     * @param int $src_y The start y position to crop from.
+     * @param int $src_w The width to crop.
+     * @param int $src_h The height to crop.
+     * @param int $dst_w Optional. The destination width.
+     * @param int $dst_h Optional. The destination height.
      * @param bool $src_abs Optional. If the source crop points are absolute.
      * @return true|WP_Error
+     * @since 3.5.0
+     *
      */
     public function crop($src_x, $src_y, $src_w, $src_h, $dst_w = null, $dst_h = null, $src_abs = false)
     {
@@ -646,10 +645,10 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
                  * If destination width/height isn't specified,
                  * use same as width/height from source.
                  */
-                if (! $dst_w) {
+                if (!$dst_w) {
                     $dst_w = $src_w;
                 }
-                if (! $dst_h) {
+                if (!$dst_h) {
                     $dst_h = $src_h;
                 }
 
@@ -670,10 +669,10 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
     /**
      * Rotates current image counter-clockwise by $angle.
      *
-     * @since 3.5.0
-     *
      * @param float $angle
      * @return true|WP_Error
+     * @since 3.5.0
+     *
      */
     public function rotate($angle)
     {
@@ -706,11 +705,11 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
     /**
      * Flips current image.
      *
-     * @since 3.5.0
-     *
      * @param bool $horz Flip along Horizontal Axis
      * @param bool $vert Flip along Vertical Axis
      * @return true|WP_Error
+     * @since 3.5.0
+     *
      */
     public function flip($horz, $vert)
     {
@@ -740,45 +739,46 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
      * As ImageMagick copies the EXIF data to the flipped/rotated image, proceed only
      * if EXIF Orientation can be reset afterwards.
      *
-     * @since 5.3.0
-     *
      * @return bool|WP_Error True if the image was rotated. False if no EXIF data or if the image doesn't need rotation.
      *                       WP_Error if error while rotating.
+     * @since 5.3.0
+     *
      */
     public function maybe_exif_rotate()
     {
         if (is_callable([$this->image, 'setImageOrientation']) && defined('Imagick::ORIENTATION_TOPLEFT')) {
             return parent::maybe_exif_rotate();
         } else {
-            return new WP_Error('write_exif_error', __('The image cannot be rotated because the embedded meta data cannot be updated.'));
+            return new WP_Error('write_exif_error',
+                __('The image cannot be rotated because the embedded meta data cannot be updated.'));
         }
     }
 
     /**
      * Saves current image to file.
      *
-     * @since 3.5.0
-     * @since 6.0.0 The `$filesize` value was added to the returned array.
-     *
      * @param string $destfilename Optional. Destination filename. Default null.
-     * @param string $mime_type    Optional. The mime-type. Default null.
+     * @param string $mime_type Optional. The mime-type. Default null.
      * @return array|WP_Error {
      *     Array on success or WP_Error if the file failed to save.
      *
-     *     @type string $path      Path to the image file.
-     *     @type string $file      Name of the image file.
-     *     @type int    $width     Image width.
-     *     @type int    $height    Image height.
-     *     @type string $mime-type The mime type of the image.
-     *     @type int    $filesize  File size of the image.
+     * @type string $path Path to the image file.
+     * @type string $file Name of the image file.
+     * @type int $width Image width.
+     * @type int $height Image height.
+     * @type string $mime -type The mime type of the image.
+     * @type int $filesize File size of the image.
      * }
+     * @since 6.0.0 The `$filesize` value was added to the returned array.
+     *
+     * @since 3.5.0
      */
     public function save($destfilename = null, $mime_type = null)
     {
         $saved = $this->_save($this->image, $destfilename, $mime_type);
 
-        if (! is_wp_error($saved)) {
-            $this->file      = $saved['path'];
+        if (!is_wp_error($saved)) {
+            $this->file = $saved['path'];
             $this->mime_type = $saved['mime-type'];
 
             try {
@@ -803,7 +803,8 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
         if ($version['versionNumber'] >= 0x675) {
             try {
                 // Imagick::ALPHACHANNEL_REMOVE mapped to RemoveAlphaChannel in PHP imagick 3.2.0b2.
-                $this->image->setImageAlphaChannel(defined('Imagick::ALPHACHANNEL_REMOVE') ? Imagick::ALPHACHANNEL_REMOVE : 12);
+                $this->image->setImageAlphaChannel(defined('Imagick::ALPHACHANNEL_REMOVE')
+                    ? Imagick::ALPHACHANNEL_REMOVE : 12);
             } catch (Exception $e) {
                 return new WP_Error('pdf_alpha_process_failed', $e->getMessage());
             }
@@ -811,28 +812,28 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
     }
 
     /**
-     * @since 3.5.0
-     * @since 6.0.0 The `$filesize` value was added to the returned array.
-     *
      * @param Imagick $image
-     * @param string  $filename
-     * @param string  $mime_type
+     * @param string $filename
+     * @param string $mime_type
      * @return array|WP_Error {
      *     Array on success or WP_Error if the file failed to save.
      *
-     *     @type string $path      Path to the image file.
-     *     @type string $file      Name of the image file.
-     *     @type int    $width     Image width.
-     *     @type int    $height    Image height.
-     *     @type string $mime-type The mime type of the image.
-     *     @type int    $filesize  File size of the image.
+     * @type string $path Path to the image file.
+     * @type string $file Name of the image file.
+     * @type int $width Image width.
+     * @type int $height Image height.
+     * @type string $mime -type The mime type of the image.
+     * @type int $filesize File size of the image.
      * }
+     * @since 3.5.0
+     * @since 6.0.0 The `$filesize` value was added to the returned array.
+     *
      */
     protected function _save($image, $filename = null, $mime_type = null)
     {
         [$filename, $extension, $mime_type] = $this->get_output_format($filename, $mime_type);
 
-        if (! $filename) {
+        if (!$filename) {
             $filename = $this->generate_filename(null, null, $extension);
         }
 
@@ -876,29 +877,29 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
         }
 
         // Set correct file permissions.
-        $stat  = stat(dirname($filename));
+        $stat = stat(dirname($filename));
         $perms = $stat['mode'] & 0000666; // Same permissions as parent folder, strip off the executable bits.
         chmod($filename, $perms);
 
         return [
-            'path'      => $filename,
+            'path' => $filename,
             /** This filter is documented in wp-includes/class-wp-image-editor-gd.php */
-            'file'      => wp_basename(apply_filters('image_make_intermediate_size', $filename)),
-            'width'     => $this->size['width'],
-            'height'    => $this->size['height'],
+            'file' => wp_basename(apply_filters('image_make_intermediate_size', $filename)),
+            'width' => $this->size['width'],
+            'height' => $this->size['height'],
             'mime-type' => $mime_type,
-            'filesize'  => wp_filesize($filename),
+            'filesize' => wp_filesize($filename),
         ];
     }
 
     /**
      * Writes an image to a file or stream.
      *
+     * @param Imagick $image
+     * @param string $filename The destination filename or stream URL.
+     * @return true|WP_Error
      * @since 5.6.0
      *
-     * @param Imagick $image
-     * @param string  $filename The destination filename or stream URL.
-     * @return true|WP_Error
      */
     private function write_image($image, $filename)
     {
@@ -911,11 +912,11 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
                 return new WP_Error(
                     'image_save_error',
                     sprintf(
-                        /* translators: %s: PHP function name. */
+                    /* translators: %s: PHP function name. */
                         __('%s failed while writing image to stream.'),
-                        '<code>file_put_contents()</code>'
+                        '<code>file_put_contents()</code>',
                     ),
-                    $filename
+                    $filename,
                 );
             } else {
                 return true;
@@ -923,14 +924,14 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
         } else {
             $dirname = dirname($filename);
 
-            if (! wp_mkdir_p($dirname)) {
+            if (!wp_mkdir_p($dirname)) {
                 return new WP_Error(
                     'image_save_error',
                     sprintf(
-                        /* translators: %s: Directory path. */
+                    /* translators: %s: Directory path. */
                         __('Unable to create directory %s. Is its parent directory writable by the server?'),
-                        esc_html($dirname)
-                    )
+                        esc_html($dirname),
+                    ),
                 );
             }
 
@@ -945,10 +946,10 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
     /**
      * Streams current image to browser.
      *
-     * @since 3.5.0
-     *
      * @param string $mime_type The mime type of the image.
      * @return true|WP_Error True on success, WP_Error object on failure.
+     * @since 3.5.0
+     *
      */
     public function stream($mime_type = null)
     {
@@ -974,32 +975,31 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
     /**
      * Strips all image meta except color profiles from an image.
      *
+     * @return true|WP_Error True if stripping metadata was successful. WP_Error object on error.
      * @since 4.5.0
      *
-     * @return true|WP_Error True if stripping metadata was successful. WP_Error object on error.
      */
     protected function strip_meta()
     {
-
-        if (! is_callable([$this->image, 'getImageProfiles'])) {
+        if (!is_callable([$this->image, 'getImageProfiles'])) {
             return new WP_Error(
                 'image_strip_meta_error',
                 sprintf(
-                    /* translators: %s: ImageMagick method name. */
+                /* translators: %s: ImageMagick method name. */
                     __('%s is required to strip image meta.'),
-                    '<code>Imagick::getImageProfiles()</code>'
-                )
+                    '<code>Imagick::getImageProfiles()</code>',
+                ),
             );
         }
 
-        if (! is_callable([$this->image, 'removeImageProfile'])) {
+        if (!is_callable([$this->image, 'removeImageProfile'])) {
             return new WP_Error(
                 'image_strip_meta_error',
                 sprintf(
-                    /* translators: %s: ImageMagick method name. */
+                /* translators: %s: ImageMagick method name. */
                     __('%s is required to strip image meta.'),
-                    '<code>Imagick::removeImageProfile()</code>'
-                )
+                    '<code>Imagick::removeImageProfile()</code>',
+                ),
             );
         }
 
@@ -1023,7 +1023,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
         try {
             // Strip profiles.
             foreach ($this->image->getImageProfiles('*', true) as $key => $value) {
-                if (! in_array($key, $protected_profiles, true)) {
+                if (!in_array($key, $protected_profiles, true)) {
                     $this->image->removeImageProfile($key);
                 }
             }
@@ -1038,9 +1038,9 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
      * Sets up Imagick for PDF processing.
      * Increases rendering DPI and only loads first page.
      *
+     * @return string|WP_Error File to load or WP_Error on failure.
      * @since 4.7.0
      *
-     * @return string|WP_Error File to load or WP_Error on failure.
      */
     protected function pdf_setup()
     {
@@ -1064,9 +1064,9 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
      * Includes a workaround for a bug in Ghostscript 8.70 that prevents processing of some PDF files
      * when `use-cropbox` is set.
      *
+     * @return true|WP_Error
      * @since 5.6.0
      *
-     * @return true|WP_Error
      */
     protected function pdf_load_source()
     {

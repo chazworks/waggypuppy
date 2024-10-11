@@ -32,7 +32,7 @@ class Tests_Actions extends WP_UnitTestCase
     public function tear_down()
     {
         // Make sure potentially changed properties are reverted to their default value.
-        $this->apply_testing_filter        = false;
+        $this->apply_testing_filter = false;
         $this->apply_testing_nested_filter = false;
 
         parent::tear_down();
@@ -43,7 +43,7 @@ class Tests_Actions extends WP_UnitTestCase
      */
     public function test_simple_action()
     {
-        $a         = new MockAction();
+        $a = new MockAction();
         $hook_name = __FUNCTION__;
 
         add_action($hook_name, [&$a, 'action']);
@@ -55,7 +55,7 @@ class Tests_Actions extends WP_UnitTestCase
         $this->assertSame([$hook_name], $a->get_hook_names());
 
         $argsvar = $a->get_args();
-        $args    = array_pop($argsvar);
+        $args = array_pop($argsvar);
         $this->assertSame([''], $args);
     }
 
@@ -64,7 +64,7 @@ class Tests_Actions extends WP_UnitTestCase
      */
     public function test_remove_action()
     {
-        $a         = new MockAction();
+        $a = new MockAction();
         $hook_name = __FUNCTION__;
 
         add_action($hook_name, [&$a, 'action']);
@@ -87,7 +87,7 @@ class Tests_Actions extends WP_UnitTestCase
     public function test_has_action()
     {
         $hook_name = __FUNCTION__;
-        $callback  = __FUNCTION__ . '_func';
+        $callback = __FUNCTION__ . '_func';
 
         $this->assertFalse(has_action($hook_name, $callback));
         $this->assertFalse(has_action($hook_name));
@@ -108,8 +108,8 @@ class Tests_Actions extends WP_UnitTestCase
      */
     public function test_multiple_actions()
     {
-        $a1        = new MockAction();
-        $a2        = new MockAction();
+        $a1 = new MockAction();
+        $a2 = new MockAction();
         $hook_name = __FUNCTION__;
 
         // Add both actions to the hook.
@@ -130,9 +130,9 @@ class Tests_Actions extends WP_UnitTestCase
      */
     public function test_action_args_1()
     {
-        $a         = new MockAction();
+        $a = new MockAction();
         $hook_name = __FUNCTION__;
-        $val       = __FUNCTION__ . '_val';
+        $val = __FUNCTION__ . '_val';
 
         add_action($hook_name, [&$a, 'action']);
         // Call the action with a single argument.
@@ -151,11 +151,11 @@ class Tests_Actions extends WP_UnitTestCase
      */
     public function test_action_args_2()
     {
-        $a1        = new MockAction();
-        $a2        = new MockAction();
+        $a1 = new MockAction();
+        $a2 = new MockAction();
         $hook_name = __FUNCTION__;
-        $val1      = __FUNCTION__ . '_val1';
-        $val2      = __FUNCTION__ . '_val2';
+        $val1 = __FUNCTION__ . '_val1';
+        $val2 = __FUNCTION__ . '_val2';
 
         // $a1 accepts two arguments, $a2 doesn't.
         add_action($hook_name, [&$a1, 'action'], 10, 2);
@@ -186,12 +186,12 @@ class Tests_Actions extends WP_UnitTestCase
      */
     public function test_action_args_3()
     {
-        $a1        = new MockAction();
-        $a2        = new MockAction();
-        $a3        = new MockAction();
+        $a1 = new MockAction();
+        $a2 = new MockAction();
+        $a3 = new MockAction();
         $hook_name = __FUNCTION__;
-        $val1      = __FUNCTION__ . '_val1';
-        $val2      = __FUNCTION__ . '_val2';
+        $val1 = __FUNCTION__ . '_val1';
+        $val2 = __FUNCTION__ . '_val2';
 
         // $a1 accepts two arguments, $a2 doesn't, $a3 accepts two arguments.
         add_action($hook_name, [&$a1, 'action'], 10, 2);
@@ -226,16 +226,16 @@ class Tests_Actions extends WP_UnitTestCase
      */
     public function test_action_args_with_php4_syntax()
     {
-        $a         = new MockAction();
+        $a = new MockAction();
         $hook_name = __FUNCTION__;
-        $val       = new stdClass();
+        $val = new stdClass();
 
         add_action($hook_name, [&$a, 'action']);
         // Call the action with PHP 4 notation for passing object by reference.
         do_action($hook_name, [&$val]);
 
         $call_count = $a->get_call_count();
-        $argsvar    = $a->get_args();
+        $argsvar = $a->get_args();
         $this->assertSame([$val], array_pop($argsvar));
     }
 
@@ -250,15 +250,15 @@ class Tests_Actions extends WP_UnitTestCase
      * @param array $priorities {
      *     Indexed array of the priorities for the MockAction callbacks.
      *
-     *     @type mixed $0 Priority for 'action' callback.
-     *     @type mixed $1 Priority for 'action2' callback.
+     * @type mixed $0 Priority for 'action' callback.
+     * @type mixed $1 Priority for 'action2' callback.
      * }
-     * @param array  $expected_call_order  An array of callback names in expected call order.
+     * @param array $expected_call_order An array of callback names in expected call order.
      * @param string $expected_deprecation Optional. Deprecation message. Default ''.
      */
     public function test_priority_callback_order($priorities, $expected_call_order, $expected_deprecation = '')
     {
-        $mock      = new MockAction();
+        $mock = new MockAction();
         $hook_name = __FUNCTION__;
 
         if ($expected_deprecation && PHP_VERSION_ID >= 80100) {
@@ -273,7 +273,8 @@ class Tests_Actions extends WP_UnitTestCase
         $this->assertSame(2, $mock->get_call_count(), 'The number of call counts does not match');
 
         $actual_call_order = wp_list_pluck($mock->get_events(), 'action');
-        $this->assertSame($expected_call_order, $actual_call_order, 'The action callback order does not match the expected order');
+        $this->assertSame($expected_call_order, $actual_call_order,
+            'The action callback order does not match the expected order');
     }
 
     /**
@@ -285,11 +286,11 @@ class Tests_Actions extends WP_UnitTestCase
     {
         return [
             'int DESC' => [
-                'priorities'          => [10, 9],
+                'priorities' => [10, 9],
                 'expected_call_order' => ['action2', 'action'],
             ],
-            'int ASC'  => [
-                'priorities'          => [9, 10],
+            'int ASC' => [
+                'priorities' => [9, 10],
                 'expected_call_order' => ['action', 'action2'],
             ],
         ];
@@ -304,68 +305,68 @@ class Tests_Actions extends WP_UnitTestCase
     {
         return [
             // Numbers as strings and floats.
-            'int as string DESC'               => [
-                'priorities'          => ['10', '9'],
+            'int as string DESC' => [
+                'priorities' => ['10', '9'],
                 'expected_call_order' => ['action2', 'action'],
             ],
-            'int as string ASC'                => [
-                'priorities'          => ['9', '10'],
+            'int as string ASC' => [
+                'priorities' => ['9', '10'],
                 'expected_call_order' => ['action', 'action2'],
             ],
-            'float DESC'                       => [
-                'priorities'           => [10.0, 9.5],
-                'expected_call_order'  => ['action2', 'action'],
+            'float DESC' => [
+                'priorities' => [10.0, 9.5],
+                'expected_call_order' => ['action2', 'action'],
                 'expected_deprecation' => 'Implicit conversion from float 9.5 to int loses precision',
             ],
-            'float ASC'                        => [
-                'priorities'           => [9.5, 10.0],
-                'expected_call_order'  => ['action', 'action2'],
+            'float ASC' => [
+                'priorities' => [9.5, 10.0],
+                'expected_call_order' => ['action', 'action2'],
                 'expected_deprecation' => 'Implicit conversion from float 9.5 to int loses precision',
             ],
-            'float as string DESC'             => [
-                'priorities'          => ['10.0', '9.5'],
+            'float as string DESC' => [
+                'priorities' => ['10.0', '9.5'],
                 'expected_call_order' => ['action2', 'action'],
             ],
-            'float as string ASC'              => [
-                'priorities'          => ['9.5', '10.0'],
+            'float as string ASC' => [
+                'priorities' => ['9.5', '10.0'],
                 'expected_call_order' => ['action', 'action2'],
             ],
 
             // Non-numeric.
-            'null'                             => [
-                'priorities'          => [null, null],
+            'null' => [
+                'priorities' => [null, null],
                 'expected_call_order' => ['action', 'action2'],
             ],
-            'bool DESC'                        => [
-                'priorities'          => [true, false],
+            'bool DESC' => [
+                'priorities' => [true, false],
                 'expected_call_order' => ['action2', 'action'],
             ],
-            'bool ASC'                         => [
-                'priorities'          => [false, true],
+            'bool ASC' => [
+                'priorities' => [false, true],
                 'expected_call_order' => ['action', 'action2'],
             ],
-            'non-numerical string DESC'        => [
-                'priorities'          => ['test1', 'test2'],
+            'non-numerical string DESC' => [
+                'priorities' => ['test1', 'test2'],
                 'expected_call_order' => ['action', 'action2'],
             ],
-            'non-numerical string ASC'         => [
-                'priorities'          => ['test1', 'test2'],
+            'non-numerical string ASC' => [
+                'priorities' => ['test1', 'test2'],
                 'expected_call_order' => ['action', 'action2'],
             ],
-            'int, non-numerical string DESC'   => [
-                'priorities'          => [10, 'test'],
+            'int, non-numerical string DESC' => [
+                'priorities' => [10, 'test'],
                 'expected_call_order' => ['action2', 'action'],
             ],
-            'int, non-numerical string ASC'    => [
-                'priorities'          => ['test', 10],
+            'int, non-numerical string ASC' => [
+                'priorities' => ['test', 10],
                 'expected_call_order' => ['action', 'action2'],
             ],
             'float, non-numerical string DESC' => [
-                'priorities'          => [10.0, 'test'],
+                'priorities' => [10.0, 'test'],
                 'expected_call_order' => ['action2', 'action'],
             ],
-            'float, non-numerical string ASC'  => [
-                'priorities'          => ['test', 10.0],
+            'float, non-numerical string ASC' => [
+                'priorities' => ['test', 10.0],
                 'expected_call_order' => ['action', 'action2'],
             ],
         ];
@@ -400,7 +401,7 @@ class Tests_Actions extends WP_UnitTestCase
      */
     public function test_all_action()
     {
-        $a          = new MockAction();
+        $a = new MockAction();
         $hook_name1 = __FUNCTION__ . '_1';
         $hook_name2 = __FUNCTION__ . '_2';
 
@@ -427,7 +428,7 @@ class Tests_Actions extends WP_UnitTestCase
      */
     public function test_remove_all_action()
     {
-        $a         = new MockAction();
+        $a = new MockAction();
         $hook_name = __FUNCTION__;
 
         add_action('all', [&$a, 'action']);
@@ -451,8 +452,8 @@ class Tests_Actions extends WP_UnitTestCase
      */
     public function test_action_ref_array()
     {
-        $obj       = new stdClass();
-        $a         = new MockAction();
+        $obj = new stdClass();
+        $a = new MockAction();
         $hook_name = __FUNCTION__;
 
         add_action($hook_name, [&$a, 'action']);
@@ -473,7 +474,7 @@ class Tests_Actions extends WP_UnitTestCase
      */
     public function test_action_keyed_array()
     {
-        $a         = new MockAction();
+        $a = new MockAction();
         $hook_name = __FUNCTION__;
 
         add_action($hook_name, [&$a, 'action']);
@@ -504,7 +505,7 @@ class Tests_Actions extends WP_UnitTestCase
     public function test_action_closure()
     {
         $hook_name = __FUNCTION__;
-        $closure   = static function ($a, $b) {
+        $closure = static function ($a, $b) {
             $GLOBALS[$a] = $b;
         };
         add_action($hook_name, $closure, 10, 2);
@@ -517,7 +518,7 @@ class Tests_Actions extends WP_UnitTestCase
         $this->assertSame($GLOBALS[$context[0]], $context[1]);
 
         $hook_name2 = __FUNCTION__ . '_2';
-        $closure2   = static function () {
+        $closure2 = static function () {
             $GLOBALS['closure_no_args'] = true;
         };
         add_action($hook_name2, $closure2);
@@ -573,8 +574,8 @@ class Tests_Actions extends WP_UnitTestCase
     public function test_action_recursion()
     {
         $hook_name = __FUNCTION__;
-        $a         = new MockAction();
-        $b         = new MockAction();
+        $a = new MockAction();
+        $b = new MockAction();
 
         add_action($hook_name, [$a, 'action'], 11, 1);
         add_action($hook_name, [$b, 'action'], 13, 1);
@@ -591,7 +592,7 @@ class Tests_Actions extends WP_UnitTestCase
     public function action_that_causes_recursion($hook_name)
     {
         static $recursing = false;
-        if (! $recursing) {
+        if (!$recursing) {
             $recursing = true;
             do_action($hook_name, $hook_name);
         }
@@ -608,11 +609,11 @@ class Tests_Actions extends WP_UnitTestCase
     public function test_action_callback_manipulation_while_running()
     {
         $hook_name = __FUNCTION__;
-        $a         = new MockAction();
-        $b         = new MockAction();
-        $c         = new MockAction();
-        $d         = new MockAction();
-        $e         = new MockAction();
+        $a = new MockAction();
+        $b = new MockAction();
+        $c = new MockAction();
+        $d = new MockAction();
+        $e = new MockAction();
 
         add_action($hook_name, [$a, 'action'], 11, 2);
         add_action($hook_name, [$this, 'action_that_manipulates_a_running_hook'], 12, 2);
@@ -622,7 +623,8 @@ class Tests_Actions extends WP_UnitTestCase
         do_action($hook_name, $hook_name, [$a, $b, $c, $d, $e]);
 
         $this->assertSame(2, $a->get_call_count(), 'callbacks should run unless otherwise instructed');
-        $this->assertSame(1, $b->get_call_count(), 'callback removed by same priority callback should still get called');
+        $this->assertSame(1, $b->get_call_count(),
+            'callback removed by same priority callback should still get called');
         $this->assertSame(1, $c->get_call_count(), 'callback added by same priority callback should not get called');
         $this->assertSame(2, $d->get_call_count(), 'callback added by earlier priority callback should get called');
         $this->assertSame(1, $e->get_call_count(), 'callback added by later priority callback should not get called');
@@ -647,7 +649,7 @@ class Tests_Actions extends WP_UnitTestCase
     public function test_remove_anonymous_callback()
     {
         $hook_name = __FUNCTION__;
-        $a         = new MockAction();
+        $a = new MockAction();
         add_action($hook_name, [$a, 'action'], 12, 1);
         $this->assertTrue(has_action($hook_name));
 
@@ -663,7 +665,7 @@ class Tests_Actions extends WP_UnitTestCase
                     remove_filter(
                         $hook_name,
                         [$function['function'][0], 'action'],
-                        $priority
+                        $priority,
                     );
                 }
             }
@@ -698,7 +700,7 @@ class Tests_Actions extends WP_UnitTestCase
 
         $wp_filter[$hook_name][11] = [
             '__return_null' => [
-                'function'      => '__return_null',
+                'function' => '__return_null',
                 'accepted_args' => 1,
             ],
         ];
@@ -830,7 +832,7 @@ class Tests_Actions extends WP_UnitTestCase
      */
     public function test_do_action_deprecated()
     {
-        $p = new WP_Post((object) ['post_title' => 'Foo']);
+        $p = new WP_Post((object)['post_title' => 'Foo']);
 
         add_action('tests_do_action_deprecated', [__CLASS__, 'deprecated_action_callback']);
         do_action_deprecated('tests_do_action_deprecated', [$p], '4.6.0');
@@ -852,8 +854,8 @@ class Tests_Actions extends WP_UnitTestCase
      */
     public function test_do_action_deprecated_with_multiple_params()
     {
-        $p1 = new WP_Post((object) ['post_title' => 'Foo1']);
-        $p2 = new WP_Post((object) ['post_title' => 'Foo2']);
+        $p1 = new WP_Post((object)['post_title' => 'Foo1']);
+        $p2 = new WP_Post((object)['post_title' => 'Foo2']);
 
         add_action('tests_do_action_deprecated', [__CLASS__, 'deprecated_action_callback_multiple_params'], 10, 2);
         do_action_deprecated('tests_do_action_deprecated', [$p1, $p2], '4.6.0');

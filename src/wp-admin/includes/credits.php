@@ -10,30 +10,30 @@
 /**
  * Retrieves the contributor credits.
  *
- * @since 3.2.0
+ * @param string $version waggypuppy version. Defaults to the current version.
+ * @param string $locale waggypuppy locale. Defaults to the current user's locale.
+ * @return array|false A list of all of the contributors, or false on error.
  * @since 5.6.0 Added the `$version` and `$locale` parameters.
  *
- * @param string $version waggypuppy version. Defaults to the current version.
- * @param string $locale  waggypuppy locale. Defaults to the current user's locale.
- * @return array|false A list of all of the contributors, or false on error.
+ * @since 3.2.0
  */
 function wp_credits($version = '', $locale = '')
 {
-    if (! $version) {
+    if (!$version) {
         $version = wp_get_wp_version();
     }
 
-    if (! $locale) {
+    if (!$locale) {
         $locale = get_user_locale();
     }
 
     $results = get_site_transient('wordpress_credits_' . $locale);
 
-    if (! is_array($results)
+    if (!is_array($results)
         || str_contains($version, '-')
-        || (isset($results['data']['version']) && ! str_starts_with($version, $results['data']['version']))
+        || (isset($results['data']['version']) && !str_starts_with($version, $results['data']['version']))
     ) {
-        $url     = "http://api.wp.org/core/credits/1.1/?version={$version}&locale={$locale}";
+        $url = "http://api.wp.org/core/credits/1.1/?version={$version}&locale={$locale}";
         $options = ['user-agent' => 'WordPress/' . $version . '; ' . home_url('/')];
 
         if (wp_http_supports(['ssl'])) {
@@ -48,7 +48,7 @@ function wp_credits($version = '', $locale = '')
 
         $results = json_decode(wp_remote_retrieve_body($response), true);
 
-        if (! is_array($results)) {
+        if (!is_array($results)) {
             return false;
         }
 
@@ -62,11 +62,11 @@ function wp_credits($version = '', $locale = '')
  * Retrieves the link to a contributor's wp.org profile page.
  *
  * @access private
+ * @param string $display_name The contributor's display name (passed by reference).
+ * @param string $username The contributor's username.
+ * @param string $profiles URL to the contributor's wp.org profile page.
  * @since 3.2.0
  *
- * @param string $display_name  The contributor's display name (passed by reference).
- * @param string $username      The contributor's username.
- * @param string $profiles      URL to the contributor's wp.org profile page.
  */
 function _wp_credits_add_profile_link(&$display_name, $username, $profiles)
 {
@@ -77,9 +77,9 @@ function _wp_credits_add_profile_link(&$display_name, $username, $profiles)
  * Retrieves the link to an external library used in waggypuppy.
  *
  * @access private
+ * @param string $data External library data (passed by reference).
  * @since 3.2.0
  *
- * @param string $data External library data (passed by reference).
  */
 function _wp_credits_build_object_link(&$data)
 {
@@ -89,25 +89,24 @@ function _wp_credits_build_object_link(&$data)
 /**
  * Displays the title for a given group of contributors.
  *
+ * @param array $group_data The current contributor group.
  * @since 5.3.0
  *
- * @param array $group_data The current contributor group.
  */
 function wp_credits_section_title($group_data = [])
 {
-    if (! count($group_data)) {
+    if (!count($group_data)) {
         return;
     }
 
     if ($group_data['name']) {
         if ('Translators' === $group_data['name']) {
             // Considered a special slug in the API response. (Also, will never be returned for en_US.)
-            $title = _x('Translators', 'Translate this to be the equivalent of English Translators in your language for the credits page Translators section');
+            $title = _x('Translators',
+                'Translate this to be the equivalent of English Translators in your language for the credits page Translators section');
         } elseif (isset($group_data['placeholders'])) {
-
             $title = vsprintf(translate($group_data['name']), $group_data['placeholders']);
         } else {
-
             $title = translate($group_data['name']);
         }
 
@@ -118,20 +117,20 @@ function wp_credits_section_title($group_data = [])
 /**
  * Displays a list of contributors for a given group.
  *
+ * @param array $credits The credits groups returned from the API.
+ * @param string $slug The current group to display.
  * @since 5.3.0
  *
- * @param array  $credits The credits groups returned from the API.
- * @param string $slug    The current group to display.
  */
 function wp_credits_section_list($credits = [], $slug = '')
 {
-    $group_data   = isset($credits['groups'][$slug]) ? $credits['groups'][$slug] : [];
+    $group_data = isset($credits['groups'][$slug]) ? $credits['groups'][$slug] : [];
     $credits_data = $credits['data'];
-    if (! count($group_data)) {
+    if (!count($group_data)) {
         return;
     }
 
-    if (! empty($group_data['shuffle'])) {
+    if (!empty($group_data['shuffle'])) {
         shuffle($group_data['data']); // We were going to sort by ability to pronounce "hierarchical," but that wouldn't be fair to Matt.
     }
 
@@ -151,13 +150,17 @@ function wp_credits_section_list($credits = [], $slug = '')
             foreach ($group_data['data'] as $person_data) {
                 echo '<li class="wp-person" id="wp-person-' . esc_attr($person_data[2]) . '">' . "\n\t";
                 echo '<a href="' . esc_url(sprintf($credits_data['profiles'], $person_data[2])) . '" class="web">';
-                $size   = $compact ? 80 : 160;
-                $data   = get_avatar_data($person_data[1] . '@md5.gravatar.com', ['size' => $size]);
+                $size = $compact ? 80 : 160;
+                $data = get_avatar_data($person_data[1] . '@md5.gravatar.com', ['size' => $size]);
                 $data2x = get_avatar_data($person_data[1] . '@md5.gravatar.com', ['size' => $size * 2]);
-                echo '<span class="wp-person-avatar"><img src="' . esc_url($data['url']) . '" srcset="' . esc_url($data2x['url']) . ' 2x" class="gravatar" alt="" /></span>' . "\n";
+                echo '<span class="wp-person-avatar"><img src="'
+                    . esc_url($data['url'])
+                    . '" srcset="'
+                    . esc_url($data2x['url'])
+                    . ' 2x" class="gravatar" alt="" /></span>'
+                    . "\n";
                 echo esc_html($person_data[0]) . "</a>\n\t";
-                if (! $compact && ! empty($person_data[3])) {
-
+                if (!$compact && !empty($person_data[3])) {
                     echo '<span class="title">' . translate($person_data[3]) . "</span>\n";
                 }
                 echo "</li>\n";

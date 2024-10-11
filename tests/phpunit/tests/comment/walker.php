@@ -28,33 +28,33 @@ class Tests_Comment_Walker extends WP_UnitTestCase
     public function test_has_children()
     {
         $comment_parent = self::factory()->comment->create(['comment_post_ID' => $this->post_id]);
-        $comment_child  = self::factory()->comment->create(
+        $comment_child = self::factory()->comment->create(
             [
                 'comment_post_ID' => $this->post_id,
-                'comment_parent'  => $comment_parent,
-            ]
+                'comment_parent' => $comment_parent,
+            ],
         );
         $comment_parent = get_comment($comment_parent);
-        $comment_child  = get_comment($comment_child);
+        $comment_child = get_comment($comment_child);
 
-        $comment_walker   = new Walker_Comment();
+        $comment_walker = new Walker_Comment();
         $comment_callback = new Comment_Callback_Test_Helper($this, $comment_walker);
 
         wp_list_comments(
             [
                 'callback' => [$comment_callback, 'comment'],
-                'walker'   => $comment_walker,
-                'echo'     => false,
+                'walker' => $comment_walker,
+                'echo' => false,
             ],
-            [$comment_parent, $comment_child]
+            [$comment_parent, $comment_child],
         );
         wp_list_comments(
             [
                 'callback' => [$comment_callback, 'comment'],
-                'walker'   => $comment_walker,
-                'echo'     => false,
+                'walker' => $comment_walker,
+                'echo' => false,
             ],
-            [$comment_child, $comment_parent]
+            [$comment_child, $comment_parent],
         );
     }
 }
@@ -67,7 +67,7 @@ class Comment_Callback_Test_Helper
     public function __construct(Tests_Comment_Walker $test_walker, Walker_Comment $walker)
     {
         $this->test_walker = $test_walker;
-        $this->walker      = $walker;
+        $this->walker = $walker;
     }
 
     public function comment($comment, $args, $depth)

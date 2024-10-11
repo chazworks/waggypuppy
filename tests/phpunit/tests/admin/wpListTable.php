@@ -35,7 +35,7 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
     {
         parent::set_up();
         global $hook_suffix;
-        $hook_suffix      = '_wp_tests';
+        $hook_suffix = '_wp_tests';
         $this->list_table = new WP_List_Table();
     }
 
@@ -54,15 +54,19 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
      *
      * @dataProvider data_should_only_add_primary_column_when_needed
      *
-     * @covers WP_List_Table::get_column_info
+     * @covers       WP_List_Table::get_column_info
      *
-     * @param string $list_class          The name of the WP_List_Table child class.
-     * @param array  $headers             A list of column headers.
-     * @param array  $expected            The expected column headers.
-     * @param int    $expected_hook_count The expected number of times the hook is called.
+     * @param string $list_class The name of the WP_List_Table child class.
+     * @param array $headers A list of column headers.
+     * @param array $expected The expected column headers.
+     * @param int $expected_hook_count The expected number of times the hook is called.
      */
-    public function test_should_only_add_primary_column_when_needed($list_class, $headers, $expected, $expected_hook_count)
-    {
+    public function test_should_only_add_primary_column_when_needed(
+        $list_class,
+        $headers,
+        $expected,
+        $expected_hook_count,
+    ) {
         $hook = new MockAction();
         add_filter('list_table_primary_column', [$hook, 'filter']);
 
@@ -81,8 +85,10 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
         $column_info = new ReflectionMethod($list_table, 'get_column_info');
         $column_info->setAccessible(true);
 
-        $this->assertSame($expected, $column_info->invoke($list_table), 'The actual columns did not match the expected columns');
-        $this->assertSame($expected_hook_count, $hook->get_call_count(), 'The hook was not called the expected number of times');
+        $this->assertSame($expected, $column_info->invoke($list_table),
+            'The actual columns did not match the expected columns');
+        $this->assertSame($expected_hook_count, $hook->get_call_count(),
+            'The hook was not called the expected number of times');
     }
 
     /**
@@ -98,38 +104,38 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
          * untested.
          */
         $list_primary_columns = [
-            'WP_Application_Passwords_List_Table'         => 'name',
-            'WP_Comments_List_Table'                      => 'author',
-            'WP_Links_List_Table'                         => 'name',
-            'WP_Media_List_Table'                         => 'title',
-            'WP_MS_Sites_List_Table'                      => 'blogname',
-            'WP_MS_Themes_List_Table'                     => 'name',
-            'WP_MS_Users_List_Table'                      => 'username',
-            'WP_Plugin_Install_List_Table'                => '',
-            'WP_Plugins_List_Table'                       => 'name',
-            'WP_Posts_List_Table'                         => 'title',
-            'WP_Privacy_Data_Export_Requests_List_Table'  => 'email',
+            'WP_Application_Passwords_List_Table' => 'name',
+            'WP_Comments_List_Table' => 'author',
+            'WP_Links_List_Table' => 'name',
+            'WP_Media_List_Table' => 'title',
+            'WP_MS_Sites_List_Table' => 'blogname',
+            'WP_MS_Themes_List_Table' => 'name',
+            'WP_MS_Users_List_Table' => 'username',
+            'WP_Plugin_Install_List_Table' => '',
+            'WP_Plugins_List_Table' => 'name',
+            'WP_Posts_List_Table' => 'title',
+            'WP_Privacy_Data_Export_Requests_List_Table' => 'email',
             'WP_Privacy_Data_Removal_Requests_List_Table' => 'email',
-            'WP_Terms_List_Table'                         => 'name',
-            'WP_Theme_Install_List_Table'                 => '',
-            'WP_Themes_List_Table'                        => '',
-            'WP_Users_List_Table'                         => 'username',
+            'WP_Terms_List_Table' => 'name',
+            'WP_Theme_Install_List_Table' => '',
+            'WP_Themes_List_Table' => '',
+            'WP_Users_List_Table' => 'username',
         ];
 
         $datasets = [];
 
         foreach ($list_primary_columns as $list_class => $primary_column) {
             $datasets[$list_class . ' - three columns'] = [
-                'list_class'          => $list_class,
-                'headers'             => ['First', 'Second', 'Third'],
-                'expected'            => ['First', 'Second', 'Third', $primary_column],
+                'list_class' => $list_class,
+                'headers' => ['First', 'Second', 'Third'],
+                'expected' => ['First', 'Second', 'Third', $primary_column],
                 'expected_hook_count' => 1,
             ];
 
             $datasets[$list_class . ' - four columns'] = [
-                'list_class'          => $list_class,
-                'headers'             => ['First', 'Second', 'Third', 'Fourth'],
-                'expected'            => ['First', 'Second', 'Third', 'Fourth'],
+                'list_class' => $list_class,
+                'headers' => ['First', 'Second', 'Third', 'Fourth'],
+                'expected' => ['First', 'Second', 'Third', 'Fourth'],
                 'expected_hook_count' => 0,
             ];
         }
@@ -141,7 +147,7 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
          * `list_table_primary_column` hook.
          */
         $datasets['WP_MS_Themes_List_Table - three columns']['expected_hook_count'] = 0;
-        $datasets['WP_Plugins_List_Table - three columns']['expected_hook_count']   = 0;
+        $datasets['WP_Plugins_List_Table - three columns']['expected_hook_count'] = 0;
 
         return $datasets;
     }
@@ -151,16 +157,16 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
      *
      * @ticket 42066
      *
-     * @covers WP_List_Table::get_views_links
+     * @covers       WP_List_Table::get_views_links
      *
      * @dataProvider data_get_views_links
      *
      * @param array $link_data {
      *     An array of link data.
      *
-     *     @type string $url     The link URL.
-     *     @type string $label   The link label.
-     *     @type bool   $current Optional. Whether this is the currently selected view.
+     * @type string $url The link URL.
+     * @type string $label The link label.
+     * @type bool $current Optional. Whether this is the currently selected view.
      * }
      * @param array $expected
      */
@@ -182,80 +188,80 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
     public function data_get_views_links()
     {
         return [
-            'one "current" link'                           => [
+            'one "current" link' => [
                 'link_data' => [
-                    'all'       => [
-                        'url'     => 'https://example.org/',
-                        'label'   => 'All',
+                    'all' => [
+                        'url' => 'https://example.org/',
+                        'label' => 'All',
                         'current' => true,
                     ],
                     'activated' => [
-                        'url'     => add_query_arg('status', 'activated', 'https://example.org/'),
-                        'label'   => 'Activated',
+                        'url' => add_query_arg('status', 'activated', 'https://example.org/'),
+                        'label' => 'Activated',
                         'current' => false,
                     ],
                 ],
-                'expected'  => [
-                    'all'       => '<a href="https://example.org/" class="current" aria-current="page">All</a>',
+                'expected' => [
+                    'all' => '<a href="https://example.org/" class="current" aria-current="page">All</a>',
                     'activated' => '<a href="https://example.org/?status=activated">Activated</a>',
                 ],
             ],
-            'two "current" links'                          => [
+            'two "current" links' => [
                 'link_data' => [
-                    'all'       => [
-                        'url'     => 'https://example.org/',
-                        'label'   => 'All',
+                    'all' => [
+                        'url' => 'https://example.org/',
+                        'label' => 'All',
                         'current' => true,
                     ],
                     'activated' => [
-                        'url'     => add_query_arg('status', 'activated', 'https://example.org/'),
-                        'label'   => 'Activated',
+                        'url' => add_query_arg('status', 'activated', 'https://example.org/'),
+                        'label' => 'Activated',
                         'current' => true,
                     ],
                 ],
-                'expected'  => [
-                    'all'       => '<a href="https://example.org/" class="current" aria-current="page">All</a>',
+                'expected' => [
+                    'all' => '<a href="https://example.org/" class="current" aria-current="page">All</a>',
                     'activated' => '<a href="https://example.org/?status=activated" class="current" aria-current="page">Activated</a>',
                 ],
             ],
             'one "current" link and one without "current" key' => [
                 'link_data' => [
-                    'all'       => [
-                        'url'     => 'https://example.org/',
-                        'label'   => 'All',
+                    'all' => [
+                        'url' => 'https://example.org/',
+                        'label' => 'All',
                         'current' => true,
                     ],
                     'activated' => [
-                        'url'   => add_query_arg('status', 'activated', 'https://example.org/'),
+                        'url' => add_query_arg('status', 'activated', 'https://example.org/'),
                         'label' => 'Activated',
                     ],
                 ],
-                'expected'  => [
-                    'all'       => '<a href="https://example.org/" class="current" aria-current="page">All</a>',
+                'expected' => [
+                    'all' => '<a href="https://example.org/" class="current" aria-current="page">All</a>',
                     'activated' => '<a href="https://example.org/?status=activated">Activated</a>',
                 ],
             ],
             'one "current" link with escapable characters' => [
                 'link_data' => [
-                    'all'       => [
-                        'url'     => 'https://example.org/',
-                        'label'   => 'All',
+                    'all' => [
+                        'url' => 'https://example.org/',
+                        'label' => 'All',
                         'current' => true,
                     ],
                     'activated' => [
-                        'url'     => add_query_arg(
+                        'url' => add_query_arg(
                             [
                                 'status' => 'activated',
-                                'sort'   => 'desc',
+                                'sort' => 'desc',
                             ],
-                            'https://example.org/'
+                            'https://example.org/',
                         ),
-                        'label'   => 'Activated',
+                        'label' => 'Activated',
                         'current' => false,
                     ],
                 ],
-                'expected'  => [
-                    'all'       => '<a href="https://example.org/" class="current" aria-current="page">All</a>',
+                'expected' => [
+                    'all' => '<a href="https://example.org/" class="current" aria-current="page">All</a>',
                     'activated' => '<a href="https://example.org/?status=activated&#038;sort=desc">Activated</a>',
                 ],
             ],
@@ -267,7 +273,7 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
      *
      * @ticket 42066
      *
-     * @covers WP_List_Table::get_views_links
+     * @covers       WP_List_Table::get_views_links
      *
      * @expectedIncorrectUsage WP_List_Table::get_views_links
      *
@@ -276,9 +282,9 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
      * @param array $link_data {
      *     An array of link data.
      *
-     *     @type string $url     The link URL.
-     *     @type string $label   The link label.
-     *     @type bool   $current Optional. Whether this is the currently selected view.
+     * @type string $url The link URL.
+     * @type string $label The link label.
+     * @type bool $current Optional. Whether this is the currently selected view.
      * }
      */
     public function test_get_views_links_doing_it_wrong($link_data)
@@ -296,57 +302,57 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
     public function data_get_views_links_doing_it_wrong()
     {
         return [
-            'non-array $link_data'               => [
+            'non-array $link_data' => [
                 'link_data' => 'https://example.org, All, class="current" aria-current="page"',
             ],
-            'a link with no URL'                 => [
+            'a link with no URL' => [
                 'link_data' => [
                     'all' => [
-                        'label'   => 'All',
+                        'label' => 'All',
                         'current' => true,
                     ],
                 ],
             ],
-            'a link with an empty URL'           => [
+            'a link with an empty URL' => [
                 'link_data' => [
                     'all' => [
-                        'url'     => '',
-                        'label'   => 'All',
+                        'url' => '',
+                        'label' => 'All',
                         'current' => true,
                     ],
                 ],
             ],
-            'a link with a URL of only spaces'   => [
+            'a link with a URL of only spaces' => [
                 'link_data' => [
                     'all' => [
-                        'url'     => '  ',
-                        'label'   => 'All',
+                        'url' => '  ',
+                        'label' => 'All',
                         'current' => true,
                     ],
                 ],
             ],
-            'a link with a non-string URL'       => [
+            'a link with a non-string URL' => [
                 'link_data' => [
                     'all' => [
-                        'url'     => [],
-                        'label'   => 'All',
+                        'url' => [],
+                        'label' => 'All',
                         'current' => true,
                     ],
                 ],
             ],
-            'a link with no label'               => [
+            'a link with no label' => [
                 'link_data' => [
                     'all' => [
-                        'url'     => 'https://example.org/',
+                        'url' => 'https://example.org/',
                         'current' => true,
                     ],
                 ],
             ],
-            'a link with an empty label'         => [
+            'a link with an empty label' => [
                 'link_data' => [
                     'all' => [
-                        'url'     => 'https://example.org/',
-                        'label'   => '',
+                        'url' => 'https://example.org/',
+                        'label' => '',
                         'current' => true,
                     ],
                 ],
@@ -354,17 +360,17 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
             'a link with a label of only spaces' => [
                 'link_data' => [
                     'all' => [
-                        'url'     => 'https://example.org/',
-                        'label'   => '  ',
+                        'url' => 'https://example.org/',
+                        'label' => '  ',
                         'current' => true,
                     ],
                 ],
             ],
-            'a link with a non-string label'     => [
+            'a link with a non-string label' => [
                 'link_data' => [
                     'all' => [
-                        'url'     => 'https://example.org/',
-                        'label'   => [],
+                        'url' => 'https://example.org/',
+                        'label' => [],
                         'current' => true,
                     ],
                 ],
@@ -376,10 +382,10 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
      * @dataProvider data_compat_fields
      * @ticket 58896
      *
-     * @covers WP_List_Table::__get()
+     * @covers       WP_List_Table::__get()
      *
      * @param string $property_name Property name to get.
-     * @param mixed $expected       Expected value.
+     * @param mixed $expected Expected value.
      */
     public function test_should_get_compat_fields($property_name, $expected)
     {
@@ -403,22 +409,23 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
         $this->expectDeprecationMessage(
             'WP_List_Table::__get(): ' .
             'The property `undeclared_property` is not declared. Getting a dynamic property is ' .
-            'deprecated since version 6.4.0! Instead, declare the property on the class.'
+            'deprecated since version 6.4.0! Instead, declare the property on the class.',
         );
-        $this->assertNull($this->list_table->undeclared_property, 'Getting a dynamic property should return null from WP_List_Table::__get()');
+        $this->assertNull($this->list_table->undeclared_property,
+            'Getting a dynamic property should return null from WP_List_Table::__get()');
     }
 
     /**
      * @dataProvider data_compat_fields
      * @ticket 58896
      *
-     * @covers WP_List_Table::__set()
+     * @covers       WP_List_Table::__set()
      *
      * @param string $property_name Property name to set.
      */
     public function test_should_set_compat_fields_defined_property($property_name)
     {
-        $value                            = uniqid();
+        $value = uniqid();
         $this->list_table->$property_name = $value;
 
         $this->assertSame($value, $this->list_table->$property_name);
@@ -435,7 +442,7 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
         $this->expectDeprecationMessage(
             'WP_List_Table::__set(): ' .
             'The property `undeclared_property` is not declared. Setting a dynamic property is ' .
-            'deprecated since version 6.4.0! Instead, declare the property on the class.'
+            'deprecated since version 6.4.0! Instead, declare the property on the class.',
         );
         $this->list_table->undeclared_property = 'some value';
     }
@@ -444,10 +451,10 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
      * @dataProvider data_compat_fields
      * @ticket 58896
      *
-     * @covers WP_List_Table::__isset()
+     * @covers       WP_List_Table::__isset()
      *
      * @param string $property_name Property name to check.
-     * @param mixed $expected       Expected value.
+     * @param mixed $expected Expected value.
      */
     public function test_should_isset_compat_fields($property_name, $expected)
     {
@@ -470,16 +477,17 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
         $this->expectDeprecationMessage(
             'WP_List_Table::__isset(): ' .
             'The property `undeclared_property` is not declared. Checking `isset()` on a dynamic property ' .
-            'is deprecated since version 6.4.0! Instead, declare the property on the class.'
+            'is deprecated since version 6.4.0! Instead, declare the property on the class.',
         );
-        $this->assertFalse(isset($this->list_table->undeclared_property), 'Checking a dynamic property should return false from WP_List_Table::__isset()');
+        $this->assertFalse(isset($this->list_table->undeclared_property),
+            'Checking a dynamic property should return false from WP_List_Table::__isset()');
     }
 
     /**
      * @dataProvider data_compat_fields
      * @ticket 58896
      *
-     * @covers WP_List_Table::__unset()
+     * @covers       WP_List_Table::__unset()
      *
      * @param string $property_name Property name to unset.
      */
@@ -500,7 +508,7 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
         $this->expectDeprecationMessage(
             'WP_List_Table::__unset(): ' .
             'A property `undeclared_property` is not declared. Unsetting a dynamic property is ' .
-            'deprecated since version 6.4.0! Instead, declare the property on the class.'
+            'deprecated since version 6.4.0! Instead, declare the property on the class.',
         );
         unset($this->list_table->undeclared_property);
     }
@@ -513,30 +521,30 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
     public function data_compat_fields()
     {
         return [
-            '_args'            => [
+            '_args' => [
                 'property_name' => '_args',
-                'expected'      => [
-                    'plural'   => '_wp_tests__get',
+                'expected' => [
+                    'plural' => '_wp_tests__get',
                     'singular' => '',
-                    'ajax'     => false,
-                    'screen'   => null,
+                    'ajax' => false,
+                    'screen' => null,
                 ],
             ],
             '_pagination_args' => [
                 'property_name' => '_pagination_args',
-                'expected'      => [],
+                'expected' => [],
             ],
-            'screen'           => [
+            'screen' => [
                 'property_name' => 'screen',
-                'expected'      => WP_Screen::class,
+                'expected' => WP_Screen::class,
             ],
-            '_actions'         => [
+            '_actions' => [
                 'property_name' => '_actions',
-                'expected'      => null,
+                'expected' => null,
             ],
-            '_pagination'      => [
+            '_pagination' => [
                 'property_name' => '_pagination',
-                'expected'      => null,
+                'expected' => null,
             ],
         ];
     }
@@ -550,10 +558,10 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
      */
     public function test_search_box_working_with_array_of_orderby_multiple_values()
     {
-        $_REQUEST['s']       = 'search term';
+        $_REQUEST['s'] = 'search term';
         $_REQUEST['orderby'] = [
             'menu_order' => 'ASC',
-            'title'      => 'ASC',
+            'title' => 'ASC',
         ];
 
         $actual = get_echo([$this->list_table, 'search_box'], ['Search Posts', 'post']);
@@ -575,7 +583,7 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
     public function test_search_box_working_with_array_of_orderby_single_value()
     {
         // Test with one 'orderby' element.
-        $_REQUEST['s']       = 'search term';
+        $_REQUEST['s'] = 'search term';
         $_REQUEST['orderby'] = [
             'title' => 'ASC',
         ];
@@ -597,7 +605,7 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
     public function test_search_box_works_with_orderby_string()
     {
         // Test with one 'orderby' element.
-        $_REQUEST['s']       = 'search term';
+        $_REQUEST['s'] = 'search term';
         $_REQUEST['orderby'] = 'title';
 
         $actual = get_echo([$this->list_table, 'search_box'], ['Search Posts', 'post']);

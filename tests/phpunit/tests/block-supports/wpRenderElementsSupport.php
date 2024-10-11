@@ -32,12 +32,12 @@ class Tests_Block_Supports_WpRenderElementsSupport extends WP_UnitTestCase
     {
         $block = [
             'blockName' => 'test/element-block-supports',
-            'attrs'     => [
+            'attrs' => [
                 'style' => [
                     'elements' => [
                         'button' => [
                             'color' => [
-                                'text'       => 'var:preset|color|vivid-red',
+                                'text' => 'var:preset|color|vivid-red',
                                 'background' => '#fff',
                             ],
                         ],
@@ -47,7 +47,7 @@ class Tests_Block_Supports_WpRenderElementsSupport extends WP_UnitTestCase
         ];
 
         $block_markup = '<p>Hello <a href="http://www.wp.org/">waggypuppy</a>!</p>';
-        $actual       = wp_render_elements_class_name($block_markup, $block);
+        $actual = wp_render_elements_class_name($block_markup, $block);
 
         $this->assertSame($block_markup, $actual, 'Expected to leave block content unmodified, but found changes.');
     }
@@ -61,33 +61,37 @@ class Tests_Block_Supports_WpRenderElementsSupport extends WP_UnitTestCase
      *
      * @dataProvider data_elements_block_support_class
      *
-     * @param array  $color_settings  The color block support settings used for elements support.
-     * @param array  $elements_styles The elements styles within the block attributes.
-     * @param string $block_markup    Original block markup.
+     * @param array $color_settings The color block support settings used for elements support.
+     * @param array $elements_styles The elements styles within the block attributes.
+     * @param string $block_markup Original block markup.
      * @param string $expected_markup Resulting markup after application of elements block support.
      */
-    public function test_elements_block_support_class($color_settings, $elements_styles, $block_markup, $expected_markup)
-    {
+    public function test_elements_block_support_class(
+        $color_settings,
+        $elements_styles,
+        $block_markup,
+        $expected_markup,
+    ) {
         $this->test_block_name = 'test/element-block-supports';
 
         register_block_type(
             $this->test_block_name,
             [
                 'api_version' => 3,
-                'attributes'  => [
+                'attributes' => [
                     'style' => [
                         'type' => 'object',
                     ],
                 ],
-                'supports'    => [
+                'supports' => [
                     'color' => $color_settings,
                 ],
-            ]
+            ],
         );
 
         $block = [
             'blockName' => $this->test_block_name,
-            'attrs'     => [
+            'attrs' => [
                 'style' => [
                     'elements' => $elements_styles,
                 ],
@@ -101,12 +105,12 @@ class Tests_Block_Supports_WpRenderElementsSupport extends WP_UnitTestCase
          * function for this test.
          */
         $filtered_block = wp_render_elements_support_styles($block);
-        $actual         = wp_render_elements_class_name($block_markup, $filtered_block);
+        $actual = wp_render_elements_class_name($block_markup, $filtered_block);
 
         $this->assertMatchesRegularExpression(
             $expected_markup,
             $actual,
-            'Block wrapper markup should be correct'
+            'Block wrapper markup should be correct',
         );
     }
 
@@ -118,110 +122,110 @@ class Tests_Block_Supports_WpRenderElementsSupport extends WP_UnitTestCase
     public function data_elements_block_support_class()
     {
         $color_styles = [
-            'text'       => 'var:preset|color|vivid-red',
+            'text' => 'var:preset|color|vivid-red',
             'background' => '#fff',
         ];
 
         return [
             // @ticket 59578
-            'empty block markup remains untouched'         => [
-                'color_settings'  => [
+            'empty block markup remains untouched' => [
+                'color_settings' => [
                     'button' => true,
                 ],
                 'elements_styles' => [
                     'button' => ['color' => $color_styles],
                 ],
-                'block_markup'    => '',
+                'block_markup' => '',
                 'expected_markup' => '/^$/',
             ],
             'empty block markup remains untouched when no block attributes' => [
-                'color_settings'  => [
+                'color_settings' => [
                     'button' => true,
                 ],
                 'elements_styles' => null,
-                'block_markup'    => '',
+                'block_markup' => '',
                 'expected_markup' => '/^$/',
             ],
             'block markup remains untouched when block has no attributes' => [
-                'color_settings'  => [
+                'color_settings' => [
                     'button' => true,
                 ],
                 'elements_styles' => null,
-                'block_markup'    => '<p>Hello <a href="http://www.wp.org/">waggypuppy</a>!</p>',
+                'block_markup' => '<p>Hello <a href="http://www.wp.org/">waggypuppy</a>!</p>',
                 'expected_markup' => '/^<p>Hello <a href="http:\/\/www.wp.org\/">waggypuppy<\/a>!<\/p>$/',
             ],
             // @ticket 5418
             'button element styles with serialization skipped' => [
-                'color_settings'  => [
-                    'button'                          => true,
+                'color_settings' => [
+                    'button' => true,
                     '__experimentalSkipSerialization' => true,
                 ],
                 'elements_styles' => [
                     'button' => ['color' => $color_styles],
                 ],
-                'block_markup'    => '<p>Hello <a href="http://www.wp.org/">waggypuppy</a>!</p>',
+                'block_markup' => '<p>Hello <a href="http://www.wp.org/">waggypuppy</a>!</p>',
                 'expected_markup' => '/^<p>Hello <a href="http:\/\/www.wp.org\/">waggypuppy<\/a>!<\/p>$/',
             ],
             'link element styles with serialization skipped' => [
-                'color_settings'  => [
-                    'link'                            => true,
+                'color_settings' => [
+                    'link' => true,
                     '__experimentalSkipSerialization' => true,
                 ],
                 'elements_styles' => [
                     'link' => ['color' => $color_styles],
                 ],
-                'block_markup'    => '<p>Hello <a href="http://www.wp.org/">waggypuppy</a>!</p>',
+                'block_markup' => '<p>Hello <a href="http://www.wp.org/">waggypuppy</a>!</p>',
                 'expected_markup' => '/^<p>Hello <a href="http:\/\/www.wp.org\/">waggypuppy<\/a>!<\/p>$/',
             ],
             'heading element styles with serialization skipped' => [
-                'color_settings'  => [
-                    'heading'                         => true,
+                'color_settings' => [
+                    'heading' => true,
                     '__experimentalSkipSerialization' => true,
                 ],
                 'elements_styles' => [
                     'heading' => ['color' => $color_styles],
                 ],
-                'block_markup'    => '<p>Hello <a href="http://www.wp.org/">waggypuppy</a>!</p>',
+                'block_markup' => '<p>Hello <a href="http://www.wp.org/">waggypuppy</a>!</p>',
                 'expected_markup' => '/^<p>Hello <a href="http:\/\/www.wp.org\/">waggypuppy<\/a>!<\/p>$/',
             ],
             'button element styles apply class to wrapper' => [
-                'color_settings'  => ['button' => true],
+                'color_settings' => ['button' => true],
                 'elements_styles' => [
                     'button' => ['color' => $color_styles],
                 ],
-                'block_markup'    => '<p>Hello <a href="http://www.wp.org/">waggypuppy</a>!</p>',
+                'block_markup' => '<p>Hello <a href="http://www.wp.org/">waggypuppy</a>!</p>',
                 'expected_markup' => '/^<p class="wp-elements-[a-f0-9]{32}">Hello <a href="http:\/\/www.wp.org\/">waggypuppy<\/a>!<\/p>$/',
             ],
-            'link element styles apply class to wrapper'   => [
-                'color_settings'  => ['link' => true],
+            'link element styles apply class to wrapper' => [
+                'color_settings' => ['link' => true],
                 'elements_styles' => [
                     'link' => ['color' => $color_styles],
                 ],
-                'block_markup'    => '<p>Hello <a href="http://www.wp.org/">waggypuppy</a>!</p>',
+                'block_markup' => '<p>Hello <a href="http://www.wp.org/">waggypuppy</a>!</p>',
                 'expected_markup' => '/^<p class="wp-elements-[a-f0-9]{32}">Hello <a href="http:\/\/www.wp.org\/">waggypuppy<\/a>!<\/p>$/',
             ],
             'heading element styles apply class to wrapper' => [
-                'color_settings'  => ['heading' => true],
+                'color_settings' => ['heading' => true],
                 'elements_styles' => [
                     'heading' => ['color' => $color_styles],
                 ],
-                'block_markup'    => '<p>Hello <a href="http://www.wp.org/">waggypuppy</a>!</p>',
+                'block_markup' => '<p>Hello <a href="http://www.wp.org/">waggypuppy</a>!</p>',
                 'expected_markup' => '/^<p class="wp-elements-[a-f0-9]{32}">Hello <a href="http:\/\/www.wp.org\/">waggypuppy<\/a>!<\/p>$/',
             ],
             'element styles apply class to wrapper when it has other classes' => [
-                'color_settings'  => ['link' => true],
+                'color_settings' => ['link' => true],
                 'elements_styles' => [
                     'link' => ['color' => $color_styles],
                 ],
-                'block_markup'    => '<p class="has-dark-gray-background-color has-background">Hello <a href="http://www.wp.org/">waggypuppy</a>!</p>',
+                'block_markup' => '<p class="has-dark-gray-background-color has-background">Hello <a href="http://www.wp.org/">waggypuppy</a>!</p>',
                 'expected_markup' => '/^<p class="has-dark-gray-background-color has-background wp-elements-[a-f0-9]{32}">Hello <a href="http:\/\/www.wp.org\/">waggypuppy<\/a>!<\/p>$/',
             ],
             'element styles apply class to wrapper when it has other attributes' => [
-                'color_settings'  => ['link' => true],
+                'color_settings' => ['link' => true],
                 'elements_styles' => [
                     'link' => ['color' => $color_styles],
                 ],
-                'block_markup'    => '<p id="anchor">Hello <a href="http://www.wp.org/">waggypuppy</a>!</p>',
+                'block_markup' => '<p id="anchor">Hello <a href="http://www.wp.org/">waggypuppy</a>!</p>',
                 'expected_markup' => '/^<p class="wp-elements-[a-f0-9]{32}" id="anchor">Hello <a href="http:\/\/www.wp.org\/">waggypuppy<\/a>!<\/p>$/',
             ],
         ];

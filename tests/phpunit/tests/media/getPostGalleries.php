@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @group media
  *
@@ -8,9 +9,9 @@ class Tests_Media_GetPostGalleries extends WP_UnitTestCase
 {
 
     const IMG_META = [
-        'width'  => 100,
+        'width' => 100,
         'height' => 100,
-        'sizes'  => '',
+        'sizes' => '',
     ];
 
     /**
@@ -34,7 +35,7 @@ class Tests_Media_GetPostGalleries extends WP_UnitTestCase
         $post_id = self::factory()->post->create(
             [
                 'post_content' => '<p>A post with no gallery</p>',
-            ]
+            ],
         );
 
         $galleries = get_post_galleries($post_id, false);
@@ -49,17 +50,17 @@ class Tests_Media_GetPostGalleries extends WP_UnitTestCase
      * @ticket 55203
      *
      * @param string $content The content of the post.
-     * @param string $needle  The content of a non-gallery block.
+     * @param string $needle The content of a non-gallery block.
      */
     public function test_returns_only_galleries($content, $needle)
     {
         $image_id = self::factory()->attachment->create_object(
             [
-                'file'           => 'test.jpg',
-                'post_parent'    => 0,
+                'file' => 'test.jpg',
+                'post_parent' => 0,
                 'post_mime_type' => 'image/jpeg',
-                'post_type'      => 'attachment',
-            ]
+                'post_type' => 'attachment',
+            ],
         );
 
         $image_url = 'http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/test.jpg';
@@ -67,17 +68,17 @@ class Tests_Media_GetPostGalleries extends WP_UnitTestCase
         $content = str_replace(
             ['IMAGE_ID', 'IMAGE_URL'],
             [$image_id, $image_url],
-            $content
+            $content,
         );
 
         $post_id = self::factory()->post->create(
             [
                 'post_content' => $content,
-            ]
+            ],
         );
 
         $galleries = get_post_galleries($post_id);
-        $actual    = implode('', $galleries);
+        $actual = implode('', $galleries);
 
         $this->assertStringNotContainsString($needle, $actual);
     }
@@ -109,12 +110,14 @@ class Tests_Media_GetPostGalleries extends WP_UnitTestCase
 
         return [
             'a paragraph before a gallery' => [
-                'content' => '<!-- wp:paragraph --><p>A paragraph before a gallery.</p><!-- /wp:paragraph -->' . $gallery,
-                'needle'  => 'A paragraph before a gallery.',
+                'content' => '<!-- wp:paragraph --><p>A paragraph before a gallery.</p><!-- /wp:paragraph -->'
+                    . $gallery,
+                'needle' => 'A paragraph before a gallery.',
             ],
-            'a paragraph after a gallery'  => [
-                'content' => $gallery . '<!-- wp:paragraph --><p>A paragraph after a gallery.</p><!-- /wp:paragraph -->',
-                'needle'  => 'A paragraph after a gallery.',
+            'a paragraph after a gallery' => [
+                'content' => $gallery
+                    . '<!-- wp:paragraph --><p>A paragraph after a gallery.</p><!-- /wp:paragraph -->',
+                'needle' => 'A paragraph after a gallery.',
             ],
         ];
     }
@@ -132,17 +135,17 @@ class Tests_Media_GetPostGalleries extends WP_UnitTestCase
         // Set up an unattached image.
         self::factory()->attachment->create_object(
             [
-                'file'           => 'test.jpg',
-                'post_parent'    => 0,
+                'file' => 'test.jpg',
+                'post_parent' => 0,
                 'post_mime_type' => 'image/jpeg',
-                'post_type'      => 'attachment',
-            ]
+                'post_type' => 'attachment',
+            ],
         );
 
         $post_id = self::factory()->post->create(
             [
                 'post_content' => '[gallery]',
-            ]
+            ],
         );
 
         $galleries = get_post_galleries($post_id, false);
@@ -150,7 +153,7 @@ class Tests_Media_GetPostGalleries extends WP_UnitTestCase
         // The method can return an empty array.
         $this->assertNotEmpty(
             $galleries,
-            'The galleries array is empty.'
+            'The galleries array is empty.',
         );
 
         /*
@@ -160,12 +163,12 @@ class Tests_Media_GetPostGalleries extends WP_UnitTestCase
         $this->assertArrayHasKey(
             'src',
             $galleries[0],
-            'A src key does not exist.'
+            'A src key does not exist.',
         );
 
         $this->assertEmpty(
             $galleries[0]['src'],
-            'The src key is not empty.'
+            'The src key is not empty.',
         );
     }
 
@@ -182,17 +185,17 @@ class Tests_Media_GetPostGalleries extends WP_UnitTestCase
         // Set up an unattached image.
         self::factory()->attachment->create_object(
             [
-                'file'           => 'test.jpg',
-                'post_parent'    => 0,
+                'file' => 'test.jpg',
+                'post_parent' => 0,
                 'post_mime_type' => 'image/jpeg',
-                'post_type'      => 'attachment',
-            ]
+                'post_type' => 'attachment',
+            ],
         );
 
         $post_id = self::factory()->post->create(
             [
                 'post_content' => '<!-- wp:gallery -->',
-            ]
+            ],
         );
 
         $galleries = get_post_galleries($post_id, false);
@@ -200,7 +203,7 @@ class Tests_Media_GetPostGalleries extends WP_UnitTestCase
         // The method can return an empty array.
         $this->assertNotEmpty(
             $galleries,
-            'The galleries array is empty.'
+            'The galleries array is empty.',
         );
 
         /*
@@ -209,7 +212,7 @@ class Tests_Media_GetPostGalleries extends WP_UnitTestCase
          */
         $this->assertIsArray(
             $galleries[0],
-            'The returned data does not contain an array.'
+            'The returned data does not contain an array.',
         );
 
         /*
@@ -219,12 +222,12 @@ class Tests_Media_GetPostGalleries extends WP_UnitTestCase
         $this->assertArrayHasKey(
             'src',
             $galleries[0],
-            'A src key does not exist.'
+            'A src key does not exist.',
         );
 
         $this->assertEmpty(
             $galleries[0]['src'],
-            'The src key of the first gallery is not empty.'
+            'The src key of the first gallery is not empty.',
         );
     }
 
@@ -241,46 +244,46 @@ class Tests_Media_GetPostGalleries extends WP_UnitTestCase
         // Set up an unattached image.
         $image_id = self::factory()->attachment->create_object(
             [
-                'file'           => 'test.jpg',
-                'post_parent'    => 0,
+                'file' => 'test.jpg',
+                'post_parent' => 0,
                 'post_mime_type' => 'image/jpeg',
-                'post_type'      => 'attachment',
-            ]
+                'post_type' => 'attachment',
+            ],
         );
 
         $image_url = 'http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/test.jpg';
 
         $blob = <<< BLOB
-<!-- wp:gallery {"linkTo":"none","className":"columns-2"} -->
-<figure
-	class="wp-block-gallery has-nested-images columns-default is-cropped columns-2"
->
-	<!-- wp:image {"id":$image_id,"sizeSlug":"large","linkDestination":"none"} -->
-	<figure class="wp-block-image size-large">
-		<img
-			src="$image_url"
-			alt="Image gallery image"
-			class="wp-image-$image_id"
-		/>
-	</figure>
-	<!-- /wp:image -->
-</figure>
-<!-- /wp:gallery -->
-BLOB;
+            <!-- wp:gallery {"linkTo":"none","className":"columns-2"} -->
+            <figure
+            	class="wp-block-gallery has-nested-images columns-default is-cropped columns-2"
+            >
+            	<!-- wp:image {"id":$image_id,"sizeSlug":"large","linkDestination":"none"} -->
+            	<figure class="wp-block-image size-large">
+            		<img
+            			src="$image_url"
+            			alt="Image gallery image"
+            			class="wp-image-$image_id"
+            		/>
+            	</figure>
+            	<!-- /wp:image -->
+            </figure>
+            <!-- /wp:gallery -->
+            BLOB;
 
         $post_id = self::factory()->post->create(
             [
                 'post_content' => $blob,
-            ]
+            ],
         );
 
         $expected_srcs = [$image_url];
-        $galleries     = get_post_galleries($post_id, false);
+        $galleries = get_post_galleries($post_id, false);
 
         // The method can return an empty array.
         $this->assertNotEmpty(
             $galleries,
-            'The galleries array is empty.'
+            'The galleries array is empty.',
         );
 
         /*
@@ -289,7 +292,7 @@ BLOB;
          */
         $this->assertIsArray(
             $galleries[0],
-            'The returned data does not contain an array.'
+            'The returned data does not contain an array.',
         );
 
         /*
@@ -299,13 +302,13 @@ BLOB;
         $this->assertArrayHasKey(
             'src',
             $galleries[0],
-            'A src key does not exist.'
+            'A src key does not exist.',
         );
 
         $this->assertSameSetsWithIndex(
             $expected_srcs,
             $galleries[0]['src'],
-            'The expected and actual srcs are not the same.'
+            'The expected and actual srcs are not the same.',
         );
     }
 
@@ -321,31 +324,31 @@ BLOB;
         $post_id = self::factory()->post->create(
             [
                 'post_content' => 'I have no gallery',
-            ]
+            ],
         );
 
         $post_id_two = self::factory()->post->create(
             [
                 'post_content' => "[gallery id='$post_id']",
-            ]
+            ],
         );
 
         self::factory()->attachment->create_object(
             [
-                'file'           => 'test.jpg',
-                'post_parent'    => $post_id,
+                'file' => 'test.jpg',
+                'post_parent' => $post_id,
                 'post_mime_type' => 'image/jpeg',
-                'post_type'      => 'attachment',
-            ]
+                'post_type' => 'attachment',
+            ],
         );
 
-        $expected  = 'src="http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/test.jpg"';
+        $expected = 'src="http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/test.jpg"';
         $galleries = get_post_galleries($post_id_two);
 
         // The method can return an empty array.
         $this->assertNotEmpty(
             $galleries,
-            'The galleries array is empty.'
+            'The galleries array is empty.',
         );
 
         /*
@@ -354,13 +357,13 @@ BLOB;
          */
         $this->assertIsString(
             $galleries[0],
-            'Did not return the data as a string.'
+            'Did not return the data as a string.',
         );
 
         $this->assertStringContainsString(
             $expected,
             $galleries[0],
-            'The returned data did not contain a src attribute with the expected image URL.'
+            'The returned data did not contain a src attribute with the expected image URL.',
         );
     }
 
@@ -376,40 +379,40 @@ BLOB;
         $post_id = self::factory()->post->create(
             [
                 'post_content' => 'I have no gallery.',
-            ]
+            ],
         );
 
         // Set up an unattached image.
         $image_id = self::factory()->attachment->create(
             [
-                'file'           => 'test.jpg',
-                'post_parent'    => $post_id,
+                'file' => 'test.jpg',
+                'post_parent' => $post_id,
                 'post_mime_type' => 'image/jpeg',
-                'post_type'      => 'attachment',
-            ]
+                'post_type' => 'attachment',
+            ],
         );
 
         $image_url = 'http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/test.jpg';
 
         $blob = <<< BLOB
-<!-- wp:gallery -->
-<figure><img src="$image_url" data-id="$image_id" /></figure>
-<!-- /wp:gallery -->
-BLOB;
+            <!-- wp:gallery -->
+            <figure><img src="$image_url" data-id="$image_id" /></figure>
+            <!-- /wp:gallery -->
+            BLOB;
 
         $post_id_two = self::factory()->post->create(
             [
                 'post_content' => $blob,
-            ]
+            ],
         );
 
-        $expected  = 'src="http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/test.jpg"';
+        $expected = 'src="http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/test.jpg"';
         $galleries = get_post_galleries($post_id_two);
 
         // The method can return an empty array.
         $this->assertNotEmpty(
             $galleries,
-            'The galleries array is empty.'
+            'The galleries array is empty.',
         );
 
         /*
@@ -418,13 +421,13 @@ BLOB;
          */
         $this->assertIsString(
             $galleries[0],
-            'Did not return the data as a string.'
+            'Did not return the data as a string.',
         );
 
         $this->assertStringContainsString(
             $expected,
             $galleries[0],
-            'The returned data did not contain a src attribute with the expected image URL.'
+            'The returned data did not contain a src attribute with the expected image URL.',
         );
     }
 
@@ -439,46 +442,46 @@ BLOB;
     {
         $image_id = self::factory()->attachment->create_object(
             [
-                'file'           => 'test.jpg',
-                'post_parent'    => 0,
+                'file' => 'test.jpg',
+                'post_parent' => 0,
                 'post_mime_type' => 'image/jpeg',
-                'post_type'      => 'attachment',
-            ]
+                'post_type' => 'attachment',
+            ],
         );
 
         $image_url = 'http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/test.jpg';
 
         $blob = <<< BLOB
-<!-- wp:gallery {"linkTo":"none","className":"columns-2"} -->
-<figure
-	class="wp-block-gallery has-nested-images columns-default is-cropped columns-2"
->
-	<!-- wp:image {"id":$image_id,"sizeSlug":"large","linkDestination":"none"} -->
-	<figure class="wp-block-image size-large">
-		<img
-			src="$image_url"
-			alt="Image gallery image"
-			class="wp-image-$image_id"
-		/>
-	</figure>
-	<!-- /wp:image -->
-</figure>
-<!-- /wp:gallery -->
-BLOB;
+            <!-- wp:gallery {"linkTo":"none","className":"columns-2"} -->
+            <figure
+            	class="wp-block-gallery has-nested-images columns-default is-cropped columns-2"
+            >
+            	<!-- wp:image {"id":$image_id,"sizeSlug":"large","linkDestination":"none"} -->
+            	<figure class="wp-block-image size-large">
+            		<img
+            			src="$image_url"
+            			alt="Image gallery image"
+            			class="wp-image-$image_id"
+            		/>
+            	</figure>
+            	<!-- /wp:image -->
+            </figure>
+            <!-- /wp:gallery -->
+            BLOB;
 
         $post_id = self::factory()->post->create(
             [
                 'post_content' => $blob,
-            ]
+            ],
         );
 
-        $expected  = 'src="http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/test.jpg"';
+        $expected = 'src="http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/test.jpg"';
         $galleries = get_post_galleries($post_id);
 
         // The method can return an empty array.
         $this->assertNotEmpty(
             $galleries,
-            'The galleries array is empty.'
+            'The galleries array is empty.',
         );
 
         /*
@@ -487,13 +490,13 @@ BLOB;
          */
         $this->assertIsString(
             $galleries[0],
-            'Did not return the data as a string.'
+            'Did not return the data as a string.',
         );
 
         $this->assertStringContainsString(
             $expected,
             $galleries[0],
-            'The returned data did not contain a src attribute with the expected image URL.'
+            'The returned data did not contain a src attribute with the expected image URL.',
         );
     }
 
@@ -510,20 +513,20 @@ BLOB;
         $global_post_id = self::factory()->post->create(
             [
                 'post_content' => 'Global Post',
-            ]
+            ],
         );
-        $post_id        = self::factory()->post->create(
+        $post_id = self::factory()->post->create(
             [
                 'post_content' => '[gallery]',
-            ]
+            ],
         );
         self::factory()->attachment->create_object(
             [
-                'file'           => 'test.jpg',
-                'post_parent'    => $post_id,
+                'file' => 'test.jpg',
+                'post_parent' => $post_id,
                 'post_mime_type' => 'image/jpeg',
-                'post_type'      => 'attachment',
-            ]
+                'post_type' => 'attachment',
+            ],
         );
         $expected_srcs = [
             'http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/test.jpg',
@@ -537,7 +540,7 @@ BLOB;
         // The method can return an empty array.
         $this->assertNotEmpty(
             $galleries,
-            'The galleries array is empty.'
+            'The galleries array is empty.',
         );
 
         /*
@@ -547,13 +550,13 @@ BLOB;
         $this->assertArrayHasKey(
             'src',
             $galleries[0],
-            'A src key does not exist.'
+            'A src key does not exist.',
         );
 
         $this->assertSameSetsWithIndex(
             $expected_srcs,
             $galleries[0]['src'],
-            'The expected and actual srcs are not the same.'
+            'The expected and actual srcs are not the same.',
         );
     }
 
@@ -567,8 +570,8 @@ BLOB;
      */
     public function test_respects_post_id_with_block_gallery()
     {
-        $ids      = [];
-        $imgs     = [];
+        $ids = [];
+        $imgs = [];
         $ids_srcs = [];
         foreach (range(1, 3) as $i) {
             $attachment_id = self::factory()->attachment->create_object(
@@ -576,16 +579,15 @@ BLOB;
                 0,
                 [
                     'post_mime_type' => 'image/jpeg',
-                    'post_type'      => 'attachment',
-                ]
+                    'post_type' => 'attachment',
+                ],
             );
-            $metadata      = array_merge(['file' => "image$i.jpg"], self::IMG_META);
+            $metadata = array_merge(['file' => "image$i.jpg"], self::IMG_META);
             wp_update_attachment_metadata($attachment_id, $metadata);
-            $ids[]      = $attachment_id;
-            $url        = 'http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/' . "image$i.jpg";
+            $ids[] = $attachment_id;
+            $url = 'http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/' . "image$i.jpg";
             $ids_srcs[] = $url;
-            $imgs[]     = '<figure><img src="' . $url . '" data-id="' . $i . '" /></figure>';
-
+            $imgs[] = '<figure><img src="' . $url . '" data-id="' . $i . '" /></figure>';
         }
 
         $ids_joined = implode(',', $ids);
@@ -593,26 +595,26 @@ BLOB;
         $global_post_id = self::factory()->post->create(
             [
                 'post_content' => 'Global Post',
-            ]
+            ],
         );
 
         $blob = <<< BLOB
-<!-- wp:gallery {"ids":[$ids_joined]} -->
-<!-- /wp:gallery -->
-BLOB;
+            <!-- wp:gallery {"ids":[$ids_joined]} -->
+            <!-- /wp:gallery -->
+            BLOB;
 
         $post_id = self::factory()->post->create(
             [
                 'post_content' => $blob,
-            ]
+            ],
         );
         self::factory()->attachment->create_object(
             [
-                'file'           => 'test.jpg',
-                'post_parent'    => $post_id,
+                'file' => 'test.jpg',
+                'post_parent' => $post_id,
                 'post_mime_type' => 'image/jpeg',
-                'post_type'      => 'attachment',
-            ]
+                'post_type' => 'attachment',
+            ],
         );
         $expected_srcs = [
             'http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/test.jpg',
@@ -626,7 +628,7 @@ BLOB;
         // The method can return an empty array.
         $this->assertNotEmpty(
             $galleries,
-            'The galleries array is empty.'
+            'The galleries array is empty.',
         );
 
         /*
@@ -636,7 +638,7 @@ BLOB;
         $this->assertArrayHasKey(
             'src',
             $galleries[0],
-            'A src key does not exist.'
+            'A src key does not exist.',
         );
 
         $this->assertSameSetsWithIndex(
@@ -647,7 +649,7 @@ BLOB;
                 ],
             ],
             $galleries,
-            'The expected and actual srcs are not the same.'
+            'The expected and actual srcs are not the same.',
         );
     }
 
@@ -661,54 +663,54 @@ BLOB;
      */
     public function test_respects_post_id_with_block_gallery_v2()
     {
-        $attachment_id  = self::factory()->attachment->create_object(
+        $attachment_id = self::factory()->attachment->create_object(
             'image1.jpg',
             0,
             [
                 'post_mime_type' => 'image/jpeg',
-                'post_type'      => 'attachment',
-            ]
+                'post_type' => 'attachment',
+            ],
         );
-        $metadata       = array_merge(['file' => 'image1.jpg'], self::IMG_META);
-        $url            = 'http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/' . 'image1.jpg';
+        $metadata = array_merge(['file' => 'image1.jpg'], self::IMG_META);
+        $url = 'http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/' . 'image1.jpg';
         $global_post_id = self::factory()->post->create(
             [
                 'post_content' => 'Global Post',
-            ]
+            ],
         );
 
         wp_update_attachment_metadata($attachment_id, $metadata);
 
         $blob = <<< BLOB
-<!-- wp:gallery {"linkTo":"none","className":"columns-2"} -->
-<figure
-	class="wp-block-gallery has-nested-images columns-default is-cropped columns-2"
->
-	<!-- wp:image {"id":$attachment_id,"sizeSlug":"large","linkDestination":"none"} -->
-	<figure class="wp-block-image size-large">
-		<img
-			src="$url"
-			alt="Image gallery image"
-			class="wp-image-$attachment_id"
-		/>
-	</figure>
-	<!-- /wp:image -->
-</figure>
-<!-- /wp:gallery -->
-BLOB;
+            <!-- wp:gallery {"linkTo":"none","className":"columns-2"} -->
+            <figure
+            	class="wp-block-gallery has-nested-images columns-default is-cropped columns-2"
+            >
+            	<!-- wp:image {"id":$attachment_id,"sizeSlug":"large","linkDestination":"none"} -->
+            	<figure class="wp-block-image size-large">
+            		<img
+            			src="$url"
+            			alt="Image gallery image"
+            			class="wp-image-$attachment_id"
+            		/>
+            	</figure>
+            	<!-- /wp:image -->
+            </figure>
+            <!-- /wp:gallery -->
+            BLOB;
 
         $post_id = self::factory()->post->create(
             [
                 'post_content' => $blob,
-            ]
+            ],
         );
         self::factory()->attachment->create_object(
             [
-                'file'           => 'test.jpg',
-                'post_parent'    => $post_id,
+                'file' => 'test.jpg',
+                'post_parent' => $post_id,
                 'post_mime_type' => 'image/jpeg',
-                'post_type'      => 'attachment',
-            ]
+                'post_type' => 'attachment',
+            ],
         );
         $expected_srcs = [
             'http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/test.jpg',
@@ -722,7 +724,7 @@ BLOB;
         // The method can return an empty array.
         $this->assertNotEmpty(
             $galleries,
-            'The galleries array is empty.'
+            'The galleries array is empty.',
         );
 
         /*
@@ -732,18 +734,18 @@ BLOB;
         $this->assertArrayHasKey(
             'src',
             $galleries[0],
-            'A src key does not exist.'
+            'A src key does not exist.',
         );
 
         $this->assertSameSetsWithIndex(
             [
                 [
-                    'ids' => (string) $attachment_id,
+                    'ids' => (string)$attachment_id,
                     'src' => [$url],
                 ],
             ],
             $galleries,
-            'The expected and actual srcs are not the same.'
+            'The expected and actual srcs are not the same.',
         );
     }
 
@@ -757,23 +759,23 @@ BLOB;
      */
     public function test_respects_shortcode_id_attribute()
     {
-        $post_id     = self::factory()->post->create(
+        $post_id = self::factory()->post->create(
             [
                 'post_content' => 'No gallery defined',
-            ]
+            ],
         );
         $post_id_two = self::factory()->post->create(
             [
                 'post_content' => "[gallery id='$post_id']",
-            ]
+            ],
         );
         self::factory()->attachment->create_object(
             [
-                'file'           => 'test.jpg',
-                'post_parent'    => $post_id,
+                'file' => 'test.jpg',
+                'post_parent' => $post_id,
                 'post_mime_type' => 'image/jpeg',
-                'post_type'      => 'attachment',
-            ]
+                'post_type' => 'attachment',
+            ],
         );
         $expected_srcs = [
             'http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/test.jpg',
@@ -782,20 +784,20 @@ BLOB;
         $galleries = get_post_galleries($post_id_two, false);
 
         // Set the global $post context.
-        $GLOBALS['post']               = get_post($post_id_two);
+        $GLOBALS['post'] = get_post($post_id_two);
         $galleries_with_global_context = get_post_galleries($post_id_two, false);
 
         // Check that the global post state doesn't affect the results.
         $this->assertSameSetsWithIndex(
             $galleries,
             $galleries_with_global_context,
-            'The global post state affected the results.'
+            'The global post state affected the results.',
         );
 
         // The method can return an empty array.
         $this->assertNotEmpty(
             $galleries,
-            'The galleries array is empty.'
+            'The galleries array is empty.',
         );
 
         /*
@@ -804,7 +806,7 @@ BLOB;
          */
         $this->assertIsArray(
             $galleries[0],
-            'The returned data does not contain an array.'
+            'The returned data does not contain an array.',
         );
 
         /*
@@ -814,13 +816,13 @@ BLOB;
         $this->assertArrayHasKey(
             'src',
             $galleries[0],
-            'A src key does not exist.'
+            'A src key does not exist.',
         );
 
         $this->assertSameSetsWithIndex(
             $expected_srcs,
             $galleries[0]['src'],
-            'The expected and actual srcs are not the same.'
+            'The expected and actual srcs are not the same.',
         );
     }
 
@@ -839,8 +841,8 @@ BLOB;
          * Test the get_post_galleries() function in `$html = false` mode,
          * with both shortcode and block galleries.
          */
-        $ids      = [];
-        $imgs     = [];
+        $ids = [];
+        $imgs = [];
         $ids_srcs = [];
         foreach (range(1, 6) as $i) {
             $attachment_id = self::factory()->attachment->create_object(
@@ -848,27 +850,26 @@ BLOB;
                 0,
                 [
                     'post_mime_type' => 'image/jpeg',
-                    'post_type'      => 'attachment',
-                ]
+                    'post_type' => 'attachment',
+                ],
             );
-            $metadata      = array_merge(['file' => "image$i.jpg"], self::IMG_META);
+            $metadata = array_merge(['file' => "image$i.jpg"], self::IMG_META);
             wp_update_attachment_metadata($attachment_id, $metadata);
-            $ids[]      = $attachment_id;
-            $url        = 'http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/' . "image$i.jpg";
+            $ids[] = $attachment_id;
+            $url = 'http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/' . "image$i.jpg";
             $ids_srcs[] = $url;
-            $imgs[]     = '<figure><img src="' . $url . '" data-id="' . $i . '" /></figure>';
-
+            $imgs[] = '<figure><img src="' . $url . '" data-id="' . $i . '" /></figure>';
         }
 
         $ids1_joined = implode(',', array_slice($ids, 0, 3));
         $ids2_joined = implode(',', array_slice($ids, 3, 3));
 
         $blob = <<<BLOB
-[gallery ids="$ids1_joined"]
+            [gallery ids="$ids1_joined"]
 
-<!-- wp:gallery {"ids":[$ids2_joined]} -->
-<!-- /wp:gallery -->
-BLOB;
+            <!-- wp:gallery {"ids":[$ids2_joined]} -->
+            <!-- /wp:gallery -->
+            BLOB;
 
         $post_id = self::factory()->post->create(['post_content' => $blob]);
 
@@ -884,7 +885,7 @@ BLOB;
                     'src' => array_slice($ids_srcs, 3, 3),
                 ],
             ],
-            $galleries
+            $galleries,
         );
     }
 
@@ -903,8 +904,8 @@ BLOB;
          * Test attributes returned by get_post_galleries() function in `$html = false` mode,
          * with both shortcode and block galleries.
          */
-        $ids      = [];
-        $imgs     = [];
+        $ids = [];
+        $imgs = [];
         $ids_srcs = [];
         foreach (range(1, 6) as $i) {
             $attachment_id = self::factory()->attachment->create_object(
@@ -912,26 +913,25 @@ BLOB;
                 0,
                 [
                     'post_mime_type' => 'image/jpeg',
-                    'post_type'      => 'attachment',
-                ]
+                    'post_type' => 'attachment',
+                ],
             );
-            $metadata      = array_merge(['file' => "image$i.jpg"], self::IMG_META);
+            $metadata = array_merge(['file' => "image$i.jpg"], self::IMG_META);
             wp_update_attachment_metadata($attachment_id, $metadata);
-            $ids[]      = $attachment_id;
-            $url        = 'http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/' . "image$i.jpg";
+            $ids[] = $attachment_id;
+            $url = 'http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/' . "image$i.jpg";
             $ids_srcs[] = $url;
-            $imgs[]     = '<figure><img src="' . $url . '" data-id="' . $i . '" /></figure>';
-
+            $imgs[] = '<figure><img src="' . $url . '" data-id="' . $i . '" /></figure>';
         }
 
         $ids1_joined = implode(',', array_slice($ids, 0, 3));
         $ids2_joined = implode(',', array_slice($ids, 3, 3));
-        $blob        = <<<BLOB
-[gallery ids="$ids1_joined" type="type" foo="bar"]
+        $blob = <<<BLOB
+            [gallery ids="$ids1_joined" type="type" foo="bar"]
 
-<!-- wp:gallery {"ids":[$ids2_joined],"columns":3,"imageCrop":false,"linkTo":"media"} -->
-<!-- /wp:gallery -->
-BLOB;
+            <!-- wp:gallery {"ids":[$ids2_joined],"columns":3,"imageCrop":false,"linkTo":"media"} -->
+            <!-- /wp:gallery -->
+            BLOB;
 
         $post_id = self::factory()->post->create(['post_content' => $blob]);
 
@@ -939,11 +939,11 @@ BLOB;
         $this->assertSameSetsWithIndex(
             [
                 [
-                    'ids'  => $ids1_joined,
+                    'ids' => $ids1_joined,
                     // The shortcode code passes arbitrary attributes.
                     'type' => 'type',
-                    'foo'  => 'bar',
-                    'src'  => array_slice($ids_srcs, 0, 3),
+                    'foo' => 'bar',
+                    'src' => array_slice($ids_srcs, 0, 3),
                 ],
                 [
                     'ids' => $ids2_joined,
@@ -951,7 +951,7 @@ BLOB;
                     'src' => array_slice($ids_srcs, 3, 3),
                 ],
             ],
-            $galleries
+            $galleries,
         );
     }
 
@@ -968,39 +968,39 @@ BLOB;
         // Set up an unattached image.
         $image_id = self::factory()->attachment->create_object(
             [
-                'file'           => 'test.jpg',
-                'post_parent'    => 0,
+                'file' => 'test.jpg',
+                'post_parent' => 0,
                 'post_mime_type' => 'image/jpeg',
-                'post_type'      => 'attachment',
-            ]
+                'post_type' => 'attachment',
+            ],
         );
 
         $image_url = 'http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/test.jpg';
 
         $blob = <<< BLOB
-<!-- wp:gallery -->
-<ul class="wp-block-gallery columns-2 is-cropped"><li class="blocks-gallery-item">
-<figure>
-<img src="$image_url" alt="title"/>
-</figure>
-</li>
-</ul>
-<!-- /wp:gallery -->
-BLOB;
+            <!-- wp:gallery -->
+            <ul class="wp-block-gallery columns-2 is-cropped"><li class="blocks-gallery-item">
+            <figure>
+            <img src="$image_url" alt="title"/>
+            </figure>
+            </li>
+            </ul>
+            <!-- /wp:gallery -->
+            BLOB;
 
         $post_id = self::factory()->post->create(
             [
                 'post_content' => $blob,
-            ]
+            ],
         );
 
         $expected_srcs = [$image_url];
-        $galleries     = get_post_galleries($post_id, false);
+        $galleries = get_post_galleries($post_id, false);
 
         // The method can return an empty array.
         $this->assertNotEmpty(
             $galleries,
-            'The galleries array is empty.'
+            'The galleries array is empty.',
         );
 
         /*
@@ -1009,7 +1009,7 @@ BLOB;
          */
         $this->assertIsArray(
             $galleries[0],
-            'The returned data does not contain an array.'
+            'The returned data does not contain an array.',
         );
 
         /*
@@ -1019,13 +1019,13 @@ BLOB;
         $this->assertArrayHasKey(
             'src',
             $galleries[0],
-            'A src key does not exist.'
+            'A src key does not exist.',
         );
 
         $this->assertSameSetsWithIndex(
             $expected_srcs,
             $galleries[0]['src'],
-            'The expected and actual srcs are not the same.'
+            'The expected and actual srcs are not the same.',
         );
     }
 
@@ -1039,28 +1039,28 @@ BLOB;
      */
     public function test_returns_srcs_with_nested_block_gallery()
     {
-        $post_id  = self::factory()->post->create(
+        $post_id = self::factory()->post->create(
             [
                 'post_content' => 'I have no gallery.',
-            ]
+            ],
         );
         $image_id = self::factory()->attachment->create_object(
             [
-                'file'           => 'test.jpg',
-                'post_parent'    => $post_id,
+                'file' => 'test.jpg',
+                'post_parent' => $post_id,
                 'post_mime_type' => 'image/jpeg',
-                'post_type'      => 'attachment',
-            ]
+                'post_type' => 'attachment',
+            ],
         );
 
         $blob = <<<BLOB
-<!-- wp:columns -->
-<!-- wp:column -->
-<!-- wp:gallery {"ids":[$image_id]} -->
-<!-- /wp:gallery -->
-<!-- /wp:column -->
-<!-- /wp:columns -->
-BLOB;
+            <!-- wp:columns -->
+            <!-- wp:column -->
+            <!-- wp:gallery {"ids":[$image_id]} -->
+            <!-- /wp:gallery -->
+            <!-- /wp:column -->
+            <!-- /wp:columns -->
+            BLOB;
 
         $post_id_two = self::factory()->post->create(['post_content' => $blob]);
 
@@ -1069,7 +1069,7 @@ BLOB;
         // The method can return an empty array.
         $this->assertNotEmpty(
             $galleries,
-            'The galleries array is empty.'
+            'The galleries array is empty.',
         );
 
         /*
@@ -1078,7 +1078,7 @@ BLOB;
          */
         $this->assertIsArray(
             $galleries[0],
-            'The returned data does not contain an array.'
+            'The returned data does not contain an array.',
         );
 
         /*
@@ -1088,12 +1088,12 @@ BLOB;
         $this->assertArrayHasKey(
             'src',
             $galleries[0],
-            'A src key does not exist.'
+            'A src key does not exist.',
         );
 
         $this->assertNotEmpty(
             $galleries[0]['src'],
-            'The src key of the first gallery is empty.'
+            'The src key of the first gallery is empty.',
         );
     }
 }

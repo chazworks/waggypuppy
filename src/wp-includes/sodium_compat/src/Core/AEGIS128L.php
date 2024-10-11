@@ -42,7 +42,7 @@ class ParagonIE_Sodium_Core_AEGIS128L extends ParagonIE_Sodium_Core_AES
         }
         $expected_tag = $state->finalize(
             self::strlen($ad) << 3,
-            self::strlen($msg) << 3
+            self::strlen($msg) << 3,
         );
         if (!self::hashEquals($expected_tag, $tag)) {
             try {
@@ -98,13 +98,13 @@ class ParagonIE_Sodium_Core_AEGIS128L extends ParagonIE_Sodium_Core_AES
         // ct = Truncate(ct, |msg|)
         $tag = $state->finalize(
             $ad_len << 3,
-            $msg_len << 3
+            $msg_len << 3,
         );
         // return ct and tag
-        return array(
+        return [
             self::substr($ct, 0, $msg_len),
-            $tag
-        );
+            $tag,
+        ];
     }
 
     /**

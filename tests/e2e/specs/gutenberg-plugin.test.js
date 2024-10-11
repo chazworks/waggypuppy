@@ -22,7 +22,7 @@ test.describe( 'Gutenberg plugin', () => {
 		await requestUtils.deactivatePlugin( 'gutenberg' );
 	} );
 
-	test( 'should activate', async ( { requestUtils }) => {
+	test( 'should activate', async ( { requestUtils } ) => {
 		let plugin = await requestUtils.rest( {
 			path: 'wp/v2/plugins/gutenberg/gutenberg',
 		} );

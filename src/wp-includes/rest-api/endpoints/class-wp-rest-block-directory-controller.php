@@ -36,31 +36,31 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller
             '/' . $this->rest_base . '/search',
             [
                 [
-                    'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => [$this, 'get_items'],
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_items'],
                     'permission_callback' => [$this, 'get_items_permissions_check'],
-                    'args'                => $this->get_collection_params(),
+                    'args' => $this->get_collection_params(),
                 ],
                 'schema' => [$this, 'get_public_item_schema'],
-            ]
+            ],
         );
     }
 
     /**
      * Checks whether a given request has permission to install and activate plugins.
      *
-     * @since 5.5.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has permission, WP_Error object otherwise.
+     * @since 5.5.0
+     *
      */
     public function get_items_permissions_check($request)
     {
-        if (! current_user_can('install_plugins') || ! current_user_can('activate_plugins')) {
+        if (!current_user_can('install_plugins') || !current_user_can('activate_plugins')) {
             return new WP_Error(
                 'rest_block_directory_cannot_view',
                 __('Sorry, you are not allowed to browse the block directory.'),
-                ['status' => rest_authorization_required_code()]
+                ['status' => rest_authorization_required_code()],
             );
         }
 
@@ -70,10 +70,10 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller
     /**
      * Search and retrieve blocks metadata
      *
-     * @since 5.5.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     * @since 5.5.0
+     *
      */
     public function get_items($request)
     {
@@ -83,10 +83,10 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller
         $response = plugins_api(
             'query_plugins',
             [
-                'block'    => $request['term'],
+                'block' => $request['term'],
                 'per_page' => $request['per_page'],
-                'page'     => $request['page'],
-            ]
+                'page' => $request['page'],
+            ],
         );
 
         if (is_wp_error($response)) {
@@ -103,7 +103,7 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller
                 continue;
             }
 
-            $data     = $this->prepare_item_for_response($plugin, $request);
+            $data = $this->prepare_item_for_response($plugin, $request);
             $result[] = $this->prepare_response_for_collection($data);
         }
 
@@ -113,12 +113,12 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller
     /**
      * Parse block metadata for a block, and prepare it for an API response.
      *
-     * @since 5.5.0
-     * @since 5.9.0 Renamed `$plugin` to `$item` to match parent class for PHP 8 named parameter support.
-     *
-     * @param array           $item    The plugin metadata.
+     * @param array $item The plugin metadata.
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     * @since 5.9.0 Renamed `$plugin` to `$item` to match parent class for PHP 8 named parameter support.
+     *
+     * @since 5.5.0
      */
     public function prepare_item_for_response($item, $request)
     {
@@ -132,22 +132,22 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller
 
         // A data array containing the properties we'll return.
         $block = [
-            'name'                => $block_data['name'],
-            'title'               => ($block_data['title'] ? $block_data['title'] : $plugin['name']),
-            'description'         => wp_trim_words($plugin['short_description'], 30, '...'),
-            'id'                  => $plugin['slug'],
-            'rating'              => $plugin['rating'] / 20,
-            'rating_count'        => (int) $plugin['num_ratings'],
-            'active_installs'     => (int) $plugin['active_installs'],
+            'name' => $block_data['name'],
+            'title' => ($block_data['title'] ? $block_data['title'] : $plugin['name']),
+            'description' => wp_trim_words($plugin['short_description'], 30, '...'),
+            'id' => $plugin['slug'],
+            'rating' => $plugin['rating'] / 20,
+            'rating_count' => (int)$plugin['num_ratings'],
+            'active_installs' => (int)$plugin['active_installs'],
             'author_block_rating' => $plugin['author_block_rating'] / 20,
-            'author_block_count'  => (int) $plugin['author_block_count'],
-            'author'              => wp_strip_all_tags($plugin['author']),
-            'icon'                => (isset($plugin['icons']['1x']) ? $plugin['icons']['1x'] : 'block-default'),
-            'last_updated'        => gmdate('Y-m-d\TH:i:s', strtotime($plugin['last_updated'])),
-            'humanized_updated'   => sprintf(
-                /* translators: %s: Human-readable time difference. */
+            'author_block_count' => (int)$plugin['author_block_count'],
+            'author' => wp_strip_all_tags($plugin['author']),
+            'icon' => (isset($plugin['icons']['1x']) ? $plugin['icons']['1x'] : 'block-default'),
+            'last_updated' => gmdate('Y-m-d\TH:i:s', strtotime($plugin['last_updated'])),
+            'humanized_updated' => sprintf(
+            /* translators: %s: Human-readable time difference. */
                 __('%s ago'),
-                human_time_diff(strtotime($plugin['last_updated']))
+                human_time_diff(strtotime($plugin['last_updated'])),
             ),
         ];
 
@@ -165,10 +165,10 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller
     /**
      * Generates a list of links to include in the response for the plugin.
      *
-     * @since 5.5.0
-     *
      * @param array $plugin The plugin data from wp.org.
      * @return array
+     * @since 5.5.0
+     *
      */
     protected function prepare_links($plugin)
     {
@@ -182,7 +182,7 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller
 
         if ($plugin_file) {
             $links['https://api.w.org/plugin'] = [
-                'href'       => rest_url('wp/v2/plugins/' . substr($plugin_file, 0, - 4)),
+                'href' => rest_url('wp/v2/plugins/' . substr($plugin_file, 0, -4)),
                 'embeddable' => true,
             ];
         }
@@ -193,10 +193,10 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller
     /**
      * Finds an installed plugin for the given slug.
      *
-     * @since 5.5.0
-     *
      * @param string $slug The wp.org directory slug for a plugin.
      * @return string The plugin file found matching it.
+     * @since 5.5.0
+     *
      */
     protected function find_plugin_for_slug($slug)
     {
@@ -204,7 +204,7 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller
 
         $plugin_files = get_plugins('/' . $slug);
 
-        if (! $plugin_files) {
+        if (!$plugin_files) {
             return '';
         }
 
@@ -216,9 +216,9 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller
     /**
      * Retrieves the theme's schema, conforming to JSON Schema.
      *
+     * @return array Item schema data.
      * @since 5.5.0
      *
-     * @return array Item schema data.
      */
     public function get_item_schema()
     {
@@ -227,76 +227,76 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller
         }
 
         $this->schema = [
-            '$schema'    => 'http://json-schema.org/draft-04/schema#',
-            'title'      => 'block-directory-item',
-            'type'       => 'object',
+            '$schema' => 'http://json-schema.org/draft-04/schema#',
+            'title' => 'block-directory-item',
+            'type' => 'object',
             'properties' => [
-                'name'                => [
+                'name' => [
                     'description' => __('The block name, in namespace/block-name format.'),
-                    'type'        => 'string',
-                    'context'     => ['view'],
+                    'type' => 'string',
+                    'context' => ['view'],
                 ],
-                'title'               => [
+                'title' => [
                     'description' => __('The block title, in human readable format.'),
-                    'type'        => 'string',
-                    'context'     => ['view'],
+                    'type' => 'string',
+                    'context' => ['view'],
                 ],
-                'description'         => [
+                'description' => [
                     'description' => __('A short description of the block, in human readable format.'),
-                    'type'        => 'string',
-                    'context'     => ['view'],
+                    'type' => 'string',
+                    'context' => ['view'],
                 ],
-                'id'                  => [
+                'id' => [
                     'description' => __('The block slug.'),
-                    'type'        => 'string',
-                    'context'     => ['view'],
+                    'type' => 'string',
+                    'context' => ['view'],
                 ],
-                'rating'              => [
+                'rating' => [
                     'description' => __('The star rating of the block.'),
-                    'type'        => 'number',
-                    'context'     => ['view'],
+                    'type' => 'number',
+                    'context' => ['view'],
                 ],
-                'rating_count'        => [
+                'rating_count' => [
                     'description' => __('The number of ratings.'),
-                    'type'        => 'integer',
-                    'context'     => ['view'],
+                    'type' => 'integer',
+                    'context' => ['view'],
                 ],
-                'active_installs'     => [
+                'active_installs' => [
                     'description' => __('The number sites that have activated this block.'),
-                    'type'        => 'integer',
-                    'context'     => ['view'],
+                    'type' => 'integer',
+                    'context' => ['view'],
                 ],
                 'author_block_rating' => [
                     'description' => __('The average rating of blocks published by the same author.'),
-                    'type'        => 'number',
-                    'context'     => ['view'],
+                    'type' => 'number',
+                    'context' => ['view'],
                 ],
-                'author_block_count'  => [
+                'author_block_count' => [
                     'description' => __('The number of blocks published by the same author.'),
-                    'type'        => 'integer',
-                    'context'     => ['view'],
+                    'type' => 'integer',
+                    'context' => ['view'],
                 ],
-                'author'              => [
+                'author' => [
                     'description' => __('The wp.org username of the block author.'),
-                    'type'        => 'string',
-                    'context'     => ['view'],
+                    'type' => 'string',
+                    'context' => ['view'],
                 ],
-                'icon'                => [
+                'icon' => [
                     'description' => __('The block icon.'),
-                    'type'        => 'string',
-                    'format'      => 'uri',
-                    'context'     => ['view'],
+                    'type' => 'string',
+                    'format' => 'uri',
+                    'context' => ['view'],
                 ],
-                'last_updated'        => [
+                'last_updated' => [
                     'description' => __('The date when the block was last updated.'),
-                    'type'        => 'string',
-                    'format'      => 'date-time',
-                    'context'     => ['view'],
+                    'type' => 'string',
+                    'format' => 'date-time',
+                    'context' => ['view'],
                 ],
-                'humanized_updated'   => [
+                'humanized_updated' => [
                     'description' => __('The date when the block was last updated, in fuzzy human readable format.'),
-                    'type'        => 'string',
-                    'context'     => ['view'],
+                    'type' => 'string',
+                    'context' => ['view'],
                 ],
             ],
         ];
@@ -307,9 +307,9 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller
     /**
      * Retrieves the search params for the blocks collection.
      *
+     * @return array Collection parameters.
      * @since 5.5.0
      *
-     * @return array Collection parameters.
      */
     public function get_collection_params()
     {
@@ -319,9 +319,9 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller
 
         $query_params['term'] = [
             'description' => __('Limit result set to blocks matching the search term.'),
-            'type'        => 'string',
-            'required'    => true,
-            'minLength'   => 1,
+            'type' => 'string',
+            'required' => true,
+            'minLength' => 1,
         ];
 
         unset($query_params['search']);
@@ -329,9 +329,9 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller
         /**
          * Filters REST API collection parameters for the block directory controller.
          *
+         * @param array $query_params JSON Schema-formatted collection parameters.
          * @since 5.5.0
          *
-         * @param array $query_params JSON Schema-formatted collection parameters.
          */
         return apply_filters('rest_block_directory_collection_params', $query_params);
     }

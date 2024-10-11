@@ -18,6 +18,7 @@ final class WP_Internal_Pointers
     /**
      * Initializes the new feature pointers.
      *
+     * @param string $hook_suffix The current admin page.
      * @since 3.3.0
      *
      * All pointers can be disabled using the following:
@@ -33,7 +34,6 @@ final class WP_Internal_Pointers
      *    }
      *    add_action( 'admin_enqueue_scripts', 'yourprefix_remove_pointers', 11 );
      *
-     * @param string $hook_suffix The current admin page.
      */
     public static function enqueue_scripts($hook_suffix)
     {
@@ -59,7 +59,7 @@ final class WP_Internal_Pointers
             return;
         }
 
-        $pointers = (array) $registered_pointers[$hook_suffix];
+        $pointers = (array)$registered_pointers[$hook_suffix];
 
         /*
          * Specify required capabilities for feature pointers
@@ -79,13 +79,13 @@ final class WP_Internal_Pointers
         ];
 
         // Get dismissed pointers.
-        $dismissed = explode(',', (string) get_user_meta(get_current_user_id(), 'dismissed_wp_pointers', true));
+        $dismissed = explode(',', (string)get_user_meta(get_current_user_id(), 'dismissed_wp_pointers', true));
 
         $got_pointers = false;
         foreach (array_diff($pointers, $dismissed) as $pointer) {
             if (isset($caps_required[$pointer])) {
                 foreach ($caps_required[$pointer] as $cap) {
-                    if (! current_user_can($cap)) {
+                    if (!current_user_can($cap)) {
                         continue 2;
                     }
                 }
@@ -96,7 +96,7 @@ final class WP_Internal_Pointers
             $got_pointers = true;
         }
 
-        if (! $got_pointers) {
+        if (!$got_pointers) {
             return;
         }
 
@@ -108,11 +108,11 @@ final class WP_Internal_Pointers
     /**
      * Prints the pointer JavaScript data.
      *
-     * @since 3.3.0
-     *
      * @param string $pointer_id The pointer ID.
      * @param string $selector The HTML elements, on which the pointer should be attached.
-     * @param array  $args Arguments to be passed to the pointer JS (see wp-pointer.js).
+     * @param array $args Arguments to be passed to the pointer JS (see wp-pointer.js).
+     * @since 3.3.0
+     *
      */
     private static function print_js($pointer_id, $selector, $args)
     {
@@ -122,66 +122,65 @@ final class WP_Internal_Pointers
 
         ?>
         <script type="text/javascript">
-        (function($){
-            var options = <?php echo wp_json_encode($args); ?>, setup;
+            (function ($) {
+                var options = <?php echo wp_json_encode($args); ?>, setup;
 
-            if ( ! options )
-                return;
+                if (!options)
+                    return;
 
-            options = $.extend( options, {
-                close: function() {
-                    $.post( ajaxurl, {
-                        pointer: '<?php echo $pointer_id; ?>',
-                        action: 'dismiss-wp-pointer'
+                options = $.extend(options, {
+                    close: function () {
+                        $.post(ajaxurl, {
+                            pointer: '<?php echo $pointer_id; ?>',
+                            action: 'dismiss-wp-pointer'
+                        });
+                    }
+                });
+
+                setup = function () {
+                    $('<?php echo $selector; ?>').first().pointer(options).pointer('open');
+                };
+
+                if (options.position && options.position.defer_loading)
+                    $(window).bind('load.wp-pointers', setup);
+                else
+                    $(function () {
+                        setup();
                     });
-                }
-            });
 
-            setup = function() {
-                $('<?php echo $selector; ?>').first().pointer( options ).pointer('open');
-            };
-
-            if ( options.position && options.position.defer_loading )
-                $(window).bind( 'load.wp-pointers', setup );
-            else
-                $( function() {
-                    setup();
-                } );
-
-        })( jQuery );
+            })(jQuery);
         </script>
         <?php
     }
 
-    public static function pointer_wp330_toolbar()
-    {}
-    public static function pointer_wp330_media_uploader()
-    {}
-    public static function pointer_wp330_saving_widgets()
-    {}
-    public static function pointer_wp340_customize_current_theme_link()
-    {}
-    public static function pointer_wp340_choose_image_from_library()
-    {}
-    public static function pointer_wp350_media()
-    {}
-    public static function pointer_wp360_revisions()
-    {}
-    public static function pointer_wp360_locks()
-    {}
-    public static function pointer_wp390_widgets()
-    {}
-    public static function pointer_wp410_dfw()
-    {}
-    public static function pointer_wp496_privacy()
-    {}
+    public static function pointer_wp330_toolbar() {}
+
+    public static function pointer_wp330_media_uploader() {}
+
+    public static function pointer_wp330_saving_widgets() {}
+
+    public static function pointer_wp340_customize_current_theme_link() {}
+
+    public static function pointer_wp340_choose_image_from_library() {}
+
+    public static function pointer_wp350_media() {}
+
+    public static function pointer_wp360_revisions() {}
+
+    public static function pointer_wp360_locks() {}
+
+    public static function pointer_wp390_widgets() {}
+
+    public static function pointer_wp410_dfw() {}
+
+    public static function pointer_wp496_privacy() {}
 
     /**
      * Prevents new users from seeing existing 'new feature' pointers.
      *
+     * @param int $user_id User ID.
      * @since 3.3.0
      *
-     * @param int $user_id User ID.
      */
     public static function dismiss_pointers_for_new_users($user_id)
     {

@@ -9,8 +9,10 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Sidebar = wp.media.view.PriorityList.extend(/** @lends wp.media.view.Sidebar.prototype */{
-	className: 'media-sidebar'
-});
+var Sidebar = wp.media.view.PriorityList.extend(
+	/** @lends wp.media.view.Sidebar.prototype */ {
+		className: 'media-sidebar',
+	}
+);
 
 module.exports = Sidebar;

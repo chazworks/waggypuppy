@@ -1,50 +1,65 @@
 {
-	"name": "waggypuppy/waggypuppy",
-	"license": "GPL-2.0-or-later",
-	"description": "waggypuppy is open source software you can use to create a beautiful website, blog, or app.",
-	"homepage": "https://github.com/chazworks/waggypuppy",
-	"keywords": [
-		"blog", "cms", "wordpress", "wp"
-	],
-	"support": {
-		"issues": "https://github.com/chazworks/waggypuppy/issues/"
-	},
-	"scripts": {
-		"test": [ "Composer\\Config::disableProcessTimeout", "@php ./vendor/phpunit/phpunit/phpunit" ]
-	},
-	"repositories": [
-		{
-			"type": "composer",
-			"url": "https://wpackagist.org",
-			"only": ["wpackagist-plugin/*", "wpackagist-theme/*"]
-		}
-	],
-	"require": {
+  "name": "waggypuppy/waggypuppy",
+  "license": "GPL-2.0-or-later",
+  "description": "waggypuppy is open source software you can use to create a beautiful website, blog, or app.",
+  "homepage": "https://github.com/chazworks/waggypuppy",
+  "keywords": [
+    "blog",
+    "cms",
+    "wordpress",
+    "wp"
+  ],
+  "support": {
+    "issues": "https://github.com/chazworks/waggypuppy/issues/"
+  },
+  "scripts": {
+    "test": [
+      "Composer\\Config::disableProcessTimeout",
+      "@php ./vendor/phpunit/phpunit/phpunit"
+    ]
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org",
+      "only": [
+        "wpackagist-plugin/*",
+        "wpackagist-theme/*"
+      ]
+    }
+  ],
+  "require": {
     "php": ">= 8.3.0",
-		"ext-json": "*",
-		"ext-mysqli": "*"
-	},
-	"suggest": {
-		"ext-dom": "*"
-	},
-	"require-dev": {
-		"yoast/phpunit-polyfills": "^1.1.0"
-	},
-	"config": {
-		"optimize-autoloader": true,
-		"preferred-install": "dist",
-		"allow-plugins": {
-			"composer/installers": true
-		}
-	},
-	"minimum-stability": "dev",
-	"prefer-stable": true,
-	"extra": {
-		"installer-paths": {
-			"src/wp-content/mu-plugins/{$name}/": ["type:wordpress-muplugin"],
-			"src/wp-content/plugins/{$name}/": ["type:wordpress-plugin"],
-			"src/wp-content/themes/{$name}/": ["type:wordpress-theme"]
-		},
-		"wordpress-install-dir": "src"
-	}
+    "ext-json": "*",
+    "ext-mysqli": "*"
+  },
+  "suggest": {
+    "ext-dom": "*"
+  },
+  "require-dev": {
+    "yoast/phpunit-polyfills": "^1.1.0"
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "allow-plugins": {
+      "composer/installers": true
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "extra": {
+    "installer-paths": {
+      "src/wp-content/mu-plugins/{$name}/": [
+        "type:wordpress-muplugin"
+      ],
+      "src/wp-content/plugins/{$name}/": [
+        "type:wordpress-plugin"
+      ],
+      "src/wp-content/themes/{$name}/": [
+        "type:wordpress-theme"
+      ]
+    },
+    "wordpress-install-dir": "src"
+  }
 }

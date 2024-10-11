@@ -26,7 +26,7 @@ if (is_multisite()) :
             // Upload a file to the new site.
             $filename = __FUNCTION__ . '.jpg';
             $contents = __FUNCTION__ . '_contents';
-            $file     = wp_upload_bits($filename, null, $contents);
+            $file = wp_upload_bits($filename, null, $contents);
 
             // get_space_used() is measures in MB, get the size of the new file in MB.
             $size = filesize($file['file']) / 1024 / 1024;

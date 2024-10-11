@@ -9,7 +9,7 @@
  */
 
 /** We are located in waggypuppy Administration Screens */
-if (! defined('WP_ADMIN')) {
+if (!defined('WP_ADMIN')) {
     define('WP_ADMIN', true);
 }
 
@@ -29,14 +29,14 @@ nocache_headers();
 /** This action is documented in wp-admin/admin.php */
 do_action('admin_init');
 
-$action = ! empty($_REQUEST['action']) ? sanitize_text_field($_REQUEST['action']) : '';
+$action = !empty($_REQUEST['action']) ? sanitize_text_field($_REQUEST['action']) : '';
 
 // Reject invalid parameters.
-if (! is_scalar($action)) {
+if (!is_scalar($action)) {
     wp_die('', 400);
 }
 
-if (! is_user_logged_in()) {
+if (!is_user_logged_in()) {
     if (empty($action)) {
         /**
          * Fires on a non-authenticated admin post request where no action is supplied.
@@ -46,7 +46,7 @@ if (! is_user_logged_in()) {
         do_action('admin_post_nopriv');
     } else {
         // If no action is registered, return a Bad Request response.
-        if (! has_action("admin_post_nopriv_{$action}")) {
+        if (!has_action("admin_post_nopriv_{$action}")) {
             wp_die('', 400);
         }
 
@@ -70,7 +70,7 @@ if (! is_user_logged_in()) {
         do_action('admin_post');
     } else {
         // If no action is registered, return a Bad Request response.
-        if (! has_action("admin_post_{$action}")) {
+        if (!has_action("admin_post_{$action}")) {
             wp_die('', 400);
         }
 

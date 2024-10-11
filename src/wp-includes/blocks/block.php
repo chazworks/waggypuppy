@@ -8,13 +8,13 @@
 /**
  * Renders the `core/block` block on server.
  *
+ * @param array $attributes The block attributes.
+ *
+ * @return string Rendered HTML of the referenced block.
  * @since 5.0.0
  *
  * @global WP_Embed $wp_embed
  *
- * @param array $attributes The block attributes.
- *
- * @return string Rendered HTML of the referenced block.
  */
 function render_block_core_block($attributes)
 {
@@ -25,7 +25,7 @@ function render_block_core_block($attributes)
     }
 
     $reusable_block = get_post($attributes['ref']);
-    if (! $reusable_block || 'wp_block' !== $reusable_block->post_type) {
+    if (!$reusable_block || 'wp_block' !== $reusable_block->post_type) {
         return '';
     }
 
@@ -34,13 +34,15 @@ function render_block_core_block($attributes)
         // is set in `wp_debug_mode()`.
         $is_debug = WP_DEBUG && WP_DEBUG_DISPLAY;
 
-        return $is_debug ?
+        return $is_debug
+            ?
             // translators: Visible only in the front end, this warning takes the place of a faulty block.
-            __('[block rendering halted]') :
+            __('[block rendering halted]')
+            :
             '';
     }
 
-    if ('publish' !== $reusable_block->post_status || ! empty($reusable_block->post_password)) {
+    if ('publish' !== $reusable_block->post_status || !empty($reusable_block->post_password)) {
         return '';
     }
 
@@ -60,7 +62,7 @@ function render_block_core_block($attributes)
     if (isset($attributes['content'])) {
         foreach ($attributes['content'] as &$content_data) {
             if (isset($content_data['values'])) {
-                $is_assoc_array = is_array($content_data['values']) && ! wp_is_numeric_array($content_data['values']);
+                $is_assoc_array = is_array($content_data['values']) && !wp_is_numeric_array($content_data['values']);
 
                 if ($is_assoc_array) {
                     $content_data = $content_data['values'];
@@ -70,7 +72,7 @@ function render_block_core_block($attributes)
     }
 
     // This matches the `v1` deprecation. Rename `overrides` to `content`.
-    if (isset($attributes['overrides']) && ! isset($attributes['content'])) {
+    if (isset($attributes['overrides']) && !isset($attributes['content'])) {
         $attributes['content'] = $attributes['overrides'];
     }
 
@@ -79,7 +81,9 @@ function render_block_core_block($attributes)
      * filter so that it is available when a pattern's inner blocks are
      * rendering via do_blocks given it only receives the inner content.
      */
-    $has_pattern_overrides = isset($attributes['content']) && null !== get_block_bindings_source('core/pattern-overrides');
+    $has_pattern_overrides = isset($attributes['content'])
+        && null
+        !== get_block_bindings_source('core/pattern-overrides');
     if ($has_pattern_overrides) {
         $filter_block_context = static function ($context) use ($attributes) {
             $context['pattern/overrides'] = $attributes['content'];
@@ -109,7 +113,8 @@ function register_block_core_block()
         __DIR__ . '/block',
         [
             'render_callback' => 'render_block_core_block',
-        ]
+        ],
     );
 }
+
 add_action('init', 'register_block_core_block');

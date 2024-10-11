@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Some simple test cases for KSES post content filtering
  *
@@ -12,7 +13,7 @@ class Tests_Kses extends WP_UnitTestCase
      * @dataProvider data_wp_filter_post_kses_address
      * @ticket 20210
      *
-     * @param string $content  Test string for kses.
+     * @param string $content Test string for kses.
      * @param string $expected Expected result after passing through kses.
      */
     public function test_wp_filter_post_kses_address($content, $expected)
@@ -26,15 +27,15 @@ class Tests_Kses extends WP_UnitTestCase
      * Data provider for test_wp_filter_post_kses_address.
      *
      * @return array[] Arguments {
-     *     @type string $content  Test string for kses.
-     *     @type string $expected Expected result after passing through kses.
+     * @type string $content Test string for kses.
+     * @type string $expected Expected result after passing through kses.
      * }
      */
     public function data_wp_filter_post_kses_address()
     {
         $attributes = [
             'class' => 'classname',
-            'id'    => 'id',
+            'id' => 'id',
             'style' => [
                 'color: red;',
                 'color: red',
@@ -47,9 +48,11 @@ class Tests_Kses extends WP_UnitTestCase
         $data = [];
 
         foreach ($attributes as $name => $values) {
-            foreach ((array) $values as $value) {
-                $content  = "<address $name='$value'>1 waggypuppy Avenue, The Internet.</address>";
-                $expected = "<address $name='" . str_replace('; ', ';', trim($value, ';')) . "'>1 waggypuppy Avenue, The Internet.</address>";
+            foreach ((array)$values as $value) {
+                $content = "<address $name='$value'>1 waggypuppy Avenue, The Internet.</address>";
+                $expected = "<address $name='"
+                    . str_replace('; ', ';', trim($value, ';'))
+                    . "'>1 waggypuppy Avenue, The Internet.</address>";
 
                 $data[] = [$content, $expected];
             }
@@ -62,7 +65,7 @@ class Tests_Kses extends WP_UnitTestCase
      * @dataProvider data_wp_filter_post_kses_a
      * @ticket 20210
      *
-     * @param string $content  Test string for kses.
+     * @param string $content Test string for kses.
      * @param string $expected Expected result after passing through kses.
      */
     public function test_wp_filter_post_kses_a($content, $expected)
@@ -76,22 +79,22 @@ class Tests_Kses extends WP_UnitTestCase
      * Data provider for test_wp_filter_post_kses_a.
      *
      * @return array[] Arguments {
-     *     @type string $content  Test string for kses.
-     *     @type string $expected Expected result after passing through kses.
+     * @type string $content Test string for kses.
+     * @type string $expected Expected result after passing through kses.
      * }
      */
     public function data_wp_filter_post_kses_a()
     {
         $attributes = [
-            'class'    => 'classname',
-            'id'       => 'id',
-            'style'    => 'color: red;',
-            'title'    => 'title',
-            'href'     => 'http://example.com',
-            'rel'      => 'related',
-            'rev'      => 'revision',
-            'name'     => 'name',
-            'target'   => '_blank',
+            'class' => 'classname',
+            'id' => 'id',
+            'style' => 'color: red;',
+            'title' => 'title',
+            'href' => 'http://example.com',
+            'rel' => 'related',
+            'rev' => 'revision',
+            'name' => 'name',
+            'target' => '_blank',
             'download' => '',
         ];
 
@@ -99,15 +102,15 @@ class Tests_Kses extends WP_UnitTestCase
 
         foreach ($attributes as $name => $value) {
             if ($value) {
-                $attr          = "$name='$value'";
+                $attr = "$name='$value'";
                 $expected_attr = "$name='" . trim($value, ';') . "'";
             } else {
-                $attr          = $name;
+                $attr = $name;
                 $expected_attr = $name;
             }
-            $content  = "<a $attr>I link this</a>";
+            $content = "<a $attr>I link this</a>";
             $expected = "<a $expected_attr>I link this</a>";
-            $data[]   = [$content, $expected];
+            $data[] = [$content, $expected];
         }
 
         return $data;
@@ -120,8 +123,8 @@ class Tests_Kses extends WP_UnitTestCase
      * @ticket 29826
      * @dataProvider data_wp_kses_video
      *
-     * @param string $source   Source HTML.
-     * @param string $context  Context to use for parsing source.
+     * @param string $source Source HTML.
+     * @param string $context Context to use for parsing source.
      * @param string $expected Expected output following KSES parsing.
      */
     public function test_wp_kses_video($source, $context, $expected)
@@ -133,9 +136,9 @@ class Tests_Kses extends WP_UnitTestCase
      * Data provider for test_wp_kses_video
      *
      * @return array[] Array containing test data {
-     *     @type string $source   Source HTML.
-     *     @type string $context  Context to use for parsing source.
-     *     @type string $expected Expected output following KSES parsing.
+     * @type string $source Source HTML.
+     * @type string $context Context to use for parsing source.
+     * @type string $expected Expected output following KSES parsing.
      * }
      */
     public function data_wp_kses_video()
@@ -172,7 +175,7 @@ class Tests_Kses extends WP_UnitTestCase
      * @dataProvider data_wp_filter_post_kses_abbr
      * @ticket 20210
      *
-     * @param string $content  Test string for kses.
+     * @param string $content Test string for kses.
      * @param string $expected Expected result after passing through kses.
      */
     public function test_wp_filter_post_kses_abbr($content, $expected)
@@ -186,15 +189,15 @@ class Tests_Kses extends WP_UnitTestCase
      * Data provider for data_wp_filter_post_kses_abbr.
      *
      * @return array[] Arguments {
-     *     @type string $content  Test string for kses.
-     *     @type string $expected Expected result after passing through kses.
+     * @type string $content Test string for kses.
+     * @type string $expected Expected result after passing through kses.
      * }
      */
     public function data_wp_filter_post_kses_abbr()
     {
         $attributes = [
             'class' => 'classname',
-            'id'    => 'id',
+            'id' => 'id',
             'style' => 'color: red;',
             'title' => 'title',
         ];
@@ -202,9 +205,9 @@ class Tests_Kses extends WP_UnitTestCase
         $data = [];
 
         foreach ($attributes as $name => $value) {
-            $content  = "<abbr $name='$value'>WP</abbr>";
+            $content = "<abbr $name='$value'>WP</abbr>";
             $expected = "<abbr $name='" . trim($value, ';') . "'>WP</abbr>";
-            $data[]   = [$content, $expected];
+            $data[] = [$content, $expected];
         }
 
         return $data;
@@ -215,32 +218,32 @@ class Tests_Kses extends WP_UnitTestCase
         global $allowedposttags;
 
         $content = <<<EOF
-<a href="feed:javascript:alert(1)">CLICK ME</a>
-<a href="feed:javascript:feed:alert(1)">CLICK ME</a>
-<a href="feed:feed:javascript:alert(1)">CLICK ME</a>
-<a href="javascript:feed:alert(1)">CLICK ME</a>
-<a href="javascript:feed:javascript:alert(1)">CLICK ME</a>
-<a href="feed:feed:feed:javascript:alert(1)">CLICK ME</a>
-<a href="feed:feed:feed:feed:javascript:alert(1)">CLICK ME</a>
-<a href="feed:feed:feed:feed:feed:javascript:alert(1)">CLICK ME</a>
-<a href="feed:javascript:feed:javascript:feed:javascript:alert(1)">CLICK ME</a>
-<a href="feed:javascript:feed:javascript:feed:javascript:feed:javascript:feed:javascript:alert(1)">CLICK ME</a>
-<a href="feed:feed:feed:http:alert(1)">CLICK ME</a>
-EOF;
+            <a href="feed:javascript:alert(1)">CLICK ME</a>
+            <a href="feed:javascript:feed:alert(1)">CLICK ME</a>
+            <a href="feed:feed:javascript:alert(1)">CLICK ME</a>
+            <a href="javascript:feed:alert(1)">CLICK ME</a>
+            <a href="javascript:feed:javascript:alert(1)">CLICK ME</a>
+            <a href="feed:feed:feed:javascript:alert(1)">CLICK ME</a>
+            <a href="feed:feed:feed:feed:javascript:alert(1)">CLICK ME</a>
+            <a href="feed:feed:feed:feed:feed:javascript:alert(1)">CLICK ME</a>
+            <a href="feed:javascript:feed:javascript:feed:javascript:alert(1)">CLICK ME</a>
+            <a href="feed:javascript:feed:javascript:feed:javascript:feed:javascript:feed:javascript:alert(1)">CLICK ME</a>
+            <a href="feed:feed:feed:http:alert(1)">CLICK ME</a>
+            EOF;
 
         $expected = <<<EOF
-<a href="feed:alert(1)">CLICK ME</a>
-<a href="feed:feed:alert(1)">CLICK ME</a>
-<a href="feed:feed:alert(1)">CLICK ME</a>
-<a href="feed:alert(1)">CLICK ME</a>
-<a href="feed:alert(1)">CLICK ME</a>
-<a href="">CLICK ME</a>
-<a href="">CLICK ME</a>
-<a href="">CLICK ME</a>
-<a href="">CLICK ME</a>
-<a href="">CLICK ME</a>
-<a href="">CLICK ME</a>
-EOF;
+            <a href="feed:alert(1)">CLICK ME</a>
+            <a href="feed:feed:alert(1)">CLICK ME</a>
+            <a href="feed:feed:alert(1)">CLICK ME</a>
+            <a href="feed:alert(1)">CLICK ME</a>
+            <a href="feed:alert(1)">CLICK ME</a>
+            <a href="">CLICK ME</a>
+            <a href="">CLICK ME</a>
+            <a href="">CLICK ME</a>
+            <a href="">CLICK ME</a>
+            <a href="">CLICK ME</a>
+            <a href="">CLICK ME</a>
+            EOF;
 
         $this->assertSame($expected, wp_kses($content, $allowedposttags));
     }
@@ -279,7 +282,7 @@ EOF;
         ];
         foreach ($bad as $k => $x) {
             $result = wp_kses_bad_protocol(wp_kses_normalize_entities($x), wp_allowed_protocols());
-            if (! empty($result) && 'alert(1);' !== $result && 'alert(1)' !== $result) {
+            if (!empty($result) && 'alert(1);' !== $result && 'alert(1)' !== $result) {
                 switch ($k) {
                     case 6:
                         $this->assertSame('javascript&amp;#0000058alert(1);', $result);
@@ -325,7 +328,7 @@ EOF;
         ];
         foreach ($bad_not_normalized as $k => $x) {
             $result = wp_kses_bad_protocol($x, wp_allowed_protocols());
-            if (! empty($result) && 'alert(1);' !== $result && 'alert(1)' !== $result) {
+            if (!empty($result) && 'alert(1);' !== $result && 'alert(1)' !== $result) {
                 $this->fail("wp_kses_bad_protocol failed on $k, $x. Result: $result");
             }
         }
@@ -352,18 +355,20 @@ EOF;
     {
         $xss = simplexml_load_file(DIR_TESTDATA . '/formatting/xssAttacks.xml');
         foreach ($xss->attack as $attack) {
-            if (in_array((string) $attack->name, ['IMG Embedded commands 2', 'US-ASCII encoding', 'OBJECT w/Flash 2', 'Character Encoding Example'], true)) {
+            if (in_array((string)$attack->name,
+                ['IMG Embedded commands 2', 'US-ASCII encoding', 'OBJECT w/Flash 2', 'Character Encoding Example'],
+                true)) {
                 continue;
             }
 
-            $code = (string) $attack->code;
+            $code = (string)$attack->code;
 
             if ('See Below' === $code) {
                 continue;
             }
 
             if (substr($code, 0, 4) === 'perl') {
-                $pos  = strpos($code, '"') + 1;
+                $pos = strpos($code, '"') + 1;
                 $code = substr($code, $pos, strrpos($code, '"') - $pos);
                 $code = str_replace('\0', "\0", $code);
             }
@@ -376,7 +381,8 @@ EOF;
 
             switch ($attack->name) {
                 case 'XSS Locator':
-                    $this->assertSame('\';alert(String.fromCharCode(88,83,83))//\\\';alert(String.fromCharCode(88,83,83))//";alert(String.fromCharCode(88,83,83))//\\";alert(String.fromCharCode(88,83,83))//--&gt;"&gt;\'&gt;alert(String.fromCharCode(88,83,83))=&amp;{}', $result);
+                    $this->assertSame('\';alert(String.fromCharCode(88,83,83))//\\\';alert(String.fromCharCode(88,83,83))//";alert(String.fromCharCode(88,83,83))//\\";alert(String.fromCharCode(88,83,83))//--&gt;"&gt;\'&gt;alert(String.fromCharCode(88,83,83))=&amp;{}',
+                        $result);
                     break;
                 case 'XSS Quick Test':
                     $this->assertSame('\'\';!--"=&amp;{()}', $result);
@@ -406,7 +412,8 @@ EOF;
                     $this->assertSame("@import'http://ha.ckers.org/xss.css';", $result);
                     break;
                 case 'Remote Stylesheet 3':
-                    $this->assertSame('&lt;META HTTP-EQUIV=&quot;Link&quot; Content=&quot;; REL=stylesheet"&gt;', $result);
+                    $this->assertSame('&lt;META HTTP-EQUIV=&quot;Link&quot; Content=&quot;; REL=stylesheet"&gt;',
+                        $result);
                     break;
                 case 'Remote Stylesheet 4':
                     $this->assertSame('BODY{-moz-binding:url("http://ha.ckers.org/xssmoz.xml#xss")}', $result);
@@ -418,16 +425,19 @@ EOF;
                     $this->assertSame("<I><B>&lt;IMG SRC=&quot;javas<!-- -->cript:alert('XSS')\"&gt;</B></I>", $result);
                     break;
                 case 'XML HTML+TIME':
-                    $this->assertSame('&lt;t:set attributeName=&quot;innerHTML&quot; to=&quot;XSSalert(\'XSS\')"&gt;', $result);
+                    $this->assertSame('&lt;t:set attributeName=&quot;innerHTML&quot; to=&quot;XSSalert(\'XSS\')"&gt;',
+                        $result);
                     break;
                 case 'Commented-out Block':
                     $this->assertSame("<!--[if gte IE 4]&gt;-->\nalert('XSS');", $result);
                     break;
                 case 'Cookie Manipulation':
-                    $this->assertSame('&lt;META HTTP-EQUIV=&quot;Set-Cookie&quot; Content=&quot;USERID=alert(\'XSS\')"&gt;', $result);
+                    $this->assertSame('&lt;META HTTP-EQUIV=&quot;Set-Cookie&quot; Content=&quot;USERID=alert(\'XSS\')"&gt;',
+                        $result);
                     break;
                 case 'SSI':
-                    $this->assertSame('&lt;!--#exec cmd=&quot;/bin/echo &#039;<!--#exec cmd="/bin/echo \'=http://ha.ckers.org/xss.js&gt;\'"-->', $result);
+                    $this->assertSame('&lt;!--#exec cmd=&quot;/bin/echo &#039;<!--#exec cmd="/bin/echo \'=http://ha.ckers.org/xss.js&gt;\'"-->',
+                        $result);
                     break;
                 case 'PHP':
                     $this->assertSame('&lt;? echo(&#039;alert("XSS")\'); ?&gt;', $result);
@@ -472,7 +482,8 @@ EOF;
                     $this->assertSame('` SRC="http://ha.ckers.org/xss.js"&gt;', $result);
                     break;
                 case 'Filter Evasion 1':
-                    $this->assertSame('document.write("&lt;SCRI&quot;);PT SRC="http://ha.ckers.org/xss.js"&gt;', $result);
+                    $this->assertSame('document.write("&lt;SCRI&quot;);PT SRC="http://ha.ckers.org/xss.js"&gt;',
+                        $result);
                     break;
                 case 'Filter Evasion 2':
                     $this->assertSame('\'&gt;" SRC="http://ha.ckers.org/xss.js"&gt;', $result);
@@ -527,10 +538,10 @@ EOF;
 
         $custom_tags = [
             'a' => [
-                'href'   => true,
-                'rel'    => true,
-                'rev'    => true,
-                'name'   => true,
+                'href' => true,
+                'rel' => true,
+                'rev' => true,
+                'name' => true,
                 'target' => true,
             ],
         ];
@@ -549,7 +560,7 @@ EOF;
 
     public function test_hyphenated_tag()
     {
-        $content     = '<hyphenated-tag attribute="value" otherattribute="value2">Alot of hyphens.</hyphenated-tag>';
+        $content = '<hyphenated-tag attribute="value" otherattribute="value2">Alot of hyphens.</hyphenated-tag>';
         $custom_tags = [
             'hyphenated-tag' => [
                 'attribute' => true,
@@ -557,7 +568,7 @@ EOF;
         ];
 
         $expect_stripped_content = 'Alot of hyphens.';
-        $expect_valid_content    = '<hyphenated-tag attribute="value">Alot of hyphens.</hyphenated-tag>';
+        $expect_valid_content = '<hyphenated-tag attribute="value">Alot of hyphens.</hyphenated-tag>';
 
         $this->assertSame($expect_stripped_content, wp_kses_post($content));
         $this->assertSame($expect_valid_content, wp_kses($content, $custom_tags));
@@ -923,7 +934,7 @@ EOF;
      */
     public function test_wp_kses_attr_no_attributes_allowed_with_empty_array()
     {
-        $element   = 'foo';
+        $element = 'foo';
         $attribute = 'title="foo" class="bar"';
 
         $this->assertSame("<{$element}>", wp_kses_attr($element, $attribute, ['foo' => []], []));
@@ -934,7 +945,7 @@ EOF;
      */
     public function test_wp_kses_attr_no_attributes_allowed_with_true()
     {
-        $element   = 'foo';
+        $element = 'foo';
         $attribute = 'title="foo" class="bar"';
 
         $this->assertSame("<{$element}>", wp_kses_attr($element, $attribute, ['foo' => true], []));
@@ -945,10 +956,11 @@ EOF;
      */
     public function test_wp_kses_attr_single_attribute_is_allowed()
     {
-        $element   = 'foo';
+        $element = 'foo';
         $attribute = 'title="foo" class="bar"';
 
-        $this->assertSame("<{$element} title=\"foo\">", wp_kses_attr($element, $attribute, ['foo' => ['title' => true]], []));
+        $this->assertSame("<{$element} title=\"foo\">",
+            wp_kses_attr($element, $attribute, ['foo' => ['title' => true]], []));
     }
 
     /**
@@ -956,7 +968,7 @@ EOF;
      */
     public function test_wp_kses_attr_no_attributes_allowed_with_false()
     {
-        $element   = 'foo';
+        $element = 'foo';
         $attribute = 'title="foo" class="bar"';
 
         $this->assertSame("<{$element}>", wp_kses_attr($element, $attribute, ['foo' => false], []));
@@ -975,7 +987,7 @@ EOF;
      *
      * @dataProvider data_safecss_filter_attr
      *
-     * @param string $css      A string of CSS rules.
+     * @param string $css A string of CSS rules.
      * @param string $expected Expected string of CSS rules.
      */
     public function test_safecss_filter_attr($css, $expected)
@@ -987,9 +999,9 @@ EOF;
      * Data provider for test_safecss_filter_attr().
      *
      * @return array {
-     *     @type array {
-     *         @type string $css      A string of CSS rules.
-     *         @type string $expected Expected string of CSS rules.
+     * @type array {
+     * @type string $css A string of CSS rules.
+     * @type string $expected Expected string of CSS rules.
      *     }
      * }
      */
@@ -998,399 +1010,399 @@ EOF;
         return [
             // Empty input, empty output.
             [
-                'css'      => '',
+                'css' => '',
                 'expected' => '',
             ],
             // An arbitrary attribute name isn't allowed.
             [
-                'css'      => 'foo:bar',
+                'css' => 'foo:bar',
                 'expected' => '',
             ],
             // A single attribute name, with a single value.
             [
-                'css'      => 'margin-top: 2px',
+                'css' => 'margin-top: 2px',
                 'expected' => 'margin-top: 2px',
             ],
             // Backslash \ isn't supported.
             [
-                'css'      => 'margin-top: \2px',
+                'css' => 'margin-top: \2px',
                 'expected' => '',
             ],
             // Curly bracket } isn't supported.
             [
-                'css'      => 'margin-bottom: 2px}',
+                'css' => 'margin-bottom: 2px}',
                 'expected' => '',
             ],
             // A single attribute name, with a single text value.
             [
-                'css'      => 'text-transform: uppercase',
+                'css' => 'text-transform: uppercase',
                 'expected' => 'text-transform: uppercase',
             ],
             // Only lowercase attribute names are supported.
             [
-                'css'      => 'Text-transform: capitalize',
+                'css' => 'Text-transform: capitalize',
                 'expected' => '',
             ],
             // Uppercase attribute values goes through.
             [
-                'css'      => 'text-transform: None',
+                'css' => 'text-transform: None',
                 'expected' => 'text-transform: None',
             ],
             // A single attribute, with multiple values.
             [
-                'css'      => 'font: bold 15px arial, sans-serif',
+                'css' => 'font: bold 15px arial, sans-serif',
                 'expected' => 'font: bold 15px arial, sans-serif',
             ],
             // Multiple attributes, with single values.
             [
-                'css'      => 'font-weight: bold;font-size: 15px',
+                'css' => 'font-weight: bold;font-size: 15px',
                 'expected' => 'font-weight: bold;font-size: 15px',
             ],
             // Multiple attributes, separated by a space.
             [
-                'css'      => 'font-weight: bold; font-size: 15px',
+                'css' => 'font-weight: bold; font-size: 15px',
                 'expected' => 'font-weight: bold;font-size: 15px',
             ],
             // Multiple attributes, with multiple values.
             [
-                'css'      => 'margin: 10px 20px;padding: 5px 10px',
+                'css' => 'margin: 10px 20px;padding: 5px 10px',
                 'expected' => 'margin: 10px 20px;padding: 5px 10px',
             ],
             // Parenthesis ( is supported for some attributes.
             [
-                'css'      => 'background: green url("foo.jpg") no-repeat fixed center',
+                'css' => 'background: green url("foo.jpg") no-repeat fixed center',
                 'expected' => 'background: green url("foo.jpg") no-repeat fixed center',
             ],
             // Additional background attributes introduced in 5.3.
             [
-                'css'      => 'background-size: cover;background-size: 200px 100px;background-attachment: local, scroll;background-blend-mode: hard-light',
+                'css' => 'background-size: cover;background-size: 200px 100px;background-attachment: local, scroll;background-blend-mode: hard-light',
                 'expected' => 'background-size: cover;background-size: 200px 100px;background-attachment: local, scroll;background-blend-mode: hard-light',
             ],
             // `border-radius` attribute introduced in 5.3.
             [
-                'css'      => 'border-radius: 10% 30% 50% 70%;border-radius: 30px',
+                'css' => 'border-radius: 10% 30% 50% 70%;border-radius: 30px',
                 'expected' => 'border-radius: 10% 30% 50% 70%;border-radius: 30px',
             ],
             // `flex` and related attributes introduced in 5.3.
             [
-                'css'      => 'flex: 0 1 auto;flex-basis: 75%;flex-direction: row-reverse;flex-flow: row-reverse nowrap;flex-grow: 2;flex-shrink: 1;flex-wrap: nowrap',
+                'css' => 'flex: 0 1 auto;flex-basis: 75%;flex-direction: row-reverse;flex-flow: row-reverse nowrap;flex-grow: 2;flex-shrink: 1;flex-wrap: nowrap',
                 'expected' => 'flex: 0 1 auto;flex-basis: 75%;flex-direction: row-reverse;flex-flow: row-reverse nowrap;flex-grow: 2;flex-shrink: 1;flex-wrap: nowrap',
             ],
             // `grid` and related attributes introduced in 5.3.
             [
-                'css'      => 'grid-template-columns: 1fr 60px;grid-auto-columns: min-content;grid-column-start: span 2;grid-column-end: -1;grid-column-gap: 10%;grid-gap: 10px 20px',
+                'css' => 'grid-template-columns: 1fr 60px;grid-auto-columns: min-content;grid-column-start: span 2;grid-column-end: -1;grid-column-gap: 10%;grid-gap: 10px 20px',
                 'expected' => 'grid-template-columns: 1fr 60px;grid-auto-columns: min-content;grid-column-start: span 2;grid-column-end: -1;grid-column-gap: 10%;grid-gap: 10px 20px',
             ],
             [
-                'css'      => 'grid-template-rows: 40px 4em 40px;grid-auto-rows: min-content;grid-row-start: -1;grid-row-end: 3;grid-row-gap: 1em',
+                'css' => 'grid-template-rows: 40px 4em 40px;grid-auto-rows: min-content;grid-row-start: -1;grid-row-end: 3;grid-row-gap: 1em',
                 'expected' => 'grid-template-rows: 40px 4em 40px;grid-auto-rows: min-content;grid-row-start: -1;grid-row-end: 3;grid-row-gap: 1em',
             ],
             // `grid` does not yet support `\`.
             [
-                'css'      => 'grid-template: 1em / 20% 20px 1fr',
+                'css' => 'grid-template: 1em / 20% 20px 1fr',
                 'expected' => '',
             ],
             // `flex` and `grid` alignments introduced in 5.3.
             [
-                'css'      => 'align-content: space-between;align-items: start;align-self: center;justify-items: center;justify-content: space-between;justify-self: end',
+                'css' => 'align-content: space-between;align-items: start;align-self: center;justify-items: center;justify-content: space-between;justify-self: end',
                 'expected' => 'align-content: space-between;align-items: start;align-self: center;justify-items: center;justify-content: space-between;justify-self: end',
             ],
             // `columns` and related attributes introduced in 5.3.
             [
-                'css'      => 'columns: 6rem auto;column-count: 4;column-fill: balance;column-gap: 9px;column-rule: thick inset blue;column-span: none;column-width: 120px',
+                'css' => 'columns: 6rem auto;column-count: 4;column-fill: balance;column-gap: 9px;column-rule: thick inset blue;column-span: none;column-width: 120px',
                 'expected' => 'columns: 6rem auto;column-count: 4;column-fill: balance;column-gap: 9px;column-rule: thick inset blue;column-span: none;column-width: 120px',
             ],
             // Gradients introduced in 5.3.
             [
-                'css'      => 'background: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%)',
+                'css' => 'background: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%)',
                 'expected' => 'background: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%)',
             ],
             [
-                'css'      => 'background: linear-gradient(135deg,rgba(6,147,227,1) ) (0%,rgb(155,81,224) 100%)',
+                'css' => 'background: linear-gradient(135deg,rgba(6,147,227,1) ) (0%,rgb(155,81,224) 100%)',
                 'expected' => '',
             ],
             [
-                'css'      => 'background-image: linear-gradient(red,yellow);',
+                'css' => 'background-image: linear-gradient(red,yellow);',
                 'expected' => 'background-image: linear-gradient(red,yellow)',
             ],
             [
-                'css'      => 'color: linear-gradient(red,yellow);',
+                'css' => 'color: linear-gradient(red,yellow);',
                 'expected' => '',
             ],
             [
-                'css'      => 'background-image: linear-gradient(red,yellow); background: prop( red,yellow); width: 100px;',
+                'css' => 'background-image: linear-gradient(red,yellow); background: prop( red,yellow); width: 100px;',
                 'expected' => 'background-image: linear-gradient(red,yellow);width: 100px',
             ],
             [
-                'css'      => 'background: unknown-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%)',
+                'css' => 'background: unknown-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%)',
                 'expected' => '',
             ],
             [
-                'css'      => 'background: repeating-linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%)',
+                'css' => 'background: repeating-linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%)',
                 'expected' => 'background: repeating-linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%)',
             ],
             [
-                'css'      => 'width: 100px; height: 100px; background: linear-gradient(135deg,rgba(0,208,132,1) 0%,rgba(6,147,227,1) 100%);',
+                'css' => 'width: 100px; height: 100px; background: linear-gradient(135deg,rgba(0,208,132,1) 0%,rgba(6,147,227,1) 100%);',
                 'expected' => 'width: 100px;height: 100px;background: linear-gradient(135deg,rgba(0,208,132,1) 0%,rgba(6,147,227,1) 100%)',
             ],
             [
-                'css'      => 'background: radial-gradient(#ff0, red, yellow, green, rgba(6,147,227,1), rgb(155,81,224) 90%);',
+                'css' => 'background: radial-gradient(#ff0, red, yellow, green, rgba(6,147,227,1), rgb(155,81,224) 90%);',
                 'expected' => 'background: radial-gradient(#ff0, red, yellow, green, rgba(6,147,227,1), rgb(155,81,224) 90%)',
             ],
             [
-                'css'      => 'background: radial-gradient(#ff0, red, yellow, green, rgba(6,147,227,1), rgb(155,81,224) 90%);',
+                'css' => 'background: radial-gradient(#ff0, red, yellow, green, rgba(6,147,227,1), rgb(155,81,224) 90%);',
                 'expected' => 'background: radial-gradient(#ff0, red, yellow, green, rgba(6,147,227,1), rgb(155,81,224) 90%)',
             ],
             [
-                'css'      => 'background: conic-gradient(at 0% 30%, red 10%, yellow 30%, #1e90ff 50%)',
+                'css' => 'background: conic-gradient(at 0% 30%, red 10%, yellow 30%, #1e90ff 50%)',
                 'expected' => 'background: conic-gradient(at 0% 30%, red 10%, yellow 30%, #1e90ff 50%)',
             ],
             // `object-position` introduced in 5.7.1.
             [
-                'css'      => 'object-position: right top',
+                'css' => 'object-position: right top',
                 'expected' => 'object-position: right top',
             ],
             // `object-fit` introduced in 6.1.
             [
-                'css'      => 'object-fit: cover',
+                'css' => 'object-fit: cover',
                 'expected' => 'object-fit: cover',
             ],
             // Expressions are not allowed.
             [
-                'css'      => 'height: expression( body.scrollTop + 50 + "px" )',
+                'css' => 'height: expression( body.scrollTop + 50 + "px" )',
                 'expected' => '',
             ],
             // RGB color values are not allowed.
             [
-                'css'      => 'color: rgb( 100, 100, 100 )',
+                'css' => 'color: rgb( 100, 100, 100 )',
                 'expected' => '',
             ],
             // RGBA color values are not allowed.
             [
-                'css'      => 'color: rgb( 100, 100, 100, .4 )',
+                'css' => 'color: rgb( 100, 100, 100, .4 )',
                 'expected' => '',
             ],
             // Allow min().
             [
-                'css'      => 'width: min(50%, 400px)',
+                'css' => 'width: min(50%, 400px)',
                 'expected' => 'width: min(50%, 400px)',
             ],
             // Allow max().
             [
-                'css'      => 'width: max(50%, 40rem)',
+                'css' => 'width: max(50%, 40rem)',
                 'expected' => 'width: max(50%, 40rem)',
             ],
             // Allow minmax().
             [
-                'css'      => 'width: minmax(100px, 50%)',
+                'css' => 'width: minmax(100px, 50%)',
                 'expected' => 'width: minmax(100px, 50%)',
             ],
             // Allow clamp().
             [
-                'css'      => 'width: clamp(100px, 50%, 100vw)',
+                'css' => 'width: clamp(100px, 50%, 100vw)',
                 'expected' => 'width: clamp(100px, 50%, 100vw)',
             ],
             // Allow two functions in the same CSS.
             [
-                'css'      => 'width: clamp(min(100px, 350px), 50%, 500px), 600px)',
+                'css' => 'width: clamp(min(100px, 350px), 50%, 500px), 600px)',
                 'expected' => 'width: clamp(min(100px, 350px), 50%, 500px), 600px)',
             ],
             // Allow gradient() function.
             [
-                'css'      => 'background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%)',
+                'css' => 'background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%)',
                 'expected' => 'background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%)',
             ],
             // Combined CSS function names.
             [
-                'css'      => 'width: calcmax(100px + 50%)',
+                'css' => 'width: calcmax(100px + 50%)',
                 'expected' => '',
             ],
             // Allow calc().
             [
-                'css'      => 'width: calc(2em + 3px)',
+                'css' => 'width: calc(2em + 3px)',
                 'expected' => 'width: calc(2em + 3px)',
             ],
             // Allow calc() with nested brackets.
             [
-                'css'      => 'width: calc(3em + (10px * 2))',
+                'css' => 'width: calc(3em + (10px * 2))',
                 'expected' => 'width: calc(3em + (10px * 2))',
             ],
             // Allow var().
             [
-                'css'      => 'padding: var(--wp-var1) var(--wp-var2)',
+                'css' => 'padding: var(--wp-var1) var(--wp-var2)',
                 'expected' => 'padding: var(--wp-var1) var(--wp-var2)',
             ],
             // Allow var() with fallback (commas).
             [
-                'css'      => 'padding: var(--wp-var1, 10px)',
+                'css' => 'padding: var(--wp-var1, 10px)',
                 'expected' => 'padding: var(--wp-var1, 10px)',
             ],
             // Allow var() with fallback (percentage).
             [
-                'css'      => 'padding: var(--wp-var1, 50%)',
+                'css' => 'padding: var(--wp-var1, 50%)',
                 'expected' => 'padding: var(--wp-var1, 50%)',
             ],
             // Allow var() with fallback var().
             [
-                'css'      => 'background-color: var(--wp-var, var(--wp-var-fallback, pink))',
+                'css' => 'background-color: var(--wp-var, var(--wp-var-fallback, pink))',
                 'expected' => 'background-color: var(--wp-var, var(--wp-var-fallback, pink))',
             ],
             // Allow var() with square brackets.
             [
-                'css'      => 'background-color: var(--wp-var, [pink])',
+                'css' => 'background-color: var(--wp-var, [pink])',
                 'expected' => 'background-color: var(--wp-var, [pink])',
             ],
             // Allow calc() with var().
             [
-                'css'      => 'margin-top: calc(var(--wp-var1) * 3 + 2em)',
+                'css' => 'margin-top: calc(var(--wp-var1) * 3 + 2em)',
                 'expected' => 'margin-top: calc(var(--wp-var1) * 3 + 2em)',
             ],
             // Malformed min, no closing `)`.
             [
-                'css'      => 'width: min(3em + 10px',
+                'css' => 'width: min(3em + 10px',
                 'expected' => '',
             ],
             // Malformed max, no closing `)`.
             [
-                'css'      => 'width: max(3em + 10px',
+                'css' => 'width: max(3em + 10px',
                 'expected' => '',
             ],
             // Malformed minmax, no closing `)`.
             [
-                'css'      => 'width: minmax(3em + 10px',
+                'css' => 'width: minmax(3em + 10px',
                 'expected' => '',
             ],
             // Malformed calc, no closing `)`.
             [
-                'css'      => 'width: calc(3em + 10px',
+                'css' => 'width: calc(3em + 10px',
                 'expected' => '',
             ],
             // Malformed var, no closing `)`.
             [
-                'css'      => 'width: var(--wp-var1',
+                'css' => 'width: var(--wp-var1',
                 'expected' => '',
             ],
             // Malformed calc, mismatching brackets.
             [
-                'css'      => 'width: calc(3em + (10px * 2)',
+                'css' => 'width: calc(3em + (10px * 2)',
                 'expected' => '',
             ],
             // Malformed var, mismatching brackets.
             [
-                'css'      => 'background-color: var(--wp-var, var(--wp-var-fallback, pink)',
+                'css' => 'background-color: var(--wp-var, var(--wp-var-fallback, pink)',
                 'expected' => '',
             ],
             // Don't allow expressions outside of a calc().
             [
-                'css'      => 'width: (3em + (10px * 2))',
+                'css' => 'width: (3em + (10px * 2))',
                 'expected' => '',
             ],
             // Gap introduced in 6.1.
             [
-                'css'      => 'gap: 10px;column-gap: 5px;row-gap: 20px',
+                'css' => 'gap: 10px;column-gap: 5px;row-gap: 20px',
                 'expected' => 'gap: 10px;column-gap: 5px;row-gap: 20px',
             ],
             // Margin and padding logical properties introduced in 6.1.
             [
-                'css'      => 'margin-block-start: 1px;margin-block-end: 2px;margin-inline-start: 3px;margin-inline-end: 4px;',
+                'css' => 'margin-block-start: 1px;margin-block-end: 2px;margin-inline-start: 3px;margin-inline-end: 4px;',
                 'expected' => 'margin-block-start: 1px;margin-block-end: 2px;margin-inline-start: 3px;margin-inline-end: 4px',
             ],
             [
-                'css'      => 'padding-block-start: 1px;padding-block-end: 2px;padding-inline-start: 3px;padding-inline-end: 4px;',
+                'css' => 'padding-block-start: 1px;padding-block-end: 2px;padding-inline-start: 3px;padding-inline-end: 4px;',
                 'expected' => 'padding-block-start: 1px;padding-block-end: 2px;padding-inline-start: 3px;padding-inline-end: 4px',
             ],
             // Assigning values to CSS variables introduced in 6.1.
             [
-                'css'      => '--wp--medium-width: 100px; --var_with_underscores: #cccccc;',
+                'css' => '--wp--medium-width: 100px; --var_with_underscores: #cccccc;',
                 'expected' => '--wp--medium-width: 100px;--var_with_underscores: #cccccc',
             ],
             [
-                'css'      => '--miXeD-CAse: red; --with-numbers-3_56: red; --with-url-value: url("foo.jpg");',
+                'css' => '--miXeD-CAse: red; --with-numbers-3_56: red; --with-url-value: url("foo.jpg");',
                 'expected' => '--miXeD-CAse: red;--with-numbers-3_56: red;--with-url-value: url("foo.jpg")',
             ],
             [
-                'css'      => '--with-gradient: repeating-linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);',
+                'css' => '--with-gradient: repeating-linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);',
                 'expected' => '--with-gradient: repeating-linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%)',
             ],
             [
-                'css'      => '--?><.%-not-allowed: red;',
+                'css' => '--?><.%-not-allowed: red;',
                 'expected' => '',
             ],
             // Position properties introduced in 6.2.
             [
-                'css'      => 'position: sticky;top: 0;left: 0;right: 0;bottom: 0;z-index: 10;',
+                'css' => 'position: sticky;top: 0;left: 0;right: 0;bottom: 0;z-index: 10;',
                 'expected' => 'position: sticky;top: 0;left: 0;right: 0;bottom: 0;z-index: 10',
             ],
             // `aspect-ratio` introduced in 6.2.
             [
-                'css'      => 'aspect-ratio: auto;',
+                'css' => 'aspect-ratio: auto;',
                 'expected' => 'aspect-ratio: auto',
             ],
             [
-                'css'      => 'aspect-ratio: 0.5;',
+                'css' => 'aspect-ratio: 0.5;',
                 'expected' => 'aspect-ratio: 0.5',
             ],
             [
-                'css'      => 'aspect-ratio: 1;',
+                'css' => 'aspect-ratio: 1;',
                 'expected' => 'aspect-ratio: 1',
             ],
             [
-                'css'      => 'aspect-ratio: 16 / 9;',
+                'css' => 'aspect-ratio: 16 / 9;',
                 'expected' => 'aspect-ratio: 16 / 9',
             ],
             [
-                'css'      => 'aspect-ratio: expression( 16 / 9 );',
+                'css' => 'aspect-ratio: expression( 16 / 9 );',
                 'expected' => '',
             ],
             [
-                'css'      => 'aspect-ratio: calc( 16 / 9;',
+                'css' => 'aspect-ratio: calc( 16 / 9;',
                 'expected' => '',
             ],
             [
-                'css'      => 'aspect-ratio: calc( 16 / 9 );',
+                'css' => 'aspect-ratio: calc( 16 / 9 );',
                 'expected' => 'aspect-ratio: calc( 16 / 9 )',
             ],
             [
-                'css'      => 'aspect-ratio: url( https://wp.org/wp-content/uploads/aspect-ratio.jpg );',
+                'css' => 'aspect-ratio: url( https://wp.org/wp-content/uploads/aspect-ratio.jpg );',
                 'expected' => '',
             ],
             // URL support for `filter` introduced in 6.3.
             [
-                'css'      => 'filter: url( my-file.svg#svg-blur );',
+                'css' => 'filter: url( my-file.svg#svg-blur );',
                 'expected' => 'filter: url( my-file.svg#svg-blur )',
             ],
             // Support for `repeat` function.
             [
-                'css'      => 'grid-template-columns: repeat(4, minmax(0, 1fr))',
+                'css' => 'grid-template-columns: repeat(4, minmax(0, 1fr))',
                 'expected' => 'grid-template-columns: repeat(4, minmax(0, 1fr))',
             ],
             [
-                'css'      => 'grid-template-columns: repeat(auto-fill, minmax(min(12rem, 100%), 1fr))',
+                'css' => 'grid-template-columns: repeat(auto-fill, minmax(min(12rem, 100%), 1fr))',
                 'expected' => 'grid-template-columns: repeat(auto-fill, minmax(min(12rem, 100%), 1fr))',
             ],
             // Malformed repeat, no closing `)`.
             [
-                'css'      => 'grid-template-columns: repeat(4, minmax(0, 1fr)',
+                'css' => 'grid-template-columns: repeat(4, minmax(0, 1fr)',
                 'expected' => '',
             ],
             // Malformed repeat, contains unsupported function.
             [
-                'css'      => 'grid-template-columns: repeat(4, unsupported(0, 1fr)',
+                'css' => 'grid-template-columns: repeat(4, unsupported(0, 1fr)',
                 'expected' => '',
             ],
             // `writing-mode` introduced in 6.4.
             [
-                'css'      => 'writing-mode: vertical-rl',
+                'css' => 'writing-mode: vertical-rl',
                 'expected' => 'writing-mode: vertical-rl',
             ],
             // `background-repeat` introduced in 6.5.
             [
-                'css'      => 'background-repeat: no-repeat',
+                'css' => 'background-repeat: no-repeat',
                 'expected' => 'background-repeat: no-repeat',
             ],
             // `opacity` introduced in 6.7.
             [
-                'css'      => 'opacity: 10',
+                'css' => 'opacity: 10',
                 'expected' => 'opacity: 10',
             ],
         ];
@@ -1403,7 +1415,7 @@ EOF;
      */
     public function test_wp_kses_attr_data_attribute_is_allowed()
     {
-        $test     = '<div data-foo="foo" data-bar="bar" datainvalid="gone" data-two-hyphens="remains">Pens and pencils</div>';
+        $test = '<div data-foo="foo" data-bar="bar" datainvalid="gone" data-two-hyphens="remains">Pens and pencils</div>';
         $expected = '<div data-foo="foo" data-bar="bar" data-two-hyphens="remains">Pens and pencils</div>';
 
         $this->assertSame($expected, wp_kses_post($test));
@@ -1416,7 +1428,7 @@ EOF;
      */
     public function test_wp_kses_attr_data_attribute_hypens_allowed()
     {
-        $test     = '<div data--leading="remains" data-trailing-="remains" data-middle--double="remains">Pens and pencils</div>';
+        $test = '<div data--leading="remains" data-trailing-="remains" data-middle--double="remains">Pens and pencils</div>';
         $expected = '<div data--leading="remains" data-trailing-="remains" data-middle--double="remains">Pens and pencils</div>';
 
         $this->assertSame($expected, wp_kses_post($test));
@@ -1432,11 +1444,11 @@ EOF;
         $allowed_html = [
             'div' => [
                 'data-*' => true,
-                'on-*'   => true,
+                'on-*' => true,
             ],
         ];
 
-        $content  = '<div datamelformed-prefix="gone" data="gone" data-="gone" onclick="alert(1)">Malformed attributes</div>';
+        $content = '<div datamelformed-prefix="gone" data="gone" data-="gone" onclick="alert(1)">Malformed attributes</div>';
         $expected = '<div>Malformed attributes</div>';
 
         $actual = wp_kses($content, $allowed_html);
@@ -1457,7 +1469,7 @@ EOF;
             ],
         ];
 
-        $content  = '<div data-wp-id="pens-and-pencils">Well formed attribute</div>';
+        $content = '<div data-wp-id="pens-and-pencils">Well formed attribute</div>';
         $expected = '<div data-wp-id="pens-and-pencils">Well formed attribute</div>';
 
         $actual = wp_kses($content, $allowed_html);
@@ -1480,7 +1492,7 @@ EOF;
             ],
         ];
 
-        $name  = str_replace('*', strtolower(__FUNCTION__), $wildcard_attribute);
+        $name = str_replace('*', strtolower(__FUNCTION__), $wildcard_attribute);
         $value = __FUNCTION__;
         $whole = "{$name}=\"{$value}\"";
 
@@ -1667,7 +1679,7 @@ EOF;
      *
      * @dataProvider data_safecss_filter_attr_filtered
      *
-     * @param string $css      A string of CSS rules.
+     * @param string $css A string of CSS rules.
      * @param string $expected Expected string of CSS rules.
      */
     public function test_safecss_filter_attr_filtered($css, $expected)
@@ -1681,9 +1693,9 @@ EOF;
      * Data provider for test_safecss_filter_attr_filtered().
      *
      * @return array {
-     *     @type array {
-     *         @type string $css      A string of CSS rules.
-     *         @type string $expected Expected string of CSS rules.
+     * @type array {
+     * @type string $css A string of CSS rules.
+     * @type string $expected Expected string of CSS rules.
      *     }
      * }
      */
@@ -1693,42 +1705,42 @@ EOF;
 
             // A single attribute name, with a single value.
             [
-                'css'      => 'margin-top: 2px',
+                'css' => 'margin-top: 2px',
                 'expected' => 'margin-top: 2px',
             ],
             // Backslash \ can be allowed with the 'safecss_filter_attr_allow_css' filter.
             [
-                'css'      => 'margin-top: \2px',
+                'css' => 'margin-top: \2px',
                 'expected' => 'margin-top: \2px',
             ],
             // Curly bracket } can be allowed with the 'safecss_filter_attr_allow_css' filter.
             [
-                'css'      => 'margin-bottom: 2px}',
+                'css' => 'margin-bottom: 2px}',
                 'expected' => 'margin-bottom: 2px}',
             ],
             // Parenthesis ) can be allowed with the 'safecss_filter_attr_allow_css' filter.
             [
-                'css'      => 'margin-bottom: 2px)',
+                'css' => 'margin-bottom: 2px)',
                 'expected' => 'margin-bottom: 2px)',
             ],
             // Ampersand & can be allowed with the 'safecss_filter_attr_allow_css' filter.
             [
-                'css'      => 'margin-bottom: 2px&',
+                'css' => 'margin-bottom: 2px&',
                 'expected' => 'margin-bottom: 2px&',
             ],
             // Expressions can be allowed with the 'safecss_filter_attr_allow_css' filter.
             [
-                'css'      => 'height: expression( body.scrollTop + 50 + "px" )',
+                'css' => 'height: expression( body.scrollTop + 50 + "px" )',
                 'expected' => 'height: expression( body.scrollTop + 50 + "px" )',
             ],
             // RGB color values can be allowed with the 'safecss_filter_attr_allow_css' filter.
             [
-                'css'      => 'color: rgb( 100, 100, 100 )',
+                'css' => 'color: rgb( 100, 100, 100 )',
                 'expected' => 'color: rgb( 100, 100, 100 )',
             ],
             // RGBA color values can be allowed with the 'safecss_filter_attr_allow_css' filter.
             [
-                'css'      => 'color: rgb( 100, 100, 100, .4 )',
+                'css' => 'color: rgb( 100, 100, 100, .4 )',
                 'expected' => 'color: rgb( 100, 100, 100, .4 )',
             ],
         ];
@@ -1783,7 +1795,7 @@ EOF;
      *
      * @dataProvider data_wp_kses_object_tag_allowed
      *
-     * @param string $html     A string of HTML to test.
+     * @param string $html A string of HTML to test.
      * @param string $expected The expected result from KSES.
      */
     public function test_wp_kses_object_tag_allowed($html, $expected)
@@ -1797,91 +1809,111 @@ EOF;
     public function data_wp_kses_object_tag_allowed()
     {
         return [
-            'valid value for type'                    => [
+            'valid value for type' => [
                 '<object type="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
                 '<object type="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
             ],
-            'invalid value for type'                  => [
+            'invalid value for type' => [
                 '<object type="application/exe" data="https://' . WP_TESTS_DOMAIN . '/foo.exe" />',
                 '',
             ],
-            'multiple type attributes, last invalid'  => [
-                '<object type="application/pdf" type="application/exe" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
+            'multiple type attributes, last invalid' => [
+                '<object type="application/pdf" type="application/exe" data="https://'
+                . WP_TESTS_DOMAIN
+                . '/foo.pdf" />',
                 '<object type="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
             ],
             'multiple type attributes, first uppercase, last invalid' => [
-                '<object TYPE="application/pdf" type="application/exe" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
+                '<object TYPE="application/pdf" type="application/exe" data="https://'
+                . WP_TESTS_DOMAIN
+                . '/foo.pdf" />',
                 '<object TYPE="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
             ],
             'multiple type attributes, last upper case and invalid' => [
-                '<object type="application/pdf" TYPE="application/exe" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
+                '<object type="application/pdf" TYPE="application/exe" data="https://'
+                . WP_TESTS_DOMAIN
+                . '/foo.pdf" />',
                 '<object type="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
             ],
             'multiple type attributes, first invalid' => [
-                '<object type="application/exe" type="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
+                '<object type="application/exe" type="application/pdf" data="https://'
+                . WP_TESTS_DOMAIN
+                . '/foo.pdf" />',
                 '',
             ],
             'multiple type attributes, first upper case and invalid' => [
-                '<object TYPE="application/exe" type="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
+                '<object TYPE="application/exe" type="application/pdf" data="https://'
+                . WP_TESTS_DOMAIN
+                . '/foo.pdf" />',
                 '',
             ],
             'multiple type attributes, first invalid, last uppercase' => [
-                '<object type="application/exe" TYPE="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
+                '<object type="application/exe" TYPE="application/pdf" data="https://'
+                . WP_TESTS_DOMAIN
+                . '/foo.pdf" />',
                 '',
             ],
-            'multiple object tags, last invalid'      => [
-                '<object type="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" /><object type="application/exe" data="https://' . WP_TESTS_DOMAIN . '/foo.exe" />',
+            'multiple object tags, last invalid' => [
+                '<object type="application/pdf" data="https://'
+                . WP_TESTS_DOMAIN
+                . '/foo.pdf" /><object type="application/exe" data="https://'
+                . WP_TESTS_DOMAIN
+                . '/foo.exe" />',
                 '<object type="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
             ],
-            'multiple object tags, first invalid'     => [
-                '<object type="application/exe" data="https://' . WP_TESTS_DOMAIN . '/foo.exe" /><object type="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
+            'multiple object tags, first invalid' => [
+                '<object type="application/exe" data="https://'
+                . WP_TESTS_DOMAIN
+                . '/foo.exe" /><object type="application/pdf" data="https://'
+                . WP_TESTS_DOMAIN
+                . '/foo.pdf" />',
                 '<object type="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
             ],
             'type attribute with partially incorrect value' => [
                 '<object type="application/pdfa" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
                 '',
             ],
-            'type attribute with empty value'         => [
+            'type attribute with empty value' => [
                 '<object type="" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
                 '',
             ],
-            'type attribute with no value'            => [
+            'type attribute with no value' => [
                 '<object type data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
                 '',
             ],
-            'no type attribute'                       => [
+            'no type attribute' => [
                 '<object data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
                 '',
             ],
-            'different protocol in url'               => [
+            'different protocol in url' => [
                 '<object type="application/pdf" data="http://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
                 '<object type="application/pdf" data="http://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
             ],
-            'query string on url'                     => [
+            'query string on url' => [
                 '<object type="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf?lol=.pdf" />',
                 '',
             ],
-            'fragment on url'                         => [
+            'fragment on url' => [
                 '<object type="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf#lol.pdf" />',
                 '',
             ],
-            'wrong extension'                         => [
+            'wrong extension' => [
                 '<object type="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/foo.php" />',
                 '',
             ],
-            'protocol-relative url'                   => [
+            'protocol-relative url' => [
                 '<object type="application/pdf" data="//' . WP_TESTS_DOMAIN . '/foo.pdf" />',
                 '',
             ],
-            'unsupported protocol'                    => [
+            'unsupported protocol' => [
                 '<object type="application/pdf" data="ftp://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
                 '',
             ],
-            'relative url'                            => [
+            'relative url' => [
                 '<object type="application/pdf" data="/cat/foo.pdf" />',
                 '',
             ],
-            'url with port number-like path'          => [
+            'url with port number-like path' => [
                 '<object type="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/cat:8888/foo.pdf" />',
                 '<object type="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/cat:8888/foo.pdf" />',
             ],
@@ -1895,7 +1927,7 @@ EOF;
      *
      * @dataProvider data_wp_kses_object_data_url_with_port_number_allowed
      *
-     * @param string $html     A string of HTML to test.
+     * @param string $html A string of HTML to test.
      * @param string $expected The expected result from KSES.
      */
     public function test_wp_kses_object_data_url_with_port_number_allowed($html, $expected)
@@ -1910,7 +1942,7 @@ EOF;
     public function data_wp_kses_object_data_url_with_port_number_allowed()
     {
         return [
-            'url with port number'                   => [
+            'url with port number' => [
                 '<object type="application/pdf" data="https://example.org:8888/cat/foo.pdf" />',
                 '<object type="application/pdf" data="https://example.org:8888/cat/foo.pdf" />',
             ],
@@ -1918,11 +1950,11 @@ EOF;
                 '<object type="application/pdf" data="http://example.org:8888/cat/foo.pdf" />',
                 '<object type="application/pdf" data="http://example.org:8888/cat/foo.pdf" />',
             ],
-            'url with wrong port number'             => [
+            'url with wrong port number' => [
                 '<object type="application/pdf" data="http://example.org:3333/cat/foo.pdf" />',
                 '',
             ],
-            'url without port number'                => [
+            'url without port number' => [
                 '<object type="application/pdf" data="http://example.org/cat/foo.pdf" />',
                 '',
             ],
@@ -1932,20 +1964,21 @@ EOF;
     /**
      * Filter upload directory for tests using port number.
      *
-     * @param  array $param See wp_upload_dir()
+     * @param array $param See wp_upload_dir()
      * @return array        $param with a modified `url`.
      */
     public function wp_kses_upload_dir_filter($param)
     {
         // Take care to replace the entire domain, including cases where it already has a port number.
-        $parsed         = parse_url($param['url']);
+        $parsed = parse_url($param['url']);
         $replace_domain = $parsed['host'];
         if (isset($parsed['port'])) {
             $replace_domain .= ':' . $parsed['port'];
         }
 
-        $url_with_port_number = is_string($param['url']) ? str_replace($replace_domain, 'example.org:8888', $param['url']) : $param['url'];
-        $param['url']         = $url_with_port_number;
+        $url_with_port_number = is_string($param['url']) ? str_replace($replace_domain, 'example.org:8888',
+            $param['url']) : $param['url'];
+        $param['url'] = $url_with_port_number;
         return $param;
     }
 
@@ -1958,11 +1991,11 @@ EOF;
     public function test_wp_kses_object_added_in_html_filter()
     {
         $html = <<<HTML
-<object type="application/pdf" data="https://wp.org/foo.pdf" />
-<object type="application/x-shockwave-flash" data="https://wp.org/foo.swf">
-	<param name="foo" value="bar" />
-</object>
-HTML;
+            <object type="application/pdf" data="https://wp.org/foo.pdf" />
+            <object type="application/x-shockwave-flash" data="https://wp.org/foo.swf">
+            	<param name="foo" value="bar" />
+            </object>
+            HTML;
 
         add_filter('wp_kses_allowed_html', [$this, 'filter_wp_kses_object_added_in_html_filter'], 10, 2);
 
@@ -1982,7 +2015,7 @@ HTML;
             ];
 
             $tags['param'] = [
-                'name'  => true,
+                'name' => true,
                 'value' => true,
             ];
         }
@@ -1997,7 +2030,7 @@ HTML;
      *
      * @dataProvider data_html_containing_various_kinds_of_html_comments
      *
-     * @param string $html_comment    HTML containing a comment; must not be a valid comment
+     * @param string $html_comment HTML containing a comment; must not be a valid comment
      *                                but must be syntax which a browser interprets as a comment.
      * @param string $expected_output How `wp_kses()` ought to transform the comment.
      */
@@ -2006,7 +2039,7 @@ HTML;
         $this->assertSame(
             $expected_output,
             wp_kses($html_comment, []),
-            'Failed to properly preserve HTML comment.'
+            'Failed to properly preserve HTML comment.',
         );
     }
 
@@ -2018,9 +2051,15 @@ HTML;
     public static function data_html_containing_various_kinds_of_html_comments()
     {
         return [
-            'Normative HTML comment'            => ['before<!-- this is a comment -->after', 'before<!-- this is a comment -->after'],
+            'Normative HTML comment' => [
+                'before<!-- this is a comment -->after',
+                'before<!-- this is a comment -->after',
+            ],
             'Closing tag with invalid tag name' => ['before<//not a tag>after', 'before<//not a tag>after'],
-            'Incorrectly opened comment (Markup declaration)' => ['before<!also not a tag>after', 'before<!also not a tag>after'],
+            'Incorrectly opened comment (Markup declaration)' => [
+                'before<!also not a tag>after',
+                'before<!also not a tag>after',
+            ],
         ];
     }
 
@@ -2031,9 +2070,9 @@ HTML;
      *
      * @dataProvider data_wp_kses_allowed_values_list
      *
-     * @param string $content      A string of HTML to test.
-     * @param string $expected     The expected result from KSES.
-     * @param array  $allowed_html The allowed HTML to pass to KSES.
+     * @param string $content A string of HTML to test.
+     * @param string $expected The expected result from KSES.
+     * @param array $allowed_html The allowed HTML to pass to KSES.
      */
     public function test_wp_kses_allowed_values_list($content, $expected, $allowed_html)
     {
@@ -2046,7 +2085,7 @@ HTML;
     public function data_wp_kses_allowed_values_list()
     {
         $data = [
-            'valid dir attribute value'             => [
+            'valid dir attribute value' => [
                 '<p dir="ltr">foo</p>',
                 '<p dir="ltr">foo</p>',
             ],
@@ -2054,15 +2093,15 @@ HTML;
                 '<p DIR="RTL">foo</p>',
                 '<p DIR="RTL">foo</p>',
             ],
-            'invalid dir attribute value'           => [
+            'invalid dir attribute value' => [
                 '<p dir="up">foo</p>',
                 '<p>foo</p>',
             ],
-            'dir attribute with empty value'        => [
+            'dir attribute with empty value' => [
                 '<p dir="">foo</p>',
                 '<p>foo</p>',
             ],
-            'dir attribute with no value'           => [
+            'dir attribute with no value' => [
                 '<p dir>foo</p>',
                 '<p>foo</p>',
             ],
@@ -2080,7 +2119,7 @@ HTML;
 
                 return $datum;
             },
-            $data
+            $data,
         );
     }
 
@@ -2091,9 +2130,9 @@ HTML;
      *
      * @dataProvider data_wp_kses_required_attribute
      *
-     * @param string $content      A string of HTML to test.
-     * @param string $expected     The expected result from KSES.
-     * @param array  $allowed_html The allowed HTML to pass to KSES.
+     * @param string $content A string of HTML to test.
+     * @param string $expected The expected result from KSES.
+     * @param array $allowed_html The allowed HTML to pass to KSES.
      */
     public function test_wp_kses_required_attribute($content, $expected, $allowed_html)
     {
@@ -2106,7 +2145,7 @@ HTML;
     public function data_wp_kses_required_attribute()
     {
         $data = [
-            'valid dir attribute value'             => [
+            'valid dir attribute value' => [
                 '<p dir="ltr">foo</p>', // Test HTML.
                 '<p dir="ltr">foo</p>', // Expected result when dir is not required.
                 '<p dir="ltr">foo</p>', // Expected result when dir is required.
@@ -2118,25 +2157,25 @@ HTML;
                 '<p DIR="RTL">foo</p>',
                 '<p DIR="RTL">foo</p>',
             ],
-            'invalid dir attribute value'           => [
+            'invalid dir attribute value' => [
                 '<p dir="up">foo</p>',
                 '<p>foo</p>',
                 '<p>foo</p>',
                 '<p dir="up">foo</p>',
             ],
-            'dir attribute with empty value'        => [
+            'dir attribute with empty value' => [
                 '<p dir="">foo</p>',
                 '<p>foo</p>',
                 '<p>foo</p>',
                 '<p dir="">foo</p>',
             ],
-            'dir attribute with no value'           => [
+            'dir attribute with no value' => [
                 '<p dir>foo</p>',
                 '<p>foo</p>',
                 '<p>foo</p>',
                 '<p dir>foo</p>',
             ],
-            'dir attribute not set'                 => [
+            'dir attribute not set' => [
                 '<p>foo</p>',
                 '<p>foo</p>',
                 '<p>foo</p>',
@@ -2168,7 +2207,7 @@ HTML;
                     'p' => [
                         'dir' => [
                             'required' => false,
-                            'values'   => ['ltr', 'rtl'],
+                            'values' => ['ltr', 'rtl'],
                         ],
                     ],
                 ],
@@ -2182,7 +2221,7 @@ HTML;
                     'p' => [
                         'dir' => [
                             'required' => true,
-                            'values'   => ['ltr', 'rtl'],
+                            'values' => ['ltr', 'rtl'],
                         ],
                     ],
                 ],
@@ -2213,7 +2252,7 @@ HTML;
      * @ticket 54060
      * @covers ::wp_kses_xml_named_entities
      *
-     * @param array  $input    The input to wp_kses_xml_named_entities().
+     * @param array $input The input to wp_kses_xml_named_entities().
      * @param string $expected The expected output.
      */
     public function test_wp_kses_xml_named_entities($input, $expected)
@@ -2230,48 +2269,48 @@ HTML;
     {
         return [
             // Empty string value testing.
-            'empty string'       => [
-                'input'    => '',
+            'empty string' => [
+                'input' => '',
                 'expected' => '',
             ],
 
             // Empty string array value testing.
             'empty string array' => [
-                'input'    => ['', ''],
+                'input' => ['', ''],
                 'expected' => '',
             ],
 
             // $allowedxmlentitynames values testing.
-            'amp'                => [
-                'input'    => ['', 'amp'],
+            'amp' => [
+                'input' => ['', 'amp'],
                 'expected' => '&amp;',
             ],
-            'lt'                 => [
-                'input'    => ['', 'lt'],
+            'lt' => [
+                'input' => ['', 'lt'],
                 'expected' => '&lt;',
             ],
-            'gt'                 => [
-                'input'    => ['', 'gt'],
+            'gt' => [
+                'input' => ['', 'gt'],
                 'expected' => '&gt;',
             ],
 
             // $allowedentitynames values testing.
-            'nbsp'               => [
-                'input'    => ['', 'nbsp'],
+            'nbsp' => [
+                'input' => ['', 'nbsp'],
                 'expected' => "\u{00A0}",
             ],
-            'iexcl'              => [
-                'input'    => ['', 'iexcl'],
+            'iexcl' => [
+                'input' => ['', 'iexcl'],
                 'expected' => '¡',
             ],
-            'cent'               => [
-                'input'    => ['', 'cent'],
+            'cent' => [
+                'input' => ['', 'cent'],
                 'expected' => '¢',
             ],
 
             // Some other value testing.
-            'test'               => [
-                'input'    => ['', 'test'],
+            'test' => [
+                'input' => ['', 'test'],
                 'expected' => '&amp;test;',
             ],
 

@@ -12,7 +12,7 @@ class Tests_Formatting_wpBasename extends WP_UnitTestCase
     {
         $this->assertSame(
             'file',
-            wp_basename('/home/test/file')
+            wp_basename('/home/test/file'),
         );
     }
 
@@ -20,7 +20,7 @@ class Tests_Formatting_wpBasename extends WP_UnitTestCase
     {
         $this->assertSame(
             'žluťoučký kůň.txt',
-            wp_basename('/test/žluťoučký kůň.txt')
+            wp_basename('/test/žluťoučký kůň.txt'),
         );
     }
 
@@ -31,7 +31,7 @@ class Tests_Formatting_wpBasename extends WP_UnitTestCase
     {
         $this->assertSame(
             'file.txt',
-            wp_basename('C:\Documents and Settings\User\file.txt')
+            wp_basename('C:\Documents and Settings\User\file.txt'),
         );
     }
 
@@ -42,7 +42,7 @@ class Tests_Formatting_wpBasename extends WP_UnitTestCase
     {
         $this->assertSame(
             'щипцы.txt',
-            wp_basename('C:\test\щипцы.txt')
+            wp_basename('C:\test\щипцы.txt'),
         );
     }
 }

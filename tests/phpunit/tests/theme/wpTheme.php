@@ -30,7 +30,7 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase
         parent::set_up();
         $this->theme_root = realpath(DIR_TESTDATA . '/themedir1');
 
-        $this->orig_theme_dir            = $GLOBALS['wp_theme_directories'];
+        $this->orig_theme_dir = $GLOBALS['wp_theme_directories'];
         $GLOBALS['wp_theme_directories'] = [$this->theme_root];
 
         add_filter('theme_root', [$this, '_theme_root']);
@@ -190,7 +190,7 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase
      */
     public function test_child_theme_with_itself_as_parent_should_appear_as_broken()
     {
-        $theme  = new WP_Theme('child-parent-itself', $this->theme_root);
+        $theme = new WP_Theme('child-parent-itself', $this->theme_root);
         $errors = $theme->errors();
         $this->assertWPError($errors);
         $this->assertSame('theme_child_invalid', $errors->get_error_code());
@@ -205,7 +205,7 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase
      */
     public function test_wp_theme_network_enable_single_theme()
     {
-        $theme                  = 'testtheme-1';
+        $theme = 'testtheme-1';
         $current_allowed_themes = get_site_option('allowedthemes');
         WP_Theme::network_enable_theme($theme);
         $new_allowed_themes = get_site_option('allowedthemes');
@@ -223,7 +223,7 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase
      */
     public function test_wp_theme_network_enable_multiple_themes()
     {
-        $themes                 = ['testtheme-2', 'testtheme-3'];
+        $themes = ['testtheme-2', 'testtheme-3'];
         $current_allowed_themes = get_site_option('allowedthemes');
         WP_Theme::network_enable_theme($themes);
         $new_allowed_themes = get_site_option('allowedthemes');
@@ -233,7 +233,7 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase
             [
                 'testtheme-2' => true,
                 'testtheme-3' => true,
-            ]
+            ],
         );
 
         $this->assertSameSetsWithIndex($current_allowed_themes, $new_allowed_themes);
@@ -296,10 +296,10 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase
      * @dataProvider data_is_block_theme
      * @ticket 54460
      *
-     * @covers WP_Theme::is_block_theme
+     * @covers       WP_Theme::is_block_theme
      *
      * @param string $theme_dir Directory of the theme to test.
-     * @param bool   $expected  Expected result.
+     * @param bool $expected Expected result.
      */
     public function test_is_block_theme($theme_dir, $expected)
     {
@@ -310,7 +310,7 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase
     /**
      * @ticket 57114
      *
-     * @covers WP_Theme::is_block_theme
+     * @covers       WP_Theme::is_block_theme
      *
      * @dataProvider data_is_block_theme
      */
@@ -318,7 +318,7 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase
     {
         $theme = new WP_Theme($theme_dir, $this->theme_root);
         $theme->is_block_theme();
-        $reflection          = new ReflectionClass($theme);
+        $reflection = new ReflectionClass($theme);
         $reflection_property = $reflection->getProperty('block_theme');
         $reflection_property->setAccessible(true);
 
@@ -408,19 +408,19 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase
         return [
             'default - non-block theme' => [
                 'theme_dir' => 'default',
-                'expected'  => false,
+                'expected' => false,
             ],
-            'parent block theme'        => [
+            'parent block theme' => [
                 'theme_dir' => 'block-theme',
-                'expected'  => true,
+                'expected' => true,
             ],
-            'child block theme'         => [
+            'child block theme' => [
                 'theme_dir' => 'block-theme-child',
-                'expected'  => true,
+                'expected' => true,
             ],
-            'deprecated block theme'    => [
+            'deprecated block theme' => [
                 'theme_dir' => 'block-theme-deprecated-path',
-                'expected'  => true,
+                'expected' => true,
             ],
         ];
     }
@@ -429,11 +429,11 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase
      * @dataProvider data_get_file_path
      * @ticket 54460
      *
-     * @covers WP_Theme::get_file_path
+     * @covers       WP_Theme::get_file_path
      *
      * @param string $theme_dir Directory of the theme to test.
-     * @param string $file      Given file name to test.
-     * @param string $expected  Expected file path.
+     * @param string $file Given file name to test.
+     * @param string $expected Expected file path.
      */
     public function test_get_file_path($theme_dir, $file, $expected)
     {
@@ -450,55 +450,55 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase
     public function data_get_file_path()
     {
         return [
-            'no theme: no file given'              => [
+            'no theme: no file given' => [
                 'theme_dir' => 'nonexistent',
-                'file'      => '',
-                'expected'  => '/nonexistent',
+                'file' => '',
+                'expected' => '/nonexistent',
             ],
-            'parent theme: no file given'          => [
+            'parent theme: no file given' => [
                 'theme_dir' => 'block-theme',
-                'file'      => '',
-                'expected'  => '/block-theme',
+                'file' => '',
+                'expected' => '/block-theme',
             ],
-            'child theme: no file given'           => [
+            'child theme: no file given' => [
                 'theme_dir' => 'block-theme-child',
-                'file'      => '',
-                'expected'  => '/block-theme-child',
+                'file' => '',
+                'expected' => '/block-theme-child',
             ],
-            'nonexistent theme: file given'        => [
+            'nonexistent theme: file given' => [
                 'theme_dir' => 'nonexistent',
-                'file'      => '/templates/page.html',
-                'expected'  => '/nonexistent/templates/page.html',
+                'file' => '/templates/page.html',
+                'expected' => '/nonexistent/templates/page.html',
             ],
-            'parent theme: file exists'            => [
+            'parent theme: file exists' => [
                 'theme_dir' => 'block-theme',
-                'file'      => '/templates/page-home.html',
-                'expected'  => '/block-theme/templates/page-home.html',
+                'file' => '/templates/page-home.html',
+                'expected' => '/block-theme/templates/page-home.html',
             ],
             'parent theme: deprecated file exists' => [
                 'theme_dir' => 'block-theme-deprecated-path',
-                'file'      => '/block-templates/page-home.html',
-                'expected'  => '/block-theme-deprecated-path/block-templates/page-home.html',
+                'file' => '/block-templates/page-home.html',
+                'expected' => '/block-theme-deprecated-path/block-templates/page-home.html',
             ],
-            'parent theme: file does not exist'    => [
+            'parent theme: file does not exist' => [
                 'theme_dir' => 'block-theme',
-                'file'      => '/templates/nonexistent.html',
-                'expected'  => '/block-theme/templates/nonexistent.html',
+                'file' => '/templates/nonexistent.html',
+                'expected' => '/block-theme/templates/nonexistent.html',
             ],
-            'child theme: file exists'             => [
+            'child theme: file exists' => [
                 'theme_dir' => 'block-theme-child',
-                'file'      => '/templates/page-1.html',
-                'expected'  => '/block-theme-child/templates/page-1.html',
+                'file' => '/templates/page-1.html',
+                'expected' => '/block-theme-child/templates/page-1.html',
             ],
-            'child theme: file does not exist'     => [
+            'child theme: file does not exist' => [
                 'theme_dir' => 'block-theme-child',
-                'file'      => '/templates/nonexistent.html',
-                'expected'  => '/block-theme/templates/nonexistent.html',
+                'file' => '/templates/nonexistent.html',
+                'expected' => '/block-theme/templates/nonexistent.html',
             ],
             'child theme: file exists in parent, not in child' => [
                 'theme_dir' => 'block-theme-child',
-                'file'      => '/templates/page.html',
-                'expected'  => '/block-theme/templates/page.html',
+                'file' => '/templates/page.html',
+                'expected' => '/block-theme/templates/page.html',
             ],
         ];
     }
@@ -516,20 +516,20 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase
 
         $this->assertTrue(
             $theme->exists(),
-            'The update-uri-theme does not exist.'
+            'The update-uri-theme does not exist.',
         );
 
         $update_uri = $theme->get('UpdateURI');
 
         $this->assertIsString(
             $update_uri,
-            'The UpdateURI header was not returned as a string.'
+            'The UpdateURI header was not returned as a string.',
         );
 
         $this->assertSame(
             'http://example.org/update-uri-theme/',
             $update_uri,
-            'The UpdateURI header did not match the expected value.'
+            'The UpdateURI header did not match the expected value.',
         );
     }
 
@@ -542,11 +542,12 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase
      */
     public function test_should_strip_tags_from_update_uri_header()
     {
-        $theme           = new WP_Theme('twentytwentytwo', $this->theme_root);
+        $theme = new WP_Theme('twentytwentytwo', $this->theme_root);
         $sanitize_header = new ReflectionMethod($theme, 'sanitize_header');
         $sanitize_header->setAccessible(true);
 
-        $actual = $sanitize_header->invoke($theme, 'UpdateURI', '<?php?><a href="http://example.org">http://example.org</a>');
+        $actual = $sanitize_header->invoke($theme, 'UpdateURI',
+            '<?php?><a href="http://example.org">http://example.org</a>');
 
         $this->assertSame('http://example.org', $actual);
     }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test wp_get_font_dir().
  *
@@ -20,12 +21,12 @@ class Tests_Fonts_WpFontDir extends WP_UnitTestCase
         $upload_dir = wp_get_upload_dir();
 
         static::$dir_defaults = [
-            'path'    => untrailingslashit($upload_dir['basedir']) . '/fonts',
-            'url'     => untrailingslashit($upload_dir['baseurl']) . '/fonts',
-            'subdir'  => '',
+            'path' => untrailingslashit($upload_dir['basedir']) . '/fonts',
+            'url' => untrailingslashit($upload_dir['baseurl']) . '/fonts',
+            'subdir' => '',
             'basedir' => untrailingslashit($upload_dir['basedir']) . '/fonts',
             'baseurl' => untrailingslashit($upload_dir['baseurl']) . '/fonts',
-            'error'   => false,
+            'error' => false,
         ];
     }
 
@@ -49,18 +50,18 @@ class Tests_Fonts_WpFontDir extends WP_UnitTestCase
      */
     public function test_fonts_dir_for_multisite()
     {
-        $blog_id              = self::factory()->blog->create();
+        $blog_id = self::factory()->blog->create();
         $main_site_upload_dir = wp_get_upload_dir();
         switch_to_blog($blog_id);
 
-        $actual   = wp_get_font_dir();
+        $actual = wp_get_font_dir();
         $expected = [
-            'path'    => untrailingslashit($main_site_upload_dir['basedir']) . "/sites/{$blog_id}/fonts",
-            'url'     => untrailingslashit($main_site_upload_dir['baseurl']) . "/sites/{$blog_id}/fonts",
-            'subdir'  => '',
+            'path' => untrailingslashit($main_site_upload_dir['basedir']) . "/sites/{$blog_id}/fonts",
+            'url' => untrailingslashit($main_site_upload_dir['baseurl']) . "/sites/{$blog_id}/fonts",
+            'subdir' => '',
             'basedir' => untrailingslashit($main_site_upload_dir['basedir']) . "/sites/{$blog_id}/fonts",
             'baseurl' => untrailingslashit($main_site_upload_dir['baseurl']) . "/sites/{$blog_id}/fonts",
-            'error'   => false,
+            'error' => false,
         ];
 
         // Restore blog prior to assertions.
@@ -76,12 +77,12 @@ class Tests_Fonts_WpFontDir extends WP_UnitTestCase
         // Define a callback function to pass to the filter.
         function set_new_values($defaults)
         {
-            $defaults['path']    = '/custom-path/fonts/my-custom-subdir';
-            $defaults['url']     = 'http://example.com/custom-path/fonts/my-custom-subdir';
-            $defaults['subdir']  = 'my-custom-subdir';
+            $defaults['path'] = '/custom-path/fonts/my-custom-subdir';
+            $defaults['url'] = 'http://example.com/custom-path/fonts/my-custom-subdir';
+            $defaults['subdir'] = 'my-custom-subdir';
             $defaults['basedir'] = '/custom-path/fonts';
             $defaults['baseurl'] = 'http://example.com/custom-path/fonts';
-            $defaults['error']   = false;
+            $defaults['error'] = false;
             return $defaults;
         }
 
@@ -92,12 +93,12 @@ class Tests_Fonts_WpFontDir extends WP_UnitTestCase
         $font_dir = wp_get_font_dir();
 
         $expected = [
-            'path'    => '/custom-path/fonts/my-custom-subdir',
-            'url'     => 'http://example.com/custom-path/fonts/my-custom-subdir',
-            'subdir'  => 'my-custom-subdir',
+            'path' => '/custom-path/fonts/my-custom-subdir',
+            'url' => 'http://example.com/custom-path/fonts/my-custom-subdir',
+            'subdir' => 'my-custom-subdir',
             'basedir' => '/custom-path/fonts',
             'baseurl' => 'http://example.com/custom-path/fonts',
-            'error'   => false,
+            'error' => false,
         ];
 
         // Remove the filter.
@@ -108,7 +109,8 @@ class Tests_Fonts_WpFontDir extends WP_UnitTestCase
         // Gets the fonts dir.
         $font_dir = wp_get_font_dir();
 
-        $this->assertSame(static::$dir_defaults, $font_dir, 'The wp_get_font_dir() method should return the default values.');
+        $this->assertSame(static::$dir_defaults, $font_dir,
+            'The wp_get_font_dir() method should return the default values.');
     }
 
     /**
@@ -137,7 +139,7 @@ class Tests_Fonts_WpFontDir extends WP_UnitTestCase
                 }
                 return $upload_dir;
             },
-            5
+            5,
         );
 
         /*

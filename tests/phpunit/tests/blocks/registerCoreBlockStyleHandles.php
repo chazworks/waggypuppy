@@ -26,7 +26,7 @@ class Tests_Blocks_registerCoreBlockStyleHandles extends WP_UnitTestCase
     private $includes_url;
 
     const STYLE_FIELDS = [
-        'style'       => 'style',
+        'style' => 'style',
         'editorStyle' => 'editor',
     ];
 
@@ -59,8 +59,8 @@ class Tests_Blocks_registerCoreBlockStyleHandles extends WP_UnitTestCase
      *
      * @dataProvider data_block_data
      *
-     * @param string $name   The block name.
-     * @param array  $schema The block's schema.
+     * @param string $name The block name.
+     * @param array $schema The block's schema.
      */
     public function test_wp_should_load_separate_core_block_assets_false($name, $schema)
     {
@@ -72,7 +72,8 @@ class Tests_Blocks_registerCoreBlockStyleHandles extends WP_UnitTestCase
                 continue;
             }
 
-            $this->assertArrayNotHasKey($style_handle, $GLOBALS['wp_styles']->registered, 'The key should not exist, as this style should not be registered');
+            $this->assertArrayNotHasKey($style_handle, $GLOBALS['wp_styles']->registered,
+                'The key should not exist, as this style should not be registered');
         }
     }
 
@@ -82,8 +83,8 @@ class Tests_Blocks_registerCoreBlockStyleHandles extends WP_UnitTestCase
      *
      * @dataProvider data_block_data
      *
-     * @param string $name   The block name.
-     * @param array  $schema The block's schema.
+     * @param string $name The block name.
+     * @param array $schema The block's schema.
      */
     public function test_wp_should_load_separate_core_block_assets_true($name, $schema)
     {
@@ -98,14 +99,20 @@ class Tests_Blocks_registerCoreBlockStyleHandles extends WP_UnitTestCase
                 continue;
             }
 
-            $this->assertArrayHasKey($style_handle, $wp_styles->registered, 'The key should exist, as this style should be registered');
+            $this->assertArrayHasKey($style_handle, $wp_styles->registered,
+                'The key should exist, as this style should be registered');
             if (false === $wp_styles->registered[$style_handle]->src) {
-                $this->assertEmpty($wp_styles->registered[$style_handle]->extra, 'If source is false, style path should not be set');
+                $this->assertEmpty($wp_styles->registered[$style_handle]->extra,
+                    'If source is false, style path should not be set');
             } else {
-                $this->assertStringContainsString($this->includes_url, $wp_styles->registered[$style_handle]->src, 'Source of style should contain the includes url');
-                $this->assertNotEmpty($wp_styles->registered[$style_handle]->extra, 'The path of the style should exist');
-                $this->assertArrayHasKey('path', $wp_styles->registered[$style_handle]->extra, 'The path key of the style should exist in extra array');
-                $this->assertNotEmpty($wp_styles->registered[$style_handle]->extra['path'], 'The path key of the style should not be empty');
+                $this->assertStringContainsString($this->includes_url, $wp_styles->registered[$style_handle]->src,
+                    'Source of style should contain the includes url');
+                $this->assertNotEmpty($wp_styles->registered[$style_handle]->extra,
+                    'The path of the style should exist');
+                $this->assertArrayHasKey('path', $wp_styles->registered[$style_handle]->extra,
+                    'The path key of the style should exist in extra array');
+                $this->assertNotEmpty($wp_styles->registered[$style_handle]->extra['path'],
+                    'The path key of the style should not be empty');
             }
         }
     }
@@ -127,14 +134,19 @@ class Tests_Blocks_registerCoreBlockStyleHandles extends WP_UnitTestCase
 
         $style_handle = "wp-block-{$name}-theme";
 
-        $this->assertArrayHasKey($style_handle, $wp_styles->registered, 'The key should exist, as this style should be registered');
+        $this->assertArrayHasKey($style_handle, $wp_styles->registered,
+            'The key should exist, as this style should be registered');
         if (false === $wp_styles->registered[$style_handle]->src) {
-            $this->assertEmpty($wp_styles->registered[$style_handle]->extra, 'If source is false, style path should not be set');
+            $this->assertEmpty($wp_styles->registered[$style_handle]->extra,
+                'If source is false, style path should not be set');
         } else {
-            $this->assertStringContainsString($this->includes_url, $wp_styles->registered[$style_handle]->src, 'Source of style should contain the includes url');
+            $this->assertStringContainsString($this->includes_url, $wp_styles->registered[$style_handle]->src,
+                'Source of style should contain the includes url');
             $this->assertNotEmpty($wp_styles->registered[$style_handle]->extra, 'The path of the style should exist');
-            $this->assertArrayHasKey('path', $wp_styles->registered[$style_handle]->extra, 'The path key of the style should exist in extra array');
-            $this->assertNotEmpty($wp_styles->registered[$style_handle]->extra['path'], 'The path key of the style should not be empty');
+            $this->assertArrayHasKey('path', $wp_styles->registered[$style_handle]->extra,
+                'The path key of the style should exist in extra array');
+            $this->assertNotEmpty($wp_styles->registered[$style_handle]->extra['path'],
+                'The path key of the style should not be empty');
         }
     }
 
@@ -149,7 +161,7 @@ class Tests_Blocks_registerCoreBlockStyleHandles extends WP_UnitTestCase
     {
         global $wp_locale;
 
-        $orig_text_dir             = $wp_locale->text_direction;
+        $orig_text_dir = $wp_locale->text_direction;
         $wp_locale->text_direction = 'rtl';
 
         add_filter('should_load_separate_core_block_assets', '__return_true');
@@ -161,15 +173,21 @@ class Tests_Blocks_registerCoreBlockStyleHandles extends WP_UnitTestCase
 
         $wp_locale->text_direction = $orig_text_dir;
 
-        $this->assertArrayHasKey($style_handle, $wp_styles->registered, 'The key should exist, as this style should be registered');
+        $this->assertArrayHasKey($style_handle, $wp_styles->registered,
+            'The key should exist, as this style should be registered');
         if (false === $wp_styles->registered[$style_handle]->src) {
-            $this->assertEmpty($wp_styles->registered[$style_handle]->extra, 'If source is false, style path should not be set');
+            $this->assertEmpty($wp_styles->registered[$style_handle]->extra,
+                'If source is false, style path should not be set');
         } else {
-            $this->assertStringContainsString($this->includes_url, $wp_styles->registered[$style_handle]->src, 'Source of style should contain the includes url');
+            $this->assertStringContainsString($this->includes_url, $wp_styles->registered[$style_handle]->src,
+                'Source of style should contain the includes url');
             $this->assertNotEmpty($wp_styles->registered[$style_handle]->extra, 'The path of the style should exist');
-            $this->assertArrayHasKey('path', $wp_styles->registered[$style_handle]->extra, 'The path key of the style should exist in extra array');
-            $this->assertNotEmpty($wp_styles->registered[$style_handle]->extra['path'], 'The path key of the style should not be empty');
-            $this->assertArrayHasKey('rtl', $wp_styles->registered[$style_handle]->extra, 'The rtl key of the style should exist in extra array');
+            $this->assertArrayHasKey('path', $wp_styles->registered[$style_handle]->extra,
+                'The path key of the style should exist in extra array');
+            $this->assertNotEmpty($wp_styles->registered[$style_handle]->extra['path'],
+                'The path key of the style should not be empty');
+            $this->assertArrayHasKey('rtl', $wp_styles->registered[$style_handle]->extra,
+                'The rtl key of the style should exist in extra array');
         }
     }
 
@@ -183,10 +201,10 @@ class Tests_Blocks_registerCoreBlockStyleHandles extends WP_UnitTestCase
 
         $data = [];
         foreach ($core_blocks_meta as $name => $schema) {
-            if (! isset($schema['style'])) {
+            if (!isset($schema['style'])) {
                 $schema['style'] = "wp-block-$name";
             }
-            if (! isset($schema['editorStyle'])) {
+            if (!isset($schema['editorStyle'])) {
                 $schema['editorStyle'] = "wp-block-{$name}-editor";
             }
 

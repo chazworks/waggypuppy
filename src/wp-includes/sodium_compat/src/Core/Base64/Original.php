@@ -39,7 +39,7 @@ class ParagonIE_Sodium_Core_Base64_Original
 
     /**
      * @param string $src
-     * @param bool $pad   Include = padding?
+     * @param bool $pad Include = padding?
      * @return string
      * @throws TypeError
      */
@@ -56,10 +56,10 @@ class ParagonIE_Sodium_Core_Base64_Original
             $b2 = $chunk[3];
 
             $dest .=
-                self::encode6Bits(               $b0 >> 2       ) .
+                self::encode6Bits($b0 >> 2) .
                 self::encode6Bits((($b0 << 4) | ($b1 >> 4)) & 63) .
                 self::encode6Bits((($b1 << 2) | ($b2 >> 6)) & 63) .
-                self::encode6Bits(  $b2                     & 63);
+                self::encode6Bits($b2 & 63);
         }
         // The last chunk, which may have padding:
         if ($i < $srcLen) {
@@ -77,7 +77,7 @@ class ParagonIE_Sodium_Core_Base64_Original
                 }
             } else {
                 $dest .=
-                    self::encode6Bits( $b0 >> 2) .
+                    self::encode6Bits($b0 >> 2) .
                     self::encode6Bits(($b0 << 4) & 63);
                 if ($pad) {
                     $dest .= '==';
@@ -118,17 +118,17 @@ class ParagonIE_Sodium_Core_Base64_Original
             }
             if (($srcLen & 3) === 1) {
                 throw new RangeException(
-                    'Incorrect padding'
+                    'Incorrect padding',
                 );
             }
             if ($src[$srcLen - 1] === '=') {
                 throw new RangeException(
-                    'Incorrect padding'
+                    'Incorrect padding',
                 );
             }
         } else {
             $src = rtrim($src, '=');
-            $srcLen =  ParagonIE_Sodium_Core_Util::strlen($src);
+            $srcLen = ParagonIE_Sodium_Core_Util::strlen($src);
         }
 
         $err = 0;
@@ -146,7 +146,7 @@ class ParagonIE_Sodium_Core_Base64_Original
                 'CCC',
                 ((($c0 << 2) | ($c1 >> 4)) & 0xff),
                 ((($c1 << 4) | ($c2 >> 2)) & 0xff),
-                ((($c2 << 6) | $c3) & 0xff)
+                ((($c2 << 6) | $c3) & 0xff),
             );
             $err |= ($c0 | $c1 | $c2 | $c3) >> 8;
         }
@@ -162,14 +162,14 @@ class ParagonIE_Sodium_Core_Base64_Original
                 $dest .= pack(
                     'CC',
                     ((($c0 << 2) | ($c1 >> 4)) & 0xff),
-                    ((($c1 << 4) | ($c2 >> 2)) & 0xff)
+                    ((($c1 << 4) | ($c2 >> 2)) & 0xff),
                 );
                 $err |= ($c0 | $c1 | $c2) >> 8;
             } elseif ($i + 1 < $srcLen) {
                 $c1 = self::decode6Bits($chunk[2]);
                 $dest .= pack(
                     'C',
-                    ((($c0 << 2) | ($c1 >> 4)) & 0xff)
+                    ((($c0 << 2) | ($c1 >> 4)) & 0xff),
                 );
                 $err |= ($c0 | $c1) >> 8;
             } elseif ($i < $srcLen && $strictPadding) {
@@ -180,7 +180,7 @@ class ParagonIE_Sodium_Core_Base64_Original
         $check = ($err === 0);
         if (!$check) {
             throw new RangeException(
-                'Base64::decode() only expects characters in the correct base64 alphabet'
+                'Base64::decode() only expects characters in the correct base64 alphabet',
             );
         }
         return $dest;

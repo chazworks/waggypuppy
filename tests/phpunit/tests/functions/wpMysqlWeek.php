@@ -17,12 +17,11 @@ class Tests_Functions_WpMysqlWeek extends WP_UnitTestCase
      */
     public function test_wp_mysql_week($date, $start_of_week, $expected_sql)
     {
-
         add_filter(
             'pre_option_start_of_week',
             static function ($value) use ($start_of_week) {
                 return $start_of_week ?? $value;
-            }
+            },
         );
 
         $this->assertSame($expected_sql, _wp_mysql_week('col_name'));

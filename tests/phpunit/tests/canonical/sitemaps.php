@@ -64,8 +64,8 @@ class Tests_Canonical_Sitemaps extends WP_Canonical_UnitTestCase
      * @return array[] {
      *     Data to test with.
      *
-     *     @type string $0 The test URL.
-     *     @type string $1 The expected canonical URL.
+     * @type string $0 The test URL.
+     * @type string $1 The expected canonical URL.
      * }
      */
     public function data_sitemaps_canonical_pretty_redirects()
@@ -106,8 +106,8 @@ class Tests_Canonical_Sitemaps extends WP_Canonical_UnitTestCase
      * @return array[] {
      *     Data to test with.
      *
-     *     @type string $0 The test URL.
-     *     @type string $1 The expected canonical URL.
+     * @type string $0 The test URL.
+     * @type string $1 The expected canonical URL.
      * }
      */
     public function data_sitemaps_canonical_ugly_redirects()
@@ -118,7 +118,10 @@ class Tests_Canonical_Sitemaps extends WP_Canonical_UnitTestCase
             ['/?sitemap=posts&sitemap-subtype=post', '/?sitemap=posts&sitemap-subtype=post'],
             ['/?sitemap=posts&sitemap-subtype=post&paged=2', '/?sitemap=posts&sitemap-subtype=post&paged=2'],
             ['/?sitemap=taxonomies&sitemap-subtype=category', '/?sitemap=taxonomies&sitemap-subtype=category'],
-            ['/?sitemap=taxonomies&sitemap-subtype=category&paged=2', '/?sitemap=taxonomies&sitemap-subtype=category&paged=2'],
+            [
+                '/?sitemap=taxonomies&sitemap-subtype=category&paged=2',
+                '/?sitemap=taxonomies&sitemap-subtype=category&paged=2',
+            ],
         ];
     }
 }

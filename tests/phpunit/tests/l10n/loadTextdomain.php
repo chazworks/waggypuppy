@@ -12,9 +12,9 @@ class Tests_L10n_LoadTextdomain extends WP_UnitTestCase
     {
         self::$user_id = $factory->user->create(
             [
-                'role'   => 'administrator',
+                'role' => 'administrator',
                 'locale' => 'de_DE',
-            ]
+            ],
         );
     }
 
@@ -30,7 +30,6 @@ class Tests_L10n_LoadTextdomain extends WP_UnitTestCase
 
     public function tear_down()
     {
-
         /** @var WP_Textdomain_Registry $wp_textdomain_registry */
         global $wp_textdomain_registry;
 
@@ -198,7 +197,8 @@ class Tests_L10n_LoadTextdomain extends WP_UnitTestCase
     public function test_override_load_textdomain_custom_mofile()
     {
         add_filter('override_load_textdomain', [$this, 'override_load_textdomain_filter'], 10, 3);
-        $load_textdomain = load_textdomain('wp-tests-domain', WP_LANG_DIR . '/plugins/internationalized-plugin-de_DE.mo');
+        $load_textdomain = load_textdomain('wp-tests-domain',
+            WP_LANG_DIR . '/plugins/internationalized-plugin-de_DE.mo');
         remove_filter('override_load_textdomain', [$this, 'override_load_textdomain_filter']);
 
         $is_textdomain_loaded = is_textdomain_loaded('wp-tests-domain');
@@ -211,22 +211,22 @@ class Tests_L10n_LoadTextdomain extends WP_UnitTestCase
     }
 
     /**
-     * @param bool   $override Whether to override the .mo file loading. Default false.
-     * @param string $domain   Text domain. Unique identifier for retrieving translated strings.
-     * @param string $file     Path to the MO file.
+     * @param bool $override Whether to override the .mo file loading. Default false.
+     * @param string $domain Text domain. Unique identifier for retrieving translated strings.
+     * @param string $file Path to the MO file.
      * @return bool
      */
     public function override_load_textdomain_filter($override, $domain, $file)
     {
         global $l10n;
 
-        if (! is_readable($file)) {
+        if (!is_readable($file)) {
             return false;
         }
 
         $mo = new MO();
 
-        if (! $mo->import_from_file($file)) {
+        if (!$mo->import_from_file($file)) {
             return false;
         }
 
@@ -253,7 +253,8 @@ class Tests_L10n_LoadTextdomain extends WP_UnitTestCase
         load_plugin_textdomain('wp-tests-domain');
         remove_filter('pre_load_textdomain', '__return_true');
 
-        $this->assertSame(0, $override_load_textdomain_callback->get_call_count(), 'Expected override_load_textdomain not to be called.');
+        $this->assertSame(0, $override_load_textdomain_callback->get_call_count(),
+            'Expected override_load_textdomain not to be called.');
     }
 
     /**

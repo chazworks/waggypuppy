@@ -26,26 +26,26 @@ class WP_Theme_JSON_Schema
      * This will be applied at both the defaults and individual block levels.
      */
     const V1_TO_V2_RENAMED_PATHS = [
-        'border.customRadius'         => 'border.radius',
-        'spacing.customMargin'        => 'spacing.margin',
-        'spacing.customPadding'       => 'spacing.padding',
+        'border.customRadius' => 'border.radius',
+        'spacing.customMargin' => 'spacing.margin',
+        'spacing.customPadding' => 'spacing.padding',
         'typography.customLineHeight' => 'typography.lineHeight',
     ];
 
     /**
      * Function that migrates a given theme.json structure to the last version.
      *
-     * @since 5.9.0
-     * @since 6.6.0 Migrate up to v3 and add $origin parameter.
-     *
      * @param array $theme_json The structure to migrate.
-     * @param string $origin    Optional. What source of data this object represents.
+     * @param string $origin Optional. What source of data this object represents.
      *                          One of 'blocks', 'default', 'theme', or 'custom'. Default 'theme'.
      * @return array The structure in the last version.
+     * @since 6.6.0 Migrate up to v3 and add $origin parameter.
+     *
+     * @since 5.9.0
      */
     public static function migrate($theme_json, $origin = 'theme')
     {
-        if (! isset($theme_json['version'])) {
+        if (!isset($theme_json['version'])) {
             $theme_json = [
                 'version' => WP_Theme_JSON::LATEST_SCHEMA,
             ];
@@ -55,7 +55,7 @@ class WP_Theme_JSON_Schema
         switch ($theme_json['version']) {
             case 1:
                 $theme_json = self::migrate_v1_to_v2($theme_json);
-                // Deliberate fall through. Once migrated to v2, also migrate to v3.
+            // Deliberate fall through. Once migrated to v2, also migrate to v3.
             case 2:
                 $theme_json = self::migrate_v2_to_v3($theme_json, $origin);
         }
@@ -72,11 +72,11 @@ class WP_Theme_JSON_Schema
      * 'spacing.customPadding'       => 'spacing.padding',
      * 'typography.customLineHeight' => 'typography.lineHeight',
      *
-     * @since 5.9.0
-     *
      * @param array $old Data to migrate.
      *
      * @return array Data without the custom prefixes.
+     * @since 5.9.0
+     *
      */
     private static function migrate_v1_to_v2($old)
     {
@@ -102,12 +102,12 @@ class WP_Theme_JSON_Schema
      * - Prevents settings.spacing.spacingSizes from merging with settings.spacing.spacingScale by
      *   unsetting spacingScale when spacingSizes are defined.
      *
-     * @since 6.6.0
-     *
-     * @param array $old     Data to migrate.
+     * @param array $old Data to migrate.
      * @param string $origin What source of data this object represents.
      *                       One of 'blocks', 'default', 'theme', or 'custom'.
      * @return array Data with defaultFontSizes set to false.
+     * @since 6.6.0
+     *
      */
     private static function migrate_v2_to_v3($old, $origin)
     {
@@ -143,8 +143,8 @@ class WP_Theme_JSON_Schema
          * previously hardcoded to false. This only needs to happen when the
          * theme provided spacing sizes via spacingSizes or spacingScale.
          */
-        if (isset($old['settings']['spacing']['spacingSizes']) ||
-            isset($old['settings']['spacing']['spacingScale'])
+        if (isset($old['settings']['spacing']['spacingSizes'])
+            || isset($old['settings']['spacing']['spacingScale'])
         ) {
             $new['settings']['spacing']['defaultSpacingSizes'] = false;
         }
@@ -168,12 +168,12 @@ class WP_Theme_JSON_Schema
     /**
      * Processes the settings subtree.
      *
-     * @since 5.9.0
-     *
-     * @param array $settings        Array to process.
+     * @param array $settings Array to process.
      * @param array $paths_to_rename Paths to rename.
      *
      * @return array The settings in the new format.
+     * @since 5.9.0
+     *
      */
     private static function rename_paths($settings, $paths_to_rename)
     {
@@ -195,16 +195,16 @@ class WP_Theme_JSON_Schema
     /**
      * Processes a settings array, renaming or moving properties.
      *
+     * @param array $settings Reference to settings either defaults or an individual block's.
+     * @param array $paths_to_rename Paths to rename.
      * @since 5.9.0
      *
-     * @param array $settings        Reference to settings either defaults or an individual block's.
-     * @param array $paths_to_rename Paths to rename.
      */
     private static function rename_settings(&$settings, $paths_to_rename)
     {
         foreach ($paths_to_rename as $original => $renamed) {
             $original_path = explode('.', $original);
-            $renamed_path  = explode('.', $renamed);
+            $renamed_path = explode('.', $renamed);
             $current_value = _wp_array_get($settings, $original_path, null);
 
             if (null !== $current_value) {
@@ -217,15 +217,15 @@ class WP_Theme_JSON_Schema
     /**
      * Removes a property from within the provided settings by its path.
      *
-     * @since 5.9.0
-     *
      * @param array $settings Reference to the current settings array.
      * @param array $path Path to the property to be removed.
+     * @since 5.9.0
+     *
      */
     private static function unset_setting_by_path(&$settings, $path)
     {
         $tmp_settings = &$settings;
-        $last_key     = array_pop($path);
+        $last_key = array_pop($path);
         foreach ($path as $key) {
             $tmp_settings = &$tmp_settings[$key];
         }

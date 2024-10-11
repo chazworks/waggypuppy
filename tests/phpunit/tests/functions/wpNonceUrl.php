@@ -14,25 +14,25 @@ class Tests_Functions_WpNonceUrl extends WP_UnitTestCase
      *
      * @dataProvider data_should_append_nonce_name_and_value
      *
-     * @param string     $actionurl URL to add nonce action.
-     * @param int|string $action    Optional. Nonce action name. Default -1.
-     * @param string     $name      Optional. Nonce name. Default '_wpnonce'.
+     * @param string $actionurl URL to add nonce action.
+     * @param int|string $action Optional. Nonce action name. Default -1.
+     * @param string $name Optional. Nonce name. Default '_wpnonce'.
      */
     public function test_should_append_nonce_name_and_value($actionurl, $action = -1, $name = '_wpnonce')
     {
-        $actual        = wp_nonce_url($actionurl, $action, $name);
+        $actual = wp_nonce_url($actionurl, $action, $name);
         $url_with_name = "$actionurl?$name=";
-        $nonce         = str_replace($url_with_name, '', $actual);
+        $nonce = str_replace($url_with_name, '', $actual);
 
         $this->assertStringContainsString(
             $url_with_name,
             $actual,
-            'The URL did not contain the action URL and the nonce name'
+            'The URL did not contain the action URL and the nonce name',
         );
 
         $this->assertNotFalse(
             wp_verify_nonce($nonce, $action),
-            'The nonce is invalid'
+            'The nonce is invalid',
         );
     }
 
@@ -44,56 +44,56 @@ class Tests_Functions_WpNonceUrl extends WP_UnitTestCase
     public function data_should_append_nonce_name_and_value()
     {
         return [
-            'http:// and default action/name'             => [
+            'http:// and default action/name' => [
                 'actionurl' => 'http://example.org/',
             ],
-            'http:// and a custom nonce action'           => [
+            'http:// and a custom nonce action' => [
                 'actionurl' => 'http://example.org/',
-                'action'    => 'my_action',
+                'action' => 'my_action',
             ],
-            'http:// and a custom nonce name'             => [
+            'http:// and a custom nonce name' => [
                 'actionurl' => 'http://example.org/',
-                'action'    => -1,
-                'name'      => 'my_nonce',
+                'action' => -1,
+                'name' => 'my_nonce',
             ],
-            'http:// and a custom nonce action and name'  => [
+            'http:// and a custom nonce action and name' => [
                 'actionurl' => 'http://example.org/',
-                'action'    => 'my_action',
-                'name'      => 'my_nonce',
+                'action' => 'my_action',
+                'name' => 'my_nonce',
             ],
-            'https:// and default action/name'            => [
+            'https:// and default action/name' => [
                 'actionurl' => 'https://example.org/',
             ],
-            'https:// and a custom nonce action'          => [
+            'https:// and a custom nonce action' => [
                 'actionurl' => 'https://example.org/',
-                'action'    => 'my_action',
+                'action' => 'my_action',
             ],
-            'https:// and a custom nonce name'            => [
+            'https:// and a custom nonce name' => [
                 'actionurl' => 'https://example.org/',
-                'action'    => -1,
-                'name'      => 'my_nonce',
+                'action' => -1,
+                'name' => 'my_nonce',
             ],
             'https:// and a custom nonce action and name' => [
                 'actionurl' => 'https://example.org/',
-                'action'    => 'my_action',
-                'name'      => 'my_nonce',
+                'action' => 'my_action',
+                'name' => 'my_nonce',
             ],
-            '/ and default nonce action/name'             => [
+            '/ and default nonce action/name' => [
                 'actionurl' => '/',
             ],
-            '/ and a custom nonce action'                 => [
+            '/ and a custom nonce action' => [
                 'actionurl' => '/',
-                'action'    => 'my_action',
+                'action' => 'my_action',
             ],
-            '/ and a custom nonce name'                   => [
+            '/ and a custom nonce name' => [
                 'actionurl' => '/',
-                'action'    => -1,
-                'name'      => 'my_nonce',
+                'action' => -1,
+                'name' => 'my_nonce',
             ],
-            '/ and a custom nonce action and name'        => [
+            '/ and a custom nonce action and name' => [
                 'actionurl' => '/',
-                'action'    => 'my_action',
-                'name'      => 'my_nonce',
+                'action' => 'my_action',
+                'name' => 'my_nonce',
             ],
         ];
     }
@@ -106,7 +106,7 @@ class Tests_Functions_WpNonceUrl extends WP_UnitTestCase
      * @dataProvider data_should_handle_existing_query_args
      *
      * @param string $actionurl URL to add nonce action.
-     * @param string $expected  The expected result.
+     * @param string $expected The expected result.
      */
     public function test_should_handle_existing_query_args($actionurl, $expected)
     {
@@ -115,13 +115,13 @@ class Tests_Functions_WpNonceUrl extends WP_UnitTestCase
         $this->assertStringStartsWith(
             $expected,
             $actual,
-            'The nonced URL did not start with the expected value.'
+            'The nonced URL did not start with the expected value.',
         );
 
         $this->assertSame(
             strlen($expected) + 10,
             strlen($actual),
-            'The nonced URL was not the expected length.'
+            'The nonced URL was not the expected length.',
         );
     }
 
@@ -133,17 +133,17 @@ class Tests_Functions_WpNonceUrl extends WP_UnitTestCase
     public function data_should_handle_existing_query_args()
     {
         return [
-            'one query arg'            => [
+            'one query arg' => [
                 'actionurl' => 'http://example.org/?hello=world',
-                'expected'  => 'http://example.org/?hello=world&amp;_wpnonce=',
+                'expected' => 'http://example.org/?hello=world&amp;_wpnonce=',
             ],
-            'two query args'           => [
+            'two query args' => [
                 'actionurl' => 'http://example.org/?hello=world&howdy=admin',
-                'expected'  => 'http://example.org/?hello=world&amp;howdy=admin&amp;_wpnonce=',
+                'expected' => 'http://example.org/?hello=world&amp;howdy=admin&amp;_wpnonce=',
             ],
             'two query args and &amp;' => [
                 'actionurl' => 'http://example.org/?hello=world&amp;howdy=admin',
-                'expected'  => 'http://example.org/?hello=world&amp;howdy=admin&amp;_wpnonce=',
+                'expected' => 'http://example.org/?hello=world&amp;howdy=admin&amp;_wpnonce=',
             ],
         ];
     }

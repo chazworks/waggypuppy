@@ -3,11 +3,13 @@
  */
 
 /* global ajaxurl, pwsL10n, userProfileL10n, ClipboardJS */
-(function($) {
+( function ( $ ) {
 	var updateLock = false,
 		isSubmitting = false,
 		__ = wp.i18n.__,
-		clipboard = new ClipboardJS( '.application-password-display .copy-button' ),
+		clipboard = new ClipboardJS(
+			'.application-password-display .copy-button'
+		),
 		$pass1Row,
 		$pass1,
 		$pass2,
@@ -57,7 +59,7 @@
 		$( '#pw-weak-text-label' ).text( __( 'Confirm use of weak password' ) );
 
 		// Focus the password field.
-		if ( 'mailserver_pass' !== $pass1.prop('id' ) ) {
+		if ( 'mailserver_pass' !== $pass1.prop( 'id' ) ) {
 			$( $pass1 ).trigger( 'focus' );
 		}
 	}
@@ -84,15 +86,17 @@
 
 	function resetToggle( show ) {
 		$toggleButton
-			.attr({
-				'aria-label': show ? __( 'Show password' ) : __( 'Hide password' )
-			})
+			.attr( {
+				'aria-label': show
+					? __( 'Show password' )
+					: __( 'Hide password' ),
+			} )
 			.find( '.text' )
-				.text( show ? __( 'Show' ) : __( 'Hide' ) )
+			.text( show ? __( 'Show' ) : __( 'Hide' ) )
 			.end()
 			.find( '.dashicons' )
-				.removeClass( show ? 'dashicons-hidden' : 'dashicons-visibility' )
-				.addClass( show ? 'dashicons-visibility' : 'dashicons-hidden' );
+			.removeClass( show ? 'dashicons-hidden' : 'dashicons-visibility' )
+			.addClass( show ? 'dashicons-visibility' : 'dashicons-hidden' );
 	}
 
 	function bindToggleButton() {
@@ -100,7 +104,7 @@
 			// Do not rebind.
 			return;
 		}
-		$toggleButton = $pass1Row.find('.wp-hide-pw');
+		$toggleButton = $pass1Row.find( '.wp-hide-pw' );
 		$toggleButton.show().on( 'click', function () {
 			if ( 'password' === $pass1.attr( 'type' ) ) {
 				$pass1.attr( 'type', 'text' );
@@ -109,7 +113,7 @@
 				$pass1.attr( 'type', 'password' );
 				resetToggle( true );
 			}
-		});
+		} );
 	}
 
 	/**
@@ -117,31 +121,29 @@
 	 * a password reset email.
 	 */
 	function bindPasswordResetLink() {
-		$( '#generate-reset-link' ).on( 'click', function() {
-			var $this  = $(this),
+		$( '#generate-reset-link' ).on( 'click', function () {
+			var $this = $( this ),
 				data = {
-					'user_id': userProfileL10n.user_id, // The user to send a reset to.
-					'nonce':   userProfileL10n.nonce    // Nonce to validate the action.
+					user_id: userProfileL10n.user_id, // The user to send a reset to.
+					nonce: userProfileL10n.nonce, // Nonce to validate the action.
 				};
 
-				// Remove any previous error messages.
-				$this.parent().find( '.notice-error' ).remove();
+			// Remove any previous error messages.
+			$this.parent().find( '.notice-error' ).remove();
 
-				// Send the reset request.
-				var resetAction =  wp.ajax.post( 'send-password-reset', data );
+			// Send the reset request.
+			var resetAction = wp.ajax.post( 'send-password-reset', data );
 
-				// Handle reset success.
-				resetAction.done( function( response ) {
-					addInlineNotice( $this, true, response );
-				} );
+			// Handle reset success.
+			resetAction.done( function ( response ) {
+				addInlineNotice( $this, true, response );
+			} );
 
-				// Handle reset failure.
-				resetAction.fail( function( response ) {
-					addInlineNotice( $this, false, response );
-				} );
-
-		});
-
+			// Handle reset failure.
+			resetAction.fail( function ( response ) {
+				addInlineNotice( $this, false, response );
+			} );
+		} );
 	}
 
 	/**
@@ -154,7 +156,7 @@
 	 */
 	function addInlineNotice( $this, success, message ) {
 		var resultDiv = $( '<div />', {
-			role: 'alert'
+			role: 'alert',
 		} );
 
 		// Set up the notice div.
@@ -164,7 +166,9 @@
 		resultDiv.addClass( 'notice-' + ( success ? 'success' : 'error' ) );
 
 		// Add the message, wrapping in a p tag, with a fadein to highlight each message.
-		resultDiv.text( $( $.parseHTML( message ) ).text() ).wrapInner( '<p />');
+		resultDiv
+			.text( $( $.parseHTML( message ) ).text() )
+			.wrapInner( '<p />' );
 
 		// Disable the button when the callback has succeeded.
 		$this.prop( 'disabled', success );
@@ -177,27 +181,31 @@
 	}
 
 	function bindPasswordForm() {
-		var $generateButton,
-			$cancelButton;
+		var $generateButton, $cancelButton;
 
-		$pass1Row = $( '.user-pass1-wrap, .user-pass-wrap, .mailserver-pass-wrap, .reset-pass-submit' );
+		$pass1Row = $(
+			'.user-pass1-wrap, .user-pass-wrap, .mailserver-pass-wrap, .reset-pass-submit'
+		);
 
 		// Hide the confirm password field when JavaScript support is enabled.
-		$('.user-pass2-wrap').hide();
+		$( '.user-pass2-wrap' ).hide();
 
 		$submitButton = $( '#submit, #wp-submit' ).on( 'click', function () {
 			updateLock = false;
-		});
+		} );
 
 		$submitButtons = $submitButton.add( ' #createusersub' );
 
 		$weakRow = $( '.pw-weak' );
 		$weakCheckbox = $weakRow.find( '.pw-checkbox' );
-		$weakCheckbox.on( 'change', function() {
-			$submitButtons.prop( 'disabled', ! $weakCheckbox.prop( 'checked' ) );
+		$weakCheckbox.on( 'change', function () {
+			$submitButtons.prop(
+				'disabled',
+				! $weakCheckbox.prop( 'checked' )
+			);
 		} );
 
-		$pass1 = $('#pass1, #mailserver_pass');
+		$pass1 = $( '#pass1, #mailserver_pass' );
 		if ( $pass1.length ) {
 			bindPass1();
 		} else {
@@ -214,7 +222,7 @@
 		$pass2 = $( '#pass2' ).on( 'input', function () {
 			if ( $pass2.val().length > 0 ) {
 				$pass1.val( $pass2.val() );
-				$pass2.val('');
+				$pass2.val( '' );
 				currentPass = '';
 				$pass1.trigger( 'pwupdate' );
 			}
@@ -227,7 +235,7 @@
 		}
 
 		$passwordWrapper = $pass1Row.find( '.wp-pwd' );
-		$generateButton  = $pass1Row.find( 'button.wp-generate-pw' );
+		$generateButton = $pass1Row.find( 'button.wp-generate-pw' );
 
 		bindToggleButton();
 
@@ -236,10 +244,10 @@
 			updateLock = true;
 
 			// Make sure the password fields are shown.
-			$generateButton.not( '.skip-aria-expanded' ).attr( 'aria-expanded', 'true' );
-			$passwordWrapper
-				.show()
-				.addClass( 'is-open' );
+			$generateButton
+				.not( '.skip-aria-expanded' )
+				.attr( 'aria-expanded', 'true' );
+			$passwordWrapper.show().addClass( 'is-open' );
 
 			// Enable the inputs when showing.
 			$pass1.attr( 'disabled', false );
@@ -249,13 +257,12 @@
 			generatePassword();
 
 			// Show generated password in plaintext by default.
-			resetToggle ( false );
+			resetToggle( false );
 
 			// Generate the next password and cache.
-			wp.ajax.post( 'generate-password' )
-				.done( function( data ) {
-					$pass1.data( 'pw', data );
-				} );
+			wp.ajax.post( 'generate-password' ).done( function ( data ) {
+				$pass1.data( 'pw', data );
+			} );
 		} );
 
 		$cancelButton = $pass1Row.find( 'button.wp-cancel-pw' );
@@ -271,9 +278,7 @@
 			resetToggle( false );
 
 			// Hide password controls.
-			$passwordWrapper
-				.hide()
-				.removeClass( 'is-open' );
+			$passwordWrapper.hide().removeClass( 'is-open' );
 
 			// Stop an empty password from being submitted as a change.
 			$submitButtons.prop( 'disabled', false );
@@ -287,46 +292,65 @@
 			$pass1.prop( 'disabled', false );
 			$pass2.prop( 'disabled', false );
 			$pass2.val( $pass1.val() );
-		});
+		} );
 	}
 
 	function check_pass_strength() {
-		var pass1 = $('#pass1').val(), strength;
+		var pass1 = $( '#pass1' ).val(),
+			strength;
 
-		$('#pass-strength-result').removeClass('short bad good strong empty');
-		if ( ! pass1 || '' ===  pass1.trim() ) {
+		$( '#pass-strength-result' ).removeClass(
+			'short bad good strong empty'
+		);
+		if ( ! pass1 || '' === pass1.trim() ) {
 			$( '#pass-strength-result' ).addClass( 'empty' ).html( '&nbsp;' );
 			return;
 		}
 
-		strength = wp.passwordStrength.meter( pass1, wp.passwordStrength.userInputDisallowedList(), pass1 );
+		strength = wp.passwordStrength.meter(
+			pass1,
+			wp.passwordStrength.userInputDisallowedList(),
+			pass1
+		);
 
 		switch ( strength ) {
 			case -1:
-				$( '#pass-strength-result' ).addClass( 'bad' ).html( pwsL10n.unknown );
+				$( '#pass-strength-result' )
+					.addClass( 'bad' )
+					.html( pwsL10n.unknown );
 				break;
 			case 2:
-				$('#pass-strength-result').addClass('bad').html( pwsL10n.bad );
+				$( '#pass-strength-result' )
+					.addClass( 'bad' )
+					.html( pwsL10n.bad );
 				break;
 			case 3:
-				$('#pass-strength-result').addClass('good').html( pwsL10n.good );
+				$( '#pass-strength-result' )
+					.addClass( 'good' )
+					.html( pwsL10n.good );
 				break;
 			case 4:
-				$('#pass-strength-result').addClass('strong').html( pwsL10n.strong );
+				$( '#pass-strength-result' )
+					.addClass( 'strong' )
+					.html( pwsL10n.strong );
 				break;
 			case 5:
-				$('#pass-strength-result').addClass('short').html( pwsL10n.mismatch );
+				$( '#pass-strength-result' )
+					.addClass( 'short' )
+					.html( pwsL10n.mismatch );
 				break;
 			default:
-				$('#pass-strength-result').addClass('short').html( pwsL10n.short );
+				$( '#pass-strength-result' )
+					.addClass( 'short' )
+					.html( pwsL10n.short );
 		}
 	}
 
 	function showOrHideWeakPasswordCheckbox() {
-		var passStrengthResult = $('#pass-strength-result');
+		var passStrengthResult = $( '#pass-strength-result' );
 
 		if ( passStrengthResult.length ) {
-			var passStrength = passStrengthResult[0];
+			var passStrength = passStrengthResult[ 0 ];
 
 			if ( passStrength.className ) {
 				$pass1.addClass( passStrength.className );
@@ -349,9 +373,12 @@
 	}
 
 	// Debug information copy section.
-	clipboard.on( 'success', function( e ) {
+	clipboard.on( 'success', function ( e ) {
 		var triggerElement = $( e.trigger ),
-			successElement = $( '.success', triggerElement.closest( '.application-password-display' ) );
+			successElement = $(
+				'.success',
+				triggerElement.closest( '.application-password-display' )
+			);
 
 		// Clear the selection and move focus back to the trigger.
 		e.clearSelection();
@@ -361,65 +388,86 @@
 		successElement.removeClass( 'hidden' );
 
 		// Hide success visual feedback after 3 seconds since last success.
-		successTimeout = setTimeout( function() {
+		successTimeout = setTimeout( function () {
 			successElement.addClass( 'hidden' );
 		}, 3000 );
 
 		// Handle success audible feedback.
-		wp.a11y.speak( __( 'Application password has been copied to your clipboard.' ) );
+		wp.a11y.speak(
+			__( 'Application password has been copied to your clipboard.' )
+		);
 	} );
 
-	$( function() {
-		var $colorpicker, $stylesheet, user_id, current_user_id,
-			select       = $( '#display_name' ),
+	$( function () {
+		var $colorpicker,
+			$stylesheet,
+			user_id,
+			current_user_id,
+			select = $( '#display_name' ),
 			current_name = select.val(),
-			greeting     = $( '#wp-admin-bar-my-account' ).find( '.display-name' );
+			greeting = $( '#wp-admin-bar-my-account' ).find( '.display-name' );
 
-		$( '#pass1' ).val( '' ).on( 'input' + ' pwupdate', check_pass_strength );
-		$('#pass-strength-result').show();
-		$('.color-palette').on( 'click', function() {
-			$(this).siblings('input[name="admin_color"]').prop('checked', true);
-		});
+		$( '#pass1' )
+			.val( '' )
+			.on( 'input' + ' pwupdate', check_pass_strength );
+		$( '#pass-strength-result' ).show();
+		$( '.color-palette' ).on( 'click', function () {
+			$( this )
+				.siblings( 'input[name="admin_color"]' )
+				.prop( 'checked', true );
+		} );
 
 		if ( select.length ) {
-			$('#first_name, #last_name, #nickname').on( 'blur.user_profile', function() {
-				var dub = [],
-					inputs = {
-						display_nickname  : $('#nickname').val() || '',
-						display_username  : $('#user_login').val() || '',
-						display_firstname : $('#first_name').val() || '',
-						display_lastname  : $('#last_name').val() || ''
-					};
+			$( '#first_name, #last_name, #nickname' ).on(
+				'blur.user_profile',
+				function () {
+					var dub = [],
+						inputs = {
+							display_nickname: $( '#nickname' ).val() || '',
+							display_username: $( '#user_login' ).val() || '',
+							display_firstname: $( '#first_name' ).val() || '',
+							display_lastname: $( '#last_name' ).val() || '',
+						};
 
-				if ( inputs.display_firstname && inputs.display_lastname ) {
-					inputs.display_firstlast = inputs.display_firstname + ' ' + inputs.display_lastname;
-					inputs.display_lastfirst = inputs.display_lastname + ' ' + inputs.display_firstname;
+					if ( inputs.display_firstname && inputs.display_lastname ) {
+						inputs.display_firstlast =
+							inputs.display_firstname +
+							' ' +
+							inputs.display_lastname;
+						inputs.display_lastfirst =
+							inputs.display_lastname +
+							' ' +
+							inputs.display_firstname;
+					}
+
+					$.each( $( 'option', select ), function ( i, el ) {
+						dub.push( el.value );
+					} );
+
+					$.each( inputs, function ( id, value ) {
+						if ( ! value ) {
+							return;
+						}
+
+						var val = value.replace( /<\/?[a-z][^>]*>/gi, '' );
+
+						if (
+							inputs[ id ].length &&
+							$.inArray( val, dub ) === -1
+						) {
+							dub.push( val );
+							$( '<option />', {
+								text: val,
+							} ).appendTo( select );
+						}
+					} );
 				}
-
-				$.each( $('option', select), function( i, el ){
-					dub.push( el.value );
-				});
-
-				$.each(inputs, function( id, value ) {
-					if ( ! value ) {
-						return;
-					}
-
-					var val = value.replace(/<\/?[a-z][^>]*>/gi, '');
-
-					if ( inputs[id].length && $.inArray( val, dub ) === -1 ) {
-						dub.push(val);
-						$('<option />', {
-							'text': val
-						}).appendTo( select );
-					}
-				});
-			});
+			);
 
 			/**
 			 * Replaces "Howdy, *" in the admin toolbar whenever the display name dropdown is updated for one's own profile.
 			 */
-			select.on( 'change', function() {
+			select.on( 'change', function () {
 				if ( user_id !== current_user_id ) {
 					return;
 				}
@@ -435,30 +483,37 @@
 		user_id = $( 'input#user_id' ).val();
 		current_user_id = $( 'input[name="checkuser_id"]' ).val();
 
-		$colorpicker.on( 'click.colorpicker', '.color-option', function() {
+		$colorpicker.on( 'click.colorpicker', '.color-option', function () {
 			var colors,
-				$this = $(this);
+				$this = $( this );
 
 			if ( $this.hasClass( 'selected' ) ) {
 				return;
 			}
 
 			$this.siblings( '.selected' ).removeClass( 'selected' );
-			$this.addClass( 'selected' ).find( 'input[type="radio"]' ).prop( 'checked', true );
+			$this
+				.addClass( 'selected' )
+				.find( 'input[type="radio"]' )
+				.prop( 'checked', true );
 
 			// Set color scheme.
 			if ( user_id === current_user_id ) {
 				// Load the colors stylesheet.
 				// The default color scheme won't have one, so we'll need to create an element.
 				if ( 0 === $stylesheet.length ) {
-					$stylesheet = $( '<link rel="stylesheet" />' ).appendTo( 'head' );
+					$stylesheet = $( '<link rel="stylesheet" />' ).appendTo(
+						'head'
+					);
 				}
 				$stylesheet.attr( 'href', $this.children( '.css_url' ).val() );
 
 				// Repaint icons.
 				if ( typeof wp !== 'undefined' && wp.svgPainter ) {
 					try {
-						colors = JSON.parse( $this.children( '.icon_colors' ).val() );
+						colors = JSON.parse(
+							$this.children( '.icon_colors' ).val()
+						);
 					} catch ( error ) {}
 
 					if ( colors ) {
@@ -469,44 +524,59 @@
 
 				// Update user option.
 				$.post( ajaxurl, {
-					action:       'save-user-color-scheme',
-					color_scheme: $this.children( 'input[name="admin_color"]' ).val(),
-					nonce:        $('#color-nonce').val()
-				}).done( function( response ) {
+					action: 'save-user-color-scheme',
+					color_scheme: $this
+						.children( 'input[name="admin_color"]' )
+						.val(),
+					nonce: $( '#color-nonce' ).val(),
+				} ).done( function ( response ) {
 					if ( response.success ) {
-						$( 'body' ).removeClass( response.data.previousScheme ).addClass( response.data.currentScheme );
+						$( 'body' )
+							.removeClass( response.data.previousScheme )
+							.addClass( response.data.currentScheme );
 					}
-				});
+				} );
 			}
-		});
+		} );
 
 		bindPasswordForm();
 		bindPasswordResetLink();
-		$submitButtons.on( 'click', function() {
+		$submitButtons.on( 'click', function () {
 			isSubmitting = true;
-		});
+		} );
 
 		$form = $( '#your-profile, #createuser' );
 		originalFormContent = $form.serialize();
-	});
+	} );
 
-	$( '#destroy-sessions' ).on( 'click', function( e ) {
-		var $this = $(this);
+	$( '#destroy-sessions' ).on( 'click', function ( e ) {
+		var $this = $( this );
 
-		wp.ajax.post( 'destroy-sessions', {
-			nonce: $( '#_wpnonce' ).val(),
-			user_id: $( '#user_id' ).val()
-		}).done( function( response ) {
-			$this.prop( 'disabled', true );
-			$this.siblings( '.notice' ).remove();
-			$this.before( '<div class="notice notice-success inline" role="alert"><p>' + response.message + '</p></div>' );
-		}).fail( function( response ) {
-			$this.siblings( '.notice' ).remove();
-			$this.before( '<div class="notice notice-error inline" role="alert"><p>' + response.message + '</p></div>' );
-		});
+		wp.ajax
+			.post( 'destroy-sessions', {
+				nonce: $( '#_wpnonce' ).val(),
+				user_id: $( '#user_id' ).val(),
+			} )
+			.done( function ( response ) {
+				$this.prop( 'disabled', true );
+				$this.siblings( '.notice' ).remove();
+				$this.before(
+					'<div class="notice notice-success inline" role="alert"><p>' +
+						response.message +
+						'</p></div>'
+				);
+			} )
+			.fail( function ( response ) {
+				$this.siblings( '.notice' ).remove();
+				$this.before(
+					'<div class="notice notice-error inline" role="alert"><p>' +
+						response.message +
+						'</p></div>'
+				);
+			} );
 
 		e.preventDefault();
-	});
+	} );
 
 	window.generatePassword = generatePassword;
 
@@ -516,19 +586,20 @@
 			return __( 'Your new password has not been saved.' );
 		}
 		if ( originalFormContent !== $form.serialize() && ! isSubmitting ) {
-			return __( 'The changes you made will be lost if you navigate away from this page.' );
+			return __(
+				'The changes you made will be lost if you navigate away from this page.'
+			);
 		}
-	});
+	} );
 
 	/*
 	 * We need to generate a password as soon as the Reset Password page is loaded,
 	 * to avoid double clicking the button to retrieve the first generated password.
 	 * See ticket #39638.
 	 */
-	$( function() {
+	$( function () {
 		if ( $( '.reset-pass-submit' ).length ) {
 			$( '.reset-pass-submit button.wp-generate-pw' ).trigger( 'click' );
 		}
-	});
-
-})(jQuery);
+	} );
+} )( jQuery );

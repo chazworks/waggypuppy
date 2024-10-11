@@ -13,11 +13,13 @@
 
 ?>
 <!-- wp:group {"align":"full","className":"is-style-section-5","style":{"spacing":{"padding":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"}}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignfull is-style-section-5" style="padding-top:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--60)">
+<div class="wp-block-group alignfull is-style-section-5"
+     style="padding-top:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--60)">
     <!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|10"}},"layout":{"type":"flex","orientation":"vertical","justifyContent":"stretch"}} -->
     <div class="wp-block-group">
         <!-- wp:site-title {"level":2,"textAlign":"center","style":{"typography":{"textTransform":"uppercase","fontStyle":"normal","fontWeight":"400"}},"fontSize":"x-large"} /-->
-        <!-- wp:navigation {"overlayMenu":"never","style":{"typography":{"textTransform":"uppercase","fontStyle":"normal","fontWeight":"400"},"spacing":{"blockGap":"var:preset|spacing|20"}},"fontSize":"x-large","layout":{"type":"flex","justifyContent":"center"},"ariaLabel":"<?php esc_attr_e('Social', 'twentytwentyfive'); ?>"} -->
+        <!-- wp:navigation {"overlayMenu":"never","style":{"typography":{"textTransform":"uppercase","fontStyle":"normal","fontWeight":"400"},"spacing":{"blockGap":"var:preset|spacing|20"}},"fontSize":"x-large","layout":{"type":"flex","justifyContent":"center"},"ariaLabel":"<?php esc_attr_e('Social',
+            'twentytwentyfive'); ?>"} -->
         <!-- wp:navigation-link {"label":"Facebook","url":"#"} /-->
         <!-- wp:navigation-link {"label":"Instagram","url":"#"} /-->
         <!-- wp:navigation-link {"label":"X","url":"#"} /-->
@@ -31,9 +33,9 @@
     <p class="has-text-align-center has-small-font-size">
         <?php
         printf(
-            /* Translators: Designed with WP. %1$s: WP link. */
+        /* Translators: Designed with WP. %1$s: WP link. */
             esc_html__('Designed with %1$s', 'twentytwentyfive'),
-            '<a href="' . esc_url(__('https://wp.org', 'twentytwentyfive')) . '" rel="nofollow">WP</a>'
+            '<a href="' . esc_url(__('https://wp.org', 'twentytwentyfive')) . '" rel="nofollow">WP</a>',
         );
         ?>
     </p>

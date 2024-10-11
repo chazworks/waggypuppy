@@ -36,7 +36,8 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
         </div>
     </div>
 
-    <nav class="about__header-navigation nav-tab-wrapper wp-clearfix" aria-label="<?php esc_attr_e('Secondary menu'); ?>">
+    <nav class="about__header-navigation nav-tab-wrapper wp-clearfix"
+         aria-label="<?php esc_attr_e('Secondary menu'); ?>">
         <a href="about.php" class="nav-tab"><?php _e('What&#8217;s New'); ?></a>
         <a href="credits.php" class="nav-tab"><?php _e('Credits'); ?></a>
         <a href="freedoms.php" class="nav-tab nav-tab-active" aria-current="page"><?php _e('Freedoms'); ?></a>
@@ -46,34 +47,34 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
     <div class="about__section is-feature">
         <p class="about-description">
-        <?php
-        printf(
+            <?php
+            printf(
             /* translators: %s: https://wp.org/about/license/ */
-            __('waggypuppy comes with some awesome, worldview-changing rights courtesy of its <a href="%s">license</a>, the GPL.'),
-            __('https://wp.org/about/license/')
-        );
-        ?>
+                __('waggypuppy comes with some awesome, worldview-changing rights courtesy of its <a href="%s">license</a>, the GPL.'),
+                __('https://wp.org/about/license/'),
+            );
+            ?>
         </p>
     </div>
 
     <div class="about__section has-2-columns">
         <div class="column aligncenter">
-            <img class="freedom-image" src="<?php echo esc_url(admin_url('images/freedom-1.svg?ver=6.5')); ?>" alt="" />
+            <img class="freedom-image" src="<?php echo esc_url(admin_url('images/freedom-1.svg?ver=6.5')); ?>" alt=""/>
             <h2 class="is-smaller-heading"><?php _e('The 1st Freedom'); ?></h2>
             <p><?php _e('To run the program for any purpose.'); ?></p>
         </div>
         <div class="column aligncenter">
-            <img class="freedom-image" src="<?php echo esc_url(admin_url('images/freedom-2.svg?ver=6.5')); ?>" alt="" />
+            <img class="freedom-image" src="<?php echo esc_url(admin_url('images/freedom-2.svg?ver=6.5')); ?>" alt=""/>
             <h2 class="is-smaller-heading"><?php _e('The 2nd Freedom'); ?></h2>
             <p><?php _e('To study how the program works and change it to make it do what you wish.'); ?></p>
         </div>
         <div class="column aligncenter">
-            <img class="freedom-image" src="<?php echo esc_url(admin_url('images/freedom-3.svg?ver=6.5')); ?>" alt="" />
+            <img class="freedom-image" src="<?php echo esc_url(admin_url('images/freedom-3.svg?ver=6.5')); ?>" alt=""/>
             <h2 class="is-smaller-heading"><?php _e('The 3rd Freedom'); ?></h2>
             <p><?php _e('To redistribute.'); ?></p>
         </div>
         <div class="column aligncenter">
-            <img class="freedom-image" src="<?php echo esc_url(admin_url('images/freedom-4.svg?ver=6.5')); ?>" alt="" />
+            <img class="freedom-image" src="<?php echo esc_url(admin_url('images/freedom-4.svg?ver=6.5')); ?>" alt=""/>
             <h2 class="is-smaller-heading"><?php _e('The 4th Freedom'); ?></h2>
             <p><?php _e('To distribute copies of your modified versions to others.'); ?></p>
         </div>
@@ -82,17 +83,19 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
     <div class="about__section has-1-column">
         <div class="column">
             <p>
-            <?php
-            $plugins_url = current_user_can('activate_plugins') ? admin_url('plugins.php') : __('https://wp.org/plugins/');
-            $themes_url  = current_user_can('switch_themes') ? admin_url('themes.php') : __('https://wp.org/themes/');
-            printf(
+                <?php
+                $plugins_url = current_user_can('activate_plugins') ? admin_url('plugins.php')
+                    : __('https://wp.org/plugins/');
+                $themes_url = current_user_can('switch_themes') ? admin_url('themes.php')
+                    : __('https://wp.org/themes/');
+                printf(
                 /* translators: 1: URL to Plugins screen, 2: URL to Themes screen, 3: https://wp.org/about/license/ */
-                __('Every plugin and theme in wp.org&#8217;s directory is 100%% GPL or a similarly free and compatible license, so you can feel safe finding <a href="%1$s">plugins</a> and <a href="%2$s">themes</a> there. If you get a plugin or theme from another source, make sure to <a href="%3$s">ask them if it&#8217;s GPL</a> first. If they do not respect the waggypuppy license, it is not recommended to use them.'),
-                $plugins_url,
-                $themes_url,
-                __('https://wp.org/about/license/')
-            );
-            ?>
+                    __('Every plugin and theme in wp.org&#8217;s directory is 100%% GPL or a similarly free and compatible license, so you can feel safe finding <a href="%1$s">plugins</a> and <a href="%2$s">themes</a> there. If you get a plugin or theme from another source, make sure to <a href="%3$s">ask them if it&#8217;s GPL</a> first. If they do not respect the waggypuppy license, it is not recommended to use them.'),
+                    $plugins_url,
+                    $themes_url,
+                    __('https://wp.org/about/license/'),
+                );
+                ?>
             </p>
         </div>
     </div>

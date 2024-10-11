@@ -27,16 +27,16 @@ class ParagonIE_Sodium_Core_Curve25519_Ge_Precomp
     /**
      * ParagonIE_Sodium_Core_Curve25519_Ge_Precomp constructor.
      *
-     * @internal You should not use this directly from another application
-     *
      * @param ParagonIE_Sodium_Core_Curve25519_Fe $yplusx
      * @param ParagonIE_Sodium_Core_Curve25519_Fe $yminusx
      * @param ParagonIE_Sodium_Core_Curve25519_Fe $xy2d
+     * @internal You should not use this directly from another application
+     *
      */
     public function __construct(
         $yplusx = null,
         $yminusx = null,
-        $xy2d = null
+        $xy2d = null,
     ) {
         if ($yplusx === null) {
             $yplusx = new ParagonIE_Sodium_Core_Curve25519_Fe();

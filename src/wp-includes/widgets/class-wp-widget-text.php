@@ -32,14 +32,14 @@ class WP_Widget_Text extends WP_Widget
      */
     public function __construct()
     {
-        $widget_ops  = [
-            'classname'                   => 'widget_text',
-            'description'                 => __('Arbitrary text.'),
+        $widget_ops = [
+            'classname' => 'widget_text',
+            'description' => __('Arbitrary text.'),
             'customize_selective_refresh' => true,
-            'show_instance_in_rest'       => true,
+            'show_instance_in_rest' => true,
         ];
         $control_ops = [
-            'width'  => 400,
+            'width' => 400,
             'height' => 350,
         ];
         parent::__construct('text', __('Text'), $widget_ops, $control_ops);
@@ -79,23 +79,22 @@ class WP_Widget_Text extends WP_Widget
     /**
      * Determines whether a given instance is legacy and should bypass using TinyMCE.
      *
-     * @since 4.8.1
-     *
      * @param array $instance {
      *     Instance data.
      *
-     *     @type string      $text   Content.
-     *     @type bool|string $filter Whether autop or content filters should apply.
-     *     @type bool        $legacy Whether widget is in legacy mode.
+     * @type string $text Content.
+     * @type bool|string $filter Whether autop or content filters should apply.
+     * @type bool $legacy Whether widget is in legacy mode.
      * }
      * @return bool Whether Text widget instance contains legacy data.
+     * @since 4.8.1
+     *
      */
     public function is_legacy_instance($instance)
     {
-
         // Legacy mode when not in visual mode.
         if (isset($instance['visual'])) {
-            return ! $instance['visual'];
+            return !$instance['visual'];
         }
 
         // Or, the widget has been added/updated in 4.8.0 then filter prop is 'content' and it is no longer legacy.
@@ -108,11 +107,11 @@ class WP_Widget_Text extends WP_Widget
             return false;
         }
 
-        $wpautop         = ! empty($instance['filter']);
+        $wpautop = !empty($instance['filter']);
         $has_line_breaks = (str_contains(trim($instance['text']), "\n"));
 
         // If auto-paragraphs are not enabled and there are line breaks, then ensure legacy mode.
-        if (! $wpautop && $has_line_breaks) {
+        if (!$wpautop && $has_line_breaks) {
             return true;
         }
 
@@ -122,7 +121,7 @@ class WP_Widget_Text extends WP_Widget
         }
 
         // In the rare case that DOMDocument is not available we cannot reliably sniff content and so we assume legacy.
-        if (! class_exists('DOMDocument')) {
+        if (!class_exists('DOMDocument')) {
             // @codeCoverageIgnoreStart
             return true;
             // @codeCoverageIgnoreEnd
@@ -137,8 +136,8 @@ class WP_Widget_Text extends WP_Widget
             sprintf(
                 '<!DOCTYPE html><html><head><meta charset="%s"></head><body>%s</body></html>',
                 esc_attr(get_bloginfo('charset')),
-                $instance['text']
-            )
+                $instance['text'],
+            ),
         );
         libxml_use_internal_errors($errors);
 
@@ -146,41 +145,41 @@ class WP_Widget_Text extends WP_Widget
 
         // See $allowedposttags.
         $safe_elements_attributes = [
-            'strong'  => [],
-            'em'      => [],
-            'b'       => [],
-            'i'       => [],
-            'u'       => [],
-            's'       => [],
-            'ul'      => [],
-            'ol'      => [],
-            'li'      => [],
-            'hr'      => [],
-            'abbr'    => [],
+            'strong' => [],
+            'em' => [],
+            'b' => [],
+            'i' => [],
+            'u' => [],
+            's' => [],
+            'ul' => [],
+            'ol' => [],
+            'li' => [],
+            'hr' => [],
+            'abbr' => [],
             'acronym' => [],
-            'code'    => [],
-            'dfn'     => [],
-            'a'       => [
+            'code' => [],
+            'dfn' => [],
+            'a' => [
                 'href' => true,
             ],
-            'img'     => [
+            'img' => [
                 'src' => true,
                 'alt' => true,
             ],
         ];
-        $safe_empty_elements      = ['img', 'hr', 'iframe'];
+        $safe_empty_elements = ['img', 'hr', 'iframe'];
 
         foreach ($body->getElementsByTagName('*') as $element) {
             /** @var DOMElement $element */
             $tag_name = strtolower($element->nodeName);
 
             // If the element is not safe, then the instance is legacy.
-            if (! isset($safe_elements_attributes[$tag_name])) {
+            if (!isset($safe_elements_attributes[$tag_name])) {
                 return true;
             }
 
             // If the element is not safely empty and it has empty contents, then legacy mode.
-            if (! in_array($tag_name, $safe_empty_elements, true) && '' === trim($element->textContent)) {
+            if (!in_array($tag_name, $safe_empty_elements, true) && '' === trim($element->textContent)) {
                 return true;
             }
 
@@ -189,7 +188,7 @@ class WP_Widget_Text extends WP_Widget
                 /** @var DOMAttr $attribute */
                 $attribute_name = strtolower($attribute->nodeName);
 
-                if (! isset($safe_elements_attributes[$tag_name][$attribute_name])) {
+                if (!isset($safe_elements_attributes[$tag_name][$attribute_name])) {
                     return true;
                 }
             }
@@ -205,14 +204,14 @@ class WP_Widget_Text extends WP_Widget
      * Prevents all of a site's attachments from being shown in a gallery displayed on a
      * non-singular template where a $post context is not available.
      *
-     * @since 4.9.0
-     *
      * @param array $attrs Attributes.
      * @return array Attributes.
+     * @since 4.9.0
+     *
      */
     public function _filter_gallery_shortcode_attrs($attrs)
     {
-        if (! is_singular() && empty($attrs['id']) && empty($attrs['include'])) {
+        if (!is_singular() && empty($attrs['id']) && empty($attrs['include'])) {
             $attrs['id'] = -1;
         }
         return $attrs;
@@ -221,28 +220,28 @@ class WP_Widget_Text extends WP_Widget
     /**
      * Outputs the content for the current Text widget instance.
      *
+     * @param array $args Display arguments including 'before_title', 'after_title',
+     *                        'before_widget', and 'after_widget'.
+     * @param array $instance Settings for the current Text widget instance.
      * @since 2.8.0
      *
      * @global WP_Post $post Global post object.
      *
-     * @param array $args     Display arguments including 'before_title', 'after_title',
-     *                        'before_widget', and 'after_widget'.
-     * @param array $instance Settings for the current Text widget instance.
      */
     public function widget($args, $instance)
     {
         global $post;
 
-        $title = ! empty($instance['title']) ? $instance['title'] : '';
+        $title = !empty($instance['title']) ? $instance['title'] : '';
 
         /** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
         $title = apply_filters('widget_title', $title, $instance, $this->id_base);
 
-        $text                  = ! empty($instance['text']) ? $instance['text'] : '';
-        $is_visual_text_widget = (! empty($instance['visual']) && ! empty($instance['filter']));
+        $text = !empty($instance['text']) ? $instance['text'] : '';
+        $is_visual_text_widget = (!empty($instance['visual']) && !empty($instance['filter']));
 
         // In 4.8.0 only, visual Text widgets get filter=content, without visual prop; upgrade instance props just-in-time.
-        if (! $is_visual_text_widget) {
+        if (!$is_visual_text_widget) {
             $is_visual_text_widget = (isset($instance['filter']) && 'content' === $instance['filter']);
         }
         if ($is_visual_text_widget) {
@@ -256,8 +255,10 @@ class WP_Widget_Text extends WP_Widget
          * and it applies after wpautop() to prevent corrupting HTML output added by the shortcode. When do_shortcode() is
          * added to 'widget_text_content' then do_shortcode() will be manually called when in legacy mode as well.
          */
-        $widget_text_do_shortcode_priority       = has_filter('widget_text', 'do_shortcode');
-        $should_suspend_legacy_shortcode_support = ($is_visual_text_widget && false !== $widget_text_do_shortcode_priority);
+        $widget_text_do_shortcode_priority = has_filter('widget_text', 'do_shortcode');
+        $should_suspend_legacy_shortcode_support = ($is_visual_text_widget
+            && false
+            !== $widget_text_do_shortcode_priority);
         if ($should_suspend_legacy_shortcode_support) {
             remove_filter('widget_text', 'do_shortcode', $widget_text_do_shortcode_priority);
         }
@@ -278,33 +279,32 @@ class WP_Widget_Text extends WP_Widget
         /**
          * Filters the content of the Text widget.
          *
+         * @param string $text The widget content.
+         * @param array $instance Array of settings for the current widget.
+         * @param WP_Widget_Text|WP_Widget_Custom_HTML $widget Current text or HTML widget instance.
          * @since 2.3.0
          * @since 4.4.0 Added the `$widget` parameter.
          * @since 4.8.1 The `$widget` param may now be a `WP_Widget_Custom_HTML` object in addition to a `WP_Widget_Text` object.
          *
-         * @param string                               $text     The widget content.
-         * @param array                                $instance Array of settings for the current widget.
-         * @param WP_Widget_Text|WP_Widget_Custom_HTML $widget   Current text or HTML widget instance.
          */
         $text = apply_filters('widget_text', $text, $instance, $this);
 
         if ($is_visual_text_widget) {
-
             /**
              * Filters the content of the Text widget to apply changes expected from the visual (TinyMCE) editor.
              *
              * By default a subset of the_content filters are applied, including wpautop and wptexturize.
              *
+             * @param string $text The widget content.
+             * @param array $instance Array of settings for the current widget.
+             * @param WP_Widget_Text $widget Current Text widget instance.
              * @since 4.8.0
              *
-             * @param string         $text     The widget content.
-             * @param array          $instance Array of settings for the current widget.
-             * @param WP_Widget_Text $widget   Current Text widget instance.
              */
             $text = apply_filters('widget_text_content', $text, $instance, $this);
         } else {
             // Now in legacy mode, add paragraphs and line breaks when checkbox is checked.
-            if (! empty($instance['filter'])) {
+            if (!empty($instance['filter'])) {
                 $text = wpautop($text);
             }
 
@@ -316,8 +316,8 @@ class WP_Widget_Text extends WP_Widget
              * core filter for 'widget_text_content' has been removed, or if do_shortcode() has already
              * been applied via a plugin adding do_shortcode() to 'widget_text' filters.
              */
-            if (has_filter('widget_text_content', 'do_shortcode') && ! $widget_text_do_shortcode_priority) {
-                if (! empty($instance['filter'])) {
+            if (has_filter('widget_text_content', 'do_shortcode') && !$widget_text_do_shortcode_priority) {
+                if (!empty($instance['filter'])) {
                     $text = shortcode_unautop($text);
                 }
                 $text = do_shortcode($text);
@@ -334,14 +334,15 @@ class WP_Widget_Text extends WP_Widget
         }
 
         echo $args['before_widget'];
-        if (! empty($title)) {
+        if (!empty($title)) {
             echo $args['before_title'] . $title . $args['after_title'];
         }
 
-        $text = preg_replace_callback('#<(video|iframe|object|embed)\s[^>]*>#i', [$this, 'inject_video_max_width_style'], $text);
+        $text = preg_replace_callback('#<(video|iframe|object|embed)\s[^>]*>#i',
+            [$this, 'inject_video_max_width_style'], $text);
 
         ?>
-            <div class="textwidget"><?php echo $text; ?></div>
+        <div class="textwidget"><?php echo $text; ?></div>
         <?php
         echo $args['after_widget'];
     }
@@ -349,12 +350,12 @@ class WP_Widget_Text extends WP_Widget
     /**
      * Injects max-width and removes height for videos too constrained to fit inside sidebars on frontend.
      *
+     * @param array $matches Pattern matches from preg_replace_callback.
+     * @return string HTML Output.
      * @since 4.9.0
      *
      * @see WP_Widget_Media_Video::inject_video_max_width_style()
      *
-     * @param array $matches Pattern matches from preg_replace_callback.
-     * @return string HTML Output.
      */
     public function inject_video_max_width_style($matches)
     {
@@ -368,23 +369,23 @@ class WP_Widget_Text extends WP_Widget
     /**
      * Handles updating settings for the current Text widget instance.
      *
-     * @since 2.8.0
-     *
      * @param array $new_instance New settings for this instance as input by the user via
      *                            WP_Widget::form().
      * @param array $old_instance Old settings for this instance.
      * @return array Settings to save or bool false to cancel saving.
+     * @since 2.8.0
+     *
      */
     public function update($new_instance, $old_instance)
     {
         $new_instance = wp_parse_args(
             $new_instance,
             [
-                'title'  => '',
-                'text'   => '',
+                'title' => '',
+                'text' => '',
                 'filter' => false, // For back-compat.
                 'visual' => null,  // Must be explicitly defined.
-            ]
+            ],
         );
 
         $instance = $old_instance;
@@ -396,7 +397,7 @@ class WP_Widget_Text extends WP_Widget
             $instance['text'] = wp_kses_post($new_instance['text']);
         }
 
-        $instance['filter'] = ! empty($new_instance['filter']);
+        $instance['filter'] = !empty($new_instance['filter']);
 
         // Upgrade 4.8.0 format.
         if (isset($old_instance['filter']) && 'content' === $old_instance['filter']) {
@@ -407,11 +408,11 @@ class WP_Widget_Text extends WP_Widget
         }
 
         if (isset($new_instance['visual'])) {
-            $instance['visual'] = ! empty($new_instance['visual']);
+            $instance['visual'] = !empty($new_instance['visual']);
         }
 
         // Filter is always true in visual mode.
-        if (! empty($instance['visual'])) {
+        if (!empty($instance['visual'])) {
             $instance['filter'] = true;
         }
 
@@ -445,88 +446,100 @@ class WP_Widget_Text extends WP_Widget
         wp_enqueue_editor();
         wp_enqueue_media();
         wp_enqueue_script('text-widgets');
-        wp_add_inline_script('text-widgets', sprintf('wp.textWidgets.idBases.push( %s );', wp_json_encode($this->id_base)));
+        wp_add_inline_script('text-widgets',
+            sprintf('wp.textWidgets.idBases.push( %s );', wp_json_encode($this->id_base)));
         wp_add_inline_script('text-widgets', 'wp.textWidgets.init();', 'after');
     }
 
     /**
      * Outputs the Text widget settings form.
      *
-     * @since 2.8.0
+     * @param array $instance Current settings.
      * @since 4.8.0 Form only contains hidden inputs which are synced with JS template.
      * @since 4.8.1 Restored original form to be displayed when in legacy mode.
      *
      * @see WP_Widget_Text::render_control_template_scripts()
      * @see _WP_Editors::editor()
      *
-     * @param array $instance Current settings.
+     * @since 2.8.0
      */
     public function form($instance)
     {
         $instance = wp_parse_args(
-            (array) $instance,
+            (array)$instance,
             [
                 'title' => '',
-                'text'  => '',
-            ]
+                'text' => '',
+            ],
         );
         ?>
-        <?php if (! $this->is_legacy_instance($instance)) : ?>
-            <?php
+        <?php if (!$this->is_legacy_instance($instance)) : ?>
+        <?php
 
-            if (user_can_richedit()) {
-                add_filter('the_editor_content', 'format_for_editor', 10, 2);
-                $default_editor = 'tinymce';
-            } else {
-                $default_editor = 'html';
-            }
+        if (user_can_richedit()) {
+            add_filter('the_editor_content', 'format_for_editor', 10, 2);
+            $default_editor = 'tinymce';
+        } else {
+            $default_editor = 'html';
+        }
 
-            /** This filter is documented in wp-includes/class-wp-editor.php */
-            $text = apply_filters('the_editor_content', $instance['text'], $default_editor);
+        /** This filter is documented in wp-includes/class-wp-editor.php */
+        $text = apply_filters('the_editor_content', $instance['text'], $default_editor);
 
-            // Reset filter addition.
-            if (user_can_richedit()) {
-                remove_filter('the_editor_content', 'format_for_editor');
-            }
+        // Reset filter addition.
+        if (user_can_richedit()) {
+            remove_filter('the_editor_content', 'format_for_editor');
+        }
 
-            // Prevent premature closing of textarea in case format_for_editor() didn't apply or the_editor_content filter did a wrong thing.
-            $escaped_text = preg_replace('#</textarea#i', '&lt;/textarea', $text);
+        // Prevent premature closing of textarea in case format_for_editor() didn't apply or the_editor_content filter did a wrong thing.
+        $escaped_text = preg_replace('#</textarea#i', '&lt;/textarea', $text);
 
-            ?>
-            <input id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" class="title sync-input" type="hidden" value="<?php echo esc_attr($instance['title']); ?>">
-            <textarea id="<?php echo $this->get_field_id('text'); ?>" name="<?php echo $this->get_field_name('text'); ?>" class="text sync-input" hidden><?php echo $escaped_text; ?></textarea>
-            <input id="<?php echo $this->get_field_id('filter'); ?>" name="<?php echo $this->get_field_name('filter'); ?>" class="filter sync-input" type="hidden" value="on">
-            <input id="<?php echo $this->get_field_id('visual'); ?>" name="<?php echo $this->get_field_name('visual'); ?>" class="visual sync-input" type="hidden" value="on">
-        <?php else : ?>
-            <input id="<?php echo $this->get_field_id('visual'); ?>" name="<?php echo $this->get_field_name('visual'); ?>" class="visual" type="hidden" value="">
-            <p>
-                <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label>
-                <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($instance['title']); ?>" />
-            </p>
-            <?php
-            if (! isset($instance['visual'])) {
-                $widget_info_message = __('This widget may contain code that may work better in the &#8220;Custom HTML&#8221; widget. How about trying that widget instead?');
-            } else {
-                $widget_info_message = __('This widget may have contained code that may work better in the &#8220;Custom HTML&#8221; widget. If you have not yet, how about trying that widget instead?');
-            }
+        ?>
+        <input id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>"
+               class="title sync-input" type="hidden" value="<?php echo esc_attr($instance['title']); ?>">
+        <textarea id="<?php echo $this->get_field_id('text'); ?>" name="<?php echo $this->get_field_name('text'); ?>"
+                  class="text sync-input" hidden><?php echo $escaped_text; ?></textarea>
+        <input id="<?php echo $this->get_field_id('filter'); ?>" name="<?php echo $this->get_field_name('filter'); ?>"
+               class="filter sync-input" type="hidden" value="on">
+        <input id="<?php echo $this->get_field_id('visual'); ?>" name="<?php echo $this->get_field_name('visual'); ?>"
+               class="visual sync-input" type="hidden" value="on">
+    <?php else : ?>
+        <input id="<?php echo $this->get_field_id('visual'); ?>" name="<?php echo $this->get_field_name('visual'); ?>"
+               class="visual" type="hidden" value="">
+        <p>
+            <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label>
+            <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>"
+                   name="<?php echo $this->get_field_name('title'); ?>" type="text"
+                   value="<?php echo esc_attr($instance['title']); ?>"/>
+        </p>
+        <?php
+        if (!isset($instance['visual'])) {
+            $widget_info_message = __('This widget may contain code that may work better in the &#8220;Custom HTML&#8221; widget. How about trying that widget instead?');
+        } else {
+            $widget_info_message = __('This widget may have contained code that may work better in the &#8220;Custom HTML&#8221; widget. If you have not yet, how about trying that widget instead?');
+        }
 
-            wp_admin_notice(
-                $widget_info_message,
-                [
-                    'type'               => 'info',
-                    'additional_classes' => ['notice-alt', 'inline'],
-                ]
-            );
-            ?>
-            <p>
-                <label for="<?php echo $this->get_field_id('text'); ?>"><?php _e('Content:'); ?></label>
-                <textarea class="widefat" rows="16" cols="20" id="<?php echo $this->get_field_id('text'); ?>" name="<?php echo $this->get_field_name('text'); ?>"><?php echo esc_textarea($instance['text']); ?></textarea>
-            </p>
-            <p>
-                <input id="<?php echo $this->get_field_id('filter'); ?>" name="<?php echo $this->get_field_name('filter'); ?>" type="checkbox"<?php checked(! empty($instance['filter'])); ?> />&nbsp;<label for="<?php echo $this->get_field_id('filter'); ?>"><?php _e('Automatically add paragraphs'); ?></label>
-            </p>
-            <?php
-        endif;
+        wp_admin_notice(
+            $widget_info_message,
+            [
+                'type' => 'info',
+                'additional_classes' => ['notice-alt', 'inline'],
+            ],
+        );
+        ?>
+        <p>
+            <label for="<?php echo $this->get_field_id('text'); ?>"><?php _e('Content:'); ?></label>
+            <textarea class="widefat" rows="16" cols="20" id="<?php echo $this->get_field_id('text'); ?>"
+                      name="<?php echo $this->get_field_name('text'); ?>"><?php echo esc_textarea($instance['text']); ?></textarea>
+        </p>
+        <p>
+            <input id="<?php echo $this->get_field_id('filter'); ?>"
+                   name="<?php echo $this->get_field_name('filter'); ?>"
+                   type="checkbox"<?php checked(!empty($instance['filter'])); ?> />&nbsp;<label
+                for="<?php echo $this->get_field_id('filter'); ?>"><?php _e('Automatically add paragraphs'); ?></label>
+        </p>
+    <?php
+    endif;
     }
 
     /**
@@ -537,7 +550,7 @@ class WP_Widget_Text extends WP_Widget
      */
     public static function render_control_template_scripts()
     {
-        $dismissed_pointers = explode(',', (string) get_user_meta(get_current_user_id(), 'dismissed_wp_pointers', true));
+        $dismissed_pointers = explode(',', (string)get_user_meta(get_current_user_id(), 'dismissed_wp_pointers', true));
         ?>
         <script type="text/html" id="tmpl-widget-text-control-fields">
             <# var elementIdPrefix = 'el' + String( Math.random() ).replace( /\D/g, '' ) + '_' #>
@@ -546,7 +559,7 @@ class WP_Widget_Text extends WP_Widget
                 <input id="{{ elementIdPrefix }}title" type="text" class="widefat title">
             </p>
 
-            <?php if (! in_array('text_widget_custom_html', $dismissed_pointers, true)) : ?>
+            <?php if (!in_array('text_widget_custom_html', $dismissed_pointers, true)) : ?>
                 <div hidden class="wp-pointer custom-html-widget-pointer wp-pointer-top">
                     <div class="wp-pointer-content">
                         <h3><?php _e('New Custom HTML Widget'); ?></h3>
@@ -565,7 +578,7 @@ class WP_Widget_Text extends WP_Widget
                 </div>
             <?php endif; ?>
 
-            <?php if (! in_array('text_widget_paste_html', $dismissed_pointers, true)) : ?>
+            <?php if (!in_array('text_widget_paste_html', $dismissed_pointers, true)) : ?>
                 <div hidden class="wp-pointer paste-html-pointer wp-pointer-top">
                     <div class="wp-pointer-content">
                         <h3><?php _e('Did you just paste HTML?'); ?></h3>
@@ -581,8 +594,11 @@ class WP_Widget_Text extends WP_Widget
             <?php endif; ?>
 
             <p>
-                <label for="{{ elementIdPrefix }}text" class="screen-reader-text"><?php /* translators: Hidden accessibility text. */ esc_html_e('Content:'); ?></label>
-                <textarea id="{{ elementIdPrefix }}text" class="widefat text wp-editor-area" style="height: 200px" rows="16" cols="20"></textarea>
+                <label for="{{ elementIdPrefix }}text"
+                       class="screen-reader-text"><?php /* translators: Hidden accessibility text. */
+                    esc_html_e('Content:'); ?></label>
+                <textarea id="{{ elementIdPrefix }}text" class="widefat text wp-editor-area" style="height: 200px"
+                          rows="16" cols="20"></textarea>
             </p>
         </script>
         <?php

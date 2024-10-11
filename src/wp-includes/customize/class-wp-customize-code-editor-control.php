@@ -52,31 +52,31 @@ class WP_Customize_Code_Editor_Control extends WP_Customize_Control
         $this->editor_settings = wp_enqueue_code_editor(
             array_merge(
                 [
-                    'type'       => $this->code_type,
+                    'type' => $this->code_type,
                     'codemirror' => [
                         'indentUnit' => 2,
-                        'tabSize'    => 2,
+                        'tabSize' => 2,
                     ],
                 ],
-                $this->editor_settings
-            )
+                $this->editor_settings,
+            ),
         );
     }
 
     /**
      * Refresh the parameters passed to the JavaScript via JSON.
      *
-     * @since 4.9.0
-     *
+     * @return array Array of parameters passed to the JavaScript.
      * @see WP_Customize_Control::json()
      *
-     * @return array Array of parameters passed to the JavaScript.
+     * @since 4.9.0
+     *
      */
     public function json()
     {
-        $json                    = parent::json();
+        $json = parent::json();
         $json['editor_settings'] = $this->editor_settings;
-        $json['input_attrs']     = $this->input_attrs;
+        $json['input_attrs'] = $this->input_attrs;
         return $json;
     }
 
@@ -85,8 +85,7 @@ class WP_Customize_Code_Editor_Control extends WP_Customize_Control
      *
      * @since 4.9.0
      */
-    public function render_content()
-    {}
+    public function render_content() {}
 
     /**
      * Render a JS template for control display.
@@ -98,19 +97,19 @@ class WP_Customize_Code_Editor_Control extends WP_Customize_Control
         ?>
         <# var elementIdPrefix = 'el' + String( Math.random() ); #>
         <# if ( data.label ) { #>
-            <label for="{{ elementIdPrefix }}_editor" class="customize-control-title">
-                {{ data.label }}
-            </label>
+        <label for="{{ elementIdPrefix }}_editor" class="customize-control-title">
+            {{ data.label }}
+        </label>
         <# } #>
         <# if ( data.description ) { #>
-            <span class="description customize-control-description">{{{ data.description }}}</span>
+        <span class="description customize-control-description">{{{ data.description }}}</span>
         <# } #>
         <div class="customize-control-notifications-container"></div>
         <textarea id="{{ elementIdPrefix }}_editor"
-            <# _.each( _.extend( { 'class': 'code' }, data.input_attrs ), function( value, key ) { #>
-                {{{ key }}}="{{ value }}"
-            <# }); #>
-            ></textarea>
+        <# _.each( _.extend( { 'class': 'code' }, data.input_attrs ), function( value, key ) { #>
+        {{{ key }}}="{{ value }}"
+        <# }); #>
+        ></textarea>
         <?php
     }
 }

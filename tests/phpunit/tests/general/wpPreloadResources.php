@@ -35,227 +35,242 @@ class Tests_General_wpPreloadResources extends WP_UnitTestCase
     public function data_preload_resources()
     {
         return [
-            'basic_preload'          => [
+            'basic_preload' => [
                 'expected' => "<link rel='preload' href='https://example.com/style.css' as='style' />\n",
-                'urls'     => [
+                'urls' => [
                     [
                         'href' => 'https://example.com/style.css',
-                        'as'   => 'style',
+                        'as' => 'style',
                     ],
                 ],
             ],
-            'multiple_links'         => [
+            'multiple_links' => [
                 'expected' => "<link rel='preload' href='https://example.com/style.css' as='style' />\n" .
-                            "<link rel='preload' href='https://example.com/main.js' as='script' />\n",
-                'urls'     => [
+                    "<link rel='preload' href='https://example.com/main.js' as='script' />\n",
+                'urls' => [
                     [
                         'href' => 'https://example.com/style.css',
-                        'as'   => 'style',
+                        'as' => 'style',
                     ],
                     [
                         'href' => 'https://example.com/main.js',
-                        'as'   => 'script',
+                        'as' => 'script',
                     ],
                 ],
             ],
-            'MIME_types'             => [
+            'MIME_types' => [
                 'expected' => "<link rel='preload' href='https://example.com/style.css' as='style' />\n" .
-                            "<link rel='preload' href='https://example.com/video.mp4' as='video' type='video/mp4' />\n" .
-                            "<link rel='preload' href='https://example.com/main.js' as='script' />\n",
-                'urls'     => [
+                    "<link rel='preload' href='https://example.com/video.mp4' as='video' type='video/mp4' />\n" .
+                    "<link rel='preload' href='https://example.com/main.js' as='script' />\n",
+                'urls' => [
                     [
                         // Should ignore not valid attributes.
-                        'not'  => 'valid',
+                        'not' => 'valid',
                         'href' => 'https://example.com/style.css',
-                        'as'   => 'style',
+                        'as' => 'style',
                     ],
                     [
                         'href' => 'https://example.com/video.mp4',
-                        'as'   => 'video',
+                        'as' => 'video',
                         'type' => 'video/mp4',
                     ],
                     [
                         'href' => 'https://example.com/main.js',
-                        'as'   => 'script',
+                        'as' => 'script',
                     ],
                 ],
             ],
-            'CORS'                   => [
-                'expected' => "<link rel='preload' href='https://example.com/style.css' as='style' crossorigin='anonymous' />\n" .
-                            "<link rel='preload' href='https://example.com/video.mp4' as='video' type='video/mp4' />\n" .
-                            "<link rel='preload' href='https://example.com/main.js' as='script' />\n" .
-                            "<link rel='preload' href='https://example.com/font.woff2' as='font' type='font/woff2' crossorigin />\n",
-                'urls'     => [
+            'CORS' => [
+                'expected' => "<link rel='preload' href='https://example.com/style.css' as='style' crossorigin='anonymous' />\n"
+                    .
+                    "<link rel='preload' href='https://example.com/video.mp4' as='video' type='video/mp4' />\n"
+                    .
+                    "<link rel='preload' href='https://example.com/main.js' as='script' />\n"
+                    .
+                    "<link rel='preload' href='https://example.com/font.woff2' as='font' type='font/woff2' crossorigin />\n",
+                'urls' => [
                     [
-                        'href'        => 'https://example.com/style.css',
-                        'as'          => 'style',
+                        'href' => 'https://example.com/style.css',
+                        'as' => 'style',
                         'crossorigin' => 'anonymous',
                     ],
                     [
                         'href' => 'https://example.com/video.mp4',
-                        'as'   => 'video',
+                        'as' => 'video',
                         'type' => 'video/mp4',
                     ],
                     [
                         'href' => 'https://example.com/main.js',
-                        'as'   => 'script',
+                        'as' => 'script',
                     ],
                     [
                         // Should ignore not valid attributes.
                         'ignore' => 'ignore',
-                        'href'   => 'https://example.com/font.woff2',
-                        'as'     => 'font',
-                        'type'   => 'font/woff2',
+                        'href' => 'https://example.com/font.woff2',
+                        'as' => 'font',
+                        'type' => 'font/woff2',
                         'crossorigin',
                     ],
                 ],
             ],
-            'media'                  => [
-                'expected' => "<link rel='preload' href='https://example.com/style.css' as='style' crossorigin='anonymous' />\n" .
-                            "<link rel='preload' href='https://example.com/video.mp4' as='video' type='video/mp4' />\n" .
-                            "<link rel='preload' href='https://example.com/main.js' as='script' />\n" .
-                            "<link rel='preload' href='https://example.com/font.woff2' as='font' type='font/woff2' crossorigin />\n" .
-                            "<link rel='preload' href='https://example.com/image-narrow.png' as='image' media='(max-width: 600px)' />\n" .
-                            "<link rel='preload' href='https://example.com/image-wide.png' as='image' media='(min-width: 601px)' />\n",
-                'urls'     => [
+            'media' => [
+                'expected' => "<link rel='preload' href='https://example.com/style.css' as='style' crossorigin='anonymous' />\n"
+                    .
+                    "<link rel='preload' href='https://example.com/video.mp4' as='video' type='video/mp4' />\n"
+                    .
+                    "<link rel='preload' href='https://example.com/main.js' as='script' />\n"
+                    .
+                    "<link rel='preload' href='https://example.com/font.woff2' as='font' type='font/woff2' crossorigin />\n"
+                    .
+                    "<link rel='preload' href='https://example.com/image-narrow.png' as='image' media='(max-width: 600px)' />\n"
+                    .
+                    "<link rel='preload' href='https://example.com/image-wide.png' as='image' media='(min-width: 601px)' />\n",
+                'urls' => [
                     [
-                        'href'        => 'https://example.com/style.css',
-                        'as'          => 'style',
+                        'href' => 'https://example.com/style.css',
+                        'as' => 'style',
                         'crossorigin' => 'anonymous',
                     ],
                     [
                         'href' => 'https://example.com/video.mp4',
-                        'as'   => 'video',
+                        'as' => 'video',
                         'type' => 'video/mp4',
                     ],
                     // Duplicated href should be ignored.
                     [
                         'href' => 'https://example.com/video.mp4',
-                        'as'   => 'video',
+                        'as' => 'video',
                         'type' => 'video/mp4',
                     ],
                     [
                         'href' => 'https://example.com/main.js',
-                        'as'   => 'script',
+                        'as' => 'script',
                     ],
                     [
                         'href' => 'https://example.com/font.woff2',
-                        'as'   => 'font',
+                        'as' => 'font',
                         'type' => 'font/woff2',
                         'crossorigin',
                     ],
                     [
-                        'href'  => 'https://example.com/image-narrow.png',
-                        'as'    => 'image',
+                        'href' => 'https://example.com/image-narrow.png',
+                        'as' => 'image',
                         'media' => '(max-width: 600px)',
                     ],
                     [
-                        'href'  => 'https://example.com/image-wide.png',
-                        'as'    => 'image',
+                        'href' => 'https://example.com/image-wide.png',
+                        'as' => 'image',
                         'media' => '(min-width: 601px)',
                     ],
 
                 ],
             ],
             'media_extra_attributes' => [
-                'expected' => "<link rel='preload' href='https://example.com/style.css' as='style' crossorigin='anonymous' />\n" .
-                            "<link rel='preload' href='https://example.com/video.mp4' as='video' type='video/mp4' />\n" .
-                            "<link rel='preload' href='https://example.com/main.js' as='script' />\n" .
-                            "<link rel='preload' href='https://example.com/font.woff2' as='font' type='font/woff2' crossorigin />\n" .
-                            "<link rel='preload' href='https://example.com/image-640.png' as='image' imagesrcset='640.png 640w, 800.png 800w, 1024.png 1024w' imagesizes='100vw' />\n" .
-                            "<link rel='preload' as='image' imagesrcset='640.png 640w, 800.png 800w, 1024.png 1024w' imagesizes='100vw' />\n" .
-                            "<link rel='preload' href='https://example.com/image-wide.png' as='image' media='(min-width: 601px)' />\n" .
-                            "<link rel='preload' href='https://example.com/image-800.png' as='image' imagesrcset='640.png 640w, 800.png 800w, 1024.png 1024w' />\n",
-                'urls'     => [
+                'expected' => "<link rel='preload' href='https://example.com/style.css' as='style' crossorigin='anonymous' />\n"
+                    .
+                    "<link rel='preload' href='https://example.com/video.mp4' as='video' type='video/mp4' />\n"
+                    .
+                    "<link rel='preload' href='https://example.com/main.js' as='script' />\n"
+                    .
+                    "<link rel='preload' href='https://example.com/font.woff2' as='font' type='font/woff2' crossorigin />\n"
+                    .
+                    "<link rel='preload' href='https://example.com/image-640.png' as='image' imagesrcset='640.png 640w, 800.png 800w, 1024.png 1024w' imagesizes='100vw' />\n"
+                    .
+                    "<link rel='preload' as='image' imagesrcset='640.png 640w, 800.png 800w, 1024.png 1024w' imagesizes='100vw' />\n"
+                    .
+                    "<link rel='preload' href='https://example.com/image-wide.png' as='image' media='(min-width: 601px)' />\n"
+                    .
+                    "<link rel='preload' href='https://example.com/image-800.png' as='image' imagesrcset='640.png 640w, 800.png 800w, 1024.png 1024w' />\n",
+                'urls' => [
                     [
-                        'href'        => 'https://example.com/style.css',
-                        'as'          => 'style',
+                        'href' => 'https://example.com/style.css',
+                        'as' => 'style',
                         'crossorigin' => 'anonymous',
                     ],
                     [
                         'href' => 'https://example.com/video.mp4',
-                        'as'   => 'video',
+                        'as' => 'video',
                         'type' => 'video/mp4',
                     ],
                     [
                         'href' => 'https://example.com/main.js',
-                        'as'   => 'script',
+                        'as' => 'script',
                     ],
                     [
                         'href' => 'https://example.com/font.woff2',
-                        'as'   => 'font',
+                        'as' => 'font',
                         'type' => 'font/woff2',
                         'crossorigin',
                     ],
                     // imagesrcset only possible when using image, ignore.
                     [
-                        'href'        => 'https://example.com/font.woff2',
-                        'as'          => 'font',
-                        'type'        => 'font/woff2',
+                        'href' => 'https://example.com/font.woff2',
+                        'as' => 'font',
+                        'type' => 'font/woff2',
                         'imagesrcset' => '640.png 640w, 800.png 800w, 1024.png 1024w',
                     ],
                     // imagesizes only possible when using image, ignore.
                     [
-                        'href'       => 'https://example.com/font.woff2',
-                        'as'         => 'font',
-                        'type'       => 'font/woff2',
+                        'href' => 'https://example.com/font.woff2',
+                        'as' => 'font',
+                        'type' => 'font/woff2',
                         'imagesizes' => '100vw',
                     ],
                     // Duplicated href should be ignored.
                     [
                         'href' => 'https://example.com/font.woff2',
-                        'as'   => 'font',
+                        'as' => 'font',
                         'type' => 'font/woff2',
                         'crossorigin',
                     ],
                     [
-                        'href'        => 'https://example.com/image-640.png',
-                        'as'          => 'image',
+                        'href' => 'https://example.com/image-640.png',
+                        'as' => 'image',
                         'imagesrcset' => '640.png 640w, 800.png 800w, 1024.png 1024w',
-                        'imagesizes'  => '100vw',
+                        'imagesizes' => '100vw',
                     ],
                     // Omit href so that unsupporting browsers won't request a useless image.
                     [
-                        'as'          => 'image',
+                        'as' => 'image',
                         'imagesrcset' => '640.png 640w, 800.png 800w, 1024.png 1024w',
-                        'imagesizes'  => '100vw',
+                        'imagesizes' => '100vw',
                     ],
                     // Duplicated imagesrcset should be ignored.
                     [
-                        'as'          => 'image',
+                        'as' => 'image',
                         'imagesrcset' => '640.png 640w, 800.png 800w, 1024.png 1024w',
-                        'imagesizes'  => '100vw',
+                        'imagesizes' => '100vw',
                     ],
                     [
-                        'href'  => 'https://example.com/image-wide.png',
-                        'as'    => 'image',
+                        'href' => 'https://example.com/image-wide.png',
+                        'as' => 'image',
                         'media' => '(min-width: 601px)',
                     ],
                     // No href but not imagesrcset, should be ignored.
                     [
-                        'as'    => 'image',
+                        'as' => 'image',
                         'media' => '(min-width: 601px)',
                     ],
                     // imagesizes is optional.
                     [
-                        'href'        => 'https://example.com/image-800.png',
-                        'as'          => 'image',
+                        'href' => 'https://example.com/image-800.png',
+                        'as' => 'image',
                         'imagesrcset' => '640.png 640w, 800.png 800w, 1024.png 1024w',
                     ],
                     // imagesizes should be ignored since imagesrcset not present.
                     [
-                        'href'       => 'https://example.com/image-640.png',
-                        'as'         => 'image',
+                        'href' => 'https://example.com/image-640.png',
+                        'as' => 'image',
                         'imagesizes' => '100vw',
                     ],
                 ],
             ],
-            'fetchpriority'          => [
-                'expected'  => "<link rel='preload' href='https://example.com/image.jpg' as='image' fetchpriority='high' />\n",
+            'fetchpriority' => [
+                'expected' => "<link rel='preload' href='https://example.com/image.jpg' as='image' fetchpriority='high' />\n",
                 'resources' => [
                     [
-                        'href'          => 'https://example.com/image.jpg',
-                        'as'            => 'image',
+                        'href' => 'https://example.com/image.jpg',
+                        'as' => 'image',
                         'fetchpriority' => 'high',
                     ],
                 ],

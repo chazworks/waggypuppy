@@ -29,17 +29,17 @@ class Tests_Filesystem_WpFilesystemDirect_Size extends WP_Filesystem_Direct_Unit
      */
     public function test_should_determine_file_size($path)
     {
-        $result       = self::$filesystem->size(self::$file_structure['test_dir']['path'] . $path);
+        $result = self::$filesystem->size(self::$file_structure['test_dir']['path'] . $path);
         $has_filesize = false !== $result;
 
         $this->assertTrue(
             $has_filesize,
-            'The file size was not determined.'
+            'The file size was not determined.',
         );
 
         $this->assertIsInt(
             $result,
-            'The file size is not an integer.'
+            'The file size is not an integer.',
         );
     }
 
@@ -55,12 +55,12 @@ class Tests_Filesystem_WpFilesystemDirect_Size extends WP_Filesystem_Direct_Unit
      */
     public function test_should_not_determine_file_size($path)
     {
-        $result       = self::$filesystem->size(self::$file_structure['test_dir']['path'] . $path);
+        $result = self::$filesystem->size(self::$file_structure['test_dir']['path'] . $path);
         $has_filesize = false !== $result;
 
         $this->assertFalse(
             $has_filesize,
-            'A file size was determined.'
+            'A file size was determined.',
         );
     }
 }

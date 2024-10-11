@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tests for WP_Block_Bindings_Registry.
  *
@@ -12,7 +13,7 @@
 class Tests_Blocks_wpBlockBindingsRegistry extends WP_UnitTestCase
 {
 
-    public static $test_source_name       = 'test/source';
+    public static $test_source_name = 'test/source';
     public static $test_source_properties = [];
 
     /**
@@ -35,11 +36,11 @@ class Tests_Blocks_wpBlockBindingsRegistry extends WP_UnitTestCase
         $this->registry = new WP_Block_Bindings_Registry();
 
         self::$test_source_properties = [
-            'label'              => 'Test source',
+            'label' => 'Test source',
             'get_value_callback' => function () {
                 return 'test-value';
             },
-            'uses_context'       => ['sourceContext'],
+            'uses_context' => ['sourceContext'],
         ];
     }
 
@@ -126,7 +127,6 @@ class Tests_Blocks_wpBlockBindingsRegistry extends WP_UnitTestCase
      */
     public function test_register_invalid_missing_label()
     {
-
         // Remove the label from the properties.
         unset(self::$test_source_properties['label']);
 
@@ -145,7 +145,6 @@ class Tests_Blocks_wpBlockBindingsRegistry extends WP_UnitTestCase
      */
     public function test_register_invalid_missing_get_value_callback()
     {
-
         // Remove the get_value_callback from the properties.
         unset(self::$test_source_properties['get_value_callback']);
 
@@ -164,7 +163,6 @@ class Tests_Blocks_wpBlockBindingsRegistry extends WP_UnitTestCase
      */
     public function test_register_invalid_incorrect_callback_type()
     {
-
         self::$test_source_properties['get_value_callback'] = 'not-a-callback';
 
         $result = $this->registry->register(self::$test_source_name, self::$test_source_properties);
@@ -182,7 +180,6 @@ class Tests_Blocks_wpBlockBindingsRegistry extends WP_UnitTestCase
      */
     public function test_register_invalid_string_uses_context()
     {
-
         self::$test_source_properties['uses_context'] = 'not-an-array';
 
         $result = $this->registry->register(self::$test_source_name, self::$test_source_properties);
@@ -203,15 +200,15 @@ class Tests_Blocks_wpBlockBindingsRegistry extends WP_UnitTestCase
         $this->assertEquals(
             new WP_Block_Bindings_Source(
                 self::$test_source_name,
-                self::$test_source_properties
+                self::$test_source_properties,
             ),
-            $result
+            $result,
         );
         $this->assertSame('test/source', $result->name);
         $this->assertSame('Test source', $result->label);
         $this->assertSame(
             'test-value',
-            $result->get_value([], null, '')
+            $result->get_value([], null, ''),
         );
         $this->assertEquals(['sourceContext'], $result->uses_context);
     }
@@ -248,9 +245,9 @@ class Tests_Blocks_wpBlockBindingsRegistry extends WP_UnitTestCase
         $this->assertEquals(
             new WP_Block_Bindings_Source(
                 self::$test_source_name,
-                self::$test_source_properties
+                self::$test_source_properties,
             ),
-            $result
+            $result,
         );
     }
 
@@ -265,21 +262,21 @@ class Tests_Blocks_wpBlockBindingsRegistry extends WP_UnitTestCase
      */
     public function test_get_all_registered()
     {
-        $source_one_name       = 'test/source-one';
+        $source_one_name = 'test/source-one';
         $source_one_properties = self::$test_source_properties;
         $this->registry->register($source_one_name, $source_one_properties);
 
-        $source_two_name       = 'test/source-two';
+        $source_two_name = 'test/source-two';
         $source_two_properties = self::$test_source_properties;
         $this->registry->register($source_two_name, $source_two_properties);
 
-        $source_three_name       = 'test/source-three';
+        $source_three_name = 'test/source-three';
         $source_three_properties = self::$test_source_properties;
         $this->registry->register($source_three_name, $source_three_properties);
 
         $expected = [
-            $source_one_name   => new WP_Block_Bindings_Source($source_one_name, $source_one_properties),
-            $source_two_name   => new WP_Block_Bindings_Source($source_two_name, $source_two_properties),
+            $source_one_name => new WP_Block_Bindings_Source($source_one_name, $source_one_properties),
+            $source_two_name => new WP_Block_Bindings_Source($source_two_name, $source_two_properties),
             $source_three_name => new WP_Block_Bindings_Source($source_three_name, $source_three_properties),
         ];
 
@@ -314,24 +311,24 @@ class Tests_Blocks_wpBlockBindingsRegistry extends WP_UnitTestCase
      */
     public function test_get_registered()
     {
-        $source_one_name       = 'test/source-one';
+        $source_one_name = 'test/source-one';
         $source_one_properties = self::$test_source_properties;
         $this->registry->register($source_one_name, $source_one_properties);
 
-        $source_two_name       = 'test/source-two';
+        $source_two_name = 'test/source-two';
         $source_two_properties = self::$test_source_properties;
         $this->registry->register($source_two_name, $source_two_properties);
 
-        $source_three_name       = 'test/source-three';
+        $source_three_name = 'test/source-three';
         $source_three_properties = self::$test_source_properties;
         $this->registry->register($source_three_name, $source_three_properties);
 
         $expected = new WP_Block_Bindings_Source($source_two_name, $source_two_properties);
-        $result   = $this->registry->get_registered('test/source-two');
+        $result = $this->registry->get_registered('test/source-two');
 
         $this->assertEquals(
             $expected,
-            $result
+            $result,
         );
     }
 

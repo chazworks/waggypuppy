@@ -18,23 +18,23 @@ class Tests_Term_Cache extends WP_UnitTestCase
     public function test_category_children_cache()
     {
         // Test with only one Parent => Child.
-        $term_id1       = self::factory()->category->create();
+        $term_id1 = self::factory()->category->create();
         $term_id1_child = self::factory()->category->create(['parent' => $term_id1]);
-        $hierarchy      = _get_term_hierarchy('category');
+        $hierarchy = _get_term_hierarchy('category');
 
         $this->assertSame([$term_id1 => [$term_id1_child]], $hierarchy);
 
         // Add another Parent => Child.
-        $term_id2       = self::factory()->category->create();
+        $term_id2 = self::factory()->category->create();
         $term_id2_child = self::factory()->category->create(['parent' => $term_id2]);
-        $hierarchy      = _get_term_hierarchy('category');
+        $hierarchy = _get_term_hierarchy('category');
 
         $this->assertSame(
             [
                 $term_id1 => [$term_id1_child],
                 $term_id2 => [$term_id2_child],
             ],
-            $hierarchy
+            $hierarchy,
         );
     }
 
@@ -43,11 +43,11 @@ class Tests_Term_Cache extends WP_UnitTestCase
      */
     public function test_category_name_change()
     {
-        $term    = self::factory()->category->create_and_get(['name' => 'Foo']);
+        $term = self::factory()->category->create_and_get(['name' => 'Foo']);
         $post_id = self::factory()->post->create();
         wp_set_post_categories($post_id, $term->term_id);
 
-        $post  = get_post($post_id);
+        $post = get_post($post_id);
         $cats1 = get_the_category($post->ID);
         $this->assertSame($term->name, reset($cats1)->name);
 
@@ -65,18 +65,18 @@ class Tests_Term_Cache extends WP_UnitTestCase
         register_taxonomy($tax, 'post', ['hierarchical' => true]);
         $this->assertTrue(get_taxonomy($tax)->hierarchical);
 
-        $step      = 1;
+        $step = 1;
         $parent_id = 0;
-        $children  = 0;
+        $children = 0;
 
         foreach (range(1, 9) as $i) {
             switch ($step) {
                 case 1:
-                    $parent    = wp_insert_term('Parent' . $i, $tax);
+                    $parent = wp_insert_term('Parent' . $i, $tax);
                     $parent_id = $parent['term_id'];
                     break;
                 case 2:
-                    $parent    = wp_insert_term('Child' . $i, $tax, ['parent' => $parent_id]);
+                    $parent = wp_insert_term('Child' . $i, $tax, ['parent' => $parent_id]);
                     $parent_id = $parent['term_id'];
                     ++$children;
                     break;
@@ -111,7 +111,7 @@ class Tests_Term_Cache extends WP_UnitTestCase
         $term = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
 
         $term_object = get_term($term, 'wptests_tax');
@@ -135,7 +135,7 @@ class Tests_Term_Cache extends WP_UnitTestCase
         $term = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
 
         wp_cache_delete($term, 'terms');
@@ -163,7 +163,7 @@ class Tests_Term_Cache extends WP_UnitTestCase
         $term = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
 
         wp_cache_delete($term, 'terms');
@@ -196,14 +196,14 @@ class Tests_Term_Cache extends WP_UnitTestCase
             5,
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
 
         $term_objects = get_terms(
             'wptests_tax',
             [
                 'hide_empty' => false,
-            ]
+            ],
         );
 
         $num_queries = get_num_queries();
@@ -244,16 +244,16 @@ class Tests_Term_Cache extends WP_UnitTestCase
     {
         $term_id = self::factory()->term->create(
             [
-                'slug'     => 'burrito',
-                'name'     => 'Taco',
+                'slug' => 'burrito',
+                'name' => 'Taco',
                 'taxonomy' => 'post_tag',
-            ]
+            ],
         );
 
         clean_term_cache($term_id, 'post_tag');
         $num_queries = get_num_queries();
 
-        $term        = get_term_by('slug', 'burrito', 'post_tag');
+        $term = get_term_by('slug', 'burrito', 'post_tag');
         $num_queries = $num_queries + 2;
         $this->assertSame('Taco', $term->name);
         $this->assertSame($num_queries, get_num_queries());
@@ -274,16 +274,16 @@ class Tests_Term_Cache extends WP_UnitTestCase
     {
         $term_id = self::factory()->term->create(
             [
-                'slug'     => 'burrito',
-                'name'     => 'Taco',
+                'slug' => 'burrito',
+                'name' => 'Taco',
                 'taxonomy' => 'post_tag',
-            ]
+            ],
         );
 
         clean_term_cache($term_id, 'post_tag');
         $num_queries = get_num_queries();
 
-        $term        = get_term_by('slug', 'burrito', 'post_tag');
+        $term = get_term_by('slug', 'burrito', 'post_tag');
         $num_queries = $num_queries + 2;
         $this->assertSame('Taco', $term->name);
         $this->assertSame($num_queries, get_num_queries());
@@ -298,7 +298,7 @@ class Tests_Term_Cache extends WP_UnitTestCase
         $num_queries = get_num_queries();
 
         // This should not hit cache.
-        $term        = get_term_by('slug', 'burrito', 'post_tag');
+        $term = get_term_by('slug', 'burrito', 'post_tag');
         $num_queries = $num_queries + 2;
         $this->assertSame('No Taco', $term->name);
         $this->assertSame($num_queries, get_num_queries());
@@ -311,10 +311,10 @@ class Tests_Term_Cache extends WP_UnitTestCase
     {
         $term_id = self::factory()->term->create(
             [
-                'name'     => 'Burrito',
-                'slug'     => 'noburrito',
+                'name' => 'Burrito',
+                'slug' => 'noburrito',
                 'taxonomy' => 'post_tag',
-            ]
+            ],
         );
 
         clean_term_cache($term_id, 'post_tag');
@@ -339,10 +339,10 @@ class Tests_Term_Cache extends WP_UnitTestCase
     {
         $term_id = self::factory()->term->create(
             [
-                'name'     => 'Burrito',
-                'slug'     => 'noburrito',
+                'name' => 'Burrito',
+                'slug' => 'noburrito',
                 'taxonomy' => 'post_tag',
-            ]
+            ],
         );
 
         clean_term_cache($term_id, 'post_tag');
@@ -373,16 +373,16 @@ class Tests_Term_Cache extends WP_UnitTestCase
     {
         $term_id = self::factory()->term->create(
             [
-                'name'     => 'Burrito',
+                'name' => 'Burrito',
                 'taxonomy' => 'post_tag',
-            ]
+            ],
         );
 
         clean_term_cache($term_id, 'post_tag');
-        $num_queries  = get_num_queries();
+        $num_queries = get_num_queries();
         $last_changed = wp_cache_get('last_changed', 'terms');
 
-        $term1       = get_term_by('name', 'Burrito', 'post_tag');
+        $term1 = get_term_by('name', 'Burrito', 'post_tag');
         $num_queries = $num_queries + 2;
 
         // Verify the term is cached.
@@ -415,16 +415,16 @@ class Tests_Term_Cache extends WP_UnitTestCase
     {
         $term_id = self::factory()->term->create(
             [
-                'name'     => 'Burrito',
+                'name' => 'Burrito',
                 'taxonomy' => 'post_tag',
-            ]
+            ],
         );
         add_term_meta($term_id, 'foo', 'bar');
 
         clean_term_cache($term_id, 'post_tag');
         $num_queries = get_num_queries();
 
-        $term        = get_term_by('name', 'Burrito', 'post_tag');
+        $term = get_term_by('name', 'Burrito', 'post_tag');
         $num_queries = $num_queries + 2;
         $this->assertInstanceOf('WP_Term', $term);
         $this->assertSame($term_id, $term->term_id);
@@ -455,7 +455,7 @@ class Tests_Term_Cache extends WP_UnitTestCase
          * Modify cached array to insert an empty term ID,
          * which will trigger an error in get_term().
          */
-        $cached_ids   = wp_cache_get($p, 'wptests_tax_relationships');
+        $cached_ids = wp_cache_get($p, 'wptests_tax_relationships');
         $cached_ids[] = 0;
         wp_cache_set($p, $cached_ids, 'wptests_tax_relationships');
 
@@ -475,22 +475,22 @@ class Tests_Term_Cache extends WP_UnitTestCase
             'post',
             [
                 'hierarchical' => true,
-            ]
+            ],
         );
 
         $parent = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
 
         $children = get_terms(
             [
-                'taxonomy'   => 'wptests_tax',
+                'taxonomy' => 'wptests_tax',
                 'hide_empty' => false,
-                'parent'     => $parent,
-                'fields'     => 'ids',
-            ]
+                'parent' => $parent,
+                'fields' => 'ids',
+            ],
         );
 
         $this->assertEmpty($children, 'No child terms are expected to exist.');
@@ -500,19 +500,20 @@ class Tests_Term_Cache extends WP_UnitTestCase
             'wptests_tax',
             [
                 'parent' => $parent,
-            ]
+            ],
         );
 
         $children = get_terms(
             [
-                'taxonomy'   => 'wptests_tax',
+                'taxonomy' => 'wptests_tax',
                 'hide_empty' => false,
-                'parent'     => $parent,
-                'fields'     => 'ids',
-            ]
+                'parent' => $parent,
+                'fields' => 'ids',
+            ],
         );
 
         $this->assertNotEmpty($children, 'Child terms are expected to exist.');
-        $this->assertContains($child['term_id'], $children, 'Querying by parent ID is expected to include the new child term.');
+        $this->assertContains($child['term_id'], $children,
+            'Querying by parent ID is expected to include the new child term.');
     }
 }

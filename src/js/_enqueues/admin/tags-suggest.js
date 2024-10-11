@@ -3,12 +3,12 @@
  *
  * @output wp-admin/js/tags-suggest.js
  */
-( function( $ ) {
+( function ( $ ) {
 	var tempID = 0;
 	var separator = wp.i18n._x( ',', 'tag delimiter' ) || ',';
 	var __ = wp.i18n.__,
-	    _n = wp.i18n._n,
-	    sprintf = wp.i18n.sprintf;
+		_n = wp.i18n._n,
+		sprintf = wp.i18n.sprintf;
 
 	function split( val ) {
 		return val.split( new RegExp( separator + '\\s*' ) );
@@ -32,7 +32,7 @@
 	 * @param {Object} options Options that are passed to UI Autocomplete. Can be used to override the default settings.
 	 * @return {Object} jQuery instance.
 	 */
-	$.fn.wpTagsSuggest = function( options ) {
+	$.fn.wpTagsSuggest = function ( options ) {
 		var cache;
 		var last;
 		var $element = $( this );
@@ -44,116 +44,132 @@
 
 		options = options || {};
 
-		var taxonomy = options.taxonomy || $element.attr( 'data-wp-taxonomy' ) || 'post_tag';
+		var taxonomy =
+			options.taxonomy ||
+			$element.attr( 'data-wp-taxonomy' ) ||
+			'post_tag';
 
-		delete( options.taxonomy );
+		delete options.taxonomy;
 
-		options = $.extend( {
-			source: function( request, response ) {
-				var term;
+		options = $.extend(
+			{
+				source: function ( request, response ) {
+					var term;
 
-				if ( last === request.term ) {
-					response( cache );
-					return;
-				}
+					if ( last === request.term ) {
+						response( cache );
+						return;
+					}
 
-				term = getLast( request.term );
+					term = getLast( request.term );
 
-				$.get( window.ajaxurl, {
-					action: 'ajax-tag-search',
-					tax: taxonomy,
-					q: term,
-					number: 20
-				} ).always( function() {
-					$element.removeClass( 'ui-autocomplete-loading' ); // UI fails to remove this sometimes?
-				} ).done( function( data ) {
-					var tagName;
-					var tags = [];
+					$.get( window.ajaxurl, {
+						action: 'ajax-tag-search',
+						tax: taxonomy,
+						q: term,
+						number: 20,
+					} )
+						.always( function () {
+							$element.removeClass( 'ui-autocomplete-loading' ); // UI fails to remove this sometimes?
+						} )
+						.done( function ( data ) {
+							var tagName;
+							var tags = [];
 
-					if ( data ) {
-						data = data.split( '\n' );
+							if ( data ) {
+								data = data.split( '\n' );
 
-						for ( tagName in data ) {
-							var id = ++tempID;
+								for ( tagName in data ) {
+									var id = ++tempID;
 
-							tags.push({
-								id: id,
-								name: data[tagName]
-							});
+									tags.push( {
+										id: id,
+										name: data[ tagName ],
+									} );
+								}
+
+								cache = tags;
+								response( tags );
+							} else {
+								response( tags );
+							}
+						} );
+
+					last = request.term;
+				},
+				focus: function ( event, ui ) {
+					$element.attr(
+						'aria-activedescendant',
+						'wp-tags-autocomplete-' + ui.item.id
+					);
+
+					// Don't empty the input field when using the arrow keys
+					// to highlight items. See api.jqueryui.com/autocomplete/#event-focus
+					event.preventDefault();
+				},
+				select: function ( event, ui ) {
+					var tags = split( $element.val() );
+					// Remove the last user input.
+					tags.pop();
+					// Append the new tag and an empty element to get one more separator at the end.
+					tags.push( ui.item.name, '' );
+
+					$element.val( tags.join( separator + ' ' ) );
+
+					if ( $.ui.keyCode.TAB === event.keyCode ) {
+						// Audible confirmation message when a tag has been selected.
+						window.wp.a11y.speak(
+							wp.i18n.__( 'Term selected.' ),
+							'assertive'
+						);
+						event.preventDefault();
+					} else if ( $.ui.keyCode.ENTER === event.keyCode ) {
+						// If we're in the edit post Tags meta box, add the tag.
+						if ( window.tagBox ) {
+							window.tagBox.userAction = 'add';
+							window.tagBox.flushTags(
+								$( this ).closest( '.tagsdiv' )
+							);
 						}
 
-						cache = tags;
-						response( tags );
-					} else {
-						response( tags );
-					}
-				} );
-
-				last = request.term;
-			},
-			focus: function( event, ui ) {
-				$element.attr( 'aria-activedescendant', 'wp-tags-autocomplete-' + ui.item.id );
-
-				// Don't empty the input field when using the arrow keys
-				// to highlight items. See api.jqueryui.com/autocomplete/#event-focus
-				event.preventDefault();
-			},
-			select: function( event, ui ) {
-				var tags = split( $element.val() );
-				// Remove the last user input.
-				tags.pop();
-				// Append the new tag and an empty element to get one more separator at the end.
-				tags.push( ui.item.name, '' );
-
-				$element.val( tags.join( separator + ' ' ) );
-
-				if ( $.ui.keyCode.TAB === event.keyCode ) {
-					// Audible confirmation message when a tag has been selected.
-					window.wp.a11y.speak( wp.i18n.__( 'Term selected.' ), 'assertive' );
-					event.preventDefault();
-				} else if ( $.ui.keyCode.ENTER === event.keyCode ) {
-					// If we're in the edit post Tags meta box, add the tag.
-					if ( window.tagBox ) {
-						window.tagBox.userAction = 'add';
-						window.tagBox.flushTags( $( this ).closest( '.tagsdiv' ) );
+						// Do not close Quick Edit / Bulk Edit.
+						event.preventDefault();
+						event.stopPropagation();
 					}
 
-					// Do not close Quick Edit / Bulk Edit.
-					event.preventDefault();
-					event.stopPropagation();
-				}
-
-				return false;
-			},
-			open: function() {
-				$element.attr( 'aria-expanded', 'true' );
-			},
-			close: function() {
-				$element.attr( 'aria-expanded', 'false' );
-			},
-			minLength: 2,
-			position: {
-				my: 'left top+2',
-				at: 'left bottom',
-				collision: 'none'
-			},
-			messages: {
-				noResults: __( 'No results found.' ),
-				results: function( number ) {
-					return sprintf(
-						/* translators: %d: Number of search results found. */
-						_n(
-							'%d result found. Use up and down arrow keys to navigate.',
-							'%d results found. Use up and down arrow keys to navigate.',
+					return false;
+				},
+				open: function () {
+					$element.attr( 'aria-expanded', 'true' );
+				},
+				close: function () {
+					$element.attr( 'aria-expanded', 'false' );
+				},
+				minLength: 2,
+				position: {
+					my: 'left top+2',
+					at: 'left bottom',
+					collision: 'none',
+				},
+				messages: {
+					noResults: __( 'No results found.' ),
+					results: function ( number ) {
+						return sprintf(
+							/* translators: %d: Number of search results found. */
+							_n(
+								'%d result found. Use up and down arrow keys to navigate.',
+								'%d results found. Use up and down arrow keys to navigate.',
+								number
+							),
 							number
-						),
-						number
-					);
-				}
-			}
-		}, options );
+						);
+					},
+				},
+			},
+			options
+		);
 
-		$element.on( 'keydown', function() {
+		$element.on( 'keydown', function () {
 			$element.removeAttr( 'aria-activedescendant' );
 		} );
 
@@ -164,30 +180,37 @@
 			return this;
 		}
 
-		$element.autocomplete( 'instance' )._renderItem = function( ul, item ) {
-			return $( '<li role="option" id="wp-tags-autocomplete-' + item.id + '">' )
+		$element.autocomplete( 'instance' )._renderItem = function (
+			ul,
+			item
+		) {
+			return $(
+				'<li role="option" id="wp-tags-autocomplete-' + item.id + '">'
+			)
 				.text( item.name )
 				.appendTo( ul );
 		};
 
-		$element.attr( {
-			'role': 'combobox',
-			'aria-autocomplete': 'list',
-			'aria-expanded': 'false',
-			'aria-owns': $element.autocomplete( 'widget' ).attr( 'id' )
-		} )
-		.on( 'focus', function() {
-			var inputValue = split( $element.val() ).pop();
+		$element
+			.attr( {
+				role: 'combobox',
+				'aria-autocomplete': 'list',
+				'aria-expanded': 'false',
+				'aria-owns': $element.autocomplete( 'widget' ).attr( 'id' ),
+			} )
+			.on( 'focus', function () {
+				var inputValue = split( $element.val() ).pop();
 
-			// Don't trigger a search if the field is empty.
-			// Also, avoids screen readers announce `No search results`.
-			if ( inputValue ) {
-				$element.autocomplete( 'search' );
-			}
-		} );
+				// Don't trigger a search if the field is empty.
+				// Also, avoids screen readers announce `No search results`.
+				if ( inputValue ) {
+					$element.autocomplete( 'search' );
+				}
+			} );
 
 		// Returns a jQuery object containing the menu element.
-		$element.autocomplete( 'widget' )
+		$element
+			.autocomplete( 'widget' )
 			.addClass( 'wp-tags-autocomplete' )
 			.attr( 'role', 'listbox' )
 			.removeAttr( 'tabindex' ) // Remove the `tabindex=0` attribute added by jQuery UI.
@@ -197,16 +220,17 @@
 			 * The `menufocus` and `menublur` events are the same events used to add and remove
 			 * the `ui-state-focus` CSS class on the menu items. See jQuery UI Menu Widget.
 			 */
-			.on( 'menufocus', function( event, ui ) {
+			.on( 'menufocus', function ( event, ui ) {
 				ui.item.attr( 'aria-selected', 'true' );
-			})
-			.on( 'menublur', function() {
+			} )
+			.on( 'menublur', function () {
 				// The `menublur` event returns an object where the item is `null`,
 				// so we need to find the active item with other means.
-				$( this ).find( '[aria-selected="true"]' ).removeAttr( 'aria-selected' );
-			});
+				$( this )
+					.find( '[aria-selected="true"]' )
+					.removeAttr( 'aria-selected' );
+			} );
 
 		return this;
 	};
-
-}( jQuery ) );
+} )( jQuery );

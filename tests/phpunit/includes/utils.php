@@ -22,11 +22,11 @@ function rand_str($length = 32)
  */
 function rand_long_str($length)
 {
-    $chars  = 'abcdefghijklmnopqrstuvwxyz';
+    $chars = 'abcdefghijklmnopqrstuvwxyz';
     $string = '';
 
     for ($i = 0; $i < $length; $i++) {
-        $rand    = rand(0, strlen($chars) - 1);
+        $rand = rand(0, strlen($chars) - 1);
         $string .= substr($chars, $rand, 1);
     }
 
@@ -41,7 +41,7 @@ function rand_long_str($length)
  */
 function strip_ws($txt)
 {
-    $lines  = explode("\n", $txt);
+    $lines = explode("\n", $txt);
     $result = [];
     foreach ($lines as $line) {
         if (trim($line)) {
@@ -112,10 +112,10 @@ class MockAction
         }
 
         $this->events[] = [
-            'action'    => __FUNCTION__,
+            'action' => __FUNCTION__,
             'hook_name' => $current_filter,
-            'tag'       => $current_filter, // Back compat.
-            'args'      => func_get_args(),
+            'tag' => $current_filter, // Back compat.
+            'args' => func_get_args(),
         ];
 
         return $arg;
@@ -133,10 +133,10 @@ class MockAction
         }
 
         $this->events[] = [
-            'action'    => __FUNCTION__,
+            'action' => __FUNCTION__,
             'hook_name' => $current_filter,
-            'tag'       => $current_filter, // Back compat.
-            'args'      => func_get_args(),
+            'tag' => $current_filter, // Back compat.
+            'args' => func_get_args(),
         ];
 
         return $arg;
@@ -154,10 +154,10 @@ class MockAction
         }
 
         $this->events[] = [
-            'filter'    => __FUNCTION__,
+            'filter' => __FUNCTION__,
             'hook_name' => $current_filter,
-            'tag'       => $current_filter, // Back compat.
-            'args'      => func_get_args(),
+            'tag' => $current_filter, // Back compat.
+            'args' => func_get_args(),
         ];
 
         return $arg;
@@ -175,10 +175,10 @@ class MockAction
         }
 
         $this->events[] = [
-            'filter'    => __FUNCTION__,
+            'filter' => __FUNCTION__,
             'hook_name' => $current_filter,
-            'tag'       => $current_filter, // Back compat.
-            'args'      => func_get_args(),
+            'tag' => $current_filter, // Back compat.
+            'args' => func_get_args(),
         ];
 
         return $arg;
@@ -196,10 +196,10 @@ class MockAction
         }
 
         $this->events[] = [
-            'filter'    => __FUNCTION__,
+            'filter' => __FUNCTION__,
             'hook_name' => $current_filter,
-            'tag'       => $current_filter, // Back compat.
-            'args'      => func_get_args(),
+            'tag' => $current_filter, // Back compat.
+            'args' => func_get_args(),
         ];
 
         return $arg . '_append';
@@ -219,10 +219,10 @@ class MockAction
         }
 
         $this->events[] = [
-            'filter'    => __FUNCTION__,
+            'filter' => __FUNCTION__,
             'hook_name' => $hook_name,
-            'tag'       => $hook_name, // Back compat.
-            'args'      => $args,
+            'tag' => $hook_name, // Back compat.
+            'args' => $args,
         ];
     }
 
@@ -324,13 +324,13 @@ class TestXMLParser
     public function parse($in)
     {
         $parse = xml_parse($this->xml, $in, true);
-        if (! $parse) {
+        if (!$parse) {
             throw new Exception(
                 sprintf(
                     'XML error: %s at line %d',
                     xml_error_string(xml_get_error_code($this->xml)),
-                    xml_get_current_line_number($this->xml)
-                )
+                    xml_get_current_line_number($this->xml),
+                ),
             );
             xml_parser_free($this->xml);
         }
@@ -341,7 +341,8 @@ class TestXMLParser
     {
         $data['name'] = $name;
         if ($attributes) {
-            $data['attributes'] = $attributes; }
+            $data['attributes'] = $attributes;
+        }
         $this->data[] = $data;
     }
 
@@ -349,7 +350,7 @@ class TestXMLParser
     {
         $index = count($this->data) - 1;
 
-        if (! isset($this->data[$index]['content'])) {
+        if (!isset($this->data[$index]['content'])) {
             $this->data[$index]['content'] = '';
         }
         $this->data[$index]['content'] .= $data;
@@ -358,8 +359,8 @@ class TestXMLParser
     public function end_handler($parser, $name)
     {
         if (count($this->data) > 1) {
-            $data                          = array_pop($this->data);
-            $index                         = count($this->data) - 1;
+            $data = array_pop($this->data);
+            $index = count($this->data) - 1;
             $this->data[$index]['child'][] = $data;
         }
     }
@@ -387,13 +388,13 @@ function xml_to_array($in)
  *     $tree = xml_to_array( $rss );
  *     $items = xml_find( $tree, 'rss', 'channel', 'item' );
  *
- * @param array     $tree     An array tree structure of XML, typically from xml_to_array().
+ * @param array $tree An array tree structure of XML, typically from xml_to_array().
  * @param string ...$elements Names of XML nodes to create a "path" to find within the XML.
  * @return array Array of matching XML node information.
  */
 function xml_find($tree, ...$elements)
 {
-    $n   = count($elements);
+    $n = count($elements);
     $out = [];
 
     if ($n < 1) {
@@ -409,7 +410,7 @@ function xml_find($tree, ...$elements)
                 $out[] = $tree[$i];
             } else {
                 $subtree =& $tree[$i]['child'];
-                $out     = array_merge($out, xml_find($subtree, ...array_slice($elements, 1)));
+                $out = array_merge($out, xml_find($subtree, ...array_slice($elements, 1)));
             }
         }
     }
@@ -432,11 +433,11 @@ function xml_array_dumbdown(&$data)
 
     foreach (array_keys($data) as $i) {
         $name = $data[$i]['name'];
-        if (! empty($data[$i]['attributes'])) {
+        if (!empty($data[$i]['attributes'])) {
             $name .= ' ' . xml_join_atts($data[$i]['attributes']);
         }
 
-        if (! empty($data[$i]['child'])) {
+        if (!empty($data[$i]['child'])) {
             $out[$name][] = xml_array_dumbdown($data[$i]['child']);
         } else {
             $out[$name] = $data[$i]['content'];
@@ -449,7 +450,7 @@ function xml_array_dumbdown(&$data)
 function dmp(...$args)
 {
     foreach ($args as $thing) {
-        echo (is_scalar($thing) ? (string) $thing : var_export($thing, true)), "\n";
+        echo(is_scalar($thing) ? (string)$thing : var_export($thing, true)), "\n";
     }
 }
 
@@ -473,7 +474,7 @@ function gen_tests_array($name, $expected_data)
 
     foreach ($expected_data as $k => $v) {
         if (is_numeric($k)) {
-            $index = (string) $k;
+            $index = (string)$k;
         } else {
             $index = "'" . addcslashes($k, "\n\r\t'\\") . "'";
         }
@@ -493,9 +494,7 @@ function gen_tests_array($name, $expected_data)
 /**
  * Use to create objects by yourself.
  */
-class MockClass extends stdClass
-{
-}
+class MockClass extends stdClass {}
 
 /**
  * Drops all tables from the waggypuppy database.
@@ -505,7 +504,6 @@ function drop_tables()
     global $wpdb;
     $tables = $wpdb->get_col('SHOW TABLES;');
     foreach ($tables as $table) {
-
         $wpdb->query("DROP TABLE IF EXISTS {$table}");
     }
 }
@@ -531,7 +529,8 @@ function print_backtrace()
 // Mask out any input fields matching the given name.
 function mask_input_value($in, $name = '_wpnonce')
 {
-    return preg_replace('@<input([^>]*) name="' . preg_quote($name) . '"([^>]*) value="[^>]*" />@', '<input$1 name="' . preg_quote($name) . '"$2 value="***" />', $in);
+    return preg_replace('@<input([^>]*) name="' . preg_quote($name) . '"([^>]*) value="[^>]*" />@',
+        '<input$1 name="' . preg_quote($name) . '"$2 value="***" />', $in);
 }
 
 /**
@@ -550,9 +549,9 @@ function _unregister_taxonomy($taxonomy_name)
 /**
  * Unregister a post status.
  *
+ * @param string $status
  * @since 4.2.0
  *
- * @param string $status
  */
 function _unregister_post_status($status)
 {
@@ -571,13 +570,13 @@ function _cleanup_query_vars()
     }
 
     foreach (get_taxonomies([], 'objects') as $t) {
-        if ($t->publicly_queryable && ! empty($t->query_var)) {
+        if ($t->publicly_queryable && !empty($t->query_var)) {
             $GLOBALS['wp']->add_query_var($t->query_var);
         }
     }
 
     foreach (get_post_types([], 'objects') as $t) {
-        if (is_post_type_viewable($t) && ! empty($t->query_var)) {
+        if (is_post_type_viewable($t) && !empty($t->query_var)) {
             $GLOBALS['wp']->add_query_var($t->query_var);
         }
     }
@@ -597,16 +596,16 @@ class WpdbExposedMethodsForTesting extends wpdb
     public function __construct()
     {
         global $wpdb;
-        $this->dbh         = $wpdb->dbh;
-        $this->is_mysql    = $wpdb->is_mysql;
-        $this->ready       = true;
+        $this->dbh = $wpdb->dbh;
+        $this->is_mysql = $wpdb->is_mysql;
+        $this->ready = true;
         $this->field_types = $wpdb->field_types;
-        $this->charset     = $wpdb->charset;
+        $this->charset = $wpdb->charset;
 
-        $this->dbuser     = $wpdb->dbuser;
+        $this->dbuser = $wpdb->dbuser;
         $this->dbpassword = $wpdb->dbpassword;
-        $this->dbname     = $wpdb->dbname;
-        $this->dbhost     = $wpdb->dbhost;
+        $this->dbname = $wpdb->dbname;
+        $this->dbhost = $wpdb->dbhost;
     }
 
     public function __call($name, $arguments)
@@ -629,7 +628,6 @@ function benchmark_pcre_backtracking($pattern, $subject, $strategy)
 
     // Start with small numbers, so if a crash is encountered at higher numbers we can still debug the problem.
     for ($i = 4; $i <= $limit; $i *= 2) {
-
         ini_set('pcre.backtrack_limit', $i);
 
         switch ($strategy) {
@@ -676,14 +674,14 @@ function test_rest_expand_compact_links($links)
         return $links;
     }
     foreach ($links as $rel => $links_array) {
-        if (! strpos($rel, ':')) {
+        if (!strpos($rel, ':')) {
             continue;
         }
 
         $name = explode(':', $rel);
 
-        $curie            = wp_list_filter($links['curies'], ['name' => $name[0]]);
-        $full_uri         = str_replace('{rel}', $name[1], $curie[0]['href']);
+        $curie = wp_list_filter($links['curies'], ['name' => $name[0]]);
+        $full_uri = str_replace('{rel}', $name[1], $curie[0]['href']);
         $links[$full_uri] = $links_array;
         unset($links[$rel]);
     }

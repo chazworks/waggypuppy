@@ -30,72 +30,74 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media
             __('Gallery'),
             [
                 'description' => __('Displays an image gallery.'),
-                'mime_type'   => 'image',
-            ]
+                'mime_type' => 'image',
+            ],
         );
 
         $this->l10n = array_merge(
             $this->l10n,
             [
                 'no_media_selected' => __('No images selected'),
-                'add_media'         => _x('Add Images', 'label for button in the gallery widget; should not be longer than ~13 characters long'),
-                'replace_media'     => '',
-                'edit_media'        => _x('Edit Gallery', 'label for button in the gallery widget; should not be longer than ~13 characters long'),
-            ]
+                'add_media' => _x('Add Images',
+                    'label for button in the gallery widget; should not be longer than ~13 characters long'),
+                'replace_media' => '',
+                'edit_media' => _x('Edit Gallery',
+                    'label for button in the gallery widget; should not be longer than ~13 characters long'),
+            ],
         );
     }
 
     /**
      * Get schema for properties of a widget instance (item).
      *
-     * @since 4.9.0
-     *
+     * @return array Schema for properties.
      * @see WP_REST_Controller::get_item_schema()
      * @see WP_REST_Controller::get_additional_fields()
      * @link https://core.trac.wp.org/ticket/35574
      *
-     * @return array Schema for properties.
+     * @since 4.9.0
+     *
      */
     public function get_instance_schema()
     {
         $schema = [
-            'title'          => [
-                'type'                  => 'string',
-                'default'               => '',
-                'sanitize_callback'     => 'sanitize_text_field',
-                'description'           => __('Title for the widget'),
+            'title' => [
+                'type' => 'string',
+                'default' => '',
+                'sanitize_callback' => 'sanitize_text_field',
+                'description' => __('Title for the widget'),
                 'should_preview_update' => false,
             ],
-            'ids'            => [
-                'type'              => 'array',
-                'items'             => [
+            'ids' => [
+                'type' => 'array',
+                'items' => [
                     'type' => 'integer',
                 ],
-                'default'           => [],
+                'default' => [],
                 'sanitize_callback' => 'wp_parse_id_list',
             ],
-            'columns'        => [
-                'type'    => 'integer',
+            'columns' => [
+                'type' => 'integer',
                 'default' => 3,
                 'minimum' => 1,
                 'maximum' => 9,
             ],
-            'size'           => [
-                'type'    => 'string',
-                'enum'    => array_merge(get_intermediate_image_sizes(), ['full', 'custom']),
+            'size' => [
+                'type' => 'string',
+                'enum' => array_merge(get_intermediate_image_sizes(), ['full', 'custom']),
                 'default' => 'thumbnail',
             ],
-            'link_type'      => [
-                'type'                  => 'string',
-                'enum'                  => ['post', 'file', 'none'],
-                'default'               => 'post',
-                'media_prop'            => 'link',
+            'link_type' => [
+                'type' => 'string',
+                'enum' => ['post', 'file', 'none'],
+                'default' => 'post',
+                'media_prop' => 'link',
                 'should_preview_update' => false,
             ],
             'orderby_random' => [
-                'type'                  => 'boolean',
-                'default'               => false,
-                'media_prop'            => '_orderbyRandom',
+                'type' => 'boolean',
+                'default' => false,
+                'media_prop' => '_orderbyRandom',
                 'should_preview_update' => false,
             ],
         ];
@@ -109,9 +111,9 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media
     /**
      * Render the media on the frontend.
      *
+     * @param array $instance Widget instance props.
      * @since 4.9.0
      *
-     * @param array $instance Widget instance props.
      */
     public function render_media($instance)
     {
@@ -121,7 +123,7 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media
             $instance,
             [
                 'link' => $instance['link_type'],
-            ]
+            ],
         );
 
         // @codeCoverageIgnoreStart
@@ -147,15 +149,16 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media
 
         $exported_schema = [];
         foreach ($this->get_instance_schema() as $field => $field_schema) {
-            $exported_schema[$field] = wp_array_slice_assoc($field_schema, ['type', 'default', 'enum', 'minimum', 'format', 'media_prop', 'should_preview_update', 'items']);
+            $exported_schema[$field] = wp_array_slice_assoc($field_schema,
+                ['type', 'default', 'enum', 'minimum', 'format', 'media_prop', 'should_preview_update', 'items']);
         }
         wp_add_inline_script(
             $handle,
             sprintf(
                 'wp.mediaWidgets.modelConstructors[ %s ].prototype.schema = %s;',
                 wp_json_encode($this->id_base),
-                wp_json_encode($exported_schema)
-            )
+                wp_json_encode($exported_schema),
+            ),
         );
 
         wp_add_inline_script(
@@ -167,8 +170,8 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media
 				',
                 wp_json_encode($this->id_base),
                 wp_json_encode($this->widget_options['mime_type']),
-                wp_json_encode($this->l10n)
-            )
+                wp_json_encode($this->l10n),
+            ),
         );
     }
 
@@ -184,59 +187,61 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media
         <script type="text/html" id="tmpl-wp-media-widget-gallery-preview">
             <#
             var ids = _.filter( data.ids, function( id ) {
-                return ( id in data.attachments );
+            return ( id in data.attachments );
             } );
             #>
             <# if ( ids.length ) { #>
-                <ul class="gallery media-widget-gallery-preview" role="list">
-                    <# _.each( ids, function( id, index ) { #>
-                        <# var attachment = data.attachments[ id ]; #>
-                        <# if ( index < 6 ) { #>
-                            <li class="gallery-item">
-                                <div class="gallery-icon">
-                                    <img alt="{{ attachment.alt }}"
-                                        <# if ( index === 5 && data.ids.length > 6 ) { #> aria-hidden="true" <# } #>
-                                        <# if ( attachment.sizes.thumbnail ) { #>
-                                            src="{{ attachment.sizes.thumbnail.url }}" width="{{ attachment.sizes.thumbnail.width }}" height="{{ attachment.sizes.thumbnail.height }}"
-                                        <# } else { #>
-                                            src="{{ attachment.url }}"
-                                        <# } #>
-                                        <# if ( ! attachment.alt && attachment.filename ) { #>
-                                            aria-label="
-                                            <?php
-                                            echo esc_attr(
-                                                sprintf(
-                                                    /* translators: %s: The image file name. */
-                                                    __('The current image has no alternative text. The file name is: %s'),
-                                                    '{{ attachment.filename }}'
-                                                )
-                                            );
-                                            ?>
-                                            "
-                                        <# } #>
-                                    />
-                                    <# if ( index === 5 && data.ids.length > 6 ) { #>
-                                    <div class="gallery-icon-placeholder">
-                                        <p class="gallery-icon-placeholder-text" aria-label="
-                                        <?php
-                                            printf(
-                                                /* translators: %s: The amount of additional, not visible images in the gallery widget preview. */
-                                                __('Additional images added to this gallery: %s'),
-                                                '{{ data.ids.length - 5 }}'
-                                            );
-                                        ?>
-                                        ">+{{ data.ids.length - 5 }}</p>
-                                    </div>
-                                    <# } #>
-                                </div>
-                            </li>
+            <ul class="gallery media-widget-gallery-preview" role="list">
+                <# _.each( ids, function( id, index ) { #>
+                <# var attachment = data.attachments[ id ]; #>
+                <# if ( index < 6 ) { #>
+                <li class="gallery-item">
+                    <div class="gallery-icon">
+                        <img alt="{{ attachment.alt }}"
+                        <# if ( index === 5 && data.ids.length > 6 ) { #> aria-hidden="true" <# } #>
+                        <# if ( attachment.sizes.thumbnail ) { #>
+                        src="{{ attachment.sizes.thumbnail.url }}" width="{{ attachment.sizes.thumbnail.width }}"
+                        height="{{ attachment.sizes.thumbnail.height }}"
+                        <# } else { #>
+                        src="{{ attachment.url }}"
                         <# } #>
-                    <# } ); #>
-                </ul>
+                        <# if ( ! attachment.alt && attachment.filename ) { #>
+                        aria-label="
+                        <?php
+                        echo esc_attr(
+                            sprintf(
+                            /* translators: %s: The image file name. */
+                                __('The current image has no alternative text. The file name is: %s'),
+                                '{{ attachment.filename }}',
+                            ),
+                        );
+                        ?>
+                        "
+                        <# } #>
+                        />
+                        <# if ( index === 5 && data.ids.length > 6 ) { #>
+                        <div class="gallery-icon-placeholder">
+                            <p class="gallery-icon-placeholder-text" aria-label="
+                                        <?php
+                            printf(
+                            /* translators: %s: The amount of additional, not visible images in the gallery widget preview. */
+                                __('Additional images added to this gallery: %s'),
+                                '{{ data.ids.length - 5 }}',
+                            );
+                            ?>
+                                        ">+{{ data.ids.length - 5 }}</p>
+                        </div>
+                        <# } #>
+                    </div>
+                </li>
+                <# } #>
+                <# } ); #>
+            </ul>
             <# } else { #>
-                <div class="attachment-media-view">
-                    <button type="button" class="placeholder button-add-media"><?php echo esc_html($this->l10n['add_media']); ?></button>
-                </div>
+            <div class="attachment-media-view">
+                <button type="button"
+                        class="placeholder button-add-media"><?php echo esc_html($this->l10n['add_media']); ?></button>
+            </div>
             <# } #>
         </script>
         <?php
@@ -245,15 +250,15 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media
     /**
      * Whether the widget has content to show.
      *
+     * @param array $instance Widget instance props.
+     * @return bool Whether widget has content.
      * @since 4.9.0
      * @access protected
      *
-     * @param array $instance Widget instance props.
-     * @return bool Whether widget has content.
      */
     protected function has_content($instance)
     {
-        if (! empty($instance['ids'])) {
+        if (!empty($instance['ids'])) {
             $attachments = wp_parse_id_list($instance['ids']);
             // Prime attachment post caches.
             _prime_post_caches($attachments, false, false);

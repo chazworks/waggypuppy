@@ -18,9 +18,14 @@ class Tests_Media_NextImageLink extends WP_Test_Adjacent_Image_Link_TestCase
      *
      * @dataProvider data_next_image_link
      */
-    public function test_next_image_link($current_attachment_index, $expected_attachment_index, $expected, array $args = [])
-    {
-        [$expected, $args] = $this->setup_test_scenario($current_attachment_index, $expected_attachment_index, $expected, $args);
+    public function test_next_image_link(
+        $current_attachment_index,
+        $expected_attachment_index,
+        $expected,
+        array $args = [],
+    ) {
+        [$expected, $args] = $this->setup_test_scenario($current_attachment_index, $expected_attachment_index,
+            $expected, $args);
 
         $this->expectOutputString($expected);
         $this->assertNull(next_image_link(...$args));
@@ -30,29 +35,33 @@ class Tests_Media_NextImageLink extends WP_Test_Adjacent_Image_Link_TestCase
     {
         return [
             // Happy paths.
-            'when has next link'           => [
-                'current_attachment_index'  => 4,
+            'when has next link' => [
+                'current_attachment_index' => 4,
                 'expected_attachment_index' => 5,
-                'expected'                  => '<a href=\'http://' . WP_TESTS_DOMAIN . '/?attachment_id=%%ID%%\'><img width="1" height="1" src="' . WP_CONTENT_URL . '/uploads/image5.jpg" class="attachment-thumbnail size-thumbnail" alt="" decoding="async" loading="lazy" /></a>',
+                'expected' => '<a href=\'http://'
+                    . WP_TESTS_DOMAIN
+                    . '/?attachment_id=%%ID%%\'><img width="1" height="1" src="'
+                    . WP_CONTENT_URL
+                    . '/uploads/image5.jpg" class="attachment-thumbnail size-thumbnail" alt="" decoding="async" loading="lazy" /></a>',
             ],
             'with text when has next link' => [
-                'current_attachment_index'  => 4,
+                'current_attachment_index' => 4,
                 'expected_attachment_index' => 5,
-                'expected'                  => '<a href=\'http://' . WP_TESTS_DOMAIN . '/?attachment_id=%%ID%%\'>Some text</a>',
-                'args'                      => ['text' => 'Some text'],
+                'expected' => '<a href=\'http://' . WP_TESTS_DOMAIN . '/?attachment_id=%%ID%%\'>Some text</a>',
+                'args' => ['text' => 'Some text'],
             ],
 
             // Unhappy paths.
-            'when no next link'            => [
-                'current_attachment_index'  => 5,
+            'when no next link' => [
+                'current_attachment_index' => 5,
                 'expected_attachment_index' => 0,
-                'expected'                  => '',
+                'expected' => '',
             ],
-            'with text when no next link'  => [
-                'current_attachment_index'  => 5,
+            'with text when no next link' => [
+                'current_attachment_index' => 5,
                 'expected_attachment_index' => 0,
-                'expected'                  => '',
-                'args'                      => ['text' => 'Some text'],
+                'expected' => '',
+                'args' => ['text' => 'Some text'],
             ],
         ];
     }

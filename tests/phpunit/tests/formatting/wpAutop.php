@@ -13,7 +13,7 @@ class Tests_Formatting_wpAutop extends WP_UnitTestCase
      */
     public function test_first_post()
     {
-        $expected  = '<p>Welcome to waggypuppy!  This post contains important information.  After you read it, you can make it private to hide it from visitors but still have the information handy for future reference.</p>
+        $expected = '<p>Welcome to waggypuppy!  This post contains important information.  After you read it, you can make it private to hide it from visitors but still have the information handy for future reference.</p>
 <p>First things first:</p>
 <ul>
 <li><a href="%1$s" title="Subscribe to the waggypuppy mailing list for Release Notifications">Subscribe to the waggypuppy mailing list for release notifications</a></li>
@@ -92,7 +92,7 @@ PS.  Not yet subscribed for update notifications?  <a href="%1$s" title="Subscri
         $this->assertSame($expected, trim(wpautop($str)));
 
         // Make sure HTML breaks are maintained if manually inserted.
-        $str      = "Look at this code\n\n<pre>Line1<br />Line2<br>Line3<br/>Line4\nActual Line 2\nActual Line 3</pre>\n\nCool, huh?";
+        $str = "Look at this code\n\n<pre>Line1<br />Line2<br>Line3<br/>Line4\nActual Line 2\nActual Line 3</pre>\n\nCool, huh?";
         $expected = "<p>Look at this code</p>\n<pre>Line1<br />Line2<br>Line3<br/>Line4\nActual Line 2\nActual Line 3</pre>\n<p>Cool, huh?</p>";
         $this->assertSame($expected, trim(wpautop($str)));
     }
@@ -211,19 +211,32 @@ PS.  Not yet subscribed for update notifications?  <a href="%1$s" title="Subscri
 			</video>' .
             "\n\nParagraph two.";
 
-        $expected = "<p>Paragraph one.</p>\n" . // Line breaks only after <p>.
-            '<p><video class="wp-video-shortcode" id="video-0-1" width="640" height="360" preload="metadata" controls="controls">' .
-            '<source type="video/mp4" src="http://domain.tld/wp-content/uploads/2013/12/xyz.mp4" />' .
-            '<!-- WebM/VP8 for Firefox4, Opera, and Chrome -->' .
-            '<source type="video/webm" src="myvideo.webm" />' .
-            '<!-- Ogg/Vorbis for older Firefox and Opera versions -->' .
-            '<source type="video/ogg" src="myvideo.ogv" />' .
-            '<!-- Optional: Add subtitles for each language -->' .
-            '<track kind="subtitles" src="subtitles.srt" srclang="en" />' .
-            '<!-- Optional: Add chapters -->' .
-            '<track kind="chapters" src="chapters.srt" srclang="en" />' .
-            '<a href="http://domain.tld/wp-content/uploads/2013/12/xyz.mp4">' .
-            "http://domain.tld/wp-content/uploads/2013/12/xyz.mp4</a></video></p>\n" .
+        $expected = "<p>Paragraph one.</p>\n"
+            . // Line breaks only after <p>.
+            '<p><video class="wp-video-shortcode" id="video-0-1" width="640" height="360" preload="metadata" controls="controls">'
+            .
+            '<source type="video/mp4" src="http://domain.tld/wp-content/uploads/2013/12/xyz.mp4" />'
+            .
+            '<!-- WebM/VP8 for Firefox4, Opera, and Chrome -->'
+            .
+            '<source type="video/webm" src="myvideo.webm" />'
+            .
+            '<!-- Ogg/Vorbis for older Firefox and Opera versions -->'
+            .
+            '<source type="video/ogg" src="myvideo.ogv" />'
+            .
+            '<!-- Optional: Add subtitles for each language -->'
+            .
+            '<track kind="subtitles" src="subtitles.srt" srclang="en" />'
+            .
+            '<!-- Optional: Add chapters -->'
+            .
+            '<track kind="chapters" src="chapters.srt" srclang="en" />'
+            .
+            '<a href="http://domain.tld/wp-content/uploads/2013/12/xyz.mp4">'
+            .
+            "http://domain.tld/wp-content/uploads/2013/12/xyz.mp4</a></video></p>\n"
+            .
             '<p>Paragraph two.</p>';
 
         // When running the content through wpautop() from wp_richedit_pre().
@@ -240,13 +253,20 @@ PS.  Not yet subscribed for update notifications?  <a href="%1$s" title="Subscri
 			[/video]' .
             "\n\nParagraph two.";
 
-        $shortcode_expected = "<p>Paragraph one.</p>\n" . // Line breaks only after <p>.
-            '<p>[video width="720" height="480" mp4="http://domain.tld/wp-content/uploads/2013/12/xyz.mp4"]' .
-            '<!-- WebM/VP8 for Firefox4, Opera, and Chrome --><source type="video/webm" src="myvideo.webm" />' .
-            '<!-- Ogg/Vorbis for older Firefox and Opera versions --><source type="video/ogg" src="myvideo.ogv" />' .
-            '<!-- Optional: Add subtitles for each language --><track kind="subtitles" src="subtitles.srt" srclang="en" />' .
-            '<!-- Optional: Add chapters --><track kind="chapters" src="chapters.srt" srclang="en" />' .
-            "[/video]</p>\n" .
+        $shortcode_expected = "<p>Paragraph one.</p>\n"
+            . // Line breaks only after <p>.
+            '<p>[video width="720" height="480" mp4="http://domain.tld/wp-content/uploads/2013/12/xyz.mp4"]'
+            .
+            '<!-- WebM/VP8 for Firefox4, Opera, and Chrome --><source type="video/webm" src="myvideo.webm" />'
+            .
+            '<!-- Ogg/Vorbis for older Firefox and Opera versions --><source type="video/ogg" src="myvideo.ogv" />'
+            .
+            '<!-- Optional: Add subtitles for each language --><track kind="subtitles" src="subtitles.srt" srclang="en" />'
+            .
+            '<!-- Optional: Add chapters --><track kind="chapters" src="chapters.srt" srclang="en" />'
+            .
+            "[/video]</p>\n"
+            .
             '<p>Paragraph two.</p>';
 
         $this->assertSame($expected, trim(wpautop($content)));
@@ -276,15 +296,24 @@ Paragraph one.
 
 Paragraph two.';
 
-        $expected1 = "<p>Paragraph one.</p>\n" . // Line breaks only after <p>.
-            '<p><object width="400" height="224" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0">' .
-            '<param name="src" value="http://domain.tld/wp-content/uploads/2013/12/xyz.swf" />' .
-            '<param name="allowfullscreen" value="true" />' .
-            '<param name="allowscriptaccess" value="always" />' .
-            '<param name="overstretch" value="true" />' .
-            '<param name="flashvars" value="isDynamicSeeking=true" />' .
-            '<embed width="400" height="224" type="application/x-shockwave-flash" src="http://domain.tld/wp-content/uploads/2013/12/xyz.swf" wmode="direct" seamlesstabbing="true" allowfullscreen="true" overstretch="true" flashvars="isDynamicSeeking=true" />' .
-            "</object></p>\n" .
+        $expected1 = "<p>Paragraph one.</p>\n"
+            . // Line breaks only after <p>.
+            '<p><object width="400" height="224" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0">'
+            .
+            '<param name="src" value="http://domain.tld/wp-content/uploads/2013/12/xyz.swf" />'
+            .
+            '<param name="allowfullscreen" value="true" />'
+            .
+            '<param name="allowscriptaccess" value="always" />'
+            .
+            '<param name="overstretch" value="true" />'
+            .
+            '<param name="flashvars" value="isDynamicSeeking=true" />'
+            .
+            '<embed width="400" height="224" type="application/x-shockwave-flash" src="http://domain.tld/wp-content/uploads/2013/12/xyz.swf" wmode="direct" seamlesstabbing="true" allowfullscreen="true" overstretch="true" flashvars="isDynamicSeeking=true" />'
+            .
+            "</object></p>\n"
+            .
             '<p>Paragraph two.</p>';
 
         $content2 = '
@@ -312,22 +341,39 @@ Paragraph one.
 
 Paragraph two.';
 
-        $expected2 = "<p>Paragraph one.</p>\n" . // Line breaks only after block tags.
-            '<div class="video-player" id="x-video-0">' . "\n" .
-            '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="640" height="360" id="video-0" standby="Standby text">' .
-            '<param name="movie" value="http://domain.tld/wp-content/uploads/2013/12/xyz.swf" />' .
-            '<param name="quality" value="best" />' .
-            '<param name="seamlesstabbing" value="true" />' .
-            '<param name="allowfullscreen" value="true" />' .
-            '<param name="allowscriptaccess" value="always" />' .
-            '<param name="overstretch" value="true" />' .
-            '<!--[if !IE]--><object type="application/x-shockwave-flash" data="http://domain.tld/wp-content/uploads/2013/12/xyz.swf" width="640" height="360" standby="Standby text">' .
-            '<param name="quality" value="best" />' .
-            '<param name="seamlesstabbing" value="true" />' .
-            '<param name="allowfullscreen" value="true" />' .
-            '<param name="allowscriptaccess" value="always" />' .
-            '<param name="overstretch" value="true" /></object><!--<![endif]-->' .
-            "</object></div>\n" .
+        $expected2 = "<p>Paragraph one.</p>\n"
+            . // Line breaks only after block tags.
+            '<div class="video-player" id="x-video-0">'
+            . "\n"
+            .
+            '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="640" height="360" id="video-0" standby="Standby text">'
+            .
+            '<param name="movie" value="http://domain.tld/wp-content/uploads/2013/12/xyz.swf" />'
+            .
+            '<param name="quality" value="best" />'
+            .
+            '<param name="seamlesstabbing" value="true" />'
+            .
+            '<param name="allowfullscreen" value="true" />'
+            .
+            '<param name="allowscriptaccess" value="always" />'
+            .
+            '<param name="overstretch" value="true" />'
+            .
+            '<!--[if !IE]--><object type="application/x-shockwave-flash" data="http://domain.tld/wp-content/uploads/2013/12/xyz.swf" width="640" height="360" standby="Standby text">'
+            .
+            '<param name="quality" value="best" />'
+            .
+            '<param name="seamlesstabbing" value="true" />'
+            .
+            '<param name="allowfullscreen" value="true" />'
+            .
+            '<param name="allowscriptaccess" value="always" />'
+            .
+            '<param name="overstretch" value="true" /></object><!--<![endif]-->'
+            .
+            "</object></div>\n"
+            .
             '<p>Paragraph two.</p>';
 
         $this->assertSame($expected1, trim(wpautop($content1)));
@@ -406,7 +452,7 @@ Paragraph two.';
         }
 
         $expected = implode("\n", $content);
-        $input    = implode("\n\n", $content); // Whitespace difference.
+        $input = implode("\n\n", $content); // Whitespace difference.
 
         $this->assertSame($expected, trim(wpautop($input)));
 
@@ -422,7 +468,7 @@ Paragraph two.';
         }
 
         $expected = implode("\n", $content);
-        $input    = implode('', $content);
+        $input = implode('', $content);
 
         $this->assertSame($expected, trim(wpautop($input)));
 
@@ -434,7 +480,7 @@ Paragraph two.';
         }
 
         $expected = implode("\n", $content);
-        $input    = implode('', $content);
+        $input = implode('', $content);
 
         $this->assertSame($expected, trim(wpautop($input)));
     }
@@ -446,7 +492,7 @@ Paragraph two.';
      */
     public function test_that_wpautop_does_not_wrap_blockquotes_but_does_autop_their_contents()
     {
-        $content  = '<blockquote>foo</blockquote>';
+        $content = '<blockquote>foo</blockquote>';
         $expected = '<blockquote><p>foo</p></blockquote>';
 
         $this->assertSame($expected, trim(wpautop($content)));
@@ -488,15 +534,15 @@ Paragraph two.';
             'select',
         ];
 
-        $content  = [];
+        $content = [];
         $expected = [];
 
         foreach ($inlines as $inline) {
-            $content[]  = "<$inline>foo</$inline>";
+            $content[] = "<$inline>foo</$inline>";
             $expected[] = "<p><$inline>foo</$inline></p>";
         }
 
-        $content  = implode("\n\n", $content);
+        $content = implode("\n\n", $content);
         $expected = implode("\n", $expected);
 
         $this->assertSame($expected, trim(wpautop($content)));
@@ -542,10 +588,10 @@ Paragraph two.';
                     "<p>Hello <![CDATA[ <hr> a\nhttps://youtu.be/jgz0uSaOZbE\n ]]></p>\n",
                 ),
             */
-                [
-                    "Hello <![CDATA[ a\nhttps://youtu.be/jgz0uSaOZbE\n ]]>",
-                    "<p>Hello <![CDATA[ a\nhttps://youtu.be/jgz0uSaOZbE\n ]]></p>\n",
-                ],
+            [
+                "Hello <![CDATA[ a\nhttps://youtu.be/jgz0uSaOZbE\n ]]>",
+                "<p>Hello <![CDATA[ a\nhttps://youtu.be/jgz0uSaOZbE\n ]]></p>\n",
+            ],
             [
                 "Hello <![CDATA[ <!-- a\nhttps://youtu.be/jgz0uSaOZbE\n a\n9 ]]> -->",
                 "<p>Hello <![CDATA[ <!-- a\nhttps://youtu.be/jgz0uSaOZbE\n a\n9 ]]> --></p>\n",
@@ -607,7 +653,7 @@ line 2<br/>
      */
     public function test_that_text_before_blocks_is_wrapped_in_a_paragraph()
     {
-        $content  = 'a<div>b</div>';
+        $content = 'a<div>b</div>';
         $expected = "<p>a</p>\n<div>b</div>";
 
         $this->assertSame($expected, trim(wpautop($content)));
@@ -620,7 +666,7 @@ line 2<br/>
      */
     public function test_that_wpautop_does_not_add_extra_closing_p_in_figure()
     {
-        $content1  = '<figure><img src="example.jpg" /><figcaption>Caption</figcaption></figure>';
+        $content1 = '<figure><img src="example.jpg" /><figcaption>Caption</figcaption></figure>';
         $expected1 = $content1;
 
         $content2 = '<figure>
@@ -640,7 +686,7 @@ line 2<br/>
      */
     public function test_the_hr_is_not_wrapped_in_a_paragraph()
     {
-        $content  = 'paragraph1<hr>paragraph2';
+        $content = 'paragraph1<hr>paragraph2';
         $expected = "<p>paragraph1</p>\n<hr>\n<p>paragraph2</p>";
 
         $this->assertSame($expected, trim(wpautop($content)));

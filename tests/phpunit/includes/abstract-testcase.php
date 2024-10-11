@@ -15,11 +15,11 @@ require_once __DIR__ . '/trac.php';
 abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
 {
 
-    protected static $forced_tickets   = [];
-    protected $expected_deprecated     = [];
-    protected $caught_deprecated       = [];
+    protected static $forced_tickets = [];
+    protected $expected_deprecated = [];
+    protected $caught_deprecated = [];
     protected $expected_doing_it_wrong = [];
-    protected $caught_doing_it_wrong   = [];
+    protected $caught_doing_it_wrong = [];
 
     protected static $hooks_saved = [];
     protected static $ignore_files;
@@ -41,7 +41,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     protected static function factory()
     {
         static $factory = null;
-        if (! $factory) {
+        if (!$factory) {
             $factory = new WP_UnitTest_Factory();
         }
         return $factory;
@@ -50,9 +50,9 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     /**
      * Retrieves the name of the class the static method is called in.
      *
+     * @return string The class name.
      * @deprecated 5.3.0 Use the PHP native get_called_class() function instead.
      *
-     * @return string The class name.
      */
     public static function get_called_class()
     {
@@ -69,7 +69,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
         parent::set_up_before_class();
 
         $wpdb->suppress_errors = false;
-        $wpdb->show_errors     = true;
+        $wpdb->show_errors = true;
         $wpdb->db_connect();
         ini_set('display_errors', 1);
 
@@ -110,11 +110,11 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
 
         $this->factory = static::factory();
 
-        if (! self::$ignore_files) {
+        if (!self::$ignore_files) {
             self::$ignore_files = $this->scan_user_uploads();
         }
 
-        if (! self::$hooks_saved) {
+        if (!self::$hooks_saved) {
             $this->_backup_hooks();
         }
 
@@ -159,11 +159,22 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
 
         // Reset query, main query, and WP globals similar to wp-settings.php.
         $wp_the_query = new WP_Query();
-        $wp_query     = $wp_the_query;
-        $wp           = new WP();
+        $wp_query = $wp_the_query;
+        $wp = new WP();
 
         // Reset globals related to the post loop and `setup_postdata()`.
-        $post_globals = ['post', 'id', 'authordata', 'currentday', 'currentmonth', 'page', 'pages', 'multipage', 'more', 'numpages'];
+        $post_globals = [
+            'post',
+            'id',
+            'authordata',
+            'currentday',
+            'currentmonth',
+            'page',
+            'pages',
+            'multipage',
+            'more',
+            'numpages',
+        ];
         foreach ($post_globals as $global) {
             $GLOBALS[$global] = null;
         }
@@ -199,7 +210,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
 
         // Reset template globals.
         $GLOBALS['wp_stylesheet_path'] = null;
-        $GLOBALS['wp_template_path']   = null;
+        $GLOBALS['wp_template_path'] = null;
 
         $this->unregister_all_meta_keys();
         remove_theme_support('html5');
@@ -217,8 +228,8 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
      */
     public function clean_up_global_scope()
     {
-        $_GET     = [];
-        $_POST    = [];
+        $_GET = [];
+        $_POST = [];
         $_REQUEST = [];
         self::flush_cache();
     }
@@ -233,7 +244,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     {
         // https://docs.github.com/en/actions/learn-github-actions/environment-variables#default-environment-variables
         $github_event_name = getenv('GITHUB_EVENT_NAME');
-        $github_ref        = getenv('GITHUB_REF');
+        $github_ref = getenv('GITHUB_REF');
 
         if ($github_event_name) {
             // We're on GitHub Actions.
@@ -252,7 +263,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
      */
     public function skipWithoutMultisite()
     {
-        if (! is_multisite()) {
+        if (!is_multisite()) {
             $this->markTestSkipped('Test only runs on Multisite');
         }
     }
@@ -276,7 +287,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
      */
     public function skipTestOnTimeout($response)
     {
-        if (! is_wp_error($response)) {
+        if (!is_wp_error($response)) {
             return;
         }
         if ('connect() timed out!' === $response->get_error_message()) {
@@ -287,7 +298,8 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
             $this->markTestSkipped('HTTP timeout');
         }
 
-        if (0 === strpos($response->get_error_message(), 'stream_socket_client(): unable to connect to tcp://s.w.org:80')) {
+        if (0 === strpos($response->get_error_message(),
+                'stream_socket_client(): unable to connect to tcp://s.w.org:80')) {
             $this->markTestSkipped('HTTP timeout');
         }
     }
@@ -444,7 +456,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
                 'useremail',
                 'userlogins',
                 'userslugs',
-            ]
+            ],
         );
 
         wp_cache_add_non_persistent_groups(['counts', 'plugins', 'theme_json']);
@@ -460,7 +472,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     public function unregister_all_meta_keys()
     {
         global $wp_meta_keys;
-        if (! is_array($wp_meta_keys)) {
+        if (!is_array($wp_meta_keys)) {
             return;
         }
         foreach ($wp_meta_keys as $object_type => $type_keys) {
@@ -537,14 +549,14 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     /**
      * Throws an exception when called.
      *
+     * @param string|WP_Error $message The `wp_die()` message or WP_Error object.
+     * @param string $title The `wp_die()` title.
+     * @param string|array $args The `wp_die()` arguments.
+     * @throws WPDieException Exception containing the message and the response code.
+     *
      * @since UT (3.7.0)
      * @since 5.9.0 Added the `$title` and `$args` parameters.
      *
-     * @throws WPDieException Exception containing the message and the response code.
-     *
-     * @param string|WP_Error $message The `wp_die()` message or WP_Error object.
-     * @param string          $title   The `wp_die()` title.
-     * @param string|array    $args    The `wp_die()` arguments.
      */
     public function wp_die_handler($message, $title, $args)
     {
@@ -552,7 +564,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
             $message = $message->get_error_message();
         }
 
-        if (! is_scalar($message)) {
+        if (!is_scalar($message)) {
             $message = '0';
         }
 
@@ -578,22 +590,22 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
             // PHPUnit >= 9.5.0.
             $annotations = \PHPUnit\Util\Test::parseTestMethodAnnotations(
                 static::class,
-                $this->getName(false)
+                $this->getName(false),
             );
         }
 
         foreach (['class', 'method'] as $depth) {
-            if (! empty($annotations[$depth]['expectedDeprecated'])) {
+            if (!empty($annotations[$depth]['expectedDeprecated'])) {
                 $this->expected_deprecated = array_merge(
                     $this->expected_deprecated,
-                    $annotations[$depth]['expectedDeprecated']
+                    $annotations[$depth]['expectedDeprecated'],
                 );
             }
 
-            if (! empty($annotations[$depth]['expectedIncorrectUsage'])) {
+            if (!empty($annotations[$depth]['expectedIncorrectUsage'])) {
                 $this->expected_doing_it_wrong = array_merge(
                     $this->expected_doing_it_wrong,
-                    $annotations[$depth]['expectedIncorrectUsage']
+                    $annotations[$depth]['expectedIncorrectUsage'],
                 );
             }
         }
@@ -628,7 +640,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
 
         $not_caught_deprecated = array_diff(
             $this->expected_deprecated,
-            array_keys($this->caught_deprecated)
+            array_keys($this->caught_deprecated),
         );
 
         foreach ($not_caught_deprecated as $not_caught) {
@@ -637,7 +649,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
 
         $unexpected_deprecated = array_diff(
             array_keys($this->caught_deprecated),
-            $this->expected_deprecated
+            $this->expected_deprecated,
         );
 
         foreach ($unexpected_deprecated as $unexpected) {
@@ -647,7 +659,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
 
         $not_caught_doing_it_wrong = array_diff(
             $this->expected_doing_it_wrong,
-            array_keys($this->caught_doing_it_wrong)
+            array_keys($this->caught_doing_it_wrong),
         );
 
         foreach ($not_caught_doing_it_wrong as $not_caught) {
@@ -656,7 +668,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
 
         $unexpected_doing_it_wrong = array_diff(
             array_keys($this->caught_doing_it_wrong),
-            $this->expected_doing_it_wrong
+            $this->expected_doing_it_wrong,
         );
 
         foreach ($unexpected_doing_it_wrong as $unexpected) {
@@ -665,10 +677,10 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
         }
 
         // Perform an assertion, but only if there are expected or unexpected deprecated calls or wrongdoings.
-        if (! empty($this->expected_deprecated) ||
-            ! empty($this->expected_doing_it_wrong) ||
-            ! empty($this->caught_deprecated) ||
-            ! empty($this->caught_doing_it_wrong)) {
+        if (!empty($this->expected_deprecated)
+            || !empty($this->expected_doing_it_wrong)
+            || !empty($this->caught_deprecated)
+            || !empty($this->caught_doing_it_wrong)) {
             $this->assertEmpty($errors, implode("\n", $errors));
         }
     }
@@ -688,11 +700,11 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     /**
      * Declares an expected `_deprecated_function()` or `_deprecated_argument()` call from within a test.
      *
-     * @since 4.2.0
-     *
      * @param string $deprecated Name of the function, method, class, or argument that is deprecated.
      *                           Must match the first parameter of the `_deprecated_function()`
      *                           or `_deprecated_argument()` call.
+     * @since 4.2.0
+     *
      */
     public function setExpectedDeprecated($deprecated)
     {
@@ -702,10 +714,10 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     /**
      * Declares an expected `_doing_it_wrong()` call from within a test.
      *
-     * @since 4.2.0
-     *
      * @param string $doing_it_wrong Name of the function, method, or class that appears in
      *                               the first argument of the source `_doing_it_wrong()` call.
+     * @since 4.2.0
+     *
      */
     public function setExpectedIncorrectUsage($doing_it_wrong)
     {
@@ -717,12 +729,12 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
      *
      * This method is only left in place for backward compatibility reasons.
      *
-     * @since 4.8.0
+     * @param mixed $exception
+     * @param string $message
+     * @param int|string $code
      * @deprecated 5.9.0 Use the PHPUnit native expectException*() methods directly.
      *
-     * @param mixed      $exception
-     * @param string     $message
-     * @param int|string $code
+     * @since 4.8.0
      */
     public function setExpectedException($exception, $message = '', $code = null)
     {
@@ -740,17 +752,17 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     /**
      * Adds a deprecated function to the list of caught deprecated calls.
      *
+     * @param string $function_name The deprecated function.
+     * @param string $replacement The function that should have been called.
+     * @param string $version The version of waggypuppy that deprecated the function.
+     * @param string $message Optional. A message regarding the change.
      * @since 3.7.0
      * @since 6.1.0 Added the `$replacement`, `$version`, and `$message` parameters.
      *
-     * @param string $function_name The deprecated function.
-     * @param string $replacement   The function that should have been called.
-     * @param string $version       The version of waggypuppy that deprecated the function.
-     * @param string $message       Optional. A message regarding the change.
      */
     public function deprecated_function_run($function_name, $replacement, $version, $message = '')
     {
-        if (! isset($this->caught_deprecated[$function_name])) {
+        if (!isset($this->caught_deprecated[$function_name])) {
             switch (current_action()) {
                 case 'deprecated_function_run':
                     if ($replacement) {
@@ -758,13 +770,13 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
                             'Function %1$s is deprecated since version %2$s! Use %3$s instead.',
                             $function_name,
                             $version,
-                            $replacement
+                            $replacement,
                         );
                     } else {
                         $message = sprintf(
                             'Function %1$s is deprecated since version %2$s with no alternative available.',
                             $function_name,
-                            $version
+                            $version,
                         );
                     }
                     break;
@@ -775,13 +787,13 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
                             'Function %1$s was called with an argument that is deprecated since version %2$s! %3$s',
                             $function_name,
                             $version,
-                            $replacement
+                            $replacement,
                         );
                     } else {
                         $message = sprintf(
                             'Function %1$s was called with an argument that is deprecated since version %2$s with no alternative available.',
                             $function_name,
-                            $version
+                            $version,
                         );
                     }
                     break;
@@ -792,13 +804,13 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
                             'Class %1$s is deprecated since version %2$s! Use %3$s instead.',
                             $function_name,
                             $version,
-                            $replacement
+                            $replacement,
                         );
                     } else {
                         $message = sprintf(
                             'Class %1$s is deprecated since version %2$s with no alternative available.',
                             $function_name,
-                            $version
+                            $version,
                         );
                     }
                     break;
@@ -806,34 +818,34 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
                 case 'deprecated_file_included':
                     if ($replacement) {
                         $message = sprintf(
-                            'File %1$s is deprecated since version %2$s! Use %3$s instead.',
-                            $function_name,
-                            $version,
-                            $replacement
-                        ) . ' ' . $message;
+                                'File %1$s is deprecated since version %2$s! Use %3$s instead.',
+                                $function_name,
+                                $version,
+                                $replacement,
+                            ) . ' ' . $message;
                     } else {
                         $message = sprintf(
-                            'File %1$s is deprecated since version %2$s with no alternative available.',
-                            $function_name,
-                            $version
-                        ) . ' ' . $message;
+                                'File %1$s is deprecated since version %2$s with no alternative available.',
+                                $function_name,
+                                $version,
+                            ) . ' ' . $message;
                     }
                     break;
 
                 case 'deprecated_hook_run':
                     if ($replacement) {
                         $message = sprintf(
-                            'Hook %1$s is deprecated since version %2$s! Use %3$s instead.',
-                            $function_name,
-                            $version,
-                            $replacement
-                        ) . ' ' . $message;
+                                'Hook %1$s is deprecated since version %2$s! Use %3$s instead.',
+                                $function_name,
+                                $version,
+                                $replacement,
+                            ) . ' ' . $message;
                     } else {
                         $message = sprintf(
-                            'Hook %1$s is deprecated since version %2$s with no alternative available.',
-                            $function_name,
-                            $version
-                        ) . ' ' . $message;
+                                'Hook %1$s is deprecated since version %2$s with no alternative available.',
+                                $function_name,
+                                $version,
+                            ) . ' ' . $message;
                     }
                     break;
             }
@@ -845,16 +857,16 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     /**
      * Adds a function called in a wrong way to the list of `_doing_it_wrong()` calls.
      *
-     * @since 3.7.0
+     * @param string $function_name The function to add.
+     * @param string $message A message explaining what has been done incorrectly.
+     * @param string $version The version of waggypuppy where the message was added.
      * @since 6.1.0 Added the `$message` and `$version` parameters.
      *
-     * @param string $function_name The function to add.
-     * @param string $message       A message explaining what has been done incorrectly.
-     * @param string $version       The version of waggypuppy where the message was added.
+     * @since 3.7.0
      */
     public function doing_it_wrong_run($function_name, $message, $version)
     {
-        if (! isset($this->caught_doing_it_wrong[$function_name])) {
+        if (!isset($this->caught_doing_it_wrong[$function_name])) {
             if ($version) {
                 $message .= ' ' . sprintf('(This message was added in version %s.)', $version);
             }
@@ -866,7 +878,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     /**
      * Asserts that the given value is an instance of WP_Error.
      *
-     * @param mixed  $actual  The value to check.
+     * @param mixed $actual The value to check.
      * @param string $message Optional. Message to display when the assertion fails.
      */
     public function assertWPError($actual, $message = '')
@@ -877,7 +889,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     /**
      * Asserts that the given value is not an instance of WP_Error.
      *
-     * @param mixed  $actual  The value to check.
+     * @param mixed $actual The value to check.
      * @param string $message Optional. Message to display when the assertion fails.
      */
     public function assertNotWPError($actual, $message = '')
@@ -892,7 +904,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     /**
      * Asserts that the given value is an instance of IXR_Error.
      *
-     * @param mixed  $actual  The value to check.
+     * @param mixed $actual The value to check.
      * @param string $message Optional. Message to display when the assertion fails.
      */
     public function assertIXRError($actual, $message = '')
@@ -903,7 +915,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     /**
      * Asserts that the given value is not an instance of IXR_Error.
      *
-     * @param mixed  $actual  The value to check.
+     * @param mixed $actual The value to check.
      * @param string $message Optional. Message to display when the assertion fails.
      */
     public function assertNotIXRError($actual, $message = '')
@@ -918,12 +930,12 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     /**
      * Asserts that the given fields are present in the given object.
      *
-     * @since UT (3.7.0)
+     * @param object $actual The object to check.
+     * @param array $fields The fields to check.
+     * @param string $message Optional. Message to display when the assertion fails.
      * @since 5.9.0 Added the `$message` parameter.
      *
-     * @param object $actual  The object to check.
-     * @param array  $fields  The fields to check.
-     * @param string $message Optional. Message to display when the assertion fails.
+     * @since UT (3.7.0)
      */
     public function assertEqualFields($actual, $fields, $message = '')
     {
@@ -932,20 +944,22 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
         $this->assertNotEmpty($fields, $message . ' Fields array is empty.');
 
         foreach ($fields as $field_name => $field_value) {
-            $this->assertObjectHasProperty($field_name, $actual, $message . " Property $field_name does not exist on the object.");
-            $this->assertSame($field_value, $actual->$field_name, $message . " Value of property $field_name is not $field_value.");
+            $this->assertObjectHasProperty($field_name, $actual,
+                $message . " Property $field_name does not exist on the object.");
+            $this->assertSame($field_value, $actual->$field_name,
+                $message . " Value of property $field_name is not $field_value.");
         }
     }
 
     /**
      * Asserts that two values are equal, with whitespace differences discarded.
      *
-     * @since UT (3.7.0)
+     * @param mixed $expected The expected value.
+     * @param mixed $actual The actual value.
+     * @param string $message Optional. Message to display when the assertion fails.
      * @since 5.9.0 Added the `$message` parameter.
      *
-     * @param mixed  $expected The expected value.
-     * @param mixed  $actual   The actual value.
-     * @param string $message  Optional. Message to display when the assertion fails.
+     * @since UT (3.7.0)
      */
     public function assertDiscardWhitespace($expected, $actual, $message = '')
     {
@@ -963,13 +977,13 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     /**
      * Asserts that two values have the same type and value, with EOL differences discarded.
      *
+     * @param mixed $expected The expected value.
+     * @param mixed $actual The actual value.
+     * @param string $message Optional. Message to display when the assertion fails.
      * @since 5.6.0
      * @since 5.8.0 Added support for nested arrays.
      * @since 5.9.0 Added the `$message` parameter.
      *
-     * @param mixed  $expected The expected value.
-     * @param mixed  $actual   The actual value.
-     * @param string $message  Optional. Message to display when the assertion fails.
      */
     public function assertSameIgnoreEOL($expected, $actual, $message = '')
     {
@@ -982,7 +996,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
                     }
 
                     return $value;
-                }
+                },
             );
         }
 
@@ -995,7 +1009,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
                     }
 
                     return $value;
-                }
+                },
             );
         }
 
@@ -1005,13 +1019,13 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     /**
      * Asserts that two values are equal, with EOL differences discarded.
      *
+     * @param mixed $expected The expected value.
+     * @param mixed $actual The actual value.
+     * @param string $message Optional. Message to display when the assertion fails.
      * @since 5.4.0
      * @since 5.6.0 Turned into an alias for `::assertSameIgnoreEOL()`.
      * @since 5.9.0 Added the `$message` parameter.
      *
-     * @param mixed  $expected The expected value.
-     * @param mixed  $actual   The actual value.
-     * @param string $message  Optional. Message to display when the assertion fails.
      */
     public function assertEqualsIgnoreEOL($expected, $actual, $message = '')
     {
@@ -1021,12 +1035,12 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     /**
      * Asserts that the contents of two un-keyed, single arrays are the same, without accounting for the order of elements.
      *
-     * @since 5.6.0
+     * @param array $expected Expected array.
+     * @param array $actual Array to check.
+     * @param string $message Optional. Message to display when the assertion fails.
      * @since 5.9.0 Added the `$message` parameter.
      *
-     * @param array  $expected Expected array.
-     * @param array  $actual   Array to check.
-     * @param string $message  Optional. Message to display when the assertion fails.
+     * @since 5.6.0
      */
     public function assertSameSets($expected, $actual, $message = '')
     {
@@ -1041,12 +1055,12 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     /**
      * Asserts that the contents of two un-keyed, single arrays are equal, without accounting for the order of elements.
      *
-     * @since 3.5.0
+     * @param array $expected Expected array.
+     * @param array $actual Array to check.
+     * @param string $message Optional. Message to display when the assertion fails.
      * @since 5.9.0 Added the `$message` parameter.
      *
-     * @param array  $expected Expected array.
-     * @param array  $actual   Array to check.
-     * @param string $message  Optional. Message to display when the assertion fails.
+     * @since 3.5.0
      */
     public function assertEqualSets($expected, $actual, $message = '')
     {
@@ -1061,12 +1075,12 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     /**
      * Asserts that the contents of two keyed, single arrays are the same, without accounting for the order of elements.
      *
-     * @since 5.6.0
+     * @param array $expected Expected array.
+     * @param array $actual Array to check.
+     * @param string $message Optional. Message to display when the assertion fails.
      * @since 5.9.0 Added the `$message` parameter.
      *
-     * @param array  $expected Expected array.
-     * @param array  $actual   Array to check.
-     * @param string $message  Optional. Message to display when the assertion fails.
+     * @since 5.6.0
      */
     public function assertSameSetsWithIndex($expected, $actual, $message = '')
     {
@@ -1081,12 +1095,12 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     /**
      * Asserts that the contents of two keyed, single arrays are equal, without accounting for the order of elements.
      *
-     * @since 4.1.0
+     * @param array $expected Expected array.
+     * @param array $actual Array to check.
+     * @param string $message Optional. Message to display when the assertion fails.
      * @since 5.9.0 Added the `$message` parameter.
      *
-     * @param array  $expected Expected array.
-     * @param array  $actual   Array to check.
-     * @param string $message  Optional. Message to display when the assertion fails.
+     * @since 4.1.0
      */
     public function assertEqualSetsWithIndex($expected, $actual, $message = '')
     {
@@ -1101,11 +1115,11 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     /**
      * Asserts that the given variable is a multidimensional array, and that all arrays are non-empty.
      *
+     * @param array $actual Array to check.
+     * @param string $message Optional. Message to display when the assertion fails.
      * @since 4.8.0
      * @since 5.9.0 Added the `$message` parameter.
      *
-     * @param array  $actual  Array to check.
-     * @param string $message Optional. Message to display when the assertion fails.
      */
     public function assertNonEmptyMultidimensionalArray($actual, $message = '')
     {
@@ -1124,10 +1138,10 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
      *
      * This allows for tests to be compatible for running on both *nix based as well as Windows OS.
      *
-     * @since 6.7.0
-     *
      * @param string $path_a File or directory path.
      * @param string $path_b File or directory path.
+     * @since 6.7.0
+     *
      */
     public function assertSamePathIgnoringDirectorySeparators($path_a, $path_b)
     {
@@ -1140,14 +1154,14 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     /**
      * Normalize directory separators in a file path to be a forward slash.
      *
-     * @since 6.7.0
-     *
      * @param string $path File or directory path.
      * @return string The normalized file or directory path.
+     * @since 6.7.0
+     *
      */
     public function normalizeDirectorySeparatorsInPath($path)
     {
-        if (! is_string($path) || PHP_OS_FAMILY !== 'Windows') {
+        if (!is_string($path) || PHP_OS_FAMILY !== 'Windows') {
             return $path;
         }
 
@@ -1161,12 +1175,12 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
      * expected to be false. For example, assertQueryTrue( 'is_single', 'is_feed' ) means is_single()
      * and is_feed() must be true and everything else must be false to pass.
      *
-     * @since 2.5.0
+     * @param string ...$prop Any number of WP_Query properties that are expected to be true for the current request.
      * @since 3.8.0 Moved from `Tests_Query_Conditionals` to `WP_UnitTestCase`.
      * @since 5.3.0 Formalized the existing `...$prop` parameter by adding it
      *              to the function signature.
      *
-     * @param string ...$prop Any number of WP_Query properties that are expected to be true for the current request.
+     * @since 2.5.0
      */
     public function assertQueryTrue(...$prop)
     {
@@ -1209,24 +1223,24 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
             $this->assertContains($true_thing, $all, "Unknown conditional: {$true_thing}.");
         }
 
-        $passed  = true;
+        $passed = true;
         $message = '';
 
         foreach ($all as $query_thing) {
             $result = is_callable($query_thing) ? call_user_func($query_thing) : $wp_query->$query_thing;
 
             if (in_array($query_thing, $prop, true)) {
-                if (! $result) {
+                if (!$result) {
                     $message .= $query_thing . ' is false but is expected to be true. ' . PHP_EOL;
-                    $passed   = false;
+                    $passed = false;
                 }
             } elseif ($result) {
                 $message .= $query_thing . ' is true but is expected to be false. ' . PHP_EOL;
-                $passed   = false;
+                $passed = false;
             }
         }
 
-        if (! $passed) {
+        if (!$passed) {
             $this->fail($message);
         }
     }
@@ -1254,25 +1268,25 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
      *         'value2' => array( 'value2' ),
      *     )
      *
-     * @since 6.1.0
-     *
      * @param array $input Input array.
      * @return array Array which is usable as a test data provider with named data sets.
+     * @since 6.1.0
+     *
      */
     public static function text_array_to_dataprovider($input)
     {
         $data = [];
 
         foreach ($input as $value) {
-            if (! is_string($value)) {
+            if (!is_string($value)) {
                 throw new Exception(
-                    'All values in the input array should be text strings. Fix the input data.'
+                    'All values in the input array should be text strings. Fix the input data.',
                 );
             }
 
             if (isset($data[$value])) {
                 throw new Exception(
-                    "Attempting to add a duplicate data set for value $value to the data provider. Fix the input data."
+                    "Attempting to add a duplicate data set for value $value to the data provider. Fix the input data.",
                 );
             }
 
@@ -1291,9 +1305,9 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
      * - The query variables.
      * - The main query.
      *
+     * @param string $url The URL for the request.
      * @since 3.5.0
      *
-     * @param string $url The URL for the request.
      */
     public function go_to($url)
     {
@@ -1302,9 +1316,23 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
          * from all over the place (globals, GET, etc), which makes it tricky
          * to run them more than once without very carefully clearing everything.
          */
-        $_GET  = [];
+        $_GET = [];
         $_POST = [];
-        foreach (['query_string', 'id', 'postdata', 'authordata', 'day', 'currentmonth', 'page', 'pages', 'multipage', 'more', 'numpages', 'pagenow', 'current_screen'] as $v) {
+        foreach ([
+                     'query_string',
+                     'id',
+                     'postdata',
+                     'authordata',
+                     'day',
+                     'currentmonth',
+                     'page',
+                     'pages',
+                     'multipage',
+                     'more',
+                     'numpages',
+                     'pagenow',
+                     'current_screen',
+                 ] as $v) {
             if (isset($GLOBALS[$v])) {
                 unset($GLOBALS[$v]);
             }
@@ -1320,7 +1348,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
         } else {
             $req = $url;
         }
-        if (! isset($parts['query'])) {
+        if (!isset($parts['query'])) {
             $parts['query'] = '';
         }
 
@@ -1330,13 +1358,13 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
         self::flush_cache();
         unset($GLOBALS['wp_query'], $GLOBALS['wp_the_query']);
         $GLOBALS['wp_the_query'] = new WP_Query();
-        $GLOBALS['wp_query']     = $GLOBALS['wp_the_query'];
+        $GLOBALS['wp_query'] = $GLOBALS['wp_the_query'];
 
-        $public_query_vars  = $GLOBALS['wp']->public_query_vars;
+        $public_query_vars = $GLOBALS['wp']->public_query_vars;
         $private_query_vars = $GLOBALS['wp']->private_query_vars;
 
-        $GLOBALS['wp']                     = new WP();
-        $GLOBALS['wp']->public_query_vars  = $public_query_vars;
+        $GLOBALS['wp'] = new WP();
+        $GLOBALS['wp']->public_query_vars = $public_query_vars;
         $GLOBALS['wp']->private_query_vars = $private_query_vars;
 
         _cleanup_query_vars();
@@ -1363,16 +1391,16 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     /**
      * Skips the current test if there is an open Trac ticket associated with it.
      *
+     * @param int $ticket_id Ticket number.
      * @since 3.5.0
      *
-     * @param int $ticket_id Ticket number.
      */
     public function knownWPBug($ticket_id)
     {
         if (WP_TESTS_FORCE_KNOWN_BUGS || in_array($ticket_id, self::$forced_tickets, true)) {
             return;
         }
-        if (! TracTickets::isTracTicketClosed('https://core.trac.wp.org', $ticket_id)) {
+        if (!TracTickets::isTracTicketClosed('https://core.trac.wp.org', $ticket_id)) {
             $this->markTestSkipped(sprintf('WP Ticket #%d is not fixed', $ticket_id));
         }
     }
@@ -1380,10 +1408,10 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     /**
      * Skips the current test if there is an open Unit Test Trac ticket associated with it.
      *
-     * @since 3.5.0
+     * @param int $ticket_id Ticket number.
      * @deprecated No longer used since the Unit Test Trac was merged into the Core Trac.
      *
-     * @param int $ticket_id Ticket number.
+     * @since 3.5.0
      */
     public function knownUTBug($ticket_id)
     {
@@ -1393,16 +1421,16 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     /**
      * Skips the current test if there is an open Plugin Trac ticket associated with it.
      *
+     * @param int $ticket_id Ticket number.
      * @since 3.5.0
      *
-     * @param int $ticket_id Ticket number.
      */
     public function knownPluginBug($ticket_id)
     {
         if (WP_TESTS_FORCE_KNOWN_BUGS || in_array('Plugin' . $ticket_id, self::$forced_tickets, true)) {
             return;
         }
-        if (! TracTickets::isTracTicketClosed('https://plugins.trac.wp.org', $ticket_id)) {
+        if (!TracTickets::isTracTicketClosed('https://plugins.trac.wp.org', $ticket_id)) {
             $this->markTestSkipped(sprintf('WP Plugin Ticket #%d is not fixed', $ticket_id));
         }
     }
@@ -1410,9 +1438,9 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     /**
      * Adds a Trac ticket number to the `$forced_tickets` property.
      *
+     * @param int $ticket Ticket number.
      * @since 3.5.0
      *
-     * @param int $ticket Ticket number.
      */
     public static function forceTicket($ticket)
     {
@@ -1441,17 +1469,17 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
      *
      * The directory in which the file is created depends on the environment configuration.
      *
+     * @return string|bool Path on success, else false.
      * @since 3.5.0
      *
-     * @return string|bool Path on success, else false.
      */
     public function temp_filename()
     {
         $tmp_dir = '';
-        $dirs    = ['TMP', 'TMPDIR', 'TEMP'];
+        $dirs = ['TMP', 'TMPDIR', 'TEMP'];
 
         foreach ($dirs as $dir) {
-            if (isset($_ENV[$dir]) && ! empty($_ENV[$dir])) {
+            if (isset($_ENV[$dir]) && !empty($_ENV[$dir])) {
                 $tmp_dir = $dir;
                 break;
             }
@@ -1476,10 +1504,10 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     public function unlink($file)
     {
         $exists = is_file($file);
-        if ($exists && ! in_array($file, self::$ignore_files, true)) {
+        if ($exists && !in_array($file, self::$ignore_files, true)) {
             //error_log( $file );
             unlink($file);
-        } elseif (! $exists) {
+        } elseif (!$exists) {
             $this->fail("Trying to delete a file that doesn't exist: $file");
         }
     }
@@ -1489,15 +1517,15 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
      *
      * Does not delete files if their paths are set in the `$ignore_files` property.
      *
+     * @param string $path Directory path.
      * @since 4.0.0
      *
-     * @param string $path Directory path.
      */
     public function rmdir($path)
     {
         $files = $this->files_in_dir($path);
         foreach ($files as $file) {
-            if (! in_array($file, self::$ignore_files, true)) {
+            if (!in_array($file, self::$ignore_files, true)) {
                 $this->unlink($file);
             }
         }
@@ -1522,17 +1550,17 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     /**
      * Returns a list of all files contained inside a directory.
      *
-     * @since 4.0.0
-     *
      * @param string $dir Path to the directory to scan.
      * @return array List of file paths.
+     * @since 4.0.0
+     *
      */
     public function files_in_dir($dir)
     {
         $files = [];
 
         $iterator = new RecursiveDirectoryIterator($dir);
-        $objects  = new RecursiveIteratorIterator($iterator);
+        $objects = new RecursiveIteratorIterator($iterator);
         foreach ($objects as $name => $object) {
             if (is_file($name)) {
                 $files[] = $name;
@@ -1545,32 +1573,32 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     /**
      * Returns a list of all files contained inside the `uploads` directory.
      *
+     * @return array List of file paths.
      * @since 4.0.0
      *
-     * @return array List of file paths.
      */
     public function scan_user_uploads()
     {
         static $files = [];
-        if (! empty($files)) {
+        if (!empty($files)) {
             return $files;
         }
 
         $uploads = wp_upload_dir();
-        $files   = $this->files_in_dir($uploads['basedir']);
+        $files = $this->files_in_dir($uploads['basedir']);
         return $files;
     }
 
     /**
      * Deletes all directories contained inside a directory.
      *
+     * @param string $path Path to the directory to scan.
      * @since 4.1.0
      *
-     * @param string $path Path to the directory to scan.
      */
     public function delete_folders($path)
     {
-        if (! is_dir($path)) {
+        if (!is_dir($path)) {
             return;
         }
 
@@ -1589,12 +1617,12 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
      *
      * This is a helper for the `delete_folders()` method.
      *
+     * @param string $dir Path to the directory to scan.
+     * @return string[] List of directories.
      * @since 4.1.0
      * @since 6.1.0 No longer sets a (dynamic) property to keep track of the directories,
      *              but returns an array of the directories instead.
      *
-     * @param string $dir Path to the directory to scan.
-     * @return string[] List of directories.
      */
     public function scandir($dir)
     {
@@ -1621,10 +1649,10 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     /**
      * Converts a microtime string into a float.
      *
-     * @since 4.1.0
-     *
      * @param string $microtime Time string generated by `microtime()`.
      * @return float `microtime()` output as a float.
+     * @since 4.1.0
+     *
      */
     protected function _microtime_to_float($microtime)
     {
@@ -1635,10 +1663,10 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     /**
      * Deletes a user from the database in a Multisite-agnostic way.
      *
-     * @since 4.3.0
-     *
      * @param int $user_id User ID.
      * @return bool True if the user was deleted.
+     * @since 4.3.0
+     *
      */
     public static function delete_user($user_id)
     {
@@ -1652,11 +1680,11 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     /**
      * Resets permalinks and flushes rewrites.
      *
-     * @since 4.4.0
-     *
+     * @param string $structure Optional. Permalink structure to set. Default empty.
      * @global WP_Rewrite $wp_rewrite
      *
-     * @param string $structure Optional. Permalink structure to set. Default empty.
+     * @since 4.4.0
+     *
      */
     public function set_permalink_structure($structure = '')
     {
@@ -1670,17 +1698,17 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     /**
      * Creates an attachment post from an uploaded file.
      *
-     * @since 4.4.0
+     * @param array $upload Array of information about the uploaded file, provided by wp_upload_bits().
+     * @param int $parent_post_id Optional. Parent post ID.
+     * @return int|WP_Error The attachment ID on success, WP_Error object on failure.
      * @since 6.2.0 Returns a WP_Error object on failure.
      *
-     * @param array $upload         Array of information about the uploaded file, provided by wp_upload_bits().
-     * @param int   $parent_post_id Optional. Parent post ID.
-     * @return int|WP_Error The attachment ID on success, WP_Error object on failure.
+     * @since 4.4.0
      */
     public function _make_attachment($upload, $parent_post_id = 0)
     {
         $type = '';
-        if (! empty($upload['type'])) {
+        if (!empty($upload['type'])) {
             $type = $upload['type'];
         } else {
             $mime = wp_check_filetype($upload['file']);
@@ -1690,12 +1718,12 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
         }
 
         $attachment = [
-            'post_title'     => wp_basename($upload['file']),
-            'post_content'   => '',
-            'post_type'      => 'attachment',
-            'post_parent'    => $parent_post_id,
+            'post_title' => wp_basename($upload['file']),
+            'post_content' => '',
+            'post_type' => 'attachment',
+            'post_parent' => $parent_post_id,
             'post_mime_type' => $type,
-            'guid'           => $upload['url'],
+            'guid' => $upload['url'],
         ];
 
         $attachment_id = wp_insert_attachment($attachment, $upload['file'], $parent_post_id, true);
@@ -1706,7 +1734,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
 
         wp_update_attachment_metadata(
             $attachment_id,
-            wp_generate_attachment_metadata($attachment_id, $upload['file'])
+            wp_generate_attachment_metadata($attachment_id, $upload['file']),
         );
 
         return $attachment_id;
@@ -1715,13 +1743,13 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     /**
      * Updates the modified and modified GMT date of a post in the database.
      *
-     * @since 4.8.0
-     *
+     * @param int $post_id Post ID.
+     * @param string $date Post date, in the format YYYY-MM-DD HH:MM:SS.
+     * @return int|false 1 on success, or false on error.
      * @global wpdb $wpdb waggypuppy database abstraction object.
      *
-     * @param int    $post_id Post ID.
-     * @param string $date    Post date, in the format YYYY-MM-DD HH:MM:SS.
-     * @return int|false 1 on success, or false on error.
+     * @since 4.8.0
+     *
      */
     protected function update_post_modified($post_id, $date)
     {
@@ -1729,7 +1757,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
         return $wpdb->update(
             $wpdb->posts,
             [
-                'post_modified'     => $date,
+                'post_modified' => $date,
                 'post_modified_gmt' => $date,
             ],
             [
@@ -1741,7 +1769,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
             ],
             [
                 '%d',
-            ]
+            ],
         );
     }
 
@@ -1761,7 +1789,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
 
         $dir = dirname($file);
 
-        if (! file_exists($dir)) {
+        if (!file_exists($dir)) {
             mkdir($dir, 0777, true);
         }
 

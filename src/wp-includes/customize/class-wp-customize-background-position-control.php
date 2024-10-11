@@ -30,8 +30,7 @@ class WP_Customize_Background_Position_Control extends WP_Customize_Control
      *
      * @since 4.7.0
      */
-    public function render_content()
-    {}
+    public function render_content() {}
 
     /**
      * Render a JS template for the content of the position control.
@@ -42,54 +41,54 @@ class WP_Customize_Background_Position_Control extends WP_Customize_Control
     {
         $options = [
             [
-                'left top'   => [
+                'left top' => [
                     'label' => __('Top Left'),
-                    'icon'  => 'dashicons dashicons-arrow-left-alt',
+                    'icon' => 'dashicons dashicons-arrow-left-alt',
                 ],
                 'center top' => [
                     'label' => __('Top'),
-                    'icon'  => 'dashicons dashicons-arrow-up-alt',
+                    'icon' => 'dashicons dashicons-arrow-up-alt',
                 ],
-                'right top'  => [
+                'right top' => [
                     'label' => __('Top Right'),
-                    'icon'  => 'dashicons dashicons-arrow-right-alt',
+                    'icon' => 'dashicons dashicons-arrow-right-alt',
                 ],
             ],
             [
-                'left center'   => [
+                'left center' => [
                     'label' => __('Left'),
-                    'icon'  => 'dashicons dashicons-arrow-left-alt',
+                    'icon' => 'dashicons dashicons-arrow-left-alt',
                 ],
                 'center center' => [
                     'label' => __('Center'),
-                    'icon'  => 'background-position-center-icon',
+                    'icon' => 'background-position-center-icon',
                 ],
-                'right center'  => [
+                'right center' => [
                     'label' => __('Right'),
-                    'icon'  => 'dashicons dashicons-arrow-right-alt',
+                    'icon' => 'dashicons dashicons-arrow-right-alt',
                 ],
             ],
             [
-                'left bottom'   => [
+                'left bottom' => [
                     'label' => __('Bottom Left'),
-                    'icon'  => 'dashicons dashicons-arrow-left-alt',
+                    'icon' => 'dashicons dashicons-arrow-left-alt',
                 ],
                 'center bottom' => [
                     'label' => __('Bottom'),
-                    'icon'  => 'dashicons dashicons-arrow-down-alt',
+                    'icon' => 'dashicons dashicons-arrow-down-alt',
                 ],
-                'right bottom'  => [
+                'right bottom' => [
                     'label' => __('Bottom Right'),
-                    'icon'  => 'dashicons dashicons-arrow-right-alt',
+                    'icon' => 'dashicons dashicons-arrow-right-alt',
                 ],
             ],
         ];
         ?>
         <# if ( data.label ) { #>
-            <span class="customize-control-title">{{{ data.label }}}</span>
+        <span class="customize-control-title">{{{ data.label }}}</span>
         <# } #>
         <# if ( data.description ) { #>
-            <span class="description customize-control-description">{{{ data.description }}}</span>
+        <span class="description customize-control-description">{{{ data.description }}}</span>
         <# } #>
         <div class="customize-control-content">
             <fieldset>
@@ -100,17 +99,20 @@ class WP_Customize_Background_Position_Control extends WP_Customize_Control
                     ?>
                 </span></legend>
                 <div class="background-position-control">
-                <?php foreach ($options as $group) : ?>
-                    <div class="button-group">
-                    <?php foreach ($group as $value => $input) : ?>
-                        <label>
-                            <input class="ui-helper-hidden-accessible" name="background-position" type="radio" value="<?php echo esc_attr($value); ?>">
-                            <span class="button display-options position"><span class="<?php echo esc_attr($input['icon']); ?>" aria-hidden="true"></span></span>
-                            <span class="screen-reader-text"><?php echo $input['label']; ?></span>
-                        </label>
+                    <?php foreach ($options as $group) : ?>
+                        <div class="button-group">
+                            <?php foreach ($group as $value => $input) : ?>
+                                <label>
+                                    <input class="ui-helper-hidden-accessible" name="background-position" type="radio"
+                                           value="<?php echo esc_attr($value); ?>">
+                                    <span class="button display-options position"><span
+                                            class="<?php echo esc_attr($input['icon']); ?>"
+                                            aria-hidden="true"></span></span>
+                                    <span class="screen-reader-text"><?php echo $input['label']; ?></span>
+                                </label>
+                            <?php endforeach; ?>
+                        </div>
                     <?php endforeach; ?>
-                    </div>
-                <?php endforeach; ?>
                 </div>
             </fieldset>
         </div>

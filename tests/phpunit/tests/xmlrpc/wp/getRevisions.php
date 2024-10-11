@@ -29,7 +29,7 @@ class Tests_XMLRPC_wp_getRevisions extends WP_XMLRPC_UnitTestCase
         $this->make_user_by_role('editor');
 
         $post_id = self::factory()->post->create();
-        $result  = $this->myxmlrpcserver->wp_getRevisions([1, 'editor', 'editor', $post_id]);
+        $result = $this->myxmlrpcserver->wp_getRevisions([1, 'editor', 'editor', $post_id]);
         $this->assertNotIXRError($result);
     }
 
@@ -40,9 +40,9 @@ class Tests_XMLRPC_wp_getRevisions extends WP_XMLRPC_UnitTestCase
         $post_id = self::factory()->post->create();
         wp_insert_post(
             [
-                'ID'           => $post_id,
+                'ID' => $post_id,
                 'post_content' => 'Edit 1',
-            ]
+            ],
         ); // Create the initial revision.
 
         $result = $this->myxmlrpcserver->wp_getRevisions([1, 'editor', 'editor', $post_id]);
@@ -51,9 +51,9 @@ class Tests_XMLRPC_wp_getRevisions extends WP_XMLRPC_UnitTestCase
 
         wp_insert_post(
             [
-                'ID'           => $post_id,
+                'ID' => $post_id,
                 'post_content' => 'Edit 2',
-            ]
+            ],
         );
 
         $result = $this->myxmlrpcserver->wp_getRevisions([1, 'editor', 'editor', $post_id]);
@@ -74,10 +74,10 @@ class Tests_XMLRPC_wp_getRevisions extends WP_XMLRPC_UnitTestCase
                 'editor',
                 'editor',
                 [
-                    'post_title'   => 'Original title',
+                    'post_title' => 'Original title',
                     'post_content' => 'Test',
                 ],
-            ]
+            ],
         );
 
         $result = $this->myxmlrpcserver->wp_getRevisions([1, 'editor', 'editor', $post_id]);

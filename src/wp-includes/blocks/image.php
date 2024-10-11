@@ -9,13 +9,13 @@
  * Renders the `core/image` block on the server,
  * adding a data-id attribute to the element if core/gallery has added on pre-render.
  *
- * @since 5.9.0
- *
- * @param array    $attributes The block attributes.
- * @param string   $content    The block content.
- * @param WP_Block $block      The block object.
+ * @param array $attributes The block attributes.
+ * @param string $content The block content.
+ * @param WP_Block $block The block object.
  *
  * @return string The block content with the data-id attribute added.
+ * @since 5.9.0
+ *
  */
 function render_block_core_image($attributes, $content, $block)
 {
@@ -25,7 +25,7 @@ function render_block_core_image($attributes, $content, $block)
 
     $p = new WP_HTML_Tag_Processor($content);
 
-    if (! $p->next_tag('img') || null === $p->get_attribute('src')) {
+    if (!$p->next_tag('img') || null === $p->get_attribute('src')) {
         return '';
     }
 
@@ -36,10 +36,10 @@ function render_block_core_image($attributes, $content, $block)
         // If there's a mismatch with the 'wp-image-' class and the actual id, the id was
         // probably overridden by block bindings. Update it to the correct value.
         // See https://github.com/WordPress/gutenberg/issues/62886 for why this is needed.
-        $id                       = $attributes['id'];
-        $image_classnames         = $p->get_attribute('class');
+        $id = $attributes['id'];
+        $image_classnames = $p->get_attribute('class');
         $class_with_binding_value = "wp-image-$id";
-        if (is_string($image_classnames) && ! str_contains($image_classnames, $class_with_binding_value)) {
+        if (is_string($image_classnames) && !str_contains($image_classnames, $class_with_binding_value)) {
             $image_classnames = preg_replace('/wp-image-(\d+)/', $class_with_binding_value, $image_classnames);
             $p->set_attribute('class', $image_classnames);
         }
@@ -58,17 +58,17 @@ function render_block_core_image($attributes, $content, $block)
         $p->set_attribute('data-id', $data_id);
     }
 
-    $link_destination  = isset($attributes['linkDestination']) ? $attributes['linkDestination'] : 'none';
+    $link_destination = isset($attributes['linkDestination']) ? $attributes['linkDestination'] : 'none';
     $lightbox_settings = block_core_image_get_lightbox_settings($block->parsed_block);
 
     /*
      * If the lightbox is enabled and the image is not linked, adds the filter and
      * the JavaScript view file.
      */
-    if (isset($lightbox_settings) &&
-        'none' === $link_destination &&
-        isset($lightbox_settings['enabled']) &&
-        true === $lightbox_settings['enabled']
+    if (isset($lightbox_settings)
+        && 'none' === $link_destination
+        && isset($lightbox_settings['enabled'])
+        && true === $lightbox_settings['enabled']
     ) {
         wp_enqueue_script_module('@wordpress/block-library/image/view');
 
@@ -96,11 +96,11 @@ function render_block_core_image($attributes, $content, $block)
  *
  * This is used to determine whether the lightbox should be rendered or not.
  *
- * @since 6.4.0
- *
  * @param array $block Block data.
  *
  * @return array Filtered block data.
+ * @since 6.4.0
+ *
  */
 function block_core_image_get_lightbox_settings($block)
 {
@@ -109,7 +109,7 @@ function block_core_image_get_lightbox_settings($block)
         $lightbox_settings = $block['attrs']['lightbox'];
     }
 
-    if (! isset($lightbox_settings)) {
+    if (!isset($lightbox_settings)) {
         $lightbox_settings = wp_get_global_settings(['lightbox'], ['block_name' => 'core/image']);
 
         // If not present in global settings, check the top-level global settings.
@@ -129,12 +129,12 @@ function block_core_image_get_lightbox_settings($block)
 /**
  * Adds the directives and layout needed for the lightbox behavior.
  *
- * @since 6.4.0
- *
  * @param string $block_content Rendered block content.
- * @param array  $block         Block object.
+ * @param array $block Block object.
  *
  * @return string Filtered block content.
+ * @since 6.4.0
+ *
  */
 function block_core_image_render_lightbox($block_content, $block)
 {
@@ -147,17 +147,17 @@ function block_core_image_render_lightbox($block_content, $block)
     if ($p->next_tag('figure')) {
         $p->set_bookmark('figure');
     }
-    if (! $p->next_tag('img')) {
+    if (!$p->next_tag('img')) {
         return $block_content;
     }
 
-    $alt              = $p->get_attribute('alt');
+    $alt = $p->get_attribute('alt');
     $img_uploaded_src = $p->get_attribute('src');
-    $img_class_names  = $p->get_attribute('class');
-    $img_styles       = $p->get_attribute('style');
-    $img_width        = 'none';
-    $img_height       = 'none';
-    $aria_label       = __('Enlarge image');
+    $img_class_names = $p->get_attribute('class');
+    $img_styles = $p->get_attribute('style');
+    $img_width = 'none';
+    $img_height = 'none';
+    $aria_label = __('Enlarge image');
 
     if ($alt) {
         /* translators: %s: Image alt text. */
@@ -166,15 +166,15 @@ function block_core_image_render_lightbox($block_content, $block)
 
     if (isset($block['attrs']['id'])) {
         $img_uploaded_src = wp_get_attachment_url($block['attrs']['id']);
-        $img_metadata     = wp_get_attachment_metadata($block['attrs']['id']);
-        $img_width        = $img_metadata['width'] ?? 'none';
-        $img_height       = $img_metadata['height'] ?? 'none';
+        $img_metadata = wp_get_attachment_metadata($block['attrs']['id']);
+        $img_width = $img_metadata['width'] ?? 'none';
+        $img_height = $img_metadata['height'] ?? 'none';
     }
 
     // Figure.
     $p->seek('figure');
     $figure_class_names = $p->get_attribute('class');
-    $figure_styles      = $p->get_attribute('style');
+    $figure_styles = $p->get_attribute('style');
 
     // Create unique id and set the image metadata in the state.
     $unique_image_id = uniqid();
@@ -184,19 +184,19 @@ function block_core_image_render_lightbox($block_content, $block)
         [
             'metadata' => [
                 $unique_image_id => [
-                    'uploadedSrc'      => $img_uploaded_src,
+                    'uploadedSrc' => $img_uploaded_src,
                     'figureClassNames' => $figure_class_names,
-                    'figureStyles'     => $figure_styles,
-                    'imgClassNames'    => $img_class_names,
-                    'imgStyles'        => $img_styles,
-                    'targetWidth'      => $img_width,
-                    'targetHeight'     => $img_height,
-                    'scaleAttr'        => $block['attrs']['scale'] ?? false,
-                    'ariaLabel'        => $aria_label,
-                    'alt'              => $alt,
+                    'figureStyles' => $figure_styles,
+                    'imgClassNames' => $img_class_names,
+                    'imgStyles' => $img_styles,
+                    'targetWidth' => $img_width,
+                    'targetHeight' => $img_height,
+                    'scaleAttr' => $block['attrs']['scale'] ?? false,
+                    'ariaLabel' => $aria_label,
+                    'alt' => $alt,
                 ],
             ],
-        ]
+        ],
     );
 
     $p->add_class('wp-lightbox-container');
@@ -207,8 +207,8 @@ function block_core_image_render_lightbox($block_content, $block)
             [
                 'imageId' => $unique_image_id,
             ],
-            JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
-        )
+            JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP,
+        ),
     );
 
     // Image.
@@ -263,55 +263,55 @@ function block_core_image_print_lightbox_overlay()
     // If the current theme does NOT have a `theme.json`, or the colors are not
     // defined, it needs to set the background color & close button color to some
     // default values because it can't get them from the Global Styles.
-    $background_color   = '#fff';
+    $background_color = '#fff';
     $close_button_color = '#000';
     if (wp_theme_has_theme_json()) {
         $global_styles_color = wp_get_global_styles(['color']);
-        if (! empty($global_styles_color['background'])) {
+        if (!empty($global_styles_color['background'])) {
             $background_color = esc_attr($global_styles_color['background']);
         }
-        if (! empty($global_styles_color['text'])) {
+        if (!empty($global_styles_color['text'])) {
             $close_button_color = esc_attr($global_styles_color['text']);
         }
     }
 
     echo <<<HTML
-		<div
-			class="wp-lightbox-overlay zoom"
-			data-wp-interactive="core/image"
-			data-wp-context='{}'
-			data-wp-bind--role="state.roleAttribute"
-			data-wp-bind--aria-label="state.currentImage.ariaLabel"
-			data-wp-bind--aria-modal="state.ariaModal"
-			data-wp-class--active="state.overlayEnabled"
-			data-wp-class--show-closing-animation="state.showClosingAnimation"
-			data-wp-watch="callbacks.setOverlayFocus"
-			data-wp-on--keydown="actions.handleKeydown"
-			data-wp-on-async--touchstart="actions.handleTouchStart"
-			data-wp-on--touchmove="actions.handleTouchMove"
-			data-wp-on-async--touchend="actions.handleTouchEnd"
-			data-wp-on-async--click="actions.hideLightbox"
-			data-wp-on-async-window--resize="callbacks.setOverlayStyles"
-			data-wp-on-async-window--scroll="actions.handleScroll"
-			tabindex="-1"
-			>
-				<button type="button" aria-label="$close_button_label" style="fill: $close_button_color" class="close-button">
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="m13.06 12 6.47-6.47-1.06-1.06L12 10.94 5.53 4.47 4.47 5.53 10.94 12l-6.47 6.47 1.06 1.06L12 13.06l6.47 6.47 1.06-1.06L13.06 12Z"></path></svg>
-				</button>
-				<div class="lightbox-image-container">
-					<figure data-wp-bind--class="state.currentImage.figureClassNames" data-wp-bind--style="state.figureStyles">
-						<img data-wp-bind--alt="state.currentImage.alt" data-wp-bind--class="state.currentImage.imgClassNames" data-wp-bind--style="state.imgStyles" data-wp-bind--src="state.currentImage.currentSrc">
-					</figure>
-				</div>
-				<div class="lightbox-image-container">
-					<figure data-wp-bind--class="state.currentImage.figureClassNames" data-wp-bind--style="state.figureStyles">
-						<img data-wp-bind--alt="state.currentImage.alt" data-wp-bind--class="state.currentImage.imgClassNames" data-wp-bind--style="state.imgStyles" data-wp-bind--src="state.enlargedSrc">
-					</figure>
-				</div>
-				<div class="scrim" style="background-color: $background_color" aria-hidden="true"></div>
-				<style data-wp-text="state.overlayStyles"></style>
-		</div>
-HTML;
+        <div
+        	class="wp-lightbox-overlay zoom"
+        	data-wp-interactive="core/image"
+        	data-wp-context='{}'
+        	data-wp-bind--role="state.roleAttribute"
+        	data-wp-bind--aria-label="state.currentImage.ariaLabel"
+        	data-wp-bind--aria-modal="state.ariaModal"
+        	data-wp-class--active="state.overlayEnabled"
+        	data-wp-class--show-closing-animation="state.showClosingAnimation"
+        	data-wp-watch="callbacks.setOverlayFocus"
+        	data-wp-on--keydown="actions.handleKeydown"
+        	data-wp-on-async--touchstart="actions.handleTouchStart"
+        	data-wp-on--touchmove="actions.handleTouchMove"
+        	data-wp-on-async--touchend="actions.handleTouchEnd"
+        	data-wp-on-async--click="actions.hideLightbox"
+        	data-wp-on-async-window--resize="callbacks.setOverlayStyles"
+        	data-wp-on-async-window--scroll="actions.handleScroll"
+        	tabindex="-1"
+        	>
+        		<button type="button" aria-label="$close_button_label" style="fill: $close_button_color" class="close-button">
+        			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="m13.06 12 6.47-6.47-1.06-1.06L12 10.94 5.53 4.47 4.47 5.53 10.94 12l-6.47 6.47 1.06 1.06L12 13.06l6.47 6.47 1.06-1.06L13.06 12Z"></path></svg>
+        		</button>
+        		<div class="lightbox-image-container">
+        			<figure data-wp-bind--class="state.currentImage.figureClassNames" data-wp-bind--style="state.figureStyles">
+        				<img data-wp-bind--alt="state.currentImage.alt" data-wp-bind--class="state.currentImage.imgClassNames" data-wp-bind--style="state.imgStyles" data-wp-bind--src="state.currentImage.currentSrc">
+        			</figure>
+        		</div>
+        		<div class="lightbox-image-container">
+        			<figure data-wp-bind--class="state.currentImage.figureClassNames" data-wp-bind--style="state.figureStyles">
+        				<img data-wp-bind--alt="state.currentImage.alt" data-wp-bind--class="state.currentImage.imgClassNames" data-wp-bind--style="state.imgStyles" data-wp-bind--src="state.enlargedSrc">
+        			</figure>
+        		</div>
+        		<div class="scrim" style="background-color: $background_color" aria-hidden="true"></div>
+        		<style data-wp-text="state.overlayStyles"></style>
+        </div>
+        HTML;
 }
 
 /**
@@ -325,7 +325,8 @@ function register_block_core_image()
         __DIR__ . '/image',
         [
             'render_callback' => 'render_block_core_image',
-        ]
+        ],
     );
 }
+
 add_action('init', 'register_block_core_image');

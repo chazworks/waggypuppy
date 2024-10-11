@@ -12,16 +12,16 @@
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
  *
- * 	* Redistributions of source code must retain the above copyright notice, this list of
- * 	  conditions and the following disclaimer.
+ *    * Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
  *
- * 	* Redistributions in binary form must reproduce the above copyright notice, this list
- * 	  of conditions and the following disclaimer in the documentation and/or other materials
- * 	  provided with the distribution.
+ *    * Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
  *
- * 	* Neither the name of the SimplePie Team nor the names of its contributors may be used
- * 	  to endorse or promote products derived from this software without specific prior
- * 	  written permission.
+ *    * Neither the name of the SimplePie Team nor the names of its contributors may be used
+ *      to endorse or promote products derived from this software without specific prior
+ *      written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
  * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
@@ -67,18 +67,16 @@ class Cache
      * @var array
      */
     protected static $handlers = [
-        'mysql'     => 'SimplePie\Cache\MySQL',
-        'memcache'  => 'SimplePie\Cache\Memcache',
+        'mysql' => 'SimplePie\Cache\MySQL',
+        'memcache' => 'SimplePie\Cache\Memcache',
         'memcached' => 'SimplePie\Cache\Memcached',
-        'redis'     => 'SimplePie\Cache\Redis'
+        'redis' => 'SimplePie\Cache\Redis',
     ];
 
     /**
      * Don't call the constructor. Please.
      */
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 
     /**
      * Create a new SimplePie\Cache object
@@ -107,7 +105,8 @@ class Cache
      */
     public function create($location, $filename, $extension)
     {
-        trigger_error('Cache::create() has been replaced with Cache::get_handler() since SimplePie 1.3.1, use the registry system instead.', \E_USER_DEPRECATED);
+        trigger_error('Cache::create() has been replaced with Cache::get_handler() since SimplePie 1.3.1, use the registry system instead.',
+            \E_USER_DEPRECATED);
 
         return self::get_handler($location, $filename, $extension);
     }

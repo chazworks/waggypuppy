@@ -6,9 +6,9 @@
  * Note: The below @method notations are defined solely for the benefit of IDEs,
  * as a way to indicate expected return values from the given factory methods.
  *
- * @method int|WP_Error        create( $args = array(), $generation_definitions = null )
- * @method WP_Comment|WP_Error create_and_get( $args = array(), $generation_definitions = null )
- * @method (int|WP_Error)[]    create_many( $count, $args = array(), $generation_definitions = null )
+ * @method int|WP_Error        create($args = [], $generation_definitions = null)
+ * @method WP_Comment|WP_Error create_and_get($args = [], $generation_definitions = null)
+ * @method (int|WP_Error)[]    create_many($count, $args = array(), $generation_definitions = null)
  */
 class WP_UnitTest_Factory_For_Comment extends WP_UnitTest_Factory_For_Thing
 {
@@ -17,24 +17,24 @@ class WP_UnitTest_Factory_For_Comment extends WP_UnitTest_Factory_For_Thing
     {
         parent::__construct($factory);
         $this->default_generation_definitions = [
-            'comment_author'     => new WP_UnitTest_Generator_Sequence('Commenter %s'),
+            'comment_author' => new WP_UnitTest_Generator_Sequence('Commenter %s'),
             'comment_author_url' => new WP_UnitTest_Generator_Sequence('http://example.com/%s/'),
-            'comment_approved'   => 1,
-            'comment_content'    => 'This is a comment',
+            'comment_approved' => 1,
+            'comment_content' => 'This is a comment',
         ];
     }
 
     /**
      * Inserts a comment.
      *
-     * @since UT (3.7.0)
-     * @since 6.2.0 Returns a WP_Error object on failure.
-     *
-     * @global wpdb $wpdb waggypuppy database abstraction object.
-     *
      * @param array $args The comment details.
      *
      * @return int|WP_Error The comment ID on success, WP_Error object on failure.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
+     *
+     * @since UT (3.7.0)
+     * @since 6.2.0 Returns a WP_Error object on failure.
+     *
      */
     public function create_object($args)
     {
@@ -46,7 +46,7 @@ class WP_UnitTest_Factory_For_Comment extends WP_UnitTest_Factory_For_Thing
             return new WP_Error(
                 'db_insert_error',
                 __('Could not insert comment into the database.'),
-                $wpdb->last_error
+                $wpdb->last_error,
             );
         }
 
@@ -56,14 +56,14 @@ class WP_UnitTest_Factory_For_Comment extends WP_UnitTest_Factory_For_Thing
     /**
      * Updates a comment.
      *
-     * @since UT (3.7.0)
-     * @since 6.2.0 Returns a WP_Error object on failure.
-     *
-     * @param int   $comment_id The comment ID.
-     * @param array $fields     The comment details.
+     * @param int $comment_id The comment ID.
+     * @param array $fields The comment details.
      *
      * @return int|WP_Error The value 1 if the comment was updated, 0 if not updated.
      *                      WP_Error object on failure.
+     * @since 6.2.0 Returns a WP_Error object on failure.
+     *
+     * @since UT (3.7.0)
      */
     public function update_object($comment_id, $fields)
     {
@@ -74,14 +74,14 @@ class WP_UnitTest_Factory_For_Comment extends WP_UnitTest_Factory_For_Thing
     /**
      * Creates multiple comments on a given post.
      *
-     * @since UT (3.7.0)
-     *
-     * @param int   $post_id                ID of the post to create comments for.
-     * @param int   $count                  Total amount of comments to create.
-     * @param array $args                   The comment details.
-     * @param null  $generation_definitions Default values.
+     * @param int $post_id ID of the post to create comments for.
+     * @param int $count Total amount of comments to create.
+     * @param array $args The comment details.
+     * @param null $generation_definitions Default values.
      *
      * @return int[] Array with the comment IDs.
+     * @since UT (3.7.0)
+     *
      */
     public function create_post_comments($post_id, $count = 1, $args = [], $generation_definitions = null)
     {
@@ -92,11 +92,11 @@ class WP_UnitTest_Factory_For_Comment extends WP_UnitTest_Factory_For_Thing
     /**
      * Retrieves a comment by a given ID.
      *
-     * @since UT (3.7.0)
-     *
      * @param int $comment_id ID of the comment to retrieve.
      *
      * @return WP_Comment|null WP_Comment object on success, null on failure.
+     * @since UT (3.7.0)
+     *
      */
     public function get_object_by_id($comment_id)
     {

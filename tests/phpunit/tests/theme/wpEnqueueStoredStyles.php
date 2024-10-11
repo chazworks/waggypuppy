@@ -21,10 +21,10 @@ class Tests_Themes_WpEnqueueStoredStyles extends WP_Theme_UnitTestCase
     {
         $core_styles_to_enqueue = [
             [
-                'selector'     => '.saruman',
+                'selector' => '.saruman',
                 'declarations' => [
-                    'color'        => 'white',
-                    'height'       => '100px',
+                    'color' => 'white',
+                    'height' => '100px',
                     'border-style' => 'solid',
                 ],
             ],
@@ -35,15 +35,15 @@ class Tests_Themes_WpEnqueueStoredStyles extends WP_Theme_UnitTestCase
             $core_styles_to_enqueue,
             [
                 'context' => 'block-supports',
-            ]
+            ],
         );
 
         $my_styles_to_enqueue = [
             [
-                'selector'     => '.gandalf',
+                'selector' => '.gandalf',
                 'declarations' => [
-                    'color'        => 'grey',
-                    'height'       => '90px',
+                    'color' => 'grey',
+                    'height' => '90px',
                     'border-style' => 'dotted',
                 ],
             ],
@@ -54,7 +54,7 @@ class Tests_Themes_WpEnqueueStoredStyles extends WP_Theme_UnitTestCase
             $my_styles_to_enqueue,
             [
                 'context' => 'my-styles',
-            ]
+            ],
         );
 
         wp_enqueue_stored_styles(['prettify' => false]);
@@ -62,13 +62,13 @@ class Tests_Themes_WpEnqueueStoredStyles extends WP_Theme_UnitTestCase
         $this->assertSame(
             ['.saruman{color:white;height:100px;border-style:solid;}'],
             wp_styles()->registered['core-block-supports']->extra['after'],
-            'Registered styles with handle of "core-block-supports" do not match expected value from Style Engine store.'
+            'Registered styles with handle of "core-block-supports" do not match expected value from Style Engine store.',
         );
 
         $this->assertSame(
             ['.gandalf{color:grey;height:90px;border-style:dotted;}'],
             wp_styles()->registered['wp-style-engine-my-styles']->extra['after'],
-            'Registered styles with handle of "wp-style-engine-my-styles" do not match expected value from the Style Engine store.'
+            'Registered styles with handle of "wp-style-engine-my-styles" do not match expected value from the Style Engine store.',
         );
     }
 }

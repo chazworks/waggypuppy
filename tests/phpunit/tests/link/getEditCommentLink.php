@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @group link
  * @group comment
@@ -15,7 +16,7 @@ class Tests_Link_GetEditCommentLink extends WP_UnitTestCase
         self::$comment_id = $factory->comment->create(['comment_content' => 'Test comment']);
 
         self::$user_ids = [
-            'admin'      => $factory->user->create(['role' => 'administrator']),
+            'admin' => $factory->user->create(['role' => 'administrator']),
             'subscriber' => $factory->user->create(['role' => 'subscriber']),
         ];
     }
@@ -42,9 +43,9 @@ class Tests_Link_GetEditCommentLink extends WP_UnitTestCase
      */
     public function test_get_edit_comment_link_default()
     {
-        $comment_id   = self::$comment_id;
+        $comment_id = self::$comment_id;
         $expected_url = admin_url('comment.php?action=editcomment&amp;c=' . $comment_id);
-        $actual_url   = get_edit_comment_link($comment_id);
+        $actual_url = get_edit_comment_link($comment_id);
 
         $this->assertSame($expected_url, $actual_url);
     }
@@ -58,9 +59,9 @@ class Tests_Link_GetEditCommentLink extends WP_UnitTestCase
      */
     public function test_get_edit_comment_link_display_context()
     {
-        $comment_id   = self::$comment_id;
+        $comment_id = self::$comment_id;
         $expected_url = admin_url('comment.php?action=editcomment&amp;c=' . $comment_id);
-        $actual_url   = get_edit_comment_link($comment_id, 'display');
+        $actual_url = get_edit_comment_link($comment_id, 'display');
 
         $this->assertSame($expected_url, $actual_url);
     }
@@ -74,9 +75,9 @@ class Tests_Link_GetEditCommentLink extends WP_UnitTestCase
      */
     public function test_get_edit_comment_link_url_context()
     {
-        $comment_id   = self::$comment_id;
+        $comment_id = self::$comment_id;
         $expected_url = admin_url('comment.php?action=editcomment&c=' . $comment_id);
-        $actual_url   = get_edit_comment_link($comment_id, 'url');
+        $actual_url = get_edit_comment_link($comment_id, 'url');
 
         $this->assertSame($expected_url, $actual_url);
     }
@@ -88,9 +89,9 @@ class Tests_Link_GetEditCommentLink extends WP_UnitTestCase
      */
     public function test_get_edit_comment_link_invalid_comment()
     {
-        $comment_id         = 12345;
+        $comment_id = 12345;
         $actual_url_display = get_edit_comment_link($comment_id, 'display');
-        $actual_url         = get_edit_comment_link($comment_id, 'url');
+        $actual_url = get_edit_comment_link($comment_id, 'url');
 
         $this->assertNull($actual_url_display);
         $this->assertNull($actual_url);
@@ -102,9 +103,9 @@ class Tests_Link_GetEditCommentLink extends WP_UnitTestCase
     public function test_get_edit_comment_link_user_cannot_edit()
     {
         wp_set_current_user(self::$user_ids['subscriber']);
-        $comment_id         = self::$comment_id;
+        $comment_id = self::$comment_id;
         $actual_url_display = get_edit_comment_link($comment_id, 'display');
-        $actual_url         = get_edit_comment_link($comment_id, 'url');
+        $actual_url = get_edit_comment_link($comment_id, 'url');
 
         $this->assertNull($actual_url_display);
         $this->assertNull($actual_url);
@@ -117,9 +118,9 @@ class Tests_Link_GetEditCommentLink extends WP_UnitTestCase
      */
     public function test_get_edit_comment_link_filter()
     {
-        $comment_id           = self::$comment_id;
+        $comment_id = self::$comment_id;
         $expected_url_display = admin_url('comment-test.php?context=display');
-        $expected_url         = admin_url('comment-test.php?context=url');
+        $expected_url = admin_url('comment-test.php?context=url');
 
         add_filter(
             'get_edit_comment_link',
@@ -127,11 +128,11 @@ class Tests_Link_GetEditCommentLink extends WP_UnitTestCase
                 return admin_url('comment-test.php?context=' . $context);
             },
             10,
-            3
+            3,
         );
 
         $actual_url_display = get_edit_comment_link($comment_id, 'display');
-        $actual_url         = get_edit_comment_link($comment_id, 'url');
+        $actual_url = get_edit_comment_link($comment_id, 'url');
 
         // Assert the final URLs are as expected
         $this->assertSame($expected_url_display, $actual_url_display);
@@ -154,7 +155,7 @@ class Tests_Link_GetEditCommentLink extends WP_UnitTestCase
                 return $location;
             },
             10,
-            2
+            2,
         );
 
         // Pass a comment object to get_edit_comment_link().

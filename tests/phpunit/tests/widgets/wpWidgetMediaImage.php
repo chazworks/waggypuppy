@@ -25,7 +25,7 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
         global $wp_scripts, $wp_styles;
         parent::clean_up_global_scope();
         $wp_scripts = null;
-        $wp_styles  = null;
+        $wp_styles = null;
     }
 
     /**
@@ -56,7 +56,7 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
                 'url',
                 'width',
             ],
-            array_keys($schema)
+            array_keys($schema),
         );
     }
 
@@ -81,11 +81,11 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
     /**
      * Filters instance schema.
      *
-     * @since 5.2.0
-     *
-     * @param array                 $schema Schema.
+     * @param array $schema Schema.
      * @param WP_Widget_Media_Image $widget Widget.
      * @return array
+     * @since 5.2.0
+     *
      */
     public function filter_instance_schema($schema, $widget)
     {
@@ -120,7 +120,7 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
                 'add_media',
                 'unsupported_file_type',
             ],
-            array_keys($widget->l10n)
+            array_keys($widget->l10n),
         );
     }
 
@@ -131,14 +131,14 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
      */
     public function test_update()
     {
-        $widget   = new WP_Widget_Media_Image();
+        $widget = new WP_Widget_Media_Image();
         $instance = [];
 
         // Should return valid attachment ID.
         $expected = [
             'attachment_id' => 1,
         ];
-        $result   = $widget->update($expected, $instance);
+        $result = $widget->update($expected, $instance);
         $this->assertSame($expected, $result);
 
         // Should filter invalid attachment ID.
@@ -146,7 +146,7 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
             [
                 'attachment_id' => 'media',
             ],
-            $instance
+            $instance,
         );
         $this->assertSame($result, $instance);
 
@@ -154,7 +154,7 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
         $expected = [
             'url' => 'https://example.org',
         ];
-        $result   = $widget->update($expected, $instance);
+        $result = $widget->update($expected, $instance);
         $this->assertSame($expected, $result);
 
         // Should filter invalid attachment url.
@@ -162,7 +162,7 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
             [
                 'url' => 'not_a_url',
             ],
-            $instance
+            $instance,
         );
         $this->assertNotSame($result, $instance);
         $this->assertStringStartsWith('http://', $result['url']);
@@ -171,7 +171,7 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
         $expected = [
             'title' => 'What a title',
         ];
-        $result   = $widget->update($expected, $instance);
+        $result = $widget->update($expected, $instance);
         $this->assertSame($expected, $result);
 
         // Should filter invalid attachment title.
@@ -179,7 +179,7 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
             [
                 'title' => '<h1>W00t!</h1>',
             ],
-            $instance
+            $instance,
         );
         $this->assertNotSame($result, $instance);
 
@@ -187,7 +187,7 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
         $expected = [
             'size' => 'thumbnail',
         ];
-        $result   = $widget->update($expected, $instance);
+        $result = $widget->update($expected, $instance);
         $this->assertSame($expected, $result);
 
         // Should filter invalid image size.
@@ -195,7 +195,7 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
             [
                 'size' => 'big league',
             ],
-            $instance
+            $instance,
         );
         $this->assertSame($result, $instance);
 
@@ -203,7 +203,7 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
         $expected = [
             'width' => 300,
         ];
-        $result   = $widget->update($expected, $instance);
+        $result = $widget->update($expected, $instance);
         $this->assertSame($expected, $result);
 
         // Should filter invalid image width.
@@ -211,7 +211,7 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
             [
                 'width' => 'wide',
             ],
-            $instance
+            $instance,
         );
         $this->assertSame($result, $instance);
 
@@ -219,7 +219,7 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
         $expected = [
             'height' => 200,
         ];
-        $result   = $widget->update($expected, $instance);
+        $result = $widget->update($expected, $instance);
         $this->assertSame($expected, $result);
 
         // Should filter invalid image height.
@@ -227,7 +227,7 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
             [
                 'height' => 'high',
             ],
-            $instance
+            $instance,
         );
         $this->assertSame($result, $instance);
 
@@ -235,7 +235,7 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
         $expected = [
             'caption' => 'A caption with <a href="#">link</a>',
         ];
-        $result   = $widget->update($expected, $instance);
+        $result = $widget->update($expected, $instance);
         $this->assertSame($expected, $result);
 
         // Should filter invalid image caption.
@@ -243,20 +243,20 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
             [
                 'caption' => '"><i onload="alert(\'hello\')" />',
             ],
-            $instance
+            $instance,
         );
         $this->assertSame(
             $result,
             [
                 'caption' => '"&gt;<i />',
-            ]
+            ],
         );
 
         // Should return valid alt text.
         $expected = [
             'alt' => 'A water tower',
         ];
-        $result   = $widget->update($expected, $instance);
+        $result = $widget->update($expected, $instance);
         $this->assertSame($expected, $result);
 
         // Should filter invalid alt text.
@@ -264,20 +264,20 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
             [
                 'alt' => '"><i onload="alert(\'hello\')" />',
             ],
-            $instance
+            $instance,
         );
         $this->assertSame(
             $result,
             [
                 'alt' => '">',
-            ]
+            ],
         );
 
         // Should return valid link type.
         $expected = [
             'link_type' => 'file',
         ];
-        $result   = $widget->update($expected, $instance);
+        $result = $widget->update($expected, $instance);
         $this->assertSame($expected, $result);
 
         // Should filter invalid link type.
@@ -285,7 +285,7 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
             [
                 'link_type' => 'interesting',
             ],
-            $instance
+            $instance,
         );
         $this->assertSame($result, $instance);
 
@@ -293,7 +293,7 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
         $expected = [
             'link_url' => 'https://example.org',
         ];
-        $result   = $widget->update($expected, $instance);
+        $result = $widget->update($expected, $instance);
         $this->assertSame($expected, $result);
 
         // Should filter invalid link url.
@@ -301,7 +301,7 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
             [
                 'link_url' => 'not_a_url',
             ],
-            $instance
+            $instance,
         );
         $this->assertNotSame($result, $instance);
         $this->assertStringStartsWith('http://', $result['link_url']);
@@ -310,7 +310,7 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
         $expected = [
             'image_classes' => 'A water tower',
         ];
-        $result   = $widget->update($expected, $instance);
+        $result = $widget->update($expected, $instance);
         $this->assertSame($expected, $result);
 
         // Should filter invalid image classes.
@@ -318,20 +318,20 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
             [
                 'image_classes' => '"><i onload="alert(\'hello\')" />',
             ],
-            $instance
+            $instance,
         );
         $this->assertSame(
             $result,
             [
                 'image_classes' => 'i onloadalerthello',
-            ]
+            ],
         );
 
         // Should return valid link classes.
         $expected = [
             'link_classes' => 'A water tower',
         ];
-        $result   = $widget->update($expected, $instance);
+        $result = $widget->update($expected, $instance);
         $this->assertSame($expected, $result);
 
         // Should filter invalid link classes.
@@ -339,20 +339,20 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
             [
                 'link_classes' => '"><i onload="alert(\'hello\')" />',
             ],
-            $instance
+            $instance,
         );
         $this->assertSame(
             $result,
             [
                 'link_classes' => 'i onloadalerthello',
-            ]
+            ],
         );
 
         // Should return valid rel text.
         $expected = [
             'link_rel' => 'previous',
         ];
-        $result   = $widget->update($expected, $instance);
+        $result = $widget->update($expected, $instance);
         $this->assertSame($expected, $result);
 
         // Should filter invalid rel text.
@@ -360,20 +360,20 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
             [
                 'link_rel' => '"><i onload="alert(\'hello\')" />',
             ],
-            $instance
+            $instance,
         );
         $this->assertSame(
             $result,
             [
                 'link_rel' => 'i onloadalerthello',
-            ]
+            ],
         );
 
         // Should return valid link target.
         $expected = [
             'link_target_blank' => false,
         ];
-        $result   = $widget->update($expected, $instance);
+        $result = $widget->update($expected, $instance);
         $this->assertSame($expected, $result);
 
         // Should filter invalid  link target.
@@ -381,7 +381,7 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
             [
                 'link_target_blank' => 'top',
             ],
-            $instance
+            $instance,
         );
         $this->assertSame($result, $instance);
 
@@ -389,7 +389,7 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
         $expected = [
             'image_title' => 'What a title',
         ];
-        $result   = $widget->update($expected, $instance);
+        $result = $widget->update($expected, $instance);
         $this->assertSame($expected, $result);
 
         // Should filter invalid image title.
@@ -397,7 +397,7 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
             [
                 'image_title' => '<h1>W00t!</h1>',
             ],
-            $instance
+            $instance,
         );
         $this->assertNotSame($result, $instance);
 
@@ -406,7 +406,7 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
             [
                 'imaginary_key' => 'value',
             ],
-            $instance
+            $instance,
         );
         $this->assertSame($result, $instance);
     }
@@ -425,11 +425,11 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
         copy(DIR_TESTDATA . '/images/canola.jpg', $test_image);
         $attachment_id = self::factory()->attachment->create_object(
             [
-                'file'           => $test_image,
-                'post_parent'    => 0,
+                'file' => $test_image,
+                'post_parent' => 0,
                 'post_mime_type' => 'image/jpeg',
-                'post_title'     => 'Canola',
-            ]
+                'post_title' => 'Canola',
+            ],
         );
         wp_update_attachment_metadata($attachment_id, wp_generate_attachment_metadata($attachment_id, $test_image));
 
@@ -444,7 +444,7 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
         $widget->render_media(
             [
                 'attachment_id' => 666,
-            ]
+            ],
         );
         $output = ob_get_clean();
         $this->assertEmpty($output);
@@ -453,7 +453,7 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
         $widget->render_media(
             [
                 'attachment_id' => $attachment_id,
-            ]
+            ],
         );
         $output = ob_get_clean();
 
@@ -468,13 +468,13 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
         $widget->render_media(
             [
                 'attachment_id' => $attachment_id,
-                'image_title'   => 'Custom Title',
+                'image_title' => 'Custom Title',
                 'image_classes' => 'custom-class',
-                'alt'           => 'A flower',
-                'size'          => 'custom',
-                'width'         => 100,
-                'height'        => 100,
-            ]
+                'alt' => 'A flower',
+                'size' => 'custom',
+                'width' => 100,
+                'height' => 100,
+            ],
         );
         $output = ob_get_clean();
 
@@ -491,12 +491,12 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
         $widget->render_media(
             [
                 'attachment_id' => null,
-                'caption'       => 'With caption',
-                'height'        => 100,
-                'link_type'     => 'file',
-                'url'           => 'http://example.org/url/to/image.jpg',
-                'width'         => 100,
-            ]
+                'caption' => 'With caption',
+                'height' => 100,
+                'link_type' => 'file',
+                'url' => 'http://example.org/url/to/image.jpg',
+                'width' => 100,
+            ],
         );
         $output = ob_get_clean();
 
@@ -510,14 +510,14 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
         $widget->render_media(
             [
                 'attachment_id' => $attachment_id,
-                'link_type'     => 'file',
-            ]
+                'link_type' => 'file',
+            ],
         );
         $output = ob_get_clean();
 
         $link = '<a href="' . wp_get_attachment_url($attachment_id) . '"';
         $this->assertStringContainsString($link, $output);
-        $this->assertTrue((bool) preg_match('#<a href.*?>#', $output, $matches));
+        $this->assertTrue((bool)preg_match('#<a href.*?>#', $output, $matches));
         $this->assertStringNotContainsString(' class="', $matches[0]);
         $this->assertStringNotContainsString(' rel="', $matches[0]);
         $this->assertStringNotContainsString(' target="', $matches[0]);
@@ -525,12 +525,12 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
         ob_start();
         $widget->render_media(
             [
-                'attachment_id'     => $attachment_id,
-                'link_type'         => 'post',
-                'link_classes'      => 'custom-link-class',
-                'link_rel'          => 'attachment',
+                'attachment_id' => $attachment_id,
+                'link_type' => 'post',
+                'link_classes' => 'custom-link-class',
+                'link_rel' => 'attachment',
                 'link_target_blank' => false,
-            ]
+            ],
         );
         $output = ob_get_clean();
 
@@ -542,11 +542,11 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
         ob_start();
         $widget->render_media(
             [
-                'attachment_id'     => $attachment_id,
-                'link_type'         => 'custom',
-                'link_url'          => 'https://example.org',
+                'attachment_id' => $attachment_id,
+                'link_type' => 'custom',
+                'link_url' => 'https://example.org',
                 'link_target_blank' => true,
-            ]
+            ],
         );
         $output = ob_get_clean();
 
@@ -556,9 +556,9 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
         // Populate caption in attachment.
         wp_update_post(
             [
-                'ID'           => $attachment_id,
+                'ID' => $attachment_id,
                 'post_excerpt' => 'Default caption',
-            ]
+            ],
         );
 
         // If no caption is supplied, then the default is '', and so the caption will not be displayed.
@@ -566,7 +566,7 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
         $widget->render_media(
             [
                 'attachment_id' => $attachment_id,
-            ]
+            ],
         );
         $output = ob_get_clean();
         $this->assertStringNotContainsString('wp-caption', $output);
@@ -577,8 +577,8 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
         $widget->render_media(
             [
                 'attachment_id' => $attachment_id,
-                'caption'       => null,
-            ]
+                'caption' => null,
+            ],
         );
         $output = ob_get_clean();
         $this->assertStringContainsString('class="wp-caption alignnone"', $output);
@@ -589,8 +589,8 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
         $widget->render_media(
             [
                 'attachment_id' => $attachment_id,
-                'caption'       => 'Custom caption',
-            ]
+                'caption' => 'Custom caption',
+            ],
         );
         $output = ob_get_clean();
         $this->assertStringContainsString('class="wp-caption alignnone"', $output);
@@ -601,15 +601,16 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
         $widget->render_media(
             [
                 'attachment_id' => $attachment_id,
-                'size'          => 'custom',
-                'width'         => '300',
-                'height'        => '200',
-                'caption'       => 'Caption for an image with custom size',
-            ]
+                'size' => 'custom',
+                'width' => '300',
+                'height' => '200',
+                'caption' => 'Caption for an image with custom size',
+            ],
         );
         $output = ob_get_clean();
         $this->assertStringContainsString('style="width: 310px"', $output);
-        $this->assertStringContainsString('<p class="wp-caption-text">Caption for an image with custom size</p>', $output);
+        $this->assertStringContainsString('<p class="wp-caption-text">Caption for an image with custom size</p>',
+            $output);
     }
 
     /**

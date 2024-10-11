@@ -28,7 +28,7 @@ class Tests_Editor_DisableBlockEditorForNavigationPostType extends WP_UnitTestCa
     public function data_should_return_false_when_wp_navigation()
     {
         return [
-            'support value: true'  => [true],
+            'support value: true' => [true],
             'support value: false' => [false],
         ];
     }
@@ -37,7 +37,7 @@ class Tests_Editor_DisableBlockEditorForNavigationPostType extends WP_UnitTestCa
      * @dataProvider data_should_return_given_value_for_non_wp_navigation_post_types
      * @ticket       56266
      *
-     * @param bool   $supports  Whether the CPT supports block editor or not.
+     * @param bool $supports Whether the CPT supports block editor or not.
      * @param string $post_type The post type
      */
     public function test_should_return_given_value_for_non_wp_navigation_post_types($supports, $post_type)
@@ -53,57 +53,57 @@ class Tests_Editor_DisableBlockEditorForNavigationPostType extends WP_UnitTestCa
     public function data_should_return_given_value_for_non_wp_navigation_post_types()
     {
         return [
-            'post'                => [
+            'post' => [
                 'post_type' => 'post',
-                'supports'  => true,
+                'supports' => true,
             ],
-            'page'                => [
+            'page' => [
                 'post_type' => 'page',
-                'supports'  => true,
+                'supports' => true,
             ],
-            'attachments'         => [
+            'attachments' => [
                 'post_type' => 'attachments',
-                'supports'  => false,
+                'supports' => false,
             ],
-            'revision'            => [
+            'revision' => [
                 'post_type' => 'revision',
-                'supports'  => false,
+                'supports' => false,
             ],
-            'custom_css'          => [
+            'custom_css' => [
                 'post_type' => 'custom_css',
-                'supports'  => false,
+                'supports' => false,
             ],
             'customize_changeset' => [
                 'post_type' => 'customize_changeset',
-                'supports'  => false,
+                'supports' => false,
             ],
-            'nav_menu_item'       => [
+            'nav_menu_item' => [
                 'post_type' => 'nav_menu_item',
-                'supports'  => true,
+                'supports' => true,
             ],
-            'oembed_cache'        => [
+            'oembed_cache' => [
                 'post_type' => 'oembed_cache',
-                'supports'  => true,
+                'supports' => true,
             ],
-            'user_request'        => [
+            'user_request' => [
                 'post_type' => 'user_request',
-                'supports'  => true,
+                'supports' => true,
             ],
-            'wp_block'            => [
+            'wp_block' => [
                 'post_type' => 'wp_block',
-                'supports'  => true,
+                'supports' => true,
             ],
-            'wp_template'         => [
+            'wp_template' => [
                 'post_type' => 'wp_template',
-                'supports'  => true,
+                'supports' => true,
             ],
-            'wp_template_part'    => [
+            'wp_template_part' => [
                 'post_type' => 'wp_template_part',
-                'supports'  => true,
+                'supports' => true,
             ],
-            'wp_global_styles'    => [
+            'wp_global_styles' => [
                 'post_type' => 'wp_global_styles',
-                'supports'  => true,
+                'supports' => true,
             ],
         ];
     }

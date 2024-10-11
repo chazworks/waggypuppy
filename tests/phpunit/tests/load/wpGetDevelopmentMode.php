@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests for `wp_get_development_mode()`.
  *
@@ -77,67 +78,67 @@ class Test_WP_Get_Development_Mode extends WP_UnitTestCase
     public function data_wp_is_development_mode()
     {
         return [
-            'core mode, testing for core'              => [
+            'core mode, testing for core' => [
                 'core',
                 'core',
                 true,
             ],
-            'plugin mode, testing for plugin'          => [
+            'plugin mode, testing for plugin' => [
                 'plugin',
                 'plugin',
                 true,
             ],
-            'theme mode, testing for theme'            => [
+            'theme mode, testing for theme' => [
                 'theme',
                 'theme',
                 true,
             ],
-            'core mode, testing for plugin'            => [
+            'core mode, testing for plugin' => [
                 'core',
                 'plugin',
                 false,
             ],
-            'core mode, testing for theme'             => [
+            'core mode, testing for theme' => [
                 'core',
                 'theme',
                 false,
             ],
-            'plugin mode, testing for core'            => [
+            'plugin mode, testing for core' => [
                 'plugin',
                 'core',
                 false,
             ],
-            'plugin mode, testing for theme'           => [
+            'plugin mode, testing for theme' => [
                 'plugin',
                 'theme',
                 false,
             ],
-            'theme mode, testing for core'             => [
+            'theme mode, testing for core' => [
                 'theme',
                 'core',
                 false,
             ],
-            'theme mode, testing for plugin'           => [
+            'theme mode, testing for plugin' => [
                 'theme',
                 'plugin',
                 false,
             ],
-            'all mode, testing for core'               => [
+            'all mode, testing for core' => [
                 'all',
                 'core',
                 true,
             ],
-            'all mode, testing for plugin'             => [
+            'all mode, testing for plugin' => [
                 'all',
                 'plugin',
                 true,
             ],
-            'all mode, testing for theme'              => [
+            'all mode, testing for theme' => [
                 'all',
                 'theme',
                 true,
             ],
-            'all mode, testing for all'                => [
+            'all mode, testing for all' => [
                 'all',
                 'all',
                 true,
@@ -147,17 +148,17 @@ class Test_WP_Get_Development_Mode extends WP_UnitTestCase
                 'random',
                 true,
             ],
-            'invalid mode, testing for core'           => [
+            'invalid mode, testing for core' => [
                 'invalid',
                 'core',
                 false,
             ],
-            'invalid mode, testing for plugin'         => [
+            'invalid mode, testing for plugin' => [
                 'invalid',
                 'plugin',
                 false,
             ],
-            'invalid mode, testing for theme'          => [
+            'invalid mode, testing for theme' => [
                 'invalid',
                 'theme',
                 false,

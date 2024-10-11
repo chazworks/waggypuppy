@@ -22,9 +22,9 @@ class Tests_Formatting_GetUrlInContent extends WP_UnitTestCase
      * Data provider.
      *
      * @return array {
-     *     @type array {
-     *         @type string $input    Input content.
-     *         @type string $expected Expected output.
+     * @type array {
+     * @type string $input Input content.
+     * @type string $expected Expected output.
      *     }
      * }
      */

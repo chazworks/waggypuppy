@@ -16,20 +16,20 @@
  * Add a button to top-level menu items that has sub-menus.
  * An icon is added using CSS depending on the value of aria-expanded.
  *
+ * @param string $output Nav menu item start element.
+ * @param object $item Nav menu item.
+ * @param int $depth Depth.
+ * @param object $args Nav menu args.
+ * @return string Nav menu item start element.
  * @since Twenty Twenty-One 1.0
  *
- * @param string $output Nav menu item start element.
- * @param object $item   Nav menu item.
- * @param int    $depth  Depth.
- * @param object $args   Nav menu args.
- * @return string Nav menu item start element.
  */
 function twenty_twenty_one_add_sub_menu_toggle($output, $item, $depth, $args)
 {
     if ('primary' === $args->theme_location
-        && 0 === $depth && in_array('menu-item-has-children', $item->classes, true)
+        && 0 === $depth
+        && in_array('menu-item-has-children', $item->classes, true)
     ) {
-
         // Add toggle button.
         $output .= '<button class="sub-menu-toggle" aria-expanded="false" onClick="twentytwentyoneExpandSubMenu(this)">';
         $output .= '<span class="icon-plus">' . twenty_twenty_one_get_icon_svg('ui', 'plus', 18) . '</span>';
@@ -40,16 +40,17 @@ function twenty_twenty_one_add_sub_menu_toggle($output, $item, $depth, $args)
     }
     return $output;
 }
+
 add_filter('walker_nav_menu_start_el', 'twenty_twenty_one_add_sub_menu_toggle', 10, 4);
 
 /**
  * Detects the social network from a URL and returns the SVG code for its icon.
  *
+ * @param string $uri Social link.
+ * @param int $size The icon size in pixels.
+ * @return string
  * @since Twenty Twenty-One 1.0
  *
- * @param string $uri  Social link.
- * @param int    $size The icon size in pixels.
- * @return string
  */
 function twenty_twenty_one_get_social_link_svg($uri, $size = 24)
 {
@@ -59,20 +60,20 @@ function twenty_twenty_one_get_social_link_svg($uri, $size = 24)
 /**
  * Displays SVG icons in the footer navigation.
  *
+ * @param string $item_output The menu item's starting HTML output.
+ * @param WP_Post $item Menu item data object.
+ * @param int $depth Depth of the menu. Used for padding.
+ * @param stdClass $args An object of wp_nav_menu() arguments.
+ * @return string The menu item output with social icon.
  * @since Twenty Twenty-One 1.0
  *
- * @param string   $item_output The menu item's starting HTML output.
- * @param WP_Post  $item        Menu item data object.
- * @param int      $depth       Depth of the menu. Used for padding.
- * @param stdClass $args        An object of wp_nav_menu() arguments.
- * @return string The menu item output with social icon.
  */
 function twenty_twenty_one_nav_menu_social_icons($item_output, $item, $depth, $args)
 {
     // Change SVG icon inside social links menu if there is supported URL.
     if ('footer' === $args->theme_location) {
         $svg = twenty_twenty_one_get_social_link_svg($item->url, 24);
-        if (! empty($svg)) {
+        if (!empty($svg)) {
             $item_output = str_replace($args->link_before, $svg, $item_output);
         }
     }
@@ -85,12 +86,12 @@ add_filter('walker_nav_menu_start_el', 'twenty_twenty_one_nav_menu_social_icons'
 /**
  * Filters the arguments for a single nav menu item.
  *
+ * @param stdClass $args An object of wp_nav_menu() arguments.
+ * @param WP_Post $item Menu item data object.
+ * @param int $depth Depth of menu item. Used for padding.
+ * @return stdClass
  * @since Twenty Twenty-One 1.0
  *
- * @param stdClass $args  An object of wp_nav_menu() arguments.
- * @param WP_Post  $item  Menu item data object.
- * @param int      $depth Depth of menu item. Used for padding.
- * @return stdClass
  */
 function twenty_twenty_one_add_menu_description_args($args, $item, $depth)
 {
@@ -105,4 +106,5 @@ function twenty_twenty_one_add_menu_description_args($args, $item, $depth)
 
     return $args;
 }
+
 add_filter('nav_menu_item_args', 'twenty_twenty_one_add_menu_description_args', 10, 3);

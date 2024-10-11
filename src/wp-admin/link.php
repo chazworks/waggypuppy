@@ -12,21 +12,21 @@
 /** Load waggypuppy Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 
-$action  = ! empty($_REQUEST['action']) ? sanitize_text_field($_REQUEST['action']) : '';
-$cat_id  = ! empty($_REQUEST['cat_id']) ? absint($_REQUEST['cat_id']) : 0;
-$link_id = ! empty($_REQUEST['link_id']) ? absint($_REQUEST['link_id']) : 0;
+$action = !empty($_REQUEST['action']) ? sanitize_text_field($_REQUEST['action']) : '';
+$cat_id = !empty($_REQUEST['cat_id']) ? absint($_REQUEST['cat_id']) : 0;
+$link_id = !empty($_REQUEST['link_id']) ? absint($_REQUEST['link_id']) : 0;
 
-if (! current_user_can('manage_links')) {
+if (!current_user_can('manage_links')) {
     wp_link_manager_disabled_message();
 }
 
-if (! empty($_POST['deletebookmarks'])) {
+if (!empty($_POST['deletebookmarks'])) {
     $action = 'deletebookmarks';
 }
-if (! empty($_POST['move'])) {
+if (!empty($_POST['move'])) {
     $action = 'move';
 }
-if (! empty($_POST['linkcheck'])) {
+if (!empty($_POST['linkcheck'])) {
     $linkcheck = $_POST['linkcheck'];
 }
 
@@ -44,7 +44,7 @@ switch ($action) {
 
         $deleted = 0;
         foreach ($linkcheck as $link_id) {
-            $link_id = (int) $link_id;
+            $link_id = (int)$link_id;
 
             if (wp_delete_link($link_id)) {
                 ++$deleted;
@@ -83,7 +83,7 @@ switch ($action) {
         exit;
 
     case 'save':
-        $link_id = (int) $_POST['link_id'];
+        $link_id = (int)$_POST['link_id'];
         check_admin_referer('update-bookmark_' . $link_id);
 
         edit_link($link_id);
@@ -92,7 +92,7 @@ switch ($action) {
         exit;
 
     case 'delete':
-        $link_id = (int) $_GET['link_id'];
+        $link_id = (int)$_GET['link_id'];
         check_admin_referer('delete-bookmark_' . $link_id);
 
         wp_delete_link($link_id);
@@ -108,15 +108,15 @@ switch ($action) {
             wp_enqueue_script('jquery-touch-punch');
         }
 
-        $parent_file  = 'link-manager.php';
+        $parent_file = 'link-manager.php';
         $submenu_file = 'link-manager.php';
         // Used in the HTML title tag.
         $title = __('Edit Link');
 
-        $link_id = (int) $_GET['link_id'];
+        $link_id = (int)$_GET['link_id'];
 
         $link = get_link_to_edit($link_id);
-        if (! $link) {
+        if (!$link) {
             wp_die(__('Link not found.'));
         }
 

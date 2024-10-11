@@ -7,7 +7,7 @@
  * @since 2.3.0
  */
 
-if (! defined('WP_ADMIN')) {
+if (!defined('WP_ADMIN')) {
     /*
      * This file is being included from a file other than wp-admin/admin.php, so
      * some setup was skipped. Make sure the admin message catalog is loaded since

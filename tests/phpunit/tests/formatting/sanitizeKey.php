@@ -12,7 +12,7 @@ class Tests_Formatting_SanitizeKey extends WP_UnitTestCase
      * @ticket       54160
      * @dataProvider data_sanitize_key
      *
-     * @param string $key      The key to sanitize.
+     * @param string $key The key to sanitize.
      * @param string $expected The expected value.
      */
     public function test_sanitize_key($key, $expected)
@@ -28,36 +28,36 @@ class Tests_Formatting_SanitizeKey extends WP_UnitTestCase
     public function data_sanitize_key()
     {
         return [
-            'an empty string key'            => [
-                'key'      => '',
+            'an empty string key' => [
+                'key' => '',
                 'expected' => '',
             ],
-            'a lowercase key with commas'    => [
-                'key'      => 'howdy,admin',
+            'a lowercase key with commas' => [
+                'key' => 'howdy,admin',
                 'expected' => 'howdyadmin',
             ],
-            'a lowercase key with commas'    => [
-                'key'      => 'HOWDY,ADMIN',
+            'a lowercase key with commas' => [
+                'key' => 'HOWDY,ADMIN',
                 'expected' => 'howdyadmin',
             ],
-            'a mixed case key with commas'   => [
-                'key'      => 'HoWdY,aDmIn',
+            'a mixed case key with commas' => [
+                'key' => 'HoWdY,aDmIn',
                 'expected' => 'howdyadmin',
             ],
-            'a key with dashes'              => [
-                'key'      => 'howdy-admin',
+            'a key with dashes' => [
+                'key' => 'howdy-admin',
                 'expected' => 'howdy-admin',
             ],
-            'a key with spaces'              => [
-                'key'      => 'howdy admin',
+            'a key with spaces' => [
+                'key' => 'howdy admin',
                 'expected' => 'howdyadmin',
             ],
-            'a key with a HTML entity'       => [
-                'key'      => 'howdy&nbsp;admin',
+            'a key with a HTML entity' => [
+                'key' => 'howdy&nbsp;admin',
                 'expected' => 'howdynbspadmin',
             ],
             'a key with a unicode character' => [
-                'key'      => 'howdy' . chr(140) . 'admin',
+                'key' => 'howdy' . chr(140) . 'admin',
                 'expected' => 'howdyadmin',
             ],
         ];
@@ -67,7 +67,7 @@ class Tests_Formatting_SanitizeKey extends WP_UnitTestCase
      * @ticket       54160
      * @dataProvider data_sanitize_key_nonstring_scalar
      *
-     * @param mixed  $key      The key to sanitize.
+     * @param mixed $key The key to sanitize.
      * @param string $expected The expected value.
      */
     public function test_sanitize_key_nonstring_scalar($key, $expected)
@@ -83,20 +83,20 @@ class Tests_Formatting_SanitizeKey extends WP_UnitTestCase
     public function data_sanitize_key_nonstring_scalar()
     {
         return [
-            'integer type'  => [
-                'key'      => 0,
+            'integer type' => [
+                'key' => 0,
                 'expected' => '0',
             ],
-            'boolean true'  => [
-                'key'      => true,
+            'boolean true' => [
+                'key' => true,
                 'expected' => '1',
             ],
             'boolean false' => [
-                'key'      => false,
+                'key' => false,
                 'expected' => '',
             ],
-            'float type'    => [
-                'key'      => 0.123,
+            'float type' => [
+                'key' => 0.123,
                 'expected' => '0123',
             ],
         ];
@@ -118,7 +118,7 @@ class Tests_Formatting_SanitizeKey extends WP_UnitTestCase
                 return $sanitized_key;
             },
             10,
-            2
+            2,
         );
         $this->assertEmpty(sanitize_key($nonscalar_key), 'Non-scalar key did not return empty string');
     }
@@ -132,15 +132,15 @@ class Tests_Formatting_SanitizeKey extends WP_UnitTestCase
     {
         return [
             'array type' => [
-                'key'      => ['key'],
+                'key' => ['key'],
                 'expected' => '',
             ],
-            'null'       => [
-                'key'      => null,
+            'null' => [
+                'key' => null,
                 'expected' => '',
             ],
-            'object'     => [
-                'key'      => new stdClass(),
+            'object' => [
+                'key' => new stdClass(),
                 'expected' => '',
             ],
         ];

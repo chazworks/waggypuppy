@@ -1,6 +1,6 @@
 <?php
 
-if (! class_exists('_WP_Editors', false)) {
+if (!class_exists('_WP_Editors', false)) {
     require_once ABSPATH . WPINC . '/class-wp-editor.php';
 }
 
@@ -27,19 +27,19 @@ class Tests_Editor_wpEditors extends WP_UnitTestCase
      */
     public function test_wp_link_query_returns_search_results()
     {
-        $post   = self::factory()->post->create_and_get(['post_status' => 'publish']);
+        $post = self::factory()->post->create_and_get(['post_status' => 'publish']);
         $actual = _WP_Editors::wp_link_query(['s' => $post->post_title]);
 
         $this->assertSameSets(
             [
                 [
-                    'ID'        => $post->ID,
-                    'title'     => $post->post_title,
+                    'ID' => $post->ID,
+                    'title' => $post->post_title,
                     'permalink' => get_permalink($post->ID),
-                    'info'      => mysql2date(__('Y/m/d'), $post->post_date),
+                    'info' => mysql2date(__('Y/m/d'), $post->post_date),
                 ],
             ],
-            $actual
+            $actual,
         );
     }
 
@@ -57,13 +57,13 @@ class Tests_Editor_wpEditors extends WP_UnitTestCase
         $this->assertSameSets(
             [
                 [
-                    'ID'        => 123,
-                    'title'     => 'foo',
+                    'ID' => 123,
+                    'title' => 'foo',
                     'permalink' => 'bar',
-                    'info'      => 'baz',
+                    'info' => 'baz',
                 ],
             ],
-            $actual
+            $actual,
         );
     }
 
@@ -81,19 +81,19 @@ class Tests_Editor_wpEditors extends WP_UnitTestCase
         $this->assertSameSets(
             [
                 [
-                    'ID'        => $post->ID,
-                    'title'     => $post->post_title,
+                    'ID' => $post->ID,
+                    'title' => $post->post_title,
                     'permalink' => get_permalink($post->ID),
-                    'info'      => mysql2date(__('Y/m/d'), $post->post_date),
+                    'info' => mysql2date(__('Y/m/d'), $post->post_date),
                 ],
                 [
-                    'ID'        => 123,
-                    'title'     => 'foo',
+                    'ID' => 123,
+                    'title' => 'foo',
                     'permalink' => 'bar',
-                    'info'      => 'baz',
+                    'info' => 'baz',
                 ],
             ],
-            $actual
+            $actual,
         );
     }
 
@@ -103,12 +103,12 @@ class Tests_Editor_wpEditors extends WP_UnitTestCase
             $results,
             [
                 [
-                    'ID'        => 123,
-                    'title'     => 'foo',
+                    'ID' => 123,
+                    'title' => 'foo',
                     'permalink' => 'bar',
-                    'info'      => 'baz',
+                    'info' => 'baz',
                 ],
-            ]
+            ],
         );
     }
 }

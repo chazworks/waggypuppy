@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @group comment
  */
@@ -43,7 +44,7 @@ class Tests_Comment_Template extends WP_UnitTestCase
      */
     public function test_get_comments_number_without_arg()
     {
-        $post_id   = self::$post_id;
+        $post_id = self::$post_id;
         $permalink = get_permalink($post_id);
         $this->go_to($permalink);
 
@@ -83,7 +84,7 @@ class Tests_Comment_Template extends WP_UnitTestCase
      */
     public function test_get_comments_number_text_declension_with_default_args()
     {
-        $post_id   = self::$post_id;
+        $post_id = self::$post_id;
         $permalink = get_permalink($post_id);
         $this->go_to($permalink);
 
@@ -108,7 +109,7 @@ class Tests_Comment_Template extends WP_UnitTestCase
      */
     public function test_get_comments_number_text_declension_with_custom_args($number, $input, $output)
     {
-        $post_id   = self::$post_id;
+        $post_id = self::$post_id;
         $permalink = get_permalink($post_id);
 
         self::factory()->comment->create_post_comments($post_id, $number);
@@ -134,10 +135,10 @@ class Tests_Comment_Template extends WP_UnitTestCase
      * Data provider for test_get_comments_number_text_declension_with_custom_args().
      *
      * @return array {
-     *     @type array {
-     *         @type int    $comments_number The number of comments passed to get_comments_number_text().
-     *         @type string $input           Custom text for comments number, e.g. '%s Comments'.
-     *         @type string $output          The expected output with the correct plural form of '%s Comments'.
+     * @type array {
+     * @type int $comments_number The number of comments passed to get_comments_number_text().
+     * @type string $input Custom text for comments number, e.g. '%s Comments'.
+     * @type string $output The expected output with the correct plural form of '%s Comments'.
      *     }
      * }
      */
@@ -182,7 +183,8 @@ class Tests_Comment_Template extends WP_UnitTestCase
             [
                 2,
                 __('% <span class="reply">comments &rarr;</span>', 'twentyeleven'),
-                sprintf('2 <span class="reply">%s &rarr;</span>', trim(sprintf(_n('%s Comment', '%s Comments', 2), ''))),
+                sprintf('2 <span class="reply">%s &rarr;</span>',
+                    trim(sprintf(_n('%s Comment', '%s Comments', 2), ''))),
             ],
             [
                 2,

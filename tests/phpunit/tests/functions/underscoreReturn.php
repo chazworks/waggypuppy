@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tests for __return_** set of functions
  *

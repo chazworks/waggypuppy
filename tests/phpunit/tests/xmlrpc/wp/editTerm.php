@@ -14,17 +14,17 @@ class Tests_XMLRPC_wp_editTerm extends WP_XMLRPC_UnitTestCase
         self::$parent_term = $factory->term->create(
             [
                 'taxonomy' => 'category',
-            ]
+            ],
         );
-        self::$child_term  = $factory->term->create(
+        self::$child_term = $factory->term->create(
             [
                 'taxonomy' => 'category',
-            ]
+            ],
         );
-        self::$post_tag    = $factory->term->create(
+        self::$post_tag = $factory->term->create(
             [
                 'taxonomy' => 'post_tag',
-            ]
+            ],
         );
     }
 
@@ -49,7 +49,13 @@ class Tests_XMLRPC_wp_editTerm extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('subscriber');
 
-        $result = $this->myxmlrpcserver->wp_editTerm([1, 'subscriber', 'subscriber', self::$parent_term, ['taxonomy' => 'not_existing']]);
+        $result = $this->myxmlrpcserver->wp_editTerm([
+            1,
+            'subscriber',
+            'subscriber',
+            self::$parent_term,
+            ['taxonomy' => 'not_existing'],
+        ]);
         $this->assertIXRError($result);
         $this->assertSame(403, $result->code);
         $this->assertSame(__('Invalid taxonomy.'), $result->message);
@@ -59,7 +65,13 @@ class Tests_XMLRPC_wp_editTerm extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('subscriber');
 
-        $result = $this->myxmlrpcserver->wp_editTerm([1, 'subscriber', 'subscriber', self::$parent_term, ['taxonomy' => 'category']]);
+        $result = $this->myxmlrpcserver->wp_editTerm([
+            1,
+            'subscriber',
+            'subscriber',
+            self::$parent_term,
+            ['taxonomy' => 'category'],
+        ]);
         $this->assertIXRError($result);
         $this->assertSame(401, $result->code);
         $this->assertSame(__('Sorry, you are not allowed to edit this term.'), $result->message);
@@ -97,9 +109,9 @@ class Tests_XMLRPC_wp_editTerm extends WP_XMLRPC_UnitTestCase
                 self::$parent_term,
                 [
                     'taxonomy' => 'category',
-                    'name'     => '',
+                    'name' => '',
                 ],
-            ]
+            ],
         );
         $this->assertIXRError($result);
         $this->assertSame(403, $result->code);
@@ -118,9 +130,9 @@ class Tests_XMLRPC_wp_editTerm extends WP_XMLRPC_UnitTestCase
                 self::$post_tag,
                 [
                     'taxonomy' => 'post_tag',
-                    'parent'   => self::$parent_term,
+                    'parent' => self::$parent_term,
                 ],
-            ]
+            ],
         );
         $this->assertIXRError($result);
         $this->assertSame(403, $result->code);
@@ -139,10 +151,10 @@ class Tests_XMLRPC_wp_editTerm extends WP_XMLRPC_UnitTestCase
                 self::$child_term,
                 [
                     'taxonomy' => 'category',
-                    'parent'   => '',
-                    'name'     => 'test',
+                    'parent' => '',
+                    'name' => 'test',
                 ],
-            ]
+            ],
         );
         $this->assertNotIXRError($result);
         $this->assertTrue($result);
@@ -160,10 +172,10 @@ class Tests_XMLRPC_wp_editTerm extends WP_XMLRPC_UnitTestCase
                 self::$child_term,
                 [
                     'taxonomy' => 'category',
-                    'parent'   => null,
-                    'name'     => 'test',
+                    'parent' => null,
+                    'name' => 'test',
                 ],
-            ]
+            ],
         );
 
         $this->assertNotIXRError($result);
@@ -185,10 +197,10 @@ class Tests_XMLRPC_wp_editTerm extends WP_XMLRPC_UnitTestCase
                 self::$child_term,
                 [
                     'taxonomy' => 'category',
-                    'parent'   => 'dasda',
-                    'name'     => 'test',
+                    'parent' => 'dasda',
+                    'name' => 'test',
                 ],
-            ]
+            ],
         );
         $this->assertIXRError($result);
         $this->assertSame(500, $result->code);
@@ -206,10 +218,10 @@ class Tests_XMLRPC_wp_editTerm extends WP_XMLRPC_UnitTestCase
                 self::$child_term,
                 [
                     'taxonomy' => 'category',
-                    'parent'   => 9999,
-                    'name'     => 'test',
+                    'parent' => 9999,
+                    'name' => 'test',
                 ],
-            ]
+            ],
         );
         $this->assertIXRError($result);
         $this->assertSame(403, $result->code);
@@ -221,7 +233,7 @@ class Tests_XMLRPC_wp_editTerm extends WP_XMLRPC_UnitTestCase
         $this->make_user_by_role('editor');
 
         $parent_term = get_term_by('id', self::$parent_term, 'category');
-        $result      = $this->myxmlrpcserver->wp_editTerm(
+        $result = $this->myxmlrpcserver->wp_editTerm(
             [
                 1,
                 'editor',
@@ -229,13 +241,14 @@ class Tests_XMLRPC_wp_editTerm extends WP_XMLRPC_UnitTestCase
                 self::$child_term,
                 [
                     'taxonomy' => 'category',
-                    'slug'     => $parent_term->slug,
+                    'slug' => $parent_term->slug,
                 ],
-            ]
+            ],
         );
         $this->assertIXRError($result);
         $this->assertSame(500, $result->code);
-        $this->assertSame(htmlspecialchars(sprintf(__('The slug &#8220;%s&#8221; is already in use by another term.'), $parent_term->slug)), $result->message);
+        $this->assertSame(htmlspecialchars(sprintf(__('The slug &#8220;%s&#8221; is already in use by another term.'),
+            $parent_term->slug)), $result->message);
     }
 
     public function test_edit_all_fields()
@@ -243,11 +256,11 @@ class Tests_XMLRPC_wp_editTerm extends WP_XMLRPC_UnitTestCase
         $this->make_user_by_role('editor');
 
         $fields = [
-            'taxonomy'    => 'category',
-            'name'        => 'Child 2',
-            'parent'      => self::$parent_term,
+            'taxonomy' => 'category',
+            'name' => 'Child 2',
+            'parent' => self::$parent_term,
             'description' => 'Child term',
-            'slug'        => 'child_2',
+            'slug' => 'child_2',
         ];
         $result = $this->myxmlrpcserver->wp_editTerm([1, 'editor', 'editor', self::$child_term, $fields]);
 
@@ -262,10 +275,10 @@ class Tests_XMLRPC_wp_editTerm extends WP_XMLRPC_UnitTestCase
     {
         register_taxonomy('wptests_tax', 'post');
 
-        $t       = self::factory()->term->create(
+        $t = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
         $meta_id = add_term_meta($t, 'foo', 'bar');
 
@@ -278,16 +291,16 @@ class Tests_XMLRPC_wp_editTerm extends WP_XMLRPC_UnitTestCase
                 'editor',
                 $t,
                 [
-                    'taxonomy'      => 'wptests_tax',
+                    'taxonomy' => 'wptests_tax',
                     'custom_fields' => [
                         [
-                            'id'    => $meta_id,
-                            'key'   => 'foo',
+                            'id' => $meta_id,
+                            'key' => 'foo',
                             'value' => 'baz',
                         ],
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertNotIXRError($result);
@@ -303,10 +316,10 @@ class Tests_XMLRPC_wp_editTerm extends WP_XMLRPC_UnitTestCase
     {
         register_taxonomy('wptests_tax', 'post');
 
-        $t       = self::factory()->term->create(
+        $t = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
         $meta_id = add_term_meta($t, 'foo', 'bar');
 
@@ -319,14 +332,14 @@ class Tests_XMLRPC_wp_editTerm extends WP_XMLRPC_UnitTestCase
                 'editor',
                 $t,
                 [
-                    'taxonomy'      => 'wptests_tax',
+                    'taxonomy' => 'wptests_tax',
                     'custom_fields' => [
                         [
                             'id' => $meta_id,
                         ],
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertNotIXRError($result);

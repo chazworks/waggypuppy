@@ -28,16 +28,16 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
     /**
      * Constructor.
      *
+     * @param string $post_type Post type.
      * @since 5.8.0
      *
-     * @param string $post_type Post type.
      */
     public function __construct($post_type)
     {
         $this->post_type = $post_type;
-        $obj             = get_post_type_object($post_type);
-        $this->rest_base = ! empty($obj->rest_base) ? $obj->rest_base : $obj->name;
-        $this->namespace = ! empty($obj->rest_namespace) ? $obj->rest_namespace : 'wp/v2';
+        $obj = get_post_type_object($post_type);
+        $this->rest_base = !empty($obj->rest_base) ? $obj->rest_base : $obj->name;
+        $this->namespace = !empty($obj->rest_namespace) ? $obj->rest_namespace : 'wp/v2';
     }
 
     /**
@@ -54,19 +54,19 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
             '/' . $this->rest_base,
             [
                 [
-                    'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => [$this, 'get_items'],
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_items'],
                     'permission_callback' => [$this, 'get_items_permissions_check'],
-                    'args'                => $this->get_collection_params(),
+                    'args' => $this->get_collection_params(),
                 ],
                 [
-                    'methods'             => WP_REST_Server::CREATABLE,
-                    'callback'            => [$this, 'create_item'],
+                    'methods' => WP_REST_Server::CREATABLE,
+                    'callback' => [$this, 'create_item'],
                     'permission_callback' => [$this, 'create_item_permissions_check'],
-                    'args'                => $this->get_endpoint_args_for_item_schema(WP_REST_Server::CREATABLE),
+                    'args' => $this->get_endpoint_args_for_item_schema(WP_REST_Server::CREATABLE),
                 ],
                 'schema' => [$this, 'get_public_item_schema'],
-            ]
+            ],
         );
 
         // Get fallback template content.
@@ -75,26 +75,26 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
             '/' . $this->rest_base . '/lookup',
             [
                 [
-                    'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => [$this, 'get_template_fallback'],
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_template_fallback'],
                     'permission_callback' => [$this, 'get_item_permissions_check'],
-                    'args'                => [
-                        'slug'            => [
+                    'args' => [
+                        'slug' => [
                             'description' => __('The slug of the template to get the fallback for'),
-                            'type'        => 'string',
-                            'required'    => true,
+                            'type' => 'string',
+                            'required' => true,
                         ],
-                        'is_custom'       => [
+                        'is_custom' => [
                             'description' => __('Indicates if a template is custom or part of the template hierarchy'),
-                            'type'        => 'boolean',
+                            'type' => 'boolean',
                         ],
                         'template_prefix' => [
                             'description' => __('The template prefix for the created template. This is used to extract the main template type, e.g. in `taxonomy-books` extracts the `taxonomy`'),
-                            'type'        => 'string',
+                            'type' => 'string',
                         ],
                     ],
                 ],
-            ]
+            ],
         );
 
         // Lists/updates a single template based on the given id.
@@ -110,55 +110,55 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
                  */
                 '([^\/:<>\*\?"\|]+(?:\/[^\/:<>\*\?"\|]+)?)',
                 // Matches the template name.
-                '[\/\w%-]+'
+                '[\/\w%-]+',
             ),
             [
-                'args'   => [
+                'args' => [
                     'id' => [
-                        'description'       => __('The id of a template'),
-                        'type'              => 'string',
+                        'description' => __('The id of a template'),
+                        'type' => 'string',
                         'sanitize_callback' => [$this, '_sanitize_template_id'],
                     ],
                 ],
                 [
-                    'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => [$this, 'get_item'],
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_item'],
                     'permission_callback' => [$this, 'get_item_permissions_check'],
-                    'args'                => [
+                    'args' => [
                         'context' => $this->get_context_param(['default' => 'view']),
                     ],
                 ],
                 [
-                    'methods'             => WP_REST_Server::EDITABLE,
-                    'callback'            => [$this, 'update_item'],
+                    'methods' => WP_REST_Server::EDITABLE,
+                    'callback' => [$this, 'update_item'],
                     'permission_callback' => [$this, 'update_item_permissions_check'],
-                    'args'                => $this->get_endpoint_args_for_item_schema(WP_REST_Server::EDITABLE),
+                    'args' => $this->get_endpoint_args_for_item_schema(WP_REST_Server::EDITABLE),
                 ],
                 [
-                    'methods'             => WP_REST_Server::DELETABLE,
-                    'callback'            => [$this, 'delete_item'],
+                    'methods' => WP_REST_Server::DELETABLE,
+                    'callback' => [$this, 'delete_item'],
                     'permission_callback' => [$this, 'delete_item_permissions_check'],
-                    'args'                => [
+                    'args' => [
                         'force' => [
-                            'type'        => 'boolean',
-                            'default'     => false,
+                            'type' => 'boolean',
+                            'default' => false,
                             'description' => __('Whether to bypass Trash and force deletion.'),
                         ],
                     ],
                 ],
                 'schema' => [$this, 'get_public_item_schema'],
-            ]
+            ],
         );
     }
 
     /**
      * Returns the fallback template for the given slug.
      *
+     * @param WP_REST_Request $request The request instance.
+     * @return WP_REST_Response|WP_Error
      * @since 6.1.0
      * @since 6.3.0 Ignore empty templates.
      *
-     * @param WP_REST_Request $request The request instance.
-     * @return WP_REST_Response|WP_Error
      */
     public function get_template_fallback($request)
     {
@@ -167,10 +167,11 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
         do {
             $fallback_template = resolve_block_template($request['slug'], $hierarchy, '');
             array_shift($hierarchy);
-        } while (! empty($hierarchy) && empty($fallback_template->content));
+        } while (!empty($hierarchy) && empty($fallback_template->content));
 
         // To maintain original behavior, return an empty object rather than a 404 error when no template is found.
-        $response = $fallback_template ? $this->prepare_item_for_response($fallback_template, $request) : new stdClass();
+        $response = $fallback_template ? $this->prepare_item_for_response($fallback_template, $request)
+            : new stdClass();
 
         return rest_ensure_response($response);
     }
@@ -178,10 +179,10 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
     /**
      * Checks if the user has permissions to make the request.
      *
-     * @since 5.8.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
+     * @since 5.8.0
+     *
      */
     protected function permissions_check($request)
     {
@@ -189,13 +190,13 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
          * Verify if the current user has edit_theme_options capability.
          * This capability is required to edit/view/delete templates.
          */
-        if (! current_user_can('edit_theme_options')) {
+        if (!current_user_can('edit_theme_options')) {
             return new WP_Error(
                 'rest_cannot_manage_templates',
                 __('Sorry, you are not allowed to access the templates on this site.'),
                 [
                     'status' => rest_authorization_required_code(),
-                ]
+                ],
             );
         }
 
@@ -212,11 +213,11 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
      * on the template ID format {theme_name}//{template_slug} and the fact that
      * slugs cannot contain slashes.
      *
+     * @param string $id Template ID.
+     * @return string Sanitized template ID.
      * @since 5.9.0
      * @see https://core.trac.wp.org/ticket/54507
      *
-     * @param string $id Template ID.
-     * @return string Sanitized template ID.
      */
     public function _sanitize_template_id($id)
     {
@@ -241,11 +242,11 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
     /**
      * Checks if a given request has access to read templates.
      *
+     * @param WP_REST_Request $request Full details about the request.
+     * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
      * @since 5.8.0
      * @since 6.6.0 Allow users with edit_posts capability to read templates.
      *
-     * @param WP_REST_Request $request Full details about the request.
-     * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
      */
     public function get_items_permissions_check($request)
     {
@@ -263,17 +264,17 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
             __('Sorry, you are not allowed to access the templates on this site.'),
             [
                 'status' => rest_authorization_required_code(),
-            ]
+            ],
         );
     }
 
     /**
      * Returns a list of templates.
      *
-     * @since 5.8.0
-     *
      * @param WP_REST_Request $request The request instance.
      * @return WP_REST_Response
+     * @since 5.8.0
+     *
      */
     public function get_items($request)
     {
@@ -290,7 +291,7 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
 
         $templates = [];
         foreach (get_block_templates($query, $this->post_type) as $template) {
-            $data        = $this->prepare_item_for_response($template, $request);
+            $data = $this->prepare_item_for_response($template, $request);
             $templates[] = $this->prepare_response_for_collection($data);
         }
 
@@ -300,11 +301,11 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
     /**
      * Checks if a given request has access to read a single template.
      *
+     * @param WP_REST_Request $request Full details about the request.
+     * @return true|WP_Error True if the request has read access for the item, WP_Error object otherwise.
      * @since 5.8.0
      * @since 6.6.0 Allow users with edit_posts capability to read individual templates.
      *
-     * @param WP_REST_Request $request Full details about the request.
-     * @return true|WP_Error True if the request has read access for the item, WP_Error object otherwise.
      */
     public function get_item_permissions_check($request)
     {
@@ -322,17 +323,17 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
             __('Sorry, you are not allowed to access the templates on this site.'),
             [
                 'status' => rest_authorization_required_code(),
-            ]
+            ],
         );
     }
 
     /**
      * Returns the given template
      *
-     * @since 5.8.0
-     *
      * @param WP_REST_Request $request The request instance.
      * @return WP_REST_Response|WP_Error
+     * @since 5.8.0
+     *
      */
     public function get_item($request)
     {
@@ -342,7 +343,7 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
             $template = get_block_template($request['id'], $this->post_type);
         }
 
-        if (! $template) {
+        if (!$template) {
             return new WP_Error('rest_template_not_found', __('No templates exist with that id.'), ['status' => 404]);
         }
 
@@ -352,10 +353,10 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
     /**
      * Checks if a given request has access to write a single template.
      *
-     * @since 5.8.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has write access for the item, WP_Error object otherwise.
+     * @since 5.8.0
+     *
      */
     public function update_item_permissions_check($request)
     {
@@ -365,15 +366,15 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
     /**
      * Updates a single template.
      *
-     * @since 5.8.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     * @since 5.8.0
+     *
      */
     public function update_item($request)
     {
         $template = get_block_template($request['id'], $this->post_type);
-        if (! $template) {
+        if (!$template) {
             return new WP_Error('rest_template_not_found', __('No templates exist with that id.'), ['status' => 404]);
         }
 
@@ -397,11 +398,11 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
 
         if ('custom' === $template->source) {
             $update = true;
-            $result = wp_update_post(wp_slash((array) $changes), false);
+            $result = wp_update_post(wp_slash((array)$changes), false);
         } else {
-            $update      = false;
+            $update = false;
             $post_before = null;
-            $result      = wp_insert_post(wp_slash((array) $changes), false);
+            $result = wp_insert_post(wp_slash((array)$changes), false);
         }
 
         if (is_wp_error($result)) {
@@ -413,7 +414,7 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
             return $result;
         }
 
-        $template      = get_block_template($request['id'], $this->post_type);
+        $template = get_block_template($request['id'], $this->post_type);
         $fields_update = $this->update_additional_fields_for_object($template, $request);
         if (is_wp_error($fields_update)) {
             return $fields_update;
@@ -435,10 +436,10 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
     /**
      * Checks if a given request has access to create a template.
      *
-     * @since 5.8.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has access to create items, WP_Error object otherwise.
+     * @since 5.8.0
+     *
      */
     public function create_item_permissions_check($request)
     {
@@ -448,10 +449,10 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
     /**
      * Creates a single template.
      *
-     * @since 5.8.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     * @since 5.8.0
+     *
      */
     public function create_item($request)
     {
@@ -462,7 +463,7 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
         }
 
         $prepared_post->post_name = $request['slug'];
-        $post_id                  = wp_insert_post(wp_slash((array) $prepared_post), true);
+        $post_id = wp_insert_post(wp_slash((array)$prepared_post), true);
         if (is_wp_error($post_id)) {
             if ('db_insert_error' === $post_id->get_error_code()) {
                 $post_id->add_data(['status' => 500]);
@@ -473,12 +474,13 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
             return $post_id;
         }
         $posts = get_block_templates(['wp_id' => $post_id], $this->post_type);
-        if (! count($posts)) {
-            return new WP_Error('rest_template_insert_error', __('No templates exist with that id.'), ['status' => 400]);
+        if (!count($posts)) {
+            return new WP_Error('rest_template_insert_error', __('No templates exist with that id.'),
+                ['status' => 400]);
         }
-        $id            = $posts[0]->id;
-        $post          = get_post($post_id);
-        $template      = get_block_template($id, $this->post_type);
+        $id = $posts[0]->id;
+        $post = get_post($post_id);
+        $template = get_block_template($id, $this->post_type);
         $fields_update = $this->update_additional_fields_for_object($template, $request);
         if (is_wp_error($fields_update)) {
             return $fields_update;
@@ -501,10 +503,10 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
     /**
      * Checks if a given request has access to delete a single template.
      *
-     * @since 5.8.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has delete access for the item, WP_Error object otherwise.
+     * @since 5.8.0
+     *
      */
     public function delete_item_permissions_check($request)
     {
@@ -514,36 +516,37 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
     /**
      * Deletes a single template.
      *
-     * @since 5.8.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     * @since 5.8.0
+     *
      */
     public function delete_item($request)
     {
         $template = get_block_template($request['id'], $this->post_type);
-        if (! $template) {
+        if (!$template) {
             return new WP_Error('rest_template_not_found', __('No templates exist with that id.'), ['status' => 404]);
         }
         if ('custom' !== $template->source) {
-            return new WP_Error('rest_invalid_template', __('Templates based on theme files can\'t be removed.'), ['status' => 400]);
+            return new WP_Error('rest_invalid_template', __('Templates based on theme files can\'t be removed.'),
+                ['status' => 400]);
         }
 
-        $id    = $template->wp_id;
-        $force = (bool) $request['force'];
+        $id = $template->wp_id;
+        $force = (bool)$request['force'];
 
         $request->set_param('context', 'edit');
 
         // If we're forcing, then delete permanently.
         if ($force) {
             $previous = $this->prepare_item_for_response($template, $request);
-            $result   = wp_delete_post($id, true);
+            $result = wp_delete_post($id, true);
             $response = new WP_REST_Response();
             $response->set_data(
                 [
-                    'deleted'  => true,
+                    'deleted' => true,
                     'previous' => $previous->get_data(),
-                ]
+                ],
             );
         } else {
             // Otherwise, only trash if we haven't already.
@@ -551,7 +554,7 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
                 return new WP_Error(
                     'rest_template_already_trashed',
                     __('The template has already been deleted.'),
-                    ['status' => 410]
+                    ['status' => 410],
                 );
             }
 
@@ -559,16 +562,16 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
              * (Note that internally this falls through to `wp_delete_post()`
              * if the Trash is disabled.)
              */
-            $result           = wp_trash_post($id);
+            $result = wp_trash_post($id);
             $template->status = 'trash';
-            $response         = $this->prepare_item_for_response($template, $request);
+            $response = $this->prepare_item_for_response($template, $request);
         }
 
-        if (! $result) {
+        if (!$result) {
             return new WP_Error(
                 'rest_cannot_delete',
                 __('The template cannot be deleted.'),
-                ['status' => 500]
+                ['status' => 500],
             );
         }
 
@@ -578,34 +581,34 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
     /**
      * Prepares a single template for create or update.
      *
-     * @since 5.8.0
-     *
      * @param WP_REST_Request $request Request object.
      * @return stdClass|WP_Error Changes to pass to wp_update_post.
+     * @since 5.8.0
+     *
      */
     protected function prepare_item_for_database($request)
     {
         $template = $request['id'] ? get_block_template($request['id'], $this->post_type) : null;
-        $changes  = new stdClass();
+        $changes = new stdClass();
         if (null === $template) {
-            $changes->post_type   = $this->post_type;
+            $changes->post_type = $this->post_type;
             $changes->post_status = 'publish';
-            $changes->tax_input   = [
+            $changes->tax_input = [
                 'wp_theme' => isset($request['theme']) ? $request['theme'] : get_stylesheet(),
             ];
         } elseif ('custom' !== $template->source) {
-            $changes->post_name   = $template->slug;
-            $changes->post_type   = $this->post_type;
+            $changes->post_name = $template->slug;
+            $changes->post_type = $this->post_type;
             $changes->post_status = 'publish';
-            $changes->tax_input   = [
+            $changes->tax_input = [
                 'wp_theme' => $template->theme,
             ];
-            $changes->meta_input  = [
+            $changes->meta_input = [
                 'origin' => $template->source,
             ];
         } else {
-            $changes->post_name   = $template->slug;
-            $changes->ID          = $template->wp_id;
+            $changes->post_name = $template->slug;
+            $changes->ID = $template->wp_id;
             $changes->post_status = 'publish';
         }
         if (isset($request['content'])) {
@@ -620,7 +623,7 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
         if (isset($request['title'])) {
             if (is_string($request['title'])) {
                 $changes->post_title = $request['title'];
-            } elseif (! empty($request['title']['raw'])) {
+            } elseif (!empty($request['title']['raw'])) {
                 $changes->post_title = $request['title']['raw'];
             }
         } elseif (null !== $template && 'custom' !== $template->source) {
@@ -633,11 +636,11 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
         }
 
         if ('wp_template' === $this->post_type && isset($request['is_wp_suggestion'])) {
-            $changes->meta_input     = wp_parse_args(
+            $changes->meta_input = wp_parse_args(
                 [
                     'is_wp_suggestion' => $request['is_wp_suggestion'],
                 ],
-                $changes->meta_input = []
+                $changes->meta_input = [],
             );
         }
 
@@ -651,17 +654,17 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
             }
         }
 
-        if (! empty($request['author'])) {
-            $post_author = (int) $request['author'];
+        if (!empty($request['author'])) {
+            $post_author = (int)$request['author'];
 
             if (get_current_user_id() !== $post_author) {
                 $user_obj = get_userdata($post_author);
 
-                if (! $user_obj) {
+                if (!$user_obj) {
                     return new WP_Error(
                         'rest_invalid_author',
                         __('Invalid author ID.'),
-                        ['status' => 400]
+                        ['status' => 400],
                     );
                 }
             }
@@ -676,13 +679,13 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
     /**
      * Prepare a single template output for response
      *
+     * @param WP_Block_Template $item Template instance.
+     * @param WP_REST_Request $request Request object.
+     * @return WP_REST_Response Response object.
      * @since 5.8.0
      * @since 5.9.0 Renamed `$template` to `$item` to match parent class for PHP 8 named parameter support.
      * @since 6.3.0 Added `modified` property to the response.
      *
-     * @param WP_Block_Template $item    Template instance.
-     * @param WP_REST_Request   $request Request object.
-     * @return WP_REST_Response Response object.
      */
     public function prepare_item_for_response($item, $request)
     {
@@ -690,8 +693,8 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
          * Resolve pattern blocks so they don't need to be resolved client-side
          * in the editor, improving performance.
          */
-        $blocks        = parse_blocks($item->content);
-        $blocks        = resolve_pattern_blocks($blocks);
+        $blocks = parse_blocks($item->content);
+        $blocks = resolve_pattern_blocks($blocks);
         $item->content = serialize_blocks($blocks);
 
         // Restores the more descriptive, specific name for use within this method.
@@ -763,11 +766,11 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
         }
 
         if (rest_is_field_included('wp_id', $fields)) {
-            $data['wp_id'] = (int) $template->wp_id;
+            $data['wp_id'] = (int)$template->wp_id;
         }
 
         if (rest_is_field_included('has_theme_file', $fields)) {
-            $data['has_theme_file'] = (bool) $template->has_theme_file;
+            $data['has_theme_file'] = (bool)$template->has_theme_file;
         }
 
         if (rest_is_field_included('is_custom', $fields) && 'wp_template' === $template->type) {
@@ -775,7 +778,7 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
         }
 
         if (rest_is_field_included('author', $fields)) {
-            $data['author'] = (int) $template->author;
+            $data['author'] = (int)$template->author;
         }
 
         if (rest_is_field_included('area', $fields) && 'wp_template_part' === $template->type) {
@@ -801,9 +804,9 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
             }
         }
 
-        $context = ! empty($request['context']) ? $request['context'] : 'view';
-        $data    = $this->add_additional_fields_to_object($data, $request);
-        $data    = $this->filter_response_by_context($data, $context);
+        $context = !empty($request['context']) ? $request['context'] : 'view';
+        $data = $this->add_additional_fields_to_object($data, $request);
+        $data = $this->filter_response_by_context($data, $context);
 
         // Wrap the data in a response object.
         $response = rest_ensure_response($data);
@@ -811,9 +814,9 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
         if (rest_is_field_included('_links', $fields) || rest_is_field_included('_embedded', $fields)) {
             $links = $this->prepare_links($template->id);
             $response->add_links($links);
-            if (! empty($links['self']['href'])) {
+            if (!empty($links['self']['href'])) {
                 $actions = $this->get_available_actions();
-                $self    = $links['self']['href'];
+                $self = $links['self']['href'];
                 foreach ($actions as $rel) {
                     $response->add_link($rel, $self);
                 }
@@ -826,10 +829,10 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
     /**
      * Returns the source from where the template originally comes from.
      *
-     * @since 6.5.0
-     *
      * @param WP_Block_Template $template_object Template instance.
      * @return string                            Original source of the template one of theme, plugin, site, or user.
+     * @since 6.5.0
+     *
      */
     private static function get_wp_templates_original_source_field($template_object)
     {
@@ -841,17 +844,19 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
              * older customized templates by checking for no origin and a 'theme'
              * or 'custom' source.
              */
-            if ($template_object->has_theme_file &&
-            ('theme' === $template_object->origin || (
-                empty($template_object->origin) && in_array(
-                    $template_object->source,
-                    [
-                        'theme',
-                        'custom',
-                    ],
-                    true
-                ))
-            )
+            if ($template_object->has_theme_file
+                && ('theme' === $template_object->origin
+                    || (
+                        empty($template_object->origin)
+                        && in_array(
+                            $template_object->source,
+                            [
+                                'theme',
+                                'custom',
+                            ],
+                            true,
+                        ))
+                )
             ) {
                 return 'theme';
             }
@@ -867,7 +872,9 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
              * was only added to templates in WP 5.9. Fallback to showing the
              * site logo and title.
              */
-            if (empty($template_object->has_theme_file) && 'custom' === $template_object->source && empty($template_object->author)) {
+            if (empty($template_object->has_theme_file)
+                && 'custom' === $template_object->source
+                && empty($template_object->author)) {
                 return 'site';
             }
         }
@@ -879,10 +886,10 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
     /**
      * Returns a human readable text for the author of the template.
      *
-     * @since 6.5.0
-     *
      * @param WP_Block_Template $template_object Template instance.
      * @return string                            Human readable text for the author.
+     * @since 6.5.0
+     *
      */
     private static function get_wp_templates_author_text_field($template_object)
     {
@@ -892,7 +899,7 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
                 $theme_name = wp_get_theme($template_object->theme)->get('Name');
                 return empty($theme_name) ? $template_object->theme : $theme_name;
             case 'plugin':
-                if (! function_exists('get_plugins') || ! function_exists('get_plugin_data')) {
+                if (!function_exists('get_plugins') || !function_exists('get_plugin_data')) {
                     require_once ABSPATH . 'wp-admin/includes/plugin.php';
                 }
                 if (isset($template_object->plugin)) {
@@ -906,7 +913,7 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
                         if ($plugin_slug === $template_object->plugin) {
                             $plugin_data = get_plugin_data($plugin_file);
 
-                            if (! empty($plugin_data['Name'])) {
+                            if (!empty($plugin_data['Name'])) {
                                 return $plugin_data['Name'];
                             }
 
@@ -919,19 +926,21 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
                  * Fall back to the theme name if the plugin is not defined. That's needed to keep backwards
                  * compatibility with templates that were registered before the plugin attribute was added.
                  */
-                $plugins         = get_plugins();
+                $plugins = get_plugins();
                 $plugin_basename = plugin_basename(sanitize_text_field($template_object->theme . '.php'));
                 if (isset($plugins[$plugin_basename]) && isset($plugins[$plugin_basename]['Name'])) {
                     return $plugins[$plugin_basename]['Name'];
                 }
-                return isset($template_object->plugin) ?
-                    $template_object->plugin :
+                return isset($template_object->plugin)
+                    ?
+                    $template_object->plugin
+                    :
                     $template_object->theme;
             case 'site':
                 return get_bloginfo('name');
             case 'user':
                 $author = get_user_by('id', $template_object->author);
-                if (! $author) {
+                if (!$author) {
                     return __('Unknown author');
                 }
                 return $author->get('display_name');
@@ -945,41 +954,41 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
     /**
      * Prepares links for the request.
      *
-     * @since 5.8.0
-     *
      * @param integer $id ID.
      * @return array Links for the given post.
+     * @since 5.8.0
+     *
      */
     protected function prepare_links($id)
     {
         $links = [
-            'self'       => [
+            'self' => [
                 'href' => rest_url(sprintf('/%s/%s/%s', $this->namespace, $this->rest_base, $id)),
             ],
             'collection' => [
                 'href' => rest_url(rest_get_route_for_post_type_items($this->post_type)),
             ],
-            'about'      => [
+            'about' => [
                 'href' => rest_url('wp/v2/types/' . $this->post_type),
             ],
         ];
 
         if (post_type_supports($this->post_type, 'revisions')) {
             $template = get_block_template($id, $this->post_type);
-            if ($template instanceof WP_Block_Template && ! empty($template->wp_id)) {
-                $revisions       = wp_get_latest_revision_id_and_total_count($template->wp_id);
-                $revisions_count = ! is_wp_error($revisions) ? $revisions['count'] : 0;
-                $revisions_base  = sprintf('/%s/%s/%s/revisions', $this->namespace, $this->rest_base, $id);
+            if ($template instanceof WP_Block_Template && !empty($template->wp_id)) {
+                $revisions = wp_get_latest_revision_id_and_total_count($template->wp_id);
+                $revisions_count = !is_wp_error($revisions) ? $revisions['count'] : 0;
+                $revisions_base = sprintf('/%s/%s/%s/revisions', $this->namespace, $this->rest_base, $id);
 
                 $links['version-history'] = [
-                    'href'  => rest_url($revisions_base),
+                    'href' => rest_url($revisions_base),
                     'count' => $revisions_count,
                 ];
 
                 if ($revisions_count > 0) {
                     $links['predecessor-version'] = [
                         'href' => rest_url($revisions_base . '/' . $revisions['latest_id']),
-                        'id'   => $revisions['latest_id'],
+                        'id' => $revisions['latest_id'],
                     ];
                 }
             }
@@ -991,9 +1000,9 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
     /**
      * Get the link relations available for the post and current user.
      *
+     * @return string[] List of link relations.
      * @since 5.8.0
      *
-     * @return string[] List of link relations.
      */
     protected function get_available_actions()
     {
@@ -1015,26 +1024,26 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
     /**
      * Retrieves the query params for the posts collection.
      *
-     * @since 5.8.0
+     * @return array Collection parameters.
      * @since 5.9.0 Added `'area'` and `'post_type'`.
      *
-     * @return array Collection parameters.
+     * @since 5.8.0
      */
     public function get_collection_params()
     {
         return [
-            'context'   => $this->get_context_param(['default' => 'view']),
-            'wp_id'     => [
+            'context' => $this->get_context_param(['default' => 'view']),
+            'wp_id' => [
                 'description' => __('Limit to the specified post id.'),
-                'type'        => 'integer',
+                'type' => 'integer',
             ],
-            'area'      => [
+            'area' => [
                 'description' => __('Limit to the specified template part area.'),
-                'type'        => 'string',
+                'type' => 'string',
             ],
             'post_type' => [
                 'description' => __('Post type to get the templates for.'),
-                'type'        => 'string',
+                'type' => 'string',
             ],
         ];
     }
@@ -1042,10 +1051,10 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
     /**
      * Retrieves the block type' schema, conforming to JSON Schema.
      *
-     * @since 5.8.0
+     * @return array Item schema data.
      * @since 5.9.0 Added `'area'`.
      *
-     * @return array Item schema data.
+     * @since 5.8.0
      */
     public function get_item_schema()
     {
@@ -1054,133 +1063,133 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
         }
 
         $schema = [
-            '$schema'    => 'http://json-schema.org/draft-04/schema#',
-            'title'      => $this->post_type,
-            'type'       => 'object',
+            '$schema' => 'http://json-schema.org/draft-04/schema#',
+            'title' => $this->post_type,
+            'type' => 'object',
             'properties' => [
-                'id'              => [
+                'id' => [
                     'description' => __('ID of template.'),
-                    'type'        => 'string',
-                    'context'     => ['embed', 'view', 'edit'],
-                    'readonly'    => true,
+                    'type' => 'string',
+                    'context' => ['embed', 'view', 'edit'],
+                    'readonly' => true,
                 ],
-                'slug'            => [
+                'slug' => [
                     'description' => __('Unique slug identifying the template.'),
-                    'type'        => 'string',
-                    'context'     => ['embed', 'view', 'edit'],
-                    'required'    => true,
-                    'minLength'   => 1,
-                    'pattern'     => '[a-zA-Z0-9_\%-]+',
+                    'type' => 'string',
+                    'context' => ['embed', 'view', 'edit'],
+                    'required' => true,
+                    'minLength' => 1,
+                    'pattern' => '[a-zA-Z0-9_\%-]+',
                 ],
-                'theme'           => [
+                'theme' => [
                     'description' => __('Theme identifier for the template.'),
-                    'type'        => 'string',
-                    'context'     => ['embed', 'view', 'edit'],
+                    'type' => 'string',
+                    'context' => ['embed', 'view', 'edit'],
                 ],
-                'type'            => [
+                'type' => [
                     'description' => __('Type of template.'),
-                    'type'        => 'string',
-                    'context'     => ['embed', 'view', 'edit'],
+                    'type' => 'string',
+                    'context' => ['embed', 'view', 'edit'],
                 ],
-                'source'          => [
+                'source' => [
                     'description' => __('Source of template'),
-                    'type'        => 'string',
-                    'context'     => ['embed', 'view', 'edit'],
-                    'readonly'    => true,
+                    'type' => 'string',
+                    'context' => ['embed', 'view', 'edit'],
+                    'readonly' => true,
                 ],
-                'origin'          => [
+                'origin' => [
                     'description' => __('Source of a customized template'),
-                    'type'        => 'string',
-                    'context'     => ['embed', 'view', 'edit'],
-                    'readonly'    => true,
+                    'type' => 'string',
+                    'context' => ['embed', 'view', 'edit'],
+                    'readonly' => true,
                 ],
-                'content'         => [
+                'content' => [
                     'description' => __('Content of template.'),
-                    'type'        => ['object', 'string'],
-                    'default'     => '',
-                    'context'     => ['embed', 'view', 'edit'],
-                    'properties'  => [
-                        'raw'           => [
+                    'type' => ['object', 'string'],
+                    'default' => '',
+                    'context' => ['embed', 'view', 'edit'],
+                    'properties' => [
+                        'raw' => [
                             'description' => __('Content for the template, as it exists in the database.'),
-                            'type'        => 'string',
-                            'context'     => ['view', 'edit'],
+                            'type' => 'string',
+                            'context' => ['view', 'edit'],
                         ],
                         'block_version' => [
                             'description' => __('Version of the content block format used by the template.'),
-                            'type'        => 'integer',
-                            'context'     => ['edit'],
-                            'readonly'    => true,
+                            'type' => 'integer',
+                            'context' => ['edit'],
+                            'readonly' => true,
                         ],
                     ],
                 ],
-                'title'           => [
+                'title' => [
                     'description' => __('Title of template.'),
-                    'type'        => ['object', 'string'],
-                    'default'     => '',
-                    'context'     => ['embed', 'view', 'edit'],
-                    'properties'  => [
-                        'raw'      => [
+                    'type' => ['object', 'string'],
+                    'default' => '',
+                    'context' => ['embed', 'view', 'edit'],
+                    'properties' => [
+                        'raw' => [
                             'description' => __('Title for the template, as it exists in the database.'),
-                            'type'        => 'string',
-                            'context'     => ['view', 'edit', 'embed'],
+                            'type' => 'string',
+                            'context' => ['view', 'edit', 'embed'],
                         ],
                         'rendered' => [
                             'description' => __('HTML title for the template, transformed for display.'),
-                            'type'        => 'string',
-                            'context'     => ['view', 'edit', 'embed'],
-                            'readonly'    => true,
+                            'type' => 'string',
+                            'context' => ['view', 'edit', 'embed'],
+                            'readonly' => true,
                         ],
                     ],
                 ],
-                'description'     => [
+                'description' => [
                     'description' => __('Description of template.'),
-                    'type'        => 'string',
-                    'default'     => '',
-                    'context'     => ['embed', 'view', 'edit'],
+                    'type' => 'string',
+                    'default' => '',
+                    'context' => ['embed', 'view', 'edit'],
                 ],
-                'status'          => [
+                'status' => [
                     'description' => __('Status of template.'),
-                    'type'        => 'string',
-                    'enum'        => array_keys(get_post_stati(['internal' => false])),
-                    'default'     => 'publish',
-                    'context'     => ['embed', 'view', 'edit'],
+                    'type' => 'string',
+                    'enum' => array_keys(get_post_stati(['internal' => false])),
+                    'default' => 'publish',
+                    'context' => ['embed', 'view', 'edit'],
                 ],
-                'wp_id'           => [
+                'wp_id' => [
                     'description' => __('Post ID.'),
-                    'type'        => 'integer',
-                    'context'     => ['embed', 'view', 'edit'],
-                    'readonly'    => true,
+                    'type' => 'integer',
+                    'context' => ['embed', 'view', 'edit'],
+                    'readonly' => true,
                 ],
-                'has_theme_file'  => [
+                'has_theme_file' => [
                     'description' => __('Theme file exists.'),
-                    'type'        => 'bool',
-                    'context'     => ['embed', 'view', 'edit'],
-                    'readonly'    => true,
+                    'type' => 'bool',
+                    'context' => ['embed', 'view', 'edit'],
+                    'readonly' => true,
                 ],
-                'author'          => [
+                'author' => [
                     'description' => __('The ID for the author of the template.'),
-                    'type'        => 'integer',
-                    'context'     => ['view', 'edit', 'embed'],
+                    'type' => 'integer',
+                    'context' => ['view', 'edit', 'embed'],
                 ],
-                'modified'        => [
+                'modified' => [
                     'description' => __("The date the template was last modified, in the site's timezone."),
-                    'type'        => 'string',
-                    'format'      => 'date-time',
-                    'context'     => ['view', 'edit'],
-                    'readonly'    => true,
+                    'type' => 'string',
+                    'format' => 'date-time',
+                    'context' => ['view', 'edit'],
+                    'readonly' => true,
                 ],
-                'author_text'     => [
-                    'type'        => 'string',
+                'author_text' => [
+                    'type' => 'string',
                     'description' => __('Human readable text for the author.'),
-                    'readonly'    => true,
-                    'context'     => ['view', 'edit', 'embed'],
+                    'readonly' => true,
+                    'context' => ['view', 'edit', 'embed'],
                 ],
                 'original_source' => [
                     'description' => __('Where the template originally comes from e.g. \'theme\''),
-                    'type'        => 'string',
-                    'readonly'    => true,
-                    'context'     => ['view', 'edit', 'embed'],
-                    'enum'        => [
+                    'type' => 'string',
+                    'readonly' => true,
+                    'context' => ['view', 'edit', 'embed'],
+                    'enum' => [
                         'theme',
                         'plugin',
                         'site',
@@ -1193,23 +1202,23 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
         if ('wp_template' === $this->post_type) {
             $schema['properties']['is_custom'] = [
                 'description' => __('Whether a template is a custom template.'),
-                'type'        => 'bool',
-                'context'     => ['embed', 'view', 'edit'],
-                'readonly'    => true,
+                'type' => 'bool',
+                'context' => ['embed', 'view', 'edit'],
+                'readonly' => true,
             ];
-            $schema['properties']['plugin']    = [
-                'type'        => 'string',
+            $schema['properties']['plugin'] = [
+                'type' => 'string',
                 'description' => __('Plugin that registered the template.'),
-                'readonly'    => true,
-                'context'     => ['view', 'edit', 'embed'],
+                'readonly' => true,
+                'context' => ['view', 'edit', 'embed'],
             ];
         }
 
         if ('wp_template_part' === $this->post_type) {
             $schema['properties']['area'] = [
                 'description' => __('Where the template part is intended for use (header, footer, etc.)'),
-                'type'        => 'string',
-                'context'     => ['embed', 'view', 'edit'],
+                'type' => 'string',
+                'context' => ['embed', 'view', 'edit'],
             ];
         }
 

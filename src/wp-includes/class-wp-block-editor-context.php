@@ -44,9 +44,9 @@ final class WP_Block_Editor_Context
      *
      * Populates optional properties for a given block editor context.
      *
+     * @param array $settings The list of optional settings to expose in a given context.
      * @since 5.8.0
      *
-     * @param array $settings The list of optional settings to expose in a given context.
      */
     public function __construct(array $settings = [])
     {

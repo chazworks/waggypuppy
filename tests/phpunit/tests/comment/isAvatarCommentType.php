@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test cases for the `is_avatar_comment_type()` function.
  *
@@ -27,14 +28,14 @@ class Tests_Comment_IsAvatarCommentType extends WP_UnitTestCase
     /**
      * Dataprovider for `is_avatar_comment_type()`.
      *
-     * @since 5.1.0
-     *
      * @return array {
-     *     @type array {
-     *         @type string Comment type.
-     *         @type bool   Expected values.
+     * @type array {
+     * @type string Comment type.
+     * @type bool   Expected values.
      *     }
      * }
+     * @since 5.1.0
+     *
      */
     public function data_is_avatar_comment_type()
     {
@@ -57,7 +58,7 @@ class Tests_Comment_IsAvatarCommentType extends WP_UnitTestCase
 
         add_filter('get_avatar_comment_types', [$this, '_filter_avatar_comment_types']);
         $actual_comment = is_avatar_comment_type('comment');
-        $actual_review  = is_avatar_comment_type('review');
+        $actual_review = is_avatar_comment_type('review');
         remove_filter('get_avatar_comment_types', [$this, '_filter_avatar_comment_types']);
 
         $this->assertTrue($actual_comment);
@@ -67,10 +68,10 @@ class Tests_Comment_IsAvatarCommentType extends WP_UnitTestCase
     /**
      * Filters callback that modifies the list of allowed comment types for retrieving avatars.
      *
+     * @param array $types An array of content types.
+     * @return array An array of content types.
      * @since 5.1.0
      *
-     * @param  array $types An array of content types.
-     * @return array An array of content types.
      */
     public function _filter_avatar_comment_types($types)
     {

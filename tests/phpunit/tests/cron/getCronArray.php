@@ -44,8 +44,8 @@ class Tests_Cron_getCronArray extends WP_UnitTestCase
      *
      * @dataProvider data_get_cron_array_output_validation
      *
-     * @param mixed $input    Cron "array".
-     * @param int   $expected Expected array entry count of the cron option after update.
+     * @param mixed $input Cron "array".
+     * @param int $expected Expected array entry count of the cron option after update.
      */
     public function test_get_cron_array_output_validation($input, $expected)
     {
@@ -64,46 +64,46 @@ class Tests_Cron_getCronArray extends WP_UnitTestCase
     public function data_get_cron_array_output_validation()
     {
         return [
-            'stdClass'    => [
-                'input'    => new stdClass(),
+            'stdClass' => [
+                'input' => new stdClass(),
                 'expected' => 0,
             ],
-            'null'        => [
-                'input'    => null,
+            'null' => [
+                'input' => null,
                 'expected' => 0,
             ],
-            'false'       => [
-                'input'    => false,
+            'false' => [
+                'input' => false,
                 'expected' => 0,
             ],
-            'true'        => [
-                'input'    => true,
+            'true' => [
+                'input' => true,
                 'expected' => 0,
             ],
-            'integer'     => [
-                'input'    => 53940,
+            'integer' => [
+                'input' => 53940,
                 'expected' => 0,
             ],
-            'float'       => [
-                'input'    => 539.40,
+            'float' => [
+                'input' => 539.40,
                 'expected' => 0,
             ],
-            'string'      => [
-                'input'    => 'ticket 53940',
+            'string' => [
+                'input' => 'ticket 53940',
                 'expected' => 0,
             ],
             'empty array' => [
-                'input'    => [],
+                'input' => [],
                 'expected' => 0,
             ],
-            'cron array'  => [
-                'input'    => [
+            'cron array' => [
+                'input' => [
                     'version' => 2,
-                    time()    => [
+                    time() => [
                         'hookname' => [
                             'event key' => [
                                 'schedule' => 'schedule',
-                                'args'     => 'args',
+                                'args' => 'args',
                                 'interval' => 'interval',
                             ],
                         ],
@@ -111,8 +111,8 @@ class Tests_Cron_getCronArray extends WP_UnitTestCase
                 ],
                 'expected' => 1,
             ],
-            'cron v1'     => [
-                'input'    => [
+            'cron v1' => [
+                'input' => [
                     time() => [
                         'hookname' => [
                             'args' => 'args',

@@ -6,7 +6,7 @@
  * @deprecated 2.1.0
  */
 
-if (! defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
     exit();
 }
 

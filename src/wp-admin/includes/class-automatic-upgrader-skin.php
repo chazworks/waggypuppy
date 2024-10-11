@@ -26,17 +26,17 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin
      * Determines whether the upgrader needs FTP/SSH details in order to connect
      * to the filesystem.
      *
-     * @since 3.7.0
+     * @param bool|WP_Error $error Optional. Whether the current request has failed to connect,
+     *                                                    or an error object. Default false.
+     * @param string $context Optional. Full path to the directory that is tested
+     *                                                    for being writable. Default empty.
+     * @param bool $allow_relaxed_file_ownership Optional. Whether to allow Group/World writable. Default false.
+     * @return bool True on success, false on failure.
      * @since 4.6.0 The `$context` parameter default changed from `false` to an empty string.
      *
      * @see request_filesystem_credentials()
      *
-     * @param bool|WP_Error $error                        Optional. Whether the current request has failed to connect,
-     *                                                    or an error object. Default false.
-     * @param string        $context                      Optional. Full path to the directory that is tested
-     *                                                    for being writable. Default empty.
-     * @param bool          $allow_relaxed_file_ownership Optional. Whether to allow Group/World writable. Default false.
-     * @return bool True on success, false on failure.
+     * @since 3.7.0
      */
     public function request_filesystem_credentials($error = false, $context = '', $allow_relaxed_file_ownership = false)
     {
@@ -56,9 +56,9 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin
     /**
      * Retrieves the upgrade messages.
      *
+     * @return string[] Messages during an upgrade.
      * @since 3.7.0
      *
-     * @return string[] Messages during an upgrade.
      */
     public function get_upgrade_messages()
     {
@@ -68,11 +68,11 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin
     /**
      * Stores a message about the upgrade.
      *
+     * @param string|array|WP_Error $feedback Message data.
+     * @param mixed ...$args Optional text replacements.
      * @since 3.7.0
      * @since 5.9.0 Renamed `$data` to `$feedback` for PHP 8 named parameter support.
      *
-     * @param string|array|WP_Error $feedback Message data.
-     * @param mixed                 ...$args  Optional text replacements.
      */
     public function feedback($feedback, ...$args)
     {
@@ -84,12 +84,12 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin
             $string = $feedback;
         }
 
-        if (! empty($this->upgrader->strings[$string])) {
+        if (!empty($this->upgrader->strings[$string])) {
             $string = $this->upgrader->strings[$string];
         }
 
         if (str_contains($string, '%')) {
-            if (! empty($args)) {
+            if (!empty($args)) {
                 $string = vsprintf($string, $args);
             }
         }
@@ -100,13 +100,13 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin
         $string = wp_kses(
             $string,
             [
-                'a'      => [
+                'a' => [
                     'href' => true,
                 ],
-                'br'     => true,
-                'em'     => true,
+                'br' => true,
+                'em' => true,
                 'strong' => true,
-            ]
+            ],
         );
 
         if (empty($string)) {
@@ -134,7 +134,7 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin
     public function footer()
     {
         $output = ob_get_clean();
-        if (! empty($output)) {
+        if (!empty($output)) {
             $this->feedback($output);
         }
     }

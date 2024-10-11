@@ -58,19 +58,19 @@ class Tests_Post_UpdatePostCache extends WP_UnitTestCase
         $cached_post = wp_cache_get($post_id, 'posts');
         $this->assertIsObject(
             $cached_post,
-            'The cached post is not an object'
+            'The cached post is not an object',
         );
 
         $this->assertObjectHasProperty(
             'filter',
             $cached_post,
-            'The cached post does not have a "filter" property'
+            'The cached post does not have a "filter" property',
         );
 
         $this->assertSame(
             'raw',
             $cached_post->filter,
-            'The filter is not set to "raw"'
+            'The filter is not set to "raw"',
         );
     }
 
@@ -101,19 +101,19 @@ class Tests_Post_UpdatePostCache extends WP_UnitTestCase
         $cached_post = wp_cache_get($post_id, 'posts');
         $this->assertIsObject(
             $cached_post,
-            'The cached post is not an object'
+            'The cached post is not an object',
         );
 
         $this->assertObjectHasProperty(
             'filter',
             $cached_post,
-            'The cached post does not have a "filter" property'
+            'The cached post does not have a "filter" property',
         );
 
         $this->assertSame(
             'raw',
             $cached_post->filter,
-            'The filter is not set to "raw"'
+            'The filter is not set to "raw"',
         );
     }
 
@@ -130,19 +130,19 @@ class Tests_Post_UpdatePostCache extends WP_UnitTestCase
         $cached_post = wp_cache_get($post_id, 'posts');
         $this->assertIsObject(
             $cached_post,
-            'The cached post is not an object'
+            'The cached post is not an object',
         );
 
         $this->assertObjectHasProperty(
             'filter',
             $cached_post,
-            'The cached post does not have a "filter" property'
+            'The cached post does not have a "filter" property',
         );
 
         $this->assertSame(
             'raw',
             $cached_post->filter,
-            'The filter is not set to "raw"'
+            'The filter is not set to "raw"',
         );
     }
 }

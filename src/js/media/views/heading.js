@@ -11,13 +11,12 @@
  * @augments Backbone.View
  */
 var Heading = wp.media.View.extend( {
-	tagName: function() {
+	tagName: function () {
 		return this.options.level || 'h1';
 	},
 	className: 'media-views-heading',
 
-	initialize: function() {
-
+	initialize: function () {
 		if ( this.options.className ) {
 			this.$el.addClass( this.options.className );
 		}
@@ -25,10 +24,10 @@ var Heading = wp.media.View.extend( {
 		this.text = this.options.text;
 	},
 
-	render: function() {
+	render: function () {
 		this.$el.html( this.text );
 		return this;
-	}
+	},
 } );
 
 module.exports = Heading;

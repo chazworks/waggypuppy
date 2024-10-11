@@ -38,8 +38,8 @@ class Tests_Ajax_wpAjaxReplytoComment extends WP_Ajax_UnitTestCase
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$comment_post = $factory->post->create_and_get();
-        self::$comment_ids  = $factory->comment->create_post_comments(self::$comment_post->ID, 5);
-        self::$draft_post   = $factory->post->create_and_get(['post_status' => 'draft']);
+        self::$comment_ids = $factory->comment->create_post_comments(self::$comment_post->ID, 5);
+        self::$draft_post = $factory->post->create_and_get(['post_status' => 'draft']);
     }
 
     public function tear_down()
@@ -55,7 +55,6 @@ class Tests_Ajax_wpAjaxReplytoComment extends WP_Ajax_UnitTestCase
      */
     public function test_as_admin()
     {
-
         // Become an administrator.
         $this->_setRole('administrator');
 
@@ -63,15 +62,15 @@ class Tests_Ajax_wpAjaxReplytoComment extends WP_Ajax_UnitTestCase
         $comments = get_comments(
             [
                 'post_id' => self::$comment_post->ID,
-            ]
+            ],
         );
-        $comment  = array_pop($comments);
+        $comment = array_pop($comments);
 
         // Set up a default request.
         $_POST['_ajax_nonce-replyto-comment'] = wp_create_nonce('replyto-comment');
-        $_POST['comment_ID']                  = $comment->comment_ID;
-        $_POST['content']                     = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
-        $_POST['comment_post_ID']             = self::$comment_post->ID;
+        $_POST['comment_ID'] = $comment->comment_ID;
+        $_POST['content'] = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+        $_POST['comment_post_ID'] = self::$comment_post->ID;
 
         // Make the request.
         try {
@@ -84,15 +83,15 @@ class Tests_Ajax_wpAjaxReplytoComment extends WP_Ajax_UnitTestCase
         $xml = simplexml_load_string($this->_last_response, 'SimpleXMLElement', LIBXML_NOCDATA);
 
         // Check the meta data.
-        $this->assertSame('-1', (string) $xml->response[0]->comment['position']);
-        $this->assertGreaterThan(0, (int) $xml->response[0]->comment['id']);
-        $this->assertNotEmpty((string) $xml->response['action']);
+        $this->assertSame('-1', (string)$xml->response[0]->comment['position']);
+        $this->assertGreaterThan(0, (int)$xml->response[0]->comment['id']);
+        $this->assertNotEmpty((string)$xml->response['action']);
 
         // Check the payload.
-        $this->assertNotEmpty((string) $xml->response[0]->comment[0]->response_data);
+        $this->assertNotEmpty((string)$xml->response[0]->comment[0]->response_data);
 
         // And supplemental is empty.
-        $this->assertEmpty((string) $xml->response[0]->comment[0]->supplemental);
+        $this->assertEmpty((string)$xml->response[0]->comment[0]->supplemental);
     }
 
     /**
@@ -102,7 +101,6 @@ class Tests_Ajax_wpAjaxReplytoComment extends WP_Ajax_UnitTestCase
      */
     public function test_as_subscriber()
     {
-
         // Become a subscriber.
         $this->_setRole('subscriber');
 
@@ -110,15 +108,15 @@ class Tests_Ajax_wpAjaxReplytoComment extends WP_Ajax_UnitTestCase
         $comments = get_comments(
             [
                 'post_id' => self::$comment_post->ID,
-            ]
+            ],
         );
-        $comment  = array_pop($comments);
+        $comment = array_pop($comments);
 
         // Set up a default request.
         $_POST['_ajax_nonce-replyto-comment'] = wp_create_nonce('replyto-comment');
-        $_POST['comment_ID']                  = $comment->comment_ID;
-        $_POST['content']                     = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
-        $_POST['comment_post_ID']             = self::$comment_post->ID;
+        $_POST['comment_ID'] = $comment->comment_ID;
+        $_POST['content'] = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+        $_POST['comment_post_ID'] = self::$comment_post->ID;
 
         // Make the request.
         $this->expectException('WPAjaxDieStopException');
@@ -133,7 +131,6 @@ class Tests_Ajax_wpAjaxReplytoComment extends WP_Ajax_UnitTestCase
      */
     public function test_bad_nonce()
     {
-
         // Become an administrator.
         $this->_setRole('administrator');
 
@@ -141,15 +138,15 @@ class Tests_Ajax_wpAjaxReplytoComment extends WP_Ajax_UnitTestCase
         $comments = get_comments(
             [
                 'post_id' => self::$comment_post->ID,
-            ]
+            ],
         );
-        $comment  = array_pop($comments);
+        $comment = array_pop($comments);
 
         // Set up a default request.
         $_POST['_ajax_nonce-replyto-comment'] = wp_create_nonce(uniqid());
-        $_POST['comment_ID']                  = $comment->comment_ID;
-        $_POST['content']                     = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
-        $_POST['comment_post_ID']             = self::$comment_post->ID;
+        $_POST['comment_ID'] = $comment->comment_ID;
+        $_POST['content'] = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+        $_POST['comment_post_ID'] = self::$comment_post->ID;
 
         // Make the request.
         $this->expectException('WPAjaxDieStopException');
@@ -164,14 +161,13 @@ class Tests_Ajax_wpAjaxReplytoComment extends WP_Ajax_UnitTestCase
      */
     public function test_invalid_post()
     {
-
         // Become an administrator.
         $this->_setRole('administrator');
 
         // Set up a default request.
         $_POST['_ajax_nonce-replyto-comment'] = wp_create_nonce('replyto-comment');
-        $_POST['content']                     = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
-        $_POST['comment_post_ID']             = 123456789;
+        $_POST['content'] = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+        $_POST['comment_post_ID'] = 123456789;
 
         // Make the request.
         $this->expectException('WPAjaxDieStopException');
@@ -186,14 +182,13 @@ class Tests_Ajax_wpAjaxReplytoComment extends WP_Ajax_UnitTestCase
      */
     public function test_with_draft_post()
     {
-
         // Become an administrator.
         $this->_setRole('administrator');
 
         // Set up a default request.
         $_POST['_ajax_nonce-replyto-comment'] = wp_create_nonce('replyto-comment');
-        $_POST['content']                     = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
-        $_POST['comment_post_ID']             = self::$draft_post->ID;
+        $_POST['content'] = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+        $_POST['comment_post_ID'] = self::$draft_post->ID;
 
         // Make the request.
         $this->expectException('WPAjaxDieStopException');
@@ -217,8 +212,8 @@ class Tests_Ajax_wpAjaxReplytoComment extends WP_Ajax_UnitTestCase
 
         // Set up a default request.
         $_POST['_ajax_nonce-replyto-comment'] = wp_create_nonce('replyto-comment');
-        $_POST['content']                     = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
-        $_POST['comment_post_ID']             = self::$comment_post->ID;
+        $_POST['content'] = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+        $_POST['comment_post_ID'] = self::$comment_post->ID;
 
         // Block comments from being saved, simulate a DB error.
         add_filter('query', [$this, '_block_comments']);
@@ -257,14 +252,13 @@ class Tests_Ajax_wpAjaxReplytoComment extends WP_Ajax_UnitTestCase
      */
     public function test_pre_comments_approved()
     {
-
         // Become an administrator.
         $this->_setRole('administrator');
 
         // Set up a default request.
         $_POST['_ajax_nonce-replyto-comment'] = wp_create_nonce('replyto-comment');
-        $_POST['content']                     = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
-        $_POST['comment_post_ID']             = self::$comment_post->ID;
+        $_POST['content'] = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+        $_POST['comment_post_ID'] = self::$comment_post->ID;
 
         // Simulate filter check error.
         add_filter('pre_comment_approved', [$this, '_pre_comment_approved_filter'], 10, 2);

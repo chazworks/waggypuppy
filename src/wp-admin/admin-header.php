@@ -7,25 +7,25 @@
  */
 
 header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
-if (! defined('WP_ADMIN')) {
+if (!defined('WP_ADMIN')) {
     require_once __DIR__ . '/admin.php';
 }
 
 /**
  * In case admin-header.php is included in a function.
  *
- * @global string    $title              The title of the current screen.
- * @global string    $hook_suffix
- * @global WP_Screen $current_screen     waggypuppy current screen object.
- * @global WP_Locale $wp_locale          waggypuppy date and time locale object.
- * @global string    $pagenow            The filename of the current screen.
- * @global string    $update_title
- * @global int       $total_update_count
- * @global string    $parent_file
- * @global string    $typenow            The post type of the current screen.
+ * @global string $title The title of the current screen.
+ * @global string $hook_suffix
+ * @global WP_Screen $current_screen waggypuppy current screen object.
+ * @global WP_Locale $wp_locale waggypuppy date and time locale object.
+ * @global string $pagenow The filename of the current screen.
+ * @global string $update_title
+ * @global int $total_update_count
+ * @global string $parent_file
+ * @global string $typenow The post type of the current screen.
  */
 global $title, $hook_suffix, $current_screen, $wp_locale, $pagenow,
-    $update_title, $total_update_count, $parent_file, $typenow;
+       $update_title, $total_update_count, $parent_file, $typenow;
 
 // Catch plugins that include admin-header.php before admin.php completes.
 if (empty($current_screen)) {
@@ -53,13 +53,13 @@ if ($admin_title === $title) {
 
     if ('post' === $current_screen->base && 'add' !== $current_screen->action) {
         $post_title = get_the_title();
-        if (! empty($post_title)) {
+        if (!empty($post_title)) {
             $post_type_obj = get_post_type_object($typenow);
-            $screen_title  = sprintf(
-                /* translators: Editor admin screen title. 1: "Edit item" text for the post type, 2: Post title. */
+            $screen_title = sprintf(
+            /* translators: Editor admin screen title. 1: "Edit item" text for the post type, 2: Post title. */
                 __('%1$s &#8220;%2$s&#8221;'),
                 $post_type_obj->labels->edit_item,
-                $post_title
+                $post_title,
             );
         }
     }
@@ -76,10 +76,10 @@ if (wp_is_recovery_mode()) {
 /**
  * Filters the title tag content for an admin page.
  *
+ * @param string $admin_title The page title, with extra context added.
+ * @param string $title The original page title.
  * @since 3.1.0
  *
- * @param string $admin_title The page title, with extra context added.
- * @param string $title       The original page title.
  */
 $admin_title = apply_filters('admin_title', $admin_title, $title);
 
@@ -87,7 +87,7 @@ wp_user_settings();
 
 _wp_admin_html_begin();
 ?>
-<title><?php echo esc_html($admin_title); ?></title>
+    <title><?php echo esc_html($admin_title); ?></title>
 <?php
 
 wp_enqueue_style('colors');
@@ -96,24 +96,36 @@ wp_enqueue_script('svg-painter');
 
 $admin_body_class = preg_replace('/[^a-z0-9_-]+/i', '-', $hook_suffix);
 ?>
-<script type="text/javascript">
-addLoadEvent = function(func){if(typeof jQuery!=='undefined')jQuery(function(){func();});else if(typeof wpOnload!=='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
-var ajaxurl = '<?php echo esc_js(admin_url('admin-ajax.php', 'relative')); ?>',
-    pagenow = '<?php echo esc_js($current_screen->id); ?>',
-    typenow = '<?php echo esc_js($current_screen->post_type); ?>',
-    adminpage = '<?php echo esc_js($admin_body_class); ?>',
-    thousandsSeparator = '<?php echo esc_js($wp_locale->number_format['thousands_sep']); ?>',
-    decimalPoint = '<?php echo esc_js($wp_locale->number_format['decimal_point']); ?>',
-    isRtl = <?php echo (int) is_rtl(); ?>;
-</script>
+    <script type="text/javascript">
+        addLoadEvent = function (func) {
+            if (typeof jQuery !== 'undefined') jQuery(function () {
+                func();
+            }); else if (typeof wpOnload !== 'function') {
+                wpOnload = func;
+            } else {
+                var oldonload = wpOnload;
+                wpOnload = function () {
+                    oldonload();
+                    func();
+                }
+            }
+        };
+        var ajaxurl = '<?php echo esc_js(admin_url('admin-ajax.php', 'relative')); ?>',
+            pagenow = '<?php echo esc_js($current_screen->id); ?>',
+            typenow = '<?php echo esc_js($current_screen->post_type); ?>',
+            adminpage = '<?php echo esc_js($admin_body_class); ?>',
+            thousandsSeparator = '<?php echo esc_js($wp_locale->number_format['thousands_sep']); ?>',
+            decimalPoint = '<?php echo esc_js($wp_locale->number_format['decimal_point']); ?>',
+            isRtl = <?php echo (int)is_rtl(); ?>;
+    </script>
 <?php
 
 /**
  * Fires when enqueuing scripts for all admin pages.
  *
+ * @param string $hook_suffix The current admin page.
  * @since 2.8.0
  *
- * @param string $hook_suffix The current admin page.
  */
 do_action('admin_enqueue_scripts', $hook_suffix);
 
@@ -166,7 +178,7 @@ if ('f' === get_user_setting('mfold')) {
     $admin_body_class .= ' folded';
 }
 
-if (! get_user_setting('unfold')) {
+if (!get_user_setting('unfold')) {
     $admin_body_class .= ' auto-fold';
 }
 
@@ -186,7 +198,7 @@ if ($current_screen->taxonomy) {
     $admin_body_class .= ' taxonomy-' . $current_screen->taxonomy;
 }
 
-$admin_body_class .= ' branch-' . str_replace(['.', ','], '-', (float) get_bloginfo('version'));
+$admin_body_class .= ' branch-' . str_replace(['.', ','], '-', (float)get_bloginfo('version'));
 $admin_body_class .= ' version-' . str_replace('.', '-', preg_replace('/^([.0-9]+).*/', '$1', get_bloginfo('version')));
 $admin_body_class .= ' admin-color-' . sanitize_html_class(get_user_option('admin_color'), 'fresh');
 $admin_body_class .= ' locale-' . sanitize_html_class(strtolower(str_replace('_', '-', get_user_locale())));
@@ -223,7 +235,7 @@ if ($error_get_last && WP_DEBUG && WP_DEBUG_DISPLAY && ini_get('display_errors')
 unset($error_get_last);
 
 ?>
-</head>
+    </head>
 <?php
 /**
  * Filters the CSS classes for the body tag in the admin.
@@ -235,47 +247,47 @@ unset($error_get_last);
  * 2. Not all core admin classes are filterable, notably: wp-admin, wp-core-ui,
  *    and no-js cannot be removed.
  *
+ * @param string $classes Space-separated list of CSS classes.
  * @since 2.3.0
  *
- * @param string $classes Space-separated list of CSS classes.
  */
 $admin_body_classes = apply_filters('admin_body_class', '');
 $admin_body_classes = ltrim($admin_body_classes . ' ' . $admin_body_class);
 ?>
-<body class="wp-admin wp-core-ui no-js <?php echo esc_attr($admin_body_classes); ?>">
-<script type="text/javascript">
-    document.body.className = document.body.className.replace('no-js','js');
-</script>
+    <body class="wp-admin wp-core-ui no-js <?php echo esc_attr($admin_body_classes); ?>">
+    <script type="text/javascript">
+        document.body.className = document.body.className.replace('no-js', 'js');
+    </script>
 
-<?php
-// Make sure the customize body classes are correct as early as possible.
-if (current_user_can('customize')) {
-    wp_customize_support_script();
-}
-?>
+    <?php
+    // Make sure the customize body classes are correct as early as possible.
+    if (current_user_can('customize')) {
+        wp_customize_support_script();
+    }
+    ?>
 
-<div id="wpwrap">
-<?php require ABSPATH . 'wp-admin/menu-header.php'; ?>
-<div id="wpcontent">
+    <div id="wpwrap">
+        <?php require ABSPATH . 'wp-admin/menu-header.php'; ?>
+        <div id="wpcontent">
 
-<?php
-/**
- * Fires at the beginning of the content section in an admin page.
- *
- * @since 3.0.0
- */
-do_action('in_admin_header');
-?>
+            <?php
+            /**
+             * Fires at the beginning of the content section in an admin page.
+             *
+             * @since 3.0.0
+             */
+            do_action('in_admin_header');
+            ?>
 
-<div id="wpbody" role="main">
-<?php
-unset($blog_name, $total_update_count, $update_title);
+            <div id="wpbody" role="main">
+                <?php
+                unset($blog_name, $total_update_count, $update_title);
 
-$current_screen->set_parentage($parent_file);
+                $current_screen->set_parentage($parent_file);
 
-?>
+                ?>
 
-<div id="wpbody-content">
+                <div id="wpbody-content">
 <?php
 
 $current_screen->render_screen_meta();

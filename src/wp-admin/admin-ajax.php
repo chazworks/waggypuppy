@@ -14,7 +14,7 @@
  * @since 2.1.0
  */
 const DOING_AJAX = true;
-if (! defined('WP_ADMIN')) {
+if (!defined('WP_ADMIN')) {
     define('WP_ADMIN', true);
 }
 
@@ -28,7 +28,7 @@ header('Content-Type: text/html; charset=' . get_option('blog_charset'));
 header('X-Robots-Tag: noindex');
 
 // Require a valid action parameter.
-if (empty($_REQUEST['action']) || ! is_scalar($_REQUEST['action'])) {
+if (empty($_REQUEST['action']) || !is_scalar($_REQUEST['action'])) {
     wp_die('0', 400);
 }
 
@@ -158,11 +158,11 @@ $core_actions_post_deprecated = [
 $core_actions_post = array_merge($core_actions_post, $core_actions_post_deprecated);
 
 // Register core Ajax calls.
-if (! empty($_GET['action']) && in_array($_GET['action'], $core_actions_get, true)) {
+if (!empty($_GET['action']) && in_array($_GET['action'], $core_actions_get, true)) {
     add_action('wp_ajax_' . $_GET['action'], 'wp_ajax_' . str_replace('-', '_', $_GET['action']), 1);
 }
 
-if (! empty($_POST['action']) && in_array($_POST['action'], $core_actions_post, true)) {
+if (!empty($_POST['action']) && in_array($_POST['action'], $core_actions_post, true)) {
     add_action('wp_ajax_' . $_POST['action'], 'wp_ajax_' . str_replace('-', '_', $_POST['action']), 1);
 }
 
@@ -177,7 +177,7 @@ $action = $_REQUEST['action'];
 
 if (is_user_logged_in()) {
     // If no action is registered, return a Bad Request response.
-    if (! has_action("wp_ajax_{$action}")) {
+    if (!has_action("wp_ajax_{$action}")) {
         wp_die('0', 400);
     }
 
@@ -192,7 +192,7 @@ if (is_user_logged_in()) {
     do_action("wp_ajax_{$action}");
 } else {
     // If no action is registered, return a Bad Request response.
-    if (! has_action("wp_ajax_nopriv_{$action}")) {
+    if (!has_action("wp_ajax_nopriv_{$action}")) {
         wp_die('0', 400);
     }
 

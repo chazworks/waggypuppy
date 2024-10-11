@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test Test_WP_Customize_Custom_CSS_Setting.
  *
@@ -36,7 +37,7 @@ class Test_WP_Customize_Custom_CSS_Setting extends WP_UnitTestCase
         $user_id = self::factory()->user->create(
             [
                 'role' => 'administrator',
-            ]
+            ],
         );
         if (is_multisite()) {
             grant_super_admin($user_id);
@@ -46,10 +47,11 @@ class Test_WP_Customize_Custom_CSS_Setting extends WP_UnitTestCase
 
         global $wp_customize;
         $this->wp_customize = new WP_Customize_Manager();
-        $wp_customize       = $this->wp_customize;
+        $wp_customize = $this->wp_customize;
 
         do_action('customize_register', $this->wp_customize);
-        $this->setting = new WP_Customize_Custom_CSS_Setting($this->wp_customize, 'custom_css[' . get_stylesheet() . ']');
+        $this->setting = new WP_Customize_Custom_CSS_Setting($this->wp_customize,
+            'custom_css[' . get_stylesheet() . ']');
         $this->wp_customize->add_setting($this->setting);
     }
 
@@ -117,7 +119,6 @@ class Test_WP_Customize_Custom_CSS_Setting extends WP_UnitTestCase
      */
     public function test_crud()
     {
-
         $this->setting->default = '/* Hello World */';
         $this->assertSame($this->setting->default, $this->setting->value());
 
@@ -125,25 +126,25 @@ class Test_WP_Customize_Custom_CSS_Setting extends WP_UnitTestCase
         $this->assertNull(wp_get_custom_css_post($this->setting->stylesheet));
         $this->assertNull(wp_get_custom_css_post('twentyten'));
 
-        $original_css      = 'body { color: black; }';
-        $post_id           = self::factory()->post->create(
+        $original_css = 'body { color: black; }';
+        $post_id = self::factory()->post->create(
             [
-                'post_title'   => $this->setting->stylesheet,
-                'post_name'    => $this->setting->stylesheet,
+                'post_title' => $this->setting->stylesheet,
+                'post_name' => $this->setting->stylesheet,
                 'post_content' => $original_css,
-                'post_status'  => 'publish',
-                'post_type'    => 'custom_css',
-            ]
+                'post_status' => 'publish',
+                'post_type' => 'custom_css',
+            ],
         );
-        $twentyten_css     = 'body { color: red; }';
+        $twentyten_css = 'body { color: red; }';
         $twentyten_post_id = self::factory()->post->create(
             [
-                'post_title'   => 'twentyten',
-                'post_name'    => 'twentyten',
+                'post_title' => 'twentyten',
+                'post_name' => 'twentyten',
                 'post_content' => $twentyten_css,
-                'post_status'  => 'publish',
-                'post_type'    => 'custom_css',
-            ]
+                'post_status' => 'publish',
+                'post_type' => 'custom_css',
+            ],
         );
         $twentyten_setting = new WP_Customize_Custom_CSS_Setting($this->wp_customize, 'custom_css[twentyten]');
 
@@ -177,9 +178,9 @@ class Test_WP_Customize_Custom_CSS_Setting extends WP_UnitTestCase
         $r = wp_update_custom_css_post(
             'body { color:red; }',
             [
-                'stylesheet'   => $this->setting->stylesheet,
+                'stylesheet' => $this->setting->stylesheet,
                 'preprocessed' => "body\n\tcolor:red;",
-            ]
+            ],
         );
         $this->assertInstanceOf('WP_Post', $r);
         $this->assertSame($post_id, $r->ID);
@@ -195,7 +196,7 @@ class Test_WP_Customize_Custom_CSS_Setting extends WP_UnitTestCase
             'body { background:black; }',
             [
                 'stylesheet' => 'other',
-            ]
+            ],
         );
         $this->assertInstanceOf('WP_Post', $r);
         $this->assertSame('other', get_post($r)->post_name);
@@ -206,7 +207,8 @@ class Test_WP_Customize_Custom_CSS_Setting extends WP_UnitTestCase
         wp_delete_post($post_id);
         $this->assertNull(wp_get_custom_css_post());
         $this->assertNull(wp_get_custom_css_post(get_stylesheet()));
-        $this->assertSame($previewed_css, wp_get_custom_css(get_stylesheet()), 'Previewed value remains in spite of deleted post.');
+        $this->assertSame($previewed_css, wp_get_custom_css(get_stylesheet()),
+            'Previewed value remains in spite of deleted post.');
         wp_delete_post($twentyten_post_id);
         $this->assertNull(wp_get_custom_css_post('twentyten'));
         $this->assertSame('', wp_get_custom_css('twentyten'));
@@ -220,13 +222,13 @@ class Test_WP_Customize_Custom_CSS_Setting extends WP_UnitTestCase
     public function test_custom_css_revision_saved()
     {
         $inserted_css = 'body { background: black; }';
-        $updated_css  = 'body { background: red; }';
+        $updated_css = 'body { background: red; }';
 
         $post = wp_update_custom_css_post(
             $inserted_css,
             [
                 'stylesheet' => 'testtheme',
-            ]
+            ],
         );
 
         $this->assertSame($inserted_css, $post->post_content);
@@ -238,7 +240,7 @@ class Test_WP_Customize_Custom_CSS_Setting extends WP_UnitTestCase
             $updated_css,
             [
                 'stylesheet' => 'testtheme',
-            ]
+            ],
         );
 
         $revisions = array_values(wp_get_post_revisions($post));
@@ -285,25 +287,26 @@ class Test_WP_Customize_Custom_CSS_Setting extends WP_UnitTestCase
 
         self::factory()->post->create(
             [
-                'post_title'   => $this->setting->stylesheet,
-                'post_name'    => $this->setting->stylesheet,
+                'post_title' => $this->setting->stylesheet,
+                'post_name' => $this->setting->stylesheet,
                 'post_content' => '/*custom*/',
-                'post_status'  => 'publish',
-                'post_type'    => 'custom_css',
-            ]
+                'post_status' => 'publish',
+                'post_type' => 'custom_css',
+            ],
         );
         remove_theme_mod('custom_css_post_id');
         $this->assertSame('/*custom*//*filtered*/', $this->setting->value());
 
         $this->wp_customize->set_post_value($this->setting->id, '/*overridden*/');
         $this->setting->preview();
-        $this->assertSame('/*overridden*/', $this->setting->value(), 'Expected value to not be filtered since post value is present.');
+        $this->assertSame('/*overridden*/', $this->setting->value(),
+            'Expected value to not be filtered since post value is present.');
     }
 
     /**
      * Filter value.
      *
-     * @param string $value                 Value.
+     * @param string $value Value.
      * @param WP_Customize_Setting $setting Setting.
      * @return string
      */
@@ -322,20 +325,20 @@ class Test_WP_Customize_Custom_CSS_Setting extends WP_UnitTestCase
     public function test_update_filter()
     {
         $original_css = 'body { color:red; }';
-        $post_id      = self::factory()->post->create(
+        $post_id = self::factory()->post->create(
             [
-                'post_title'   => $this->setting->stylesheet,
-                'post_name'    => $this->setting->stylesheet,
+                'post_title' => $this->setting->stylesheet,
+                'post_name' => $this->setting->stylesheet,
                 'post_content' => $original_css,
-                'post_status'  => 'publish',
-                'post_type'    => 'custom_css',
-            ]
+                'post_status' => 'publish',
+                'post_type' => 'custom_css',
+            ],
         );
 
         $overridden_css = 'body { color:green; }';
         $this->wp_customize->set_post_value($this->setting->id, $overridden_css);
 
-        $post           = get_post($post_id);
+        $post = get_post($post_id);
         $original_title = $post->post_title;
 
         add_filter('update_custom_css_data', [$this, 'filter_update_custom_css_data'], 10, 3);
@@ -351,7 +354,7 @@ class Test_WP_Customize_Custom_CSS_Setting extends WP_UnitTestCase
     /**
      * Filter `customize_update_custom_css_post_content_args`.
      *
-     * @param array  $data Data.
+     * @param array $data Data.
      * @param string $args Args.
      * @return array Data.
      */
@@ -365,9 +368,9 @@ class Test_WP_Customize_Custom_CSS_Setting extends WP_UnitTestCase
         $this->assertSame($args['css'], $data['css']);
         $this->assertSame($args['preprocessed'], $data['preprocessed']);
 
-        $data['css']         .= '/* filtered post_content */';
+        $data['css'] .= '/* filtered post_content */';
         $data['preprocessed'] = '/* filtered post_content_filtered */';
-        $data['post_title']   = 'Ignored';
+        $data['post_title'] = 'Ignored';
         return $data;
     }
 
@@ -381,19 +384,18 @@ class Test_WP_Customize_Custom_CSS_Setting extends WP_UnitTestCase
      */
     public function test_validate()
     {
-
         // Empty CSS throws no errors.
         $result = $this->setting->validate('');
         $this->assertTrue($result);
 
         // Basic, valid CSS throws no errors.
         $basic_css = 'body { background: #f00; } h1.site-title { font-size: 36px; } a:hover { text-decoration: none; } input[type="text"] { padding: 1em; }';
-        $result    = $this->setting->validate($basic_css);
+        $result = $this->setting->validate($basic_css);
         $this->assertTrue($result);
 
         // Check for markup.
         $unclosed_comment = $basic_css . '</style>';
-        $result           = $this->setting->validate($unclosed_comment);
+        $result = $this->setting->validate($unclosed_comment);
         $this->assertArrayHasKey('illegal_markup', $result->errors);
     }
 }

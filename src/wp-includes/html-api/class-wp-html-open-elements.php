@@ -80,9 +80,9 @@ class WP_HTML_Open_Elements
      *
      * The function will be called with the pushed item as its argument.
      *
+     * @param Closure $handler The handler function.
      * @since 6.6.0
      *
-     * @param Closure $handler The handler function.
      */
     public function set_pop_handler(Closure $handler): void
     {
@@ -95,9 +95,9 @@ class WP_HTML_Open_Elements
      *
      * The function will be called with the pushed item as its argument.
      *
+     * @param Closure $handler The handler function.
      * @since 6.6.0
      *
-     * @param Closure $handler The handler function.
      */
     public function set_push_handler(Closure $handler): void
     {
@@ -112,12 +112,12 @@ class WP_HTML_Open_Elements
      * "nth item" on the stack, counting from the top, where the
      * top-most element is the 1st, the second is the 2nd, etc...
      *
-     * @since 6.7.0
-     *
      * @param int $nth Retrieve the nth item on the stack, with 1 being
      *                 the top element, 2 being the second, etc...
      * @return WP_HTML_Token|null Name of the node on the stack at the given location,
      *                            or `null` if the location isn't on the stack.
+     * @since 6.7.0
+     *
      */
     public function at(int $nth): ?WP_HTML_Token
     {
@@ -133,10 +133,10 @@ class WP_HTML_Open_Elements
     /**
      * Reports if a node of a given name is in the stack of open elements.
      *
-     * @since 6.7.0
-     *
      * @param string $node_name Name of node for which to check.
      * @return bool Whether a node of the given name is in the stack of open elements.
+     * @since 6.7.0
+     *
      */
     public function contains(string $node_name): bool
     {
@@ -152,10 +152,10 @@ class WP_HTML_Open_Elements
     /**
      * Reports if a specific node is in the stack of open elements.
      *
-     * @since 6.4.0
-     *
      * @param WP_HTML_Token $token Look for this node in the stack.
      * @return bool Whether the referenced node is in the stack of open elements.
+     * @since 6.4.0
+     *
      */
     public function contains_node(WP_HTML_Token $token): bool
     {
@@ -171,9 +171,9 @@ class WP_HTML_Open_Elements
     /**
      * Returns how many nodes are currently in the stack of open elements.
      *
+     * @return int How many node are in the stack of open elements.
      * @since 6.4.0
      *
-     * @return int How many node are in the stack of open elements.
      */
     public function count(): int
     {
@@ -184,9 +184,9 @@ class WP_HTML_Open_Elements
      * Returns the node at the end of the stack of open elements,
      * if one exists. If the stack is empty, returns null.
      *
+     * @return WP_HTML_Token|null Last node in the stack of open elements, if one exists, otherwise null.
      * @since 6.4.0
      *
-     * @return WP_HTML_Token|null Last node in the stack of open elements, if one exists, otherwise null.
      */
     public function current_node(): ?WP_HTML_Token
     {
@@ -212,15 +212,15 @@ class WP_HTML_Open_Elements
      *     // Is the current node any element/tag?
      *     $stack->current_node_is( '#tag' );
      *
-     * @see WP_HTML_Tag_Processor::get_token_type
-     * @see WP_HTML_Tag_Processor::get_token_name
-     *
+     * @param string $identity Check if the current node has this name or type (depending on what is provided).
+     * @return bool Whether there is a current element that matches the given identity, whether a token name or type.
      * @since 6.7.0
      *
      * @access private
      *
-     * @param string $identity Check if the current node has this name or type (depending on what is provided).
-     * @return bool Whether there is a current element that matches the given identity, whether a token name or type.
+     * @see WP_HTML_Tag_Processor::get_token_type
+     * @see WP_HTML_Tag_Processor::get_token_name
+     *
      */
     public function current_node_is(string $identity): bool
     {
@@ -232,22 +232,22 @@ class WP_HTML_Open_Elements
         $current_node_name = $current_node->node_name;
 
         return (
-            $current_node_name === $identity ||
-            ('#doctype' === $identity && 'html' === $current_node_name) ||
-            ('#tag' === $identity && ctype_upper($current_node_name))
+            $current_node_name === $identity
+            || ('#doctype' === $identity && 'html' === $current_node_name)
+            || ('#tag' === $identity && ctype_upper($current_node_name))
         );
     }
 
     /**
      * Returns whether an element is in a specific scope.
      *
-     * @since 6.4.0
-     *
-     * @see https://html.spec.whatwg.org/#has-an-element-in-the-specific-scope
-     *
-     * @param string   $tag_name         Name of tag check.
+     * @param string $tag_name Name of tag check.
      * @param string[] $termination_list List of elements that terminate the search.
      * @return bool Whether the element was found in a specific scope.
+     * @see https://html.spec.whatwg.org/#has-an-element-in-the-specific-scope
+     *
+     * @since 6.4.0
+     *
      */
     public function has_element_in_specific_scope(string $tag_name, $termination_list): bool
     {
@@ -260,8 +260,8 @@ class WP_HTML_Open_Elements
                 return true;
             }
 
-            if ('(internal: H1 through H6 - do not use)' === $tag_name &&
-                in_array($namespaced_name, ['H1', 'H2', 'H3', 'H4', 'H5', 'H6'], true)
+            if ('(internal: H1 through H6 - do not use)' === $tag_name
+                && in_array($namespaced_name, ['H1', 'H2', 'H3', 'H4', 'H5', 'H6'], true)
             ) {
                 return true;
             }
@@ -300,13 +300,13 @@ class WP_HTML_Open_Elements
      * >   - SVG desc
      * >   - SVG title
      *
+     * @param string $tag_name Name of tag to check.
+     * @return bool Whether given element is in scope.
+     * @see https://html.spec.whatwg.org/#has-an-element-in-scope
+     *
      * @since 6.4.0
      * @since 6.7.0 Full support.
      *
-     * @see https://html.spec.whatwg.org/#has-an-element-in-scope
-     *
-     * @param string $tag_name Name of tag to check.
-     * @return bool Whether given element is in scope.
      */
     public function has_element_in_scope(string $tag_name): bool
     {
@@ -333,7 +333,7 @@ class WP_HTML_Open_Elements
                 'svg FOREIGNOBJECT',
                 'svg DESC',
                 'svg TITLE',
-            ]
+            ],
         );
     }
 
@@ -348,14 +348,14 @@ class WP_HTML_Open_Elements
      * >   - ol in the HTML namespace
      * >   - ul in the HTML namespace
      *
-     * @since 6.4.0
-     * @since 6.5.0 Implemented: no longer throws on every invocation.
+     * @param string $tag_name Name of tag to check.
+     * @return bool Whether given element is in scope.
      * @since 6.7.0 Supports all required HTML elements.
      *
      * @see https://html.spec.whatwg.org/#has-an-element-in-list-item-scope
      *
-     * @param string $tag_name Name of tag to check.
-     * @return bool Whether given element is in scope.
+     * @since 6.4.0
+     * @since 6.5.0 Implemented: no longer throws on every invocation.
      */
     public function has_element_in_list_item_scope(string $tag_name): bool
     {
@@ -385,7 +385,7 @@ class WP_HTML_Open_Elements
                 'svg FOREIGNOBJECT',
                 'svg DESC',
                 'svg TITLE',
-            ]
+            ],
         );
     }
 
@@ -399,13 +399,13 @@ class WP_HTML_Open_Elements
      * >   - All the element types listed above for the has an element in scope algorithm.
      * >   - button in the HTML namespace
      *
+     * @param string $tag_name Name of tag to check.
+     * @return bool Whether given element is in scope.
+     * @see https://html.spec.whatwg.org/#has-an-element-in-button-scope
+     *
      * @since 6.4.0
      * @since 6.7.0 Supports all required HTML elements.
      *
-     * @see https://html.spec.whatwg.org/#has-an-element-in-button-scope
-     *
-     * @param string $tag_name Name of tag to check.
-     * @return bool Whether given element is in scope.
      */
     public function has_element_in_button_scope(string $tag_name): bool
     {
@@ -433,7 +433,7 @@ class WP_HTML_Open_Elements
                 'svg FOREIGNOBJECT',
                 'svg DESC',
                 'svg TITLE',
-            ]
+            ],
         );
     }
 
@@ -448,13 +448,13 @@ class WP_HTML_Open_Elements
      * >   - table in the HTML namespace
      * >   - template in the HTML namespace
      *
+     * @param string $tag_name Name of tag to check.
+     * @return bool Whether given element is in scope.
+     * @see https://html.spec.whatwg.org/#has-an-element-in-table-scope
+     *
      * @since 6.4.0
      * @since 6.7.0 Full implementation.
      *
-     * @see https://html.spec.whatwg.org/#has-an-element-in-table-scope
-     *
-     * @param string $tag_name Name of tag to check.
-     * @return bool Whether given element is in scope.
      */
     public function has_element_in_table_scope(string $tag_name): bool
     {
@@ -464,7 +464,7 @@ class WP_HTML_Open_Elements
                 'HTML',
                 'TABLE',
                 'TEMPLATE',
-            ]
+            ],
         );
     }
 
@@ -480,13 +480,13 @@ class WP_HTML_Open_Elements
      * >   - optgroup in the HTML namespace
      * >   - option in the HTML namespace
      *
+     * @param string $tag_name Name of tag to check.
+     * @return bool Whether the given element is in SELECT scope.
+     * @see https://html.spec.whatwg.org/#has-an-element-in-select-scope
+     *
      * @since 6.4.0 Stub implementation (throws).
      * @since 6.7.0 Full implementation.
      *
-     * @see https://html.spec.whatwg.org/#has-an-element-in-select-scope
-     *
-     * @param string $tag_name Name of tag to check.
-     * @return bool Whether the given element is in SELECT scope.
      */
     public function has_element_in_select_scope(string $tag_name): bool
     {
@@ -495,8 +495,8 @@ class WP_HTML_Open_Elements
                 return true;
             }
 
-            if ('OPTION' !== $node->node_name &&
-                'OPTGROUP' !== $node->node_name
+            if ('OPTION' !== $node->node_name
+                && 'OPTGROUP' !== $node->node_name
             ) {
                 return false;
             }
@@ -508,11 +508,11 @@ class WP_HTML_Open_Elements
     /**
      * Returns whether a P is in BUTTON scope.
      *
-     * @since 6.4.0
-     *
+     * @return bool Whether a P is in BUTTON scope.
      * @see https://html.spec.whatwg.org/#has-an-element-in-button-scope
      *
-     * @return bool Whether a P is in BUTTON scope.
+     * @since 6.4.0
+     *
      */
     public function has_p_in_button_scope(): bool
     {
@@ -522,11 +522,11 @@ class WP_HTML_Open_Elements
     /**
      * Pops a node off of the stack of open elements.
      *
-     * @since 6.4.0
-     *
+     * @return bool Whether a node was popped off of the stack.
      * @see https://html.spec.whatwg.org/#stack-of-open-elements
      *
-     * @return bool Whether a node was popped off of the stack.
+     * @since 6.4.0
+     *
      */
     public function pop(): bool
     {
@@ -547,12 +547,12 @@ class WP_HTML_Open_Elements
     /**
      * Pops nodes off of the stack of open elements until an HTML tag with the given name has been popped.
      *
+     * @param string $html_tag_name Name of tag that needs to be popped off of the stack of open elements.
+     * @return bool Whether a tag of the given name was found and popped off of the stack of open elements.
      * @since 6.4.0
      *
      * @see WP_HTML_Open_Elements::pop
      *
-     * @param string $html_tag_name Name of tag that needs to be popped off of the stack of open elements.
-     * @return bool Whether a tag of the given name was found and popped off of the stack of open elements.
      */
     public function pop_until(string $html_tag_name): bool
     {
@@ -563,8 +563,8 @@ class WP_HTML_Open_Elements
                 continue;
             }
 
-            if ('(internal: H1 through H6 - do not use)' === $html_tag_name &&
-                in_array($item->node_name, ['H1', 'H2', 'H3', 'H4', 'H5', 'H6'], true)
+            if ('(internal: H1 through H6 - do not use)' === $html_tag_name
+                && in_array($item->node_name, ['H1', 'H2', 'H3', 'H4', 'H5', 'H6'], true)
             ) {
                 return true;
             }
@@ -580,11 +580,11 @@ class WP_HTML_Open_Elements
     /**
      * Pushes a node onto the stack of open elements.
      *
-     * @since 6.4.0
-     *
+     * @param WP_HTML_Token $stack_item Item to add onto stack.
      * @see https://html.spec.whatwg.org/#stack-of-open-elements
      *
-     * @param WP_HTML_Token $stack_item Item to add onto stack.
+     * @since 6.4.0
+     *
      */
     public function push(WP_HTML_Token $stack_item): void
     {
@@ -595,10 +595,10 @@ class WP_HTML_Open_Elements
     /**
      * Removes a specific node from the stack of open elements.
      *
-     * @since 6.4.0
-     *
      * @param WP_HTML_Token $token The node to remove from the stack of open elements.
      * @return bool Whether the node was found and removed from the stack of open elements.
+     * @since 6.4.0
+     *
      */
     public function remove_node(WP_HTML_Token $token): bool
     {
@@ -666,11 +666,11 @@ class WP_HTML_Open_Elements
      * To start with the first added element and walk towards the bottom,
      * see WP_HTML_Open_Elements::walk_down().
      *
-     * @since 6.4.0
-     * @since 6.5.0 Accepts $above_this_node to start traversal above a given node, if it exists.
-     *
      * @param WP_HTML_Token|null $above_this_node Optional. Start traversing above this node,
      *                                            if provided and if the node exists.
+     * @since 6.5.0 Accepts $above_this_node to start traversal above a given node, if it exists.
+     *
+     * @since 6.4.0
      */
     public function walk_up(?WP_HTML_Token $above_this_node = null)
     {
@@ -679,7 +679,7 @@ class WP_HTML_Open_Elements
         for ($i = count($this->stack) - 1; $i >= 0; $i--) {
             $node = $this->stack[$i];
 
-            if (! $has_found_node) {
+            if (!$has_found_node) {
                 $has_found_node = $node === $above_this_node;
                 continue;
             }
@@ -701,9 +701,9 @@ class WP_HTML_Open_Elements
      * over the open stack elements upon each new tag it encounters. These flags,
      * however, need to be maintained as items are added and removed from the stack.
      *
+     * @param WP_HTML_Token $item Element that was added to the stack of open elements.
      * @since 6.4.0
      *
-     * @param WP_HTML_Token $item Element that was added to the stack of open elements.
      */
     public function after_element_push(WP_HTML_Token $item): void
     {
@@ -757,9 +757,9 @@ class WP_HTML_Open_Elements
      * over the open stack elements upon each new tag it encounters. These flags,
      * however, need to be maintained as items are added and removed from the stack.
      *
+     * @param WP_HTML_Token $item Element that was removed from the stack of open elements.
      * @since 6.4.0
      *
-     * @param WP_HTML_Token $item Element that was removed from the stack of open elements.
      */
     public function after_element_pop(WP_HTML_Token $item): void
     {
@@ -811,9 +811,9 @@ class WP_HTML_Open_Elements
     public function clear_to_table_context(): void
     {
         foreach ($this->walk_up() as $item) {
-            if ('TABLE' === $item->node_name ||
-                'TEMPLATE' === $item->node_name ||
-                'HTML' === $item->node_name
+            if ('TABLE' === $item->node_name
+                || 'TEMPLATE' === $item->node_name
+                || 'HTML' === $item->node_name
             ) {
                 break;
             }
@@ -835,11 +835,11 @@ class WP_HTML_Open_Elements
     public function clear_to_table_body_context(): void
     {
         foreach ($this->walk_up() as $item) {
-            if ('TBODY' === $item->node_name ||
-                'TFOOT' === $item->node_name ||
-                'THEAD' === $item->node_name ||
-                'TEMPLATE' === $item->node_name ||
-                'HTML' === $item->node_name
+            if ('TBODY' === $item->node_name
+                || 'TFOOT' === $item->node_name
+                || 'THEAD' === $item->node_name
+                || 'TEMPLATE' === $item->node_name
+                || 'HTML' === $item->node_name
             ) {
                 break;
             }
@@ -861,9 +861,9 @@ class WP_HTML_Open_Elements
     public function clear_to_table_row_context(): void
     {
         foreach ($this->walk_up() as $item) {
-            if ('TR' === $item->node_name ||
-                'TEMPLATE' === $item->node_name ||
-                'HTML' === $item->node_name
+            if ('TR' === $item->node_name
+                || 'TEMPLATE' === $item->node_name
+                || 'HTML' === $item->node_name
             ) {
                 break;
             }

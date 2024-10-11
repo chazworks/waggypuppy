@@ -9,20 +9,20 @@
  * Build an array with CSS classes and inline styles defining the colors
  * which will be applied to the home link markup in the front-end.
  *
+ * @param array $context home link block context.
+ * @return array Colors CSS classes and inline styles.
  * @since 6.0.0
  *
- * @param  array $context home link block context.
- * @return array Colors CSS classes and inline styles.
  */
 function block_core_home_link_build_css_colors($context)
 {
     $colors = [
-        'css_classes'   => [],
+        'css_classes' => [],
         'inline_styles' => '',
     ];
 
     // Text color.
-    $has_named_text_color  = array_key_exists('textColor', $context);
+    $has_named_text_color = array_key_exists('textColor', $context);
     $has_custom_text_color = isset($context['style']['color']['text']);
 
     // If has text color.
@@ -40,7 +40,7 @@ function block_core_home_link_build_css_colors($context)
     }
 
     // Background color.
-    $has_named_background_color  = array_key_exists('backgroundColor', $context);
+    $has_named_background_color = array_key_exists('backgroundColor', $context);
     $has_custom_background_color = isset($context['style']['color']['background']);
 
     // If has background color.
@@ -64,20 +64,20 @@ function block_core_home_link_build_css_colors($context)
  * Build an array with CSS classes and inline styles defining the font sizes
  * which will be applied to the home link markup in the front-end.
  *
+ * @param array $context Home link block context.
+ * @return array Font size CSS classes and inline styles.
  * @since 6.0.0
  *
- * @param  array $context Home link block context.
- * @return array Font size CSS classes and inline styles.
  */
 function block_core_home_link_build_css_font_sizes($context)
 {
     // CSS classes.
     $font_sizes = [
-        'css_classes'   => [],
+        'css_classes' => [],
         'inline_styles' => '',
     ];
 
-    $has_named_font_size  = array_key_exists('fontSize', $context);
+    $has_named_font_size = array_key_exists('fontSize', $context);
     $has_custom_font_size = isset($context['style']['typography']['fontSize']);
 
     if ($has_named_font_size) {
@@ -94,25 +94,25 @@ function block_core_home_link_build_css_font_sizes($context)
 /**
  * Builds an array with classes and style for the li wrapper
  *
+ * @param array $context Home link block context.
+ * @return string The li wrapper attributes.
  * @since 6.0.0
  *
- * @param  array $context    Home link block context.
- * @return string The li wrapper attributes.
  */
 function block_core_home_link_build_li_wrapper_attributes($context)
 {
-    $colors          = block_core_home_link_build_css_colors($context);
-    $font_sizes      = block_core_home_link_build_css_font_sizes($context);
-    $classes         = array_merge(
+    $colors = block_core_home_link_build_css_colors($context);
+    $font_sizes = block_core_home_link_build_css_font_sizes($context);
+    $classes = array_merge(
         $colors['css_classes'],
-        $font_sizes['css_classes']
+        $font_sizes['css_classes'],
     );
     $style_attribute = ($colors['inline_styles'] . $font_sizes['inline_styles']);
-    $classes[]       = 'wp-block-navigation-item';
+    $classes[] = 'wp-block-navigation-item';
 
     if (is_front_page()) {
         $classes[] = 'current-menu-item';
-    } elseif (is_home() && ((int) get_option('page_for_posts') !== get_queried_object_id())) {
+    } elseif (is_home() && ((int)get_option('page_for_posts') !== get_queried_object_id())) {
         // Edge case where the Reading settings has a posts page set but not a static homepage.
         $classes[] = 'current-menu-item';
     }
@@ -121,7 +121,7 @@ function block_core_home_link_build_li_wrapper_attributes($context)
         [
             'class' => implode(' ', $classes),
             'style' => $style_attribute,
-        ]
+        ],
     );
 
     return $wrapper_attributes;
@@ -130,13 +130,13 @@ function block_core_home_link_build_li_wrapper_attributes($context)
 /**
  * Renders the `core/home-link` block.
  *
- * @since 6.0.0
- *
- * @param array    $attributes The block attributes.
- * @param string   $content    The saved content.
- * @param WP_Block $block      The parsed block.
+ * @param array $attributes The block attributes.
+ * @param string $content The saved content.
+ * @param WP_Block $block The parsed block.
  *
  * @return string Returns the post content with the home url added.
+ * @since 6.0.0
+ *
  */
 function render_block_core_home_link($attributes, $content, $block)
 {
@@ -150,7 +150,7 @@ function render_block_core_home_link($attributes, $content, $block)
 
     if (is_front_page()) {
         $aria_current = ' aria-current="page"';
-    } elseif (is_home() && ((int) get_option('page_for_posts') !== get_queried_object_id())) {
+    } elseif (is_home() && ((int)get_option('page_for_posts') !== get_queried_object_id())) {
         // Edge case where the Reading settings has a posts page set but not a static homepage.
         $aria_current = ' aria-current="page"';
     }
@@ -160,17 +160,17 @@ function render_block_core_home_link($attributes, $content, $block)
         block_core_home_link_build_li_wrapper_attributes($block->context),
         esc_url(home_url()),
         $aria_current,
-        wp_kses_post($attributes['label'])
+        wp_kses_post($attributes['label']),
     );
 }
 
 /**
  * Register the home block
  *
+ * @throws WP_Error An WP_Error exception parsing the block definition.
+ * @uses render_block_core_home_link()
  * @since 6.0.0
  *
- * @uses render_block_core_home_link()
- * @throws WP_Error An WP_Error exception parsing the block definition.
  */
 function register_block_core_home_link()
 {
@@ -178,7 +178,8 @@ function register_block_core_home_link()
         __DIR__ . '/home-link',
         [
             'render_callback' => 'render_block_core_home_link',
-        ]
+        ],
     );
 }
+
 add_action('init', 'register_block_core_home_link');

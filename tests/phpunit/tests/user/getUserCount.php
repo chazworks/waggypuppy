@@ -16,8 +16,8 @@ class Tests_User_GetUserCount extends WP_UnitTestCase
         $different_network_id = self::factory()->network->create(
             [
                 'domain' => 'wp.org',
-                'path'   => '/',
-            ]
+                'path' => '/',
+            ],
         );
 
         delete_network_option($different_network_id, 'user_count');
@@ -39,8 +39,8 @@ class Tests_User_GetUserCount extends WP_UnitTestCase
         $different_network_id = self::factory()->network->create(
             [
                 'domain' => 'wp.org',
-                'path'   => '/',
-            ]
+                'path' => '/',
+            ],
         );
         wp_update_network_user_counts();
         $current_network_user_count = get_user_count();

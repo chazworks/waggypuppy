@@ -15,9 +15,9 @@ class Tests_Block_Templates_GetTemplate_Hierarchy extends WP_Block_Templates_Uni
         register_post_type(
             'custom_book',
             [
-                'public'       => true,
+                'public' => true,
                 'show_in_rest' => true,
-            ]
+            ],
         );
         register_taxonomy('book_type', 'custom_book');
         register_taxonomy('books', 'custom_book');
@@ -36,7 +36,7 @@ class Tests_Block_Templates_GetTemplate_Hierarchy extends WP_Block_Templates_Uni
      *
      * @ticket 56467
      *
-     * @param array $args     Test arguments.
+     * @param array $args Test arguments.
      * @param array $expected Expected results.
      */
     public function test_get_template_hierarchy(array $args, array $expected)
@@ -53,7 +53,7 @@ class Tests_Block_Templates_GetTemplate_Hierarchy extends WP_Block_Templates_Uni
             'date_template_hierarchy',
             function ($templates) {
                 return array_merge(['date-custom'], $templates);
-            }
+            },
         );
         $expected = ['date-custom', 'date', 'archive', 'index'];
         $this->assertSame($expected, get_template_hierarchy('date'));
@@ -67,116 +67,122 @@ class Tests_Block_Templates_GetTemplate_Hierarchy extends WP_Block_Templates_Uni
     public function data_get_template_hierarchy()
     {
         return [
-            'front-page'                               => [
-                'args'     => ['front-page'],
+            'front-page' => [
+                'args' => ['front-page'],
                 'expected' => ['front-page', 'home', 'index'],
             ],
-            'custom template'                          => [
-                'args'     => ['whatever-slug', true],
+            'custom template' => [
+                'args' => ['whatever-slug', true],
                 'expected' => ['page', 'singular', 'index'],
             ],
-            'page'                                     => [
-                'args'     => ['page'],
+            'page' => [
+                'args' => ['page'],
                 'expected' => ['page', 'singular', 'index'],
             ],
-            'tag'                                      => [
-                'args'     => ['tag'],
+            'tag' => [
+                'args' => ['tag'],
                 'expected' => ['tag', 'archive', 'index'],
             ],
-            'author'                                   => [
-                'args'     => ['author'],
+            'author' => [
+                'args' => ['author'],
                 'expected' => ['author', 'archive', 'index'],
             ],
-            'date'                                     => [
-                'args'     => ['date'],
+            'date' => [
+                'args' => ['date'],
                 'expected' => ['date', 'archive', 'index'],
             ],
-            'taxonomy'                                 => [
-                'args'     => ['taxonomy'],
+            'taxonomy' => [
+                'args' => ['taxonomy'],
                 'expected' => ['taxonomy', 'archive', 'index'],
             ],
-            'attachment'                               => [
-                'args'     => ['attachment'],
+            'attachment' => [
+                'args' => ['attachment'],
                 'expected' => ['attachment', 'single', 'singular', 'index'],
             ],
-            'singular'                                 => [
-                'args'     => ['singular'],
+            'singular' => [
+                'args' => ['singular'],
                 'expected' => ['singular', 'index'],
             ],
-            'single'                                   => [
-                'args'     => ['single'],
+            'single' => [
+                'args' => ['single'],
                 'expected' => ['single', 'singular', 'index'],
             ],
-            'archive'                                  => [
-                'args'     => ['archive'],
+            'archive' => [
+                'args' => ['archive'],
                 'expected' => ['archive', 'index'],
             ],
-            'index'                                    => [
-                'args'     => ['index'],
+            'index' => [
+                'args' => ['index'],
                 'expected' => ['index'],
             ],
-            'specific taxonomies'                      => [
-                'args'     => ['taxonomy-books', false, 'taxonomy-books'],
+            'specific taxonomies' => [
+                'args' => ['taxonomy-books', false, 'taxonomy-books'],
                 'expected' => ['taxonomy-books', 'taxonomy', 'archive', 'index'],
             ],
-            'single word categories'                   => [
-                'args'     => ['category-fruits', false, 'category'],
+            'single word categories' => [
+                'args' => ['category-fruits', false, 'category'],
                 'expected' => ['category-fruits', 'category', 'archive', 'index'],
             ],
-            'single word categories no prefix'         => [
-                'args'     => ['category-fruits', false],
+            'single word categories no prefix' => [
+                'args' => ['category-fruits', false],
                 'expected' => ['category-fruits', 'category', 'archive', 'index'],
             ],
-            'multi word categories'                    => [
-                'args'     => ['category-fruits-yellow', false, 'category'],
+            'multi word categories' => [
+                'args' => ['category-fruits-yellow', false, 'category'],
                 'expected' => ['category-fruits-yellow', 'category', 'archive', 'index'],
             ],
-            'multi word categories no prefix'          => [
-                'args'     => ['category-fruits-yellow', false],
+            'multi word categories no prefix' => [
+                'args' => ['category-fruits-yellow', false],
                 'expected' => ['category-fruits-yellow', 'category', 'archive', 'index'],
             ],
-            'single word taxonomy and term'            => [
-                'args'     => ['taxonomy-books-action', false, 'taxonomy-books'],
+            'single word taxonomy and term' => [
+                'args' => ['taxonomy-books-action', false, 'taxonomy-books'],
                 'expected' => ['taxonomy-books-action', 'taxonomy-books', 'taxonomy', 'archive', 'index'],
             ],
-            'single word taxonomy and term no prefix'  => [
-                'args'     => ['taxonomy-books-action', false],
+            'single word taxonomy and term no prefix' => [
+                'args' => ['taxonomy-books-action', false],
                 'expected' => ['taxonomy-books-action', 'taxonomy-books', 'taxonomy', 'archive', 'index'],
             ],
             'single word taxonomy and multi word term' => [
-                'args'     => ['taxonomy-books-action-adventure', false, 'taxonomy-books'],
+                'args' => ['taxonomy-books-action-adventure', false, 'taxonomy-books'],
                 'expected' => ['taxonomy-books-action-adventure', 'taxonomy-books', 'taxonomy', 'archive', 'index'],
             ],
-            'multi word taxonomy and term'             => [
-                'args'     => ['taxonomy-greek-books-action-adventure', false, 'taxonomy-greek-books'],
-                'expected' => ['taxonomy-greek-books-action-adventure', 'taxonomy-greek-books', 'taxonomy', 'archive', 'index'],
+            'multi word taxonomy and term' => [
+                'args' => ['taxonomy-greek-books-action-adventure', false, 'taxonomy-greek-books'],
+                'expected' => [
+                    'taxonomy-greek-books-action-adventure',
+                    'taxonomy-greek-books',
+                    'taxonomy',
+                    'archive',
+                    'index',
+                ],
             ],
-            'single word post type'                    => [
-                'args'     => ['single-book', false, 'single-book'],
+            'single word post type' => [
+                'args' => ['single-book', false, 'single-book'],
                 'expected' => ['single-book', 'single', 'singular', 'index'],
             ],
-            'multi word post type'                     => [
-                'args'     => ['single-art-project', false, 'single-art-project'],
+            'multi word post type' => [
+                'args' => ['single-art-project', false, 'single-art-project'],
                 'expected' => ['single-art-project', 'single', 'singular', 'index'],
             ],
-            'single post with multi word post type'    => [
-                'args'     => ['single-art-project-imagine', false, 'single-art-project'],
+            'single post with multi word post type' => [
+                'args' => ['single-art-project-imagine', false, 'single-art-project'],
                 'expected' => ['single-art-project-imagine', 'single-art-project', 'single', 'singular', 'index'],
             ],
-            'single page'                              => [
-                'args'     => ['page-hi', false, 'page'],
+            'single page' => [
+                'args' => ['page-hi', false, 'page'],
                 'expected' => ['page-hi', 'page', 'singular', 'index'],
             ],
-            'authors'                                  => [
-                'args'     => ['author-rigas', false, 'author'],
+            'authors' => [
+                'args' => ['author-rigas', false, 'author'],
                 'expected' => ['author-rigas', 'author', 'archive', 'index'],
             ],
-            'multiple word taxonomy no prefix'         => [
-                'args'     => ['taxonomy-book_type-adventure', false],
+            'multiple word taxonomy no prefix' => [
+                'args' => ['taxonomy-book_type-adventure', false],
                 'expected' => ['taxonomy-book_type-adventure', 'taxonomy-book_type', 'taxonomy', 'archive', 'index'],
             ],
-            'single post type no prefix'               => [
-                'args'     => ['single-custom_book', false],
+            'single post type no prefix' => [
+                'args' => ['single-custom_book', false],
                 'expected' => [
                     'single-custom_book',
                     'single',
@@ -184,8 +190,8 @@ class Tests_Block_Templates_GetTemplate_Hierarchy extends WP_Block_Templates_Uni
                     'index',
                 ],
             ],
-            'single post and post type no prefix'      => [
-                'args'     => ['single-custom_book-book-1', false],
+            'single post and post type no prefix' => [
+                'args' => ['single-custom_book-book-1', false],
                 'expected' => [
                     'single-custom_book-book-1',
                     'single-custom_book',
@@ -194,8 +200,8 @@ class Tests_Block_Templates_GetTemplate_Hierarchy extends WP_Block_Templates_Uni
                     'index',
                 ],
             ],
-            'page no prefix'                           => [
-                'args'     => ['page-hi', false],
+            'page no prefix' => [
+                'args' => ['page-hi', false],
                 'expected' => [
                     'page-hi',
                     'page',
@@ -203,8 +209,8 @@ class Tests_Block_Templates_GetTemplate_Hierarchy extends WP_Block_Templates_Uni
                     'index',
                 ],
             ],
-            'post type archive no prefix'              => [
-                'args'     => ['archive-book', false],
+            'post type archive no prefix' => [
+                'args' => ['archive-book', false],
                 'expected' => [
                     'archive-book',
                     'archive',

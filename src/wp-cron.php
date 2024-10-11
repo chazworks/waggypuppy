@@ -18,7 +18,7 @@
 
 ignore_user_abort(true);
 
-if (! headers_sent()) {
+if (!headers_sent()) {
     header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
     header('Cache-Control: no-cache, must-revalidate, max-age=0');
 }
@@ -30,7 +30,7 @@ if (function_exists('fastcgi_finish_request')) {
     litespeed_finish_request();
 }
 
-if (! empty($_POST) || defined('DOING_AJAX') || defined('DOING_CRON')) {
+if (!empty($_POST) || defined('DOING_AJAX') || defined('DOING_CRON')) {
     die();
 }
 
@@ -41,7 +41,7 @@ if (! empty($_POST) || defined('DOING_AJAX') || defined('DOING_CRON')) {
  */
 const DOING_CRON = true;
 
-if (! defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
     /** Set up waggypuppy environment */
     require_once __DIR__ . '/wp-load.php';
 }
@@ -54,12 +54,12 @@ wp_raise_memory_limit('cron');
  *
  * Returns the uncached `doing_cron` transient.
  *
- * @ignore
+ * @return string|int|false Value of the `doing_cron` transient, 0|false otherwise.
  * @since 3.3.0
  *
  * @global wpdb $wpdb waggypuppy database abstraction object.
  *
- * @return string|int|false Value of the `doing_cron` transient, 0|false otherwise.
+ * @ignore
  */
 function _get_cron_lock()
 {
@@ -73,7 +73,8 @@ function _get_cron_lock()
          */
         $value = wp_cache_get('doing_cron', 'transient', true);
     } else {
-        $row = $wpdb->get_row($wpdb->prepare("SELECT option_value FROM $wpdb->options WHERE option_name = %s LIMIT 1", '_transient_doing_cron'));
+        $row = $wpdb->get_row($wpdb->prepare("SELECT option_value FROM $wpdb->options WHERE option_name = %s LIMIT 1",
+            '_transient_doing_cron'));
         if (is_object($row)) {
             $value = $row->option_value;
         }
@@ -99,7 +100,7 @@ if (empty($doing_wp_cron)) {
         if ($doing_cron_transient && ($doing_cron_transient + WP_CRON_LOCK_TIMEOUT > $gmt_time)) {
             return;
         }
-        $doing_wp_cron        = sprintf('%.22F', microtime(true));
+        $doing_wp_cron = sprintf('%.22F', microtime(true));
         $doing_cron_transient = $doing_wp_cron;
         set_transient('doing_cron', $doing_wp_cron);
     } else {
@@ -121,9 +122,7 @@ foreach ($crons as $timestamp => $cronhooks) {
     }
 
     foreach ($cronhooks as $hook => $keys) {
-
         foreach ($keys as $k => $v) {
-
             $schedule = $v['schedule'];
 
             if ($schedule) {
@@ -132,23 +131,23 @@ foreach ($crons as $timestamp => $cronhooks) {
                 if (is_wp_error($result)) {
                     error_log(
                         sprintf(
-                            /* translators: 1: Hook name, 2: Error code, 3: Error message, 4: Event data. */
+                        /* translators: 1: Hook name, 2: Error code, 3: Error message, 4: Event data. */
                             __('Cron reschedule event error for hook: %1$s, Error code: %2$s, Error message: %3$s, Data: %4$s'),
                             $hook,
                             $result->get_error_code(),
                             $result->get_error_message(),
-                            wp_json_encode($v)
-                        )
+                            wp_json_encode($v),
+                        ),
                     );
 
                     /**
                      * Fires if an error happens when rescheduling a cron event.
                      *
+                     * @param WP_Error $result The WP_Error object.
+                     * @param string $hook Action hook to execute when the event is run.
+                     * @param array $v Event data.
                      * @since 6.1.0
                      *
-                     * @param WP_Error $result The WP_Error object.
-                     * @param string   $hook   Action hook to execute when the event is run.
-                     * @param array    $v      Event data.
                      */
                     do_action('cron_reschedule_event_error', $result, $hook, $v);
                 }
@@ -159,23 +158,23 @@ foreach ($crons as $timestamp => $cronhooks) {
             if (is_wp_error($result)) {
                 error_log(
                     sprintf(
-                        /* translators: 1: Hook name, 2: Error code, 3: Error message, 4: Event data. */
+                    /* translators: 1: Hook name, 2: Error code, 3: Error message, 4: Event data. */
                         __('Cron unschedule event error for hook: %1$s, Error code: %2$s, Error message: %3$s, Data: %4$s'),
                         $hook,
                         $result->get_error_code(),
                         $result->get_error_message(),
-                        wp_json_encode($v)
-                    )
+                        wp_json_encode($v),
+                    ),
                 );
 
                 /**
                  * Fires if an error happens when unscheduling a cron event.
                  *
+                 * @param WP_Error $result The WP_Error object.
+                 * @param string $hook Action hook to execute when the event is run.
+                 * @param array $v Event data.
                  * @since 6.1.0
                  *
-                 * @param WP_Error $result The WP_Error object.
-                 * @param string   $hook   Action hook to execute when the event is run.
-                 * @param array    $v      Event data.
                  */
                 do_action('cron_unschedule_event_error', $result, $hook, $v);
             }
@@ -183,11 +182,11 @@ foreach ($crons as $timestamp => $cronhooks) {
             /**
              * Fires scheduled events.
              *
+             * @param string $hook Name of the hook that was scheduled to be fired.
+             * @param array $args The arguments to be passed to the hook.
              * @ignore
              * @since 2.1.0
              *
-             * @param string $hook Name of the hook that was scheduled to be fired.
-             * @param array  $args The arguments to be passed to the hook.
              */
             do_action_ref_array($hook, $v['args']);
 

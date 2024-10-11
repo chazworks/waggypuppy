@@ -22,13 +22,13 @@ class Tests_Pluggable_wpRand extends WP_UnitTestCase
         $this->assertGreaterThanOrEqual(
             0,
             wp_rand($min, $max),
-            'The value was not greater than or equal to 0'
+            'The value was not greater than or equal to 0',
         );
 
         $this->assertLessThan(
             100,
             wp_rand($min, $max),
-            'The value was not less than 100'
+            'The value was not less than 100',
         );
     }
 
@@ -40,23 +40,23 @@ class Tests_Pluggable_wpRand extends WP_UnitTestCase
     public function data_wp_rand_should_return_a_non_negative_integer()
     {
         return [
-            '1 and 99'       => [
+            '1 and 99' => [
                 'min' => 1,
                 'max' => 99,
             ],
-            '-1 and 99'      => [
+            '-1 and 99' => [
                 'min' => -1,
                 'max' => 99,
             ],
-            '1 and -99'      => [
+            '1 and -99' => [
                 'min' => 1,
                 'max' => -99,
             ],
-            '-1 and -99'     => [
+            '-1 and -99' => [
                 'min' => -1,
                 'max' => -99,
             ],
-            '1.0 and 99.0'   => [
+            '1.0 and 99.0' => [
                 'min' => 1.0,
                 'max' => 99.0,
             ],
@@ -89,11 +89,11 @@ class Tests_Pluggable_wpRand extends WP_UnitTestCase
     public function data_wp_rand_should_return_zero_when_min_and_max_are_zero()
     {
         return [
-            'min and max as 0'      => [
+            'min and max as 0' => [
                 'min' => 0,
                 'max' => 0,
             ],
-            'min and max as 0.0'    => [
+            'min and max as 0.0' => [
                 'min' => 0.0,
                 'max' => 0.0,
             ],

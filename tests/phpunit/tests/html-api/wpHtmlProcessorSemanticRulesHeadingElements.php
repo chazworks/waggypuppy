@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering WP_HTML_Processor compliance with HTML5 semantic parsing rules
  * for the H1 - H6 heading elements.
@@ -23,7 +24,7 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesHeadingElements extends WP_UnitT
      *
      * @ticket 60060
      *
-     * @covers WP_HTML_Processor::step
+     * @covers       WP_HTML_Processor::step
      *
      * @dataProvider data_heading_elements
      *
@@ -32,21 +33,21 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesHeadingElements extends WP_UnitT
     public function test_in_body_heading_element_closes_open_p_tag($tag_name)
     {
         $processor = WP_HTML_Processor::create_fragment(
-            "<p>Open<{$tag_name}>Closed P</{$tag_name}><img></p>"
+            "<p>Open<{$tag_name}>Closed P</{$tag_name}><img></p>",
         );
 
         $processor->next_tag($tag_name);
         $this->assertSame(
             ['HTML', 'BODY', $tag_name],
             $processor->get_breadcrumbs(),
-            "Expected {$tag_name} to be a direct child of the BODY, having closed the open P element."
+            "Expected {$tag_name} to be a direct child of the BODY, having closed the open P element.",
         );
 
         $processor->next_tag('IMG');
         $this->assertSame(
             ['HTML', 'BODY', 'IMG'],
             $processor->get_breadcrumbs(),
-            'Expected IMG to be a direct child of BODY, having closed the open P element.'
+            'Expected IMG to be a direct child of BODY, having closed the open P element.',
         );
     }
 
@@ -72,17 +73,17 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesHeadingElements extends WP_UnitT
      *
      * @ticket 60060
      *
-     * @covers WP_HTML_Processor::step
+     * @covers       WP_HTML_Processor::step
      *
      * @dataProvider data_heading_combinations
      *
-     * @param string $first_heading  H1 - H6 element appearing (unclosed) before the second.
+     * @param string $first_heading H1 - H6 element appearing (unclosed) before the second.
      * @param string $second_heading H1 - H6 element appearing after the first.
      */
     public function test_in_body_heading_element_closes_other_heading_elements($first_heading, $second_heading)
     {
         $processor = WP_HTML_Processor::create_fragment(
-            "<div><{$first_heading} first> then <{$second_heading} second> and end </{$second_heading}><img></{$first_heading}></div>"
+            "<div><{$first_heading} first> then <{$second_heading} second> and end </{$second_heading}><img></{$first_heading}></div>",
         );
 
         while ($processor->next_tag() && null === $processor->get_attribute('second')) {
@@ -91,20 +92,20 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesHeadingElements extends WP_UnitT
 
         $this->assertTrue(
             $processor->get_attribute('second'),
-            "Failed to find expected {$second_heading} tag."
+            "Failed to find expected {$second_heading} tag.",
         );
 
         $this->assertSame(
             ['HTML', 'BODY', 'DIV', $second_heading],
             $processor->get_breadcrumbs(),
-            "Expected {$second_heading} to be a direct child of the DIV, having closed the open {$first_heading} element."
+            "Expected {$second_heading} to be a direct child of the DIV, having closed the open {$first_heading} element.",
         );
 
         $processor->next_tag('IMG');
         $this->assertSame(
             ['HTML', 'BODY', 'DIV', 'IMG'],
             $processor->get_breadcrumbs(),
-            "Expected IMG to be a direct child of DIV, having closed the open {$first_heading} element."
+            "Expected IMG to be a direct child of DIV, having closed the open {$first_heading} element.",
         );
     }
 

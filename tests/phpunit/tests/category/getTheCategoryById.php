@@ -13,7 +13,7 @@ class Tests_Category_GetTheCategoryById extends WP_UnitTestCase
         $c = self::factory()->category->create(
             [
                 'name' => 'Foo',
-            ]
+            ],
         );
 
         $found = get_the_category_by_ID($c);
@@ -31,8 +31,8 @@ class Tests_Category_GetTheCategoryById extends WP_UnitTestCase
         $t = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-                'name'     => 'Foo',
-            ]
+                'name' => 'Foo',
+            ],
         );
 
         $term = get_term($t);
@@ -52,8 +52,8 @@ class Tests_Category_GetTheCategoryById extends WP_UnitTestCase
         $t = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-                'name'     => 'Foo',
-            ]
+                'name' => 'Foo',
+            ],
         );
 
         clean_term_cache($t);

@@ -12,7 +12,7 @@ class WP_Translation_Controller_Convert_Tests extends WP_UnitTestCase
      */
     public function test_get_instance()
     {
-        $instance  = WP_Translation_Controller::get_instance();
+        $instance = WP_Translation_Controller::get_instance();
         $instance2 = WP_Translation_Controller::get_instance();
 
         $this->assertSame($instance, $instance2);
@@ -185,7 +185,7 @@ class WP_Translation_Controller_Convert_Tests extends WP_UnitTestCase
      * @covers ::translate_plural
      * @covers ::locate_translation
      * @covers ::get_files
-     * @covers WP_Translation_File::translate
+     * @covers       WP_Translation_File::translate
      *
      * @dataProvider data_simple_example_files
      *
@@ -203,15 +203,19 @@ class WP_Translation_Controller_Convert_Tests extends WP_UnitTestCase
         $this->assertFalse($controller->translate('original', '', 'textdomain not loaded'));
 
         $this->assertSame('translation', $controller->translate('original', '', 'unittest'));
-        $this->assertSame('translation with context', $controller->translate('original with context', 'context', 'unittest'));
+        $this->assertSame('translation with context',
+            $controller->translate('original with context', 'context', 'unittest'));
 
         $this->assertSame('translation1', $controller->translate_plural(['plural0', 'plural1'], 0, '', 'unittest'));
         $this->assertSame('translation0', $controller->translate_plural(['plural0', 'plural1'], 1, '', 'unittest'));
         $this->assertSame('translation1', $controller->translate_plural(['plural0', 'plural1'], 2, '', 'unittest'));
 
-        $this->assertSame('translation1 with context', $controller->translate_plural(['plural0 with context', 'plural1 with context'], 0, 'context', 'unittest'));
-        $this->assertSame('translation0 with context', $controller->translate_plural(['plural0 with context', 'plural1 with context'], 1, 'context', 'unittest'));
-        $this->assertSame('translation1 with context', $controller->translate_plural(['plural0 with context', 'plural1 with context'], 2, 'context', 'unittest'));
+        $this->assertSame('translation1 with context',
+            $controller->translate_plural(['plural0 with context', 'plural1 with context'], 0, 'context', 'unittest'));
+        $this->assertSame('translation0 with context',
+            $controller->translate_plural(['plural0 with context', 'plural1 with context'], 1, 'context', 'unittest'));
+        $this->assertSame('translation1 with context',
+            $controller->translate_plural(['plural0 with context', 'plural1 with context'], 2, 'context', 'unittest'));
 
         $this->assertSame('Produkt', $controller->translate('Product', '', 'unittest'));
         $this->assertSame('Produkt', $controller->translate_plural(['Product', 'Products'], 1, '', 'unittest'));
@@ -255,15 +259,19 @@ class WP_Translation_Controller_Convert_Tests extends WP_UnitTestCase
         // From example-simple.mo
 
         $this->assertSame('translation', $controller->translate('original', '', 'unittest'));
-        $this->assertSame('translation with context', $controller->translate('original with context', 'context', 'unittest'));
+        $this->assertSame('translation with context',
+            $controller->translate('original with context', 'context', 'unittest'));
 
         $this->assertSame('translation1', $controller->translate_plural(['plural0', 'plural1'], 0, '', 'unittest'));
         $this->assertSame('translation0', $controller->translate_plural(['plural0', 'plural1'], 1, '', 'unittest'));
         $this->assertSame('translation1', $controller->translate_plural(['plural0', 'plural1'], 2, '', 'unittest'));
 
-        $this->assertSame('translation1 with context', $controller->translate_plural(['plural0 with context', 'plural1 with context'], 0, 'context', 'unittest'));
-        $this->assertSame('translation0 with context', $controller->translate_plural(['plural0 with context', 'plural1 with context'], 1, 'context', 'unittest'));
-        $this->assertSame('translation1 with context', $controller->translate_plural(['plural0 with context', 'plural1 with context'], 2, 'context', 'unittest'));
+        $this->assertSame('translation1 with context',
+            $controller->translate_plural(['plural0 with context', 'plural1 with context'], 0, 'context', 'unittest'));
+        $this->assertSame('translation0 with context',
+            $controller->translate_plural(['plural0 with context', 'plural1 with context'], 1, 'context', 'unittest'));
+        $this->assertSame('translation1 with context',
+            $controller->translate_plural(['plural0 with context', 'plural1 with context'], 2, 'context', 'unittest'));
 
         // From simple.mo.
 
@@ -271,9 +279,15 @@ class WP_Translation_Controller_Convert_Tests extends WP_UnitTestCase
 
         // From plural.mo.
 
-        $this->assertSame('oney dragoney', $controller->translate_plural(['one dragon', '%d dragons'], 1, '', 'unittest'), 'Actual translation does not match expected one');
-        $this->assertSame('twoey dragoney', $controller->translate_plural(['one dragon', '%d dragons'], 2, '', 'unittest'), 'Actual translation does not match expected one');
-        $this->assertSame('twoey dragoney', $controller->translate_plural(['one dragon', '%d dragons'], -8, '', 'unittest'), 'Actual translation does not match expected one');
+        $this->assertSame('oney dragoney',
+            $controller->translate_plural(['one dragon', '%d dragons'], 1, '', 'unittest'),
+            'Actual translation does not match expected one');
+        $this->assertSame('twoey dragoney',
+            $controller->translate_plural(['one dragon', '%d dragons'], 2, '', 'unittest'),
+            'Actual translation does not match expected one');
+        $this->assertSame('twoey dragoney',
+            $controller->translate_plural(['one dragon', '%d dragons'], -8, '', 'unittest'),
+            'Actual translation does not match expected one');
 
         $this->assertTrue($controller->unload_file(DIR_TESTDATA . '/l10n/simple.mo', 'unittest'));
 
@@ -307,23 +321,31 @@ class WP_Translation_Controller_Convert_Tests extends WP_UnitTestCase
 
         // From example-simple.mo
 
-        $this->assertSame('translation', $controller->translate('original', '', 'unittest'), 'String should be translated in de_DE');
-        $this->assertFalse($controller->translate('original', '', 'unittest', 'es_ES'), 'String should not be translated in es_ES');
-        $this->assertFalse($controller->translate('original', '', 'unittest', 'en_US'), 'String should not be translated in en_US');
+        $this->assertSame('translation', $controller->translate('original', '', 'unittest'),
+            'String should be translated in de_DE');
+        $this->assertFalse($controller->translate('original', '', 'unittest', 'es_ES'),
+            'String should not be translated in es_ES');
+        $this->assertFalse($controller->translate('original', '', 'unittest', 'en_US'),
+            'String should not be translated in en_US');
 
         // From simple.mo.
 
         $this->assertFalse($controller->translate('baba', '', 'unittest'), 'String should not be translated in de_DE');
-        $this->assertSame('dyado', $controller->translate('baba', '', 'unittest', 'es_ES'), 'String should be translated in es_ES');
-        $this->assertFalse($controller->translate('baba', '', 'unittest', 'en_US'), 'String should not be translated in en_US');
+        $this->assertSame('dyado', $controller->translate('baba', '', 'unittest', 'es_ES'),
+            'String should be translated in es_ES');
+        $this->assertFalse($controller->translate('baba', '', 'unittest', 'en_US'),
+            'String should not be translated in en_US');
 
         $this->assertTrue($controller->unload_file(DIR_TESTDATA . '/l10n/plural.mo', 'unittest', 'de_DE'));
 
-        $this->assertSame('oney dragoney', $controller->translate_plural(['one dragon', '%d dragons'], 1, '', 'unittest', 'en_US'), 'String should be translated in en_US');
+        $this->assertSame('oney dragoney',
+            $controller->translate_plural(['one dragon', '%d dragons'], 1, '', 'unittest', 'en_US'),
+            'String should be translated in en_US');
 
         $this->assertTrue($controller->unload_file(DIR_TESTDATA . '/l10n/plural.mo', 'unittest', 'en_US'));
 
-        $this->assertFalse($controller->translate_plural(['one dragon', '%d dragons'], 1, '', 'unittest', 'en_US'), 'String should not be translated in en_US');
+        $this->assertFalse($controller->translate_plural(['one dragon', '%d dragons'], 1, '', 'unittest', 'en_US'),
+            'String should not be translated in en_US');
     }
 
     /**
@@ -432,7 +454,7 @@ class WP_Translation_Controller_Convert_Tests extends WP_UnitTestCase
     public function test_get_headers_no_loaded_translations()
     {
         $controller = new WP_Translation_Controller();
-        $headers    = $controller->get_headers();
+        $headers = $controller->get_headers();
         $this->assertEmpty($headers);
     }
 
@@ -448,7 +470,7 @@ class WP_Translation_Controller_Convert_Tests extends WP_UnitTestCase
             [
                 'Po-Revision-Date' => '2016-01-05 18:45:32+1000',
             ],
-            $headers
+            $headers,
         );
     }
 
@@ -470,7 +492,7 @@ class WP_Translation_Controller_Convert_Tests extends WP_UnitTestCase
     public function test_get_entries_no_loaded_translations()
     {
         $controller = new WP_Translation_Controller();
-        $headers    = $controller->get_entries();
+        $headers = $controller->get_entries();
         $this->assertEmpty($headers);
     }
 
@@ -484,10 +506,10 @@ class WP_Translation_Controller_Convert_Tests extends WP_UnitTestCase
         $headers = $controller->get_entries();
         $this->assertSame(
             [
-                'baba'       => 'dyado',
+                'baba' => 'dyado',
                 "kuku\nruku" => 'yes',
             ],
-            $headers
+            $headers,
         );
     }
 
@@ -536,7 +558,7 @@ class WP_Translation_Controller_Convert_Tests extends WP_UnitTestCase
         $this->assertInstanceOf(WP_Translation_File::class, $destination_read);
         $this->assertNull($destination_read->error());
 
-        $source_headers      = $source->headers();
+        $source_headers = $source->headers();
         $destination_headers = $destination_read->headers();
 
         $this->assertEquals($source_headers, $destination_headers);
@@ -559,7 +581,10 @@ class WP_Translation_Controller_Convert_Tests extends WP_UnitTestCase
 
         foreach ($formats as $input_format) {
             foreach ($formats as $output_format) {
-                $matrix["$input_format to $output_format"] = [DIR_TESTDATA . '/l10n/example-simple.' . $input_format, $output_format];
+                $matrix["$input_format to $output_format"] = [
+                    DIR_TESTDATA . '/l10n/example-simple.' . $input_format,
+                    $output_format,
+                ];
             }
         }
 

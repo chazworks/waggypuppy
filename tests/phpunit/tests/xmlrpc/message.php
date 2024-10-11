@@ -42,20 +42,22 @@ class Tests_XMLRPC_Message extends WP_UnitTestCase
      */
     public function test_parse_sets_handlers()
     {
-        $xml     = '<methodResponse><params><param><value>1</value></param></params></methodResponse>';
-        $message = new class( $xml ) extends IXR_Message {
-            public $tag_open_call_counter  = 0;
+        $xml = '<methodResponse><params><param><value>1</value></param></params></methodResponse>';
+        $message = new class($xml) extends IXR_Message {
+            public $tag_open_call_counter = 0;
             public $tag_close_call_counter = 0;
-            public $cdata_call_counter     = 0;
+            public $cdata_call_counter = 0;
 
             public function tag_open($parser, $tag, $attr)
             {
                 ++$this->tag_open_call_counter;
             }
+
             public function cdata($parser, $cdata)
             {
                 ++$this->cdata_call_counter;
             }
+
             public function tag_close($parser, $tag)
             {
                 ++$this->tag_close_call_counter;

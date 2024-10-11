@@ -12,11 +12,13 @@
  * @see https://developer.mozilla.org/en-US/docs/Web/API/Element/closest
  */
 if ( ! Element.prototype.matches ) {
-	Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
+	Element.prototype.matches =
+		Element.prototype.msMatchesSelector ||
+		Element.prototype.webkitMatchesSelector;
 }
 
 if ( ! Element.prototype.closest ) {
-	Element.prototype.closest = function( s ) {
+	Element.prototype.closest = function ( s ) {
 		var el = this;
 		do {
 			if ( Element.prototype.matches.call( el, s ) ) {
@@ -36,11 +38,11 @@ if ( ! Element.prototype.closest ) {
  * @see https://developer.mozilla.org/en-US/docs/Web/API/NodeList/forEach
  */
 if ( window.NodeList && ! NodeList.prototype.forEach ) {
-	NodeList.prototype.forEach = function( callback, thisArg ) {
+	NodeList.prototype.forEach = function ( callback, thisArg ) {
 		var i;
 		thisArg = thisArg || window;
 		for ( i = 0; i < this.length; i++ ) {
-			callback.call( thisArg, this[i], i, this );
+			callback.call( thisArg, this[ i ], i, this );
 		}
 	};
 }

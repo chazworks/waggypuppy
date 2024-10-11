@@ -10,11 +10,17 @@ const DependencyExtractionWebpackPlugin = require( '@wordpress/dependency-extrac
 
 const baseDir = join( __dirname, '../../' );
 
-module.exports = function( env = { environment: 'production', buildTarget: false } ) {
+module.exports = function (
+	env = { environment: 'production', buildTarget: false }
+) {
 	const mode = env.environment;
 	const suffix = mode === 'production' ? '.min' : '';
-	let buildTarget = env.buildTarget ? env.buildTarget : ( mode === 'production' ? 'build' : 'src' );
-	buildTarget = buildTarget  + '/wp-includes';
+	let buildTarget = env.buildTarget
+		? env.buildTarget
+		: mode === 'production'
+		? 'build'
+		: 'src';
+	buildTarget = buildTarget + '/wp-includes';
 
 	const sharedConfig = {
 		mode: 'development',
@@ -32,11 +38,13 @@ module.exports = function( env = { environment: 'production', buildTarget: false
 			name: 'react-refresh-entry',
 			entry: {
 				'react-refresh-entry':
-				'@pmmmwh/react-refresh-webpack-plugin/client/ReactRefreshEntry.js',
+					'@pmmmwh/react-refresh-webpack-plugin/client/ReactRefreshEntry.js',
 			},
-			plugins: [ new DependencyExtractionWebpackPlugin( {
-				outputFilename: `../../../assets/script-loader-[name]${ suffix }.php`,
-			} ) ],
+			plugins: [
+				new DependencyExtractionWebpackPlugin( {
+					outputFilename: `../../../assets/script-loader-[name]${ suffix }.php`,
+				} ),
+			],
 		},
 		{
 			...sharedConfig,
@@ -53,7 +61,7 @@ module.exports = function( env = { environment: 'production', buildTarget: false
 			plugins: [
 				new DependencyExtractionWebpackPlugin( {
 					useDefaults: false,
-					outputFilename: `../../../assets/script-loader-[name]${ suffix }.php`
+					outputFilename: `../../../assets/script-loader-[name]${ suffix }.php`,
 				} ),
 			],
 		},

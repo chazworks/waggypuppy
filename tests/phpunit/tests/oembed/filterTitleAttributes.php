@@ -27,7 +27,7 @@ class Tests_Filter_oEmbed_Iframe_Title_Attribute extends WP_UnitTestCase
             [
                 '<p>Foo</p>',
                 [
-                    'type'  => 'rich',
+                    'type' => 'rich',
                     'title' => 'Hello World',
                 ],
                 'https://www.youtube.com/watch?v=72xdCU__XCk',
@@ -36,7 +36,7 @@ class Tests_Filter_oEmbed_Iframe_Title_Attribute extends WP_UnitTestCase
             [
                 '<p title="Foo">Bar</p>',
                 [
-                    'type'  => 'rich',
+                    'type' => 'rich',
                     'title' => 'Hello World',
                 ],
                 'https://www.youtube.com/watch?v=72xdCU__XCk',
@@ -45,7 +45,7 @@ class Tests_Filter_oEmbed_Iframe_Title_Attribute extends WP_UnitTestCase
             [
                 '<p>Foo</p><iframe src=""></iframe><b>Bar</b>',
                 [
-                    'type'  => 'rich',
+                    'type' => 'rich',
                     'title' => 'Hello World',
                 ],
                 'https://www.youtube.com/watch?v=72xdCU__XCk',
@@ -54,7 +54,7 @@ class Tests_Filter_oEmbed_Iframe_Title_Attribute extends WP_UnitTestCase
             [
                 '<iframe src="" title="Foo"></iframe>',
                 [
-                    'type'  => 'rich',
+                    'type' => 'rich',
                     'title' => 'Bar',
                 ],
                 'https://www.youtube.com/watch?v=72xdCU__XCk',
@@ -68,7 +68,7 @@ class Tests_Filter_oEmbed_Iframe_Title_Attribute extends WP_UnitTestCase
      */
     public function test_oembed_iframe_title_attribute($html, $oembed_data, $url, $expected)
     {
-        $actual = wp_filter_oembed_iframe_title_attribute($html, (object) $oembed_data, $url);
+        $actual = wp_filter_oembed_iframe_title_attribute($html, (object)$oembed_data, $url);
 
         $this->assertSame($expected, $actual);
     }
@@ -79,11 +79,11 @@ class Tests_Filter_oEmbed_Iframe_Title_Attribute extends WP_UnitTestCase
 
         $actual = wp_filter_oembed_iframe_title_attribute(
             '<iframe title="Foo" src=""></iframe>',
-            (object) [
-                'type'  => 'rich',
+            (object)[
+                'type' => 'rich',
                 'title' => 'Bar',
             ],
-            'https://www.youtube.com/watch?v=72xdCU__XCk'
+            'https://www.youtube.com/watch?v=72xdCU__XCk',
         );
 
         remove_filter('oembed_iframe_title_attribute', [$this, '_filter_oembed_iframe_title_attribute']);
@@ -97,11 +97,11 @@ class Tests_Filter_oEmbed_Iframe_Title_Attribute extends WP_UnitTestCase
 
         $actual = wp_filter_oembed_iframe_title_attribute(
             '<p title="Bar">Baz</p><iframe title="Foo" src=""></iframe>',
-            (object) [
-                'type'  => 'rich',
+            (object)[
+                'type' => 'rich',
                 'title' => 'Bar',
             ],
-            'https://www.youtube.com/watch?v=72xdCU__XCk'
+            'https://www.youtube.com/watch?v=72xdCU__XCk',
         );
 
         remove_filter('oembed_iframe_title_attribute', [$this, '_filter_oembed_iframe_title_attribute']);

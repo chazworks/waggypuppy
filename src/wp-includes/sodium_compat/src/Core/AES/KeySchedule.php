@@ -54,7 +54,7 @@ class ParagonIE_Sodium_Core_AES_KeySchedule
     public function getRoundKey($offset)
     {
         return ParagonIE_Sodium_Core_AES_Block::fromArray(
-            array_slice($this->skey, $offset, 8)
+            array_slice($this->skey, $offset, 8),
         );
     }
 
@@ -67,7 +67,7 @@ class ParagonIE_Sodium_Core_AES_KeySchedule
     {
         $exp = new ParagonIE_Sodium_Core_AES_Expanded(
             array_fill(0, 120, 0),
-            $this->numRounds
+            $this->numRounds,
         );
         $n = ($exp->numRounds + 1) << 2;
         for ($u = 0, $v = 0; $u < $n; ++$u, $v += 2) {

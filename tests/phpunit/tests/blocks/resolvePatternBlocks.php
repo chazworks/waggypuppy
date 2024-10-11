@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tests for resolve_pattern_blocks.
  *
@@ -19,18 +20,18 @@ class Tests_Blocks_ResolvePatternBlocks extends WP_UnitTestCase
         register_block_pattern(
             'core/test',
             [
-                'title'       => 'Test',
-                'content'     => '<!-- wp:paragraph -->Hello<!-- /wp:paragraph --><!-- wp:paragraph -->World<!-- /wp:paragraph -->',
+                'title' => 'Test',
+                'content' => '<!-- wp:paragraph -->Hello<!-- /wp:paragraph --><!-- wp:paragraph -->World<!-- /wp:paragraph -->',
                 'description' => 'Test pattern.',
-            ]
+            ],
         );
         register_block_pattern(
             'core/recursive',
             [
-                'title'       => 'Recursive',
-                'content'     => '<!-- wp:paragraph -->Recursive<!-- /wp:paragraph --><!-- wp:pattern {"slug":"core/recursive"} /-->',
+                'title' => 'Recursive',
+                'content' => '<!-- wp:paragraph -->Recursive<!-- /wp:paragraph --><!-- wp:pattern {"slug":"core/recursive"} /-->',
                 'description' => 'Recursive pattern.',
-            ]
+            ],
         );
     }
 
@@ -47,7 +48,7 @@ class Tests_Blocks_ResolvePatternBlocks extends WP_UnitTestCase
      *
      * @ticket 61228
      *
-     * @param string $blocks   A string representing blocks that need resolving.
+     * @param string $blocks A string representing blocks that need resolving.
      * @param string $expected Expected result.
      */
     public function test_should_resolve_pattern_blocks_as_expected($blocks, $expected)
@@ -67,11 +68,20 @@ class Tests_Blocks_ResolvePatternBlocks extends WP_UnitTestCase
             // Works without attributes, leaves the block as is.
             'pattern with no slug attribute' => ['<!-- wp:pattern /-->', '<!-- wp:pattern /-->'],
             // Resolves the pattern.
-            'test pattern'                   => ['<!-- wp:pattern {"slug":"core/test"} /-->', '<!-- wp:paragraph -->Hello<!-- /wp:paragraph --><!-- wp:paragraph -->World<!-- /wp:paragraph -->'],
+            'test pattern' => [
+                '<!-- wp:pattern {"slug":"core/test"} /-->',
+                '<!-- wp:paragraph -->Hello<!-- /wp:paragraph --><!-- wp:paragraph -->World<!-- /wp:paragraph -->',
+            ],
             // Skips recursive patterns.
-            'recursive pattern'              => ['<!-- wp:pattern {"slug":"core/recursive"} /-->', '<!-- wp:paragraph -->Recursive<!-- /wp:paragraph -->'],
+            'recursive pattern' => [
+                '<!-- wp:pattern {"slug":"core/recursive"} /-->',
+                '<!-- wp:paragraph -->Recursive<!-- /wp:paragraph -->',
+            ],
             // Resolves the pattern within a block.
-            'pattern within a block'         => ['<!-- wp:group --><!-- wp:paragraph -->Before<!-- /wp:paragraph --><!-- wp:pattern {"slug":"core/test"} /--><!-- wp:paragraph -->After<!-- /wp:paragraph --><!-- /wp:group -->', '<!-- wp:group --><!-- wp:paragraph -->Before<!-- /wp:paragraph --><!-- wp:paragraph -->Hello<!-- /wp:paragraph --><!-- wp:paragraph -->World<!-- /wp:paragraph --><!-- wp:paragraph -->After<!-- /wp:paragraph --><!-- /wp:group -->'],
+            'pattern within a block' => [
+                '<!-- wp:group --><!-- wp:paragraph -->Before<!-- /wp:paragraph --><!-- wp:pattern {"slug":"core/test"} /--><!-- wp:paragraph -->After<!-- /wp:paragraph --><!-- /wp:group -->',
+                '<!-- wp:group --><!-- wp:paragraph -->Before<!-- /wp:paragraph --><!-- wp:paragraph -->Hello<!-- /wp:paragraph --><!-- wp:paragraph -->World<!-- /wp:paragraph --><!-- wp:paragraph -->After<!-- /wp:paragraph --><!-- /wp:group -->',
+            ],
         ];
     }
 }

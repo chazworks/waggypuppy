@@ -19,9 +19,9 @@ class Tests_Option_Option extends WP_UnitTestCase
      */
     public function test_the_basics()
     {
-        $key    = 'key1';
-        $key2   = 'key2';
-        $value  = 'value1';
+        $key = 'key1';
+        $key2 = 'key2';
+        $value = 'value1';
         $value2 = 'value2';
 
         $this->assertFalse(get_option('doesnotexist'));
@@ -119,8 +119,8 @@ class Tests_Option_Option extends WP_UnitTestCase
         wp_cache_set('notoptions', $notoptions, 'options');
 
         $before = get_num_queries();
-        $value  = get_option('invalid');
-        $after  = get_num_queries();
+        $value = get_option('invalid');
+        $after = get_num_queries();
 
         $this->assertSame(0, $after - $before);
     }
@@ -135,12 +135,13 @@ class Tests_Option_Option extends WP_UnitTestCase
         get_option('invalid');
 
         $before = get_num_queries();
-        $value  = get_option('invalid');
-        $after  = get_num_queries();
+        $value = get_option('invalid');
+        $after = get_num_queries();
 
         $notoptions = wp_cache_get('notoptions', 'options');
 
-        $this->assertSame(0, $after - $before, 'The notoptions cache was not hit on the second call to `get_option()`.');
+        $this->assertSame(0, $after - $before,
+            'The notoptions cache was not hit on the second call to `get_option()`.');
         $this->assertIsArray($notoptions, 'The notoptions cache should be set.');
         $this->assertArrayHasKey('invalid', $notoptions, 'The "invalid" option should be in the notoptions cache.');
     }
@@ -156,8 +157,8 @@ class Tests_Option_Option extends WP_UnitTestCase
         wp_cache_delete('notoptions', 'options');
 
         $before = get_num_queries();
-        $value  = get_option('foo');
-        $after  = get_num_queries();
+        $value = get_option('foo');
+        $after = get_num_queries();
 
         $notoptions = wp_cache_get('notoptions', 'options');
 
@@ -173,7 +174,7 @@ class Tests_Option_Option extends WP_UnitTestCase
      */
     public function test_serialized_data()
     {
-        $key   = __FUNCTION__;
+        $key = __FUNCTION__;
         $value = [
             'foo' => true,
             'bar' => true,
@@ -182,7 +183,7 @@ class Tests_Option_Option extends WP_UnitTestCase
         $this->assertTrue(add_option($key, $value));
         $this->assertSame($value, get_option($key));
 
-        $value = (object) $value;
+        $value = (object)$value;
         $this->assertTrue(update_option($key, $value));
         $this->assertEquals($value, get_option($key));
         $this->assertTrue(delete_option($key));
@@ -252,13 +253,13 @@ class Tests_Option_Option extends WP_UnitTestCase
     public function data_bad_option_names()
     {
         return [
-            'empty string'        => [''],
-            'string 0'            => ['0'],
+            'empty string' => [''],
+            'string 0' => ['0'],
             'string single space' => [' '],
-            'integer 0'           => [0],
-            'float 0.0'           => [0.0],
-            'boolean false'       => [false],
-            'null'                => [null],
+            'integer 0' => [0],
+            'float 0.0' => [0.0],
+            'boolean false' => [false],
+            'null' => [null],
         ];
     }
 
@@ -326,11 +327,11 @@ class Tests_Option_Option extends WP_UnitTestCase
     public function data_valid_but_undesired_option_names()
     {
         return [
-            'string 123'   => ['123'],
-            'integer 123'  => [123],
-            'integer -123' => [- 123],
-            'float 12.3'   => [12.3],
-            'float -1.23'  => [- 1.23],
+            'string 123' => ['123'],
+            'integer 123' => [123],
+            'integer -123' => [-123],
+            'float 12.3' => [12.3],
+            'float -1.23' => [-1.23],
             'boolean true' => [true],
         ];
     }
@@ -371,7 +372,8 @@ class Tests_Option_Option extends WP_UnitTestCase
         $added = add_option($name, 'Autoload test', '', $autoload_value);
         $this->assertTrue($added);
 
-        $actual = $wpdb->get_row($wpdb->prepare("SELECT autoload FROM $wpdb->options WHERE option_name = %s LIMIT 1", $name));
+        $actual = $wpdb->get_row($wpdb->prepare("SELECT autoload FROM $wpdb->options WHERE option_name = %s LIMIT 1",
+            $name));
         $this->assertSame($expected, $actual->autoload);
     }
 
@@ -412,34 +414,35 @@ class Tests_Option_Option extends WP_UnitTestCase
         $name = 'foo';
         add_option($name, 'bar');
         add_filter('wp_max_autoloaded_option_size', [$this, 'filter_max_option_size']);
-        $value   = file(DIR_TESTDATA . '/formatting/entities.txt');
+        $value = file(DIR_TESTDATA . '/formatting/entities.txt');
         $updated = update_option($name, $value, $autoload);
         $this->assertTrue($updated);
 
-        $actual = $wpdb->get_row($wpdb->prepare("SELECT autoload FROM $wpdb->options WHERE option_name = %s LIMIT 1", $name));
+        $actual = $wpdb->get_row($wpdb->prepare("SELECT autoload FROM $wpdb->options WHERE option_name = %s LIMIT 1",
+            $name));
         $this->assertSame($expected, $actual->autoload);
     }
 
     public function data_option_autoloading_large_option()
     {
         return [
-            'on'    => [
+            'on' => [
                 'autoload' => 'on',
                 'expected' => 'on',
             ],
-            'off'   => [
+            'off' => [
                 'autoload' => 'off',
                 'expected' => 'off',
             ],
-            'yes'   => [
+            'yes' => [
                 'autoload' => 'yes',
                 'expected' => 'on',
             ],
-            'true'  => [
+            'true' => [
                 'autoload' => true,
                 'expected' => 'on',
             ],
-            'no'    => [
+            'no' => [
                 'autoload' => 'no',
                 'expected' => 'off',
             ],
@@ -447,7 +450,7 @@ class Tests_Option_Option extends WP_UnitTestCase
                 'autoload' => false,
                 'expected' => 'off',
             ],
-            'null'  => [
+            'null' => [
                 'autoload' => null,
                 'expected' => 'auto-off',
             ],
@@ -473,7 +476,8 @@ class Tests_Option_Option extends WP_UnitTestCase
         $updated = update_option($name, 'small_option_data');
         $this->assertTrue($updated);
 
-        $actual = $wpdb->get_row($wpdb->prepare("SELECT autoload FROM $wpdb->options WHERE option_name = %s LIMIT 1", $name));
+        $actual = $wpdb->get_row($wpdb->prepare("SELECT autoload FROM $wpdb->options WHERE option_name = %s LIMIT 1",
+            $name));
         $this->assertSame('auto', $actual->autoload);
     }
 
@@ -544,18 +548,20 @@ class Tests_Option_Option extends WP_UnitTestCase
     public function test_update_option_clears_the_notoptions_cache()
     {
         $option_name = 'ticket_61484_option_to_be_created';
-        $notoptions  = wp_cache_get('notoptions', 'options');
-        if (! is_array($notoptions)) {
+        $notoptions = wp_cache_get('notoptions', 'options');
+        if (!is_array($notoptions)) {
             $notoptions = [];
         }
         $notoptions[$option_name] = true;
         wp_cache_set('notoptions', $notoptions, 'options');
-        $this->assertArrayHasKey($option_name, wp_cache_get('notoptions', 'options'), 'The "foobar" option should be in the notoptions cache.');
+        $this->assertArrayHasKey($option_name, wp_cache_get('notoptions', 'options'),
+            'The "foobar" option should be in the notoptions cache.');
 
         update_option($option_name, 'baz');
 
         $updated_notoptions = wp_cache_get('notoptions', 'options');
-        $this->assertArrayNotHasKey($option_name, $updated_notoptions, 'The "foobar" option should not be in the notoptions cache after updating it.');
+        $this->assertArrayNotHasKey($option_name, $updated_notoptions,
+            'The "foobar" option should not be in the notoptions cache after updating it.');
     }
 
     /**
@@ -568,17 +574,19 @@ class Tests_Option_Option extends WP_UnitTestCase
     public function test_add_option_clears_the_notoptions_cache()
     {
         $option_name = 'ticket_61484_option_to_be_created';
-        $notoptions  = wp_cache_get('notoptions', 'options');
-        if (! is_array($notoptions)) {
+        $notoptions = wp_cache_get('notoptions', 'options');
+        if (!is_array($notoptions)) {
             $notoptions = [];
         }
         $notoptions[$option_name] = true;
         wp_cache_set('notoptions', $notoptions, 'options');
-        $this->assertArrayHasKey($option_name, wp_cache_get('notoptions', 'options'), 'The "foobar" option should be in the notoptions cache.');
+        $this->assertArrayHasKey($option_name, wp_cache_get('notoptions', 'options'),
+            'The "foobar" option should be in the notoptions cache.');
 
         add_option($option_name, 'baz');
 
         $updated_notoptions = wp_cache_get('notoptions', 'options');
-        $this->assertArrayNotHasKey($option_name, $updated_notoptions, 'The "foobar" option should not be in the notoptions cache after adding it.');
+        $this->assertArrayNotHasKey($option_name, $updated_notoptions,
+            'The "foobar" option should not be in the notoptions cache after adding it.');
     }
 }

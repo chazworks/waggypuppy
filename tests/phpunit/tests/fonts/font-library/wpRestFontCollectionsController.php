@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering WP_REST_Font_Collections_Controller functionality.
  *
@@ -27,25 +28,26 @@ class Tests_REST_WpRestFontCollectionsController extends WP_Test_REST_Controller
             WP_Font_Library::get_instance()->unregister_font_collection($slug);
         }
 
-        self::$admin_id  = $factory->user->create(
+        self::$admin_id = $factory->user->create(
             [
                 'role' => 'administrator',
-            ]
+            ],
         );
         self::$editor_id = $factory->user->create(
             [
                 'role' => 'editor',
-            ]
+            ],
         );
-        $mock_file       = wp_tempnam('my-collection-data-');
-        file_put_contents($mock_file, '{"name": "Mock Collection", "font_families": [ "mock" ], "categories": [ "mock" ] }');
+        $mock_file = wp_tempnam('my-collection-data-');
+        file_put_contents($mock_file,
+            '{"name": "Mock Collection", "font_families": [ "mock" ], "categories": [ "mock" ] }');
 
         wp_register_font_collection(
             'mock-col-slug',
             [
-                'name'          => 'My collection',
+                'name' => 'My collection',
                 'font_families' => $mock_file,
-            ]
+            ],
         );
     }
 
@@ -62,11 +64,15 @@ class Tests_REST_WpRestFontCollectionsController extends WP_Test_REST_Controller
     public function test_register_routes()
     {
         $routes = rest_get_server()->get_routes();
-        $this->assertCount(1, $routes['/wp/v2/font-collections'], 'Rest server has not the collections path initialized.');
-        $this->assertCount(1, $routes['/wp/v2/font-collections/(?P<slug>[\/\w-]+)'], 'Rest server has not the collection path initialized.');
+        $this->assertCount(1, $routes['/wp/v2/font-collections'],
+            'Rest server has not the collections path initialized.');
+        $this->assertCount(1, $routes['/wp/v2/font-collections/(?P<slug>[\/\w-]+)'],
+            'Rest server has not the collection path initialized.');
 
-        $this->assertArrayHasKey('GET', $routes['/wp/v2/font-collections'][0]['methods'], 'Rest server has not the GET method for collections initialized.');
-        $this->assertArrayHasKey('GET', $routes['/wp/v2/font-collections/(?P<slug>[\/\w-]+)'][0]['methods'], 'Rest server has not the GET method for collection initialized.');
+        $this->assertArrayHasKey('GET', $routes['/wp/v2/font-collections'][0]['methods'],
+            'Rest server has not the GET method for collections initialized.');
+        $this->assertArrayHasKey('GET', $routes['/wp/v2/font-collections/(?P<slug>[\/\w-]+)'][0]['methods'],
+            'Rest server has not the GET method for collection initialized.');
     }
 
     /**
@@ -75,9 +81,9 @@ class Tests_REST_WpRestFontCollectionsController extends WP_Test_REST_Controller
     public function test_get_items()
     {
         wp_set_current_user(self::$admin_id);
-        $request  = new WP_REST_Request('GET', '/wp/v2/font-collections');
+        $request = new WP_REST_Request('GET', '/wp/v2/font-collections');
         $response = rest_get_server()->dispatch($request);
-        $content  = $response->get_data();
+        $content = $response->get_data();
         $this->assertIsArray($content);
         $this->assertSame(200, $response->get_status());
     }
@@ -93,14 +99,14 @@ class Tests_REST_WpRestFontCollectionsController extends WP_Test_REST_Controller
         wp_register_font_collection(
             'invalid-collection',
             [
-                'name'          => 'My collection',
+                'name' => 'My collection',
                 'font_families' => 'invalid-collection-file',
-            ]
+            ],
         );
 
-        $request  = new WP_REST_Request('GET', '/wp/v2/font-collections');
+        $request = new WP_REST_Request('GET', '/wp/v2/font-collections');
         $response = rest_get_server()->dispatch($request);
-        $content  = $response->get_data();
+        $content = $response->get_data();
 
         wp_unregister_font_collection('invalid-collection');
 
@@ -114,7 +120,7 @@ class Tests_REST_WpRestFontCollectionsController extends WP_Test_REST_Controller
     public function test_get_item()
     {
         wp_set_current_user(self::$admin_id);
-        $request  = new WP_REST_Request('GET', '/wp/v2/font-collections/mock-col-slug');
+        $request = new WP_REST_Request('GET', '/wp/v2/font-collections/mock-col-slug');
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(200, $response->get_status(), 'The response status should be 200.');
 
@@ -139,7 +145,7 @@ class Tests_REST_WpRestFontCollectionsController extends WP_Test_REST_Controller
     public function test_get_item_invalid_slug()
     {
         wp_set_current_user(self::$admin_id);
-        $request  = new WP_REST_Request('GET', '/wp/v2/font-collections/non-existing-collection');
+        $request = new WP_REST_Request('GET', '/wp/v2/font-collections/non-existing-collection');
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_font_collection_not_found', $response, 404);
     }
@@ -156,12 +162,12 @@ class Tests_REST_WpRestFontCollectionsController extends WP_Test_REST_Controller
         wp_register_font_collection(
             $slug,
             [
-                'name'          => 'My collection',
+                'name' => 'My collection',
                 'font_families' => 'invalid-collection-file',
-            ]
+            ],
         );
 
-        $request  = new WP_REST_Request('GET', '/wp/v2/font-collections/' . $slug);
+        $request = new WP_REST_Request('GET', '/wp/v2/font-collections/' . $slug);
         $response = rest_get_server()->dispatch($request);
 
         wp_unregister_font_collection($slug);
@@ -227,17 +233,20 @@ class Tests_REST_WpRestFontCollectionsController extends WP_Test_REST_Controller
 
     public function test_get_item_schema()
     {
-        $request  = new WP_REST_Request('OPTIONS', '/wp/v2/font-collections');
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/font-collections');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         $this->assertSame(200, $response->get_status(), 'The response status should be 200.');
         $properties = $data['schema']['properties'];
         $this->assertCount(5, $properties, 'There should be 5 properties in the response data schema.');
         $this->assertArrayHasKey('slug', $properties, 'The slug property should exist in the response data schema.');
         $this->assertArrayHasKey('name', $properties, 'The name property should exist in the response data schema.');
-        $this->assertArrayHasKey('description', $properties, 'The description property should exist in the response data schema.');
-        $this->assertArrayHasKey('font_families', $properties, 'The slug font_families should exist in the response data schema.');
-        $this->assertArrayHasKey('categories', $properties, 'The categories property should exist in the response data schema.');
+        $this->assertArrayHasKey('description', $properties,
+            'The description property should exist in the response data schema.');
+        $this->assertArrayHasKey('font_families', $properties,
+            'The slug font_families should exist in the response data schema.');
+        $this->assertArrayHasKey('categories', $properties,
+            'The categories property should exist in the response data schema.');
     }
 }

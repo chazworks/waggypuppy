@@ -10,26 +10,27 @@
  * Registers the style attribute used by the border feature if needed for block
  * types that support borders.
  *
- * @since 5.8.0
+ * @param WP_Block_Type $block_type Block Type.
  * @since 6.1.0 Improved conditional blocks optimization.
  * @access private
  *
- * @param WP_Block_Type $block_type Block Type.
+ * @since 5.8.0
  */
 function wp_register_border_support($block_type)
 {
     // Setup attributes and styles within that if needed.
-    if (! $block_type->attributes) {
+    if (!$block_type->attributes) {
         $block_type->attributes = [];
     }
 
-    if (block_has_support($block_type, '__experimentalBorder') && ! array_key_exists('style', $block_type->attributes)) {
+    if (block_has_support($block_type, '__experimentalBorder') && !array_key_exists('style', $block_type->attributes)) {
         $block_type->attributes['style'] = [
             'type' => 'object',
         ];
     }
 
-    if (wp_has_border_feature_support($block_type, 'color') && ! array_key_exists('borderColor', $block_type->attributes)) {
+    if (wp_has_border_feature_support($block_type, 'color')
+        && !array_key_exists('borderColor', $block_type->attributes)) {
         $block_type->attributes['borderColor'] = [
             'type' => 'string',
         ];
@@ -40,13 +41,13 @@ function wp_register_border_support($block_type)
  * Adds CSS classes and inline styles for border styles to the incoming
  * attributes array. This will be applied to the block markup in the front-end.
  *
- * @since 5.8.0
+ * @param WP_Block_Type $block_type Block type.
+ * @param array $block_attributes Block attributes.
+ * @return array Border CSS classes and inline styles.
  * @since 6.1.0 Implemented the style engine to generate CSS and classnames.
  * @access private
  *
- * @param WP_Block_Type $block_type       Block type.
- * @param array         $block_attributes Block attributes.
- * @return array Border CSS classes and inline styles.
+ * @since 5.8.0
  */
 function wp_apply_border_support($block_type, $block_attributes)
 {
@@ -54,14 +55,14 @@ function wp_apply_border_support($block_type, $block_attributes)
         return [];
     }
 
-    $border_block_styles      = [];
+    $border_block_styles = [];
     $has_border_color_support = wp_has_border_feature_support($block_type, 'color');
     $has_border_width_support = wp_has_border_feature_support($block_type, 'width');
 
     // Border radius.
-    if (wp_has_border_feature_support($block_type, 'radius') &&
-        isset($block_attributes['style']['border']['radius']) &&
-        ! wp_should_skip_block_supports_serialization($block_type, '__experimentalBorder', 'radius')
+    if (wp_has_border_feature_support($block_type, 'radius')
+        && isset($block_attributes['style']['border']['radius'])
+        && !wp_should_skip_block_supports_serialization($block_type, '__experimentalBorder', 'radius')
     ) {
         $border_radius = $block_attributes['style']['border']['radius'];
 
@@ -73,17 +74,17 @@ function wp_apply_border_support($block_type, $block_attributes)
     }
 
     // Border style.
-    if (wp_has_border_feature_support($block_type, 'style') &&
-        isset($block_attributes['style']['border']['style']) &&
-        ! wp_should_skip_block_supports_serialization($block_type, '__experimentalBorder', 'style')
+    if (wp_has_border_feature_support($block_type, 'style')
+        && isset($block_attributes['style']['border']['style'])
+        && !wp_should_skip_block_supports_serialization($block_type, '__experimentalBorder', 'style')
     ) {
         $border_block_styles['style'] = $block_attributes['style']['border']['style'];
     }
 
     // Border width.
-    if ($has_border_width_support &&
-        isset($block_attributes['style']['border']['width']) &&
-        ! wp_should_skip_block_supports_serialization($block_type, '__experimentalBorder', 'width')
+    if ($has_border_width_support
+        && isset($block_attributes['style']['border']['width'])
+        && !wp_should_skip_block_supports_serialization($block_type, '__experimentalBorder', 'width')
     ) {
         $border_width = $block_attributes['style']['border']['width'];
 
@@ -96,22 +97,31 @@ function wp_apply_border_support($block_type, $block_attributes)
     }
 
     // Border color.
-    if ($has_border_color_support &&
-        ! wp_should_skip_block_supports_serialization($block_type, '__experimentalBorder', 'color')
+    if ($has_border_color_support
+        && !wp_should_skip_block_supports_serialization($block_type, '__experimentalBorder', 'color')
     ) {
-        $preset_border_color          = array_key_exists('borderColor', $block_attributes) ? "var:preset|color|{$block_attributes['borderColor']}" : null;
-        $custom_border_color          = isset($block_attributes['style']['border']['color']) ? $block_attributes['style']['border']['color'] : null;
+        $preset_border_color = array_key_exists('borderColor', $block_attributes)
+            ? "var:preset|color|{$block_attributes['borderColor']}" : null;
+        $custom_border_color = isset($block_attributes['style']['border']['color'])
+            ? $block_attributes['style']['border']['color'] : null;
         $border_block_styles['color'] = $preset_border_color ? $preset_border_color : $custom_border_color;
     }
 
     // Generates styles for individual border sides.
     if ($has_border_color_support || $has_border_width_support) {
         foreach (['top', 'right', 'bottom', 'left'] as $side) {
-            $border                     = isset($block_attributes['style']['border'][$side]) ? $block_attributes['style']['border'][$side] : null;
-            $border_side_values         = [
-                'width' => isset($border['width']) && ! wp_should_skip_block_supports_serialization($block_type, '__experimentalBorder', 'width') ? $border['width'] : null,
-                'color' => isset($border['color']) && ! wp_should_skip_block_supports_serialization($block_type, '__experimentalBorder', 'color') ? $border['color'] : null,
-                'style' => isset($border['style']) && ! wp_should_skip_block_supports_serialization($block_type, '__experimentalBorder', 'style') ? $border['style'] : null,
+            $border = isset($block_attributes['style']['border'][$side]) ? $block_attributes['style']['border'][$side]
+                : null;
+            $border_side_values = [
+                'width' => isset($border['width'])
+                && !wp_should_skip_block_supports_serialization($block_type, '__experimentalBorder', 'width')
+                    ? $border['width'] : null,
+                'color' => isset($border['color'])
+                && !wp_should_skip_block_supports_serialization($block_type, '__experimentalBorder', 'color')
+                    ? $border['color'] : null,
+                'style' => isset($border['style'])
+                && !wp_should_skip_block_supports_serialization($block_type, '__experimentalBorder', 'style')
+                    ? $border['style'] : null,
             ];
             $border_block_styles[$side] = $border_side_values;
         }
@@ -119,13 +129,13 @@ function wp_apply_border_support($block_type, $block_attributes)
 
     // Collect classes and styles.
     $attributes = [];
-    $styles     = wp_style_engine_get_styles(['border' => $border_block_styles]);
+    $styles = wp_style_engine_get_styles(['border' => $border_block_styles]);
 
-    if (! empty($styles['classnames'])) {
+    if (!empty($styles['classnames'])) {
         $attributes['class'] = $styles['classnames'];
     }
 
-    if (! empty($styles['css'])) {
+    if (!empty($styles['css'])) {
         $attributes['style'] = $styles['css'];
     }
 
@@ -140,13 +150,13 @@ function wp_apply_border_support($block_type, $block_attributes)
  * flag nested under `experimentalBorder` must be enabled for the feature
  * to be opted into.
  *
+ * @param WP_Block_Type $block_type Block type to check for support.
+ * @param string $feature Name of the feature to check support for.
+ * @param mixed $default_value Fallback value for feature support, defaults to false.
+ * @return bool Whether the feature is supported.
  * @since 5.8.0
  * @access private
  *
- * @param WP_Block_Type $block_type    Block type to check for support.
- * @param string        $feature       Name of the feature to check support for.
- * @param mixed         $default_value Fallback value for feature support, defaults to false.
- * @return bool Whether the feature is supported.
  */
 function wp_has_border_feature_support($block_type, $feature, $default_value = false)
 {
@@ -170,6 +180,6 @@ WP_Block_Supports::get_instance()->register(
     'border',
     [
         'register_attribute' => 'wp_register_border_support',
-        'apply'              => 'wp_apply_border_support',
-    ]
+        'apply' => 'wp_apply_border_support',
+    ],
 );

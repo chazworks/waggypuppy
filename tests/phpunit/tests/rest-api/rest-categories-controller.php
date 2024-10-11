@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering WP_REST_Terms_Controller functionality, used for
  * Categories.
@@ -14,26 +15,26 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
     protected static $contributor;
     protected static $subscriber;
 
-    protected static $category_ids     = [];
+    protected static $category_ids = [];
     protected static $total_categories = 30;
-    protected static $per_page         = 50;
+    protected static $per_page = 50;
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$administrator = $factory->user->create(
             [
                 'role' => 'administrator',
-            ]
+            ],
         );
-        self::$contributor   = $factory->user->create(
+        self::$contributor = $factory->user->create(
             [
                 'role' => 'subscriber',
-            ]
+            ],
         );
-        self::$subscriber    = $factory->user->create(
+        self::$subscriber = $factory->user->create(
             [
                 'role' => 'subscriber',
-            ]
+            ],
         );
 
         // Set up categories for pagination tests.
@@ -41,7 +42,7 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
             self::$category_ids[] = $factory->category->create(
                 [
                     'name' => "Category {$i}",
-                ]
+                ],
             );
         }
     }
@@ -66,45 +67,45 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
             'test_single',
             [
                 'show_in_rest' => true,
-                'single'       => true,
-                'type'         => 'string',
-            ]
+                'single' => true,
+                'type' => 'string',
+            ],
         );
         register_meta(
             'term',
             'test_multi',
             [
                 'show_in_rest' => true,
-                'single'       => false,
-                'type'         => 'string',
-            ]
+                'single' => false,
+                'type' => 'string',
+            ],
         );
         register_term_meta(
             'category',
             'test_cat_single',
             [
                 'show_in_rest' => true,
-                'single'       => true,
-                'type'         => 'string',
-            ]
+                'single' => true,
+                'type' => 'string',
+            ],
         );
         register_term_meta(
             'category',
             'test_cat_multi',
             [
                 'show_in_rest' => true,
-                'single'       => false,
-                'type'         => 'string',
-            ]
+                'single' => false,
+                'type' => 'string',
+            ],
         );
         register_term_meta(
             'post_tag',
             'test_tag_meta',
             [
                 'show_in_rest' => true,
-                'single'       => true,
-                'type'         => 'string',
-            ]
+                'single' => true,
+                'type' => 'string',
+            ],
         );
     }
 
@@ -118,17 +119,17 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
     public function test_context_param()
     {
         // Collection.
-        $request  = new WP_REST_Request('OPTIONS', '/wp/v2/categories');
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/categories');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame(['v1' => true], $data['endpoints'][0]['allow_batch']);
         $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
         $this->assertSameSets(['view', 'embed', 'edit'], $data['endpoints'][0]['args']['context']['enum']);
         // Single.
         $category1 = self::factory()->category->create(['name' => 'Season 5']);
-        $request   = new WP_REST_Request('OPTIONS', '/wp/v2/categories/' . $category1);
-        $response  = rest_get_server()->dispatch($request);
-        $data      = $response->get_data();
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/categories/' . $category1);
+        $response = rest_get_server()->dispatch($request);
+        $data = $response->get_data();
         $this->assertSame(['v1' => true], $data['endpoints'][0]['allow_batch']);
         $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
         $this->assertSameSets(['view', 'embed', 'edit'], $data['endpoints'][0]['args']['context']['enum']);
@@ -136,10 +137,10 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
 
     public function test_registered_query_params()
     {
-        $request  = new WP_REST_Request('OPTIONS', '/wp/v2/categories');
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/categories');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
-        $keys     = array_keys($data['endpoints'][0]['args']);
+        $data = $response->get_data();
+        $keys = array_keys($data['endpoints'][0]['args']);
         sort($keys);
         $this->assertSame(
             [
@@ -156,7 +157,7 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
                 'search',
                 'slug',
             ],
-            $keys
+            $keys,
         );
     }
 
@@ -180,7 +181,7 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
 
     public function test_get_items_hide_empty_arg()
     {
-        $post_id   = self::factory()->post->create();
+        $post_id = self::factory()->post->create();
         $category1 = self::factory()->category->create(['name' => 'Season 5']);
         $category2 = self::factory()->category->create(['name' => 'The Be Sharps']);
 
@@ -192,7 +193,7 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
         $request->set_param('per_page', self::$per_page);
         $request->set_param('hide_empty', true);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertCount(2, $data);
         $this->assertSame('Season 5', $data[0]['name']);
         $this->assertSame('The Be Sharps', $data[1]['name']);
@@ -200,7 +201,7 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
         // Confirm the empty category "Uncategorized" category appears.
         $request->set_param('hide_empty', 'false');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertCount($total_categories, $data);
     }
 
@@ -210,15 +211,15 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
         $parent2 = self::factory()->category->create(['name' => 'Marge']);
         self::factory()->category->create(
             [
-                'name'   => 'Bart',
+                'name' => 'Bart',
                 'parent' => $parent1,
-            ]
+            ],
         );
         self::factory()->category->create(
             [
-                'name'   => 'Lisa',
+                'name' => 'Lisa',
                 'parent' => $parent2,
-            ]
+            ],
         );
 
         $request = new WP_REST_Request('GET', '/wp/v2/categories');
@@ -229,9 +230,9 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
         $this->assertSame(200, $response->get_status());
         $data = $response->get_data();
 
-        $args       = [
+        $args = [
             'hide_empty' => false,
-            'parent'     => 0,
+            'parent' => 0,
         ];
         $categories = get_terms('category', $args);
         $this->assertCount(count($categories), $data);
@@ -243,15 +244,15 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
         $parent2 = self::factory()->category->create(['name' => 'Marge']);
         self::factory()->category->create(
             [
-                'name'   => 'Bart',
+                'name' => 'Bart',
                 'parent' => $parent1,
-            ]
+            ],
         );
         self::factory()->category->create(
             [
-                'name'   => 'Lisa',
+                'name' => 'Lisa',
                 'parent' => $parent2,
-            ]
+            ],
         );
 
         $request = new WP_REST_Request('GET', '/wp/v2/categories');
@@ -262,9 +263,9 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
         $this->assertSame(200, $response->get_status());
         $data = $response->get_data();
 
-        $args       = [
+        $args = [
             'hide_empty' => false,
-            'parent'     => 0,
+            'parent' => 0,
         ];
         $categories = get_terms('category', $args);
         $this->assertCount(count($categories), $data);
@@ -290,7 +291,7 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
         $request->set_param('page', 0);
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_invalid_param', $response, 400);
-        $data        = $response->get_data();
+        $data = $response->get_data();
         $first_error = array_shift($data['data']['params']);
         $this->assertStringContainsString('page must be greater than or equal to 1', $first_error);
     }
@@ -305,14 +306,14 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
         // 'orderby' => 'asc'.
         $request->set_param('include', [$id2, $id1]);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertCount(2, $data);
         $this->assertSame($id1, $data[0]['id']);
 
         // 'orderby' => 'include'.
         $request->set_param('orderby', 'include');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertCount(2, $data);
         $this->assertSame($id2, $data[0]['id']);
     }
@@ -325,15 +326,15 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
         $request = new WP_REST_Request('GET', '/wp/v2/categories');
         $request->set_param('per_page', self::$per_page);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
-        $ids      = wp_list_pluck($data, 'id');
+        $data = $response->get_data();
+        $ids = wp_list_pluck($data, 'id');
         $this->assertContains($id1, $ids);
         $this->assertContains($id2, $ids);
 
         $request->set_param('exclude', [$id2]);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
-        $ids      = wp_list_pluck($data, 'id');
+        $data = $response->get_data();
+        $ids = wp_list_pluck($data, 'id');
         $this->assertContains($id1, $ids);
         $this->assertNotContains($id2, $ids);
     }
@@ -377,7 +378,7 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
         self::factory()->category->create(['name' => 'Banana']);
 
         // Defaults to 'orderby' => 'name', 'order' => 'asc'.
-        $request  = new WP_REST_Request('GET', '/wp/v2/categories');
+        $request = new WP_REST_Request('GET', '/wp/v2/categories');
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(200, $response->get_status());
         $data = $response->get_data();
@@ -400,7 +401,7 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
         $request->set_param('orderby', 'id');
         $request->set_param('order', 'desc');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame(200, $response->get_status());
         $this->assertSame('Banana', $data[0]['name']);
         $this->assertSame('Apple', $data[1]['name']);
@@ -417,7 +418,7 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
         $request->set_param('orderby', 'include_slugs');
         $request->set_param('slug', ['taco', 'burrito', 'chalupa']);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame(200, $response->get_status());
         $this->assertSame('taco', $data[0]['slug']);
         $this->assertSame('burrito', $data[1]['slug']);
@@ -426,24 +427,24 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
 
     protected function post_with_categories()
     {
-        $post_id   = self::factory()->post->create();
+        $post_id = self::factory()->post->create();
         $category1 = self::factory()->category->create(
             [
-                'name'        => 'DC',
+                'name' => 'DC',
                 'description' => 'Purveyor of fine detective comics',
-            ]
+            ],
         );
         $category2 = self::factory()->category->create(
             [
-                'name'        => 'Marvel',
+                'name' => 'Marvel',
                 'description' => 'Home of the Marvel Universe',
-            ]
+            ],
         );
         $category3 = self::factory()->category->create(
             [
-                'name'        => 'Image',
+                'name' => 'Image',
                 'description' => 'American independent comic publisher',
-            ]
+            ],
         );
         wp_set_object_terms($post_id, [$category1, $category2, $category3], 'category');
 
@@ -517,21 +518,21 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
         $controller->register_routes();
         $term1 = self::factory()->term->create(
             [
-                'name'     => 'Cape',
+                'name' => 'Cape',
                 'taxonomy' => 'batman',
-            ]
+            ],
         );
         $term2 = self::factory()->term->create(
             [
-                'name'     => 'Mask',
+                'name' => 'Mask',
                 'taxonomy' => 'batman',
-            ]
+            ],
         );
         self::factory()->term->create(
             [
-                'name'     => 'Car',
+                'name' => 'Car',
                 'taxonomy' => 'batman',
-            ]
+            ],
         );
         $post_id = self::factory()->post->create();
         wp_set_object_terms($post_id, [$term1, $term2], 'batman');
@@ -590,15 +591,15 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
         $category1 = self::factory()->category->create(['name' => 'Parent']);
         self::factory()->category->create(
             [
-                'name'   => 'Child',
+                'name' => 'Child',
                 'parent' => $category1,
-            ]
+            ],
         );
 
         $request = new WP_REST_Request('GET', '/wp/v2/categories');
         $request->set_param('parent', $category1);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertCount(1, $data);
         $this->assertSame('Child', $data[0]['name']);
     }
@@ -616,25 +617,25 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
         register_taxonomy('robin', 'post', ['public' => false]);
         self::factory()->term->create(
             [
-                'name'     => 'Cape',
+                'name' => 'Cape',
                 'taxonomy' => 'robin',
-            ]
+            ],
         );
         self::factory()->term->create(
             [
-                'name'     => 'Mask',
+                'name' => 'Mask',
                 'taxonomy' => 'robin',
-            ]
+            ],
         );
 
-        $request  = new WP_REST_Request('GET', '/wp/v2/terms/robin');
+        $request = new WP_REST_Request('GET', '/wp/v2/terms/robin');
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_no_route', $response, 404);
     }
 
     public function test_get_terms_invalid_taxonomy()
     {
-        $request  = new WP_REST_Request('GET', '/wp/v2/invalid-taxonomy');
+        $request = new WP_REST_Request('GET', '/wp/v2/invalid-taxonomy');
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_no_route', $response, 404);
     }
@@ -642,12 +643,12 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
     public function test_get_terms_pagination_headers()
     {
         $total_categories = self::$total_categories;
-        $total_pages      = (int) ceil($total_categories / 10);
+        $total_pages = (int)ceil($total_categories / 10);
 
         // Start of the index + Uncategorized default term.
-        $request  = new WP_REST_Request('GET', '/wp/v2/categories');
+        $request = new WP_REST_Request('GET', '/wp/v2/categories');
         $response = rest_get_server()->dispatch($request);
-        $headers  = $response->get_headers();
+        $headers = $response->get_headers();
         $this->assertSame($total_categories, $headers['X-WP-Total']);
         $this->assertSame($total_pages, $headers['X-WP-TotalPages']);
         $this->assertCount(10, $response->get_data());
@@ -655,7 +656,7 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
             [
                 'page' => 2,
             ],
-            rest_url('wp/v2/categories')
+            rest_url('wp/v2/categories'),
         );
         $this->assertStringNotContainsString('rel="prev"', $headers['Link']);
         $this->assertStringContainsString('<' . $next_link . '>; rel="next"', $headers['Link']);
@@ -667,7 +668,7 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
         $request = new WP_REST_Request('GET', '/wp/v2/categories');
         $request->set_param('page', 3);
         $response = rest_get_server()->dispatch($request);
-        $headers  = $response->get_headers();
+        $headers = $response->get_headers();
         $this->assertSame($total_categories, $headers['X-WP-Total']);
         $this->assertSame($total_pages, $headers['X-WP-TotalPages']);
         $this->assertCount(10, $response->get_data());
@@ -675,14 +676,14 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
             [
                 'page' => 2,
             ],
-            rest_url('wp/v2/categories')
+            rest_url('wp/v2/categories'),
         );
         $this->assertStringContainsString('<' . $prev_link . '>; rel="prev"', $headers['Link']);
         $next_link = add_query_arg(
             [
                 'page' => 4,
             ],
-            rest_url('wp/v2/categories')
+            rest_url('wp/v2/categories'),
         );
         $this->assertStringContainsString('<' . $next_link . '>; rel="next"', $headers['Link']);
 
@@ -690,7 +691,7 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
         $request = new WP_REST_Request('GET', '/wp/v2/categories');
         $request->set_param('page', $total_pages);
         $response = rest_get_server()->dispatch($request);
-        $headers  = $response->get_headers();
+        $headers = $response->get_headers();
         $this->assertSame($total_categories, $headers['X-WP-Total']);
         $this->assertSame($total_pages, $headers['X-WP-TotalPages']);
         $this->assertCount(1, $response->get_data());
@@ -698,7 +699,7 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
             [
                 'page' => $total_pages - 1,
             ],
-            rest_url('wp/v2/categories')
+            rest_url('wp/v2/categories'),
         );
         $this->assertStringContainsString('<' . $prev_link . '>; rel="prev"', $headers['Link']);
         $this->assertStringNotContainsString('rel="next"', $headers['Link']);
@@ -707,7 +708,7 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
         $request = new WP_REST_Request('GET', '/wp/v2/categories');
         $request->set_param('page', 100);
         $response = rest_get_server()->dispatch($request);
-        $headers  = $response->get_headers();
+        $headers = $response->get_headers();
         $this->assertSame($total_categories, $headers['X-WP-Total']);
         $this->assertSame($total_pages, $headers['X-WP-TotalPages']);
         $this->assertCount(0, $response->get_data());
@@ -715,7 +716,7 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
             [
                 'page' => $total_pages,
             ],
-            rest_url('wp/v2/categories')
+            rest_url('wp/v2/categories'),
         );
         $this->assertStringContainsString('<' . $prev_link . '>; rel="prev"', $headers['Link']);
         $this->assertStringNotContainsString('rel="next"', $headers['Link']);
@@ -728,7 +729,7 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
         $request->set_param('page', 1);
         $request->set_param('per_page', 100);
         $response = rest_get_server()->dispatch($request);
-        $headers  = $response->get_headers();
+        $headers = $response->get_headers();
         $this->assertSame(self::$total_categories, $headers['X-WP-Total']);
         $this->assertSame(1, $headers['X-WP-TotalPages']);
         $this->assertCount(self::$total_categories, $response->get_data());
@@ -737,7 +738,7 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
         $request->set_param('page', 2);
         $request->set_param('per_page', 100);
         $response = rest_get_server()->dispatch($request);
-        $headers  = $response->get_headers();
+        $headers = $response->get_headers();
         $this->assertSame(self::$total_categories, $headers['X-WP-Total']);
         $this->assertSame(1, $headers['X-WP-TotalPages']);
         $this->assertCount(0, $response->get_data());
@@ -745,7 +746,7 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
 
     public function test_get_item()
     {
-        $request  = new WP_REST_Request('GET', '/wp/v2/categories/1');
+        $request = new WP_REST_Request('GET', '/wp/v2/categories/1');
         $response = rest_get_server()->dispatch($request);
         $this->check_get_taxonomy_term_response($response);
     }
@@ -755,12 +756,12 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
      */
     public function test_get_item_meta()
     {
-        $request  = new WP_REST_Request('GET', '/wp/v2/categories/1');
+        $request = new WP_REST_Request('GET', '/wp/v2/categories/1');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertArrayHasKey('meta', $data);
 
-        $meta = (array) $data['meta'];
+        $meta = (array)$data['meta'];
         $this->assertArrayHasKey('test_single', $meta);
         $this->assertSame($meta['test_single'], '');
         $this->assertArrayHasKey('test_multi', $meta);
@@ -776,25 +777,25 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
      */
     public function test_get_item_meta_registered_for_different_taxonomy()
     {
-        $request  = new WP_REST_Request('GET', '/wp/v2/categories/1');
+        $request = new WP_REST_Request('GET', '/wp/v2/categories/1');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertArrayHasKey('meta', $data);
 
-        $meta = (array) $data['meta'];
+        $meta = (array)$data['meta'];
         $this->assertArrayNotHasKey('test_tag_meta', $meta);
     }
 
     public function test_get_term_invalid_taxonomy()
     {
-        $request  = new WP_REST_Request('GET', '/wp/v2/invalid-taxonomy/1');
+        $request = new WP_REST_Request('GET', '/wp/v2/invalid-taxonomy/1');
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_no_route', $response, 404);
     }
 
     public function test_get_term_invalid_term()
     {
-        $request  = new WP_REST_Request('GET', '/wp/v2/categories/' . REST_TESTS_IMPOSSIBLY_HIGH_NUMBER);
+        $request = new WP_REST_Request('GET', '/wp/v2/categories/' . REST_TESTS_IMPOSSIBLY_HIGH_NUMBER);
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_term_invalid', $response, 404);
     }
@@ -814,12 +815,12 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
         register_taxonomy('robin', 'post', ['public' => false]);
         $term1 = self::factory()->term->create(
             [
-                'name'     => 'Cape',
+                'name' => 'Cape',
                 'taxonomy' => 'robin',
-            ]
+            ],
         );
 
-        $request  = new WP_REST_Request('GET', '/wp/v2/terms/robin/' . $term1);
+        $request = new WP_REST_Request('GET', '/wp/v2/terms/robin/' . $term1);
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_no_route', $response, 404);
     }
@@ -829,12 +830,12 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
         register_taxonomy('robin', 'post');
         $term1 = self::factory()->term->create(
             [
-                'name'     => 'Cape',
+                'name' => 'Cape',
                 'taxonomy' => 'robin',
-            ]
+            ],
         );
 
-        $request  = new WP_REST_Request('GET', '/wp/v2/categories/' . $term1);
+        $request = new WP_REST_Request('GET', '/wp/v2/categories/' . $term1);
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_term_invalid', $response, 404);
     }
@@ -850,7 +851,7 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(201, $response->get_status());
         $headers = $response->get_headers();
-        $data    = $response->get_data();
+        $data = $response->get_data();
         $this->assertStringContainsString('/wp/v2/categories/' . $data['id'], $headers['Location']);
         $this->assertSame('My Awesome Term', $data['name']);
         $this->assertSame('This term is so awesome.', $data['description']);
@@ -873,7 +874,7 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
         $this->assertSame(400, $response->get_status());
         $data = $response->get_data();
         $this->assertSame('term_exists', $data['code']);
-        $this->assertSame($existing_id, (int) $data['data']['term_id']);
+        $this->assertSame($existing_id, (int)$data['data']['term_id']);
 
         wp_delete_term($existing_id, 'category');
     }
@@ -912,7 +913,7 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
     {
         wp_set_current_user(self::$administrator);
 
-        $request  = new WP_REST_Request('POST', '/wp/v2/categories');
+        $request = new WP_REST_Request('POST', '/wp/v2/categories');
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_missing_callback_param', $response, 400);
     }
@@ -965,9 +966,9 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
         wp_set_current_user(self::$administrator);
 
         $orig_args = [
-            'name'        => 'Original Name',
+            'name' => 'Original Name',
             'description' => 'Original Description',
-            'slug'        => 'original-slug',
+            'slug' => 'original-slug',
         ];
 
         $term = get_term_by('id', self::factory()->category->create($orig_args), 'category');
@@ -979,10 +980,10 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
         $request->set_param(
             'meta',
             [
-                'test_single'     => 'just meta',
+                'test_single' => 'just meta',
                 'test_cat_single' => 'category-specific meta',
-                'test_tag_meta'   => 'tag-specific meta',
-            ]
+                'test_tag_meta' => 'tag-specific meta',
+            ],
         );
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(200, $response->get_status());
@@ -1032,7 +1033,7 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
         wp_set_current_user(self::$administrator);
 
         $parent = get_term_by('id', self::factory()->category->create(), 'category');
-        $term   = get_term_by('id', self::factory()->category->create(), 'category');
+        $term = get_term_by('id', self::factory()->category->create(), 'category');
 
         $request = new WP_REST_Request('POST', '/wp/v2/categories/' . $term->term_id);
         $request->set_param('parent', $parent->term_id);
@@ -1048,16 +1049,16 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
         wp_set_current_user(self::$administrator);
 
         $old_parent_term = get_term_by('id', self::factory()->category->create(), 'category');
-        $new_parent_id   = 0;
+        $new_parent_id = 0;
 
         $term = get_term_by(
             'id',
             self::factory()->category->create(
                 [
                     'parent' => $old_parent_term->term_id,
-                ]
+                ],
             ),
-            'category'
+            'category',
         );
 
         $this->assertSame($old_parent_term->term_id, $term->parent);
@@ -1104,7 +1105,7 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
 
         $term = get_term_by('id', self::factory()->category->create(['name' => 'Deleted Category']), 'category');
 
-        $request  = new WP_REST_Request('DELETE', '/wp/v2/categories/' . $term->term_id);
+        $request = new WP_REST_Request('DELETE', '/wp/v2/categories/' . $term->term_id);
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_trash_not_supported', $response, 501);
 
@@ -1117,7 +1118,7 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
     {
         wp_set_current_user(self::$administrator);
 
-        $request  = new WP_REST_Request('DELETE', '/wp/v2/invalid-taxonomy/' . REST_TESTS_IMPOSSIBLY_HIGH_NUMBER);
+        $request = new WP_REST_Request('DELETE', '/wp/v2/invalid-taxonomy/' . REST_TESTS_IMPOSSIBLY_HIGH_NUMBER);
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_no_route', $response, 404);
     }
@@ -1126,7 +1127,7 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
     {
         wp_set_current_user(self::$administrator);
 
-        $request  = new WP_REST_Request('DELETE', '/wp/v2/categories/' . REST_TESTS_IMPOSSIBLY_HIGH_NUMBER);
+        $request = new WP_REST_Request('DELETE', '/wp/v2/categories/' . REST_TESTS_IMPOSSIBLY_HIGH_NUMBER);
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_term_invalid', $response, 404);
     }
@@ -1135,8 +1136,8 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
     {
         wp_set_current_user(self::$subscriber);
 
-        $term     = get_term_by('id', self::factory()->category->create(), 'category');
-        $request  = new WP_REST_Request('DELETE', '/wp/v2/categories/' . $term->term_id);
+        $term = get_term_by('id', self::factory()->category->create(), 'category');
+        $request = new WP_REST_Request('DELETE', '/wp/v2/categories/' . $term->term_id);
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_cannot_delete', $response, 403);
     }
@@ -1145,26 +1146,26 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
     {
         $term = get_term(1, 'category');
 
-        $request  = new WP_REST_Request('GET', '/wp/v2/categories/1');
+        $request = new WP_REST_Request('GET', '/wp/v2/categories/1');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         $this->check_taxonomy_term($term, $data, $response->get_links());
     }
 
     public function test_prepare_item_limit_fields()
     {
-        $request  = new WP_REST_Request();
+        $request = new WP_REST_Request();
         $endpoint = new WP_REST_Terms_Controller('category');
         $request->set_param('_fields', 'id,name');
-        $term     = get_term(1, 'category');
+        $term = get_term(1, 'category');
         $response = $endpoint->prepare_item_for_response($term, $request);
         $this->assertSame(
             [
                 'id',
                 'name',
             ],
-            array_keys($response->get_data())
+            array_keys($response->get_data()),
         );
     }
 
@@ -1173,13 +1174,13 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
         $child = self::factory()->category->create(
             [
                 'parent' => 1,
-            ]
+            ],
         );
-        $term  = get_term($child, 'category');
+        $term = get_term($child, 'category');
 
-        $request  = new WP_REST_Request('GET', '/wp/v2/categories/' . $child);
+        $request = new WP_REST_Request('GET', '/wp/v2/categories/' . $child);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         $this->check_taxonomy_term($term, $data, $response->get_links());
 
@@ -1191,9 +1192,9 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
 
     public function test_get_item_schema()
     {
-        $request    = new WP_REST_Request('OPTIONS', '/wp/v2/categories');
-        $response   = rest_get_server()->dispatch($request);
-        $data       = $response->get_data();
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/categories');
+        $response = rest_get_server()->dispatch($request);
+        $data = $response->get_data();
         $properties = $data['schema']['properties'];
         $this->assertCount(9, $properties);
         $this->assertArrayHasKey('id', $properties);
@@ -1210,32 +1211,31 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
 
     public function test_get_additional_field_registration()
     {
-
         $schema = [
-            'type'        => 'integer',
+            'type' => 'integer',
             'description' => 'Some integer of mine',
-            'enum'        => [1, 2, 3, 4],
-            'context'     => ['view', 'edit'],
+            'enum' => [1, 2, 3, 4],
+            'context' => ['view', 'edit'],
         ];
 
         register_rest_field(
             'category',
             'my_custom_int',
             [
-                'schema'       => $schema,
+                'schema' => $schema,
                 'get_callback' => [$this, 'additional_field_get_callback'],
-            ]
+            ],
         );
 
         $request = new WP_REST_Request('OPTIONS', '/wp/v2/categories');
 
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertArrayHasKey('my_custom_int', $data['schema']['properties']);
         $this->assertSame($schema, $data['schema']['properties']['my_custom_int']);
 
         $category_id = self::factory()->category->create();
-        $request     = new WP_REST_Request('GET', '/wp/v2/categories/' . $category_id);
+        $request = new WP_REST_Request('GET', '/wp/v2/categories/' . $category_id);
 
         $response = rest_get_server()->dispatch($request);
         $this->assertArrayHasKey('my_custom_int', $response->data);
@@ -1252,8 +1252,8 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
     protected function check_get_taxonomy_terms_response($response)
     {
         $this->assertSame(200, $response->get_status());
-        $data       = $response->get_data();
-        $args       = [
+        $data = $response->get_data();
+        $args = [
             'hide_empty' => false,
         ];
         $categories = get_terms('category', $args);
@@ -1288,21 +1288,21 @@ class WP_Test_REST_Categories_Controller extends WP_Test_REST_Controller_Testcas
             'https://api.w.org/post_type',
         ];
 
-        if (! empty($data['parent'])) {
+        if (!empty($data['parent'])) {
             $relations[] = 'up';
         }
 
         $this->assertSameSets($relations, array_keys($links));
         $this->assertStringContainsString('wp/v2/taxonomies/' . $term->taxonomy, $links['about'][0]['href']);
-        $this->assertSame(add_query_arg('categories', $term->term_id, rest_url('wp/v2/posts')), $links['https://api.w.org/post_type'][0]['href']);
+        $this->assertSame(add_query_arg('categories', $term->term_id, rest_url('wp/v2/posts')),
+            $links['https://api.w.org/post_type'][0]['href']);
     }
 
     protected function check_get_taxonomy_term_response($response)
     {
-
         $this->assertSame(200, $response->get_status());
 
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $category = get_term(1, 'category');
         $this->check_taxonomy_term($category, $data, $response->get_links());
     }

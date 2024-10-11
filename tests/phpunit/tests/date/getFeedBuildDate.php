@@ -33,9 +33,9 @@ class Tests_Date_GetFeedBuildDate extends WP_UnitTestCase
 
         $post_id = self::factory()->post->create(
             [
-                'post_date'     => '2018-07-22 21:13:23',
+                'post_date' => '2018-07-22 21:13:23',
                 'post_date_gmt' => '2018-07-23 03:13:23',
-            ]
+            ],
         );
 
         $wp_query = new WP_Query(['p' => $post_id]);
@@ -53,7 +53,7 @@ class Tests_Date_GetFeedBuildDate extends WP_UnitTestCase
         global $wp_query;
 
         update_option('timezone_string', 'Europe/Helsinki');
-        $datetime     = new DateTimeImmutable('now', wp_timezone());
+        $datetime = new DateTimeImmutable('now', wp_timezone());
         $datetime_utc = $datetime->setTimezone(new DateTimeZone('UTC'));
 
         $wp_query->posts = [];
@@ -63,18 +63,18 @@ class Tests_Date_GetFeedBuildDate extends WP_UnitTestCase
         self::factory()->post->create(
             [
                 'post_date' => $datetime->format('Y-m-d H:i:s'),
-            ]
+            ],
         );
 
         $this->assertEqualsWithDelta(
             strtotime($datetime_utc->format(DATE_RFC3339)),
             strtotime(get_feed_build_date(DATE_RFC3339)),
             2,
-            'Fall back to time of last post modified with no posts'
+            'Fall back to time of last post modified with no posts',
         );
 
         $post_id_broken = self::factory()->post->create();
-        $post_broken    = get_post($post_id_broken);
+        $post_broken = get_post($post_id_broken);
 
         $post_broken->post_modified_gmt = 0;
 
@@ -84,7 +84,7 @@ class Tests_Date_GetFeedBuildDate extends WP_UnitTestCase
             strtotime($datetime_utc->format(DATE_RFC3339)),
             strtotime(get_feed_build_date(DATE_RFC3339)),
             2,
-            'Fall back to time of last post modified with broken post object'
+            'Fall back to time of last post modified with broken post object',
         );
     }
 }

@@ -23,9 +23,9 @@ class Tests_Compat_strContains extends WP_UnitTestCase
      *
      * @ticket 49652
      *
-     * @param bool   $expected Whether or not `$haystack` is expected to contain `$needle`.
+     * @param bool $expected Whether or not `$haystack` is expected to contain `$needle`.
      * @param string $haystack The string to search in.
-     * @param string $needle   The substring to search for in `$haystack`.
+     * @param string $needle The substring to search for in `$haystack`.
      */
     public function test_str_contains($expected, $haystack, $needle)
     {
@@ -40,60 +40,60 @@ class Tests_Compat_strContains extends WP_UnitTestCase
     public function data_str_contains()
     {
         return [
-            'empty needle'              => [
+            'empty needle' => [
                 'expected' => true,
                 'haystack' => 'This is a Test',
-                'needle'   => '',
+                'needle' => '',
             ],
             'empty haystack and needle' => [
                 'expected' => true,
                 'haystack' => '',
-                'needle'   => '',
+                'needle' => '',
             ],
-            'empty haystack'            => [
+            'empty haystack' => [
                 'expected' => false,
                 'haystack' => '',
-                'needle'   => 'test',
+                'needle' => 'test',
             ],
-            'start of string'           => [
+            'start of string' => [
                 'expected' => true,
                 'haystack' => 'This is a Test',
-                'needle'   => 'This',
+                'needle' => 'This',
             ],
-            'middle of string'          => [
+            'middle of string' => [
                 'expected' => true,
                 'haystack' => 'The needle in middle of string.',
-                'needle'   => 'middle',
+                'needle' => 'middle',
             ],
-            'end of string'             => [
+            'end of string' => [
                 'expected' => true,
-                'string'   => 'The needle is at end.',
-                'needle'   => 'end',
+                'string' => 'The needle is at end.',
+                'needle' => 'end',
             ],
-            'lowercase'                 => [
+            'lowercase' => [
                 'expected' => true,
-                'string'   => 'This is a test',
-                'needle'   => 'test',
+                'string' => 'This is a test',
+                'needle' => 'test',
             ],
-            'uppercase'                 => [
+            'uppercase' => [
                 'expected' => true,
-                'string'   => 'This is a TEST',
-                'needle'   => 'TEST',
+                'string' => 'This is a TEST',
+                'needle' => 'TEST',
             ],
-            'camelCase'                 => [
+            'camelCase' => [
                 'expected' => true,
-                'string'   => 'String contains camelCase.',
-                'needle'   => 'camelCase',
+                'string' => 'String contains camelCase.',
+                'needle' => 'camelCase',
             ],
-            'with hyphen'               => [
+            'with hyphen' => [
                 'expected' => true,
-                'string'   => 'String contains foo-bar needle.',
-                'needle'   => 'foo-bar',
+                'string' => 'String contains foo-bar needle.',
+                'needle' => 'foo-bar',
             ],
-            'missing'                   => [
+            'missing' => [
                 'expected' => false,
                 'haystack' => 'This is a camelcase',
-                'needle'   => 'camelCase',
+                'needle' => 'camelCase',
             ],
         ];
     }

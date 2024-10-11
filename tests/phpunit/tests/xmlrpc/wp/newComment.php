@@ -24,28 +24,28 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
-        self::$user_ids                     = [
+        self::$user_ids = [
             'administrator' => self::make_user_by_role('administrator'),
-            'contributor'   => self::make_user_by_role('contributor'),
+            'contributor' => self::make_user_by_role('contributor'),
         ];
-        self::$posts['publish']             = $factory->post->create_and_get();
-        self::$posts['password']            = $factory->post->create_and_get(
+        self::$posts['publish'] = $factory->post->create_and_get();
+        self::$posts['password'] = $factory->post->create_and_get(
             [
                 'post_password' => 'xmlrpc',
-                'post_author'   => self::$user_ids['administrator'],
-            ]
+                'post_author' => self::$user_ids['administrator'],
+            ],
         );
-        self::$posts['private']             = $factory->post->create_and_get(
+        self::$posts['private'] = $factory->post->create_and_get(
             [
                 'post_status' => 'private',
                 'post_author' => self::$user_ids['administrator'],
-            ]
+            ],
         );
         self::$posts['private_contributor'] = $factory->post->create_and_get(
             [
                 'post_status' => 'private',
                 'post_author' => self::$user_ids['contributor'],
-            ]
+            ],
         );
     }
 
@@ -60,7 +60,7 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase
                 [
                     'content' => 'Content',
                 ],
-            ]
+            ],
         );
 
         $this->assertNotIXRError($result);
@@ -77,7 +77,7 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase
                 [
                     'content' => '',
                 ],
-            ]
+            ],
         );
 
         $this->assertIXRError($result);
@@ -98,7 +98,7 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase
                 [
                     'content' => '   ',
                 ],
-            ]
+            ],
         );
 
         $this->assertIXRError($result);
@@ -119,7 +119,7 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase
                 [
                     'content' => '0',
                 ],
-            ]
+            ],
         );
 
         $this->assertNotIXRError($result);
@@ -140,7 +140,7 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase
                 [
                     'content' => '   ',
                 ],
-            ]
+            ],
         );
 
         $this->assertNotIXRError($result);
@@ -151,7 +151,7 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase
         $post = self::factory()->post->create_and_get(
             [
                 'comment_status' => 'closed',
-            ]
+            ],
         );
 
         $this->assertSame('closed', $post->comment_status);
@@ -165,7 +165,7 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase
                 [
                     'content' => 'Content',
                 ],
-            ]
+            ],
         );
 
         $this->assertIXRError($result);
@@ -210,9 +210,9 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase
             '',
             self::$posts['publish']->ID,
             [
-                'author'       => 'waggypuppy',
+                'author' => 'waggypuppy',
                 'author_email' => 'noreply@wp.org',
-                'content'      => 'Test Anon Comments',
+                'content' => 'Test Anon Comments',
             ],
         ];
 
@@ -236,9 +236,9 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase
             '',
             self::$posts['publish']->ID,
             [
-                'author'       => 'waggypuppy',
+                'author' => 'waggypuppy',
                 'author_email' => 'noreply at wp.org',
-                'content'      => 'Test Anon Comments',
+                'content' => 'Test Anon Comments',
             ],
         ];
 
@@ -262,17 +262,17 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase
             'administrator',
             self::$posts['publish']->ID,
             [
-                'author'       => 'waggypuppy',
+                'author' => 'waggypuppy',
                 'author_email' => 'noreply at wp.org',
-                'content'      => 'Test Anon Comments',
+                'content' => 'Test Anon Comments',
             ],
         ];
 
-        $result  = $this->myxmlrpcserver->wp_newComment($comment_args);
+        $result = $this->myxmlrpcserver->wp_newComment($comment_args);
         $comment = get_comment($result);
         $user_id = get_user_by('login', 'administrator')->ID;
 
-        $this->assertSame($user_id, (int) $comment->user_id);
+        $this->assertSame($user_id, (int)$comment->user_id);
     }
 
     /**
@@ -280,13 +280,17 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase
      *
      * @dataProvider data_comments_observe_post_permissions
      *
-     * @param string $post_key      Post identifier from the self::$posts array.
-     * @param string $username      Username leaving comment.
-     * @param bool   $expected      Expected result. True: successful comment. False: Refused comment.
+     * @param string $post_key Post identifier from the self::$posts array.
+     * @param string $username Username leaving comment.
+     * @param bool $expected Expected result. True: successful comment. False: Refused comment.
      * @param string $anon_callback Optional. Allow anonymous comment callback. Default __return_false.
      */
-    public function test_comments_observe_post_permissions($post_key, $username, $expected, $anon_callback = '__return_false')
-    {
+    public function test_comments_observe_post_permissions(
+        $post_key,
+        $username,
+        $expected,
+        $anon_callback = '__return_false',
+    ) {
         add_filter('xmlrpc_allow_anonymous_comments', $anon_callback);
 
         $comment_args = [
@@ -295,9 +299,9 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase
             $username,
             self::$posts[$post_key]->ID,
             [
-                'author'       => 'waggypuppy',
+                'author' => 'waggypuppy',
                 'author_email' => 'noreply@wp.org',
-                'content'      => 'Test Comment',
+                'content' => 'Test Comment',
             ],
         ];
 
@@ -315,10 +319,10 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase
      * Data provider for test_comments_observe_post_permissions.
      *
      * @return array[] {
-     *     @type string Post identifier from the self::$posts array.
-     *     @type string Username leaving comment.
-     *     @type bool   Expected result. True: successful comment. False: Refused comment.
-     *     @type string Optional. Allow anonymous comment callback. Default __return_false.
+     * @type string Post identifier from the self::$posts array.
+     * @type string Username leaving comment.
+     * @type bool   Expected result. True: successful comment. False: Refused comment.
+     * @type string Optional. Allow anonymous comment callback. Default __return_false.
      * }
      */
     public function data_comments_observe_post_permissions()

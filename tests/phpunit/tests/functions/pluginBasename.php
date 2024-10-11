@@ -28,7 +28,7 @@ class Tests_Functions_PluginBasename extends WP_UnitTestCase
         parent::set_up();
 
         $this->wp_plugin_paths_backup = $GLOBALS['wp_plugin_paths'];
-        $this->wp_plugin_path         = wp_normalize_path(WP_PLUGIN_DIR);
+        $this->wp_plugin_path = wp_normalize_path(WP_PLUGIN_DIR);
     }
 
     public function tear_down()
@@ -62,7 +62,7 @@ class Tests_Functions_PluginBasename extends WP_UnitTestCase
 
         $wp_plugin_paths = [
             $this->wp_plugin_path . '/plugin' => '/Users/me/Dropbox/Development/Repositories/plugin',
-            $this->wp_plugin_path . '/trunk'  => '/Users/me/Dropbox/Development/Repositories/plugin/trunk',
+            $this->wp_plugin_path . '/trunk' => '/Users/me/Dropbox/Development/Repositories/plugin/trunk',
         ];
 
         $basename = plugin_basename('/Users/me/Dropbox/Development/Repositories/plugin/trunk/plugin.php');

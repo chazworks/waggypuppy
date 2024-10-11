@@ -13,7 +13,7 @@ class Tests_HTTP_Functions extends WP_UnitTestCase
     public function test_head_request()
     {
         // This URL gives a direct 200 response.
-        $url      = 'https://s.w.org/screenshots/3.9/dashboard.png';
+        $url = 'https://s.w.org/screenshots/3.9/dashboard.png';
         $response = wp_remote_head($url);
 
         $this->skipTestOnTimeout($response);
@@ -33,7 +33,7 @@ class Tests_HTTP_Functions extends WP_UnitTestCase
     public function test_head_redirect()
     {
         // This URL will 301 redirect.
-        $url      = 'https://wp.org/screenshots/3.9/dashboard.png';
+        $url = 'https://wp.org/screenshots/3.9/dashboard.png';
         $response = wp_remote_head($url);
 
         $this->skipTestOnTimeout($response);
@@ -46,7 +46,7 @@ class Tests_HTTP_Functions extends WP_UnitTestCase
      */
     public function test_head_404()
     {
-        $url      = 'https://wp.org/screenshots/3.9/awefasdfawef.jpg';
+        $url = 'https://wp.org/screenshots/3.9/awefasdfawef.jpg';
         $response = wp_remote_head($url);
 
         $this->skipTestOnTimeout($response);
@@ -167,12 +167,12 @@ class Tests_HTTP_Functions extends WP_UnitTestCase
                 'cookies' => [
                     new WP_Http_Cookie(
                         [
-                            'name'  => 'test',
+                            'name' => 'test',
                             'value' => 'foo',
-                        ]
+                        ],
                     ),
                 ],
-            ]
+            ],
         );
 
         $this->skipTestOnTimeout($response);
@@ -205,7 +205,7 @@ class Tests_HTTP_Functions extends WP_UnitTestCase
                 'cookies' => [
                     'test' => 'foo',
                 ],
-            ]
+            ],
         );
 
         $this->skipTestOnTimeout($response);

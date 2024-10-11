@@ -19,7 +19,7 @@ if (is_multisite()) :
 
             switch_to_blog($blog_id);
 
-            $first_page    = get_page_by_path('/sample-page');
+            $first_page = get_page_by_path('/sample-page');
             $first_comment = get_comments();
 
             restore_current_blog();
@@ -46,7 +46,7 @@ if (is_multisite()) :
 
             switch_to_blog($blog_id);
 
-            $first_page    = get_page_by_path('/sample-page');
+            $first_page = get_page_by_path('/sample-page');
             $first_comment = get_comments();
 
             restore_current_blog();
@@ -73,7 +73,7 @@ if (is_multisite()) :
 
             switch_to_blog($blog_id);
 
-            $first_page    = get_page_by_path('/sample-page');
+            $first_page = get_page_by_path('/sample-page');
             $first_comment = get_comments();
 
             restore_current_blog();

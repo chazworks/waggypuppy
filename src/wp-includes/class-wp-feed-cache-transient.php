@@ -46,28 +46,28 @@ class WP_Feed_Cache_Transient implements SimplePie\Cache\Base
     /**
      * Creates a new (transient) cache object.
      *
+     * @param string $location URL location (scheme is used to determine handler).
+     * @param string $name Unique identifier for cache object.
+     * @param Base::TYPE_FEED|Base::TYPE_IMAGE $type Either `TYPE_FEED` ('spc') for SimplePie data,
+     *                                                   or `TYPE_IMAGE` ('spi') for image data.
      * @since 2.8.0
      * @since 3.2.0 Updated to use a PHP5 constructor.
      * @since 6.7.0 Parameter names have been updated to be in line with the `SimplePie\Cache\Base` interface.
      *
-     * @param string                           $location URL location (scheme is used to determine handler).
-     * @param string                           $name     Unique identifier for cache object.
-     * @param Base::TYPE_FEED|Base::TYPE_IMAGE $type     Either `TYPE_FEED` ('spc') for SimplePie data,
-     *                                                   or `TYPE_IMAGE` ('spi') for image data.
      */
     public function __construct($location, $name, $type)
     {
-        $this->name     = 'feed_' . $name;
+        $this->name = 'feed_' . $name;
         $this->mod_name = 'feed_mod_' . $name;
 
         $lifetime = $this->lifetime;
         /**
          * Filters the transient lifetime of the feed cache.
          *
+         * @param int $lifetime Cache duration in seconds. Default is 43200 seconds (12 hours).
+         * @param string $name Unique identifier for the cache object.
          * @since 2.8.0
          *
-         * @param int    $lifetime Cache duration in seconds. Default is 43200 seconds (12 hours).
-         * @param string $name     Unique identifier for the cache object.
          */
         $this->lifetime = apply_filters('wp_feed_cache_transient_lifetime', $lifetime, $name);
     }
@@ -75,11 +75,11 @@ class WP_Feed_Cache_Transient implements SimplePie\Cache\Base
     /**
      * Saves data to the transient.
      *
-     * @since 2.8.0
-     *
      * @param array|SimplePie\SimplePie $data Data to save. If passed a SimplePie object,
      *                                        only cache the `$data` property.
      * @return true Always true.
+     * @since 2.8.0
+     *
      */
     public function save($data)
     {
@@ -95,9 +95,9 @@ class WP_Feed_Cache_Transient implements SimplePie\Cache\Base
     /**
      * Retrieves the data saved in the transient.
      *
+     * @return array Data for `SimplePie::$data`.
      * @since 2.8.0
      *
-     * @return array Data for `SimplePie::$data`.
      */
     public function load()
     {
@@ -107,9 +107,9 @@ class WP_Feed_Cache_Transient implements SimplePie\Cache\Base
     /**
      * Gets mod transient.
      *
+     * @return int Timestamp.
      * @since 2.8.0
      *
-     * @return int Timestamp.
      */
     public function mtime()
     {
@@ -119,9 +119,9 @@ class WP_Feed_Cache_Transient implements SimplePie\Cache\Base
     /**
      * Sets mod transient.
      *
+     * @return bool False if value was not set and true if value was set.
      * @since 2.8.0
      *
-     * @return bool False if value was not set and true if value was set.
      */
     public function touch()
     {
@@ -131,9 +131,9 @@ class WP_Feed_Cache_Transient implements SimplePie\Cache\Base
     /**
      * Deletes transients.
      *
+     * @return true Always true.
      * @since 2.8.0
      *
-     * @return true Always true.
      */
     public function unlink()
     {

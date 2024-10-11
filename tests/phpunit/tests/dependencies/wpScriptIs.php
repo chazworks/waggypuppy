@@ -60,7 +60,8 @@ class Tests_Dependencies_WpScriptIs extends WP_UnitTestCase
         // Test set up.
         wp_enqueue_script($handle);
 
-        $this->assertTrue(wp_script_is($handle), "Script `{$handle}` should be enqueued after invoking wp_enqueue_script()");
+        $this->assertTrue(wp_script_is($handle),
+            "Script `{$handle}` should be enqueued after invoking wp_enqueue_script()");
     }
 
     /**
@@ -94,15 +95,17 @@ class Tests_Dependencies_WpScriptIs extends WP_UnitTestCase
      *
      * @dataProvider data_deps_are_enqueued
      *
-     * @param string   $handle Script handle.
-     * @param string[] $deps   The deps to test for the given script handle.
+     * @param string $handle Script handle.
+     * @param string[] $deps The deps to test for the given script handle.
      */
     public function test_deps_are_enqueued($handle, $deps)
     {
         // Check the deps are not enqueued before enqueuing.
-        $this->assertFalse(wp_script_is($handle), 'Script `jquery-ui-accordion` should not be enqueued when test starts');
+        $this->assertFalse(wp_script_is($handle),
+            'Script `jquery-ui-accordion` should not be enqueued when test starts');
         foreach ($deps as $dep_handle) {
-            $this->assertFalse(wp_script_is($dep_handle), "Dependency `{$dep_handle}` should not be enqueued when test starts");
+            $this->assertFalse(wp_script_is($dep_handle),
+                "Dependency `{$dep_handle}` should not be enqueued when test starts");
         }
 
         // Test set up.
@@ -112,7 +115,8 @@ class Tests_Dependencies_WpScriptIs extends WP_UnitTestCase
             $this->assertTrue(wp_script_is($dep_handle), "Dependency `{$dep_handle}` should be enqueued");
         }
 
-        $this->assertFalse(wp_script_is('underscore'), 'Script "underscore" is not a dependency of "jquery-ui-accordion" and should not be enqueued');
+        $this->assertFalse(wp_script_is('underscore'),
+            'Script "underscore" is not a dependency of "jquery-ui-accordion" and should not be enqueued');
     }
 
     /**
@@ -123,23 +127,23 @@ class Tests_Dependencies_WpScriptIs extends WP_UnitTestCase
     public function data_deps_are_enqueued()
     {
         return [
-            'jquery: 1 level of deps'                 => [
+            'jquery: 1 level of deps' => [
                 'handle' => 'jquery',
-                'deps'   => [
+                'deps' => [
                     'jquery-core',
                     'jquery-migrate',
                 ],
             ],
-            'mediaelement: 1 level of deps'           => [
+            'mediaelement: 1 level of deps' => [
                 'handle' => 'mediaelement',
-                'deps'   => [
+                'deps' => [
                     'mediaelement-core',
                     'mediaelement-migrate',
                 ],
             ],
-            'jquery-effects-core: 2 levels of deps'   => [
+            'jquery-effects-core: 2 levels of deps' => [
                 'handle' => 'jquery-effects-core',
-                'deps'   => [
+                'deps' => [
                     // Dep to 'jquery-effects-core'.
                     'jquery',
                     // Deps to 'jquery'.
@@ -147,9 +151,9 @@ class Tests_Dependencies_WpScriptIs extends WP_UnitTestCase
                     'jquery-migrate',
                 ],
             ],
-            'jquery-ui-accordion: 3 levels of deps'   => [
+            'jquery-ui-accordion: 3 levels of deps' => [
                 'handle' => 'jquery-ui-accordion',
-                'deps'   => [
+                'deps' => [
                     // Dep to 'jquery-ui-accordion'.
                     'jquery-ui-core',
                     // Dep to 'jquery-ui-core'.
@@ -161,7 +165,7 @@ class Tests_Dependencies_WpScriptIs extends WP_UnitTestCase
             ],
             'wp-mediaelement: 2 and 3 levels of deps' => [
                 'handle' => 'wp-mediaelement',
-                'deps'   => [
+                'deps' => [
                     // Dep to 'wp-mediaelement'.
                     'mediaelement',
                     // Deps to 'mediaelement'.
@@ -181,7 +185,7 @@ class Tests_Dependencies_WpScriptIs extends WP_UnitTestCase
      *
      * @dataProvider data_non_deps_should_not_enqueue
      *
-     * @param string   $handle   Script handle.
+     * @param string $handle Script handle.
      * @param string[] $not_deps The handles that are not deps of the given script handle.
      */
     public function test_non_deps_are_not_enqueued($handle, $not_deps)
@@ -189,14 +193,16 @@ class Tests_Dependencies_WpScriptIs extends WP_UnitTestCase
         // Check the deps are not enqueued before enqueuing.
         $this->assertFalse(wp_script_is($handle), "Script `{$handle}` should not be enqueued when test starts");
         foreach ($not_deps as $not_dep_handle) {
-            $this->assertFalse(wp_script_is($not_dep_handle), "Dependency `{$not_dep_handle}` should not be enqueued when test starts");
+            $this->assertFalse(wp_script_is($not_dep_handle),
+                "Dependency `{$not_dep_handle}` should not be enqueued when test starts");
         }
 
         // Test set up.
         wp_enqueue_script($handle);
 
         foreach ($not_deps as $not_dep_handle) {
-            $this->assertFalse(wp_script_is($not_dep_handle), "Script `{$not_dep_handle}` should not be enqueued as it is not a dependency of `{$handle}`");
+            $this->assertFalse(wp_script_is($not_dep_handle),
+                "Script `{$not_dep_handle}` should not be enqueued as it is not a dependency of `{$handle}`");
         }
     }
 
@@ -209,30 +215,30 @@ class Tests_Dependencies_WpScriptIs extends WP_UnitTestCase
     {
         return [
             'imagesloaded: no dependencies' => [
-                'handle'   => 'imagesloaded',
+                'handle' => 'imagesloaded',
                 'not_deps' => [
                     'jquery',
                     'masonry',
                 ],
             ],
-            'wp-sanitize: no dependencies'  => [
-                'handle'   => 'wp-sanitize',
+            'wp-sanitize: no dependencies' => [
+                'handle' => 'wp-sanitize',
                 'not_deps' => [
                     'jquery',
                     'jquery-core',
                     'jquery-migrate',
                 ],
             ],
-            'jquery-ui-accordion'           => [
-                'handle'   => 'jquery-ui-accordion',
+            'jquery-ui-accordion' => [
+                'handle' => 'jquery-ui-accordion',
                 'not_deps' => [
                     'underscore',
                     'thickbox',
                     'jquery-effects-core',
                 ],
             ],
-            'jquery-ui-datepicker'          => [
-                'handle'   => 'jquery-ui-datepicker',
+            'jquery-ui-datepicker' => [
+                'handle' => 'jquery-ui-datepicker',
                 'not_deps' => [
                     'backbone',
                     'jquery-effects-core',

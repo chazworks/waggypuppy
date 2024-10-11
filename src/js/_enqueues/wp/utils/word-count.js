@@ -8,7 +8,7 @@
  * @output wp-admin/js/word-count.js
  */
 
-( function() {
+( function () {
 	/**
 	 * Word counting utility
 	 *
@@ -45,13 +45,11 @@
 	 * @return {void}
 	 */
 	function WordCounter( settings ) {
-		var key,
-			shortcodes;
+		var key, shortcodes;
 
 		// Apply provided settings to object settings.
 		if ( settings ) {
 			for ( key in settings ) {
-
 				// Only apply valid settings.
 				if ( settings.hasOwnProperty( key ) ) {
 					this.settings[ key ] = settings[ key ];
@@ -63,7 +61,10 @@
 
 		// If there are any localization shortcodes, add this as type in the settings.
 		if ( shortcodes && shortcodes.length ) {
-			this.settings.shortcodesRegExp = new RegExp( '\\[\\/?(?:' + shortcodes.join( '|' ) + ')[^\\]]*?\\]', 'g' );
+			this.settings.shortcodesRegExp = new RegExp(
+				'\\[\\/?(?:' + shortcodes.join( '|' ) + ')[^\\]]*?\\]',
+				'g'
+			);
 		}
 	}
 
@@ -78,8 +79,9 @@
 		connectorRegExp: /--|\u2014/g,
 
 		// Characters to be removed from input text.
-		removeRegExp: new RegExp( [
-			'[',
+		removeRegExp: new RegExp(
+			[
+				'[',
 
 				// Basic Latin (extract).
 				'\u0021-\u0040\u005B-\u0060\u007B-\u007E',
@@ -118,8 +120,10 @@
 
 				// Supplemental Punctuation.
 				'\u2E00-\u2E7F',
-			']'
-		].join( '' ), 'g' ),
+				']',
+			].join( '' ),
+			'g'
+		),
 
 		// Remove UTF-16 surrogate points, see https://en.wikipedia.org/wiki/UTF-16#U.2BD800_to_U.2BDFFF
 		astralRegExp: /[\uD800-\uDBFF][\uDC00-\uDFFF]/g,
@@ -138,7 +142,7 @@
 		 * \u2029 = paragraph separator
 		 */
 		characters_including_spacesRegExp: /[^\f\n\r\t\v\u00AD\u2028\u2029]/g,
-		l10n: window.wordCountL10n || {}
+		l10n: window.wordCountL10n || {},
 	};
 
 	/**
@@ -153,14 +157,17 @@
 	 *
 	 * @return {number} The number of items counted.
 	 */
-	WordCounter.prototype.count = function( text, type ) {
+	WordCounter.prototype.count = function ( text, type ) {
 		var count = 0;
 
 		// Use default type if none was provided.
 		type = type || this.settings.l10n.type;
 
 		// Sanitize type to one of three possibilities: 'words', 'characters_excluding_spaces' or 'characters_including_spaces'.
-		if ( type !== 'characters_excluding_spaces' && type !== 'characters_including_spaces' ) {
+		if (
+			type !== 'characters_excluding_spaces' &&
+			type !== 'characters_including_spaces'
+		) {
 			type = 'words';
 		}
 
@@ -183,7 +190,6 @@
 			text = text.replace( this.settings.spaceRegExp, ' ' );
 
 			if ( type === 'words' ) {
-
 				// Remove HTML Entities.
 				text = text.replace( this.settings.HTMLEntityRegExp, '' );
 
@@ -193,7 +199,6 @@
 				// Remove unwanted characters.
 				text = text.replace( this.settings.removeRegExp, '' );
 			} else {
-
 				// Convert HTML Entities to "a".
 				text = text.replace( this.settings.HTMLEntityRegExp, 'a' );
 

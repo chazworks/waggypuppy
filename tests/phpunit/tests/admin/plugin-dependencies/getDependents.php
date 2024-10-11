@@ -26,7 +26,7 @@ class Tests_Admin_WPPluginDependencies_GetDependents extends WP_PluginDependenci
         self::$instance::initialize();
         $this->assertSame(
             [],
-            self::$instance::get_dependents('dependency')
+            self::$instance::get_dependents('dependency'),
         );
     }
 
@@ -40,14 +40,14 @@ class Tests_Admin_WPPluginDependencies_GetDependents extends WP_PluginDependenci
         $this->set_property_value(
             'dependencies',
             [
-                'dependent/dependent.php'   => ['dependency'],
+                'dependent/dependent.php' => ['dependency'],
                 'dependent2/dependent2.php' => ['dependency'],
-            ]
+            ],
         );
 
         $this->assertSame(
             ['dependent/dependent.php', 'dependent2/dependent2.php'],
-            self::$instance::get_dependents('dependency')
+            self::$instance::get_dependents('dependency'),
         );
     }
 }

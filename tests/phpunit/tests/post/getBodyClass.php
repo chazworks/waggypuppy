@@ -67,20 +67,20 @@ class Tests_Post_GetBodyClass extends WP_UnitTestCase
         $term_id1 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-                'name'     => 'Первая метка',
-            ]
+                'name' => 'Первая метка',
+            ],
         );
         $term_id2 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-                'name'     => 'Вторая метка',
-            ]
+                'name' => 'Вторая метка',
+            ],
         );
         $term_id3 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-                'name'     => '25кадр',
-            ]
+                'name' => '25кадр',
+            ],
         );
         wp_set_post_terms($this->post_id, [$term_id1, $term_id2, $term_id3], 'wptests_tax');
 
@@ -118,7 +118,7 @@ class Tests_Post_GetBodyClass extends WP_UnitTestCase
         $post_id = self::factory()->post->create(
             [
                 'post_type' => 'page',
-            ]
+            ],
         );
         $this->go_to(get_permalink($post_id));
 
@@ -133,7 +133,7 @@ class Tests_Post_GetBodyClass extends WP_UnitTestCase
         $post_id = self::factory()->post->create(
             [
                 'post_type' => 'page',
-            ]
+            ],
         );
 
         add_post_meta($post_id, '_wp_page_template', 'templates/cpt.php');
@@ -156,7 +156,7 @@ class Tests_Post_GetBodyClass extends WP_UnitTestCase
         $post_id = self::factory()->post->create(
             [
                 'post_type' => 'attachment',
-            ]
+            ],
         );
 
         add_post_meta($post_id, '_wp_page_template', 'templates/cpt.php');
@@ -202,7 +202,7 @@ class Tests_Post_GetBodyClass extends WP_UnitTestCase
             $post_id,
             [
                 'post_mime_type' => 'image/jpeg',
-            ]
+            ],
         );
 
         $this->go_to(get_permalink($attachment_id));
@@ -222,7 +222,7 @@ class Tests_Post_GetBodyClass extends WP_UnitTestCase
         add_theme_support('custom-background', ['default-color', '#ffffff']);
         set_theme_mod('background_color', '#000000');
 
-        $class                     = get_body_class();
+        $class = get_body_class();
         $theme_supports_background = current_theme_supports('custom-background');
 
         remove_theme_mod('background_color');
@@ -239,7 +239,7 @@ class Tests_Post_GetBodyClass extends WP_UnitTestCase
     {
         set_theme_mod('background_color', '#000000');
 
-        $class                     = get_body_class();
+        $class = get_body_class();
         $theme_supports_background = current_theme_supports('custom-background');
 
         remove_theme_mod('background_color');
@@ -256,9 +256,9 @@ class Tests_Post_GetBodyClass extends WP_UnitTestCase
     {
         $page_id = self::factory()->post->create(
             [
-                'post_type'  => 'page',
+                'post_type' => 'page',
                 'post_title' => 'Privacy Policy',
-            ]
+            ],
         );
         update_option('wp_page_for_privacy_policy', $page_id);
 

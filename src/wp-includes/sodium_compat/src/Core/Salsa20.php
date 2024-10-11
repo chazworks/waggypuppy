@@ -14,13 +14,13 @@ abstract class ParagonIE_Sodium_Core_Salsa20 extends ParagonIE_Sodium_Core_Util
     /**
      * Calculate an salsa20 hash of a single block
      *
-     * @internal You should not use this directly from another application
-     *
      * @param string $in
      * @param string $k
      * @param string|null $c
      * @return string
      * @throws TypeError
+     * @internal You should not use this directly from another application
+     *
      */
     public static function core_salsa20($in, $k, $c = null)
     {
@@ -28,24 +28,24 @@ abstract class ParagonIE_Sodium_Core_Salsa20 extends ParagonIE_Sodium_Core_Util
             throw new RangeException('Key must be 32 bytes long');
         }
         if ($c === null) {
-            $j0  = $x0  = 0x61707865;
-            $j5  = $x5  = 0x3320646e;
+            $j0 = $x0 = 0x61707865;
+            $j5 = $x5 = 0x3320646e;
             $j10 = $x10 = 0x79622d32;
             $j15 = $x15 = 0x6b206574;
         } else {
-            $j0  = $x0  = self::load_4(self::substr($c, 0, 4));
-            $j5  = $x5  = self::load_4(self::substr($c, 4, 4));
+            $j0 = $x0 = self::load_4(self::substr($c, 0, 4));
+            $j5 = $x5 = self::load_4(self::substr($c, 4, 4));
             $j10 = $x10 = self::load_4(self::substr($c, 8, 4));
             $j15 = $x15 = self::load_4(self::substr($c, 12, 4));
         }
-        $j1  = $x1  = self::load_4(self::substr($k, 0, 4));
-        $j2  = $x2  = self::load_4(self::substr($k, 4, 4));
-        $j3  = $x3  = self::load_4(self::substr($k, 8, 4));
-        $j4  = $x4  = self::load_4(self::substr($k, 12, 4));
-        $j6  = $x6  = self::load_4(self::substr($in, 0, 4));
-        $j7  = $x7  = self::load_4(self::substr($in, 4, 4));
-        $j8  = $x8  = self::load_4(self::substr($in, 8, 4));
-        $j9  = $x9  = self::load_4(self::substr($in, 12, 4));
+        $j1 = $x1 = self::load_4(self::substr($k, 0, 4));
+        $j2 = $x2 = self::load_4(self::substr($k, 4, 4));
+        $j3 = $x3 = self::load_4(self::substr($k, 8, 4));
+        $j4 = $x4 = self::load_4(self::substr($k, 12, 4));
+        $j6 = $x6 = self::load_4(self::substr($in, 0, 4));
+        $j7 = $x7 = self::load_4(self::substr($in, 4, 4));
+        $j8 = $x8 = self::load_4(self::substr($in, 8, 4));
+        $j9 = $x9 = self::load_4(self::substr($in, 12, 4));
         $j11 = $x11 = self::load_4(self::substr($k, 16, 4));
         $j12 = $x12 = self::load_4(self::substr($k, 20, 4));
         $j13 = $x13 = self::load_4(self::substr($k, 24, 4));
@@ -93,16 +93,16 @@ abstract class ParagonIE_Sodium_Core_Salsa20 extends ParagonIE_Sodium_Core_Util
             $x15 ^= self::rotate($x14 + $x13, 18);
         }
 
-        $x0  += $j0;
-        $x1  += $j1;
-        $x2  += $j2;
-        $x3  += $j3;
-        $x4  += $j4;
-        $x5  += $j5;
-        $x6  += $j6;
-        $x7  += $j7;
-        $x8  += $j8;
-        $x9  += $j9;
+        $x0 += $j0;
+        $x1 += $j1;
+        $x2 += $j2;
+        $x3 += $j3;
+        $x4 += $j4;
+        $x5 += $j5;
+        $x6 += $j6;
+        $x7 += $j7;
+        $x8 += $j8;
+        $x9 += $j9;
         $x10 += $j10;
         $x11 += $j11;
         $x12 += $j12;
@@ -129,14 +129,14 @@ abstract class ParagonIE_Sodium_Core_Salsa20 extends ParagonIE_Sodium_Core_Util
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param int $len
      * @param string $nonce
      * @param string $key
      * @return string
      * @throws SodiumException
      * @throws TypeError
+     * @internal You should not use this directly from another application
+     *
      */
     public static function salsa20($len, $nonce, $key)
     {
@@ -161,7 +161,7 @@ abstract class ParagonIE_Sodium_Core_Salsa20 extends ParagonIE_Sodium_Core_Util
             $c .= self::substr(
                 self::core_salsa20($in, $kcopy, null),
                 0,
-                $len
+                $len,
             );
         }
         try {
@@ -173,8 +173,6 @@ abstract class ParagonIE_Sodium_Core_Salsa20 extends ParagonIE_Sodium_Core_Util
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param string $m
      * @param string $n
      * @param int $ic
@@ -182,6 +180,8 @@ abstract class ParagonIE_Sodium_Core_Salsa20 extends ParagonIE_Sodium_Core_Util
      * @return string
      * @throws SodiumException
      * @throws TypeError
+     * @internal You should not use this directly from another application
+     *
      */
     public static function salsa20_xor_ic($m, $n, $ic, $k)
     {
@@ -199,7 +199,7 @@ abstract class ParagonIE_Sodium_Core_Salsa20 extends ParagonIE_Sodium_Core_Util
             $block = self::core_salsa20($in, $kcopy, null);
             $c .= self::xorStrings(
                 self::substr($m, 0, 64),
-                self::substr($block, 0, 64)
+                self::substr($block, 0, 64),
             );
             $u = 1;
             for ($i = 8; $i < 16; ++$i) {
@@ -216,7 +216,7 @@ abstract class ParagonIE_Sodium_Core_Salsa20 extends ParagonIE_Sodium_Core_Util
             $block = self::core_salsa20($in, $kcopy, null);
             $c .= self::xorStrings(
                 self::substr($m, 0, $mlen),
-                self::substr($block, 0, $mlen)
+                self::substr($block, 0, $mlen),
             );
         }
         try {
@@ -231,14 +231,14 @@ abstract class ParagonIE_Sodium_Core_Salsa20 extends ParagonIE_Sodium_Core_Util
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param string $message
      * @param string $nonce
      * @param string $key
      * @return string
      * @throws SodiumException
      * @throws TypeError
+     * @internal You should not use this directly from another application
+     *
      */
     public static function salsa20_xor($message, $nonce, $key)
     {
@@ -247,25 +247,25 @@ abstract class ParagonIE_Sodium_Core_Salsa20 extends ParagonIE_Sodium_Core_Util
             self::salsa20(
                 self::strlen($message),
                 $nonce,
-                $key
-            )
+                $key,
+            ),
         );
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param int $u
      * @param int $c
      * @return int
+     * @internal You should not use this directly from another application
+     *
      */
     public static function rotate($u, $c)
     {
         $u &= 0xffffffff;
         $c %= 32;
-        return (int) (0xffffffff & (
+        return (int)(0xffffffff & (
                 ($u << $c)
-                    |
+                |
                 ($u >> (32 - $c))
             )
         );

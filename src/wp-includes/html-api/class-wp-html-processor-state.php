@@ -451,7 +451,7 @@ class WP_HTML_Processor_State
      */
     public function __construct()
     {
-        $this->stack_of_open_elements     = new WP_HTML_Open_Elements();
+        $this->stack_of_open_elements = new WP_HTML_Open_Elements();
         $this->active_formatting_elements = new WP_HTML_Active_Formatting_Elements();
     }
 }

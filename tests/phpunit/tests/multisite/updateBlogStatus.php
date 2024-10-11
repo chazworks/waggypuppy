@@ -53,12 +53,12 @@ if (is_multisite()) :
         {
             $spam_blog_id = self::factory()->blog->create();
             switch_to_blog($spam_blog_id);
-            $post_data      = [
-                'post_title'   => 'Hello World!',
+            $post_data = [
+                'post_title' => 'Hello World!',
                 'post_content' => 'Hello world content',
             ];
-            $post_id        = self::factory()->post->create($post_data);
-            $post           = get_post($post_id);
+            $post_id = self::factory()->post->create($post_data);
+            $post = get_post($post_id);
             $spam_permalink = site_url() . '/?p=' . $post->ID;
             $spam_embed_url = get_post_embed_url($post_id);
 
@@ -71,9 +71,9 @@ if (is_multisite()) :
             $post_id = self::factory()->post->create(
                 [
                     'post_content' => "\n $spam_permalink \n",
-                ]
+                ],
             );
-            $post    = get_post($post_id);
+            $post = get_post($post_id);
             $content = apply_filters('the_content', $post->post_content);
 
             $this->assertStringNotContainsString($post_data['post_title'], $content);

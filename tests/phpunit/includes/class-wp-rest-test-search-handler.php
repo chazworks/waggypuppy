@@ -24,11 +24,11 @@ class WP_REST_Test_Search_Handler extends WP_REST_Search_Handler
         for ($i = 1; $i <= $amount; $i++) {
             $subtype = $i > $amount / 2 ? 'test_second_type' : 'test_first_type';
 
-            $this->items[$i] = (object) [
-                'test_id'    => $i,
+            $this->items[$i] = (object)[
+                'test_id' => $i,
                 'test_title' => sprintf('Title %d', $i),
-                'test_url'   => sprintf(home_url('/tests/%d'), $i),
-                'test_type'  => $subtype,
+                'test_url' => sprintf(home_url('/tests/%d'), $i),
+                'test_type' => $subtype,
             ];
         }
     }
@@ -47,15 +47,15 @@ class WP_REST_Test_Search_Handler extends WP_REST_Search_Handler
 
         $results = wp_list_sort($results, 'test_id', 'DESC');
 
-        $number = (int) $request['per_page'];
-        $offset = (int) $request['per_page'] * ((int) $request['page'] - 1);
+        $number = (int)$request['per_page'];
+        $offset = (int)$request['per_page'] * ((int)$request['page'] - 1);
 
         $total = count($results);
 
         $results = array_slice($results, $offset, $number);
 
         return [
-            self::RESULT_IDS   => wp_list_pluck($results, 'test_id'),
+            self::RESULT_IDS => wp_list_pluck($results, 'test_id'),
             self::RESULT_TOTAL => $total,
         ];
     }
@@ -67,7 +67,7 @@ class WP_REST_Test_Search_Handler extends WP_REST_Search_Handler
         $data = [];
 
         if (in_array(WP_REST_Search_Controller::PROP_ID, $fields, true)) {
-            $data[WP_REST_Search_Controller::PROP_ID] = (int) $test->test_id;
+            $data[WP_REST_Search_Controller::PROP_ID] = (int)$test->test_id;
         }
 
         if (in_array(WP_REST_Search_Controller::PROP_TITLE, $fields, true)) {

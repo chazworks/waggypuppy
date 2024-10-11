@@ -15,6 +15,7 @@ class Tests_Option_SanitizeOption extends WP_UnitTestCase
     {
         $this->assertSame($sanitized, sanitize_option($option_name, $original));
     }
+
     /**
      * Data provider to test all of the sanitize_option() case
      *
@@ -85,8 +86,8 @@ class Tests_Option_SanitizeOption extends WP_UnitTestCase
             // @ticket 56468
             'deprecated timezone string is accepted as valid' => [
                 'option_name' => 'timezone_string',
-                'sanitized'   => 'America/Buenos_Aires',
-                'original'    => 'America/Buenos_Aires',
+                'sanitized' => 'America/Buenos_Aires',
+                'original' => 'America/Buenos_Aires',
             ],
             ['permalink_structure', '', ''],
             ['permalink_structure', '/%year%/%20%postname%', '/%year%/ %postname%'],
@@ -149,7 +150,7 @@ class Tests_Option_SanitizeOption extends WP_UnitTestCase
     {
         global $wp_settings_errors;
 
-        $old_wp_settings_errors = (array) $wp_settings_errors;
+        $old_wp_settings_errors = (array)$wp_settings_errors;
 
         $actual = sanitize_option('permalink_structure', $provided);
         $errors = get_settings_errors('permalink_structure');

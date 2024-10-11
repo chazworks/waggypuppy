@@ -34,8 +34,8 @@ class WP_Translation_Controller_Tests extends WP_UnitTestCase
         $compat_instance = $l10n['wp-tests-domain'] ?? null;
 
         $is_loaded = WP_Translation_Controller::get_instance()->is_textdomain_loaded('wp-tests-domain');
-        $headers   = WP_Translation_Controller::get_instance()->get_headers('wp-tests-domain');
-        $entries   = WP_Translation_Controller::get_instance()->get_entries('wp-tests-domain');
+        $headers = WP_Translation_Controller::get_instance()->get_headers('wp-tests-domain');
+        $entries = WP_Translation_Controller::get_instance()->get_entries('wp-tests-domain');
 
         $unload_successful = unload_textdomain('wp-tests-domain');
 
@@ -50,19 +50,19 @@ class WP_Translation_Controller_Tests extends WP_UnitTestCase
         $this->assertTrue($is_loaded, 'Text domain not considered loaded');
         $this->assertEqualSetsWithIndex(
             [
-                'Project-Id-Version'   => 'WordPress 2.6-bleeding',
+                'Project-Id-Version' => 'WordPress 2.6-bleeding',
                 'Report-Msgid-Bugs-To' => 'wp-polyglots@lists.automattic.com',
             ],
             $headers,
-            'Actual translation headers do not match expected ones'
+            'Actual translation headers do not match expected ones',
         );
         $this->assertEqualSetsWithIndex(
             [
-                'baba'       => 'dyado',
+                'baba' => 'dyado',
                 "kuku\nruku" => 'yes',
             ],
             $entries,
-            'Actual translation entries do not match expected ones'
+            'Actual translation entries do not match expected ones',
         );
     }
 
@@ -112,7 +112,7 @@ class WP_Translation_Controller_Tests extends WP_UnitTestCase
 
         $is_loaded = $instance->is_textdomain_loaded('wp-tests-domain', 'en_US');
 
-        $unload_mo  = $instance->unload_file(DIR_TESTDATA . '/pomo/simple.mo', 'wp-tests-domain');
+        $unload_mo = $instance->unload_file(DIR_TESTDATA . '/pomo/simple.mo', 'wp-tests-domain');
         $unload_php = $instance->unload_file(DIR_TESTDATA . '/pomo/simple.l10n.php', 'wp-tests-domain');
 
         $unload_successful = unload_textdomain('wp-tests-domain');
@@ -133,7 +133,7 @@ class WP_Translation_Controller_Tests extends WP_UnitTestCase
             'translation_file_format',
             static function () {
                 return 'unknown-format';
-            }
+            },
         );
 
         $load_mo_successful = load_textdomain('wp-tests-domain', DIR_TESTDATA . '/pomo/simple.mo');
@@ -166,7 +166,7 @@ class WP_Translation_Controller_Tests extends WP_UnitTestCase
         $mo->merge_with($l10n['wp-tests-domain']);
         $l10n['wp-tests-domain'] = $mo;
 
-        $simple  = __('baba', 'wp-tests-domain');
+        $simple = __('baba', 'wp-tests-domain');
         $context = _x('one dragon', 'not so dragon', 'wp-tests-domain');
 
         $this->assertSame('dyado', $simple);
@@ -187,7 +187,7 @@ class WP_Translation_Controller_Tests extends WP_UnitTestCase
 
         load_textdomain('wp-tests-domain', DIR_TESTDATA . '/pomo/context.mo');
 
-        $simple  = __('baba', 'wp-tests-domain');
+        $simple = __('baba', 'wp-tests-domain');
         $context = _x('one dragon', 'not so dragon', 'wp-tests-domain');
 
         $this->assertSame('dyado', $simple);
@@ -206,7 +206,7 @@ class WP_Translation_Controller_Tests extends WP_UnitTestCase
             'translation_file_format',
             static function () {
                 return 'mo';
-            }
+            },
         );
 
         load_textdomain('wp-tests-domain', DIR_TESTDATA . '/pomo/simple.mo');
@@ -217,7 +217,7 @@ class WP_Translation_Controller_Tests extends WP_UnitTestCase
 
         load_textdomain('wp-tests-domain', DIR_TESTDATA . '/pomo/context.mo');
 
-        $simple  = __('baba', 'wp-tests-domain');
+        $simple = __('baba', 'wp-tests-domain');
         $context = _x('one dragon', 'not so dragon', 'wp-tests-domain');
 
         $this->assertSame('dyado', $simple);
@@ -245,7 +245,7 @@ class WP_Translation_Controller_Tests extends WP_UnitTestCase
 
         load_textdomain('wp-tests-domain', DIR_TESTDATA . '/pomo/context.mo');
 
-        $simple  = __('baba', 'wp-tests-domain');
+        $simple = __('baba', 'wp-tests-domain');
         $context = _x('one dragon', 'not so dragon', 'wp-tests-domain');
 
         $this->assertSame('dyado', $simple);
@@ -272,8 +272,8 @@ class WP_Translation_Controller_Tests extends WP_UnitTestCase
         $compat_instance = $l10n['wp-tests-domain'] ?? null;
 
         $is_loaded = WP_Translation_Controller::get_instance()->is_textdomain_loaded('wp-tests-domain');
-        $headers   = WP_Translation_Controller::get_instance()->get_headers('wp-tests-domain');
-        $entries   = WP_Translation_Controller::get_instance()->get_entries('wp-tests-domain');
+        $headers = WP_Translation_Controller::get_instance()->get_headers('wp-tests-domain');
+        $entries = WP_Translation_Controller::get_instance()->get_entries('wp-tests-domain');
 
         $this->assertNull($compat_instance, 'Compat instance was not removed');
         $this->assertTrue($unload_successful, 'Text domain not successfully unloaded');
@@ -363,7 +363,8 @@ class WP_Translation_Controller_Tests extends WP_UnitTestCase
         $actual = i18n_plugin_test();
 
         $this->assertSame('es_ES', WP_Translation_Controller::get_instance()->get_locale());
-        $this->assertTrue(WP_Translation_Controller::get_instance()->is_textdomain_loaded('internationalized-plugin', 'es_ES'));
+        $this->assertTrue(WP_Translation_Controller::get_instance()->is_textdomain_loaded('internationalized-plugin',
+            'es_ES'));
         $this->assertTrue(WP_Translation_Controller::get_instance()->is_textdomain_loaded('default', 'es_ES'));
         $this->assertFalse(WP_Translation_Controller::get_instance()->is_textdomain_loaded('foo-bar', 'es_ES'));
 
@@ -371,7 +372,8 @@ class WP_Translation_Controller_Tests extends WP_UnitTestCase
 
         $after = i18n_plugin_test();
 
-        $this->assertTrue(WP_Translation_Controller::get_instance()->is_textdomain_loaded('internationalized-plugin', 'es_ES'));
+        $this->assertTrue(WP_Translation_Controller::get_instance()->is_textdomain_loaded('internationalized-plugin',
+            'es_ES'));
 
         $this->assertSame('This is a dummy plugin', $before);
         $this->assertSame('Este es un plugin dummy', $actual);
@@ -385,7 +387,8 @@ class WP_Translation_Controller_Tests extends WP_UnitTestCase
     public function test_has_translation_with_existing_translation()
     {
         load_textdomain('wp-tests-domain', DIR_TESTDATA . '/pomo/simple.mo');
-        $this->assertTrue(WP_Translation_Controller::get_instance()->has_translation('baba', 'wp-tests-domain', 'en_US'));
+        $this->assertTrue(WP_Translation_Controller::get_instance()->has_translation('baba', 'wp-tests-domain',
+            'en_US'));
     }
 
     /**
@@ -394,7 +397,8 @@ class WP_Translation_Controller_Tests extends WP_UnitTestCase
      */
     public function test_has_translation_with_no_translation()
     {
-        $this->assertFalse(WP_Translation_Controller::get_instance()->has_translation('Goodbye', 'wp-tests-domain', 'en_US'));
+        $this->assertFalse(WP_Translation_Controller::get_instance()->has_translation('Goodbye', 'wp-tests-domain',
+            'en_US'));
     }
 
     /**
@@ -404,7 +408,8 @@ class WP_Translation_Controller_Tests extends WP_UnitTestCase
     public function test_has_translation_with_different_textdomain()
     {
         load_textdomain('wp-tests-domain', DIR_TESTDATA . '/pomo/simple.mo');
-        $this->assertFalse(WP_Translation_Controller::get_instance()->has_translation('baba', 'custom-domain', 'en_US'));
+        $this->assertFalse(WP_Translation_Controller::get_instance()->has_translation('baba', 'custom-domain',
+            'en_US'));
     }
 
     /**

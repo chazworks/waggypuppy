@@ -158,7 +158,7 @@ module.exports = function (
 		noErrorOnMissing: true,
 	} ) );
 
-  const phpCopies = [];
+	const phpCopies = [];
 
 	const baseConfig = getBaseConfig( env );
 	const config = {

@@ -6,9 +6,9 @@
  * This is only needed for auto-drafts created by the regular WP editor.
  * If this page is to be removed, this will not be necessary.
  *
+ * @param int $post_id Post ID.
  * @since 5.9.0
  *
- * @param int $post_id Post ID.
  */
 function wp_set_unique_slug_on_create_template_part($post_id)
 {
@@ -17,17 +17,17 @@ function wp_set_unique_slug_on_create_template_part($post_id)
         return;
     }
 
-    if (! $post->post_name) {
+    if (!$post->post_name) {
         wp_update_post(
             [
-                'ID'        => $post_id,
+                'ID' => $post_id,
                 'post_name' => 'custom_slug_' . uniqid(),
-            ]
+            ],
         );
     }
 
     $terms = get_the_terms($post_id, 'wp_theme');
-    if (! is_array($terms) || ! count($terms)) {
+    if (!is_array($terms) || !count($terms)) {
         wp_set_post_terms($post_id, get_stylesheet(), 'wp_theme');
     }
 }
@@ -36,14 +36,14 @@ function wp_set_unique_slug_on_create_template_part($post_id)
  * Generates a unique slug for templates.
  *
  * @access private
+ * @param string $override_slug The filtered value of the slug (starts as `null` from apply_filter).
+ * @param string $slug The original/un-filtered slug (post_name).
+ * @param int $post_id Post ID.
+ * @param string $post_status No uniqueness checks are made if the post is still draft or pending.
+ * @param string $post_type Post type.
+ * @return string The original, desired slug.
  * @since 5.8.0
  *
- * @param string $override_slug The filtered value of the slug (starts as `null` from apply_filter).
- * @param string $slug          The original/un-filtered slug (post_name).
- * @param int    $post_id       Post ID.
- * @param string $post_status   No uniqueness checks are made if the post is still draft or pending.
- * @param string $post_type     Post type.
- * @return string The original, desired slug.
  */
 function wp_filter_wp_template_unique_post_slug($override_slug, $slug, $post_id, $post_status, $post_type)
 {
@@ -51,7 +51,7 @@ function wp_filter_wp_template_unique_post_slug($override_slug, $slug, $post_id,
         return $override_slug;
     }
 
-    if (! $override_slug) {
+    if (!$override_slug) {
         $override_slug = $slug;
     }
 
@@ -64,34 +64,34 @@ function wp_filter_wp_template_unique_post_slug($override_slug, $slug, $post_id,
      */
     $theme = get_stylesheet();
     $terms = get_the_terms($post_id, 'wp_theme');
-    if ($terms && ! is_wp_error($terms)) {
+    if ($terms && !is_wp_error($terms)) {
         $theme = $terms[0]->name;
     }
 
     $check_query_args = [
-        'post_name__in'  => [$override_slug],
-        'post_type'      => $post_type,
+        'post_name__in' => [$override_slug],
+        'post_type' => $post_type,
         'posts_per_page' => 1,
-        'no_found_rows'  => true,
-        'post__not_in'   => [$post_id],
-        'tax_query'      => [
+        'no_found_rows' => true,
+        'post__not_in' => [$post_id],
+        'tax_query' => [
             [
                 'taxonomy' => 'wp_theme',
-                'field'    => 'name',
-                'terms'    => $theme,
+                'field' => 'name',
+                'terms' => $theme,
             ],
         ],
     ];
-    $check_query      = new WP_Query($check_query_args);
-    $posts            = $check_query->posts;
+    $check_query = new WP_Query($check_query_args);
+    $posts = $check_query->posts;
 
     if (count($posts) > 0) {
         $suffix = 2;
         do {
-            $query_args                  = $check_query_args;
-            $alt_post_name               = _truncate_post_slug($override_slug, 200 - (strlen($suffix) + 1)) . "-$suffix";
+            $query_args = $check_query_args;
+            $alt_post_name = _truncate_post_slug($override_slug, 200 - (strlen($suffix) + 1)) . "-$suffix";
             $query_args['post_name__in'] = [$alt_post_name];
-            $query                       = new WP_Query($query_args);
+            $query = new WP_Query($query_args);
             ++$suffix;
         } while (count($query->posts) > 0);
         $override_slug = $alt_post_name;
@@ -113,18 +113,18 @@ function wp_enqueue_block_template_skip_link()
     global $_wp_current_template_content;
 
     // Back-compat for plugins that disable functionality by unhooking this action.
-    if (! has_action('wp_footer', 'the_block_template_skip_link')) {
+    if (!has_action('wp_footer', 'the_block_template_skip_link')) {
         return;
     }
     remove_action('wp_footer', 'the_block_template_skip_link');
 
     // Early exit if not a block theme.
-    if (! current_theme_supports('block-templates')) {
+    if (!current_theme_supports('block-templates')) {
         return;
     }
 
     // Early exit if not a block template.
-    if (! $_wp_current_template_content) {
+    if (!$_wp_current_template_content) {
         return;
     }
 
@@ -174,48 +174,48 @@ function wp_enqueue_block_template_skip_link()
     ob_start();
     ?>
     <script>
-    ( function() {
-        var skipLinkTarget = document.querySelector( 'main' ),
-            sibling,
-            skipLinkTargetID,
-            skipLink;
+        (function () {
+            var skipLinkTarget = document.querySelector('main'),
+                sibling,
+                skipLinkTargetID,
+                skipLink;
 
-        // Early exit if a skip-link target can't be located.
-        if ( ! skipLinkTarget ) {
-            return;
-        }
+            // Early exit if a skip-link target can't be located.
+            if (!skipLinkTarget) {
+                return;
+            }
 
-        /*
-         * Get the site wrapper.
-         * The skip-link will be injected in the beginning of it.
-         */
-        sibling = document.querySelector( '.wp-site-blocks' );
+            /*
+             * Get the site wrapper.
+             * The skip-link will be injected in the beginning of it.
+             */
+            sibling = document.querySelector('.wp-site-blocks');
 
-        // Early exit if the root element was not found.
-        if ( ! sibling ) {
-            return;
-        }
+            // Early exit if the root element was not found.
+            if (!sibling) {
+                return;
+            }
 
-        // Get the skip-link target's ID, and generate one if it doesn't exist.
-        skipLinkTargetID = skipLinkTarget.id;
-        if ( ! skipLinkTargetID ) {
-            skipLinkTargetID = 'wp--skip-link--target';
-            skipLinkTarget.id = skipLinkTargetID;
-        }
+            // Get the skip-link target's ID, and generate one if it doesn't exist.
+            skipLinkTargetID = skipLinkTarget.id;
+            if (!skipLinkTargetID) {
+                skipLinkTargetID = 'wp--skip-link--target';
+                skipLinkTarget.id = skipLinkTargetID;
+            }
 
-        // Create the skip link.
-        skipLink = document.createElement( 'a' );
-        skipLink.classList.add( 'skip-link', 'screen-reader-text' );
-        skipLink.href = '#' + skipLinkTargetID;
-        skipLink.innerHTML = '<?php /* translators: Hidden accessibility text. */ esc_html_e('Skip to content'); ?>';
+            // Create the skip link.
+            skipLink = document.createElement('a');
+            skipLink.classList.add('skip-link', 'screen-reader-text');
+            skipLink.href = '#' + skipLinkTargetID;
+            skipLink.innerHTML = '<?php /* translators: Hidden accessibility text. */ esc_html_e('Skip to content'); ?>';
 
-        // Inject the skip link.
-        sibling.parentElement.insertBefore( skipLink, sibling );
-    }() );
+            // Inject the skip link.
+            sibling.parentElement.insertBefore(skipLink, sibling);
+        }());
     </script>
     <?php
     $skip_link_script = wp_remove_surrounding_empty_script_tags(ob_get_clean());
-    $script_handle    = 'wp-block-template-skip-link';
+    $script_handle = 'wp-block-template-skip-link';
     wp_register_script($script_handle, false, [], false, ['in_footer' => true]);
     wp_add_inline_script($script_handle, $skip_link_script);
     wp_enqueue_script($script_handle);

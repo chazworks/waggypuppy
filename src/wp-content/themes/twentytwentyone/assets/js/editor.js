@@ -1,5 +1,5 @@
 /* global setTimeout */
-wp.domReady( function() {
+wp.domReady( function () {
 	// Unregister "Wide" Separator Style.
 	wp.blocks.unregisterBlockStyle( 'core/separator', 'wide' );
 
@@ -18,7 +18,7 @@ wp.domReady( function() {
 		if ( null === editor ) {
 			// Try again.
 			if ( attempt < maxAttempts ) {
-				setTimeout( function() {
+				setTimeout( function () {
 					twentytwentyoneCopyDarkThemeClass();
 				}, attemptDelay );
 

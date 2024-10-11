@@ -169,18 +169,18 @@ class WP_HTML_Doctype_Info
      *
      * @since 6.7.0
      *
-     * @param string|null $name              Name of the DOCTYPE.
+     * @param string|null $name Name of the DOCTYPE.
      * @param string|null $public_identifier Public identifier of the DOCTYPE.
      * @param string|null $system_identifier System identifier of the DOCTYPE.
-     * @param bool        $force_quirks_flag Whether the force-quirks flag is set for the token.
+     * @param bool $force_quirks_flag Whether the force-quirks flag is set for the token.
      */
     private function __construct(
         ?string $name,
         ?string $public_identifier,
         ?string $system_identifier,
-        bool $force_quirks_flag
+        bool $force_quirks_flag,
     ) {
-        $this->name              = $name;
+        $this->name = $name;
         $this->public_identifier = $public_identifier;
         $this->system_identifier = $system_identifier;
 
@@ -230,15 +230,15 @@ class WP_HTML_Doctype_Info
          * > for the purposes of the conditions above.
          */
         $system_identifier_is_missing = null === $system_identifier;
-        $public_identifier            = null === $public_identifier ? '' : strtolower($public_identifier);
-        $system_identifier            = null === $system_identifier ? '' : strtolower($system_identifier);
+        $public_identifier = null === $public_identifier ? '' : strtolower($public_identifier);
+        $system_identifier = null === $system_identifier ? '' : strtolower($system_identifier);
 
         /*
          * > The public identifier is set to…
          */
-        if ('-//w3o//dtd w3 html strict 3.0//en//' === $public_identifier ||
-            '-/w3c/dtd html 4.0 transitional/en' === $public_identifier ||
-            'html' === $public_identifier
+        if ('-//w3o//dtd w3 html strict 3.0//en//' === $public_identifier
+            || '-/w3c/dtd html 4.0 transitional/en' === $public_identifier
+            || 'html' === $public_identifier
         ) {
             $this->indicated_compatability_mode = 'quirks';
             return;
@@ -268,61 +268,63 @@ class WP_HTML_Doctype_Info
          *       however, as only a single DOCTYPE declaration token should ever be parsed,
          *       and normative documents will have exited before reaching this condition.
          */
-        if (str_starts_with($public_identifier, '+//silmaril//dtd html pro v0r11 19970101//') ||
-            str_starts_with($public_identifier, '-//as//dtd html 3.0 aswedit + extensions//') ||
-            str_starts_with($public_identifier, '-//advasoft ltd//dtd html 3.0 aswedit + extensions//') ||
-            str_starts_with($public_identifier, '-//ietf//dtd html 2.0 level 1//') ||
-            str_starts_with($public_identifier, '-//ietf//dtd html 2.0 level 2//') ||
-            str_starts_with($public_identifier, '-//ietf//dtd html 2.0 strict level 1//') ||
-            str_starts_with($public_identifier, '-//ietf//dtd html 2.0 strict level 2//') ||
-            str_starts_with($public_identifier, '-//ietf//dtd html 2.0 strict//') ||
-            str_starts_with($public_identifier, '-//ietf//dtd html 2.0//') ||
-            str_starts_with($public_identifier, '-//ietf//dtd html 2.1e//') ||
-            str_starts_with($public_identifier, '-//ietf//dtd html 3.0//') ||
-            str_starts_with($public_identifier, '-//ietf//dtd html 3.2 final//') ||
-            str_starts_with($public_identifier, '-//ietf//dtd html 3.2//') ||
-            str_starts_with($public_identifier, '-//ietf//dtd html 3//') ||
-            str_starts_with($public_identifier, '-//ietf//dtd html level 0//') ||
-            str_starts_with($public_identifier, '-//ietf//dtd html level 1//') ||
-            str_starts_with($public_identifier, '-//ietf//dtd html level 2//') ||
-            str_starts_with($public_identifier, '-//ietf//dtd html level 3//') ||
-            str_starts_with($public_identifier, '-//ietf//dtd html strict level 0//') ||
-            str_starts_with($public_identifier, '-//ietf//dtd html strict level 1//') ||
-            str_starts_with($public_identifier, '-//ietf//dtd html strict level 2//') ||
-            str_starts_with($public_identifier, '-//ietf//dtd html strict level 3//') ||
-            str_starts_with($public_identifier, '-//ietf//dtd html strict//') ||
-            str_starts_with($public_identifier, '-//ietf//dtd html//') ||
-            str_starts_with($public_identifier, '-//metrius//dtd metrius presentational//') ||
-            str_starts_with($public_identifier, '-//microsoft//dtd internet explorer 2.0 html strict//') ||
-            str_starts_with($public_identifier, '-//microsoft//dtd internet explorer 2.0 html//') ||
-            str_starts_with($public_identifier, '-//microsoft//dtd internet explorer 2.0 tables//') ||
-            str_starts_with($public_identifier, '-//microsoft//dtd internet explorer 3.0 html strict//') ||
-            str_starts_with($public_identifier, '-//microsoft//dtd internet explorer 3.0 html//') ||
-            str_starts_with($public_identifier, '-//microsoft//dtd internet explorer 3.0 tables//') ||
-            str_starts_with($public_identifier, '-//netscape comm. corp.//dtd html//') ||
-            str_starts_with($public_identifier, '-//netscape comm. corp.//dtd strict html//') ||
-            str_starts_with($public_identifier, "-//o'reilly and associates//dtd html 2.0//") ||
-            str_starts_with($public_identifier, "-//o'reilly and associates//dtd html extended 1.0//") ||
-            str_starts_with($public_identifier, "-//o'reilly and associates//dtd html extended relaxed 1.0//") ||
-            str_starts_with($public_identifier, '-//sq//dtd html 2.0 hotmetal + extensions//') ||
-            str_starts_with($public_identifier, '-//softquad software//dtd hotmetal pro 6.0::19990601::extensions to html 4.0//') ||
-            str_starts_with($public_identifier, '-//softquad//dtd hotmetal pro 4.0::19971010::extensions to html 4.0//') ||
-            str_starts_with($public_identifier, '-//spyglass//dtd html 2.0 extended//') ||
-            str_starts_with($public_identifier, '-//sun microsystems corp.//dtd hotjava html//') ||
-            str_starts_with($public_identifier, '-//sun microsystems corp.//dtd hotjava strict html//') ||
-            str_starts_with($public_identifier, '-//w3c//dtd html 3 1995-03-24//') ||
-            str_starts_with($public_identifier, '-//w3c//dtd html 3.2 draft//') ||
-            str_starts_with($public_identifier, '-//w3c//dtd html 3.2 final//') ||
-            str_starts_with($public_identifier, '-//w3c//dtd html 3.2//') ||
-            str_starts_with($public_identifier, '-//w3c//dtd html 3.2s draft//') ||
-            str_starts_with($public_identifier, '-//w3c//dtd html 4.0 frameset//') ||
-            str_starts_with($public_identifier, '-//w3c//dtd html 4.0 transitional//') ||
-            str_starts_with($public_identifier, '-//w3c//dtd html experimental 19960712//') ||
-            str_starts_with($public_identifier, '-//w3c//dtd html experimental 970421//') ||
-            str_starts_with($public_identifier, '-//w3c//dtd w3 html//') ||
-            str_starts_with($public_identifier, '-//w3o//dtd w3 html 3.0//') ||
-            str_starts_with($public_identifier, '-//webtechs//dtd mozilla html 2.0//') ||
-            str_starts_with($public_identifier, '-//webtechs//dtd mozilla html//')
+        if (str_starts_with($public_identifier, '+//silmaril//dtd html pro v0r11 19970101//')
+            || str_starts_with($public_identifier, '-//as//dtd html 3.0 aswedit + extensions//')
+            || str_starts_with($public_identifier, '-//advasoft ltd//dtd html 3.0 aswedit + extensions//')
+            || str_starts_with($public_identifier, '-//ietf//dtd html 2.0 level 1//')
+            || str_starts_with($public_identifier, '-//ietf//dtd html 2.0 level 2//')
+            || str_starts_with($public_identifier, '-//ietf//dtd html 2.0 strict level 1//')
+            || str_starts_with($public_identifier, '-//ietf//dtd html 2.0 strict level 2//')
+            || str_starts_with($public_identifier, '-//ietf//dtd html 2.0 strict//')
+            || str_starts_with($public_identifier, '-//ietf//dtd html 2.0//')
+            || str_starts_with($public_identifier, '-//ietf//dtd html 2.1e//')
+            || str_starts_with($public_identifier, '-//ietf//dtd html 3.0//')
+            || str_starts_with($public_identifier, '-//ietf//dtd html 3.2 final//')
+            || str_starts_with($public_identifier, '-//ietf//dtd html 3.2//')
+            || str_starts_with($public_identifier, '-//ietf//dtd html 3//')
+            || str_starts_with($public_identifier, '-//ietf//dtd html level 0//')
+            || str_starts_with($public_identifier, '-//ietf//dtd html level 1//')
+            || str_starts_with($public_identifier, '-//ietf//dtd html level 2//')
+            || str_starts_with($public_identifier, '-//ietf//dtd html level 3//')
+            || str_starts_with($public_identifier, '-//ietf//dtd html strict level 0//')
+            || str_starts_with($public_identifier, '-//ietf//dtd html strict level 1//')
+            || str_starts_with($public_identifier, '-//ietf//dtd html strict level 2//')
+            || str_starts_with($public_identifier, '-//ietf//dtd html strict level 3//')
+            || str_starts_with($public_identifier, '-//ietf//dtd html strict//')
+            || str_starts_with($public_identifier, '-//ietf//dtd html//')
+            || str_starts_with($public_identifier, '-//metrius//dtd metrius presentational//')
+            || str_starts_with($public_identifier, '-//microsoft//dtd internet explorer 2.0 html strict//')
+            || str_starts_with($public_identifier, '-//microsoft//dtd internet explorer 2.0 html//')
+            || str_starts_with($public_identifier, '-//microsoft//dtd internet explorer 2.0 tables//')
+            || str_starts_with($public_identifier, '-//microsoft//dtd internet explorer 3.0 html strict//')
+            || str_starts_with($public_identifier, '-//microsoft//dtd internet explorer 3.0 html//')
+            || str_starts_with($public_identifier, '-//microsoft//dtd internet explorer 3.0 tables//')
+            || str_starts_with($public_identifier, '-//netscape comm. corp.//dtd html//')
+            || str_starts_with($public_identifier, '-//netscape comm. corp.//dtd strict html//')
+            || str_starts_with($public_identifier, "-//o'reilly and associates//dtd html 2.0//")
+            || str_starts_with($public_identifier, "-//o'reilly and associates//dtd html extended 1.0//")
+            || str_starts_with($public_identifier, "-//o'reilly and associates//dtd html extended relaxed 1.0//")
+            || str_starts_with($public_identifier, '-//sq//dtd html 2.0 hotmetal + extensions//')
+            || str_starts_with($public_identifier,
+                '-//softquad software//dtd hotmetal pro 6.0::19990601::extensions to html 4.0//')
+            || str_starts_with($public_identifier,
+                '-//softquad//dtd hotmetal pro 4.0::19971010::extensions to html 4.0//')
+            || str_starts_with($public_identifier, '-//spyglass//dtd html 2.0 extended//')
+            || str_starts_with($public_identifier, '-//sun microsystems corp.//dtd hotjava html//')
+            || str_starts_with($public_identifier, '-//sun microsystems corp.//dtd hotjava strict html//')
+            || str_starts_with($public_identifier, '-//w3c//dtd html 3 1995-03-24//')
+            || str_starts_with($public_identifier, '-//w3c//dtd html 3.2 draft//')
+            || str_starts_with($public_identifier, '-//w3c//dtd html 3.2 final//')
+            || str_starts_with($public_identifier, '-//w3c//dtd html 3.2//')
+            || str_starts_with($public_identifier, '-//w3c//dtd html 3.2s draft//')
+            || str_starts_with($public_identifier, '-//w3c//dtd html 4.0 frameset//')
+            || str_starts_with($public_identifier, '-//w3c//dtd html 4.0 transitional//')
+            || str_starts_with($public_identifier, '-//w3c//dtd html experimental 19960712//')
+            || str_starts_with($public_identifier, '-//w3c//dtd html experimental 970421//')
+            || str_starts_with($public_identifier, '-//w3c//dtd w3 html//')
+            || str_starts_with($public_identifier, '-//w3o//dtd w3 html 3.0//')
+            || str_starts_with($public_identifier, '-//webtechs//dtd mozilla html 2.0//')
+            || str_starts_with($public_identifier, '-//webtechs//dtd mozilla html//')
         ) {
             $this->indicated_compatability_mode = 'quirks';
             return;
@@ -331,9 +333,10 @@ class WP_HTML_Doctype_Info
         /*
          * > The system identifier is missing and the public identifier starts with…
          */
-        if ($system_identifier_is_missing && (
-                str_starts_with($public_identifier, '-//w3c//dtd html 4.01 frameset//') ||
-                str_starts_with($public_identifier, '-//w3c//dtd html 4.01 transitional//')
+        if ($system_identifier_is_missing
+            && (
+                str_starts_with($public_identifier, '-//w3c//dtd html 4.01 frameset//')
+                || str_starts_with($public_identifier, '-//w3c//dtd html 4.01 transitional//')
             )
         ) {
             $this->indicated_compatability_mode = 'quirks';
@@ -348,8 +351,8 @@ class WP_HTML_Doctype_Info
         /*
          * > The public identifier starts with…
          */
-        if (str_starts_with($public_identifier, '-//w3c//dtd xhtml 1.0 frameset//') ||
-            str_starts_with($public_identifier, '-//w3c//dtd xhtml 1.0 transitional//')
+        if (str_starts_with($public_identifier, '-//w3c//dtd xhtml 1.0 frameset//')
+            || str_starts_with($public_identifier, '-//w3c//dtd xhtml 1.0 transitional//')
         ) {
             $this->indicated_compatability_mode = 'limited-quirks';
             return;
@@ -358,9 +361,10 @@ class WP_HTML_Doctype_Info
         /*
          * > The system identifier is not missing and the public identifier starts with…
          */
-        if (! $system_identifier_is_missing && (
-                str_starts_with($public_identifier, '-//w3c//dtd html 4.01 frameset//') ||
-                str_starts_with($public_identifier, '-//w3c//dtd html 4.01 transitional//')
+        if (!$system_identifier_is_missing
+            && (
+                str_starts_with($public_identifier, '-//w3c//dtd html 4.01 frameset//')
+                || str_starts_with($public_identifier, '-//w3c//dtd html 4.01 transitional//')
             )
         ) {
             $this->indicated_compatability_mode = 'limited-quirks';
@@ -398,16 +402,16 @@ class WP_HTML_Doctype_Info
      *     null === WP_HTML_Doctype_Info::from_doctype_token( 'html' );
      *     null === WP_HTML_Doctype_Info::from_doctype_token( '<?xml version="1.0" encoding="UTF-8" ?>' );
      *
-     * @since 6.7.0
-     *
      * @param string $doctype_html The complete raw DOCTYPE HTML string, e.g. `<!DOCTYPE html>`.
      *
      * @return WP_HTML_Doctype_Info|null A WP_HTML_Doctype_Info instance will be returned if the
      *                                   provided DOCTYPE HTML is a valid DOCTYPE. Otherwise, null.
+     * @since 6.7.0
+     *
      */
     public static function from_doctype_token(string $doctype_html): ?self
     {
-        $doctype_name      = null;
+        $doctype_name = null;
         $doctype_public_id = null;
         $doctype_system_id = null;
 
@@ -426,8 +430,8 @@ class WP_HTML_Doctype_Info
          * - It must start with an ASCII case-insensitive match for `<!DOCTYPE`.
          * - The only occurrence of `>` must be the final byte in the HTML string.
          */
-        if ($end < 9 ||
-            0 !== substr_compare($doctype_html, '<!DOCTYPE', 0, 9, true)
+        if ($end < 9
+            || 0 !== substr_compare($doctype_html, '<!DOCTYPE', 0, 9, true)
         ) {
             return null;
         }
@@ -446,7 +450,7 @@ class WP_HTML_Doctype_Info
          */
         $doctype_html = str_replace("\r\n", "\n", $doctype_html);
         $doctype_html = str_replace("\r", "\n", $doctype_html);
-        $end          = strlen($doctype_html) - 1;
+        $end = strlen($doctype_html) - 1;
 
         /*
          * In this state, the doctype token has been found and its "content" optionally including the
@@ -479,7 +483,7 @@ class WP_HTML_Doctype_Info
             return new self($doctype_name, $doctype_public_id, $doctype_system_id, true);
         }
 
-        $name_length  = strcspn($doctype_html, " \t\n\f\r", $at, $end - $at);
+        $name_length = strcspn($doctype_html, " \t\n\f\r", $at, $end - $at);
         $doctype_name = str_replace("\0", "\u{FFFD}", strtolower(substr($doctype_html, $at, $name_length)));
 
         $at += $name_length;

@@ -19,8 +19,8 @@ class Tests_Comment_CommentForm extends WP_UnitTestCase
         $p = self::factory()->post->create();
 
         $args = [
-            'name_submit'  => 'foo-name',
-            'id_submit'    => 'foo-id',
+            'name_submit' => 'foo-name',
+            'id_submit' => 'foo-id',
             'class_submit' => 'foo-class',
             'label_submit' => 'foo-label',
         ];
@@ -29,7 +29,8 @@ class Tests_Comment_CommentForm extends WP_UnitTestCase
 
         $button = '<input name="foo-name" type="submit" id="foo-id" class="foo-class" value="foo-label" />';
         $hidden = get_comment_id_fields($p);
-        $this->assertMatchesRegularExpression('|<p class="form\-submit">\s*' . $button . '\s*' . $hidden . '\s*|', $form);
+        $this->assertMatchesRegularExpression('|<p class="form\-submit">\s*' . $button . '\s*' . $hidden . '\s*|',
+            $form);
     }
 
     public function test_custom_submit_button()
@@ -37,10 +38,10 @@ class Tests_Comment_CommentForm extends WP_UnitTestCase
         $p = self::factory()->post->create();
 
         $args = [
-            'name_submit'   => 'foo-name',
-            'id_submit'     => 'foo-id',
-            'class_submit'  => 'foo-class',
-            'label_submit'  => 'foo-label',
+            'name_submit' => 'foo-name',
+            'id_submit' => 'foo-id',
+            'class_submit' => 'foo-class',
+            'label_submit' => 'foo-label',
             'submit_button' => '<input name="custom-%1$s" type="submit" id="custom-%2$s" class="custom-%3$s" value="custom-%4$s" />',
         ];
 
@@ -55,8 +56,8 @@ class Tests_Comment_CommentForm extends WP_UnitTestCase
         $p = self::factory()->post->create();
 
         $args = [
-            'name_submit'  => 'foo-name',
-            'id_submit'    => 'foo-id',
+            'name_submit' => 'foo-name',
+            'id_submit' => 'foo-id',
             'class_submit' => 'foo-class',
             'label_submit' => 'foo-label',
             'submit_field' => '<p class="my-custom-submit-field">%1$s %2$s</p>',
@@ -66,19 +67,24 @@ class Tests_Comment_CommentForm extends WP_UnitTestCase
 
         $button = '<input name="foo-name" type="submit" id="foo-id" class="foo-class" value="foo-label" />';
         $hidden = get_comment_id_fields($p);
-        $this->assertMatchesRegularExpression('|<p class="my\-custom\-submit\-field">\s*' . $button . '\s*' . $hidden . '\s*|', $form);
+        $this->assertMatchesRegularExpression('|<p class="my\-custom\-submit\-field">\s*'
+            . $button
+            . '\s*'
+            . $hidden
+            . '\s*|', $form);
     }
 
     /**
      * @ticket 32312
      */
-    public function test_submit_button_and_submit_field_should_fall_back_on_defaults_when_filtered_defaults_do_not_contain_the_keys()
+    public function test_submit_button_and_submit_field_should_fall_back_on_defaults_when_filtered_defaults_do_not_contain_the_keys(
+    )
     {
         $p = self::factory()->post->create();
 
         $args = [
-            'name_submit'  => 'foo-name',
-            'id_submit'    => 'foo-id',
+            'name_submit' => 'foo-name',
+            'id_submit' => 'foo-id',
             'class_submit' => 'foo-class',
             'label_submit' => 'foo-label',
         ];
@@ -89,7 +95,8 @@ class Tests_Comment_CommentForm extends WP_UnitTestCase
 
         $button = '<input name="foo-name" type="submit" id="foo-id" class="foo-class" value="foo-label" />';
         $hidden = get_comment_id_fields($p);
-        $this->assertMatchesRegularExpression('|<p class="form\-submit">\s*' . $button . '\s*' . $hidden . '\s*|', $form);
+        $this->assertMatchesRegularExpression('|<p class="form\-submit">\s*' . $button . '\s*' . $hidden . '\s*|',
+            $form);
     }
 
     public function filter_comment_form_defaults($defaults)
@@ -148,7 +155,7 @@ class Tests_Comment_CommentForm extends WP_UnitTestCase
     {
         update_option('thread_comments', true);
 
-        $form     = get_echo('comment_form', [[], self::$post_id]);
+        $form = get_echo('comment_form', [[], self::$post_id]);
         $expected = '<a rel="nofollow" id="cancel-comment-reply-link" href="#respond" style="display:none;">Cancel reply</a>';
         $this->assertStringContainsString($expected, $form);
     }
@@ -160,7 +167,7 @@ class Tests_Comment_CommentForm extends WP_UnitTestCase
     {
         delete_option('thread_comments');
 
-        $form     = get_echo('comment_form', [[], self::$post_id]);
+        $form = get_echo('comment_form', [[], self::$post_id]);
         $expected = '<a rel="nofollow" id="cancel-comment-reply-link" href="#respond" style="display:none;">Cancel reply</a>';
         $this->assertStringNotContainsString($expected, $form);
     }

@@ -44,9 +44,9 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
     /**
      * Constructor.
      *
+     * @param WP_Customize_Manager $manager Customizer bootstrap instance.
      * @since 3.4.0
      *
-     * @param WP_Customize_Manager $manager Customizer bootstrap instance.
      */
     public function __construct($manager)
     {
@@ -54,15 +54,15 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
             $manager,
             'header_image',
             [
-                'label'    => __('Header Image'),
+                'label' => __('Header Image'),
                 'settings' => [
                     'default' => 'header_image',
-                    'data'    => 'header_image_data',
+                    'data' => 'header_image_data',
                 ],
-                'section'  => 'header_image',
-                'removed'  => 'remove-header',
-                'get_url'  => 'get_header_image',
-            ]
+                'section' => 'header_image',
+                'removed' => 'remove-header',
+                'get_url' => 'get_header_image',
+            ],
         );
     }
 
@@ -79,20 +79,20 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
             'customize-views',
             '_wpCustomizeHeader',
             [
-                'data'     => [
-                    'width'         => absint(get_theme_support('custom-header', 'width')),
-                    'height'        => absint(get_theme_support('custom-header', 'height')),
-                    'flex-width'    => absint(get_theme_support('custom-header', 'flex-width')),
-                    'flex-height'   => absint(get_theme_support('custom-header', 'flex-height')),
+                'data' => [
+                    'width' => absint(get_theme_support('custom-header', 'width')),
+                    'height' => absint(get_theme_support('custom-header', 'height')),
+                    'flex-width' => absint(get_theme_support('custom-header', 'flex-width')),
+                    'flex-height' => absint(get_theme_support('custom-header', 'flex-height')),
                     'currentImgSrc' => $this->get_current_image_src(),
                 ],
-                'nonces'   => [
-                    'add'    => wp_create_nonce('header-add'),
+                'nonces' => [
+                    'add' => wp_create_nonce('header-add'),
                     'remove' => wp_create_nonce('header-remove'),
                 ],
-                'uploads'  => $this->uploaded_headers,
+                'uploads' => $this->uploaded_headers,
                 'defaults' => $this->default_headers,
-            ]
+            ],
         );
 
         parent::enqueue();
@@ -112,7 +112,7 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
 
         // Process default headers and uploaded headers.
         $custom_image_header->process_default_headers();
-        $this->default_headers  = $custom_image_header->get_default_header_images();
+        $this->default_headers = $custom_image_header->get_default_header_images();
         $this->uploaded_headers = $custom_image_header->get_uploaded_header_images();
     }
 
@@ -126,35 +126,35 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
             <button type="button" class="button display-options random">
                 <span class="dashicons dashicons-randomize dice"></span>
                 <# if ( data.type === 'uploaded' ) { #>
-                    <?php _e('Randomize uploaded headers'); ?>
+                <?php _e('Randomize uploaded headers'); ?>
                 <# } else if ( data.type === 'default' ) { #>
-                    <?php _e('Randomize suggested headers'); ?>
+                <?php _e('Randomize suggested headers'); ?>
                 <# } #>
             </button>
 
             <# } else { #>
 
             <button type="button" class="choice thumbnail"
-                data-customize-image-value="{{data.header.url}}"
-                data-customize-header-image-data="{{JSON.stringify(data.header)}}">
+                    data-customize-image-value="{{data.header.url}}"
+                    data-customize-header-image-data="{{JSON.stringify(data.header)}}">
                 <span class="screen-reader-text">
                     <?php
                     /* translators: Hidden accessibility text. */
                     _e('Set image');
                     ?>
                 </span>
-                <img src="{{data.header.thumbnail_url}}" alt="{{data.header.alt_text || data.header.description}}" />
+                <img src="{{data.header.thumbnail_url}}" alt="{{data.header.alt_text || data.header.description}}"/>
             </button>
 
             <# if ( data.type === 'uploaded' ) { #>
-                <button type="button" class="dashicons dashicons-no close">
+            <button type="button" class="dashicons dashicons-no close">
                     <span class="screen-reader-text">
                         <?php
                         /* translators: Hidden accessibility text. */
                         _e('Remove image');
                         ?>
                     </span>
-                </button>
+            </button>
             <# } #>
 
             <# } #>
@@ -162,22 +162,22 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
 
         <script type="text/template" id="tmpl-header-current">
             <# if (data.choice) { #>
-                <# if (data.random) { #>
+            <# if (data.random) { #>
 
             <div class="placeholder">
                 <span class="dashicons dashicons-randomize dice"></span>
                 <# if ( data.type === 'uploaded' ) { #>
-                    <?php _e('Randomizing uploaded headers'); ?>
+                <?php _e('Randomizing uploaded headers'); ?>
                 <# } else if ( data.type === 'default' ) { #>
-                    <?php _e('Randomizing suggested headers'); ?>
+                <?php _e('Randomizing suggested headers'); ?>
                 <# } #>
             </div>
 
-                <# } else { #>
+            <# } else { #>
 
-            <img src="{{data.header.thumbnail_url}}" alt="{{data.header.alt_text || data.header.description}}" />
+            <img src="{{data.header.thumbnail_url}}" alt="{{data.header.alt_text || data.header.description}}"/>
 
-                <# } #>
+            <# } #>
             <# } else { #>
 
             <div class="placeholder">
@@ -206,8 +206,8 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
     public function render_content()
     {
         $visibility = $this->get_current_image_src() ? '' : ' style="display:none" ';
-        $width      = absint(get_theme_support('custom-header', 'width'));
-        $height     = absint(get_theme_support('custom-header', 'height'));
+        $width = absint(get_theme_support('custom-header', 'width'));
+        $height = absint(get_theme_support('custom-header', 'height'));
         ?>
         <div class="customize-control-content">
             <?php
@@ -222,21 +222,21 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
                     _e('Click &#8220;Add New Image&#8221; to upload an image file from your computer. Your theme works best with an image that matches the size of your video &#8212; you&#8217;ll be able to crop your image once you upload it for a perfect fit.');
                 } elseif ($width && $height) {
                     printf(
-                        /* translators: %s: Header size in pixels. */
+                    /* translators: %s: Header size in pixels. */
                         __('Click &#8220;Add New Image&#8221; to upload an image file from your computer. Your theme works best with an image with a header size of %s pixels &#8212; you&#8217;ll be able to crop your image once you upload it for a perfect fit.'),
-                        sprintf('<strong>%s &times; %s</strong>', $width, $height)
+                        sprintf('<strong>%s &times; %s</strong>', $width, $height),
                     );
                 } elseif ($width) {
                     printf(
-                        /* translators: %s: Header width in pixels. */
+                    /* translators: %s: Header width in pixels. */
                         __('Click &#8220;Add New Image&#8221; to upload an image file from your computer. Your theme works best with an image with a header width of %s pixels &#8212; you&#8217;ll be able to crop your image once you upload it for a perfect fit.'),
-                        sprintf('<strong>%s</strong>', $width)
+                        sprintf('<strong>%s</strong>', $width),
                     );
                 } else {
                     printf(
-                        /* translators: %s: Header height in pixels. */
+                    /* translators: %s: Header height in pixels. */
                         __('Click &#8220;Add New Image&#8221; to upload an image file from your computer. Your theme works best with an image with a header height of %s pixels &#8212; you&#8217;ll be able to crop your image once you upload it for a perfect fit.'),
-                        sprintf('<strong>%s</strong>', $height)
+                        sprintf('<strong>%s</strong>', $height),
                     );
                 }
                 ?>
@@ -252,8 +252,10 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
             </div>
             <div class="actions">
                 <?php if (current_user_can('upload_files')) : ?>
-                <button type="button"<?php echo $visibility; ?> class="button remove" aria-label="<?php esc_attr_e('Hide header image'); ?>"><?php _e('Hide image'); ?></button>
-                <button type="button" class="button new" id="header_image-button" aria-label="<?php esc_attr_e('Add New Header Image'); ?>"><?php _e('Add New Image'); ?></button>
+                    <button type="button"<?php echo $visibility; ?> class="button remove"
+                            aria-label="<?php esc_attr_e('Hide header image'); ?>"><?php _e('Hide image'); ?></button>
+                    <button type="button" class="button new" id="header_image-button"
+                            aria-label="<?php esc_attr_e('Add New Header Image'); ?>"><?php _e('Add New Image'); ?></button>
                 <?php endif; ?>
             </div>
             <div class="choices">

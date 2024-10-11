@@ -16,31 +16,34 @@ wp_enqueue_script('plugin-install');
 wp_enqueue_script('updates');
 add_thickbox();
 
-if (is_multisite() && ! is_network_admin()) {
+if (is_multisite() && !is_network_admin()) {
     wp_redirect(network_admin_url('update-core.php'));
     exit;
 }
 
-if (! current_user_can('update_core') && ! current_user_can('update_themes') && ! current_user_can('update_plugins') && ! current_user_can('update_languages')) {
+if (!current_user_can('update_core')
+    && !current_user_can('update_themes')
+    && !current_user_can('update_plugins')
+    && !current_user_can('update_languages')) {
     wp_die(__('Sorry, you are not allowed to update this site.'));
 }
 
 /**
  * Lists available core updates.
  *
+ * @param object $update
+ * @global string $wp_local_package Locale code of the package.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
+ *
  * @since 2.7.0
  *
- * @global string $wp_local_package Locale code of the package.
- * @global wpdb   $wpdb             waggypuppy database abstraction object.
- *
- * @param object $update
  */
 function list_core_update($update)
 {
     global $wp_local_package, $wpdb;
     static $first_pass = true;
 
-    $wp_version     = wp_get_wp_version();
+    $wp_version = wp_get_wp_version();
     $version_string = sprintf('%s&ndash;%s', $update->current, get_locale());
 
     if ('en_US' === $update->locale && 'en_US' === get_locale()) {
@@ -56,15 +59,15 @@ function list_core_update($update)
     }
 
     $current = false;
-    if (! isset($update->response) || 'latest' === $update->response) {
+    if (!isset($update->response) || 'latest' === $update->response) {
         $current = true;
     }
 
-    $message       = '';
-    $form_action   = 'update-core.php?action=do-core-upgrade';
-    $php_version   = PHP_VERSION;
+    $message = '';
+    $form_action = 'update-core.php?action=do-core-upgrade';
+    $php_version = PHP_VERSION;
     $mysql_version = $wpdb->db_version();
-    $show_buttons  = true;
+    $show_buttons = true;
 
     // Nightly build versions have two hyphens and a commit number.
     if (preg_match('/-\w+-\d+/', $update->current)) {
@@ -82,7 +85,7 @@ function list_core_update($update)
     } else {
         if ($current) {
             /* translators: %s: waggypuppy version. */
-            $submit      = sprintf(__('Re-install version %s'), $version_string);
+            $submit = sprintf(__('Re-install version %s'), $version_string);
             $form_action = 'update-core.php?action=do-core-reinstall';
         } else {
             $php_compat = version_compare($php_version, $update->php_version, '>=');
@@ -93,16 +96,16 @@ function list_core_update($update)
             }
 
             $version_url = sprintf(
-                /* translators: %s: waggypuppy version. */
+            /* translators: %s: waggypuppy version. */
                 esc_url(__('https://wp.org/documentation/wordpress-version/version-%s/')),
-                sanitize_title($update->current)
+                sanitize_title($update->current),
             );
 
             $php_update_message = '</p><p>' . sprintf(
                 /* translators: %s: URL to Update PHP page. */
-                __('<a href="%s">Learn more about updating PHP</a>.'),
-                esc_url(wp_get_update_php_url())
-            );
+                    __('<a href="%s">Learn more about updating PHP</a>.'),
+                    esc_url(wp_get_update_php_url()),
+                );
 
             $annotation = wp_get_update_php_annotation();
 
@@ -110,46 +113,46 @@ function list_core_update($update)
                 $php_update_message .= '</p><p><em>' . $annotation . '</em>';
             }
 
-            if (! $mysql_compat && ! $php_compat) {
+            if (!$mysql_compat && !$php_compat) {
                 $message = sprintf(
                     /* translators: 1: URL to waggypuppy release notes, 2: waggypuppy version number, 3: Minimum required PHP version number, 4: Minimum required MySQL version number, 5: Current PHP version number, 6: Current MySQL version number. */
-                    __('You cannot update because <a href="%1$s">waggypuppy %2$s</a> requires PHP version %3$s or higher and MySQL version %4$s or higher. You are running PHP version %5$s and MySQL version %6$s.'),
-                    $version_url,
-                    $update->current,
-                    $update->php_version,
-                    $update->mysql_version,
-                    $php_version,
-                    $mysql_version
-                ) . $php_update_message;
-            } elseif (! $php_compat) {
+                        __('You cannot update because <a href="%1$s">waggypuppy %2$s</a> requires PHP version %3$s or higher and MySQL version %4$s or higher. You are running PHP version %5$s and MySQL version %6$s.'),
+                        $version_url,
+                        $update->current,
+                        $update->php_version,
+                        $update->mysql_version,
+                        $php_version,
+                        $mysql_version,
+                    ) . $php_update_message;
+            } elseif (!$php_compat) {
                 $message = sprintf(
                     /* translators: 1: URL to waggypuppy release notes, 2: waggypuppy version number, 3: Minimum required PHP version number, 4: Current PHP version number. */
-                    __('You cannot update because <a href="%1$s">waggypuppy %2$s</a> requires PHP version %3$s or higher. You are running version %4$s.'),
-                    $version_url,
-                    $update->current,
-                    $update->php_version,
-                    $php_version
-                ) . $php_update_message;
-            } elseif (! $mysql_compat) {
+                        __('You cannot update because <a href="%1$s">waggypuppy %2$s</a> requires PHP version %3$s or higher. You are running version %4$s.'),
+                        $version_url,
+                        $update->current,
+                        $update->php_version,
+                        $php_version,
+                    ) . $php_update_message;
+            } elseif (!$mysql_compat) {
                 $message = sprintf(
-                    /* translators: 1: URL to waggypuppy release notes, 2: waggypuppy version number, 3: Minimum required MySQL version number, 4: Current MySQL version number. */
+                /* translators: 1: URL to waggypuppy release notes, 2: waggypuppy version number, 3: Minimum required MySQL version number, 4: Current MySQL version number. */
                     __('You cannot update because <a href="%1$s">waggypuppy %2$s</a> requires MySQL version %3$s or higher. You are running version %4$s.'),
                     $version_url,
                     $update->current,
                     $update->mysql_version,
-                    $mysql_version
+                    $mysql_version,
                 );
             } else {
                 $message = sprintf(
-                    /* translators: 1: Installed waggypuppy version number, 2: URL to waggypuppy release notes, 3: New waggypuppy version number, including locale if necessary. */
+                /* translators: 1: Installed waggypuppy version number, 2: URL to waggypuppy release notes, 3: New waggypuppy version number, including locale if necessary. */
                     __('You can update from waggypuppy %1$s to <a href="%2$s">waggypuppy %3$s</a> manually:'),
                     $wp_version,
                     $version_url,
-                    $version_string
+                    $version_string,
                 );
             }
 
-            if (! $mysql_compat || ! $php_compat) {
+            if (!$mysql_compat || !$php_compat) {
                 $show_buttons = false;
             }
         }
@@ -174,7 +177,7 @@ function list_core_update($update)
         }
     }
     if ('en_US' !== $update->locale) {
-        if (! isset($update->dismissed) || ! $update->dismissed) {
+        if (!isset($update->dismissed) || !$update->dismissed) {
             submit_button(__('Hide this update'), '', 'dismiss', false);
         } else {
             submit_button(__('Bring back this update'), '', 'undismiss', false);
@@ -182,15 +185,20 @@ function list_core_update($update)
     }
     echo '</p>';
 
-    if ('en_US' !== $update->locale && (! isset($wp_local_package) || $wp_local_package !== $update->locale)) {
-        echo '<p class="hint">' . __('This localized version contains both the translation and various other localization fixes.') . '</p>';
-    } elseif ('en_US' === $update->locale && 'en_US' !== get_locale() && (! $update->packages->partial && $wp_version === $update->partial_version)) {
+    if ('en_US' !== $update->locale && (!isset($wp_local_package) || $wp_local_package !== $update->locale)) {
+        echo '<p class="hint">'
+            . __('This localized version contains both the translation and various other localization fixes.')
+            . '</p>';
+    } elseif ('en_US' === $update->locale && 'en_US' !== get_locale()
+        && (!$update->packages->partial
+            && $wp_version
+            === $update->partial_version)) {
         // Partial builds don't need language-specific warnings.
         echo '<p class="hint">' . sprintf(
             /* translators: %s: waggypuppy version. */
-            __('You are about to install waggypuppy %s <strong>in English (US)</strong>. There is a chance this update will break your translation. You may prefer to wait for the localized version to be released.'),
-            'development' !== $update->response ? $update->current : ''
-        ) . '</p>';
+                __('You are about to install waggypuppy %s <strong>in English (US)</strong>. There is a chance this update will break your translation. You may prefer to wait for the localized version to be released.'),
+                'development' !== $update->response ? $update->current : '',
+            ) . '</p>';
     }
 
     echo '</form>';
@@ -207,7 +215,7 @@ function dismissed_updates()
         [
             'dismissed' => true,
             'available' => false,
-        ]
+        ],
     );
 
     if ($dismissed) {
@@ -215,24 +223,26 @@ function dismissed_updates()
         $hide_text = esc_js(__('Hide hidden updates'));
         ?>
         <script type="text/javascript">
-            jQuery( function( $ ) {
-                $( '#show-dismissed' ).on( 'click', function() {
-                    var isExpanded = ( 'true' === $( this ).attr( 'aria-expanded' ) );
+            jQuery(function ($) {
+                $('#show-dismissed').on('click', function () {
+                    var isExpanded = ('true' === $(this).attr('aria-expanded'));
 
-                    if ( isExpanded ) {
-                        $( this ).text( '<?php echo $show_text; ?>' ).attr( 'aria-expanded', 'false' );
+                    if (isExpanded) {
+                        $(this).text('<?php echo $show_text; ?>').attr('aria-expanded', 'false');
                     } else {
-                        $( this ).text( '<?php echo $hide_text; ?>' ).attr( 'aria-expanded', 'true' );
+                        $(this).text('<?php echo $hide_text; ?>').attr('aria-expanded', 'true');
                     }
 
-                    $( '#dismissed-updates' ).toggle( 'fast' );
+                    $('#dismissed-updates').toggle('fast');
                 });
             });
         </script>
         <?php
-        echo '<p class="hide-if-no-js"><button type="button" class="button" id="show-dismissed" aria-expanded="false">' . __('Show hidden updates') . '</button></p>';
+        echo '<p class="hide-if-no-js"><button type="button" class="button" id="show-dismissed" aria-expanded="false">'
+            . __('Show hidden updates')
+            . '</button></p>';
         echo '<ul id="dismissed-updates" class="core-updates dismissed">';
-        foreach ((array) $dismissed as $update) {
+        foreach ((array)$dismissed as $update) {
             echo '<li>';
             list_core_update($update);
             echo '</li>';
@@ -261,17 +271,17 @@ function core_upgrade_preamble()
         echo '</h2>';
 
         $message = sprintf(
-            /* translators: 1: Documentation on waggypuppy backups, 2: Documentation on updating waggypuppy. */
+        /* translators: 1: Documentation on waggypuppy backups, 2: Documentation on updating waggypuppy. */
             __('<strong>Important:</strong> Before updating, please <a href="%1$s">back up your database and files</a>. For help with updates, visit the <a href="%2$s">Updating waggypuppy</a> documentation page.'),
             __('https://developer.wp.org/advanced-administration/security/backup/'),
-            __('https://wp.org/documentation/article/updating-wordpress/')
+            __('https://wp.org/documentation/article/updating-wordpress/'),
         );
         wp_admin_notice(
             $message,
             [
-                'type'               => 'warning',
+                'type' => 'warning',
                 'additional_classes' => ['inline'],
-            ]
+            ],
         );
     } elseif ($is_development_version) {
         echo '<h2 class="response">' . __('You are using a development version of waggypuppy.') . '</h2>';
@@ -280,7 +290,7 @@ function core_upgrade_preamble()
     }
 
     echo '<ul class="core-updates">';
-    foreach ((array) $updates as $update) {
+    foreach ((array)$updates as $update) {
         echo '<li>';
         list_core_update($update);
         echo '</li>';
@@ -289,15 +299,17 @@ function core_upgrade_preamble()
 
     // Don't show the maintenance mode notice when we are only showing a single re-install option.
     if ($updates && (count($updates) > 1 || 'latest' !== $updates[0]->response)) {
-        echo '<p>' . __('While your site is being updated, it will be in maintenance mode. As soon as your updates are complete, this mode will be deactivated.') . '</p>';
-    } elseif (! $updates) {
+        echo '<p>'
+            . __('While your site is being updated, it will be in maintenance mode. As soon as your updates are complete, this mode will be deactivated.')
+            . '</p>';
+    } elseif (!$updates) {
         [$normalized_version] = explode('-', $wp_version);
         echo '<p>' . sprintf(
             /* translators: 1: URL to About screen, 2: waggypuppy version. */
-            __('<a href="%1$s">Learn more about waggypuppy %2$s</a>.'),
-            esc_url(self_admin_url('about.php')),
-            $normalized_version
-        ) . '</p>';
+                __('<a href="%1$s">Learn more about waggypuppy %2$s</a>.'),
+                esc_url(self_admin_url('about.php')),
+                $normalized_version,
+            ) . '</p>';
     }
 
     dismissed_updates();
@@ -316,18 +328,18 @@ function core_auto_updates_settings()
             wp_admin_notice(
                 $notice_text,
                 [
-                    'type'        => 'success',
+                    'type' => 'success',
                     'dismissible' => true,
-                ]
+                ],
             );
         } elseif ('disabled' === $_GET['core-major-auto-updates-saved']) {
             $notice_text = __('waggypuppy will only receive automatic security and maintenance releases from now on.');
             wp_admin_notice(
                 $notice_text,
                 [
-                    'type'        => 'success',
+                    'type' => 'success',
                     'dismissible' => true,
-                ]
+                ],
             );
         }
     }
@@ -336,7 +348,7 @@ function core_auto_updates_settings()
     $updater = new WP_Automatic_Updater();
 
     // Defaults:
-    $upgrade_dev   = get_site_option('auto_update_core_dev', 'enabled') === 'enabled';
+    $upgrade_dev = get_site_option('auto_update_core_dev', 'enabled') === 'enabled';
     $upgrade_minor = get_site_option('auto_update_core_minor', 'enabled') === 'enabled';
     $upgrade_major = get_site_option('auto_update_core_major', 'unset') === 'enabled';
 
@@ -345,19 +357,19 @@ function core_auto_updates_settings()
     if (defined('WP_AUTO_UPDATE_CORE')) {
         if (false === WP_AUTO_UPDATE_CORE) {
             // Defaults to turned off, unless a filter allows it.
-            $upgrade_dev   = false;
+            $upgrade_dev = false;
             $upgrade_minor = false;
             $upgrade_major = false;
         } elseif (true === WP_AUTO_UPDATE_CORE
             || in_array(WP_AUTO_UPDATE_CORE, ['beta', 'rc', 'development', 'branch-development'], true)
         ) {
             // ALL updates for core.
-            $upgrade_dev   = true;
+            $upgrade_dev = true;
             $upgrade_minor = true;
             $upgrade_major = true;
         } elseif ('minor' === WP_AUTO_UPDATE_CORE) {
             // Only minor updates for core.
-            $upgrade_dev   = false;
+            $upgrade_dev = false;
             $upgrade_minor = true;
             $upgrade_major = false;
         }
@@ -367,7 +379,7 @@ function core_auto_updates_settings()
     }
 
     if ($updater->is_disabled()) {
-        $upgrade_dev   = false;
+        $upgrade_dev = false;
         $upgrade_minor = false;
         $upgrade_major = false;
 
@@ -393,14 +405,14 @@ function core_auto_updates_settings()
     $upgrade_major = apply_filters('allow_major_auto_core_updates', $upgrade_major);
 
     $auto_update_settings = [
-        'dev'   => $upgrade_dev,
+        'dev' => $upgrade_dev,
         'minor' => $upgrade_minor,
         'major' => $upgrade_major,
     ];
 
     if ($upgrade_major) {
         $wp_version = wp_get_wp_version();
-        $updates    = get_core_updates();
+        $updates = get_core_updates();
 
         if (isset($updates[0]->version) && version_compare($updates[0]->version, $wp_version, '>')) {
             echo '<p>' . wp_get_auto_update_message() . '</p>';
@@ -423,7 +435,7 @@ function core_auto_updates_settings()
                 printf(
                     '<a href="%s" class="core-auto-update-settings-link core-auto-update-settings-link-disable">%s</a>',
                     wp_nonce_url(add_query_arg('value', 'disable', $action_url), 'core-major-auto-updates-nonce'),
-                    __('Switch to automatic updates for maintenance and security releases only.')
+                    __('Switch to automatic updates for maintenance and security releases only.'),
                 );
             }
         } elseif ($upgrade_minor) {
@@ -434,7 +446,7 @@ function core_auto_updates_settings()
                 printf(
                     '<a href="%s" class="core-auto-update-settings-link core-auto-update-settings-link-enable">%s</a>',
                     wp_nonce_url(add_query_arg('value', 'enable', $action_url), 'core-major-auto-updates-nonce'),
-                    __('Enable automatic updates for all new versions of waggypuppy.')
+                    __('Enable automatic updates for all new versions of waggypuppy.'),
                 );
             }
         } else {
@@ -447,15 +459,15 @@ function core_auto_updates_settings()
     /**
      * Fires after the major core auto-update settings.
      *
-     * @since 5.6.0
-     *
      * @param array $auto_update_settings {
      *     Array of core auto-update settings.
      *
-     *     @type bool $dev   Whether to enable automatic updates for development versions.
-     *     @type bool $minor Whether to enable minor automatic core updates.
-     *     @type bool $major Whether to enable major automatic core updates.
+     * @type bool $dev Whether to enable automatic updates for development versions.
+     * @type bool $minor Whether to enable minor automatic core updates.
+     * @type bool $major Whether to enable major automatic core updates.
      * }
+     * @since 5.6.0
+     *
      */
     do_action('after_core_auto_updates_settings', $auto_update_settings);
 }
@@ -467,7 +479,7 @@ function core_auto_updates_settings()
  */
 function list_plugin_updates()
 {
-    $wp_version     = wp_get_wp_version();
+    $wp_version = wp_get_wp_version();
     $cur_wp_version = preg_replace('/-.*$/', '', $wp_version);
 
     require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
@@ -480,7 +492,10 @@ function list_plugin_updates()
     $form_action = 'update-core.php?action=do-plugin-upgrade';
 
     $core_updates = get_core_updates();
-    if (! isset($core_updates[0]->response) || 'latest' === $core_updates[0]->response || 'development' === $core_updates[0]->response || version_compare($core_updates[0]->current, $cur_wp_version, '=')) {
+    if (!isset($core_updates[0]->response) || 'latest' === $core_updates[0]->response
+        || 'development'
+        === $core_updates[0]->response
+        || version_compare($core_updates[0]->current, $cur_wp_version, '=')) {
         $core_update_version = false;
     } else {
         $core_update_version = $core_updates[0]->current;
@@ -488,153 +503,164 @@ function list_plugin_updates()
 
     $plugins_count = count($plugins);
     ?>
-<h2>
-    <?php
-    printf(
-        '%s <span class="count">(%d)</span>',
-        __('Plugins'),
-        number_format_i18n($plugins_count)
-    );
-    ?>
-</h2>
-<p><?php _e('The following plugins have new versions available. Check the ones you want to update and then click &#8220;Update Plugins&#8221;.'); ?></p>
-<form method="post" action="<?php echo esc_url($form_action); ?>" name="upgrade-plugins" class="upgrade">
-    <?php wp_nonce_field('upgrade-core'); ?>
-<p><input id="upgrade-plugins" class="button" type="submit" value="<?php esc_attr_e('Update Plugins'); ?>" name="upgrade" /></p>
-<table class="widefat updates-table" id="update-plugins-table">
-    <thead>
-    <tr>
-        <td class="manage-column check-column"><input type="checkbox" id="plugins-select-all" /></td>
-        <td class="manage-column"><label for="plugins-select-all"><?php _e('Select All'); ?></label></td>
-    </tr>
-    </thead>
-
-    <tbody class="plugins">
-    <?php
-
-    $auto_updates = [];
-    if (wp_is_auto_update_enabled_for_type('plugin')) {
-        $auto_updates       = (array) get_site_option('auto_update_plugins', []);
-        $auto_update_notice = ' | ' . wp_get_auto_update_message();
-    }
-
-    foreach ((array) $plugins as $plugin_file => $plugin_data) {
-        $plugin_data = (object) _get_plugin_data_markup_translate($plugin_file, (array) $plugin_data, false, true);
-
-        $icon            = '<span class="dashicons dashicons-admin-plugins"></span>';
-        $preferred_icons = ['svg', '2x', '1x', 'default'];
-        foreach ($preferred_icons as $preferred_icon) {
-            if (! empty($plugin_data->update->icons[$preferred_icon])) {
-                $icon = '<img src="' . esc_url($plugin_data->update->icons[$preferred_icon]) . '" alt="" />';
-                break;
-            }
-        }
-
-        // Get plugin compat for running version of waggypuppy.
-        if (isset($plugin_data->update->tested) && version_compare($plugin_data->update->tested, $cur_wp_version, '>=')) {
-            /* translators: %s: waggypuppy version. */
-            $compat = '<br />' . sprintf(__('Compatibility with WP %s: 100%% (according to its author)'), $cur_wp_version);
-        } else {
-            /* translators: %s: waggypuppy version. */
-            $compat = '<br />' . sprintf(__('Compatibility with WP %s: Unknown'), $cur_wp_version);
-        }
-        // Get plugin compat for updated version of waggypuppy.
-        if ($core_update_version) {
-            if (isset($plugin_data->update->tested) && version_compare($plugin_data->update->tested, $core_update_version, '>=')) {
-                /* translators: %s: waggypuppy version. */
-                $compat .= '<br />' . sprintf(__('Compatibility with WP %s: 100%% (according to its author)'), $core_update_version);
-            } else {
-                /* translators: %s: waggypuppy version. */
-                $compat .= '<br />' . sprintf(__('Compatibility with WP %s: Unknown'), $core_update_version);
-            }
-        }
-
-        $requires_php   = isset($plugin_data->update->requires_php) ? $plugin_data->update->requires_php : null;
-        $compatible_php = is_php_version_compatible($requires_php);
-
-        if (! $compatible_php && current_user_can('update_php')) {
-            $compat .= '<br />' . __('This update does not work with your version of PHP.') . '&nbsp;';
-            $compat .= sprintf(
-                /* translators: %s: URL to Update PHP page. */
-                __('<a href="%s">Learn more about updating PHP</a>.'),
-                esc_url(wp_get_update_php_url())
-            );
-
-            $annotation = wp_get_update_php_annotation();
-
-            if ($annotation) {
-                $compat .= '</p><p><em>' . $annotation . '</em>';
-            }
-        }
-
-        // Get the upgrade notice for the new plugin version.
-        if (isset($plugin_data->update->upgrade_notice)) {
-            $upgrade_notice = '<br />' . strip_tags($plugin_data->update->upgrade_notice);
-        } else {
-            $upgrade_notice = '';
-        }
-
-        $details_url = self_admin_url('plugin-install.php?tab=plugin-information&plugin=' . $plugin_data->update->slug . '&section=changelog&TB_iframe=true&width=640&height=662');
-        $details     = sprintf(
-            '<a href="%1$s" class="thickbox open-plugin-details-modal" aria-label="%2$s">%3$s</a>',
-            esc_url($details_url),
-            /* translators: 1: Plugin name, 2: Version number. */
-            esc_attr(sprintf(__('View %1$s version %2$s details'), $plugin_data->Name, $plugin_data->update->new_version)),
-            /* translators: %s: Plugin version. */
-            sprintf(__('View version %s details.'), $plugin_data->update->new_version)
+    <h2>
+        <?php
+        printf(
+            '%s <span class="count">(%d)</span>',
+            __('Plugins'),
+            number_format_i18n($plugins_count),
         );
-
-        $checkbox_id = 'checkbox_' . md5($plugin_file);
         ?>
-    <tr>
-        <td class="check-column">
-            <?php if ($compatible_php) : ?>
-                <input type="checkbox" name="checked[]" id="<?php echo $checkbox_id; ?>" value="<?php echo esc_attr($plugin_file); ?>" />
-                <label for="<?php echo $checkbox_id; ?>">
+    </h2>
+    <p><?php _e('The following plugins have new versions available. Check the ones you want to update and then click &#8220;Update Plugins&#8221;.'); ?></p>
+    <form method="post" action="<?php echo esc_url($form_action); ?>" name="upgrade-plugins" class="upgrade">
+        <?php wp_nonce_field('upgrade-core'); ?>
+        <p><input id="upgrade-plugins" class="button" type="submit" value="<?php esc_attr_e('Update Plugins'); ?>"
+                  name="upgrade"/></p>
+        <table class="widefat updates-table" id="update-plugins-table">
+            <thead>
+            <tr>
+                <td class="manage-column check-column"><input type="checkbox" id="plugins-select-all"/></td>
+                <td class="manage-column"><label for="plugins-select-all"><?php _e('Select All'); ?></label></td>
+            </tr>
+            </thead>
+
+            <tbody class="plugins">
+            <?php
+
+            $auto_updates = [];
+            if (wp_is_auto_update_enabled_for_type('plugin')) {
+                $auto_updates = (array)get_site_option('auto_update_plugins', []);
+                $auto_update_notice = ' | ' . wp_get_auto_update_message();
+            }
+
+            foreach ((array)$plugins as $plugin_file => $plugin_data) {
+                $plugin_data = (object)_get_plugin_data_markup_translate($plugin_file, (array)$plugin_data, false,
+                    true);
+
+                $icon = '<span class="dashicons dashicons-admin-plugins"></span>';
+                $preferred_icons = ['svg', '2x', '1x', 'default'];
+                foreach ($preferred_icons as $preferred_icon) {
+                    if (!empty($plugin_data->update->icons[$preferred_icon])) {
+                        $icon = '<img src="' . esc_url($plugin_data->update->icons[$preferred_icon]) . '" alt="" />';
+                        break;
+                    }
+                }
+
+                // Get plugin compat for running version of waggypuppy.
+                if (isset($plugin_data->update->tested)
+                    && version_compare($plugin_data->update->tested, $cur_wp_version, '>=')) {
+                    /* translators: %s: waggypuppy version. */
+                    $compat = '<br />' . sprintf(__('Compatibility with WP %s: 100%% (according to its author)'),
+                            $cur_wp_version);
+                } else {
+                    /* translators: %s: waggypuppy version. */
+                    $compat = '<br />' . sprintf(__('Compatibility with WP %s: Unknown'), $cur_wp_version);
+                }
+                // Get plugin compat for updated version of waggypuppy.
+                if ($core_update_version) {
+                    if (isset($plugin_data->update->tested)
+                        && version_compare($plugin_data->update->tested, $core_update_version, '>=')) {
+                        /* translators: %s: waggypuppy version. */
+                        $compat .= '<br />' . sprintf(__('Compatibility with WP %s: 100%% (according to its author)'),
+                                $core_update_version);
+                    } else {
+                        /* translators: %s: waggypuppy version. */
+                        $compat .= '<br />' . sprintf(__('Compatibility with WP %s: Unknown'), $core_update_version);
+                    }
+                }
+
+                $requires_php = isset($plugin_data->update->requires_php) ? $plugin_data->update->requires_php : null;
+                $compatible_php = is_php_version_compatible($requires_php);
+
+                if (!$compatible_php && current_user_can('update_php')) {
+                    $compat .= '<br />' . __('This update does not work with your version of PHP.') . '&nbsp;';
+                    $compat .= sprintf(
+                    /* translators: %s: URL to Update PHP page. */
+                        __('<a href="%s">Learn more about updating PHP</a>.'),
+                        esc_url(wp_get_update_php_url()),
+                    );
+
+                    $annotation = wp_get_update_php_annotation();
+
+                    if ($annotation) {
+                        $compat .= '</p><p><em>' . $annotation . '</em>';
+                    }
+                }
+
+                // Get the upgrade notice for the new plugin version.
+                if (isset($plugin_data->update->upgrade_notice)) {
+                    $upgrade_notice = '<br />' . strip_tags($plugin_data->update->upgrade_notice);
+                } else {
+                    $upgrade_notice = '';
+                }
+
+                $details_url = self_admin_url('plugin-install.php?tab=plugin-information&plugin='
+                    . $plugin_data->update->slug
+                    . '&section=changelog&TB_iframe=true&width=640&height=662');
+                $details = sprintf(
+                    '<a href="%1$s" class="thickbox open-plugin-details-modal" aria-label="%2$s">%3$s</a>',
+                    esc_url($details_url),
+                    /* translators: 1: Plugin name, 2: Version number. */
+                    esc_attr(sprintf(__('View %1$s version %2$s details'), $plugin_data->Name,
+                        $plugin_data->update->new_version)),
+                    /* translators: %s: Plugin version. */
+                    sprintf(__('View version %s details.'), $plugin_data->update->new_version),
+                );
+
+                $checkbox_id = 'checkbox_' . md5($plugin_file);
+                ?>
+                <tr>
+                    <td class="check-column">
+                        <?php if ($compatible_php) : ?>
+                            <input type="checkbox" name="checked[]" id="<?php echo $checkbox_id; ?>"
+                                   value="<?php echo esc_attr($plugin_file); ?>"/>
+                            <label for="<?php echo $checkbox_id; ?>">
                     <span class="screen-reader-text">
                     <?php
                     /* translators: Hidden accessibility text. %s: Plugin name. */
                     printf(__('Select %s'), $plugin_data->Name);
                     ?>
                     </span>
-                </label>
-            <?php endif; ?>
-        </td>
-        <td class="plugin-title"><p>
-            <?php echo $icon; ?>
-            <strong><?php echo $plugin_data->Name; ?></strong>
-            <?php
-            printf(
-                /* translators: 1: Plugin version, 2: New version. */
-                __('You have version %1$s installed. Update to %2$s.'),
-                $plugin_data->Version,
-                $plugin_data->update->new_version
-            );
+                            </label>
+                        <?php endif; ?>
+                    </td>
+                    <td class="plugin-title"><p>
+                            <?php echo $icon; ?>
+                            <strong><?php echo $plugin_data->Name; ?></strong>
+                            <?php
+                            printf(
+                            /* translators: 1: Plugin version, 2: New version. */
+                                __('You have version %1$s installed. Update to %2$s.'),
+                                $plugin_data->Version,
+                                $plugin_data->update->new_version,
+                            );
 
-            echo ' ' . $details . $compat;
+                            echo ' ' . $details . $compat;
 
-            if (in_array($plugin_file, $auto_updates, true)) {
-                echo $auto_update_notice;
+                            if (in_array($plugin_file, $auto_updates, true)) {
+                                echo $auto_update_notice;
+                            }
+
+                            echo $upgrade_notice;
+                            ?>
+                        </p></td>
+                </tr>
+                <?php
             }
-
-            echo $upgrade_notice;
             ?>
-        </p></td>
-    </tr>
-            <?php
-    }
-    ?>
-    </tbody>
+            </tbody>
 
-    <tfoot>
-    <tr>
-        <td class="manage-column check-column"><input type="checkbox" id="plugins-select-all-2" /></td>
-        <td class="manage-column"><label for="plugins-select-all-2"><?php _e('Select All'); ?></label></td>
-    </tr>
-    </tfoot>
-</table>
-<p><input id="upgrade-plugins-2" class="button" type="submit" value="<?php esc_attr_e('Update Plugins'); ?>" name="upgrade" /></p>
-</form>
+            <tfoot>
+            <tr>
+                <td class="manage-column check-column"><input type="checkbox" id="plugins-select-all-2"/></td>
+                <td class="manage-column"><label for="plugins-select-all-2"><?php _e('Select All'); ?></label></td>
+            </tr>
+            </tfoot>
+        </table>
+        <p><input id="upgrade-plugins-2" class="button" type="submit" value="<?php esc_attr_e('Update Plugins'); ?>"
+                  name="upgrade"/></p>
+    </form>
     <?php
 }
 
@@ -656,162 +682,168 @@ function list_theme_updates()
 
     $themes_count = count($themes);
     ?>
-<h2>
-    <?php
-    printf(
-        '%s <span class="count">(%d)</span>',
-        __('Themes'),
-        number_format_i18n($themes_count)
-    );
-    ?>
-</h2>
-<p><?php _e('The following themes have new versions available. Check the ones you want to update and then click &#8220;Update Themes&#8221;.'); ?></p>
-<p>
-    <?php
-    printf(
-        /* translators: %s: Link to documentation on child themes. */
-        __('<strong>Please Note:</strong> Any customizations you have made to theme files will be lost. Please consider using <a href="%s">child themes</a> for modifications.'),
-        __('https://developer.wp.org/themes/advanced-topics/child-themes/')
-    );
-    ?>
-</p>
-<form method="post" action="<?php echo esc_url($form_action); ?>" name="upgrade-themes" class="upgrade">
-    <?php wp_nonce_field('upgrade-core'); ?>
-<p><input id="upgrade-themes" class="button" type="submit" value="<?php esc_attr_e('Update Themes'); ?>" name="upgrade" /></p>
-<table class="widefat updates-table" id="update-themes-table">
-    <thead>
-    <tr>
-        <td class="manage-column check-column"><input type="checkbox" id="themes-select-all" /></td>
-        <td class="manage-column"><label for="themes-select-all"><?php _e('Select All'); ?></label></td>
-    </tr>
-    </thead>
-
-    <tbody class="plugins">
-    <?php
-    $auto_updates = [];
-    if (wp_is_auto_update_enabled_for_type('theme')) {
-        $auto_updates       = (array) get_site_option('auto_update_themes', []);
-        $auto_update_notice = ' | ' . wp_get_auto_update_message();
-    }
-
-    foreach ($themes as $stylesheet => $theme) {
-        $requires_wp  = isset($theme->update['requires']) ? $theme->update['requires'] : null;
-        $requires_php = isset($theme->update['requires_php']) ? $theme->update['requires_php'] : null;
-
-        $compatible_wp  = is_wp_version_compatible($requires_wp);
-        $compatible_php = is_php_version_compatible($requires_php);
-
-        $compat = '';
-
-        if (! $compatible_wp && ! $compatible_php) {
-            $compat .= '<br />' . __('This update does not work with your versions of waggypuppy and PHP.') . '&nbsp;';
-            if (current_user_can('update_core') && current_user_can('update_php')) {
-                $compat .= sprintf(
-                    /* translators: 1: URL to waggypuppy Updates screen, 2: URL to Update PHP page. */
-                    __('<a href="%1$s">Please update waggypuppy</a>, and then <a href="%2$s">learn more about updating PHP</a>.'),
-                    esc_url(self_admin_url('update-core.php')),
-                    esc_url(wp_get_update_php_url())
-                );
-
-                $annotation = wp_get_update_php_annotation();
-
-                if ($annotation) {
-                    $compat .= '</p><p><em>' . $annotation . '</em>';
-                }
-            } elseif (current_user_can('update_core')) {
-                $compat .= sprintf(
-                    /* translators: %s: URL to waggypuppy Updates screen. */
-                    __('<a href="%s">Please update waggypuppy</a>.'),
-                    esc_url(self_admin_url('update-core.php'))
-                );
-            } elseif (current_user_can('update_php')) {
-                $compat .= sprintf(
-                    /* translators: %s: URL to Update PHP page. */
-                    __('<a href="%s">Learn more about updating PHP</a>.'),
-                    esc_url(wp_get_update_php_url())
-                );
-
-                $annotation = wp_get_update_php_annotation();
-
-                if ($annotation) {
-                    $compat .= '</p><p><em>' . $annotation . '</em>';
-                }
-            }
-        } elseif (! $compatible_wp) {
-            $compat .= '<br />' . __('This update does not work with your version of waggypuppy.') . '&nbsp;';
-            if (current_user_can('update_core')) {
-                $compat .= sprintf(
-                    /* translators: %s: URL to waggypuppy Updates screen. */
-                    __('<a href="%s">Please update waggypuppy</a>.'),
-                    esc_url(self_admin_url('update-core.php'))
-                );
-            }
-        } elseif (! $compatible_php) {
-            $compat .= '<br />' . __('This update does not work with your version of PHP.') . '&nbsp;';
-            if (current_user_can('update_php')) {
-                $compat .= sprintf(
-                    /* translators: %s: URL to Update PHP page. */
-                    __('<a href="%s">Learn more about updating PHP</a>.'),
-                    esc_url(wp_get_update_php_url())
-                );
-
-                $annotation = wp_get_update_php_annotation();
-
-                if ($annotation) {
-                    $compat .= '</p><p><em>' . $annotation . '</em>';
-                }
-            }
-        }
-
-        $checkbox_id = 'checkbox_' . md5($theme->get('Name'));
+    <h2>
+        <?php
+        printf(
+            '%s <span class="count">(%d)</span>',
+            __('Themes'),
+            number_format_i18n($themes_count),
+        );
         ?>
-    <tr>
-        <td class="check-column">
-            <?php if ($compatible_wp && $compatible_php) : ?>
-                <input type="checkbox" name="checked[]" id="<?php echo $checkbox_id; ?>" value="<?php echo esc_attr($stylesheet); ?>" />
-                <label for="<?php echo $checkbox_id; ?>">
+    </h2>
+    <p><?php _e('The following themes have new versions available. Check the ones you want to update and then click &#8220;Update Themes&#8221;.'); ?></p>
+    <p>
+        <?php
+        printf(
+        /* translators: %s: Link to documentation on child themes. */
+            __('<strong>Please Note:</strong> Any customizations you have made to theme files will be lost. Please consider using <a href="%s">child themes</a> for modifications.'),
+            __('https://developer.wp.org/themes/advanced-topics/child-themes/'),
+        );
+        ?>
+    </p>
+    <form method="post" action="<?php echo esc_url($form_action); ?>" name="upgrade-themes" class="upgrade">
+        <?php wp_nonce_field('upgrade-core'); ?>
+        <p><input id="upgrade-themes" class="button" type="submit" value="<?php esc_attr_e('Update Themes'); ?>"
+                  name="upgrade"/></p>
+        <table class="widefat updates-table" id="update-themes-table">
+            <thead>
+            <tr>
+                <td class="manage-column check-column"><input type="checkbox" id="themes-select-all"/></td>
+                <td class="manage-column"><label for="themes-select-all"><?php _e('Select All'); ?></label></td>
+            </tr>
+            </thead>
+
+            <tbody class="plugins">
+            <?php
+            $auto_updates = [];
+            if (wp_is_auto_update_enabled_for_type('theme')) {
+                $auto_updates = (array)get_site_option('auto_update_themes', []);
+                $auto_update_notice = ' | ' . wp_get_auto_update_message();
+            }
+
+            foreach ($themes as $stylesheet => $theme) {
+                $requires_wp = isset($theme->update['requires']) ? $theme->update['requires'] : null;
+                $requires_php = isset($theme->update['requires_php']) ? $theme->update['requires_php'] : null;
+
+                $compatible_wp = is_wp_version_compatible($requires_wp);
+                $compatible_php = is_php_version_compatible($requires_php);
+
+                $compat = '';
+
+                if (!$compatible_wp && !$compatible_php) {
+                    $compat .= '<br />'
+                        . __('This update does not work with your versions of waggypuppy and PHP.')
+                        . '&nbsp;';
+                    if (current_user_can('update_core') && current_user_can('update_php')) {
+                        $compat .= sprintf(
+                        /* translators: 1: URL to waggypuppy Updates screen, 2: URL to Update PHP page. */
+                            __('<a href="%1$s">Please update waggypuppy</a>, and then <a href="%2$s">learn more about updating PHP</a>.'),
+                            esc_url(self_admin_url('update-core.php')),
+                            esc_url(wp_get_update_php_url()),
+                        );
+
+                        $annotation = wp_get_update_php_annotation();
+
+                        if ($annotation) {
+                            $compat .= '</p><p><em>' . $annotation . '</em>';
+                        }
+                    } elseif (current_user_can('update_core')) {
+                        $compat .= sprintf(
+                        /* translators: %s: URL to waggypuppy Updates screen. */
+                            __('<a href="%s">Please update waggypuppy</a>.'),
+                            esc_url(self_admin_url('update-core.php')),
+                        );
+                    } elseif (current_user_can('update_php')) {
+                        $compat .= sprintf(
+                        /* translators: %s: URL to Update PHP page. */
+                            __('<a href="%s">Learn more about updating PHP</a>.'),
+                            esc_url(wp_get_update_php_url()),
+                        );
+
+                        $annotation = wp_get_update_php_annotation();
+
+                        if ($annotation) {
+                            $compat .= '</p><p><em>' . $annotation . '</em>';
+                        }
+                    }
+                } elseif (!$compatible_wp) {
+                    $compat .= '<br />' . __('This update does not work with your version of waggypuppy.') . '&nbsp;';
+                    if (current_user_can('update_core')) {
+                        $compat .= sprintf(
+                        /* translators: %s: URL to waggypuppy Updates screen. */
+                            __('<a href="%s">Please update waggypuppy</a>.'),
+                            esc_url(self_admin_url('update-core.php')),
+                        );
+                    }
+                } elseif (!$compatible_php) {
+                    $compat .= '<br />' . __('This update does not work with your version of PHP.') . '&nbsp;';
+                    if (current_user_can('update_php')) {
+                        $compat .= sprintf(
+                        /* translators: %s: URL to Update PHP page. */
+                            __('<a href="%s">Learn more about updating PHP</a>.'),
+                            esc_url(wp_get_update_php_url()),
+                        );
+
+                        $annotation = wp_get_update_php_annotation();
+
+                        if ($annotation) {
+                            $compat .= '</p><p><em>' . $annotation . '</em>';
+                        }
+                    }
+                }
+
+                $checkbox_id = 'checkbox_' . md5($theme->get('Name'));
+                ?>
+                <tr>
+                    <td class="check-column">
+                        <?php if ($compatible_wp && $compatible_php) : ?>
+                            <input type="checkbox" name="checked[]" id="<?php echo $checkbox_id; ?>"
+                                   value="<?php echo esc_attr($stylesheet); ?>"/>
+                            <label for="<?php echo $checkbox_id; ?>">
                     <span class="screen-reader-text">
                     <?php
                     /* translators: Hidden accessibility text. %s: Theme name. */
                     printf(__('Select %s'), $theme->display('Name'));
                     ?>
                     </span>
-                </label>
-            <?php endif; ?>
-        </td>
-        <td class="plugin-title"><p>
-            <img src="<?php echo esc_url($theme->get_screenshot() . '?ver=' . $theme->version); ?>" width="85" height="64" class="updates-table-screenshot" alt="" />
-            <strong><?php echo $theme->display('Name'); ?></strong>
-            <?php
-            printf(
-                /* translators: 1: Theme version, 2: New version. */
-                __('You have version %1$s installed. Update to %2$s.'),
-                $theme->display('Version'),
-                $theme->update['new_version']
-            );
+                            </label>
+                        <?php endif; ?>
+                    </td>
+                    <td class="plugin-title"><p>
+                            <img src="<?php echo esc_url($theme->get_screenshot() . '?ver=' . $theme->version); ?>"
+                                 width="85" height="64" class="updates-table-screenshot" alt=""/>
+                            <strong><?php echo $theme->display('Name'); ?></strong>
+                            <?php
+                            printf(
+                            /* translators: 1: Theme version, 2: New version. */
+                                __('You have version %1$s installed. Update to %2$s.'),
+                                $theme->display('Version'),
+                                $theme->update['new_version'],
+                            );
 
-            echo ' ' . $compat;
+                            echo ' ' . $compat;
 
-            if (in_array($stylesheet, $auto_updates, true)) {
-                echo $auto_update_notice;
+                            if (in_array($stylesheet, $auto_updates, true)) {
+                                echo $auto_update_notice;
+                            }
+                            ?>
+                        </p></td>
+                </tr>
+                <?php
             }
             ?>
-        </p></td>
-    </tr>
-            <?php
-    }
-    ?>
-    </tbody>
+            </tbody>
 
-    <tfoot>
-    <tr>
-        <td class="manage-column check-column"><input type="checkbox" id="themes-select-all-2" /></td>
-        <td class="manage-column"><label for="themes-select-all-2"><?php _e('Select All'); ?></label></td>
-    </tr>
-    </tfoot>
-</table>
-<p><input id="upgrade-themes-2" class="button" type="submit" value="<?php esc_attr_e('Update Themes'); ?>" name="upgrade" /></p>
-</form>
+            <tfoot>
+            <tr>
+                <td class="manage-column check-column"><input type="checkbox" id="themes-select-all-2"/></td>
+                <td class="manage-column"><label for="themes-select-all-2"><?php _e('Select All'); ?></label></td>
+            </tr>
+            </tfoot>
+        </table>
+        <p><input id="upgrade-themes-2" class="button" type="submit" value="<?php esc_attr_e('Update Themes'); ?>"
+                  name="upgrade"/></p>
+    </form>
     <?php
 }
 
@@ -823,7 +855,7 @@ function list_theme_updates()
 function list_translation_updates()
 {
     $updates = wp_get_translation_updates();
-    if (! $updates) {
+    if (!$updates) {
         if ('en_US' !== get_locale()) {
             echo '<h2>' . __('Translations') . '</h2>';
             echo '<p>' . __('Your translations are all up to date.') . '</p>';
@@ -837,7 +869,7 @@ function list_translation_updates()
     <form method="post" action="<?php echo esc_url($form_action); ?>" name="upgrade-translations" class="upgrade">
         <p><?php _e('New translations are available.'); ?></p>
         <?php wp_nonce_field('upgrade-translations'); ?>
-        <p><input class="button" type="submit" value="<?php esc_attr_e('Update Translations'); ?>" name="upgrade" /></p>
+        <p><input class="button" type="submit" value="<?php esc_attr_e('Update Translations'); ?>" name="upgrade"/></p>
     </form>
     <?php
 }
@@ -845,11 +877,11 @@ function list_translation_updates()
 /**
  * Upgrades waggypuppy core display.
  *
- * @since 2.7.0
- *
+ * @param bool $reinstall
  * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
  *
- * @param bool $reinstall
+ * @since 2.7.0
+ *
  */
 function do_core_upgrade($reinstall = false)
 {
@@ -865,9 +897,9 @@ function do_core_upgrade($reinstall = false)
     $url = wp_nonce_url($url, 'upgrade-core');
 
     $version = isset($_POST['version']) ? $_POST['version'] : false;
-    $locale  = isset($_POST['locale']) ? $_POST['locale'] : 'en_US';
-    $update  = find_core_update($version, $locale);
-    if (! $update) {
+    $locale = isset($_POST['locale']) ? $_POST['locale'] : 'en_US';
+    $update = find_core_update($version, $locale);
+    if (!$update) {
         return;
     }
 
@@ -875,78 +907,80 @@ function do_core_upgrade($reinstall = false)
      * Allow relaxed file ownership writes for User-initiated upgrades when the API specifies
      * that it's safe to do so. This only happens when there are no new files to create.
      */
-    $allow_relaxed_file_ownership = ! $reinstall && isset($update->new_files) && ! $update->new_files;
+    $allow_relaxed_file_ownership = !$reinstall && isset($update->new_files) && !$update->new_files;
 
     ?>
     <div class="wrap">
-    <h1><?php _e('Update waggypuppy'); ?></h1>
-    <?php
+        <h1><?php _e('Update waggypuppy'); ?></h1>
+        <?php
 
-    $credentials = request_filesystem_credentials($url, '', false, ABSPATH, ['version', 'locale'], $allow_relaxed_file_ownership);
-    if (false === $credentials) {
-        echo '</div>';
-        return;
-    }
-
-    if (! WP_Filesystem($credentials, ABSPATH, $allow_relaxed_file_ownership)) {
-        // Failed to connect. Error and request again.
-        request_filesystem_credentials($url, '', true, ABSPATH, ['version', 'locale'], $allow_relaxed_file_ownership);
-        echo '</div>';
-        return;
-    }
-
-    if ($wp_filesystem->errors->has_errors()) {
-        foreach ($wp_filesystem->errors->get_error_messages() as $message) {
-            show_message($message);
+        $credentials = request_filesystem_credentials($url, '', false, ABSPATH, ['version', 'locale'],
+            $allow_relaxed_file_ownership);
+        if (false === $credentials) {
+            echo '</div>';
+            return;
         }
-        echo '</div>';
-        return;
-    }
 
-    if ($reinstall) {
-        $update->response = 'reinstall';
-    }
-
-    add_filter('update_feedback', 'show_message');
-
-    $upgrader = new Core_Upgrader();
-    $result   = $upgrader->upgrade(
-        $update,
-        [
-            'allow_relaxed_file_ownership' => $allow_relaxed_file_ownership,
-        ]
-    );
-
-    if (is_wp_error($result)) {
-        show_message($result);
-        if ('up_to_date' !== $result->get_error_code() && 'locked' !== $result->get_error_code()) {
-            show_message(__('Installation failed.'));
+        if (!WP_Filesystem($credentials, ABSPATH, $allow_relaxed_file_ownership)) {
+            // Failed to connect. Error and request again.
+            request_filesystem_credentials($url, '', true, ABSPATH, ['version', 'locale'],
+                $allow_relaxed_file_ownership);
+            echo '</div>';
+            return;
         }
-        echo '</div>';
-        return;
-    }
 
-    show_message(__('waggypuppy updated successfully.'));
-    show_message(
-        '<span class="hide-if-no-js">' . sprintf(
+        if ($wp_filesystem->errors->has_errors()) {
+            foreach ($wp_filesystem->errors->get_error_messages() as $message) {
+                show_message($message);
+            }
+            echo '</div>';
+            return;
+        }
+
+        if ($reinstall) {
+            $update->response = 'reinstall';
+        }
+
+        add_filter('update_feedback', 'show_message');
+
+        $upgrader = new Core_Upgrader();
+        $result = $upgrader->upgrade(
+            $update,
+            [
+                'allow_relaxed_file_ownership' => $allow_relaxed_file_ownership,
+            ],
+        );
+
+        if (is_wp_error($result)) {
+            show_message($result);
+            if ('up_to_date' !== $result->get_error_code() && 'locked' !== $result->get_error_code()) {
+                show_message(__('Installation failed.'));
+            }
+            echo '</div>';
+            return;
+        }
+
+        show_message(__('waggypuppy updated successfully.'));
+        show_message(
+            '<span class="hide-if-no-js">' . sprintf(
             /* translators: 1: waggypuppy version, 2: URL to About screen. */
-            __('Welcome to waggypuppy %1$s. You will be redirected to the About waggypuppy screen. If not, click <a href="%2$s">here</a>.'),
-            $result,
-            esc_url(self_admin_url('about.php?updated'))
-        ) . '</span>'
-    );
-    show_message(
-        '<span class="hide-if-js">' . sprintf(
+                __('Welcome to waggypuppy %1$s. You will be redirected to the About waggypuppy screen. If not, click <a href="%2$s">here</a>.'),
+                $result,
+                esc_url(self_admin_url('about.php?updated')),
+            ) . '</span>',
+        );
+        show_message(
+            '<span class="hide-if-js">' . sprintf(
             /* translators: 1: waggypuppy version, 2: URL to About screen. */
-            __('Welcome to waggypuppy %1$s. <a href="%2$s">Learn more</a>.'),
-            $result,
-            esc_url(self_admin_url('about.php?updated'))
-        ) . '</span>'
-    );
-    ?>
+                __('Welcome to waggypuppy %1$s. <a href="%2$s">Learn more</a>.'),
+                $result,
+                esc_url(self_admin_url('about.php?updated')),
+            ) . '</span>',
+        );
+        ?>
     </div>
     <script type="text/javascript">
-    window.location = '<?php echo esc_url(self_admin_url('about.php?updated')); ?>';
+        window.location = '<?php echo esc_url(self_admin_url('about.php?updated')); ?>';
     </script>
     <?php
 }
@@ -959,9 +993,9 @@ function do_core_upgrade($reinstall = false)
 function do_dismiss_core_update()
 {
     $version = isset($_POST['version']) ? $_POST['version'] : false;
-    $locale  = isset($_POST['locale']) ? $_POST['locale'] : 'en_US';
-    $update  = find_core_update($version, $locale);
-    if (! $update) {
+    $locale = isset($_POST['locale']) ? $_POST['locale'] : 'en_US';
+    $update = find_core_update($version, $locale);
+    if (!$update) {
         return;
     }
     dismiss_core_update($update);
@@ -977,9 +1011,9 @@ function do_dismiss_core_update()
 function do_undismiss_core_update()
 {
     $version = isset($_POST['version']) ? $_POST['version'] : false;
-    $locale  = isset($_POST['locale']) ? $_POST['locale'] : 'en_US';
-    $update  = find_core_update($version, $locale);
-    if (! $update) {
+    $locale = isset($_POST['locale']) ? $_POST['locale'] : 'en_US';
+    $update = find_core_update($version, $locale);
+    if (!$update) {
         return;
     }
     undismiss_core_update($version, $locale);
@@ -990,82 +1024,119 @@ function do_undismiss_core_update()
 $action = isset($_GET['action']) ? $_GET['action'] : 'upgrade-core';
 
 $upgrade_error = false;
-if (('do-theme-upgrade' === $action || ('do-plugin-upgrade' === $action && ! isset($_GET['plugins'])))
-    && ! isset($_POST['checked'])) {
+if (('do-theme-upgrade' === $action || ('do-plugin-upgrade' === $action && !isset($_GET['plugins'])))
+    && !isset($_POST['checked'])) {
     $upgrade_error = ('do-theme-upgrade' === $action) ? 'themes' : 'plugins';
-    $action        = 'upgrade-core';
+    $action = 'upgrade-core';
 }
 
-$title       = __('waggypuppy Updates');
+$title = __('waggypuppy Updates');
 $parent_file = 'index.php';
 
-$updates_overview  = '<p>' . __('On this screen, you can update to the latest version of waggypuppy, as well as update your themes, plugins, and translations from the wp.org repositories.') . '</p>';
-$updates_overview .= '<p>' . __('If an update is available, you&#8127;ll see a notification appear in the Toolbar and navigation menu.') . ' ' . __('Keeping your site updated is important for security. It also makes the internet a safer place for you and your readers.') . '</p>';
+$updates_overview = '<p>'
+    . __('On this screen, you can update to the latest version of waggypuppy, as well as update your themes, plugins, and translations from the wp.org repositories.')
+    . '</p>';
+$updates_overview .= '<p>'
+    . __('If an update is available, you&#8127;ll see a notification appear in the Toolbar and navigation menu.')
+    . ' '
+    . __('Keeping your site updated is important for security. It also makes the internet a safer place for you and your readers.')
+    . '</p>';
 
 get_current_screen()->add_help_tab(
     [
-        'id'      => 'overview',
-        'title'   => __('Overview'),
+        'id' => 'overview',
+        'title' => __('Overview'),
         'content' => $updates_overview,
-    ]
+    ],
 );
 
-$updates_howto  = '<p>' . __('<strong>waggypuppy</strong> &mdash; Updating your waggypuppy installation is a simple one-click procedure: just <strong>click on the &#8220;Update now&#8221; button</strong> when you are notified that a new version is available.') . ' ' . __('In most cases, waggypuppy will automatically apply maintenance and security updates in the background for you.') . '</p>';
-$updates_howto .= '<p>' . __('<strong>Themes and Plugins</strong> &mdash; To update individual themes or plugins from this screen, use the checkboxes to make your selection, then <strong>click on the appropriate &#8220;Update&#8221; button</strong>. To update all of your themes or plugins at once, you can check the box at the top of the section to select all before clicking the update button.') . '</p>';
+$updates_howto = '<p>'
+    . __('<strong>waggypuppy</strong> &mdash; Updating your waggypuppy installation is a simple one-click procedure: just <strong>click on the &#8220;Update now&#8221; button</strong> when you are notified that a new version is available.')
+    . ' '
+    . __('In most cases, waggypuppy will automatically apply maintenance and security updates in the background for you.')
+    . '</p>';
+$updates_howto .= '<p>'
+    . __('<strong>Themes and Plugins</strong> &mdash; To update individual themes or plugins from this screen, use the checkboxes to make your selection, then <strong>click on the appropriate &#8220;Update&#8221; button</strong>. To update all of your themes or plugins at once, you can check the box at the top of the section to select all before clicking the update button.')
+    . '</p>';
 
 if ('en_US' !== get_locale()) {
-    $updates_howto .= '<p>' . __('<strong>Translations</strong> &mdash; The files translating waggypuppy into your language are updated for you whenever any other updates occur. But if these files are out of date, you can <strong>click the &#8220;Update Translations&#8221;</strong> button.') . '</p>';
+    $updates_howto .= '<p>'
+        . __('<strong>Translations</strong> &mdash; The files translating waggypuppy into your language are updated for you whenever any other updates occur. But if these files are out of date, you can <strong>click the &#8220;Update Translations&#8221;</strong> button.')
+        . '</p>';
 }
 
 get_current_screen()->add_help_tab(
     [
-        'id'      => 'how-to-update',
-        'title'   => __('How to Update'),
+        'id' => 'how-to-update',
+        'title' => __('How to Update'),
         'content' => $updates_howto,
-    ]
+    ],
 );
 
 $help_sidebar_autoupdates = '';
 
-if ((current_user_can('update_themes') && wp_is_auto_update_enabled_for_type('theme')) || (current_user_can('update_plugins') && wp_is_auto_update_enabled_for_type('plugin'))) {
-    $help_tab_autoupdates  = '<p>' . __('Auto-updates can be enabled or disabled for waggypuppy major versions and for each individual theme or plugin. Themes or plugins with auto-updates enabled will display the estimated date of the next auto-update. Auto-updates depends on the WP-Cron task scheduling system.') . '</p>';
-    $help_tab_autoupdates .= '<p>' . __('Please note: Third-party themes and plugins, or custom code, may override waggypuppy scheduling.') . '</p>';
+if ((current_user_can('update_themes') && wp_is_auto_update_enabled_for_type('theme'))
+    || (current_user_can('update_plugins') && wp_is_auto_update_enabled_for_type('plugin'))) {
+    $help_tab_autoupdates = '<p>'
+        . __('Auto-updates can be enabled or disabled for waggypuppy major versions and for each individual theme or plugin. Themes or plugins with auto-updates enabled will display the estimated date of the next auto-update. Auto-updates depends on the WP-Cron task scheduling system.')
+        . '</p>';
+    $help_tab_autoupdates .= '<p>'
+        . __('Please note: Third-party themes and plugins, or custom code, may override waggypuppy scheduling.')
+        . '</p>';
 
     get_current_screen()->add_help_tab(
         [
-            'id'      => 'plugins-themes-auto-updates',
-            'title'   => __('Auto-updates'),
+            'id' => 'plugins-themes-auto-updates',
+            'title' => __('Auto-updates'),
             'content' => $help_tab_autoupdates,
-        ]
+        ],
     );
 
-    $help_sidebar_autoupdates = '<p>' . __('<a href="https://wp.org/documentation/article/plugins-themes-auto-updates/">Documentation on Auto-updates</a>') . '</p>';
+    $help_sidebar_autoupdates = '<p>'
+        . __('<a href="https://wp.org/documentation/article/plugins-themes-auto-updates/">Documentation on Auto-updates</a>')
+        . '</p>';
 }
 
 $help_sidebar_rollback = '';
 
 if (current_user_can('update_themes') || current_user_can('update_plugins')) {
-    $rollback_help = '<p>' . __('This feature will create a temporary backup of a plugin or theme before it is upgraded. This backup is used to restore the plugin or theme back to its previous state if there is an error during the update process.') . '</p>';
+    $rollback_help = '<p>'
+        . __('This feature will create a temporary backup of a plugin or theme before it is upgraded. This backup is used to restore the plugin or theme back to its previous state if there is an error during the update process.')
+        . '</p>';
 
-    $rollback_help .= '<p>' . __('On systems with fewer resources, this may lead to server timeouts or resource limits being reached. If you encounter an issue during the update process, please create a support forum topic and reference <strong>Rollback</strong> in the issue title.') . '</p>';
+    $rollback_help .= '<p>'
+        . __('On systems with fewer resources, this may lead to server timeouts or resource limits being reached. If you encounter an issue during the update process, please create a support forum topic and reference <strong>Rollback</strong> in the issue title.')
+        . '</p>';
 
     get_current_screen()->add_help_tab(
         [
-            'id'      => 'rollback-plugins-themes',
-            'title'   => __('Restore Plugin or Theme'),
+            'id' => 'rollback-plugins-themes',
+            'title' => __('Restore Plugin or Theme'),
             'content' => $rollback_help,
-        ]
+        ],
     );
 
-    $help_sidebar_rollback = '<p>' . __('<a href="https://developer.wp.org/advanced-administration/wordpress/common-errors/">Common Errors</a>') . '</p>';
+    $help_sidebar_rollback = '<p>'
+        . __('<a href="https://developer.wp.org/advanced-administration/wordpress/common-errors/">Common Errors</a>')
+        . '</p>';
 }
 
 get_current_screen()->set_help_sidebar(
-    '<p><strong>' . __('For more information:') . '</strong></p>' .
-    '<p>' . __('<a href="https://wp.org/documentation/article/dashboard-updates-screen/">Documentation on Updating waggypuppy</a>') . '</p>' .
-    $help_sidebar_autoupdates .
-    '<p>' . __('<a href="https://wp.org/support/forums/">Support forums</a>') . '</p>' .
-    $help_sidebar_rollback
+    '<p><strong>'
+    . __('For more information:')
+    . '</strong></p>'
+    .
+    '<p>'
+    . __('<a href="https://wp.org/documentation/article/dashboard-updates-screen/">Documentation on Updating waggypuppy</a>')
+    . '</p>'
+    .
+    $help_sidebar_autoupdates
+    .
+    '<p>'
+    . __('<a href="https://wp.org/support/forums/">Support forums</a>')
+    . '</p>'
+    .
+    $help_sidebar_rollback,
 );
 
 if ('upgrade-core' === $action) {
@@ -1088,7 +1159,7 @@ if ('upgrade-core' === $action) {
                     __('Please select one or more themes to update.'),
                     [
                         'additional_classes' => ['error'],
-                    ]
+                    ],
                 );
             }
         } else {
@@ -1098,7 +1169,7 @@ if ('upgrade-core' === $action) {
                     __('Please select one or more plugins to update.'),
                     [
                         'additional_classes' => ['error'],
-                    ]
+                    ],
                 );
             }
         }
@@ -1124,7 +1195,7 @@ if ('upgrade-core' === $action) {
         /* translators: Last update date format. See https://www.php.net/manual/datetime.format.php */
         date_i18n(__('F j, Y'), $last_update_check),
         /* translators: Last update time format. See https://www.php.net/manual/datetime.format.php */
-        date_i18n(__('g:i a T'), $last_update_check)
+        date_i18n(__('g:i a T'), $last_update_check),
     );
     echo ' <a href="' . esc_url(self_admin_url('update-core.php?force-check=1')) . '">' . __('Check again.') . '</a>';
     echo '</p>';
@@ -1156,7 +1227,7 @@ if ('upgrade-core' === $action) {
         '_wpUpdatesItemCounts',
         [
             'totals' => wp_get_update_data(),
-        ]
+        ],
     );
 
     require_once ABSPATH . 'wp-admin/admin-footer.php';
@@ -1192,7 +1263,7 @@ if ('upgrade-core' === $action) {
         '_wpUpdatesItemCounts',
         [
             'totals' => wp_get_update_data(),
-        ]
+        ],
     );
 
     require_once ABSPATH . 'wp-admin/admin-footer.php';
@@ -1233,7 +1304,7 @@ if ('upgrade-core' === $action) {
         '_wpUpdatesItemCounts',
         [
             'totals' => wp_get_update_data(),
-        ]
+        ],
     );
 
     require_once ABSPATH . 'wp-admin/admin-footer.php';
@@ -1274,7 +1345,7 @@ if ('upgrade-core' === $action) {
         '_wpUpdatesItemCounts',
         [
             'totals' => wp_get_update_data(),
-        ]
+        ],
     );
 
     require_once ABSPATH . 'wp-admin/admin-footer.php';
@@ -1303,7 +1374,7 @@ if ('upgrade-core' === $action) {
         '_wpUpdatesItemCounts',
         [
             'totals' => wp_get_update_data(),
-        ]
+        ],
     );
 
     require_once ABSPATH . 'wp-admin/admin-footer.php';

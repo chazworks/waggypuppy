@@ -40,14 +40,14 @@ class WP_REST_Font_Collections_Controller extends WP_REST_Controller
             '/' . $this->rest_base,
             [
                 [
-                    'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => [$this, 'get_items'],
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_items'],
                     'permission_callback' => [$this, 'get_items_permissions_check'],
-                    'args'                => $this->get_collection_params(),
+                    'args' => $this->get_collection_params(),
 
                 ],
                 'schema' => [$this, 'get_public_item_schema'],
-            ]
+            ],
         );
 
         register_rest_route(
@@ -55,39 +55,39 @@ class WP_REST_Font_Collections_Controller extends WP_REST_Controller
             '/' . $this->rest_base . '/(?P<slug>[\/\w-]+)',
             [
                 [
-                    'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => [$this, 'get_item'],
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_item'],
                     'permission_callback' => [$this, 'get_items_permissions_check'],
-                    'args'                => [
+                    'args' => [
                         'context' => $this->get_context_param(['default' => 'view']),
                     ],
                 ],
                 'schema' => [$this, 'get_public_item_schema'],
-            ]
+            ],
         );
     }
 
     /**
      * Gets the font collections available.
      *
+     * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      * @since 6.5.0
      *
-     * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
     public function get_items($request)
     {
         $collections_all = WP_Font_Library::get_instance()->get_font_collections();
 
-        $page        = $request['page'];
-        $per_page    = $request['per_page'];
+        $page = $request['page'];
+        $per_page = $request['per_page'];
         $total_items = count($collections_all);
-        $max_pages   = (int) ceil($total_items / $per_page);
+        $max_pages = (int)ceil($total_items / $per_page);
 
         if ($page > $max_pages && $total_items > 0) {
             return new WP_Error(
                 'rest_post_invalid_page_number',
                 __('The page number requested is larger than the number of pages available.'),
-                ['status' => 400]
+                ['status' => 400],
             );
         }
 
@@ -101,18 +101,18 @@ class WP_REST_Font_Collections_Controller extends WP_REST_Controller
             if (is_wp_error($item)) {
                 continue;
             }
-            $item    = $this->prepare_response_for_collection($item);
+            $item = $this->prepare_response_for_collection($item);
             $items[] = $item;
         }
 
         $response = rest_ensure_response($items);
 
-        $response->header('X-WP-Total', (int) $total_items);
+        $response->header('X-WP-Total', (int)$total_items);
         $response->header('X-WP-TotalPages', $max_pages);
 
         $request_params = $request->get_query_params();
         $collection_url = rest_url($this->namespace . '/' . $this->rest_base);
-        $base           = add_query_arg(urlencode_deep($request_params), $collection_url);
+        $base = add_query_arg(urlencode_deep($request_params), $collection_url);
 
         if ($page > 1) {
             $prev_page = $page - 1;
@@ -137,17 +137,17 @@ class WP_REST_Font_Collections_Controller extends WP_REST_Controller
     /**
      * Gets a font collection.
      *
-     * @since 6.5.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     * @since 6.5.0
+     *
      */
     public function get_item($request)
     {
-        $slug       = $request->get_param('slug');
+        $slug = $request->get_param('slug');
         $collection = WP_Font_Library::get_instance()->get_font_collection($slug);
 
-        if (! $collection) {
+        if (!$collection) {
             return new WP_Error('rest_font_collection_not_found', __('Font collection not found.'), ['status' => 404]);
         }
 
@@ -155,18 +155,18 @@ class WP_REST_Font_Collections_Controller extends WP_REST_Controller
     }
 
     /**
-    * Prepare a single collection output for response.
-    *
-    * @since 6.5.0
-    *
-    * @param WP_Font_Collection $item    Font collection object.
-    * @param WP_REST_Request    $request Request object.
-    * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
-    */
+     * Prepare a single collection output for response.
+     *
+     * @param WP_Font_Collection $item Font collection object.
+     * @param WP_REST_Request $request Request object.
+     * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     * @since 6.5.0
+     *
+     */
     public function prepare_item_for_response($item, $request)
     {
         $fields = $this->get_fields_for_response($request);
-        $data   = [];
+        $data = [];
 
         if (rest_is_field_included('slug', $fields)) {
             $data['slug'] = $item->slug;
@@ -174,7 +174,7 @@ class WP_REST_Font_Collections_Controller extends WP_REST_Controller
 
         // If any data fields are requested, get the collection data.
         $data_fields = ['name', 'description', 'font_families', 'categories'];
-        if (! empty(array_intersect($fields, $data_fields))) {
+        if (!empty(array_intersect($fields, $data_fields))) {
             $collection_data = $item->get_data();
             if (is_wp_error($collection_data)) {
                 $collection_data->add_data(['status' => 500]);
@@ -195,18 +195,18 @@ class WP_REST_Font_Collections_Controller extends WP_REST_Controller
             $response->add_links($links);
         }
 
-        $context        = ! empty($request['context']) ? $request['context'] : 'view';
+        $context = !empty($request['context']) ? $request['context'] : 'view';
         $response->data = $this->add_additional_fields_to_object($response->data, $request);
         $response->data = $this->filter_response_by_context($response->data, $context);
 
         /**
          * Filters the font collection data for a REST API response.
          *
+         * @param WP_REST_Response $response The response object.
+         * @param WP_Font_Collection $item The font collection object.
+         * @param WP_REST_Request $request Request used to generate the response.
          * @since 6.5.0
          *
-         * @param WP_REST_Response   $response The response object.
-         * @param WP_Font_Collection $item     The font collection object.
-         * @param WP_REST_Request    $request  Request used to generate the response.
          */
         return apply_filters('rest_prepare_font_collection', $response, $item, $request);
     }
@@ -214,9 +214,9 @@ class WP_REST_Font_Collections_Controller extends WP_REST_Controller
     /**
      * Retrieves the font collection's schema, conforming to JSON Schema.
      *
+     * @return array Item schema data.
      * @since 6.5.0
      *
-     * @return array Item schema data.
      */
     public function get_item_schema()
     {
@@ -225,35 +225,35 @@ class WP_REST_Font_Collections_Controller extends WP_REST_Controller
         }
 
         $schema = [
-            '$schema'    => 'http://json-schema.org/draft-04/schema#',
-            'title'      => 'font-collection',
-            'type'       => 'object',
+            '$schema' => 'http://json-schema.org/draft-04/schema#',
+            'title' => 'font-collection',
+            'type' => 'object',
             'properties' => [
-                'slug'          => [
+                'slug' => [
                     'description' => __('Unique identifier for the font collection.'),
-                    'type'        => 'string',
-                    'context'     => ['view', 'edit', 'embed'],
-                    'readonly'    => true,
+                    'type' => 'string',
+                    'context' => ['view', 'edit', 'embed'],
+                    'readonly' => true,
                 ],
-                'name'          => [
+                'name' => [
                     'description' => __('The name for the font collection.'),
-                    'type'        => 'string',
-                    'context'     => ['view', 'edit', 'embed'],
+                    'type' => 'string',
+                    'context' => ['view', 'edit', 'embed'],
                 ],
-                'description'   => [
+                'description' => [
                     'description' => __('The description for the font collection.'),
-                    'type'        => 'string',
-                    'context'     => ['view', 'edit', 'embed'],
+                    'type' => 'string',
+                    'context' => ['view', 'edit', 'embed'],
                 ],
                 'font_families' => [
                     'description' => __('The font families for the font collection.'),
-                    'type'        => 'array',
-                    'context'     => ['view', 'edit', 'embed'],
+                    'type' => 'array',
+                    'context' => ['view', 'edit', 'embed'],
                 ],
-                'categories'    => [
+                'categories' => [
                     'description' => __('The categories for the font collection.'),
-                    'type'        => 'array',
-                    'context'     => ['view', 'edit', 'embed'],
+                    'type' => 'array',
+                    'context' => ['view', 'edit', 'embed'],
                 ],
             ],
         ];
@@ -266,15 +266,15 @@ class WP_REST_Font_Collections_Controller extends WP_REST_Controller
     /**
      * Prepares links for the request.
      *
-     * @since 6.5.0
-     *
      * @param WP_Font_Collection $collection Font collection data
      * @return array Links for the given font collection.
+     * @since 6.5.0
+     *
      */
     protected function prepare_links($collection)
     {
         return [
-            'self'       => [
+            'self' => [
                 'href' => rest_url(sprintf('%s/%s/%s', $this->namespace, $this->rest_base, $collection->slug)),
             ],
             'collection' => [
@@ -286,9 +286,9 @@ class WP_REST_Font_Collections_Controller extends WP_REST_Controller
     /**
      * Retrieves the search params for the font collections.
      *
+     * @return array Collection parameters.
      * @since 6.5.0
      *
-     * @return array Collection parameters.
      */
     public function get_collection_params()
     {
@@ -301,9 +301,9 @@ class WP_REST_Font_Collections_Controller extends WP_REST_Controller
         /**
          * Filters REST API collection parameters for the font collections controller.
          *
+         * @param array $query_params JSON Schema-formatted collection parameters.
          * @since 6.5.0
          *
-         * @param array $query_params JSON Schema-formatted collection parameters.
          */
         return apply_filters('rest_font_collections_collection_params', $query_params);
     }
@@ -311,9 +311,9 @@ class WP_REST_Font_Collections_Controller extends WP_REST_Controller
     /**
      * Checks whether the user has permissions to use the Fonts Collections.
      *
+     * @return true|WP_Error True if the request has write access for the item, WP_Error object otherwise.
      * @since 6.5.0
      *
-     * @return true|WP_Error True if the request has write access for the item, WP_Error object otherwise.
      */
     public function get_items_permissions_check($request)
     {
@@ -326,7 +326,7 @@ class WP_REST_Font_Collections_Controller extends WP_REST_Controller
             __('Sorry, you are not allowed to access font collections.'),
             [
                 'status' => rest_authorization_required_code(),
-            ]
+            ],
         );
     }
 }

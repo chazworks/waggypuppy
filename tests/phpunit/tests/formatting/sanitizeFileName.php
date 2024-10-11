@@ -16,8 +16,42 @@ class Tests_Formatting_SanitizeFileName extends WP_UnitTestCase
 
     public function test_removes_special_chars()
     {
-        $special_chars = ['?', '[', ']', '/', '\\', '=', '<', '>', ':', ';', ',', "'", '"', '&', '$', '#', '*', '(', ')', '|', '~', '`', '!', '{', '}', '%', '+', '’', '«', '»', '”', '“', chr(0)];
-        $string        = 'test';
+        $special_chars = [
+            '?',
+            '[',
+            ']',
+            '/',
+            '\\',
+            '=',
+            '<',
+            '>',
+            ':',
+            ';',
+            ',',
+            "'",
+            '"',
+            '&',
+            '$',
+            '#',
+            '*',
+            '(',
+            ')',
+            '|',
+            '~',
+            '`',
+            '!',
+            '{',
+            '}',
+            '%',
+            '+',
+            '’',
+            '«',
+            '»',
+            '”',
+            '“',
+            chr(0),
+        ];
+        $string = 'test';
         foreach ($special_chars as $char) {
             $string .= $char;
         }
@@ -30,7 +64,7 @@ class Tests_Formatting_SanitizeFileName extends WP_UnitTestCase
      */
     public function test_removes_accents()
     {
-        $in  = 'àáâãäåæçèéêëìíîïñòóôõöøùúûüýÿ';
+        $in = 'àáâãäåæçèéêëìíîïñòóôõöøùúûüýÿ';
         $out = 'aaaaaaaeceeeeiiiinoooooouuuuyy';
         $this->assertSame($out, sanitize_file_name($in));
     }
@@ -43,9 +77,9 @@ class Tests_Formatting_SanitizeFileName extends WP_UnitTestCase
     public function test_replaces_spaces()
     {
         $urls = [
-            'unencoded space.png'  => 'unencoded-space.png',
-            'encoded-space.jpg'    => 'encoded-space.jpg',
-            'plus+space.jpg'       => 'plusspace.jpg',
+            'unencoded space.png' => 'unencoded-space.png',
+            'encoded-space.jpg' => 'encoded-space.jpg',
+            'plus+space.jpg' => 'plusspace.jpg',
             'multi %20 +space.png' => 'multi-20-space.png',
         ];
 
@@ -120,8 +154,10 @@ class Tests_Formatting_SanitizeFileName extends WP_UnitTestCase
      * @param string $filename A filename with consecutive periods.
      * @param string $expected The expected filename after sanitization.
      */
-    public function test_sanitize_file_name_should_replace_consecutive_periods_with_a_single_period($filename, $expected)
-    {
+    public function test_sanitize_file_name_should_replace_consecutive_periods_with_a_single_period(
+        $filename,
+        $expected,
+    ) {
         $this->assertSame($expected, sanitize_file_name($filename));
     }
 
@@ -133,11 +169,11 @@ class Tests_Formatting_SanitizeFileName extends WP_UnitTestCase
     public function data_sanitize_file_name_should_replace_consecutive_periods_with_a_single_period()
     {
         return [
-            'consecutive periods at the start'         => [
+            'consecutive periods at the start' => [
                 'filename' => '...filename.png',
                 'expected' => 'filename.png',
             ],
-            'consecutive periods in the middle'        => [
+            'consecutive periods in the middle' => [
                 'filename' => 'file.......name.png',
                 'expected' => 'file.name_.png',
             ],
@@ -145,7 +181,7 @@ class Tests_Formatting_SanitizeFileName extends WP_UnitTestCase
                 'filename' => 'filename....png',
                 'expected' => 'filename.png',
             ],
-            'consecutive periods after the extension'  => [
+            'consecutive periods after the extension' => [
                 'filename' => 'filename.png...',
                 'expected' => 'filename.png',
             ],
@@ -153,7 +189,7 @@ class Tests_Formatting_SanitizeFileName extends WP_UnitTestCase
                 'filename' => '.....file....name...png......',
                 'expected' => 'file.name_.png',
             ],
-            'consecutive periods and no extension'     => [
+            'consecutive periods and no extension' => [
                 'filename' => 'filename...',
                 'expected' => 'filename',
             ],

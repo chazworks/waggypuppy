@@ -47,7 +47,7 @@ class Tests_Date_wpDate extends WP_UnitTestCase
 
         $wp_locale->month = [10 => '10月'];
 
-        $utc      = new DateTimeZone('UTC');
+        $utc = new DateTimeZone('UTC');
         $datetime = new DateTimeImmutable('2019-10-17', $utc);
 
         $this->assertSame('10月', wp_date('F', $datetime->getTimestamp(), $utc));
@@ -60,10 +60,10 @@ class Tests_Date_wpDate extends WP_UnitTestCase
     {
         global $wp_locale;
 
-        $string           = 'A \ B';
+        $string = 'A \ B';
         $wp_locale->month = [10 => $string];
 
-        $utc      = new DateTimeZone('UTC');
+        $utc = new DateTimeZone('UTC');
         $datetime = new DateTimeImmutable('2019-10-17', $utc);
 
         $this->assertSame($string, wp_date('F', $datetime->getTimestamp(), $utc));
@@ -77,7 +77,7 @@ class Tests_Date_wpDate extends WP_UnitTestCase
     public function test_should_format_date_with_no_timestamp()
     {
         $utc = new DateTimeZone('UTC');
-        $this->assertSame((string) time(), wp_date('U', null, $utc));
+        $this->assertSame((string)time(), wp_date('U', null, $utc));
     }
 
     /**
@@ -87,7 +87,7 @@ class Tests_Date_wpDate extends WP_UnitTestCase
      */
     public function test_should_format_date_with_no_timezone()
     {
-        $utc      = new DateTimeZone('UTC');
+        $utc = new DateTimeZone('UTC');
         $datetime = new DateTimeImmutable('2019-10-17', $utc);
         $this->assertSame('October', wp_date('F', $datetime->getTimestamp()));
     }
@@ -100,11 +100,11 @@ class Tests_Date_wpDate extends WP_UnitTestCase
      * @dataProvider data_should_format_date
      *
      * @param string $expected The expected result.
-     * @param string $format   The date format.
+     * @param string $format The date format.
      */
     public function test_should_format_date($expected, $format)
     {
-        $utc      = new DateTimeZone('UTC');
+        $utc = new DateTimeZone('UTC');
         $datetime = new DateTimeImmutable('2019-10-17', $utc);
 
         $this->assertSame($expected, wp_date($format, $datetime->getTimestamp(), $utc));
@@ -118,37 +118,37 @@ class Tests_Date_wpDate extends WP_UnitTestCase
     public function data_should_format_date()
     {
         return [
-            'Swatch Internet Time'                        => [
+            'Swatch Internet Time' => [
                 'expected' => '041',
-                'format'   => 'B',
+                'format' => 'B',
             ],
             'Ante meridiem and Post meridiem (uppercase)' => [
                 'expected' => 'AM',
-                'format'   => 'A',
+                'format' => 'A',
             ],
             'Ante meridiem and Post meridiem (uppercase) and escaped "A"' => [
                 'expected' => 'A AM',
-                'format'   => '\\A A',
+                'format' => '\\A A',
             ],
             'Ante meridiem and Post meridiem (lowercase)' => [
                 'expected' => 'am',
-                'format'   => 'a',
+                'format' => 'a',
             ],
-            'Month'                                       => [
+            'Month' => [
                 'expected' => 'October',
-                'format'   => 'F',
+                'format' => 'F',
             ],
-            'Month (abbreviated'                          => [
+            'Month (abbreviated' => [
                 'expected' => 'Oct',
-                'format'   => 'M',
+                'format' => 'M',
             ],
-            'Weekday'                                     => [
+            'Weekday' => [
                 'expected' => 'Thursday',
-                'format'   => 'l',
+                'format' => 'l',
             ],
-            'Weekday (abbreviated)'                       => [
+            'Weekday (abbreviated)' => [
                 'expected' => 'Thu',
-                'format'   => 'D',
+                'format' => 'D',
             ],
         ];
     }
@@ -163,12 +163,12 @@ class Tests_Date_wpDate extends WP_UnitTestCase
     {
         global $wp_locale;
 
-        $utc      = new DateTimeZone('UTC');
+        $utc = new DateTimeZone('UTC');
         $datetime = new DateTimeImmutable('2019-10-17', $utc);
 
-        $wp_locale->month   = [];
+        $wp_locale->month = [];
         $wp_locale->weekday = [];
-        $actual             = wp_date('F', $datetime->getTimestamp(), $utc);
+        $actual = wp_date('F', $datetime->getTimestamp(), $utc);
 
         $this->assertSame('October', $actual);
     }

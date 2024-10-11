@@ -15,10 +15,10 @@ class Tests_Functions_wpFuzzyNumberMatch extends WP_UnitTestCase
      *
      * @ticket 54239
      *
-     * @param int|float $expected  The expected value.
-     * @param int|float $actual    The actual number.
+     * @param int|float $expected The expected value.
+     * @param int|float $actual The actual number.
      * @param int|float $precision The allowed variation.
-     * @param bool      $result    Whether the numbers match within the specified precision.
+     * @param bool $result Whether the numbers match within the specified precision.
      */
     public function test_wp_fuzzy_number_match($expected, $actual, $precision, $result)
     {
@@ -29,86 +29,86 @@ class Tests_Functions_wpFuzzyNumberMatch extends WP_UnitTestCase
      * Data provider.
      *
      * @return array[] Test parameters {
-     *     @type int|float $expected  The expected value.
-     *     @type int|float $actual    The actual number.
-     *     @type int|float $precision The allowed variation.
-     *     @type bool      $result    Whether the numbers match within the specified precision.
+     * @type int|float $expected The expected value.
+     * @type int|float $actual The actual number.
+     * @type int|float $precision The allowed variation.
+     * @type bool $result Whether the numbers match within the specified precision.
      * }
      */
     public function data_wp_fuzzy_number_match()
     {
         return [
-            'expected 1 int, actual 1 int'                => [
-                'expected'  => 1,
-                'actual'    => 1,
+            'expected 1 int, actual 1 int' => [
+                'expected' => 1,
+                'actual' => 1,
                 'precision' => 1,
-                'result'    => true,
+                'result' => true,
             ],
-            'expected 1 int, actual 2 int'                => [
-                'expected'  => 1,
-                'actual'    => 2,
+            'expected 1 int, actual 2 int' => [
+                'expected' => 1,
+                'actual' => 2,
                 'precision' => 1,
-                'result'    => true,
+                'result' => true,
             ],
-            'expected 1 int, actual 3 int'                => [
-                'expected'  => 1,
-                'actual'    => 3,
+            'expected 1 int, actual 3 int' => [
+                'expected' => 1,
+                'actual' => 3,
                 'precision' => 1,
-                'result'    => false,
+                'result' => false,
             ],
-            'expected 1 int, actual 1 string'             => [
-                'expected'  => 1,
-                'actual'    => '1',
+            'expected 1 int, actual 1 string' => [
+                'expected' => 1,
+                'actual' => '1',
                 'precision' => 1,
-                'result'    => true,
+                'result' => true,
             ],
             'expected 1 int, actual 11 int, precision 10' => [
-                'expected'  => 1,
-                'actual'    => 11,
+                'expected' => 1,
+                'actual' => 11,
                 'precision' => 10,
-                'result'    => true,
+                'result' => true,
             ],
             'expected 1 int, actual 12 int, precision 10' => [
-                'expected'  => 1,
-                'actual'    => 12,
+                'expected' => 1,
+                'actual' => 12,
                 'precision' => 10,
-                'result'    => false,
+                'result' => false,
             ],
-            'expected 1.234 float, actual 1 int'          => [
-                'expected'  => 1.234,
-                'actual'    => 1,
+            'expected 1.234 float, actual 1 int' => [
+                'expected' => 1.234,
+                'actual' => 1,
                 'precision' => 1,
-                'result'    => true,
+                'result' => true,
             ],
-            'expected 2.234 float, actual 2 int'          => [
-                'expected'  => 1.234,
-                'actual'    => 2,
+            'expected 2.234 float, actual 2 int' => [
+                'expected' => 1.234,
+                'actual' => 2,
                 'precision' => 1,
-                'result'    => true,
+                'result' => true,
             ],
-            'expected 1 int, actual 2.0001 float'         => [
-                'expected'  => 1,
-                'actual'    => 2.0001,
+            'expected 1 int, actual 2.0001 float' => [
+                'expected' => 1,
+                'actual' => 2.0001,
                 'precision' => 1,
-                'result'    => false,
+                'result' => false,
             ],
-            'expected 1 int, actual 3.23 float'           => [
-                'expected'  => 1,
-                'actual'    => 3.234,
+            'expected 1 int, actual 3.23 float' => [
+                'expected' => 1,
+                'actual' => 3.234,
                 'precision' => 1,
-                'result'    => false,
+                'result' => false,
             ],
             'expected 1.2e1 float (12), actual 1.3e1 float (13)' => [
-                'expected'  => 1.2e1,
-                'actual'    => 1.3e1,
+                'expected' => 1.2e1,
+                'actual' => 1.3e1,
                 'precision' => 1,
-                'result'    => true,
+                'result' => true,
             ],
             'expected 1.2e3 float (1200), actual 1.2e3 float, precision 1000' => [
-                'expected'  => 1.2e3,
-                'actual'    => 1.2e3,
+                'expected' => 1.2e3,
+                'actual' => 1.2e3,
                 'precision' => 1000,
-                'result'    => true,
+                'result' => true,
             ],
         ];
     }

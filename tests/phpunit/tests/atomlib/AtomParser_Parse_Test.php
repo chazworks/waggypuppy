@@ -33,11 +33,11 @@ final class AtomParser_Parse_Test extends WP_UnitTestCase
     {
         $atom = new class() extends AtomParser {
             public $start_element_call_counter = 0;
-            public $end_element_call_counter   = 0;
-            public $start_ns_call_counter      = 0;
-            public $end_ns_call_counter        = 0;
-            public $cdata_call_counter         = 0;
-            public $default_call_counter       = 0;
+            public $end_element_call_counter = 0;
+            public $start_ns_call_counter = 0;
+            public $end_ns_call_counter = 0;
+            public $cdata_call_counter = 0;
+            public $default_call_counter = 0;
 
 
             public $FILE = __DIR__ . '/../../data/feed/AtomParser_Parse_Test.xml';
@@ -46,22 +46,27 @@ final class AtomParser_Parse_Test extends WP_UnitTestCase
             {
                 ++$this->start_element_call_counter;
             }
+
             public function end_element($parser, $name)
             {
                 ++$this->end_element_call_counter;
             }
+
             public function start_ns($parser, $prefix, $uri)
             {
                 ++$this->start_ns_call_counter;
             }
+
             public function end_ns($parser, $prefix)
             {
                 ++$this->end_ns_call_counter;
             }
+
             public function cdata($parser, $data)
             {
                 ++$this->cdata_call_counter;
             }
+
             public function _default($parser, $data)
             {
                 ++$this->default_call_counter;

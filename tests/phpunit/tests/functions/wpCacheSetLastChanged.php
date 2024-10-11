@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tests for the wp_cache_set_last_changed() function.
  *

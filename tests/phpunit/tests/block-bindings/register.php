@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tests for Block Bindings API helper functions.
  *
@@ -12,7 +13,7 @@
 class Tests_Block_Bindings_Register extends WP_UnitTestCase
 {
 
-    public static $test_source_name       = 'test/source';
+    public static $test_source_name = 'test/source';
     public static $test_source_properties = [];
 
     /**
@@ -25,7 +26,7 @@ class Tests_Block_Bindings_Register extends WP_UnitTestCase
         parent::set_up();
 
         self::$test_source_properties = [
-            'label'              => 'Test source',
+            'label' => 'Test source',
             'get_value_callback' => function () {
                 return 'test-value';
             },
@@ -60,23 +61,23 @@ class Tests_Block_Bindings_Register extends WP_UnitTestCase
      */
     public function test_get_all_registered()
     {
-        $source_one_name       = 'test/source-one';
+        $source_one_name = 'test/source-one';
         $source_one_properties = self::$test_source_properties;
         register_block_bindings_source($source_one_name, $source_one_properties);
 
-        $source_two_name       = 'test/source-two';
+        $source_two_name = 'test/source-two';
         $source_two_properties = self::$test_source_properties;
         register_block_bindings_source($source_two_name, $source_two_properties);
 
-        $source_three_name       = 'test/source-three';
+        $source_three_name = 'test/source-three';
         $source_three_properties = self::$test_source_properties;
         register_block_bindings_source($source_three_name, $source_three_properties);
 
         $expected = [
-            $source_one_name         => new WP_Block_Bindings_Source($source_one_name, $source_one_properties),
-            $source_two_name         => new WP_Block_Bindings_Source($source_two_name, $source_two_properties),
-            $source_three_name       => new WP_Block_Bindings_Source($source_three_name, $source_three_properties),
-            'core/post-meta'         => get_block_bindings_source('core/post-meta'),
+            $source_one_name => new WP_Block_Bindings_Source($source_one_name, $source_one_properties),
+            $source_two_name => new WP_Block_Bindings_Source($source_two_name, $source_two_properties),
+            $source_three_name => new WP_Block_Bindings_Source($source_three_name, $source_three_properties),
+            'core/post-meta' => get_block_bindings_source('core/post-meta'),
             'core/pattern-overrides' => get_block_bindings_source('core/pattern-overrides'),
         ];
 
@@ -101,9 +102,9 @@ class Tests_Block_Bindings_Register extends WP_UnitTestCase
         $this->assertEquals(
             new WP_Block_Bindings_Source(
                 self::$test_source_name,
-                self::$test_source_properties
+                self::$test_source_properties,
             ),
-            $result
+            $result,
         );
     }
 }

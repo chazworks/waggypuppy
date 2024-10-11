@@ -47,17 +47,17 @@ class WP_Style_Engine_CSS_Rules_Store
     /**
      * Gets an instance of the store.
      *
-     * @since 6.1.0
-     *
      * @param string $store_name The name of the store.
      * @return WP_Style_Engine_CSS_Rules_Store|void
+     * @since 6.1.0
+     *
      */
     public static function get_store($store_name = 'default')
     {
-        if (! is_string($store_name) || empty($store_name)) {
+        if (!is_string($store_name) || empty($store_name)) {
             return;
         }
-        if (! isset(static::$stores[$store_name])) {
+        if (!isset(static::$stores[$store_name])) {
             static::$stores[$store_name] = new static();
             // Set the store name.
             static::$stores[$store_name]->set_name($store_name);
@@ -68,9 +68,9 @@ class WP_Style_Engine_CSS_Rules_Store
     /**
      * Gets an array of all available stores.
      *
+     * @return WP_Style_Engine_CSS_Rules_Store[]
      * @since 6.1.0
      *
-     * @return WP_Style_Engine_CSS_Rules_Store[]
      */
     public static function get_stores()
     {
@@ -90,9 +90,9 @@ class WP_Style_Engine_CSS_Rules_Store
     /**
      * Sets the store name.
      *
+     * @param string $name The store name.
      * @since 6.1.0
      *
-     * @param string $name The store name.
      */
     public function set_name($name)
     {
@@ -102,9 +102,9 @@ class WP_Style_Engine_CSS_Rules_Store
     /**
      * Gets the store name.
      *
+     * @return string
      * @since 6.1.0
      *
-     * @return string
      */
     public function get_name()
     {
@@ -114,9 +114,9 @@ class WP_Style_Engine_CSS_Rules_Store
     /**
      * Gets an array of all rules.
      *
+     * @return WP_Style_Engine_CSS_Rule[]
      * @since 6.1.0
      *
-     * @return WP_Style_Engine_CSS_Rule[]
      */
     public function get_all_rules()
     {
@@ -127,18 +127,18 @@ class WP_Style_Engine_CSS_Rules_Store
      * Gets a WP_Style_Engine_CSS_Rule object by its selector.
      * If the rule does not exist, it will be created.
      *
-     * @since 6.1.0
-     * @since 6.6.0 Added the $rules_group parameter.
-     *
      * @param string $selector The CSS selector.
      * @param string $rules_group A parent CSS selector in the case of nested CSS, or a CSS nested @rule,
      *                            such as `@media (min-width: 80rem)` or `@layer module`.
      * @return WP_Style_Engine_CSS_Rule|void Returns a WP_Style_Engine_CSS_Rule object,
      *                                       or void if the selector is empty.
+     * @since 6.6.0 Added the $rules_group parameter.
+     *
+     * @since 6.1.0
      */
     public function add_rule($selector, $rules_group = '')
     {
-        $selector    = $selector ? trim($selector) : '';
+        $selector = $selector ? trim($selector) : '';
         $rules_group = $rules_group ? trim($rules_group) : '';
 
         // Bail early if there is no selector.
@@ -146,7 +146,7 @@ class WP_Style_Engine_CSS_Rules_Store
             return;
         }
 
-        if (! empty($rules_group)) {
+        if (!empty($rules_group)) {
             if (empty($this->rules["$rules_group $selector"])) {
                 $this->rules["$rules_group $selector"] = new WP_Style_Engine_CSS_Rule($selector, [], $rules_group);
             }
@@ -164,9 +164,9 @@ class WP_Style_Engine_CSS_Rules_Store
     /**
      * Removes a selector from the store.
      *
+     * @param string $selector The CSS selector.
      * @since 6.1.0
      *
-     * @param string $selector The CSS selector.
      */
     public function remove_rule($selector)
     {

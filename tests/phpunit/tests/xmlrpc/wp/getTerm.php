@@ -13,7 +13,7 @@ class Tests_XMLRPC_wp_getTerm extends WP_XMLRPC_UnitTestCase
         self::$term_id = $factory->term->create(
             [
                 'taxonomy' => 'category',
-            ]
+            ],
         );
     }
 
@@ -79,7 +79,7 @@ class Tests_XMLRPC_wp_getTerm extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('editor');
 
-        $term                  = get_term(self::$term_id, 'category', ARRAY_A);
+        $term = get_term(self::$term_id, 'category', ARRAY_A);
         $term['custom_fields'] = [];
 
         $result = $this->myxmlrpcserver->wp_getTerm([1, 'editor', 'editor', 'category', self::$term_id]);
@@ -127,7 +127,7 @@ class Tests_XMLRPC_wp_getTerm extends WP_XMLRPC_UnitTestCase
                 'editor',
                 'category',
                 self::$term_id,
-            ]
+            ],
         );
         $this->assertNotIXRError($result);
 

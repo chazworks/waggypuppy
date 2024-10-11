@@ -30,7 +30,7 @@ class Tests_Theme_Support extends WP_UnitTestCase
 
         $this->assertSame(
             [0 => ['callback' => '__return_false']],
-            get_theme_support('admin-bar')
+            get_theme_support('admin-bar'),
         );
         remove_theme_support('admin-bar');
         $this->assertFalse(current_theme_supports('admin-bar'));
@@ -69,7 +69,7 @@ class Tests_Theme_Support extends WP_UnitTestCase
         $this->assertFalse(current_theme_supports('post-thumbnails', 'book'));
         $this->assertSame(
             [0 => ['post', 'page']],
-            get_theme_support('post-thumbnails')
+            get_theme_support('post-thumbnails'),
         );
 
         add_theme_support('post-thumbnails');

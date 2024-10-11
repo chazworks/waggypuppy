@@ -28,9 +28,9 @@ final class WP_oEmbed_Controller
         /**
          * Filters the maxwidth oEmbed parameter.
          *
+         * @param int $maxwidth Maximum allowed width. Default 600.
          * @since 4.4.0
          *
-         * @param int $maxwidth Maximum allowed width. Default 600.
          */
         $maxwidth = apply_filters('oembed_default_width', 600);
 
@@ -39,27 +39,27 @@ final class WP_oEmbed_Controller
             '/embed',
             [
                 [
-                    'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => [$this, 'get_item'],
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_item'],
                     'permission_callback' => '__return_true',
-                    'args'                => [
-                        'url'      => [
+                    'args' => [
+                        'url' => [
                             'description' => __('The URL of the resource for which to fetch oEmbed data.'),
-                            'required'    => true,
-                            'type'        => 'string',
-                            'format'      => 'uri',
+                            'required' => true,
+                            'type' => 'string',
+                            'format' => 'uri',
                         ],
-                        'format'   => [
-                            'default'           => 'json',
+                        'format' => [
+                            'default' => 'json',
                             'sanitize_callback' => 'wp_oembed_ensure_format',
                         ],
                         'maxwidth' => [
-                            'default'           => $maxwidth,
+                            'default' => $maxwidth,
                             'sanitize_callback' => 'absint',
                         ],
                     ],
                 ],
-            ]
+            ],
         );
 
         register_rest_route(
@@ -67,44 +67,44 @@ final class WP_oEmbed_Controller
             '/proxy',
             [
                 [
-                    'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => [$this, 'get_proxy_item'],
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_proxy_item'],
                     'permission_callback' => [$this, 'get_proxy_item_permissions_check'],
-                    'args'                => [
-                        'url'       => [
+                    'args' => [
+                        'url' => [
                             'description' => __('The URL of the resource for which to fetch oEmbed data.'),
-                            'required'    => true,
-                            'type'        => 'string',
-                            'format'      => 'uri',
+                            'required' => true,
+                            'type' => 'string',
+                            'format' => 'uri',
                         ],
-                        'format'    => [
+                        'format' => [
                             'description' => __('The oEmbed format to use.'),
-                            'type'        => 'string',
-                            'default'     => 'json',
-                            'enum'        => [
+                            'type' => 'string',
+                            'default' => 'json',
+                            'enum' => [
                                 'json',
                                 'xml',
                             ],
                         ],
-                        'maxwidth'  => [
-                            'description'       => __('The maximum width of the embed frame in pixels.'),
-                            'type'              => 'integer',
-                            'default'           => $maxwidth,
+                        'maxwidth' => [
+                            'description' => __('The maximum width of the embed frame in pixels.'),
+                            'type' => 'integer',
+                            'default' => $maxwidth,
                             'sanitize_callback' => 'absint',
                         ],
                         'maxheight' => [
-                            'description'       => __('The maximum height of the embed frame in pixels.'),
-                            'type'              => 'integer',
+                            'description' => __('The maximum height of the embed frame in pixels.'),
+                            'type' => 'integer',
                             'sanitize_callback' => 'absint',
                         ],
-                        'discover'  => [
+                        'discover' => [
                             'description' => __('Whether to perform an oEmbed discovery request for unsanctioned providers.'),
-                            'type'        => 'boolean',
-                            'default'     => true,
+                            'type' => 'boolean',
+                            'default' => true,
                         ],
                     ],
                 ],
-            ]
+            ],
         );
     }
 
@@ -113,10 +113,10 @@ final class WP_oEmbed_Controller
      *
      * Returns the JSON object for the post.
      *
-     * @since 4.4.0
-     *
      * @param WP_REST_Request $request Full data about the request.
      * @return array|WP_Error oEmbed response data or WP_Error on failure.
+     * @since 4.4.0
+     *
      */
     public function get_item($request)
     {
@@ -125,16 +125,16 @@ final class WP_oEmbed_Controller
         /**
          * Filters the determined post ID.
          *
+         * @param int $post_id The post ID.
+         * @param string $url The requested URL.
          * @since 4.4.0
          *
-         * @param int    $post_id The post ID.
-         * @param string $url     The requested URL.
          */
         $post_id = apply_filters('oembed_request_post_id', $post_id, $request['url']);
 
         $data = get_oembed_response_data($post_id, $request['maxwidth']);
 
-        if (! $data) {
+        if (!$data) {
             return new WP_Error('oembed_invalid_url', get_status_header_desc(404), ['status' => 404]);
         }
 
@@ -144,14 +144,15 @@ final class WP_oEmbed_Controller
     /**
      * Checks if current user can make a proxy oEmbed request.
      *
+     * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
      * @since 4.8.0
      *
-     * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
      */
     public function get_proxy_item_permissions_check()
     {
-        if (! current_user_can('edit_posts')) {
-            return new WP_Error('rest_forbidden', __('Sorry, you are not allowed to make proxied oEmbed requests.'), ['status' => rest_authorization_required_code()]);
+        if (!current_user_can('edit_posts')) {
+            return new WP_Error('rest_forbidden', __('Sorry, you are not allowed to make proxied oEmbed requests.'),
+                ['status' => rest_authorization_required_code()]);
         }
         return true;
     }
@@ -161,14 +162,14 @@ final class WP_oEmbed_Controller
      *
      * Returns the JSON object for the proxied item.
      *
+     * @param WP_REST_Request $request Full data about the request.
+     * @return object|WP_Error oEmbed response data or WP_Error on failure.
+     * @global WP_Embed $wp_embed waggypuppy Embed object.
+     * @global WP_Scripts $wp_scripts
+     *
      * @since 4.8.0
      *
      * @see WP_oEmbed::get_html()
-     * @global WP_Embed   $wp_embed   waggypuppy Embed object.
-     * @global WP_Scripts $wp_scripts
-     *
-     * @param WP_REST_Request $request Full data about the request.
-     * @return object|WP_Error oEmbed response data or WP_Error on failure.
      */
     public function get_proxy_item($request)
     {
@@ -179,8 +180,8 @@ final class WP_oEmbed_Controller
         // Serve oEmbed data from cache if set.
         unset($args['_wpnonce']);
         $cache_key = 'oembed_' . md5(serialize($args));
-        $data      = get_transient($cache_key);
-        if (! empty($data)) {
+        $data = get_transient($cache_key);
+        if (!empty($data)) {
             return $data;
         }
 
@@ -217,10 +218,10 @@ final class WP_oEmbed_Controller
                     $enqueued_scripts[] = $wp_scripts->registered[$script]->src;
                 }
 
-                return (object) [
+                return (object)[
                     'provider_name' => __('Embed Handler'),
-                    'html'          => $html,
-                    'scripts'       => $enqueued_scripts,
+                    'html' => $html,
+                    'scripts' => $enqueued_scripts,
                 ];
             }
 
@@ -228,7 +229,8 @@ final class WP_oEmbed_Controller
         }
 
         /** This filter is documented in wp-includes/class-wp-oembed.php */
-        $data->html = apply_filters('oembed_result', _wp_oembed_get_object()->data2html((object) $data, $url), $url, $args);
+        $data->html = apply_filters('oembed_result', _wp_oembed_get_object()->data2html((object)$data, $url), $url,
+            $args);
 
         /**
          * Filters the oEmbed TTL value (time to live).
@@ -236,11 +238,11 @@ final class WP_oEmbed_Controller
          * Similar to the {@see 'oembed_ttl'} filter, but for the REST API
          * oEmbed proxy endpoint.
          *
+         * @param int $time Time to live (in seconds).
+         * @param string $url The attempted embed URL.
+         * @param array $args An array of embed request arguments.
          * @since 4.8.0
          *
-         * @param int    $time    Time to live (in seconds).
-         * @param string $url     The attempted embed URL.
-         * @param array  $args    An array of embed request arguments.
          */
         $ttl = apply_filters('rest_oembed_ttl', DAY_IN_SECONDS, $url, $args);
 

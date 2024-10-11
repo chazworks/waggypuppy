@@ -25,12 +25,12 @@ class Tests_Filesystem_WpFilesystemDirect_GetContentsArray extends WP_Filesystem
      */
     public function test_should_get_the_contents_of_a_file_as_an_array()
     {
-        $file     = self::$file_structure['visible_file']['path'];
+        $file = self::$file_structure['visible_file']['path'];
         $contents = self::$filesystem->get_contents_array($file);
 
         $this->assertIsArray(
             $contents,
-            'The file contents are not an array.'
+            'The file contents are not an array.',
         );
 
         $this->assertSameSetsWithIndex(
@@ -39,7 +39,7 @@ class Tests_Filesystem_WpFilesystemDirect_GetContentsArray extends WP_Filesystem
                 "Next line of a file.\r\n",
             ],
             $contents,
-            'The file contents do not match the expected value.'
+            'The file contents do not match the expected value.',
         );
     }
 

@@ -10,8 +10,8 @@ class Tests_Term_Meta extends WP_UnitTestCase
 
     private $last_register_meta_call = [
         'object_type' => '',
-        'meta_key'    => '',
-        'args'        => [],
+        'meta_key' => '',
+        'args' => [],
     ];
 
     public function set_up()
@@ -68,9 +68,9 @@ class Tests_Term_Meta extends WP_UnitTestCase
         add_term_meta($t, 'foo', 'bar');
         add_term_meta($t, 'foo1', 'baz');
 
-        $found    = get_term_meta($t);
+        $found = get_term_meta($t);
         $expected = [
-            'foo'  => ['bar'],
+            'foo' => ['bar'],
             'foo1' => ['baz'],
         ];
 
@@ -84,7 +84,7 @@ class Tests_Term_Meta extends WP_UnitTestCase
         add_term_meta($t, 'foo', 'baz');
         add_term_meta($t, 'foo1', 'baz');
 
-        $found    = get_term_meta($t, 'foo');
+        $found = get_term_meta($t, 'foo');
         $expected = ['bar', 'baz'];
 
         $this->assertSameSets($expected, $found);
@@ -181,7 +181,7 @@ class Tests_Term_Meta extends WP_UnitTestCase
         $q = new WP_Query(
             [
                 'update_post_term_cache' => true,
-            ]
+            ],
         );
 
         $this->assertTrue($q->get('lazy_load_term_meta'));
@@ -189,7 +189,7 @@ class Tests_Term_Meta extends WP_UnitTestCase
         $q = new WP_Query(
             [
                 'update_post_term_cache' => false,
-            ]
+            ],
         );
 
         $this->assertFalse($q->get('lazy_load_term_meta'));
@@ -211,10 +211,10 @@ class Tests_Term_Meta extends WP_UnitTestCase
         $this->reset_lazyload_queue();
         $q = new WP_Query(
             [
-                'cache_results'          => true,
+                'cache_results' => true,
                 'update_post_term_cache' => true,
-                'lazy_load_term_meta'    => false,
-            ]
+                'lazy_load_term_meta' => false,
+            ],
         );
 
         if ($q->have_posts()) {
@@ -245,14 +245,14 @@ class Tests_Term_Meta extends WP_UnitTestCase
             'wptests_tax',
             [
                 'hide_empty' => false,
-                'fields'     => 'ids',
+                'fields' => 'ids',
                 'meta_query' => [
                     [
-                        'key'   => 'foo',
+                        'key' => 'foo',
                         'value' => 'bar',
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertSameSets([$terms[0]], $found);
@@ -263,14 +263,14 @@ class Tests_Term_Meta extends WP_UnitTestCase
             'wptests_tax',
             [
                 'hide_empty' => false,
-                'fields'     => 'ids',
+                'fields' => 'ids',
                 'meta_query' => [
                     [
-                        'key'   => 'foo',
+                        'key' => 'foo',
                         'value' => 'bar',
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertSameSets([$terms[0], $terms[1]], $found);
@@ -288,14 +288,14 @@ class Tests_Term_Meta extends WP_UnitTestCase
             'wptests_tax',
             [
                 'hide_empty' => false,
-                'fields'     => 'ids',
+                'fields' => 'ids',
                 'meta_query' => [
                     [
-                        'key'   => 'foo',
+                        'key' => 'foo',
                         'value' => 'bar',
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertSameSets([$terms[0]], $found);
@@ -306,14 +306,14 @@ class Tests_Term_Meta extends WP_UnitTestCase
             'wptests_tax',
             [
                 'hide_empty' => false,
-                'fields'     => 'ids',
+                'fields' => 'ids',
                 'meta_query' => [
                     [
-                        'key'   => 'foo',
+                        'key' => 'foo',
                         'value' => 'bar',
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertSameSets([$terms[0], $terms[1]], $found);
@@ -331,14 +331,14 @@ class Tests_Term_Meta extends WP_UnitTestCase
             'wptests_tax',
             [
                 'hide_empty' => false,
-                'fields'     => 'ids',
+                'fields' => 'ids',
                 'meta_query' => [
                     [
-                        'key'   => 'foo',
+                        'key' => 'foo',
                         'value' => 'bar',
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertSameSets([$terms[0], $terms[1]], $found);
@@ -349,14 +349,14 @@ class Tests_Term_Meta extends WP_UnitTestCase
             'wptests_tax',
             [
                 'hide_empty' => false,
-                'fields'     => 'ids',
+                'fields' => 'ids',
                 'meta_query' => [
                     [
-                        'key'   => 'foo',
+                        'key' => 'foo',
                         'value' => 'bar',
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertSameSets([$terms[0]], $found);
@@ -385,7 +385,7 @@ class Tests_Term_Meta extends WP_UnitTestCase
             ['term_id' => $t1['term_id']],
             ['term_taxonomy_id' => $t2['term_taxonomy_id']],
             ['%d'],
-            ['%d']
+            ['%d'],
         );
 
         $wpdb->update(
@@ -393,7 +393,7 @@ class Tests_Term_Meta extends WP_UnitTestCase
             ['term_id' => $t1['term_id']],
             ['term_taxonomy_id' => $t3['term_taxonomy_id']],
             ['%d'],
-            ['%d']
+            ['%d'],
         );
 
         $found = add_term_meta($t1['term_id'], 'bar', 'baz');
@@ -426,7 +426,7 @@ class Tests_Term_Meta extends WP_UnitTestCase
             ['term_id' => $t1['term_id']],
             ['term_taxonomy_id' => $t2['term_taxonomy_id']],
             ['%d'],
-            ['%d']
+            ['%d'],
         );
 
         $wpdb->update(
@@ -434,7 +434,7 @@ class Tests_Term_Meta extends WP_UnitTestCase
             ['term_id' => $t1['term_id']],
             ['term_taxonomy_id' => $t3['term_taxonomy_id']],
             ['%d'],
-            ['%d']
+            ['%d'],
         );
 
         $found = update_term_meta($t1['term_id'], 'foo', 'baz');
@@ -469,15 +469,15 @@ class Tests_Term_Meta extends WP_UnitTestCase
         $t = self::factory()->term->create(['taxonomy' => 'wptests_tax']);
 
         $term_meta_id = add_term_meta($t, 'foo', 'bar');
-        $meta         = has_term_meta($t);
+        $meta = has_term_meta($t);
 
         $this->assertCount(1, $meta);
 
         $expected = [
-            'meta_key'   => 'foo',
+            'meta_key' => 'foo',
             'meta_value' => 'bar',
-            'meta_id'    => $term_meta_id,
-            'term_id'    => $t,
+            'meta_id' => $term_meta_id,
+            'term_id' => $t,
         ];
 
         $found = $meta[0];
@@ -529,8 +529,8 @@ class Tests_Term_Meta extends WP_UnitTestCase
     public function filter_register_meta_args_set_last_register_meta_call($args, $defaults, $object_type, $meta_key)
     {
         $this->last_register_meta_call['object_type'] = $object_type;
-        $this->last_register_meta_call['meta_key']    = $meta_key;
-        $this->last_register_meta_call['args']        = $args;
+        $this->last_register_meta_call['meta_key'] = $meta_key;
+        $this->last_register_meta_call['args'] = $args;
 
         return $args;
     }

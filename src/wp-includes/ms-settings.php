@@ -17,14 +17,14 @@
  * file will attempt to populate them based on the current request.
  *
  * @global WP_Network $current_site The current network.
- * @global object     $current_blog The current site.
- * @global string     $domain       Deprecated. The domain of the site found on load.
+ * @global object $current_blog The current site.
+ * @global string $domain Deprecated. The domain of the site found on load.
  *                                  Use `get_site()->domain` instead.
- * @global string     $path         Deprecated. The path of the site found on load.
+ * @global string $path Deprecated. The path of the site found on load.
  *                                  Use `get_site()->path` instead.
- * @global int        $site_id      Deprecated. The ID of the network found on load.
+ * @global int $site_id Deprecated. The ID of the network found on load.
  *                                  Use `get_current_network_id()` instead.
- * @global bool       $public       Deprecated. Whether the site found on load is public.
+ * @global bool $public Deprecated. Whether the site found on load is public.
  *                                  Use `get_site()->public` instead.
  *
  * @since 3.0.0
@@ -52,14 +52,13 @@ ms_subdomain_constants();
 
 // This block will process a request if the current network or current site objects
 // have not been populated in the global scope through something like `sunrise.php`.
-if (! isset($current_site) || ! isset($current_blog)) {
-
+if (!isset($current_site) || !isset($current_blog)) {
     $domain = strtolower(stripslashes($_SERVER['HTTP_HOST']));
     if (str_ends_with($domain, ':80')) {
-        $domain               = substr($domain, 0, -3);
+        $domain = substr($domain, 0, -3);
         $_SERVER['HTTP_HOST'] = substr($_SERVER['HTTP_HOST'], 0, -3);
     } elseif (str_ends_with($domain, ':443')) {
-        $domain               = substr($domain, 0, -4);
+        $domain = substr($domain, 0, -4);
         $_SERVER['HTTP_HOST'] = substr($_SERVER['HTTP_HOST'], 0, -4);
     }
 
@@ -82,7 +81,7 @@ if (! isset($current_site) || ! isset($current_blog)) {
     unset($bootstrap_result);
 
     $blog_id = $current_blog->blog_id;
-    $public  = $current_blog->public;
+    $public = $current_blog->public;
 
     if (empty($current_blog->site_id)) {
         // This dates to [MU134] and shouldn't be relevant anymore,
@@ -96,18 +95,18 @@ if (! isset($current_site) || ! isset($current_blog)) {
 
 $wpdb->set_prefix($table_prefix, false); // $table_prefix can be set in sunrise.php.
 $wpdb->set_blog_id($current_blog->blog_id, $current_blog->site_id);
-$table_prefix       = $wpdb->get_blog_prefix();
+$table_prefix = $wpdb->get_blog_prefix();
 $_wp_switched_stack = [];
-$switched           = false;
+$switched = false;
 
 // Need to init cache again after blog_id is set.
 wp_start_object_cache();
 
-if (! $current_site instanceof WP_Network) {
+if (!$current_site instanceof WP_Network) {
     $current_site = new WP_Network($current_site);
 }
 
-if (! $current_blog instanceof WP_Site) {
+if (!$current_blog instanceof WP_Site) {
     $current_blog = new WP_Site($current_blog);
 }
 

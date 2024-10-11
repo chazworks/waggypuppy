@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering WP_HTML_Processor functionality.
  *
@@ -16,11 +17,11 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase
     /**
      * @ticket 58517
      *
-     * @covers WP_HTML_Processor::step
+     * @covers       WP_HTML_Processor::step
      *
      * @dataProvider data_single_tag_of_supported_elements
      *
-     * @param string $html     HTML with at least one tag to scan.
+     * @param string $html HTML with at least one tag to scan.
      * @param string $tag_name Name of first tag in HTML (because HTML treats IMAGE as IMG this may not match the HTML).
      */
     public function test_navigates_into_normative_html_for_supported_elements($html, $tag_name)
@@ -28,7 +29,8 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase
         $processor = WP_HTML_Processor::create_fragment($html);
 
         $this->assertTrue($processor->next_token(), "Failed to step into supported {$tag_name} element.");
-        $this->assertSame($tag_name, $processor->get_tag(), "Misread {$tag_name} as a {$processor->get_tag()} element.");
+        $this->assertSame($tag_name, $processor->get_tag(),
+            "Misread {$tag_name} as a {$processor->get_tag()} element.");
     }
 
     /**
@@ -184,7 +186,7 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase
 
         $this->assertNull(
             $processor->get_last_error(),
-            'Bailed on unsupported input before finding supported checkpoint: check test code.'
+            'Bailed on unsupported input before finding supported checkpoint: check test code.',
         );
 
         $this->assertTrue($processor->get_attribute('supported'), 'Did not find required supported element.');
@@ -205,7 +207,7 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase
                 'Unclosed formatting requires complicated reconstruction.',
             ],
 
-            'A after unclosed A inside DIV'          => [
+            'A after unclosed A inside DIV' => [
                 '<a><div supported><a unsupported></div></a>',
                 'A is a formatting element, which requires more complicated reconstruction.',
             ],
@@ -215,13 +217,13 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase
     /**
      * @ticket 58517
      *
-     * @covers WP_HTML_Processor::next_tag
+     * @covers       WP_HTML_Processor::next_tag
      *
      * @dataProvider data_html_target_with_breadcrumbs
      *
-     * @param string $html        HTML string with tags in it, one of which contains the "target" attribute.
-     * @param array  $breadcrumbs Breadcrumbs of element with "target" attribute set.
-     * @param int    $n           How many breadcrumb matches to scan through in order to find "target" element.
+     * @param string $html HTML string with tags in it, one of which contains the "target" attribute.
+     * @param array $breadcrumbs Breadcrumbs of element with "target" attribute set.
+     * @param int $n How many breadcrumb matches to scan through in order to find "target" element.
      */
     public function test_finds_correct_tag_given_breadcrumbs($html, $breadcrumbs, $n)
     {
@@ -229,25 +231,26 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase
 
         $processor->next_tag(
             [
-                'breadcrumbs'  => $breadcrumbs,
+                'breadcrumbs' => $breadcrumbs,
                 'match_offset' => $n,
-            ]
+            ],
         );
 
         $this->assertNotNull($processor->get_tag(), 'Failed to find target node.');
-        $this->assertTrue($processor->get_attribute('target'), "Found {$processor->get_tag()} element didn't contain the necessary 'target' attribute.");
+        $this->assertTrue($processor->get_attribute('target'),
+            "Found {$processor->get_tag()} element didn't contain the necessary 'target' attribute.");
     }
 
     /**
      * @ticket 58517
      *
-     * @covers WP_HTML_Processor::get_breadcrumbs
+     * @covers       WP_HTML_Processor::get_breadcrumbs
      *
      * @dataProvider data_html_target_with_breadcrumbs
      *
-     * @param string $html        HTML string with tags in it, one of which contains the "target" attribute.
-     * @param array  $breadcrumbs Breadcrumbs of element with "target" attribute set.
-     * @param int    $ignored_n   Not used in this test but provided in the dataset for other tests.
+     * @param string $html HTML string with tags in it, one of which contains the "target" attribute.
+     * @param array $breadcrumbs Breadcrumbs of element with "target" attribute set.
+     * @param int $ignored_n Not used in this test but provided in the dataset for other tests.
      */
     public function test_reports_correct_breadcrumbs_for_html($html, $breadcrumbs, $ignored_n)
     {
@@ -258,7 +261,8 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase
         }
 
         $this->assertNotNull($processor->get_tag(), 'Failed to find the target node.');
-        $this->assertSame($breadcrumbs, $processor->get_breadcrumbs(), 'Found the wrong path from the root of the HTML document to the target node.');
+        $this->assertSame($breadcrumbs, $processor->get_breadcrumbs(),
+            'Found the wrong path from the root of the HTML document to the target node.');
     }
 
     /**
@@ -269,55 +273,111 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase
     public static function data_html_target_with_breadcrumbs()
     {
         return [
-            'Simple IMG tag'                        => ['<img target>', ['HTML', 'BODY', 'IMG'], 1],
-            'Two sibling IMG tags'                  => ['<img><img target>', ['HTML', 'BODY', 'IMG'], 2],
-            'Three sibling IMG tags, an IMAGE in last place' => ['<img><img><image target>', ['HTML', 'BODY', 'IMG'], 3],
-            'IMG inside a DIV'                      => ['<div><img target></div>', ['HTML', 'BODY', 'DIV', 'IMG'], 1],
-            'DIV inside a DIV'                      => ['<div><div target></div>', ['HTML', 'BODY', 'DIV', 'DIV'], 1],
-            'IMG inside many DIVS'                  => ['<div><div><div><div><img target></div></div></div></div>', ['HTML', 'BODY', 'DIV', 'DIV', 'DIV', 'DIV', 'IMG'], 1],
-            'DIV inside DIV after IMG'              => ['<div><img><div target></div></div>', ['HTML', 'BODY', 'DIV', 'DIV'], 1],
-            'IMG after DIV'                         => ['<div></div><img target>', ['HTML', 'BODY', 'IMG'], 1],
-            'IMG after two DIVs'                    => ['<div></div><div></div><img target>', ['HTML', 'BODY', 'IMG'], 1],
-            'IMG after two DIVs with nesting'       => ['<div><div><img></div></div><div></div><img target>', ['HTML', 'BODY', 'IMG'], 1],
-            'IMG after invalid DIV closer'          => ['</div><img target>', ['HTML', 'BODY', 'IMG'], 1],
-            'EM inside DIV'                         => ['<div>The weather is <em target>beautiful</em>.</div>', ['HTML', 'BODY', 'DIV', 'EM'], 1],
-            'EM after closed EM'                    => ['<em></em><em target></em>', ['HTML', 'BODY', 'EM'], 2],
-            'EM after closed EMs'                   => ['<em></em><em><em></em></em><em></em><em></em><em target></em>', ['HTML', 'BODY', 'EM'], 5],
-            'EM after unclosed EM'                  => ['<em><em target></em>', ['HTML', 'BODY', 'EM', 'EM'], 1],
-            'EM after unclosed EM after DIV'        => ['<em><div><em target>', ['HTML', 'BODY', 'EM', 'DIV', 'EM'], 1],
+            'Simple IMG tag' => ['<img target>', ['HTML', 'BODY', 'IMG'], 1],
+            'Two sibling IMG tags' => ['<img><img target>', ['HTML', 'BODY', 'IMG'], 2],
+            'Three sibling IMG tags, an IMAGE in last place' => [
+                '<img><img><image target>',
+                ['HTML', 'BODY', 'IMG'],
+                3,
+            ],
+            'IMG inside a DIV' => ['<div><img target></div>', ['HTML', 'BODY', 'DIV', 'IMG'], 1],
+            'DIV inside a DIV' => ['<div><div target></div>', ['HTML', 'BODY', 'DIV', 'DIV'], 1],
+            'IMG inside many DIVS' => [
+                '<div><div><div><div><img target></div></div></div></div>',
+                ['HTML', 'BODY', 'DIV', 'DIV', 'DIV', 'DIV', 'IMG'],
+                1,
+            ],
+            'DIV inside DIV after IMG' => ['<div><img><div target></div></div>', ['HTML', 'BODY', 'DIV', 'DIV'], 1],
+            'IMG after DIV' => ['<div></div><img target>', ['HTML', 'BODY', 'IMG'], 1],
+            'IMG after two DIVs' => ['<div></div><div></div><img target>', ['HTML', 'BODY', 'IMG'], 1],
+            'IMG after two DIVs with nesting' => [
+                '<div><div><img></div></div><div></div><img target>',
+                ['HTML', 'BODY', 'IMG'],
+                1,
+            ],
+            'IMG after invalid DIV closer' => ['</div><img target>', ['HTML', 'BODY', 'IMG'], 1],
+            'EM inside DIV' => [
+                '<div>The weather is <em target>beautiful</em>.</div>',
+                ['HTML', 'BODY', 'DIV', 'EM'],
+                1,
+            ],
+            'EM after closed EM' => ['<em></em><em target></em>', ['HTML', 'BODY', 'EM'], 2],
+            'EM after closed EMs' => [
+                '<em></em><em><em></em></em><em></em><em></em><em target></em>',
+                ['HTML', 'BODY', 'EM'],
+                5,
+            ],
+            'EM after unclosed EM' => ['<em><em target></em>', ['HTML', 'BODY', 'EM', 'EM'], 1],
+            'EM after unclosed EM after DIV' => ['<em><div><em target>', ['HTML', 'BODY', 'EM', 'DIV', 'EM'], 1],
             // This should work for all formatting elements, but if two work, the others probably do too.
-            'CODE after unclosed CODE after DIV'    => ['<code><div><code target>', ['HTML', 'BODY', 'CODE', 'DIV', 'CODE'], 1],
-            'P after unclosed P'                    => ['<p><p target>', ['HTML', 'BODY', 'P'], 2],
+            'CODE after unclosed CODE after DIV' => [
+                '<code><div><code target>',
+                ['HTML', 'BODY', 'CODE', 'DIV', 'CODE'],
+                1,
+            ],
+            'P after unclosed P' => ['<p><p target>', ['HTML', 'BODY', 'P'], 2],
             'Unclosed EM inside P after unclosed P' => ['<em><p><p><em target>', ['HTML', 'BODY', 'EM', 'P', 'EM'], 1],
-            'P after closed P'                      => ['<p><i>something</i></p><p target>This one</p>', ['HTML', 'BODY', 'P'], 2],
-            'A after unclosed A'                    => ['<a><a target>', ['HTML', 'BODY', 'A'], 2],
-            'A after unclosed A, after a P'         => ['<p><a><a target>', ['HTML', 'BODY', 'P', 'A'], 2],
+            'P after closed P' => ['<p><i>something</i></p><p target>This one</p>', ['HTML', 'BODY', 'P'], 2],
+            'A after unclosed A' => ['<a><a target>', ['HTML', 'BODY', 'A'], 2],
+            'A after unclosed A, after a P' => ['<p><a><a target>', ['HTML', 'BODY', 'P', 'A'], 2],
             // This one adds a test at a deep stack depth to ensure things work for situations beyond short test docs.
-            'Large HTML document with deep P'       => [
+            'Large HTML document with deep P' => [
                 '<div><div><div><div><div><div><div><div><p></p><p></p><p><div><strong><em><code></code></em></strong></div></p></div></div></div></div></div></div></div></div><div><div><div><div><div><div><div><div><p></p><p></p><p><div><strong><em><code target></code></em></strong></div></p></div></div></div></div></div></div></div></div>',
                 ['HTML', 'BODY', 'DIV', 'DIV', 'DIV', 'DIV', 'DIV', 'DIV', 'DIV', 'DIV', 'DIV', 'STRONG', 'EM', 'CODE'],
                 2,
             ],
-            'MAIN inside MAIN inside SPAN'          => ['<span><main><main target>', ['HTML', 'BODY', 'SPAN', 'MAIN', 'MAIN'], 1],
-            'MAIN next to unclosed P'               => ['<p><main target>', ['HTML', 'BODY', 'MAIN'], 1],
-            'LI after unclosed LI'                  => ['<li>one<li>two<li target>three', ['HTML', 'BODY', 'LI'], 3],
-            'LI in UL in LI'                        => ['<ul><li>one<ul><li target>two', ['HTML', 'BODY', 'UL', 'LI', 'UL', 'LI'], 1],
-            'DD and DT mutually close, LI self-closes (dt 2)' => ['<dd><dd><dt><dt target><dd><li><li>', ['HTML', 'BODY', 'DT'], 2],
-            'DD and DT mutually close, LI self-closes (dd 3)' => ['<dd><dd><dt><dt><dd target><li><li>', ['HTML', 'BODY', 'DD'], 3],
-            'DD and DT mutually close, LI self-closes (li 1)' => ['<dd><dd><dt><dt><dd><li target><li>', ['HTML', 'BODY', 'DD', 'LI'], 1],
-            'DD and DT mutually close, LI self-closes (li 2)' => ['<dd><dd><dt><dt><dd><li><li target>', ['HTML', 'BODY', 'DD', 'LI'], 2],
+            'MAIN inside MAIN inside SPAN' => [
+                '<span><main><main target>',
+                ['HTML', 'BODY', 'SPAN', 'MAIN', 'MAIN'],
+                1,
+            ],
+            'MAIN next to unclosed P' => ['<p><main target>', ['HTML', 'BODY', 'MAIN'], 1],
+            'LI after unclosed LI' => ['<li>one<li>two<li target>three', ['HTML', 'BODY', 'LI'], 3],
+            'LI in UL in LI' => ['<ul><li>one<ul><li target>two', ['HTML', 'BODY', 'UL', 'LI', 'UL', 'LI'], 1],
+            'DD and DT mutually close, LI self-closes (dt 2)' => [
+                '<dd><dd><dt><dt target><dd><li><li>',
+                ['HTML', 'BODY', 'DT'],
+                2,
+            ],
+            'DD and DT mutually close, LI self-closes (dd 3)' => [
+                '<dd><dd><dt><dt><dd target><li><li>',
+                ['HTML', 'BODY', 'DD'],
+                3,
+            ],
+            'DD and DT mutually close, LI self-closes (li 1)' => [
+                '<dd><dd><dt><dt><dd><li target><li>',
+                ['HTML', 'BODY', 'DD', 'LI'],
+                1,
+            ],
+            'DD and DT mutually close, LI self-closes (li 2)' => [
+                '<dd><dd><dt><dt><dd><li><li target>',
+                ['HTML', 'BODY', 'DD', 'LI'],
+                2,
+            ],
 
             // H1 - H6 close out _any_ H1 - H6 when encountering _any_ of H1 - H6, making this section surprising.
-            'EM inside H3 after unclosed P'         => ['<p><h3><em target>Important Message</em></h3>', ['HTML', 'BODY', 'H3', 'EM'], 1],
-            'H4 after H2'                           => ['<h2>Major</h2><h4 target>Minor</h4>', ['HTML', 'BODY', 'H4'], 1],
-            'H4 after unclosed H2'                  => ['<h2>Major<h4 target>Minor</h3>', ['HTML', 'BODY', 'H4'], 1],
-            'H4 inside H2'                          => ['<h2><span>Major<h4 target>Minor</h3></span>', ['HTML', 'BODY', 'H2', 'SPAN', 'H4'], 1],
-            'H5 after unclosed H4 inside H2'        => ['<h2><span>Major<h4>Minor</span></h3><h5 target>', ['HTML', 'BODY', 'H2', 'SPAN', 'H5'], 1],
-            'H5 after H4 inside H2'                 => ['<h2><span>Major<h4>Minor</h4></span></h3><h5 target>', ['HTML', 'BODY', 'H5'], 1],
+            'EM inside H3 after unclosed P' => [
+                '<p><h3><em target>Important Message</em></h3>',
+                ['HTML', 'BODY', 'H3', 'EM'],
+                1,
+            ],
+            'H4 after H2' => ['<h2>Major</h2><h4 target>Minor</h4>', ['HTML', 'BODY', 'H4'], 1],
+            'H4 after unclosed H2' => ['<h2>Major<h4 target>Minor</h3>', ['HTML', 'BODY', 'H4'], 1],
+            'H4 inside H2' => ['<h2><span>Major<h4 target>Minor</h3></span>', ['HTML', 'BODY', 'H2', 'SPAN', 'H4'], 1],
+            'H5 after unclosed H4 inside H2' => [
+                '<h2><span>Major<h4>Minor</span></h3><h5 target>',
+                ['HTML', 'BODY', 'H2', 'SPAN', 'H5'],
+                1,
+            ],
+            'H5 after H4 inside H2' => [
+                '<h2><span>Major<h4>Minor</h4></span></h3><h5 target>',
+                ['HTML', 'BODY', 'H5'],
+                1,
+            ],
 
             // Custom elements.
-            'WP-EMOJI'                              => ['<div><wp-emoji target></wp-emoji></div>', ['HTML', 'BODY', 'DIV', 'WP-EMOJI'], 1],
-            'WP-EMOJI then IMG'                     => ['<div><wp-emoji></wp-emoji><img target></div>', ['HTML', 'BODY', 'DIV', 'IMG'], 1],
+            'WP-EMOJI' => ['<div><wp-emoji target></wp-emoji></div>', ['HTML', 'BODY', 'DIV', 'WP-EMOJI'], 1],
+            'WP-EMOJI then IMG' => ['<div><wp-emoji></wp-emoji><img target></div>', ['HTML', 'BODY', 'DIV', 'IMG'], 1],
         ];
     }
 
@@ -326,23 +386,28 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase
      *
      * @dataProvider data_html_with_breadcrumbs_of_various_specificity
      *
-     * @param string   $html_with_target_node HTML with a node containing a "target" attribute.
-     * @param string[] $breadcrumbs           Breadcrumbs to test at the target node.
-     * @param bool     $should_match          Whether the target node should match the breadcrumbs.
+     * @param string $html_with_target_node HTML with a node containing a "target" attribute.
+     * @param string[] $breadcrumbs Breadcrumbs to test at the target node.
+     * @param bool $should_match Whether the target node should match the breadcrumbs.
      */
-    public function test_reports_if_tag_matches_breadcrumbs_of_various_specificity($html_with_target_node, $breadcrumbs, $should_match)
-    {
+    public function test_reports_if_tag_matches_breadcrumbs_of_various_specificity(
+        $html_with_target_node,
+        $breadcrumbs,
+        $should_match,
+    ) {
         $processor = WP_HTML_Processor::create_fragment($html_with_target_node);
         while ($processor->next_tag() && null === $processor->get_attribute('target')) {
             continue;
         }
 
         $matches = $processor->matches_breadcrumbs($breadcrumbs);
-        $path    = implode(', ', $breadcrumbs);
+        $path = implode(', ', $breadcrumbs);
         if ($should_match) {
-            $this->assertTrue($matches, "HTML tag {$processor->get_tag()} should have matched breadcrumbs but didn't: {$path}.");
+            $this->assertTrue($matches,
+                "HTML tag {$processor->get_tag()} should have matched breadcrumbs but didn't: {$path}.");
         } else {
-            $this->assertFalse($matches, "HTML tag {$processor->get_tag()} should not have matched breadcrumbs but did: {$path}.");
+            $this->assertFalse($matches,
+                "HTML tag {$processor->get_tag()} should not have matched breadcrumbs but did: {$path}.");
         }
     }
 
@@ -355,29 +420,81 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase
     {
         return [
             // Test with void elements.
-            'Inner IMG'                               => ['<div><span><figure><img target></figure></span></div>', ['span', 'figure', 'img'], true],
-            'Inner IMG wildcard'                      => ['<div><span><figure><img target></figure></span></div>', ['span', '*', 'img'], true],
-            'Inner IMG no wildcard'                   => ['<div><span><figure><img target></figure></span></div>', ['span', 'img'], false],
-            'Full specification'                      => ['<div><span><figure><img target></figure></span></div>', ['html', 'body', 'div', 'span', 'figure', 'img'], true],
-            'Invalid Full specification'              => ['<div><span><figure><img target></figure></span></div>', ['html', 'div', 'span', 'figure', 'img'], false],
+            'Inner IMG' => ['<div><span><figure><img target></figure></span></div>', ['span', 'figure', 'img'], true],
+            'Inner IMG wildcard' => [
+                '<div><span><figure><img target></figure></span></div>',
+                ['span', '*', 'img'],
+                true,
+            ],
+            'Inner IMG no wildcard' => [
+                '<div><span><figure><img target></figure></span></div>',
+                ['span', 'img'],
+                false,
+            ],
+            'Full specification' => [
+                '<div><span><figure><img target></figure></span></div>',
+                ['html', 'body', 'div', 'span', 'figure', 'img'],
+                true,
+            ],
+            'Invalid Full specification' => [
+                '<div><span><figure><img target></figure></span></div>',
+                ['html', 'div', 'span', 'figure', 'img'],
+                false,
+            ],
 
             // Test also with non-void elements that open and close.
-            'Inner P'                                 => ['<div><span><figure><p target></figure></span></div>', ['span', 'figure', 'p'], true],
-            'Inner P wildcard'                        => ['<div><span><figure><p target></figure></span></div>', ['span', '*', 'p'], true],
-            'Inner P no wildcard'                     => ['<div><span><figure><p target></figure></span></div>', ['span', 'p'], false],
-            'Full specification (P)'                  => ['<div><span><figure><p target></figure></span></div>', ['html', 'body', 'div', 'span', 'figure', 'p'], true],
-            'Invalid Full specification (P)'          => ['<div><span><figure><p target></figure></span></div>', ['html', 'div', 'span', 'figure', 'p'], false],
+            'Inner P' => ['<div><span><figure><p target></figure></span></div>', ['span', 'figure', 'p'], true],
+            'Inner P wildcard' => ['<div><span><figure><p target></figure></span></div>', ['span', '*', 'p'], true],
+            'Inner P no wildcard' => ['<div><span><figure><p target></figure></span></div>', ['span', 'p'], false],
+            'Full specification (P)' => [
+                '<div><span><figure><p target></figure></span></div>',
+                ['html', 'body', 'div', 'span', 'figure', 'p'],
+                true,
+            ],
+            'Invalid Full specification (P)' => [
+                '<div><span><figure><p target></figure></span></div>',
+                ['html', 'div', 'span', 'figure', 'p'],
+                false,
+            ],
 
             // Ensure that matches aren't on tag closers.
-            'Inner P (Closer)'                        => ['<div><span><figure></p target></figure></span></div>', ['span', 'figure', 'p'], false],
-            'Inner P wildcard (Closer)'               => ['<div><span><figure></p target></figure></span></div>', ['span', '*', 'p'], false],
-            'Inner P no wildcard (Closer)'            => ['<div><span><figure></p target></figure></span></div>', ['span', 'p'], false],
-            'Full specification (P) (Closer)'         => ['<div><span><figure></p target></figure></span></div>', ['html', 'body', 'div', 'span', 'figure', 'p'], false],
-            'Invalid Full specification (P) (Closer)' => ['<div><span><figure></p target></figure></span></div>', ['html', 'div', 'span', 'figure', 'p'], false],
+            'Inner P (Closer)' => [
+                '<div><span><figure></p target></figure></span></div>',
+                ['span', 'figure', 'p'],
+                false,
+            ],
+            'Inner P wildcard (Closer)' => [
+                '<div><span><figure></p target></figure></span></div>',
+                ['span', '*', 'p'],
+                false,
+            ],
+            'Inner P no wildcard (Closer)' => [
+                '<div><span><figure></p target></figure></span></div>',
+                ['span', 'p'],
+                false,
+            ],
+            'Full specification (P) (Closer)' => [
+                '<div><span><figure></p target></figure></span></div>',
+                ['html', 'body', 'div', 'span', 'figure', 'p'],
+                false,
+            ],
+            'Invalid Full specification (P) (Closer)' => [
+                '<div><span><figure></p target></figure></span></div>',
+                ['html', 'div', 'span', 'figure', 'p'],
+                false,
+            ],
 
             // Test wildcard behaviors.
-            'Single wildcard element'                 => ['<figure><code><div><p><span><img target></span></p></div></code></figure>', ['*'], true],
-            'Child of wildcard element'               => ['<figure><code><div><p><span><img target></span></p></div></code></figure>', ['SPAN', '*'], true],
+            'Single wildcard element' => [
+                '<figure><code><div><p><span><img target></span></p></div></code></figure>',
+                ['*'],
+                true,
+            ],
+            'Child of wildcard element' => [
+                '<figure><code><div><p><span><img target></span></p></div></code></figure>',
+                ['SPAN', '*'],
+                true,
+            ],
         ];
     }
 
@@ -399,33 +516,33 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase
         $this->assertSame(
             ['HTML', 'BODY', 'DIV', 'BUTTON', 'B'],
             $processor->get_breadcrumbs(),
-            'Found the wrong nested structure at the matched tag.'
+            'Found the wrong nested structure at the matched tag.',
         );
 
         $processor->set_attribute('a-name', 'a-value');
 
         $this->assertTrue(
             $processor->get_attribute('here'),
-            'Should have found the B tag but could not find expected "here" attribute.'
+            'Should have found the B tag but could not find expected "here" attribute.',
         );
 
         $this->assertSame(
             ['HTML', 'BODY', 'DIV', 'BUTTON', 'B'],
             $processor->get_breadcrumbs(),
-            'Found the wrong nested structure at the matched tag.'
+            'Found the wrong nested structure at the matched tag.',
         );
 
         $processor->get_updated_html();
 
         $this->assertTrue(
             $processor->get_attribute('here'),
-            'Should have stayed at the B tag but could not find expected "here" attribute.'
+            'Should have stayed at the B tag but could not find expected "here" attribute.',
         );
 
         $this->assertSame(
             ['HTML', 'BODY', 'DIV', 'BUTTON', 'B'],
             $processor->get_breadcrumbs(),
-            'Found the wrong nested structure at the matched tag after updating attributes.'
+            'Found the wrong nested structure at the matched tag after updating attributes.',
         );
     }
 
@@ -445,7 +562,8 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase
         $this->assertTrue($processor->next_tag(['breadcrumbs' => ['figcaption']]), 'Unable to find given tag.');
 
         $processor->set_attribute('found-it', true);
-        $this->assertSame('<div><figure><img><figcaption found-it>test</figcaption></figure>', $processor->get_updated_html());
+        $this->assertSame('<div><figure><img><figcaption found-it>test</figcaption></figure>',
+            $processor->get_updated_html());
     }
 
     /**
@@ -479,8 +597,8 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase
     {
         $processor = WP_HTML_Processor::create_fragment(
             <<<'HTML'
-<div>text<p one>more stuff<div><![CDATA[this is not real CDATA]]><p><!-- hi --><div two><p><div><p>three comes soon<div><p three>' );
-HTML
+                <div>text<p one>more stuff<div><![CDATA[this is not real CDATA]]><p><!-- hi --><div two><p><div><p>three comes soon<div><p three>' );
+                HTML,
         );
 
         // Find first tag of interest.
@@ -528,7 +646,7 @@ HTML
         $this->assertSame(
             ['HTML', 'BODY', 'DIV', 'IMG'],
             $processor->get_breadcrumbs(),
-            'Should have retained breadcrumbs from bookmarked location after seeking backwards to it.'
+            'Should have retained breadcrumbs from bookmarked location after seeking backwards to it.',
         );
     }
 
@@ -539,24 +657,33 @@ HTML
      *
      * @dataProvider data_virtual_nodes_breadcrumbs
      *
-     * @covers WP_HTML_Processor::get_breadcrumbs
+     * @covers       WP_HTML_Processor::get_breadcrumbs
      */
-    public function test_breadcrumbs_on_virtual_nodes(string $html, int $token_position, string $expected_tag_name, string $expect_open_close, array $expected_breadcrumbs)
-    {
+    public function test_breadcrumbs_on_virtual_nodes(
+        string $html,
+        int $token_position,
+        string $expected_tag_name,
+        string $expect_open_close,
+        array $expected_breadcrumbs,
+    ) {
         $processor = WP_HTML_Processor::create_fragment($html);
 
         for ($i = 0; $i < $token_position; $i++) {
             $processor->next_token();
         }
 
-        $this->assertSame($expected_tag_name, $processor->get_tag(), "Found incorrect tag name {$processor->get_token_name()}.");
+        $this->assertSame($expected_tag_name, $processor->get_tag(),
+            "Found incorrect tag name {$processor->get_token_name()}.");
         if ('open' === $expect_open_close) {
-            $this->assertFalse($processor->is_tag_closer(), "Found closer when opener expected at {$processor->get_token_name()}.");
+            $this->assertFalse($processor->is_tag_closer(),
+                "Found closer when opener expected at {$processor->get_token_name()}.");
         } else {
-            $this->assertTrue($processor->is_tag_closer(), "Found opener when closer expected at {$processor->get_token_name()}.");
+            $this->assertTrue($processor->is_tag_closer(),
+                "Found opener when closer expected at {$processor->get_token_name()}.");
         }
 
-        $this->assertSame($expected_breadcrumbs, $processor->get_breadcrumbs(), "Found incorrect breadcrumbs in {$html}.");
+        $this->assertSame($expected_breadcrumbs, $processor->get_breadcrumbs(),
+            "Found incorrect breadcrumbs in {$html}.");
     }
 
     /**
@@ -566,17 +693,23 @@ HTML
      *
      * @dataProvider data_virtual_nodes_breadcrumbs
      *
-     * @covers WP_HTML_Processor::get_current_depth
+     * @covers       WP_HTML_Processor::get_current_depth
      */
-    public function test_depth_on_virtual_nodes(string $html, int $token_position, string $expected_tag_name, string $expect_open_close, array $expected_breadcrumbs)
-    {
+    public function test_depth_on_virtual_nodes(
+        string $html,
+        int $token_position,
+        string $expected_tag_name,
+        string $expect_open_close,
+        array $expected_breadcrumbs,
+    ) {
         $processor = WP_HTML_Processor::create_fragment($html);
 
         for ($i = 0; $i < $token_position; $i++) {
             $processor->next_token();
         }
 
-        $this->assertSame(count($expected_breadcrumbs), $processor->get_current_depth(), "Found incorrect depth in {$html}.");
+        $this->assertSame(count($expected_breadcrumbs), $processor->get_current_depth(),
+            "Found incorrect depth in {$html}.");
     }
 
     /**
@@ -592,10 +725,10 @@ HTML
     public static function data_virtual_nodes_breadcrumbs()
     {
         return [
-            'Implied P tag opener on unmatched closer'    => ['</p>', 1, 'P', 'open', ['HTML', 'BODY', 'P']],
+            'Implied P tag opener on unmatched closer' => ['</p>', 1, 'P', 'open', ['HTML', 'BODY', 'P']],
             'Implied heading tag closer on heading child' => ['<h1><h2>', 2, 'H1', 'close', ['HTML', 'BODY']],
-            'Implied A tag closer on A tag child'         => ['<a><a>', 2, 'A', 'close', ['HTML', 'BODY']],
-            'Implied A tag closer on A tag descendent'    => ['<a><span><a>', 4, 'A', 'close', ['HTML', 'BODY']],
+            'Implied A tag closer on A tag child' => ['<a><a>', 2, 'A', 'close', ['HTML', 'BODY']],
+            'Implied A tag closer on A tag descendent' => ['<a><span><a>', 4, 'A', 'close', ['HTML', 'BODY']],
         ];
     }
 }

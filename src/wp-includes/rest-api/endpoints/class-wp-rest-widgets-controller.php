@@ -56,20 +56,20 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
             $this->rest_base,
             [
                 [
-                    'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => [$this, 'get_items'],
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_items'],
                     'permission_callback' => [$this, 'get_items_permissions_check'],
-                    'args'                => $this->get_collection_params(),
+                    'args' => $this->get_collection_params(),
                 ],
                 [
-                    'methods'             => WP_REST_Server::CREATABLE,
-                    'callback'            => [$this, 'create_item'],
+                    'methods' => WP_REST_Server::CREATABLE,
+                    'callback' => [$this, 'create_item'],
                     'permission_callback' => [$this, 'create_item_permissions_check'],
-                    'args'                => $this->get_endpoint_args_for_item_schema(),
+                    'args' => $this->get_endpoint_args_for_item_schema(),
                 ],
                 'allow_batch' => $this->allow_batch,
-                'schema'      => [$this, 'get_public_item_schema'],
-            ]
+                'schema' => [$this, 'get_public_item_schema'],
+            ],
         );
 
         register_rest_route(
@@ -77,43 +77,43 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
             $this->rest_base . '/(?P<id>[\w\-]+)',
             [
                 [
-                    'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => [$this, 'get_item'],
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_item'],
                     'permission_callback' => [$this, 'get_item_permissions_check'],
-                    'args'                => [
+                    'args' => [
                         'context' => $this->get_context_param(['default' => 'view']),
                     ],
                 ],
                 [
-                    'methods'             => WP_REST_Server::EDITABLE,
-                    'callback'            => [$this, 'update_item'],
+                    'methods' => WP_REST_Server::EDITABLE,
+                    'callback' => [$this, 'update_item'],
                     'permission_callback' => [$this, 'update_item_permissions_check'],
-                    'args'                => $this->get_endpoint_args_for_item_schema(WP_REST_Server::EDITABLE),
+                    'args' => $this->get_endpoint_args_for_item_schema(WP_REST_Server::EDITABLE),
                 ],
                 [
-                    'methods'             => WP_REST_Server::DELETABLE,
-                    'callback'            => [$this, 'delete_item'],
+                    'methods' => WP_REST_Server::DELETABLE,
+                    'callback' => [$this, 'delete_item'],
                     'permission_callback' => [$this, 'delete_item_permissions_check'],
-                    'args'                => [
+                    'args' => [
                         'force' => [
                             'description' => __('Whether to force removal of the widget, or move it to the inactive sidebar.'),
-                            'type'        => 'boolean',
+                            'type' => 'boolean',
                         ],
                     ],
                 ],
                 'allow_batch' => $this->allow_batch,
-                'schema'      => [$this, 'get_public_item_schema'],
-            ]
+                'schema' => [$this, 'get_public_item_schema'],
+            ],
         );
     }
 
     /**
      * Checks if a given request has access to get widgets.
      *
-     * @since 5.8.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
+     * @since 5.8.0
+     *
      */
     public function get_items_permissions_check($request)
     {
@@ -134,16 +134,16 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
     /**
      * Retrieves a collection of widgets.
      *
-     * @since 5.8.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response Response object.
+     * @since 5.8.0
+     *
      */
     public function get_items($request)
     {
         $this->retrieve_widgets();
 
-        $prepared          = [];
+        $prepared = [];
         $permissions_check = $this->permissions_check($request);
 
         foreach (wp_get_sidebars_widgets() as $sidebar_id => $widget_ids) {
@@ -151,14 +151,14 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
                 continue;
             }
 
-            if (is_wp_error($permissions_check) && ! $this->check_read_sidebar_permission($sidebar_id)) {
+            if (is_wp_error($permissions_check) && !$this->check_read_sidebar_permission($sidebar_id)) {
                 continue;
             }
 
             foreach ($widget_ids as $widget_id) {
                 $response = $this->prepare_item_for_response(compact('sidebar_id', 'widget_id'), $request);
 
-                if (! is_wp_error($response)) {
+                if (!is_wp_error($response)) {
                     $prepared[] = $this->prepare_response_for_collection($response);
                 }
             }
@@ -170,16 +170,16 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
     /**
      * Checks if a given request has access to get a widget.
      *
-     * @since 5.8.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
+     * @since 5.8.0
+     *
      */
     public function get_item_permissions_check($request)
     {
         $this->retrieve_widgets();
 
-        $widget_id  = $request['id'];
+        $widget_id = $request['id'];
         $sidebar_id = wp_find_widgets_sidebar($widget_id);
 
         if ($sidebar_id && $this->check_read_sidebar_permission($sidebar_id)) {
@@ -192,38 +192,38 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
     /**
      * Checks if a sidebar can be read publicly.
      *
-     * @since 5.9.0
-     *
      * @param string $sidebar_id The sidebar ID.
      * @return bool Whether the sidebar can be read.
+     * @since 5.9.0
+     *
      */
     protected function check_read_sidebar_permission($sidebar_id)
     {
         $sidebar = wp_get_sidebar($sidebar_id);
 
-        return ! empty($sidebar['show_in_rest']);
+        return !empty($sidebar['show_in_rest']);
     }
 
     /**
      * Gets an individual widget.
      *
-     * @since 5.8.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     * @since 5.8.0
+     *
      */
     public function get_item($request)
     {
         $this->retrieve_widgets();
 
-        $widget_id  = $request['id'];
+        $widget_id = $request['id'];
         $sidebar_id = wp_find_widgets_sidebar($widget_id);
 
         if (is_null($sidebar_id)) {
             return new WP_Error(
                 'rest_widget_not_found',
                 __('No widget was found with that id.'),
-                ['status' => 404]
+                ['status' => 404],
             );
         }
 
@@ -233,10 +233,10 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
     /**
      * Checks if a given request has access to create widgets.
      *
-     * @since 5.8.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
+     * @since 5.8.0
+     *
      */
     public function create_item_permissions_check($request)
     {
@@ -246,10 +246,10 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
     /**
      * Creates a widget.
      *
-     * @since 5.8.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     * @since 5.8.0
+     *
      */
     public function create_item($request)
     {
@@ -279,10 +279,10 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
     /**
      * Checks if a given request has access to update widgets.
      *
-     * @since 5.8.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
+     * @since 5.8.0
+     *
      */
     public function update_item_permissions_check($request)
     {
@@ -292,12 +292,12 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
     /**
      * Updates an existing widget.
      *
+     * @param WP_REST_Request $request Full details about the request.
+     * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      * @since 5.8.0
      *
      * @global WP_Widget_Factory $wp_widget_factory
      *
-     * @param WP_REST_Request $request Full details about the request.
-     * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
     public function update_item($request)
     {
@@ -316,22 +316,22 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
         wp_get_sidebars_widgets();
         $this->retrieve_widgets();
 
-        $widget_id  = $request['id'];
+        $widget_id = $request['id'];
         $sidebar_id = wp_find_widgets_sidebar($widget_id);
 
         // Allow sidebar to be unset or missing when widget is not a WP_Widget.
-        $parsed_id     = wp_parse_widget_id($widget_id);
+        $parsed_id = wp_parse_widget_id($widget_id);
         $widget_object = $wp_widget_factory->get_widget_object($parsed_id['id_base']);
         if (is_null($sidebar_id) && $widget_object) {
             return new WP_Error(
                 'rest_widget_not_found',
                 __('No widget was found with that id.'),
-                ['status' => 404]
+                ['status' => 404],
             );
         }
 
-        if ($request->has_param('instance') ||
-            $request->has_param('form_data')
+        if ($request->has_param('instance')
+            || $request->has_param('form_data')
         ) {
             $maybe_error = $this->save_widget($request, $sidebar_id);
             if (is_wp_error($maybe_error)) {
@@ -354,10 +354,10 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
     /**
      * Checks if a given request has access to delete widgets.
      *
-     * @since 5.8.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
+     * @since 5.8.0
+     *
      */
     public function delete_item_permissions_check($request)
     {
@@ -367,13 +367,13 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
     /**
      * Deletes a widget.
      *
+     * @param WP_REST_Request $request Full details about the request.
+     * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     * @global array $wp_registered_widget_updates The registered widget update functions.
+     *
      * @since 5.8.0
      *
      * @global WP_Widget_Factory $wp_widget_factory
-     * @global array             $wp_registered_widget_updates The registered widget update functions.
-     *
-     * @param WP_REST_Request $request Full details about the request.
-     * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
     public function delete_item($request)
     {
@@ -392,14 +392,14 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
         wp_get_sidebars_widgets();
         $this->retrieve_widgets();
 
-        $widget_id  = $request['id'];
+        $widget_id = $request['id'];
         $sidebar_id = wp_find_widgets_sidebar($widget_id);
 
         if (is_null($sidebar_id)) {
             return new WP_Error(
                 'rest_widget_not_found',
                 __('No widget was found with that id.'),
-                ['status' => 404]
+                ['status' => 404],
             );
         }
 
@@ -409,16 +409,16 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
             $response = $this->prepare_item_for_response(compact('widget_id', 'sidebar_id'), $request);
 
             $parsed_id = wp_parse_widget_id($widget_id);
-            $id_base   = $parsed_id['id_base'];
+            $id_base = $parsed_id['id_base'];
 
-            $original_post    = $_POST;
+            $original_post = $_POST;
             $original_request = $_REQUEST;
 
-            $_POST    = [
-                'sidebar'         => $sidebar_id,
+            $_POST = [
+                'sidebar' => $sidebar_id,
                 "widget-$id_base" => [],
-                'the-widget-id'   => $widget_id,
-                'delete_widget'   => '1',
+                'the-widget-id' => $widget_id,
+                'delete_widget' => '1',
             ];
             $_REQUEST = $_POST;
 
@@ -426,7 +426,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
             do_action('delete_widget', $widget_id, $sidebar_id, $id_base);
 
             $callback = $wp_registered_widget_updates[$id_base]['callback'];
-            $params   = $wp_registered_widget_updates[$id_base]['params'];
+            $params = $wp_registered_widget_updates[$id_base]['params'];
 
             if (is_callable($callback)) {
                 ob_start();
@@ -434,7 +434,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
                 ob_end_clean();
             }
 
-            $_POST    = $original_post;
+            $_POST = $original_post;
             $_REQUEST = $original_request;
 
             $widget_object = $wp_widget_factory->get_widget_object($id_base);
@@ -452,9 +452,9 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
 
             $response->set_data(
                 [
-                    'deleted'  => true,
+                    'deleted' => true,
                     'previous' => $response->get_data(),
-                ]
+                ],
             );
         } else {
             wp_assign_widget_to_sidebar($widget_id, 'wp_inactive_widgets');
@@ -462,21 +462,21 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
             $response = $this->prepare_item_for_response(
                 [
                     'sidebar_id' => 'wp_inactive_widgets',
-                    'widget_id'  => $widget_id,
+                    'widget_id' => $widget_id,
                 ],
-                $request
+                $request,
             );
         }
 
         /**
          * Fires after a widget is deleted via the REST API.
          *
+         * @param string $widget_id ID of the widget marked for deletion.
+         * @param string $sidebar_id ID of the sidebar the widget was deleted from.
+         * @param WP_REST_Response|WP_Error $response The response data, or WP_Error object on failure.
+         * @param WP_REST_Request $request The request sent to the API.
          * @since 5.8.0
          *
-         * @param string                    $widget_id  ID of the widget marked for deletion.
-         * @param string                    $sidebar_id ID of the sidebar the widget was deleted from.
-         * @param WP_REST_Response|WP_Error $response   The response data, or WP_Error object on failure.
-         * @param WP_REST_Request           $request    The request sent to the API.
          */
         do_action('rest_delete_widget', $widget_id, $sidebar_id, $response, $request);
 
@@ -486,20 +486,20 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
     /**
      * Performs a permissions check for managing widgets.
      *
-     * @since 5.8.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error
+     * @since 5.8.0
+     *
      */
     protected function permissions_check($request)
     {
-        if (! current_user_can('edit_theme_options')) {
+        if (!current_user_can('edit_theme_options')) {
             return new WP_Error(
                 'rest_cannot_manage_widgets',
                 __('Sorry, you are not allowed to manage widgets on this site.'),
                 [
                     'status' => rest_authorization_required_code(),
-                ]
+                ],
             );
         }
 
@@ -515,7 +515,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
      */
     protected function retrieve_widgets()
     {
-        if (! $this->widgets_retrieved) {
+        if (!$this->widgets_retrieved) {
             retrieve_widgets();
             $this->widgets_retrieved = true;
         }
@@ -524,14 +524,14 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
     /**
      * Saves the widget in the request object.
      *
+     * @param WP_REST_Request $request Full details about the request.
+     * @param string $sidebar_id ID of the sidebar the widget belongs to.
+     * @return string|WP_Error The saved widget ID.
      * @since 5.8.0
      *
      * @global WP_Widget_Factory $wp_widget_factory
-     * @global array             $wp_registered_widget_updates The registered widget update functions.
+     * @global array $wp_registered_widget_updates The registered widget update functions.
      *
-     * @param WP_REST_Request $request    Full details about the request.
-     * @param string          $sidebar_id ID of the sidebar the widget belongs to.
-     * @return string|WP_Error The saved widget ID.
      */
     protected function save_widget($request, $sidebar_id)
     {
@@ -541,41 +541,41 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
 
         if (isset($request['id'])) {
             // Saving an existing widget.
-            $id            = $request['id'];
-            $parsed_id     = wp_parse_widget_id($id);
-            $id_base       = $parsed_id['id_base'];
-            $number        = isset($parsed_id['number']) ? $parsed_id['number'] : null;
+            $id = $request['id'];
+            $parsed_id = wp_parse_widget_id($id);
+            $id_base = $parsed_id['id_base'];
+            $number = isset($parsed_id['number']) ? $parsed_id['number'] : null;
             $widget_object = $wp_widget_factory->get_widget_object($id_base);
-            $creating      = false;
+            $creating = false;
         } elseif ($request['id_base']) {
             // Saving a new widget.
-            $id_base       = $request['id_base'];
+            $id_base = $request['id_base'];
             $widget_object = $wp_widget_factory->get_widget_object($id_base);
-            $number        = $widget_object ? next_widget_id_number($id_base) : null;
-            $id            = $widget_object ? $id_base . '-' . $number : $id_base;
-            $creating      = true;
+            $number = $widget_object ? next_widget_id_number($id_base) : null;
+            $id = $widget_object ? $id_base . '-' . $number : $id_base;
+            $creating = true;
         } else {
             return new WP_Error(
                 'rest_invalid_widget',
                 __('Widget type (id_base) is required.'),
-                ['status' => 400]
+                ['status' => 400],
             );
         }
 
-        if (! isset($wp_registered_widget_updates[$id_base])) {
+        if (!isset($wp_registered_widget_updates[$id_base])) {
             return new WP_Error(
                 'rest_invalid_widget',
                 __('The provided widget type (id_base) cannot be updated.'),
-                ['status' => 400]
+                ['status' => 400],
             );
         }
 
         if (isset($request['instance'])) {
-            if (! $widget_object) {
+            if (!$widget_object) {
                 return new WP_Error(
                     'rest_invalid_widget',
                     __('Cannot set instance on a widget that does not extend WP_Widget.'),
-                    ['status' => 400]
+                    ['status' => 400],
                 );
             }
 
@@ -584,17 +584,17 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
                     return new WP_Error(
                         'rest_invalid_widget',
                         __('Widget type does not support raw instances.'),
-                        ['status' => 400]
+                        ['status' => 400],
                     );
                 }
                 $instance = $request['instance']['raw'];
             } elseif (isset($request['instance']['encoded'], $request['instance']['hash'])) {
                 $serialized_instance = base64_decode($request['instance']['encoded']);
-                if (! hash_equals(wp_hash($serialized_instance), $request['instance']['hash'])) {
+                if (!hash_equals(wp_hash($serialized_instance), $request['instance']['hash'])) {
                     return new WP_Error(
                         'rest_invalid_widget',
                         __('The provided instance is malformed.'),
-                        ['status' => 400]
+                        ['status' => 400],
                     );
                 }
                 $instance = unserialize($serialized_instance);
@@ -602,7 +602,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
                 return new WP_Error(
                     'rest_invalid_widget',
                     __('The provided instance is invalid. Must contain raw OR encoded and hash.'),
-                    ['status' => 400]
+                    ['status' => 400],
                 );
             }
 
@@ -610,7 +610,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
                 "widget-$id_base" => [
                     $number => $instance,
                 ],
-                'sidebar'         => $sidebar_id,
+                'sidebar' => $sidebar_id,
             ];
         } elseif (isset($request['form_data'])) {
             $form_data = $request['form_data'];
@@ -618,17 +618,17 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
             $form_data = [];
         }
 
-        $original_post    = $_POST;
+        $original_post = $_POST;
         $original_request = $_REQUEST;
 
         foreach ($form_data as $key => $value) {
-            $slashed_value  = wp_slash($value);
-            $_POST[$key]    = $slashed_value;
+            $slashed_value = wp_slash($value);
+            $_POST[$key] = $slashed_value;
             $_REQUEST[$key] = $slashed_value;
         }
 
         $callback = $wp_registered_widget_updates[$id_base]['callback'];
-        $params   = $wp_registered_widget_updates[$id_base]['params'];
+        $params = $wp_registered_widget_updates[$id_base]['params'];
 
         if (is_callable($callback)) {
             ob_start();
@@ -636,7 +636,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
             ob_end_clean();
         }
 
-        $_POST    = $original_post;
+        $_POST = $original_post;
         $_REQUEST = $original_request;
 
         if ($widget_object) {
@@ -655,12 +655,12 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
         /**
          * Fires after a widget is created or updated via the REST API.
          *
+         * @param string $id ID of the widget being saved.
+         * @param string $sidebar_id ID of the sidebar containing the widget being saved.
+         * @param WP_REST_Request $request Request object.
+         * @param bool $creating True when creating a widget, false when updating.
          * @since 5.8.0
          *
-         * @param string          $id         ID of the widget being saved.
-         * @param string          $sidebar_id ID of the sidebar containing the widget being saved.
-         * @param WP_REST_Request $request    Request object.
-         * @param bool            $creating   True when creating a widget, false when updating.
          */
         do_action('rest_after_save_widget', $id, $sidebar_id, $request, $creating);
 
@@ -670,52 +670,52 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
     /**
      * Prepares the widget for the REST response.
      *
+     * @param array $item An array containing a widget_id and sidebar_id.
+     * @param WP_REST_Request $request Request object.
+     * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      * @since 5.8.0
      *
      * @global WP_Widget_Factory $wp_widget_factory
-     * @global array             $wp_registered_widgets The registered widgets.
+     * @global array $wp_registered_widgets The registered widgets.
      *
-     * @param array           $item    An array containing a widget_id and sidebar_id.
-     * @param WP_REST_Request $request Request object.
-     * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
     public function prepare_item_for_response($item, $request)
     {
         global $wp_widget_factory, $wp_registered_widgets;
 
-        $widget_id  = $item['widget_id'];
+        $widget_id = $item['widget_id'];
         $sidebar_id = $item['sidebar_id'];
 
-        if (! isset($wp_registered_widgets[$widget_id])) {
+        if (!isset($wp_registered_widgets[$widget_id])) {
             return new WP_Error(
                 'rest_invalid_widget',
                 __('The requested widget is invalid.'),
-                ['status' => 500]
+                ['status' => 500],
             );
         }
 
-        $widget    = $wp_registered_widgets[$widget_id];
+        $widget = $wp_registered_widgets[$widget_id];
         $parsed_id = wp_parse_widget_id($widget_id);
-        $fields    = $this->get_fields_for_response($request);
+        $fields = $this->get_fields_for_response($request);
 
         $prepared = [
-            'id'            => $widget_id,
-            'id_base'       => $parsed_id['id_base'],
-            'sidebar'       => $sidebar_id,
-            'rendered'      => '',
+            'id' => $widget_id,
+            'id_base' => $parsed_id['id_base'],
+            'sidebar' => $sidebar_id,
+            'rendered' => '',
             'rendered_form' => null,
-            'instance'      => null,
+            'instance' => null,
         ];
 
-        if (rest_is_field_included('rendered', $fields) &&
-            'wp_inactive_widgets' !== $sidebar_id
+        if (rest_is_field_included('rendered', $fields)
+            && 'wp_inactive_widgets' !== $sidebar_id
         ) {
             $prepared['rendered'] = trim(wp_render_widget($widget_id, $sidebar_id));
         }
 
         if (rest_is_field_included('rendered_form', $fields)) {
             $rendered_form = wp_render_widget_control($widget_id);
-            if (! is_null($rendered_form)) {
+            if (!is_null($rendered_form)) {
                 $prepared['rendered_form'] = trim($rendered_form);
             }
         }
@@ -723,20 +723,20 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
         if (rest_is_field_included('instance', $fields)) {
             $widget_object = $wp_widget_factory->get_widget_object($parsed_id['id_base']);
             if ($widget_object && isset($parsed_id['number'])) {
-                $all_instances                   = $widget_object->get_settings();
-                $instance                        = $all_instances[$parsed_id['number']];
-                $serialized_instance             = serialize($instance);
+                $all_instances = $widget_object->get_settings();
+                $instance = $all_instances[$parsed_id['number']];
+                $serialized_instance = serialize($instance);
                 $prepared['instance']['encoded'] = base64_encode($serialized_instance);
-                $prepared['instance']['hash']    = wp_hash($serialized_instance);
+                $prepared['instance']['hash'] = wp_hash($serialized_instance);
 
-                if (! empty($widget_object->widget_options['show_instance_in_rest'])) {
+                if (!empty($widget_object->widget_options['show_instance_in_rest'])) {
                     // Use new stdClass so that JSON result is {} and not [].
                     $prepared['instance']['raw'] = empty($instance) ? new stdClass() : $instance;
                 }
             }
         }
 
-        $context  = ! empty($request['context']) ? $request['context'] : 'view';
+        $context = !empty($request['context']) ? $request['context'] : 'view';
         $prepared = $this->add_additional_fields_to_object($prepared, $request);
         $prepared = $this->filter_response_by_context($prepared, $context);
 
@@ -749,11 +749,11 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
         /**
          * Filters the REST API response for a widget.
          *
+         * @param WP_REST_Response|WP_Error $response The response object, or WP_Error object on failure.
+         * @param array $widget The registered widget data.
+         * @param WP_REST_Request $request Request used to generate the response.
          * @since 5.8.0
          *
-         * @param WP_REST_Response|WP_Error $response The response object, or WP_Error object on failure.
-         * @param array                     $widget   The registered widget data.
-         * @param WP_REST_Request           $request  Request used to generate the response.
          */
         return apply_filters('rest_prepare_widget', $response, $widget, $request);
     }
@@ -761,24 +761,24 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
     /**
      * Prepares links for the widget.
      *
-     * @since 5.8.0
-     *
      * @param array $prepared Widget.
      * @return array Links for the given widget.
+     * @since 5.8.0
+     *
      */
     protected function prepare_links($prepared)
     {
-        $id_base = ! empty($prepared['id_base']) ? $prepared['id_base'] : $prepared['id'];
+        $id_base = !empty($prepared['id_base']) ? $prepared['id_base'] : $prepared['id'];
 
         return [
-            'self'                      => [
+            'self' => [
                 'href' => rest_url(sprintf('%s/%s/%s', $this->namespace, $this->rest_base, $prepared['id'])),
             ],
-            'collection'                => [
+            'collection' => [
                 'href' => rest_url(sprintf('%s/%s', $this->namespace, $this->rest_base)),
             ],
-            'about'                     => [
-                'href'       => rest_url(sprintf('wp/v2/widget-types/%s', $id_base)),
+            'about' => [
+                'href' => rest_url(sprintf('wp/v2/widget-types/%s', $id_base)),
                 'embeddable' => true,
             ],
             'https://api.w.org/sidebar' => [
@@ -790,9 +790,9 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
     /**
      * Gets the list of collection params.
      *
+     * @return array[]
      * @since 5.8.0
      *
-     * @return array[]
      */
     public function get_collection_params()
     {
@@ -800,7 +800,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
             'context' => $this->get_context_param(['default' => 'view']),
             'sidebar' => [
                 'description' => __('The sidebar to return widgets for.'),
-                'type'        => 'string',
+                'type' => 'string',
             ],
         ];
     }
@@ -808,9 +808,9 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
     /**
      * Retrieves the widget's schema, conforming to JSON Schema.
      *
+     * @return array Item schema data.
      * @since 5.8.0
      *
-     * @return array Item schema data.
      */
     public function get_item_schema()
     {
@@ -819,66 +819,66 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
         }
 
         $this->schema = [
-            '$schema'    => 'http://json-schema.org/draft-04/schema#',
-            'title'      => 'widget',
-            'type'       => 'object',
+            '$schema' => 'http://json-schema.org/draft-04/schema#',
+            'title' => 'widget',
+            'type' => 'object',
             'properties' => [
-                'id'            => [
+                'id' => [
                     'description' => __('Unique identifier for the widget.'),
-                    'type'        => 'string',
-                    'context'     => ['view', 'edit', 'embed'],
+                    'type' => 'string',
+                    'context' => ['view', 'edit', 'embed'],
                 ],
-                'id_base'       => [
+                'id_base' => [
                     'description' => __('The type of the widget. Corresponds to ID in widget-types endpoint.'),
-                    'type'        => 'string',
-                    'context'     => ['view', 'edit', 'embed'],
+                    'type' => 'string',
+                    'context' => ['view', 'edit', 'embed'],
                 ],
-                'sidebar'       => [
+                'sidebar' => [
                     'description' => __('The sidebar the widget belongs to.'),
-                    'type'        => 'string',
-                    'default'     => 'wp_inactive_widgets',
-                    'required'    => true,
-                    'context'     => ['view', 'edit', 'embed'],
+                    'type' => 'string',
+                    'default' => 'wp_inactive_widgets',
+                    'required' => true,
+                    'context' => ['view', 'edit', 'embed'],
                 ],
-                'rendered'      => [
+                'rendered' => [
                     'description' => __('HTML representation of the widget.'),
-                    'type'        => 'string',
-                    'context'     => ['view', 'edit', 'embed'],
-                    'readonly'    => true,
+                    'type' => 'string',
+                    'context' => ['view', 'edit', 'embed'],
+                    'readonly' => true,
                 ],
                 'rendered_form' => [
                     'description' => __('HTML representation of the widget admin form.'),
-                    'type'        => 'string',
-                    'context'     => ['edit'],
-                    'readonly'    => true,
+                    'type' => 'string',
+                    'context' => ['edit'],
+                    'readonly' => true,
                 ],
-                'instance'      => [
+                'instance' => [
                     'description' => __('Instance settings of the widget, if supported.'),
-                    'type'        => 'object',
-                    'context'     => ['edit'],
-                    'default'     => null,
-                    'properties'  => [
+                    'type' => 'object',
+                    'context' => ['edit'],
+                    'default' => null,
+                    'properties' => [
                         'encoded' => [
                             'description' => __('Base64 encoded representation of the instance settings.'),
-                            'type'        => 'string',
-                            'context'     => ['edit'],
+                            'type' => 'string',
+                            'context' => ['edit'],
                         ],
-                        'hash'    => [
+                        'hash' => [
                             'description' => __('Cryptographic hash of the instance settings.'),
-                            'type'        => 'string',
-                            'context'     => ['edit'],
+                            'type' => 'string',
+                            'context' => ['edit'],
                         ],
-                        'raw'     => [
+                        'raw' => [
                             'description' => __('Unencoded instance settings, if supported.'),
-                            'type'        => 'object',
-                            'context'     => ['edit'],
+                            'type' => 'object',
+                            'context' => ['edit'],
                         ],
                     ],
                 ],
-                'form_data'     => [
+                'form_data' => [
                     'description' => __('URL-encoded form data from the widget admin form. Used to update a widget that does not support instance. Write only.'),
-                    'type'        => 'string',
-                    'context'     => [],
+                    'type' => 'string',
+                    'context' => [],
                     'arg_options' => [
                         'sanitize_callback' => static function ($form_data) {
                             $array = [];

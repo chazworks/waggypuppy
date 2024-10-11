@@ -13,7 +13,8 @@
 
 ?>
 <!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"}}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignfull" style="padding-top:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--60)">
+<div class="wp-block-group alignfull"
+     style="padding-top:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--60)">
     <!-- wp:heading {"textAlign":"center","align":"wide"} -->
     <h2 class="wp-block-heading alignwide has-text-align-center">Pricing</h2>
     <!-- /wp:heading -->
@@ -29,7 +30,8 @@
     <!-- wp:columns {"align":"wide","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|30","left":"var:preset|spacing|50"}}}} -->
     <div class="wp-block-columns alignwide">
         <!-- wp:column {"style":{"spacing":{"padding":{"top":"var:preset|spacing|50","right":"var:preset|spacing|50","bottom":"var:preset|spacing|50","left":"var:preset|spacing|50"}},"border":{"width":"1px","color":"var:preset|color|accent-6","radius":"10px"}}} -->
-        <div class="wp-block-column has-border-color" style="border-color:var(--wp--preset--color--accent-6);border-width:1px;border-radius:10px;padding-top:var(--wp--preset--spacing--50);padding-right:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--50);padding-left:var(--wp--preset--spacing--50)">
+        <div class="wp-block-column has-border-color"
+             style="border-color:var(--wp--preset--color--accent-6);border-width:1px;border-radius:10px;padding-top:var(--wp--preset--spacing--50);padding-right:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--50);padding-left:var(--wp--preset--spacing--50)">
             <!-- wp:heading {"level":3} -->
             <h3 class="wp-block-heading" id="free">Free</h3>
             <!-- /wp:heading -->
@@ -39,7 +41,8 @@
             <!-- /wp:paragraph -->
 
             <!-- wp:list {"className":"is-style-checkmark-list","style":{"spacing":{"padding":{"left":"var:preset|spacing|20","bottom":"var:preset|spacing|20"}}},"fontSize":"small"} -->
-            <ul style="padding-bottom:var(--wp--preset--spacing--20);padding-left:var(--wp--preset--spacing--20)" class="wp-block-list is-style-checkmark-list has-small-font-size">
+            <ul style="padding-bottom:var(--wp--preset--spacing--20);padding-left:var(--wp--preset--spacing--20)"
+                class="wp-block-list is-style-checkmark-list has-small-font-size">
                 <!-- wp:list-item -->
                 <li>Get access to our paid articles and weekly newsletter.</li>
                 <!-- /wp:list-item -->
@@ -65,7 +68,8 @@
             <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
             <div class="wp-block-buttons">
                 <!-- wp:button {"width":100} -->
-                <div class="wp-block-button has-custom-width wp-block-button__width-100"><a class="wp-block-button__link wp-element-button">Join</a></div>
+                <div class="wp-block-button has-custom-width wp-block-button__width-100"><a
+                        class="wp-block-button__link wp-element-button">Join</a></div>
                 <!-- /wp:button -->
             </div>
             <!-- /wp:buttons -->
@@ -73,7 +77,8 @@
         <!-- /wp:column -->
 
         <!-- wp:column {"style":{"spacing":{"padding":{"top":"var:preset|spacing|50","right":"var:preset|spacing|50","bottom":"var:preset|spacing|50","left":"var:preset|spacing|50"}},"border":{"width":"1px","color":"var:preset|color|accent-6","radius":"10px"}},"layout":{"type":"default"}} -->
-        <div class="wp-block-column has-border-color" style="border-color:var(--wp--preset--color--accent-6);border-width:1px;border-radius:10px;padding-top:var(--wp--preset--spacing--50);padding-right:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--50);padding-left:var(--wp--preset--spacing--50)">
+        <div class="wp-block-column has-border-color"
+             style="border-color:var(--wp--preset--color--accent-6);border-width:1px;border-radius:10px;padding-top:var(--wp--preset--spacing--50);padding-right:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--50);padding-left:var(--wp--preset--spacing--50)">
             <!-- wp:heading {"level":3} -->
             <h3 class="wp-block-heading" id="single">Single</h3>
             <!-- /wp:heading -->
@@ -83,7 +88,8 @@
             <!-- /wp:paragraph -->
 
             <!-- wp:list {"className":"is-style-checkmark-list","style":{"spacing":{"padding":{"bottom":"var:preset|spacing|20","left":"var:preset|spacing|20"}}},"fontSize":"small"} -->
-            <ul style="padding-bottom:var(--wp--preset--spacing--20);padding-left:var(--wp--preset--spacing--20)" class="wp-block-list is-style-checkmark-list has-small-font-size">
+            <ul style="padding-bottom:var(--wp--preset--spacing--20);padding-left:var(--wp--preset--spacing--20)"
+                class="wp-block-list is-style-checkmark-list has-small-font-size">
                 <!-- wp:list-item -->
                 <li>Get access to our paid articles and weekly newsletter.</li>
                 <!-- /wp:list-item -->
@@ -109,7 +115,8 @@
             <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
             <div class="wp-block-buttons">
                 <!-- wp:button {"width":100} -->
-                <div class="wp-block-button has-custom-width wp-block-button__width-100"><a class="wp-block-button__link wp-element-button">Join</a></div>
+                <div class="wp-block-button has-custom-width wp-block-button__width-100"><a
+                        class="wp-block-button__link wp-element-button">Join</a></div>
                 <!-- /wp:button -->
             </div>
             <!-- /wp:buttons -->

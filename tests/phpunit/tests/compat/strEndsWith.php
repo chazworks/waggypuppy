@@ -23,9 +23,9 @@ class Tests_Compat_StrEndsWith extends WP_UnitTestCase
      *
      * @ticket 54377
      *
-     * @param bool   $expected Whether or not `$haystack` is expected to end with `$needle`.
+     * @param bool $expected Whether or not `$haystack` is expected to end with `$needle`.
      * @param string $haystack The string to search in.
-     * @param string $needle   The substring to search for at the end of `$haystack`.
+     * @param string $needle The substring to search for at the end of `$haystack`.
      */
     public function test_str_ends_with($expected, $haystack, $needle)
     {
@@ -40,70 +40,70 @@ class Tests_Compat_StrEndsWith extends WP_UnitTestCase
     public function data_str_ends_with()
     {
         return [
-            'empty needle'              => [
+            'empty needle' => [
                 'expected' => true,
                 'haystack' => 'This is a test',
-                'needle'   => '',
+                'needle' => '',
             ],
             'empty haystack and needle' => [
                 'expected' => true,
                 'haystack' => '',
-                'needle'   => '',
+                'needle' => '',
             ],
-            'empty haystack'            => [
+            'empty haystack' => [
                 'expected' => false,
                 'haystack' => '',
-                'needle'   => 'test',
+                'needle' => 'test',
             ],
-            'lowercase'                 => [
+            'lowercase' => [
                 'expected' => true,
                 'haystack' => 'This is a test',
-                'needle'   => 'test',
+                'needle' => 'test',
             ],
-            'uppercase'                 => [
+            'uppercase' => [
                 'expected' => true,
                 'haystack' => 'This is a TEST',
-                'needle'   => 'TEST',
+                'needle' => 'TEST',
             ],
-            'first letter uppercase'    => [
+            'first letter uppercase' => [
                 'expected' => true,
                 'haystack' => 'This is a Test',
-                'needle'   => 'Test',
+                'needle' => 'Test',
             ],
-            'camelCase'                 => [
+            'camelCase' => [
                 'expected' => true,
                 'haystack' => 'This is a camelCase',
-                'needle'   => 'camelCase',
+                'needle' => 'camelCase',
             ],
-            'null'                      => [
+            'null' => [
                 'expected' => true,
                 'haystack' => 'This is a null \x00test',
-                'needle'   => '\x00test',
+                'needle' => '\x00test',
             ],
-            'trademark'                 => [
+            'trademark' => [
                 'expected' => true,
                 'haystack' => 'This is a trademark\x2122',
-                'needle'   => 'trademark\x2122',
+                'needle' => 'trademark\x2122',
             ],
-            'not camelCase'             => [
+            'not camelCase' => [
                 'expected' => false,
                 'haystack' => 'This is a cammelcase',
-                'needle'   => 'cammelCase',
+                'needle' => 'cammelCase',
             ],
-            'missing'                   => [
+            'missing' => [
                 'expected' => false,
                 'haystack' => 'This is a cammelcase',
-                'needle'   => 'cammelCase',
+                'needle' => 'cammelCase',
             ],
-            'not end'                   => [
+            'not end' => [
                 'expected' => false,
                 'haystack' => 'This is a test extra',
-                'needle'   => 'test',
+                'needle' => 'test',
             ],
-            'extra space'               => [
+            'extra space' => [
                 'expected' => false,
                 'haystack' => 'This is a test ',
-                'needle'   => 'test',
+                'needle' => 'test',
             ],
 
         ];

@@ -28,9 +28,9 @@ if (is_multisite()) :
             $site = get_current_site();
             $date = date_format(date_create('now'), 'Y/m');
 
-            $user_id  = self::factory()->user->create(['role' => 'administrator']);
+            $user_id = self::factory()->user->create(['role' => 'administrator']);
             $blog_id2 = self::factory()->blog->create(['user_id' => $user_id]);
-            $info     = wp_upload_dir();
+            $info = wp_upload_dir();
             $this->assertSame('http://' . $site->domain . '/wp-content/uploads/' . $date, $info['url']);
             $this->assertSame(ABSPATH . 'wp-content/uploads/' . $date, $info['path']);
             $this->assertSame('/' . $date, $info['subdir']);
@@ -39,8 +39,13 @@ if (is_multisite()) :
             switch_to_blog($blog_id2);
             $info2 = wp_upload_dir();
             $this->assertNotEquals($info, $info2);
-            $this->assertSame(get_option('siteurl') . '/wp-content/blogs.dir/' . get_current_blog_id() . '/files/' . $date, $info2['url']);
-            $this->assertSame(ABSPATH . 'wp-content/blogs.dir/' . get_current_blog_id() . '/files/' . $date, $info2['path']);
+            $this->assertSame(get_option('siteurl')
+                . '/wp-content/blogs.dir/'
+                . get_current_blog_id()
+                . '/files/'
+                . $date, $info2['url']);
+            $this->assertSame(ABSPATH . 'wp-content/blogs.dir/' . get_current_blog_id() . '/files/' . $date,
+                $info2['path']);
             $this->assertSame('/' . $date, $info2['subdir']);
             $this->assertFalse($info2['error']);
             restore_current_blog();

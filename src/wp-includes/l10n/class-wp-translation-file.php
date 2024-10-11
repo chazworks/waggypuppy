@@ -65,9 +65,9 @@ abstract class WP_Translation_File
     /**
      * Constructor.
      *
+     * @param string $file File to load.
      * @since 6.5.0
      *
-     * @param string $file File to load.
      */
     protected function __construct(string $file)
     {
@@ -77,15 +77,15 @@ abstract class WP_Translation_File
     /**
      * Creates a new WP_Translation_File instance for a given file.
      *
-     * @since 6.5.0
-     *
-     * @param string      $file     File name.
+     * @param string $file File name.
      * @param string|null $filetype Optional. File type. Default inferred from file name.
      * @return false|WP_Translation_File
+     * @since 6.5.0
+     *
      */
     public static function create(string $file, ?string $filetype = null)
     {
-        if (! is_readable($file)) {
+        if (!is_readable($file)) {
             return false;
         }
 
@@ -109,11 +109,11 @@ abstract class WP_Translation_File
     /**
      * Creates a new WP_Translation_File instance for a given file.
      *
-     * @since 6.5.0
-     *
-     * @param string $file     Source file name.
+     * @param string $file Source file name.
      * @param string $filetype Desired target file type.
      * @return string|false Transformed translation file contents on success, false otherwise.
+     * @since 6.5.0
+     *
      */
     public static function transform(string $file, string $filetype)
     {
@@ -136,7 +136,7 @@ abstract class WP_Translation_File
 
         $success = $destination->import($source);
 
-        if (! $success) {
+        if (!$success) {
             return false;
         }
 
@@ -146,13 +146,13 @@ abstract class WP_Translation_File
     /**
      * Returns all headers.
      *
+     * @return array<string, string> Headers.
      * @since 6.5.0
      *
-     * @return array<string, string> Headers.
      */
     public function headers(): array
     {
-        if (! $this->parsed) {
+        if (!$this->parsed) {
             $this->parse_file();
         }
         return $this->headers;
@@ -161,13 +161,13 @@ abstract class WP_Translation_File
     /**
      * Returns all entries.
      *
+     * @return array<string, string[]> Entries.
      * @since 6.5.0
      *
-     * @return array<string, string[]> Entries.
      */
     public function entries(): array
     {
-        if (! $this->parsed) {
+        if (!$this->parsed) {
             $this->parse_file();
         }
 
@@ -177,9 +177,9 @@ abstract class WP_Translation_File
     /**
      * Returns the current error information.
      *
+     * @return string|null Error message or null if no error.
      * @since 6.5.0
      *
-     * @return string|null Error message or null if no error.
      */
     public function error()
     {
@@ -189,9 +189,9 @@ abstract class WP_Translation_File
     /**
      * Returns the file name.
      *
+     * @return string File name.
      * @since 6.5.0
      *
-     * @return string File name.
      */
     public function get_file(): string
     {
@@ -201,14 +201,14 @@ abstract class WP_Translation_File
     /**
      * Translates a given string.
      *
-     * @since 6.5.0
-     *
      * @param string $text String to translate.
      * @return false|string Translation(s) on success, false otherwise.
+     * @since 6.5.0
+     *
      */
     public function translate(string $text)
     {
-        if (! $this->parsed) {
+        if (!$this->parsed) {
             $this->parse_file();
         }
 
@@ -218,19 +218,19 @@ abstract class WP_Translation_File
     /**
      * Returns the plural form for a given number.
      *
-     * @since 6.5.0
-     *
      * @param int $number Count.
      * @return int Plural form.
+     * @since 6.5.0
+     *
      */
     public function get_plural_form(int $number): int
     {
-        if (! $this->parsed) {
+        if (!$this->parsed) {
             $this->parse_file();
         }
 
         if (null === $this->plural_forms && isset($this->headers['plural-forms'])) {
-            $expression         = $this->get_plural_expression_from_header($this->headers['plural-forms']);
+            $expression = $this->get_plural_expression_from_header($this->headers['plural-forms']);
             $this->plural_forms = $this->make_plural_form_function($expression);
         }
 
@@ -252,10 +252,10 @@ abstract class WP_Translation_File
     /**
      * Returns the plural forms expression as a tuple.
      *
-     * @since 6.5.0
-     *
      * @param string $header Plural-Forms header string.
      * @return string Plural forms expression.
+     * @since 6.5.0
+     *
      */
     protected function get_plural_expression_from_header(string $header): string
     {
@@ -270,10 +270,10 @@ abstract class WP_Translation_File
      * Makes a function, which will return the right translation index, according to the
      * plural forms header.
      *
-     * @since 6.5.0
-     *
      * @param string $expression Plural form expression.
      * @return callable(int $num): int Plural forms function.
+     * @since 6.5.0
+     *
      */
     protected function make_plural_form_function(string $expression): callable
     {
@@ -289,10 +289,10 @@ abstract class WP_Translation_File
     /**
      * Imports translations from another file.
      *
-     * @since 6.5.0
-     *
      * @param WP_Translation_File $source Source file.
      * @return bool True on success, false otherwise.
+     * @since 6.5.0
+     *
      */
     protected function import(WP_Translation_File $source): bool
     {
@@ -302,7 +302,7 @@ abstract class WP_Translation_File
 
         $this->headers = $source->headers();
         $this->entries = $source->entries();
-        $this->error   = $source->error();
+        $this->error = $source->error();
 
         return null === $this->error;
     }
@@ -317,9 +317,9 @@ abstract class WP_Translation_File
     /**
      * Exports translation contents as a string.
      *
+     * @return string Translation file contents.
      * @since 6.5.0
      *
-     * @return string Translation file contents.
      */
     abstract public function export();
 }

@@ -86,26 +86,27 @@ class WP_Network
     /**
      * Retrieves a network from the database by its ID.
      *
+     * @param int $network_id The ID of the network to retrieve.
+     * @return WP_Network|false The network's object if found. False if not.
      * @since 4.4.0
      *
      * @global wpdb $wpdb waggypuppy database abstraction object.
      *
-     * @param int $network_id The ID of the network to retrieve.
-     * @return WP_Network|false The network's object if found. False if not.
      */
     public static function get_instance($network_id)
     {
         global $wpdb;
 
-        $network_id = (int) $network_id;
-        if (! $network_id) {
+        $network_id = (int)$network_id;
+        if (!$network_id) {
             return false;
         }
 
         $_network = wp_cache_get($network_id, 'networks');
 
         if (false === $_network) {
-            $_network = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->site} WHERE id = %d LIMIT 1", $network_id));
+            $_network = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->site} WHERE id = %d LIMIT 1",
+                $network_id));
 
             if (empty($_network) || is_wp_error($_network)) {
                 $_network = -1;
@@ -127,9 +128,9 @@ class WP_Network
      * Will populate object properties from the object provided and assign other
      * default properties based on that information.
      *
+     * @param WP_Network|object $network A network object.
      * @since 4.4.0
      *
-     * @param WP_Network|object $network A network object.
      */
     public function __construct($network)
     {
@@ -146,18 +147,18 @@ class WP_Network
      *
      * Allows current multisite naming conventions when getting properties.
      *
-     * @since 4.6.0
-     *
      * @param string $key Property to get.
      * @return mixed Value of the property. Null if not available.
+     * @since 4.6.0
+     *
      */
     public function __get($key)
     {
         switch ($key) {
             case 'id':
-                return (int) $this->id;
+                return (int)$this->id;
             case 'blog_id':
-                return (string) $this->get_main_site_id();
+                return (string)$this->get_main_site_id();
             case 'site_id':
                 return $this->get_main_site_id();
         }
@@ -170,10 +171,10 @@ class WP_Network
      *
      * Allows current multisite naming conventions when checking for properties.
      *
-     * @since 4.6.0
-     *
      * @param string $key Property to check if set.
      * @return bool Whether the property is set.
+     * @since 4.6.0
+     *
      */
     public function __isset($key)
     {
@@ -192,20 +193,20 @@ class WP_Network
      *
      * Allows current multisite naming conventions while setting properties.
      *
+     * @param string $key Property to set.
+     * @param mixed $value Value to assign to the property.
      * @since 4.6.0
      *
-     * @param string $key   Property to set.
-     * @param mixed  $value Value to assign to the property.
      */
     public function __set($key, $value)
     {
         switch ($key) {
             case 'id':
-                $this->id = (int) $value;
+                $this->id = (int)$value;
                 break;
             case 'blog_id':
             case 'site_id':
-                $this->blog_id = (string) $value;
+                $this->blog_id = (string)$value;
                 break;
             default:
                 $this->$key = $value;
@@ -218,9 +219,9 @@ class WP_Network
      * Internal method used by the magic getter for the 'blog_id' and 'site_id'
      * properties.
      *
+     * @return int The ID of the main site.
      * @since 4.9.0
      *
-     * @return int The ID of the main site.
      */
     private function get_main_site_id()
     {
@@ -229,63 +230,63 @@ class WP_Network
          *
          * Returning a positive integer will effectively short-circuit the function.
          *
+         * @param int|null $main_site_id If a positive integer is returned, it is interpreted as the main site ID.
+         * @param WP_Network $network The network object for which the main site was detected.
          * @since 4.9.0
          *
-         * @param int|null   $main_site_id If a positive integer is returned, it is interpreted as the main site ID.
-         * @param WP_Network $network      The network object for which the main site was detected.
          */
-        $main_site_id = (int) apply_filters('pre_get_main_site_id', null, $this);
+        $main_site_id = (int)apply_filters('pre_get_main_site_id', null, $this);
 
         if (0 < $main_site_id) {
             return $main_site_id;
         }
 
-        if (0 < (int) $this->blog_id) {
-            return (int) $this->blog_id;
+        if (0 < (int)$this->blog_id) {
+            return (int)$this->blog_id;
         }
 
         if ((defined('DOMAIN_CURRENT_SITE') && defined('PATH_CURRENT_SITE')
-            && DOMAIN_CURRENT_SITE === $this->domain && PATH_CURRENT_SITE === $this->path)
-            || (defined('SITE_ID_CURRENT_SITE') && (int) SITE_ID_CURRENT_SITE === $this->id)
+                && DOMAIN_CURRENT_SITE === $this->domain
+                && PATH_CURRENT_SITE === $this->path)
+            || (defined('SITE_ID_CURRENT_SITE') && (int)SITE_ID_CURRENT_SITE === $this->id)
         ) {
             if (defined('BLOG_ID_CURRENT_SITE')) {
-                $this->blog_id = (string) BLOG_ID_CURRENT_SITE;
+                $this->blog_id = (string)BLOG_ID_CURRENT_SITE;
 
-                return (int) $this->blog_id;
+                return (int)$this->blog_id;
             }
 
             if (defined('BLOGID_CURRENT_SITE')) { // Deprecated.
-                $this->blog_id = (string) BLOGID_CURRENT_SITE;
+                $this->blog_id = (string)BLOGID_CURRENT_SITE;
 
-                return (int) $this->blog_id;
+                return (int)$this->blog_id;
             }
         }
 
         $site = get_site();
         if ($site->domain === $this->domain && $site->path === $this->path) {
-            $main_site_id = (int) $site->id;
+            $main_site_id = (int)$site->id;
         } else {
-
             $main_site_id = get_network_option($this->id, 'main_site');
             if (false === $main_site_id) {
-                $_sites       = get_sites(
+                $_sites = get_sites(
                     [
-                        'fields'     => 'ids',
-                        'number'     => 1,
-                        'domain'     => $this->domain,
-                        'path'       => $this->path,
+                        'fields' => 'ids',
+                        'number' => 1,
+                        'domain' => $this->domain,
+                        'path' => $this->path,
                         'network_id' => $this->id,
-                    ]
+                    ],
                 );
-                $main_site_id = ! empty($_sites) ? array_shift($_sites) : 0;
+                $main_site_id = !empty($_sites) ? array_shift($_sites) : 0;
 
                 update_network_option($this->id, 'main_site', $main_site_id);
             }
         }
 
-        $this->blog_id = (string) $main_site_id;
+        $this->blog_id = (string)$main_site_id;
 
-        return (int) $this->blog_id;
+        return (int)$this->blog_id;
     }
 
     /**
@@ -295,11 +296,11 @@ class WP_Network
      */
     private function _set_site_name()
     {
-        if (! empty($this->site_name)) {
+        if (!empty($this->site_name)) {
             return;
         }
 
-        $default         = ucfirst($this->domain);
+        $default = ucfirst($this->domain);
         $this->site_name = get_network_option($this->id, 'site_name', $default);
     }
 
@@ -313,10 +314,10 @@ class WP_Network
      */
     private function _set_cookie_domain()
     {
-        if (! empty($this->cookie_domain)) {
+        if (!empty($this->cookie_domain)) {
             return;
         }
-        $domain              = parse_url($this->domain, PHP_URL_HOST);
+        $domain = parse_url($this->domain, PHP_URL_HOST);
         $this->cookie_domain = is_string($domain) ? $domain : $this->domain;
         if (str_starts_with($this->cookie_domain, 'www.')) {
             $this->cookie_domain = substr($this->cookie_domain, 4);
@@ -333,24 +334,24 @@ class WP_Network
      * The intent of this method is to match a network during bootstrap for a
      * requested site address.
      *
-     * @since 4.4.0
-     *
-     * @param string   $domain   Domain to check.
-     * @param string   $path     Path to check.
+     * @param string $domain Domain to check.
+     * @param string $path Path to check.
      * @param int|null $segments Path segments to use. Defaults to null, or the full path.
      * @return WP_Network|false Network object if successful. False when no network is found.
+     * @since 4.4.0
+     *
      */
     public static function get_by_path($domain = '', $path = '', $segments = null)
     {
         $domains = [$domain];
-        $pieces  = explode('.', $domain);
+        $pieces = explode('.', $domain);
 
         /*
          * It's possible one domain to search is 'com', but it might as well
          * be 'localhost' or some other locally mapped domain.
          */
         while (array_shift($pieces)) {
-            if (! empty($pieces)) {
+            if (!empty($pieces)) {
                 $domains[] = implode('.', $pieces);
             }
         }
@@ -368,10 +369,10 @@ class WP_Network
         if (wp_using_ext_object_cache()) {
             $using_paths = get_networks(
                 [
-                    'number'       => 1,
-                    'count'        => true,
+                    'number' => 1,
+                    'count' => true,
                     'path__not_in' => '/',
-                ]
+                ],
             );
         }
 
@@ -382,13 +383,13 @@ class WP_Network
             /**
              * Filters the number of path segments to consider when searching for a site.
              *
-             * @since 3.9.0
-             *
              * @param int|null $segments The number of path segments to consider. waggypuppy by default looks at
              *                           one path segment. The function default of null only makes sense when you
              *                           know the requested path should match a network.
-             * @param string   $domain   The requested domain.
-             * @param string   $path     The requested path, in full.
+             * @param string $domain The requested domain.
+             * @param string $path The requested path, in full.
+             * @since 3.9.0
+             *
              */
             $segments = apply_filters('network_by_path_segments_count', $segments, $domain, $path);
 
@@ -414,33 +415,33 @@ class WP_Network
          * can be found at the requested domain and path. Otherwise, return
          * an object from wp_get_network().
          *
+         * @param null|false|WP_Network $network Network value to return by path. Default null
+         *                                        to continue retrieving the network.
+         * @param string $domain The requested domain.
+         * @param string $path The requested path, in full.
+         * @param int|null $segments The suggested number of paths to consult.
+         *                                        Default null, meaning the entire path was to be consulted.
+         * @param string[] $paths Array of paths to search for, based on `$path` and `$segments`.
          * @since 3.9.0
          *
-         * @param null|false|WP_Network $network  Network value to return by path. Default null
-         *                                        to continue retrieving the network.
-         * @param string                $domain   The requested domain.
-         * @param string                $path     The requested path, in full.
-         * @param int|null              $segments The suggested number of paths to consult.
-         *                                        Default null, meaning the entire path was to be consulted.
-         * @param string[]              $paths    Array of paths to search for, based on `$path` and `$segments`.
          */
         $pre = apply_filters('pre_get_network_by_path', null, $domain, $path, $segments, $paths);
         if (null !== $pre) {
             return $pre;
         }
 
-        if (! $using_paths) {
+        if (!$using_paths) {
             $networks = get_networks(
                 [
-                    'number'     => 1,
-                    'orderby'    => [
+                    'number' => 1,
+                    'orderby' => [
                         'domain_length' => 'DESC',
                     ],
                     'domain__in' => $domains,
-                ]
+                ],
             );
 
-            if (! empty($networks)) {
+            if (!empty($networks)) {
                 return array_shift($networks);
             }
 
@@ -449,13 +450,13 @@ class WP_Network
 
         $networks = get_networks(
             [
-                'orderby'    => [
+                'orderby' => [
                     'domain_length' => 'DESC',
-                    'path_length'   => 'DESC',
+                    'path_length' => 'DESC',
                 ],
                 'domain__in' => $domains,
-                'path__in'   => $paths,
-            ]
+                'path__in' => $paths,
+            ],
         );
 
         /*

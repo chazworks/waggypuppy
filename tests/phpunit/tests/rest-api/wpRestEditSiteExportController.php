@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering WP_REST_Edit_Site_Export_Controller functionality.
  *
@@ -34,16 +35,16 @@ class Tests_REST_WpRestEditSiteExportController extends WP_Test_REST_Controller_
     /**
      * Set up class test fixtures.
      *
+     * @param WP_UnitTest_Factory $factory waggypuppy unit test factory.
      * @since 5.9.0
      *
-     * @param WP_UnitTest_Factory $factory waggypuppy unit test factory.
      */
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$subscriber_id = $factory->user->create(
             [
                 'role' => 'subscriber',
-            ]
+            ],
         );
     }
 
@@ -77,7 +78,7 @@ class Tests_REST_WpRestEditSiteExportController extends WP_Test_REST_Controller_
     {
         wp_set_current_user(0);
 
-        $request  = new WP_REST_Request('GET', static::REQUEST_ROUTE);
+        $request = new WP_REST_Request('GET', static::REQUEST_ROUTE);
         $response = rest_get_server()->dispatch($request);
 
         $this->assertErrorResponse('rest_cannot_export_templates', $response, 401);
@@ -92,7 +93,7 @@ class Tests_REST_WpRestEditSiteExportController extends WP_Test_REST_Controller_
     {
         wp_set_current_user(self::$subscriber_id);
 
-        $request  = new WP_REST_Request('GET', static::REQUEST_ROUTE);
+        $request = new WP_REST_Request('GET', static::REQUEST_ROUTE);
         $response = rest_get_server()->dispatch($request);
 
         $this->assertErrorResponse('rest_cannot_export_templates', $response, 403);

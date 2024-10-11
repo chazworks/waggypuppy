@@ -9,34 +9,45 @@
  * @class
  * @augments Backbone.Model
  */
-var PostMedia = Backbone.Model.extend(/** @lends wp.media.model.PostMedia.prototype */{
-	initialize: function() {
-		this.attachment = false;
-	},
+var PostMedia = Backbone.Model.extend(
+	/** @lends wp.media.model.PostMedia.prototype */ {
+		initialize: function () {
+			this.attachment = false;
+		},
 
-	setSource: function( attachment ) {
-		this.attachment = attachment;
-		this.extension = attachment.get( 'filename' ).split('.').pop();
+		setSource: function ( attachment ) {
+			this.attachment = attachment;
+			this.extension = attachment.get( 'filename' ).split( '.' ).pop();
 
-		if ( this.get( 'src' ) && this.extension === this.get( 'src' ).split('.').pop() ) {
+			if (
+				this.get( 'src' ) &&
+				this.extension === this.get( 'src' ).split( '.' ).pop()
+			) {
+				this.unset( 'src' );
+			}
+
+			if (
+				_.contains( wp.media.view.settings.embedExts, this.extension )
+			) {
+				this.set( this.extension, this.attachment.get( 'url' ) );
+			} else {
+				this.unset( this.extension );
+			}
+		},
+
+		changeAttachment: function ( attachment ) {
+			this.setSource( attachment );
+
 			this.unset( 'src' );
-		}
-
-		if ( _.contains( wp.media.view.settings.embedExts, this.extension ) ) {
-			this.set( this.extension, this.attachment.get( 'url' ) );
-		} else {
-			this.unset( this.extension );
-		}
-	},
-
-	changeAttachment: function( attachment ) {
-		this.setSource( attachment );
-
-		this.unset( 'src' );
-		_.each( _.without( wp.media.view.settings.embedExts, this.extension ), function( ext ) {
-			this.unset( ext );
-		}, this );
+			_.each(
+				_.without( wp.media.view.settings.embedExts, this.extension ),
+				function ( ext ) {
+					this.unset( ext );
+				},
+				this
+			);
+		},
 	}
-});
+);
 
 module.exports = PostMedia;

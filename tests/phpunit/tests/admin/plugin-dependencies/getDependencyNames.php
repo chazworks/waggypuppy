@@ -29,9 +29,10 @@ class Tests_Admin_WPPluginDependencies_GetDependencyNames extends WP_PluginDepen
         add_filter(
             'plugins_api',
             function ($bypass, $action, $args) use ($type) {
-                if ('plugin_information' === $action && isset($args->slug) && str_starts_with($args->slug, 'dependency')) {
+                if ('plugin_information' === $action && isset($args->slug)
+                    && str_starts_with($args->slug, 'dependency')) {
                     if ('success' === $type) {
-                        return (object) [
+                        return (object)[
                             'slug' => $args->slug,
                             'name' => 'Dependency ' . str_replace('dependency', '', $args->slug),
                         ];
@@ -43,7 +44,7 @@ class Tests_Admin_WPPluginDependencies_GetDependencyNames extends WP_PluginDepen
                 return $bypass;
             },
             10,
-            3
+            3,
         );
     }
 
@@ -67,7 +68,7 @@ class Tests_Admin_WPPluginDependencies_GetDependencyNames extends WP_PluginDepen
 
         $this->set_property_value(
             'plugins',
-            ['dependent/dependent.php' => ['RequiresPlugins' => 'dependency, dependency2']]
+            ['dependent/dependent.php' => ['RequiresPlugins' => 'dependency, dependency2']],
         );
 
         $this->mock_api_response('success');
@@ -76,21 +77,21 @@ class Tests_Admin_WPPluginDependencies_GetDependencyNames extends WP_PluginDepen
         $this->set_property_value(
             'dependency_filepaths',
             [
-                'dependency'  => 'dependency/dependency.php',
+                'dependency' => 'dependency/dependency.php',
                 'dependency2' => 'dependency2/dependency2.php',
-            ]
+            ],
         );
 
         $this->set_property_value(
             'dependency_api_data',
             [
-                'dependency'  => [
+                'dependency' => [
                     'name' => 'Dependency 1',
                 ],
                 'dependency2' => [
                     'name' => 'Dependency 2',
                 ],
-            ]
+            ],
         );
 
         $actual = self::$instance::get_dependency_names('dependent/dependent.php');
@@ -100,10 +101,10 @@ class Tests_Admin_WPPluginDependencies_GetDependencyNames extends WP_PluginDepen
 
         $this->assertSame(
             [
-                'dependency'  => 'Dependency 1',
+                'dependency' => 'Dependency 1',
                 'dependency2' => 'Dependency 2',
             ],
-            $actual
+            $actual,
         );
     }
 
@@ -128,16 +129,16 @@ class Tests_Admin_WPPluginDependencies_GetDependencyNames extends WP_PluginDepen
         $this->set_property_value(
             'plugins',
             [
-                'dependent/dependent.php'     => ['RequiresPlugins' => 'dependency, dependency2'],
-                'dependency/dependency.php'   => [
-                    'Name'            => 'Dependency 1',
+                'dependent/dependent.php' => ['RequiresPlugins' => 'dependency, dependency2'],
+                'dependency/dependency.php' => [
+                    'Name' => 'Dependency 1',
                     'RequiresPlugins' => '',
                 ],
                 'dependency2/dependency2.php' => [
-                    'Name'            => 'Dependency 2',
+                    'Name' => 'Dependency 2',
                     'RequiresPlugins' => '',
                 ],
-            ]
+            ],
         );
 
         $this->mock_api_response('failure');
@@ -146,9 +147,9 @@ class Tests_Admin_WPPluginDependencies_GetDependencyNames extends WP_PluginDepen
         $this->set_property_value(
             'dependency_filepaths',
             [
-                'dependency'  => 'dependency/dependency.php',
+                'dependency' => 'dependency/dependency.php',
                 'dependency2' => 'dependency2/dependency2.php',
-            ]
+            ],
         );
 
         // The plugins are not in the Plugins repository.
@@ -161,10 +162,10 @@ class Tests_Admin_WPPluginDependencies_GetDependencyNames extends WP_PluginDepen
 
         $this->assertSame(
             [
-                'dependency'  => 'Dependency 1',
+                'dependency' => 'Dependency 1',
                 'dependency2' => 'Dependency 2',
             ],
-            $actual
+            $actual,
         );
     }
 
@@ -188,7 +189,7 @@ class Tests_Admin_WPPluginDependencies_GetDependencyNames extends WP_PluginDepen
 
         $this->set_property_value(
             'plugins',
-            ['dependent/dependent.php' => ['RequiresPlugins' => 'dependency, dependency2']]
+            ['dependent/dependent.php' => ['RequiresPlugins' => 'dependency, dependency2']],
         );
 
         $this->mock_api_response('failure');
@@ -204,10 +205,10 @@ class Tests_Admin_WPPluginDependencies_GetDependencyNames extends WP_PluginDepen
 
         $this->assertSame(
             [
-                'dependency'  => 'dependency',
+                'dependency' => 'dependency',
                 'dependency2' => 'dependency2',
             ],
-            $actual
+            $actual,
         );
     }
 
@@ -232,15 +233,15 @@ class Tests_Admin_WPPluginDependencies_GetDependencyNames extends WP_PluginDepen
         $this->set_property_value(
             'plugins',
             [
-                'dependent/dependent.php'   => [
-                    'Name'            => 'Dependent 1',
+                'dependent/dependent.php' => [
+                    'Name' => 'Dependent 1',
                     'RequiresPlugins' => 'dependency',
                 ],
                 'dependency/dependency.php' => [
-                    'Name'            => 'Dependency 1',
+                    'Name' => 'Dependency 1',
                     'RequiresPlugins' => '',
                 ],
-            ]
+            ],
         );
 
         $this->set_property_value('dependency_slugs', ['dependency']);
@@ -256,7 +257,7 @@ class Tests_Admin_WPPluginDependencies_GetDependencyNames extends WP_PluginDepen
 
         $this->assertSame(
             ['dependency' => ['Name' => 'Dependency 1']],
-            $this->get_property_value('dependency_api_data')
+            $this->get_property_value('dependency_api_data'),
         );
     }
 }

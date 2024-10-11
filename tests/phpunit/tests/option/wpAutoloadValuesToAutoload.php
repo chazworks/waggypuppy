@@ -23,12 +23,11 @@ class Tests_Option_wpAutoloadValuesToAutoload extends WP_UnitTestCase
      */
     public function test_wp_autoload_values_to_autoload_filter_remove()
     {
-
         add_filter(
             'wp_autoload_values_to_autoload',
             static function () {
                 return ['yes'];
-            }
+            },
         );
 
         $this->assertSameSets(['yes'], wp_autoload_values_to_autoload());
@@ -39,12 +38,11 @@ class Tests_Option_wpAutoloadValuesToAutoload extends WP_UnitTestCase
      */
     public function test_wp_autoload_values_to_autoload_filter_extra()
     {
-
         add_filter(
             'wp_autoload_values_to_autoload',
             static function () {
                 return ['yes', 'on', 'auto-on', 'auto', 'extra'];
-            }
+            },
         );
 
         $this->assertSameSets(['yes', 'on', 'auto-on', 'auto'], wp_autoload_values_to_autoload());
@@ -55,12 +53,11 @@ class Tests_Option_wpAutoloadValuesToAutoload extends WP_UnitTestCase
      */
     public function test_wp_autoload_values_to_autoload_filter_replace()
     {
-
         add_filter(
             'wp_autoload_values_to_autoload',
             static function () {
                 return ['yes', 'on', 'auto-on', 'extra'];
-            }
+            },
         );
 
         $this->assertSameSets(['yes', 'on', 'auto-on'], wp_autoload_values_to_autoload());

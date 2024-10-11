@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tests the `WP_SimplePie_File` class.
  *
@@ -24,7 +25,7 @@ class Tests_Feed_wpSimplePieFile extends WP_UnitTestCase
      *
      * @dataProvider data_header_parsing
      *
-     * @covers WP_SimplePie_File::__construct
+     * @covers       WP_SimplePie_File::__construct
      *
      * @since 5.6.1
      *
@@ -53,7 +54,7 @@ class Tests_Feed_wpSimplePieFile extends WP_UnitTestCase
                 'application/rss+xml; charset=UTF-8',
             ],
 
-            'single generic header works'      => [
+            'single generic header works' => [
                 'mocked_response_single_header_values',
                 'link',
                 '<https://wp.org/news/wp-json/>; rel="https://api.w.org/"',
@@ -80,17 +81,17 @@ class Tests_Feed_wpSimplePieFile extends WP_UnitTestCase
     {
         $single_value_headers = [
             'content-type' => 'application/rss+xml; charset=UTF-8',
-            'link'         => '<https://wp.org/news/wp-json/>; rel="https://api.w.org/"',
+            'link' => '<https://wp.org/news/wp-json/>; rel="https://api.w.org/"',
         ];
 
         return [
-            'headers'  => new WpOrg\Requests\Utility\CaseInsensitiveDictionary($single_value_headers),
-            'body'     => file_get_contents(DIR_TESTDATA . '/feed/wordpress-org-news.xml'),
+            'headers' => new WpOrg\Requests\Utility\CaseInsensitiveDictionary($single_value_headers),
+            'body' => file_get_contents(DIR_TESTDATA . '/feed/wordpress-org-news.xml'),
             'response' => [
-                'code'    => 200,
+                'code' => 200,
                 'message' => 'OK',
             ],
-            'cookies'  => [],
+            'cookies' => [],
             'filename' => null,
         ];
     }
@@ -108,7 +109,7 @@ class Tests_Feed_wpSimplePieFile extends WP_UnitTestCase
                 'application/rss+xml; charset=UTF-8',
             ],
 
-            'link'         => [
+            'link' => [
                 '<https://wp.org/news/wp-json/>; rel="https://api.w.org/"',
                 '<https://wp.org/news/wp/v2/categories/3>; rel="alternate"; type="application/json"',
             ],

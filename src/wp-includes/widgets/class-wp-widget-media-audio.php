@@ -30,62 +30,64 @@ class WP_Widget_Media_Audio extends WP_Widget_Media
             __('Audio'),
             [
                 'description' => __('Displays an audio player.'),
-                'mime_type'   => 'audio',
-            ]
+                'mime_type' => 'audio',
+            ],
         );
 
         $this->l10n = array_merge(
             $this->l10n,
             [
-                'no_media_selected'          => __('No audio selected'),
-                'add_media'                  => _x('Add Audio', 'label for button in the audio widget'),
-                'replace_media'              => _x('Replace Audio', 'label for button in the audio widget; should preferably not be longer than ~13 characters long'),
-                'edit_media'                 => _x('Edit Audio', 'label for button in the audio widget; should preferably not be longer than ~13 characters long'),
-                'missing_attachment'         => sprintf(
-                    /* translators: %s: URL to media library. */
+                'no_media_selected' => __('No audio selected'),
+                'add_media' => _x('Add Audio', 'label for button in the audio widget'),
+                'replace_media' => _x('Replace Audio',
+                    'label for button in the audio widget; should preferably not be longer than ~13 characters long'),
+                'edit_media' => _x('Edit Audio',
+                    'label for button in the audio widget; should preferably not be longer than ~13 characters long'),
+                'missing_attachment' => sprintf(
+                /* translators: %s: URL to media library. */
                     __('That audio file cannot be found. Check your <a href="%s">media library</a> and make sure it was not deleted.'),
-                    esc_url(admin_url('upload.php'))
+                    esc_url(admin_url('upload.php')),
                 ),
                 /* translators: %d: Widget count. */
-                'media_library_state_multi'  => _n_noop('Audio Widget (%d)', 'Audio Widget (%d)'),
+                'media_library_state_multi' => _n_noop('Audio Widget (%d)', 'Audio Widget (%d)'),
                 'media_library_state_single' => __('Audio Widget'),
-                'unsupported_file_type'      => __('Looks like this is not the correct kind of file. Please link to an audio file instead.'),
-            ]
+                'unsupported_file_type' => __('Looks like this is not the correct kind of file. Please link to an audio file instead.'),
+            ],
         );
     }
 
     /**
      * Get schema for properties of a widget instance (item).
      *
-     * @since 4.8.0
-     *
+     * @return array Schema for properties.
      * @see WP_REST_Controller::get_item_schema()
      * @see WP_REST_Controller::get_additional_fields()
      * @link https://core.trac.wp.org/ticket/35574
      *
-     * @return array Schema for properties.
+     * @since 4.8.0
+     *
      */
     public function get_instance_schema()
     {
         $schema = [
             'preload' => [
-                'type'        => 'string',
-                'enum'        => ['none', 'auto', 'metadata'],
-                'default'     => 'none',
+                'type' => 'string',
+                'enum' => ['none', 'auto', 'metadata'],
+                'default' => 'none',
                 'description' => __('Preload'),
             ],
-            'loop'    => [
-                'type'        => 'boolean',
-                'default'     => false,
+            'loop' => [
+                'type' => 'boolean',
+                'default' => false,
                 'description' => __('Loop'),
             ],
         ];
 
         foreach (wp_get_audio_extensions() as $audio_extension) {
             $schema[$audio_extension] = [
-                'type'        => 'string',
-                'default'     => '',
-                'format'      => 'uri',
+                'type' => 'string',
+                'default' => '',
+                'format' => 'uri',
                 /* translators: %s: Audio extension. */
                 'description' => sprintf(__('URL to the %s audio source file'), $audio_extension),
             ];
@@ -97,13 +99,13 @@ class WP_Widget_Media_Audio extends WP_Widget_Media
     /**
      * Render the media on the frontend.
      *
+     * @param array $instance Widget instance props.
      * @since 4.8.0
      *
-     * @param array $instance Widget instance props.
      */
     public function render_media($instance)
     {
-        $instance   = array_merge(wp_list_pluck($this->get_instance_schema(), 'default'), $instance);
+        $instance = array_merge(wp_list_pluck($this->get_instance_schema(), 'default'), $instance);
         $attachment = null;
 
         if ($this->is_attachment_with_mime_type($instance['attachment_id'], $this->widget_options['mime_type'])) {
@@ -119,8 +121,8 @@ class WP_Widget_Media_Audio extends WP_Widget_Media
         echo wp_audio_shortcode(
             array_merge(
                 $instance,
-                compact('src')
-            )
+                compact('src'),
+            ),
         );
     }
 
@@ -160,15 +162,16 @@ class WP_Widget_Media_Audio extends WP_Widget_Media
 
         $exported_schema = [];
         foreach ($this->get_instance_schema() as $field => $field_schema) {
-            $exported_schema[$field] = wp_array_slice_assoc($field_schema, ['type', 'default', 'enum', 'minimum', 'format', 'media_prop', 'should_preview_update']);
+            $exported_schema[$field] = wp_array_slice_assoc($field_schema,
+                ['type', 'default', 'enum', 'minimum', 'format', 'media_prop', 'should_preview_update']);
         }
         wp_add_inline_script(
             $handle,
             sprintf(
                 'wp.mediaWidgets.modelConstructors[ %s ].prototype.schema = %s;',
                 wp_json_encode($this->id_base),
-                wp_json_encode($exported_schema)
-            )
+                wp_json_encode($exported_schema),
+            ),
         );
 
         wp_add_inline_script(
@@ -180,8 +183,8 @@ class WP_Widget_Media_Audio extends WP_Widget_Media
 				',
                 wp_json_encode($this->id_base),
                 wp_json_encode($this->widget_options['mime_type']),
-                wp_json_encode($this->l10n)
-            )
+                wp_json_encode($this->l10n),
+            ),
         );
     }
 
@@ -196,27 +199,27 @@ class WP_Widget_Media_Audio extends WP_Widget_Media
         ?>
         <script type="text/html" id="tmpl-wp-media-widget-audio-preview">
             <# if ( data.error && 'missing_attachment' === data.error ) { #>
-                <?php
-                wp_admin_notice(
-                    $this->l10n['missing_attachment'],
-                    [
-                        'type'               => 'error',
-                        'additional_classes' => ['notice-alt', 'notice-missing-attachment'],
-                    ]
-                );
-                ?>
+            <?php
+            wp_admin_notice(
+                $this->l10n['missing_attachment'],
+                [
+                    'type' => 'error',
+                    'additional_classes' => ['notice-alt', 'notice-missing-attachment'],
+                ],
+            );
+            ?>
             <# } else if ( data.error ) { #>
-                <?php
-                wp_admin_notice(
-                    __('Unable to preview media due to an unknown error.'),
-                    [
-                        'type'               => 'error',
-                        'additional_classes' => ['notice-alt'],
-                    ]
-                );
-                ?>
+            <?php
+            wp_admin_notice(
+                __('Unable to preview media due to an unknown error.'),
+                [
+                    'type' => 'error',
+                    'additional_classes' => ['notice-alt'],
+                ],
+            );
+            ?>
             <# } else if ( data.model && data.model.src ) { #>
-                <?php wp_underscore_audio_template(); ?>
+            <?php wp_underscore_audio_template(); ?>
             <# } #>
         </script>
         <?php

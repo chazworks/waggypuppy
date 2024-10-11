@@ -101,7 +101,7 @@ class Tests_HtmlApi_WpHtmlTagProcessor_Bookmark extends WP_UnitTestCase
         $this->assertSame(
             '<ul><li foo-1="bar-1">One</li><li foo-2="bar-2">Two</li><li>Three</li></ul>',
             $processor->get_updated_html(),
-            'Did not seek to the intended bookmark locations'
+            'Did not seek to the intended bookmark locations',
         );
     }
 
@@ -124,7 +124,7 @@ class Tests_HtmlApi_WpHtmlTagProcessor_Bookmark extends WP_UnitTestCase
         $this->assertSame(
             'DIV',
             $processor->get_tag(),
-            'Did not seek to the intended bookmark location'
+            'Did not seek to the intended bookmark location',
         );
     }
 
@@ -168,9 +168,9 @@ class Tests_HtmlApi_WpHtmlTagProcessor_Bookmark extends WP_UnitTestCase
      */
     public function test_removing_long_attributes_doesnt_break_seek()
     {
-        $input     = <<<HTML
-		<button twenty_one_characters 7_chars></button><button></button>
-HTML;
+        $input = <<<HTML
+            <button twenty_one_characters 7_chars></button><button></button>
+            HTML;
         $processor = new WP_HTML_Tag_Processor($input);
         $processor->next_tag('button');
         $processor->set_bookmark('first');
@@ -179,14 +179,14 @@ HTML;
 
         $this->assertTrue(
             $processor->seek('first'),
-            'Seek() to the first button has failed'
+            'Seek() to the first button has failed',
         );
         $processor->remove_attribute('twenty_one_characters');
         $processor->remove_attribute('7_chars');
 
         $this->assertTrue(
             $processor->seek('second'),
-            'Seek() to the second button has failed'
+            'Seek() to the second button has failed',
         );
     }
 
@@ -198,51 +198,51 @@ HTML;
      */
     public function test_bookmarks_complex_use_case()
     {
-        $input           = <<<HTML
-<div selected class="merge-message" checked>
-	<div class="select-menu d-inline-block">
-		<div checked class="BtnGroup MixedCaseHTML position-relative" />
-		<div checked class="BtnGroup MixedCaseHTML position-relative">
-			<button type="button" class="merge-box-button btn-group-merge rounded-left-2 btn  BtnGroup-item js-details-target hx_create-pr-button" aria-expanded="false" data-details-container=".js-merge-pr" disabled="">
-			  Merge pull request
-			</button>
+        $input = <<<HTML
+            <div selected class="merge-message" checked>
+            	<div class="select-menu d-inline-block">
+            		<div checked class="BtnGroup MixedCaseHTML position-relative" />
+            		<div checked class="BtnGroup MixedCaseHTML position-relative">
+            			<button type="button" class="merge-box-button btn-group-merge rounded-left-2 btn  BtnGroup-item js-details-target hx_create-pr-button" aria-expanded="false" data-details-container=".js-merge-pr" disabled="">
+            			  Merge pull request
+            			</button>
 
-			<button type="button" class="merge-box-button btn-group-squash rounded-left-2 btn  BtnGroup-item js-details-target hx_create-pr-button" aria-expanded="false" data-details-container=".js-merge-pr" disabled="">
-			  Squash and merge
-			</button>
+            			<button type="button" class="merge-box-button btn-group-squash rounded-left-2 btn  BtnGroup-item js-details-target hx_create-pr-button" aria-expanded="false" data-details-container=".js-merge-pr" disabled="">
+            			  Squash and merge
+            			</button>
 
-			<button type="button" class="merge-box-button btn-group-rebase rounded-left-2 btn  BtnGroup-item js-details-target hx_create-pr-button" aria-expanded="false" data-details-container=".js-merge-pr" disabled="">
-			  Rebase and merge
-			</button>
+            			<button type="button" class="merge-box-button btn-group-rebase rounded-left-2 btn  BtnGroup-item js-details-target hx_create-pr-button" aria-expanded="false" data-details-container=".js-merge-pr" disabled="">
+            			  Rebase and merge
+            			</button>
 
-			<button aria-label="Select merge method" disabled="disabled" type="button" data-view-component="true" class="select-menu-button btn BtnGroup-item"></button>
-		</div>
-	</div>
-</div>
-HTML;
+            			<button aria-label="Select merge method" disabled="disabled" type="button" data-view-component="true" class="select-menu-button btn BtnGroup-item"></button>
+            		</div>
+            	</div>
+            </div>
+            HTML;
         $expected_output = <<<HTML
-<div selected class="merge-message" checked>
-	<div class="select-menu d-inline-block">
-		<div  class="BtnGroup MixedCaseHTML position-relative" />
-		<div checked class="BtnGroup MixedCaseHTML position-relative">
-			<button type="submit" class="merge-box-button btn-group-merge rounded-left-2 btn  BtnGroup-item js-details-target hx_create-pr-button" aria-expanded="false" data-details-container=".js-merge-pr" disabled="">
-			  Merge pull request
-			</button>
+            <div selected class="merge-message" checked>
+            	<div class="select-menu d-inline-block">
+            		<div  class="BtnGroup MixedCaseHTML position-relative" />
+            		<div checked class="BtnGroup MixedCaseHTML position-relative">
+            			<button type="submit" class="merge-box-button btn-group-merge rounded-left-2 btn  BtnGroup-item js-details-target hx_create-pr-button" aria-expanded="false" data-details-container=".js-merge-pr" disabled="">
+            			  Merge pull request
+            			</button>
 
-			<button  class="hx_create-pr-button" aria-expanded="false" data-details-container=".js-merge-pr" disabled="">
-			  Squash and merge
-			</button>
+            			<button  class="hx_create-pr-button" aria-expanded="false" data-details-container=".js-merge-pr" disabled="">
+            			  Squash and merge
+            			</button>
 
-			<button id="rebase-and-merge"     disabled="">
-			  Rebase and merge
-			</button>
+            			<button id="rebase-and-merge"     disabled="">
+            			  Rebase and merge
+            			</button>
 
-			<button id="last-button"     ></button>
-		</div>
-	</div>
-</div>
-HTML;
-        $processor       = new WP_HTML_Tag_Processor($input);
+            			<button id="last-button"     ></button>
+            		</div>
+            	</div>
+            </div>
+            HTML;
+        $processor = new WP_HTML_Tag_Processor($input);
         $processor->next_tag('div');
         $processor->next_tag('div');
         $processor->next_tag('div');
@@ -261,7 +261,7 @@ HTML;
 
         $this->assertTrue(
             $processor->seek('third button'),
-            'Seek() to the third button failed'
+            'Seek() to the third button failed',
         );
         $processor->remove_attribute('class');
         $processor->remove_attribute('type');
@@ -271,13 +271,13 @@ HTML;
 
         $this->assertTrue(
             $processor->seek('first div'),
-            'Seek() to the first div failed'
+            'Seek() to the first div failed',
         );
         $processor->set_attribute('checked', false);
 
         $this->assertTrue(
             $processor->seek('fourth button'),
-            'Seek() to the fourth button failed'
+            'Seek() to the fourth button failed',
         );
         $processor->set_attribute('id', 'last-button');
         $processor->remove_attribute('class');
@@ -289,7 +289,7 @@ HTML;
 
         $this->assertTrue(
             $processor->seek('second button'),
-            'Seek() to the second button failed'
+            'Seek() to the second button failed',
         );
         $processor->remove_attribute('type');
         $processor->set_attribute('class', 'hx_create-pr-button');
@@ -297,7 +297,7 @@ HTML;
         $this->assertSame(
             $expected_output,
             $processor->get_updated_html(),
-            'Performing several attribute updates on different tags does not produce the expected HTML snippet'
+            'Performing several attribute updates on different tags does not produce the expected HTML snippet',
         );
     }
 
@@ -323,13 +323,13 @@ HTML;
         $this->assertSame(
             'one',
             $processor->get_attribute('id'),
-            'Should have remembered attribute change from before the seek.'
+            'Should have remembered attribute change from before the seek.',
         );
 
         $this->assertSame(
             '<div class="first" id="one">First</div><div class="second" id="two">Second</div>',
             $processor->get_updated_html(),
-            'The bookmark was updated incorrectly in response to HTML markup updates'
+            'The bookmark was updated incorrectly in response to HTML markup updates',
         );
     }
 
@@ -355,7 +355,7 @@ HTML;
         $this->assertSame(
             '<div class="first">First</div><div class="second">Second</div>',
             $processor->get_updated_html(),
-            'The bookmark was updated incorrectly in response to HTML markup updates'
+            'The bookmark was updated incorrectly in response to HTML markup updates',
         );
     }
 
@@ -376,17 +376,17 @@ HTML;
         $processor->set_attribute('untouched', true);
 
         $this->assertSame(
-            /*
-             * It shouldn't be necessary to assert the extra space after the tag
-             * following the attribute removal, but doing so makes the test easier
-             * to see than it would be if parsing the output HTML for proper
-             * validation. If the Tag Processor changes so that this space no longer
-             * appears then this test should be updated to reflect that. The space
-             * is not required.
-             */
+        /*
+         * It shouldn't be necessary to assert the extra space after the tag
+         * following the attribute removal, but doing so makes the test easier
+         * to see than it would be if parsing the output HTML for proper
+         * validation. If the Tag Processor changes so that this space no longer
+         * appears then this test should be updated to reflect that. The space
+         * is not required.
+         */
             '<div untouched>First</div><div >Second</div>',
             $processor->get_updated_html(),
-            'The bookmark was incorrectly in response to HTML markup updates'
+            'The bookmark was incorrectly in response to HTML markup updates',
         );
     }
 
@@ -410,17 +410,17 @@ HTML;
         $processor->set_attribute('safe', true);
 
         $this->assertSame(
-            /*
-             * It shouldn't be necessary to assert the extra space after the tag
-             * following the attribute removal, but doing so makes the test easier
-             * to see than it would be if parsing the output HTML for proper
-             * validation. If the Tag Processor changes so that this space no longer
-             * appears then this test should be updated to reflect that. The space
-             * is not required.
-             */
+        /*
+         * It shouldn't be necessary to assert the extra space after the tag
+         * following the attribute removal, but doing so makes the test easier
+         * to see than it would be if parsing the output HTML for proper
+         * validation. If the Tag Processor changes so that this space no longer
+         * appears then this test should be updated to reflect that. The space
+         * is not required.
+         */
             '<div >First</div><div safe>Second</div>',
             $processor->get_updated_html(),
-            'The bookmark was updated incorrectly in response to HTML markup updates'
+            'The bookmark was updated incorrectly in response to HTML markup updates',
         );
     }
 
@@ -439,7 +439,8 @@ HTML;
             $this->assertTrue($processor->set_bookmark("bookmark $i"), "Could not allocate the bookmark #$i");
         }
 
-        $this->assertFalse($processor->set_bookmark('final bookmark'), "Allocated $i bookmarks, which is one above the limit");
+        $this->assertFalse($processor->set_bookmark('final bookmark'),
+            "Allocated $i bookmarks, which is one above the limit");
     }
 
     /**
@@ -458,7 +459,8 @@ HTML;
         }
 
         $this->setExpectedIncorrectUsage('WP_HTML_Tag_Processor::seek');
-        $this->assertFalse($processor->seek('bookmark'), "$i-th seek() to the bookmark succeeded, even though it should exceed the allowed limit");
+        $this->assertFalse($processor->seek('bookmark'),
+            "$i-th seek() to the bookmark succeeded, even though it should exceed the allowed limit");
     }
 
     /**
@@ -485,13 +487,13 @@ HTML;
 
         $this->assertTrue(
             $processor->seek('target'),
-            'Should have been able to seek to the target bookmark after reaching the end of the document.'
+            'Should have been able to seek to the target bookmark after reaching the end of the document.',
         );
 
         $this->assertSame(
             $sought_tag_name,
             $processor->get_tag(),
-            "Should have found original target node instead of {$processor->get_tag()}."
+            "Should have found original target node instead of {$processor->get_tag()}.",
         );
     }
 
@@ -503,7 +505,7 @@ HTML;
     public static function data_incomplete_html_with_target_nodes_for_seeking()
     {
         return [
-            'Compete document'    => ['<div><img target></div>'],
+            'Compete document' => ['<div><img target></div>'],
             'Incomplete document' => ['<div><img target></div'],
         ];
     }

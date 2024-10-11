@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering WP_HTML_Tag_Processor modifiable text functionality.
  *
@@ -28,7 +29,7 @@ class Tests_HtmlApi_WpHtmlTagProcessorModifiableText extends WP_UnitTestCase
         $this->assertSame(
             '#text',
             $processor->get_token_name(),
-            'Failed to find text node under test: check test setup.'
+            'Failed to find text node under test: check test setup.',
         );
 
         // The count of 5 isn't important; but calling this multiple times is.
@@ -36,7 +37,7 @@ class Tests_HtmlApi_WpHtmlTagProcessorModifiableText extends WP_UnitTestCase
             $this->assertSame(
                 'First newline ignored.',
                 $processor->get_modifiable_text(),
-                'Should have returned the same modifiable text regardless of how many times it was called.'
+                'Should have returned the same modifiable text regardless of how many times it was called.',
             );
         }
     }
@@ -49,35 +50,35 @@ class Tests_HtmlApi_WpHtmlTagProcessorModifiableText extends WP_UnitTestCase
      */
     public function test_get_modifiable_text_is_consistent_after_writes()
     {
-        $before    = 'just some text';
-        $after     = 'different text';
+        $before = 'just some text';
+        $after = 'different text';
         $processor = new WP_HTML_Tag_Processor($before);
         $processor->next_token();
 
         $this->assertSame(
             '#text',
             $processor->get_token_name(),
-            "Should have found text node but found '{$processor->get_token_name()}' instead: check test setup."
+            "Should have found text node but found '{$processor->get_token_name()}' instead: check test setup.",
         );
 
         $this->assertSame(
             $before,
             $processor->get_modifiable_text(),
-            'Should have found initial test text: check test setup.'
+            'Should have found initial test text: check test setup.',
         );
 
         $processor->set_modifiable_text($after);
         $this->assertSame(
             $after,
             $processor->get_modifiable_text(),
-            'Should have found enqueued updated text.'
+            'Should have found enqueued updated text.',
         );
 
         $processor->get_updated_html();
         $this->assertSame(
             $after,
             $processor->get_modifiable_text(),
-            'Should have found updated text.'
+            'Should have found updated text.',
         );
     }
 
@@ -89,34 +90,34 @@ class Tests_HtmlApi_WpHtmlTagProcessorModifiableText extends WP_UnitTestCase
      */
     public function test_get_modifiable_text_is_consistent_after_writes_to_empty_text()
     {
-        $after     = 'different text';
+        $after = 'different text';
         $processor = new WP_HTML_Tag_Processor('<script></script>');
         $processor->next_token();
 
         $this->assertSame(
             'SCRIPT',
             $processor->get_token_name(),
-            "Should have found text node but found '{$processor->get_token_name()}' instead: check test setup."
+            "Should have found text node but found '{$processor->get_token_name()}' instead: check test setup.",
         );
 
         $this->assertSame(
             '',
             $processor->get_modifiable_text(),
-            'Should have found initial test text: check test setup.'
+            'Should have found initial test text: check test setup.',
         );
 
         $processor->set_modifiable_text($after);
         $this->assertSame(
             $after,
             $processor->get_modifiable_text(),
-            'Should have found enqueued updated text.'
+            'Should have found enqueued updated text.',
         );
 
         $processor->get_updated_html();
         $this->assertSame(
             $after,
             $processor->get_modifiable_text(),
-            'Should have found updated text.'
+            'Should have found updated text.',
         );
     }
 
@@ -138,7 +139,7 @@ class Tests_HtmlApi_WpHtmlTagProcessorModifiableText extends WP_UnitTestCase
         $this->assertSame(
             'TEXTAREA',
             $processor->get_token_name(),
-            'Failed to find the test TEXTAREA node; check the test setup.'
+            'Failed to find the test TEXTAREA node; check the test setup.',
         );
 
         $processor->set_modifiable_text('short');
@@ -146,24 +147,24 @@ class Tests_HtmlApi_WpHtmlTagProcessorModifiableText extends WP_UnitTestCase
         $this->assertSame(
             'short',
             $processor->get_modifiable_text(),
-            'Should have updated modifiable text to something shorter than the original.'
+            'Should have updated modifiable text to something shorter than the original.',
         );
 
         $this->assertTrue(
             $processor->next_token(),
-            'Should have advanced to the last token in the input.'
+            'Should have advanced to the last token in the input.',
         );
 
         $this->assertSame(
             'DIV',
             $processor->get_token_name(),
-            'Should have recognized the final DIV in the input.'
+            'Should have recognized the final DIV in the input.',
         );
 
         $this->assertSame(
             'not a <span>',
             $processor->get_attribute('id'),
-            'Should have read in the id from the last DIV as "not a <span>"'
+            'Should have read in the id from the last DIV as "not a <span>"',
         );
     }
 
@@ -181,7 +182,7 @@ class Tests_HtmlApi_WpHtmlTagProcessorModifiableText extends WP_UnitTestCase
         $this->assertSame(
             '#text',
             $processor->get_token_name(),
-            'Failed to find first text node: check test setup.'
+            'Failed to find first text node: check test setup.',
         );
 
         $update = 'This is new text';
@@ -189,20 +190,20 @@ class Tests_HtmlApi_WpHtmlTagProcessorModifiableText extends WP_UnitTestCase
         $this->assertSame(
             $update,
             $processor->get_modifiable_text(),
-            'Failed to read updated enqueued value of text node.'
+            'Failed to read updated enqueued value of text node.',
         );
 
         $processor->next_token();
         $this->assertSame(
             '#comment',
             $processor->get_token_name(),
-            'Failed to advance to comment: check test setup.'
+            'Failed to advance to comment: check test setup.',
         );
 
         $this->assertSame(
             ' this is not ',
             $processor->get_modifiable_text(),
-            'Failed to read modifiable text for next token; did it read the old enqueued value from the previous token?'
+            'Failed to read modifiable text for next token; did it read the old enqueued value from the previous token?',
         );
     }
 
@@ -214,11 +215,11 @@ class Tests_HtmlApi_WpHtmlTagProcessorModifiableText extends WP_UnitTestCase
     {
         $processor = new WP_HTML_Tag_Processor(
             <<<HTML
-<span>\nhere</span>
-<listing>\ngone</listing>
-<pre>reset last known ignore-point</pre>
-<div>\nhere</div>
-HTML
+                <span>\nhere</span>
+                <listing>\ngone</listing>
+                <pre>reset last known ignore-point</pre>
+                <div>\nhere</div>
+                HTML,
         );
 
         $processor->next_tag('SPAN');
@@ -228,7 +229,7 @@ HTML
         $this->assertSame(
             "\nhere",
             $processor->get_modifiable_text(),
-            'Should not have removed the leading newline from the first SPAN.'
+            'Should not have removed the leading newline from the first SPAN.',
         );
 
         $processor->next_tag('LISTING');
@@ -238,7 +239,7 @@ HTML
         $this->assertSame(
             'gone',
             $processor->get_modifiable_text(),
-            'Should have stripped the leading newline from the LISTING element on first traversal.'
+            'Should have stripped the leading newline from the LISTING element on first traversal.',
         );
 
         $processor->next_tag('DIV');
@@ -248,14 +249,14 @@ HTML
         $this->assertSame(
             "\nhere",
             $processor->get_modifiable_text(),
-            'Should not have removed the leading newline from the last DIV.'
+            'Should not have removed the leading newline from the last DIV.',
         );
 
         $processor->seek('span');
         $this->assertSame(
             "\nhere",
             $processor->get_modifiable_text(),
-            'Should not have removed the leading newline from the first SPAN on its second traversal.'
+            'Should not have removed the leading newline from the first SPAN on its second traversal.',
         );
 
         $processor->seek('listing');
@@ -266,14 +267,14 @@ HTML
         $this->assertSame(
             'gone',
             $processor->get_modifiable_text(),
-            'Should have remembered to remote leading newline from LISTING element after seeking around it.'
+            'Should have remembered to remote leading newline from LISTING element after seeking around it.',
         );
 
         $processor->seek('div');
         $this->assertSame(
             "\nhere",
             $processor->get_modifiable_text(),
-            'Should not have removed the leading newline from the last DIV on its second traversal.'
+            'Should not have removed the leading newline from the last DIV on its second traversal.',
         );
     }
 
@@ -284,8 +285,8 @@ HTML
      *
      * @dataProvider data_tokens_not_supporting_modifiable_text_updates
      *
-     * @param string $html             Contains HTML with a token not supporting modifiable text updates.
-     * @param int    $advance_n_tokens Count of times to run `next_token()` before reaching target node.
+     * @param string $html Contains HTML with a token not supporting modifiable text updates.
+     * @param int $advance_n_tokens Count of times to run `next_token()` before reaching target node.
      */
     public function test_rejects_updates_on_unsupported_match_locations(string $html, int $advance_n_tokens)
     {
@@ -296,13 +297,13 @@ HTML
 
         $this->assertFalse(
             $processor->set_modifiable_text('Bazinga!'),
-            'Should have prevented modifying the text at the target node.'
+            'Should have prevented modifying the text at the target node.',
         );
 
         $this->assertSame(
             $html,
             $processor->get_updated_html(),
-            'Should not have modified the input document in any way.'
+            'Should not have modified the input document in any way.',
         );
     }
 
@@ -314,15 +315,15 @@ HTML
     public static function data_tokens_not_supporting_modifiable_text_updates()
     {
         return [
-            'Before parsing'               => ['nothing to see here', 0],
-            'After parsing'                => ['nothing here either', 2],
-            'Incomplete document'          => ['<tag without="an end', 1],
-            'Presumptuous closer'          => ['before</>after', 2],
-            'Invalid (CDATA)'              => ['<![CDATA[this is a comment]]>', 1],
-            'Invalid (shortest comment)'   => ['<!-->', 1],
-            'Invalid (shorter comment)'    => ['<!--->', 1],
+            'Before parsing' => ['nothing to see here', 0],
+            'After parsing' => ['nothing here either', 2],
+            'Incomplete document' => ['<tag without="an end', 1],
+            'Presumptuous closer' => ['before</>after', 2],
+            'Invalid (CDATA)' => ['<![CDATA[this is a comment]]>', 1],
+            'Invalid (shortest comment)' => ['<!-->', 1],
+            'Invalid (shorter comment)' => ['<!--->', 1],
             'Invalid (markup declaration)' => ['<!run>', 1],
-            'Invalid (PI-like node)'       => ['<?xml is not html ?>', 1],
+            'Invalid (PI-like node)' => ['<?xml is not html ?>', 1],
         ];
     }
 
@@ -333,13 +334,17 @@ HTML
      *
      * @dataProvider data_tokens_with_basic_modifiable_text_updates
      *
-     * @param string $html             Contains HTML with a token supporting modifiable text updates.
-     * @param int    $advance_n_tokens Count of times to run `next_token()` before reaching target node.
-     * @param string $raw_replacement  This should be escaped properly when replaced as modifiable text.
-     * @param string $transformed      Expected output after updating modifiable text.
+     * @param string $html Contains HTML with a token supporting modifiable text updates.
+     * @param int $advance_n_tokens Count of times to run `next_token()` before reaching target node.
+     * @param string $raw_replacement This should be escaped properly when replaced as modifiable text.
+     * @param string $transformed Expected output after updating modifiable text.
      */
-    public function test_updates_basic_modifiable_text_on_supported_nodes(string $html, int $advance_n_tokens, string $raw_replacement, string $transformed)
-    {
+    public function test_updates_basic_modifiable_text_on_supported_nodes(
+        string $html,
+        int $advance_n_tokens,
+        string $raw_replacement,
+        string $transformed,
+    ) {
         $processor = new WP_HTML_Tag_Processor($html);
         while (--$advance_n_tokens >= 0) {
             $processor->next_token();
@@ -347,13 +352,13 @@ HTML
 
         $this->assertTrue(
             $processor->set_modifiable_text($raw_replacement),
-            'Should have modified the text at the target node.'
+            'Should have modified the text at the target node.',
         );
 
         $this->assertSame(
             $transformed,
             $processor->get_updated_html(),
-            "Should have transformed the HTML as expected why modifying the target node's modifiable text."
+            "Should have transformed the HTML as expected why modifying the target node's modifiable text.",
         );
     }
 
@@ -365,18 +370,63 @@ HTML
     public static function data_tokens_with_basic_modifiable_text_updates()
     {
         return [
-            'Text node (start)'       => ['Text', 1, 'Blubber', 'Blubber'],
-            'Text node (middle)'      => ['<em>Bold move</em>', 2, 'yo', '<em>yo</em>'],
-            'Text node (end)'         => ['<img>of a dog', 2, 'of a cat', '<img>of a cat'],
-            'Encoded text node'       => ['<figcaption>birds and dogs</figcaption>', 2, '<birds> & <dogs>', '<figcaption>&lt;birds&gt; &amp; &lt;dogs&gt;</figcaption>'],
-            'SCRIPT tag'              => ['before<script></script>after', 2, 'const img = "<img> & <br>";', 'before<script>const img = "<img> & <br>";</script>after'],
-            'STYLE tag'               => ['<style></style>', 1, 'p::before { content: "<img> & </style>"; }', '<style>p::before { content: "<img> & \3c\2fstyle>"; }</style>'],
-            'TEXTAREA tag'            => ['a<textarea>has no need to escape</textarea>b', 2, "so it <doesn't>", "a<textarea>so it <doesn't></textarea>b"],
-            'TEXTAREA (escape)'       => ['a<textarea>has no need to escape</textarea>b', 2, 'but it does for </textarea>', 'a<textarea>but it does for &lt;/textarea></textarea>b'],
-            'TEXTAREA (escape+attrs)' => ['a<textarea>has no need to escape</textarea>b', 2, 'but it does for </textarea not an="attribute">', 'a<textarea>but it does for &lt;/textarea not an="attribute"></textarea>b'],
-            'TITLE tag'               => ['a<title>has no need to escape</title>b', 2, "so it <doesn't>", "a<title>so it <doesn't></title>b"],
-            'TITLE (escape)'          => ['a<title>has no need to escape</title>b', 2, 'but it does for </title>', 'a<title>but it does for &lt;/title></title>b'],
-            'TITLE (escape+attrs)'    => ['a<title>has no need to escape</title>b', 2, 'but it does for </title not an="attribute">', 'a<title>but it does for &lt;/title not an="attribute"></title>b'],
+            'Text node (start)' => ['Text', 1, 'Blubber', 'Blubber'],
+            'Text node (middle)' => ['<em>Bold move</em>', 2, 'yo', '<em>yo</em>'],
+            'Text node (end)' => ['<img>of a dog', 2, 'of a cat', '<img>of a cat'],
+            'Encoded text node' => [
+                '<figcaption>birds and dogs</figcaption>',
+                2,
+                '<birds> & <dogs>',
+                '<figcaption>&lt;birds&gt; &amp; &lt;dogs&gt;</figcaption>',
+            ],
+            'SCRIPT tag' => [
+                'before<script></script>after',
+                2,
+                'const img = "<img> & <br>";',
+                'before<script>const img = "<img> & <br>";</script>after',
+            ],
+            'STYLE tag' => [
+                '<style></style>',
+                1,
+                'p::before { content: "<img> & </style>"; }',
+                '<style>p::before { content: "<img> & \3c\2fstyle>"; }</style>',
+            ],
+            'TEXTAREA tag' => [
+                'a<textarea>has no need to escape</textarea>b',
+                2,
+                "so it <doesn't>",
+                "a<textarea>so it <doesn't></textarea>b",
+            ],
+            'TEXTAREA (escape)' => [
+                'a<textarea>has no need to escape</textarea>b',
+                2,
+                'but it does for </textarea>',
+                'a<textarea>but it does for &lt;/textarea></textarea>b',
+            ],
+            'TEXTAREA (escape+attrs)' => [
+                'a<textarea>has no need to escape</textarea>b',
+                2,
+                'but it does for </textarea not an="attribute">',
+                'a<textarea>but it does for &lt;/textarea not an="attribute"></textarea>b',
+            ],
+            'TITLE tag' => [
+                'a<title>has no need to escape</title>b',
+                2,
+                "so it <doesn't>",
+                "a<title>so it <doesn't></title>b",
+            ],
+            'TITLE (escape)' => [
+                'a<title>has no need to escape</title>b',
+                2,
+                'but it does for </title>',
+                'a<title>but it does for &lt;/title></title>b',
+            ],
+            'TITLE (escape+attrs)' => [
+                'a<title>has no need to escape</title>b',
+                2,
+                'but it does for </title not an="attribute">',
+                'a<title>but it does for &lt;/title not an="attribute"></title>b',
+            ],
         ];
     }
 
@@ -391,10 +441,12 @@ HTML
      * @dataProvider data_unallowed_modifiable_text_updates
      *
      * @param string $html_with_nonempty_modifiable_text Will be used to find the test element.
-     * @param string $invalid_update                     Update containing possibly-compromising text.
+     * @param string $invalid_update Update containing possibly-compromising text.
      */
-    public function test_rejects_updates_with_unallowed_substrings(string $html_with_nonempty_modifiable_text, string $invalid_update)
-    {
+    public function test_rejects_updates_with_unallowed_substrings(
+        string $html_with_nonempty_modifiable_text,
+        string $invalid_update,
+    ) {
         $processor = new WP_HTML_Tag_Processor($html_with_nonempty_modifiable_text);
 
         while ('' === $processor->get_modifiable_text() && $processor->next_token()) {
@@ -406,7 +458,7 @@ HTML
 
         $this->assertFalse(
             $processor->set_modifiable_text($invalid_update),
-            'Should have reject possibly-compromising modifiable text update.'
+            'Should have reject possibly-compromising modifiable text update.',
         );
 
         // Flush updates.
@@ -415,7 +467,7 @@ HTML
         $this->assertSame(
             $original_text,
             $processor->get_modifiable_text(),
-            'Should have preserved the original modifiable text before the rejected update.'
+            'Should have preserved the original modifiable text before the rejected update.',
         );
     }
 
@@ -427,9 +479,9 @@ HTML
     public static function data_unallowed_modifiable_text_updates()
     {
         return [
-            'Comment with -->'                 => ['<!-- this is a comment -->', 'Comments end in -->'],
-            'Comment with --!>'                => ['<!-- this is a comment -->', 'Invalid but legitimate comments end in --!>'],
-            'SCRIPT with </script>'            => ['<script>Replace me</script>', 'Just a </script>'],
+            'Comment with -->' => ['<!-- this is a comment -->', 'Comments end in -->'],
+            'Comment with --!>' => ['<!-- this is a comment -->', 'Invalid but legitimate comments end in --!>'],
+            'SCRIPT with </script>' => ['<script>Replace me</script>', 'Just a </script>'],
             'SCRIPT with </script attributes>' => ['<script>Replace me</script>', 'before</script id=sneak>after'],
         ];
     }

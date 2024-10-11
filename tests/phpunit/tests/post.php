@@ -20,11 +20,11 @@ class Tests_Post extends WP_UnitTestCase
             'grammarian',
             'Grammarian',
             [
-                'read'                 => true,
-                'edit_posts'           => true,
-                'edit_others_posts'    => true,
+                'read' => true,
+                'edit_posts' => true,
+                'edit_others_posts' => true,
                 'edit_published_posts' => true,
-            ]
+            ],
         );
 
         self::$grammarian_id = $factory->user->create(['role' => 'grammarian']);
@@ -42,9 +42,9 @@ class Tests_Post extends WP_UnitTestCase
         $post_id = self::factory()->post->create(
             [
                 'post_content' => 'Page 0',
-            ]
+            ],
         );
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
         setup_postdata($post);
 
         $this->assertSame(0, $multipage);
@@ -60,9 +60,9 @@ class Tests_Post extends WP_UnitTestCase
         $post_id = self::factory()->post->create(
             [
                 'post_content' => 'Page 0<!--nextpage-->Page 1<!--nextpage-->Page 2<!--nextpage-->Page 3',
-            ]
+            ],
         );
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
         setup_postdata($post);
 
         $this->assertSame(1, $multipage);
@@ -78,9 +78,9 @@ class Tests_Post extends WP_UnitTestCase
         $post_id = self::factory()->post->create(
             [
                 'post_content' => 'Page 0',
-            ]
+            ],
         );
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
         setup_postdata($post);
 
         $this->assertSame(0, $multipage);
@@ -96,9 +96,9 @@ class Tests_Post extends WP_UnitTestCase
         $post_id = self::factory()->post->create(
             [
                 'post_content' => 'Page 0<!--nextpage-->Page 1<!--nextpage-->Page 2<!--nextpage-->Page 3',
-            ]
+            ],
         );
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
         setup_postdata($post);
 
         $this->assertSame(1, $multipage);
@@ -117,9 +117,9 @@ class Tests_Post extends WP_UnitTestCase
         $post_id = self::factory()->post->create(
             [
                 'post_content' => '<!--nextpage-->Page 0<!--nextpage-->Page 1<!--nextpage-->Page 2<!--nextpage-->Page 3',
-            ]
+            ],
         );
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
         setup_postdata($post);
 
         $this->assertSame(1, $multipage);
@@ -138,9 +138,9 @@ class Tests_Post extends WP_UnitTestCase
         $post_id = self::factory()->post->create(
             [
                 'post_content' => '<!--nextpage-->Page 0',
-            ]
+            ],
         );
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
         setup_postdata($post);
 
         $this->assertSame(0, $multipage);
@@ -160,7 +160,7 @@ class Tests_Post extends WP_UnitTestCase
         self::factory()->post->create(
             [
                 'post_type' => $post_type,
-            ]
+            ],
         );
 
         $count = wp_count_posts($post_type, 'readable');
@@ -180,7 +180,7 @@ class Tests_Post extends WP_UnitTestCase
             3,
             [
                 'post_type' => $post_type,
-            ]
+            ],
         );
 
         $count1 = wp_count_posts($post_type, 'readable');
@@ -200,10 +200,10 @@ class Tests_Post extends WP_UnitTestCase
 
     public function test_wp_count_posts_insert_invalidation()
     {
-        $post_ids       = self::factory()->post->create_many(3);
+        $post_ids = self::factory()->post->create_many(3);
         $initial_counts = wp_count_posts();
 
-        $key   = array_rand($post_ids);
+        $key = array_rand($post_ids);
         $_post = get_post($post_ids[$key], ARRAY_A);
 
         $_post['post_status'] = 'draft';
@@ -221,7 +221,7 @@ class Tests_Post extends WP_UnitTestCase
 
     public function test_wp_count_posts_trash_invalidation()
     {
-        $post_ids       = self::factory()->post->create_many(3);
+        $post_ids = self::factory()->post->create_many(3);
         $initial_counts = wp_count_posts();
 
         $key = array_rand($post_ids);
@@ -261,7 +261,7 @@ class Tests_Post extends WP_UnitTestCase
     public function test_wp_tag_cloud_link_with_post_type()
     {
         $post_type = 'new_post_type';
-        $tax       = 'new_tag';
+        $tax = 'new_tag';
         register_post_type($post_type, ['taxonomies' => ['post_tag', $tax]]);
         register_taxonomy($tax, $post_type);
 
@@ -273,17 +273,17 @@ class Tests_Post extends WP_UnitTestCase
         $wp_tag_cloud = wp_tag_cloud(
             [
                 'post_type' => $post_type,
-                'taxonomy'  => $tax,
-                'echo'      => false,
-                'link'      => 'edit',
-            ]
+                'taxonomy' => $tax,
+                'echo' => false,
+                'link' => 'edit',
+            ],
         );
 
         preg_match_all('|href="([^"]+)"|', $wp_tag_cloud, $matches);
         $this->assertCount(1, $matches[1]);
 
         $terms = get_terms($tax);
-        $term  = reset($terms);
+        $term = reset($terms);
 
         foreach ($matches[1] as $url) {
             $this->assertStringContainsString('tag_ID=' . $term->term_id, $url);
@@ -307,14 +307,14 @@ class Tests_Post extends WP_UnitTestCase
         $post_id = self::factory()->post->create();
 
         $data = [
-            'post_ID'      => $post_id,
-            'post_title'   => "foo\xf0\x9f\x98\x88bar",
+            'post_ID' => $post_id,
+            'post_title' => "foo\xf0\x9f\x98\x88bar",
             'post_content' => "foo\xf0\x9f\x98\x8ebaz",
             'post_excerpt' => "foo\xf0\x9f\x98\x90bat",
         ];
 
         $expected = [
-            'post_title'   => 'foo&#x1f608;bar',
+            'post_title' => 'foo&#x1f608;bar',
             'post_content' => 'foo&#x1f60e;baz',
             'post_excerpt' => 'foo&#x1f610;bat',
         ];
@@ -341,9 +341,9 @@ class Tests_Post extends WP_UnitTestCase
         // Create a sticky post.
         $post = self::factory()->post->create_and_get(
             [
-                'post_title'   => 'Will be changed',
+                'post_title' => 'Will be changed',
                 'post_content' => 'Will be changed',
-            ]
+            ],
         );
         stick_post($post->ID);
 
@@ -358,7 +358,7 @@ class Tests_Post extends WP_UnitTestCase
         $this->assertTrue(current_user_can('edit_published_posts'));
 
         // Edit the post.
-        $post->post_title   = 'Updated';
+        $post->post_title = 'Updated';
         $post->post_content = 'Updated';
         wp_update_post($post);
 
@@ -380,9 +380,9 @@ class Tests_Post extends WP_UnitTestCase
         // Create a sticky post.
         $post = self::factory()->post->create_and_get(
             [
-                'post_title'   => 'Will be changed',
+                'post_title' => 'Will be changed',
                 'post_content' => 'Will be changed',
-            ]
+            ],
         );
         stick_post($post->ID);
 
@@ -398,8 +398,8 @@ class Tests_Post extends WP_UnitTestCase
 
         // Edit the post - the key 'sticky' is intentionally unset.
         $data = [
-            'post_ID'      => $post->ID,
-            'post_title'   => 'Updated',
+            'post_ID' => $post->ID,
+            'post_title' => 'Updated',
             'post_content' => 'Updated',
         ];
         edit_post($data);
@@ -419,8 +419,8 @@ class Tests_Post extends WP_UnitTestCase
     public function test_hooks_fire_when_post_gets_stuck_and_unstuck()
     {
         $post_id = self::factory()->post->create();
-        $a1      = new MockAction();
-        $a2      = new MockAction();
+        $a1 = new MockAction();
+        $a2 = new MockAction();
 
         $this->assertFalse(is_sticky($post_id));
 
@@ -443,17 +443,17 @@ class Tests_Post extends WP_UnitTestCase
     public function test_wp_delete_post_reassign_hierarchical_post_type()
     {
         $grandparent_page_id = self::factory()->post->create(['post_type' => 'page']);
-        $parent_page_id      = self::factory()->post->create(
+        $parent_page_id = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $grandparent_page_id,
-            ]
+            ],
         );
-        $page_id             = self::factory()->post->create(
+        $page_id = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $parent_page_id,
-            ]
+            ],
         );
 
         $this->assertSame($parent_page_id, get_post($page_id)->post_parent);
@@ -478,19 +478,25 @@ class Tests_Post extends WP_UnitTestCase
 
         $post_id = self::factory()->post->create(
             [
-                'title'       => 'An example',
+                'title' => 'An example',
                 'post_status' => 'publish',
-                'post_type'   => 'page',
-            ]
+                'post_type' => 'page',
+            ],
         );
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
         $this->assertSame('override-slug-' . $post->post_type, $post->post_name);
 
         remove_filter('pre_wp_unique_post_slug', [$this, 'filter_pre_wp_unique_post_slug'], 10, 6);
     }
 
-    public function filter_pre_wp_unique_post_slug($override_slug, $slug, $post_id, $post_status, $post_type, $post_parent)
-    {
+    public function filter_pre_wp_unique_post_slug(
+        $override_slug,
+        $slug,
+        $post_id,
+        $post_status,
+        $post_type,
+        $post_parent,
+    ) {
         return 'override-slug-' . $post_type;
     }
 
@@ -499,16 +505,16 @@ class Tests_Post extends WP_UnitTestCase
      */
     public function test_wp_resolve_post_date()
     {
-        $post_date     = '2020-12-28 11:26:35';
+        $post_date = '2020-12-28 11:26:35';
         $post_date_gmt = '2020-12-29 10:11:45';
-        $invalid_date  = '2020-12-41 14:15:27';
+        $invalid_date = '2020-12-41 14:15:27';
 
         $resolved_post_date = wp_resolve_post_date();
         $this->assertEqualsWithDelta(
             strtotime(gmdate('Y-m-d H:i:s')),
             strtotime($resolved_post_date),
             2,
-            'The dates should be equal'
+            'The dates should be equal',
         );
 
         $resolved_post_date = wp_resolve_post_date('', $post_date_gmt);
@@ -573,7 +579,7 @@ class Tests_Post extends WP_UnitTestCase
      * @return array[] {
      *     Arguments passed to test.
      *
-     *     @type mixed $stick Value to pass to stick_post().
+     * @type mixed $stick Value to pass to stick_post().
      * }
      */
     public function data_stick_post_does_not_duplicate_post_ids()
@@ -626,11 +632,11 @@ class Tests_Post extends WP_UnitTestCase
     public function data_stick_post_with_unexpected_sticky_posts_option()
     {
         return [
-            'false'     => [false],
-            'a string'  => ['string'],
-            '1 int'     => [1],
-            'null'      => [null],
-            'true'      => [true],
+            'false' => [false],
+            'a string' => ['string'],
+            '1 int' => [1],
+            'null' => [null],
+            'true' => [true],
             'an object' => [new stdClass()],
         ];
     }
@@ -676,7 +682,7 @@ class Tests_Post extends WP_UnitTestCase
      * @dataProvider data_unstick_post_removes_duplicate_post_ids
      *
      * @param array $starting_option Original value of `sticky_posts` option.
-     * @param mixed $unstick         Parameter passed to `unstick_post()`
+     * @param mixed $unstick Parameter passed to `unstick_post()`
      * @param array $expected
      */
     public function test_unstick_post_removes_duplicate_post_ids($starting_option, $unstick, $expected)
@@ -692,9 +698,9 @@ class Tests_Post extends WP_UnitTestCase
      * @return array[] {
      *     Arguments passed to test.
      *
-     *     @type array $starting_option Original value of `sticky_posts` option.
-     *     @type mixed $unstick         Parameter passed to `unstick_post()`
-     *     @type array $expected
+     * @type array $starting_option Original value of `sticky_posts` option.
+     * @type mixed $unstick Parameter passed to `unstick_post()`
+     * @type array $expected
      * }
      */
     public function data_unstick_post_removes_duplicate_post_ids()
@@ -766,7 +772,7 @@ class Tests_Post extends WP_UnitTestCase
         $bogus_post_id = self::factory()->post->create(
             [
                 'post_type' => 'bogus',
-            ]
+            ],
         );
         $this->assertFalse(use_block_editor_for_post($bogus_post_id));
 
@@ -774,12 +780,12 @@ class Tests_Post extends WP_UnitTestCase
             'restless',
             [
                 'show_in_rest' => false,
-            ]
+            ],
         );
         $restless_post_id = self::factory()->post->create(
             [
                 'post_type' => 'restless',
-            ]
+            ],
         );
         $this->assertFalse(use_block_editor_for_post($restless_post_id));
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering the data_wp_style_processor functionality of the
  * WP_Interactivity_API class.
@@ -33,7 +34,7 @@ class Tests_WP_Interactivity_API_WP_Style extends WP_UnitTestCase
             [
                 'green' => 'green',
                 'false' => false,
-            ]
+            ],
         );
     }
 
@@ -41,9 +42,9 @@ class Tests_WP_Interactivity_API_WP_Style extends WP_UnitTestCase
      * Invokes the private `merge_style_property` method of WP_Interactivity_API
      * class.
      *
-     * @param string            $style_attribute_value The current style attribute value.
-     * @param string            $style_property_name   The style property name to set.
-     * @param string|false|null $style_property_value  The value to set for the style property. With false, null or an
+     * @param string $style_attribute_value The current style attribute value.
+     * @param string $style_property_name The style property name to set.
+     * @param string|false|null $style_property_value The value to set for the style property. With false, null or an
      *                                                 empty string, it removes the style property.
      * @return string The new style attribute value after the specified property has been added, updated or removed.
      */
@@ -51,7 +52,8 @@ class Tests_WP_Interactivity_API_WP_Style extends WP_UnitTestCase
     {
         $evaluate = new ReflectionMethod($this->interactivity, 'merge_style_property');
         $evaluate->setAccessible(true);
-        return $evaluate->invokeArgs($this->interactivity, [$style_attribute_value, $style_property_name, $style_property_value]);
+        return $evaluate->invokeArgs($this->interactivity,
+            [$style_attribute_value, $style_property_name, $style_property_value]);
     }
 
     /**
@@ -160,7 +162,7 @@ class Tests_WP_Interactivity_API_WP_Style extends WP_UnitTestCase
     private function process_directives($html)
     {
         $new_html = $this->interactivity->process_directives($html);
-        $p        = new WP_HTML_Tag_Processor($new_html);
+        $p = new WP_HTML_Tag_Processor($new_html);
         $p->next_tag();
         return [$p, $new_html];
     }
@@ -176,7 +178,7 @@ class Tests_WP_Interactivity_API_WP_Style extends WP_UnitTestCase
     public function test_wp_style_sets_style_attribute()
     {
         $html = '<div data-wp-style--color="myPlugin::state.green">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertSame('color:green;', $p->get_attribute('style'));
     }
 
@@ -195,7 +197,7 @@ class Tests_WP_Interactivity_API_WP_Style extends WP_UnitTestCase
 				data-wp-style--color="myPlugin::state.green"
 				data-wp-style--background="myPlugin::state.green"
 			>Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertSame('color:green;background:green;', $p->get_attribute('style'));
     }
 
@@ -214,7 +216,7 @@ class Tests_WP_Interactivity_API_WP_Style extends WP_UnitTestCase
 				data-wp-style--color="myPlugin::state.green"
 				data-wp-style--background="myPlugin::state.false"
 			>Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertSame('color:green;', $p->get_attribute('style'));
 
         $html = '
@@ -223,7 +225,7 @@ class Tests_WP_Interactivity_API_WP_Style extends WP_UnitTestCase
 				data-wp-style--color="myPlugin::state.green"
 				data-wp-style--background="myPlugin::state.false"
 			>Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertSame('color:green;', $p->get_attribute('style'));
     }
 
@@ -238,7 +240,7 @@ class Tests_WP_Interactivity_API_WP_Style extends WP_UnitTestCase
     public function test_wp_style_sets_style_property_when_style_attribute_exists()
     {
         $html = '<div style="padding:10px;" data-wp-style--color="myPlugin::state.green">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertSame('padding:10px;color:green;', $p->get_attribute('style'));
     }
 
@@ -253,7 +255,7 @@ class Tests_WP_Interactivity_API_WP_Style extends WP_UnitTestCase
     public function test_wp_style_overwrites_style_property_when_style_property_exists()
     {
         $html = '<div style="color:red;" data-wp-style--color="myPlugin::state.green">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertSame('color:green;', $p->get_attribute('style'));
     }
 
@@ -268,7 +270,7 @@ class Tests_WP_Interactivity_API_WP_Style extends WP_UnitTestCase
     public function test_wp_style_doesnt_add_style_attribute_on_false()
     {
         $html = '<div data-wp-style--color="myPlugin::state.false">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertNull($p->get_attribute('style'));
     }
 
@@ -283,7 +285,7 @@ class Tests_WP_Interactivity_API_WP_Style extends WP_UnitTestCase
     public function test_wp_style_doesnt_add_style_property_on_false()
     {
         $html = '<div style="padding:10px;" data-wp-style--color="myPlugin::state.false">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertSame('padding:10px;', $p->get_attribute('style'));
     }
 
@@ -298,7 +300,7 @@ class Tests_WP_Interactivity_API_WP_Style extends WP_UnitTestCase
     public function test_wp_style_keeps_style_property_when_style_property_exists()
     {
         $html = '<div style="color:green;" data-wp-style--color="myPlugin::state.green">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertSame('color:green;', $p->get_attribute('style'));
     }
 
@@ -313,7 +315,7 @@ class Tests_WP_Interactivity_API_WP_Style extends WP_UnitTestCase
     public function test_wp_style_keeps_style_property_when_style_property_exists_and_is_not_the_only_one()
     {
         $html = '<div style="padding:10px;color:green;" data-wp-style--color="myPlugin::state.green">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertSame('padding:10px;color:green;', $p->get_attribute('style'));
     }
 
@@ -328,7 +330,7 @@ class Tests_WP_Interactivity_API_WP_Style extends WP_UnitTestCase
     public function test_wp_style_removes_style_attribute_when_style_property_exists_and_is_the_only_one()
     {
         $html = '<div style="color:green;" data-wp-style--color="myPlugin::state.false">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertNull($p->get_attribute('style'));
     }
 
@@ -343,7 +345,7 @@ class Tests_WP_Interactivity_API_WP_Style extends WP_UnitTestCase
     public function test_wp_style_removes_style_property_when_style_property_exists_and_is_not_the_only_one()
     {
         $html = '<div style="padding:10px;color:green;" data-wp-style--color="myPlugin::state.false">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertSame('padding:10px;', $p->get_attribute('style'));
     }
 
@@ -358,7 +360,7 @@ class Tests_WP_Interactivity_API_WP_Style extends WP_UnitTestCase
     public function test_wp_style_doesnt_remove_empty_style_attribute()
     {
         $html = '<div style data-wp-style--color="myPlugin::state.false">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertTrue($p->get_attribute('style'));
     }
 
@@ -373,7 +375,7 @@ class Tests_WP_Interactivity_API_WP_Style extends WP_UnitTestCase
     public function test_wp_style_doesnt_change_style_attribute_with_empty_directive_suffix()
     {
         $html = '<div style="padding:10px;" data-wp-style="myPlugin::state.green">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertSame('padding:10px;', $p->get_attribute('style'));
     }
 
@@ -389,7 +391,7 @@ class Tests_WP_Interactivity_API_WP_Style extends WP_UnitTestCase
     public function test_wp_style_doesnt_change_style_attribute_with_empty_value()
     {
         $html = '<div style="padding:10px" data-wp-style--color="">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertSame('padding:10px;', $p->get_attribute('style'));
     }
 
@@ -405,7 +407,7 @@ class Tests_WP_Interactivity_API_WP_Style extends WP_UnitTestCase
     public function test_wp_style_doesnt_change_style_attribute_without_value()
     {
         $html = '<div style="padding: 10px;" data-wp-style--color>Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertSame('padding:10px;', $p->get_attribute('style'));
     }
 
@@ -420,7 +422,7 @@ class Tests_WP_Interactivity_API_WP_Style extends WP_UnitTestCase
     public function test_wp_style_works_with_multiple_directives()
     {
         $html = '<div data-wp-style--color="myPlugin::state.green" data-wp-style--color="myPlugin::state.green">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertSame('color:green;', $p->get_attribute('style'));
     }
 
@@ -436,7 +438,7 @@ class Tests_WP_Interactivity_API_WP_Style extends WP_UnitTestCase
     {
         $this->interactivity->state('myPlugin', ['true' => true]);
         $html = '<div data-wp-style--color="myPlugin::state.text">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertNull($p->get_attribute('style'));
     }
 
@@ -452,22 +454,22 @@ class Tests_WP_Interactivity_API_WP_Style extends WP_UnitTestCase
     {
         $this->interactivity->state('myPlugin', ['text' => '']);
         $html = '<div data-wp-style--color="myPlugin::state.text">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertNull($p->get_attribute('style'));
 
         $this->interactivity->state('myPlugin', ['array' => []]);
         $html = '<div data-wp-style--color="myPlugin::state.array">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertNull($p->get_attribute('style'));
 
         $this->interactivity->state('myPlugin', ['number' => 0]);
         $html = '<div data-wp-style--color="myPlugin::state.number">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertNull($p->get_attribute('style'));
 
         $this->interactivity->state('myPlugin', ['null' => null]);
         $html = '<div data-wp-style--color="myPlugin::state.null">Text</div>';
-        [$p]  = $this->process_directives($html);
+        [$p] = $this->process_directives($html);
         $this->assertNull($p->get_attribute('style'));
     }
 }

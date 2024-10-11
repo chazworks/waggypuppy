@@ -11,9 +11,9 @@ class Tests_Post_IsPostTypeViewable extends WP_UnitTestCase
             'wptests_pt',
             [
                 'publicly_queryable' => false,
-                '_builtin'           => false,
-                'public'             => true,
-            ]
+                '_builtin' => false,
+                'public' => true,
+            ],
         );
 
         $pt = get_post_type_object('wptests_pt');
@@ -27,9 +27,9 @@ class Tests_Post_IsPostTypeViewable extends WP_UnitTestCase
             'wptests_pt',
             [
                 'publicly_queryable' => true,
-                '_builtin'           => false,
-                'public'             => false,
-            ]
+                '_builtin' => false,
+                'public' => false,
+            ],
         );
 
         $pt = get_post_type_object('wptests_pt');
@@ -43,9 +43,9 @@ class Tests_Post_IsPostTypeViewable extends WP_UnitTestCase
             'wptests_pt',
             [
                 'publicly_queryable' => false,
-                '_builtin'           => true,
-                'public'             => false,
-            ]
+                '_builtin' => true,
+                'public' => false,
+            ],
         );
 
         $pt = get_post_type_object('wptests_pt');
@@ -59,9 +59,9 @@ class Tests_Post_IsPostTypeViewable extends WP_UnitTestCase
             'wptests_pt',
             [
                 'publicly_queryable' => false,
-                '_builtin'           => false,
-                'public'             => true,
-            ]
+                '_builtin' => false,
+                'public' => true,
+            ],
         );
 
         $pt = get_post_type_object('wptests_pt');
@@ -75,9 +75,9 @@ class Tests_Post_IsPostTypeViewable extends WP_UnitTestCase
             'wptests_pt',
             [
                 'publicly_queryable' => false,
-                '_builtin'           => true,
-                'public'             => true,
-            ]
+                '_builtin' => true,
+                'public' => true,
+            ],
         );
 
         $pt = get_post_type_object('wptests_pt');
@@ -103,9 +103,9 @@ class Tests_Post_IsPostTypeViewable extends WP_UnitTestCase
             'wptests_pt',
             [
                 'publicly_queryable' => true,
-                '_builtin'           => false,
-                'public'             => false,
-            ]
+                '_builtin' => false,
+                'public' => false,
+            ],
         );
 
         $this->assertTrue(is_post_type_viewable('wptests_pt'));

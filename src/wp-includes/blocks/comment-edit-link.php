@@ -8,17 +8,17 @@
 /**
  * Renders the `core/comment-edit-link` block on the server.
  *
- * @since 6.0.0
- *
- * @param array    $attributes Block attributes.
- * @param string   $content    Block default content.
- * @param WP_Block $block      Block instance.
+ * @param array $attributes Block attributes.
+ * @param string $content Block default content.
+ * @param WP_Block $block Block instance.
  *
  * @return string Return the post comment's date.
+ * @since 6.0.0
+ *
  */
 function render_block_core_comment_edit_link($attributes, $content, $block)
 {
-    if (! isset($block->context['commentId']) || ! current_user_can('edit_comment', $block->context['commentId'])) {
+    if (!isset($block->context['commentId']) || !current_user_can('edit_comment', $block->context['commentId'])) {
         return '';
     }
 
@@ -26,7 +26,7 @@ function render_block_core_comment_edit_link($attributes, $content, $block)
 
     $link_atts = '';
 
-    if (! empty($attributes['linkTarget'])) {
+    if (!empty($attributes['linkTarget'])) {
         $link_atts .= sprintf('target="%s"', esc_attr($attributes['linkTarget']));
     }
 
@@ -45,7 +45,7 @@ function render_block_core_comment_edit_link($attributes, $content, $block)
         $wrapper_attributes,
         esc_url($edit_comment_link),
         $link_atts,
-        esc_html__('Edit')
+        esc_html__('Edit'),
     );
 }
 
@@ -60,7 +60,7 @@ function register_block_core_comment_edit_link()
         __DIR__ . '/comment-edit-link',
         [
             'render_callback' => 'render_block_core_comment_edit_link',
-        ]
+        ],
     );
 }
 

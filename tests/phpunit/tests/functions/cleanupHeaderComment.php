@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test _cleanup_header_comment().
  *
@@ -18,7 +19,7 @@ class Tests_Functions_CleanupHeaderComment extends WP_UnitTestCase
      * @dataProvider data_cleanup_header_comment
      *
      * @param string $test_string Test string.
-     * @param string $expected    Expected return value.
+     * @param string $expected Expected return value.
      */
     public function test_cleanup_header_comment($test_string, $expected)
     {
@@ -29,8 +30,8 @@ class Tests_Functions_CleanupHeaderComment extends WP_UnitTestCase
      * Data provider for test_cleanup_header_comment().
      *
      * @return array[] Test parameters {
-     *     @type string $test_string Test string.
-     *     @type string $expected    Expected return value.
+     * @type string $test_string Test string.
+     * @type string $expected Expected return value.
      * }
      */
     public function data_cleanup_header_comment()

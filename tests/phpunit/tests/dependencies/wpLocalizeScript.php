@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @group dependencies
  * @group scripts
@@ -14,7 +15,7 @@ class Tests_Dependencies_LocalizeScript extends WP_UnitTestCase
     {
         parent::set_up();
 
-        $this->old_wp_scripts  = $GLOBALS['wp_scripts'] ?? null;
+        $this->old_wp_scripts = $GLOBALS['wp_scripts'] ?? null;
         $GLOBALS['wp_scripts'] = null;
     }
 
@@ -38,8 +39,8 @@ class Tests_Dependencies_LocalizeScript extends WP_UnitTestCase
                 'salcodeExample',
                 [
                     'answerToTheUltimateQuestionOfLifeTheUniverseAndEverything' => 42,
-                ]
-            )
+                ],
+            ),
         );
     }
 }

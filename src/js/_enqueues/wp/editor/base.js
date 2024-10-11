@@ -4,7 +4,7 @@
 
 window.wp = window.wp || {};
 
-( function( $, wp ) {
+( function ( $, wp ) {
 	wp.editor = wp.editor || {};
 
 	/**
@@ -13,7 +13,8 @@ window.wp = window.wp || {};
 	 * @since 2.5.0
 	 */
 	function SwitchEditors() {
-		var tinymce, $$,
+		var tinymce,
+			$$,
 			exports = {};
 
 		function init() {
@@ -28,16 +29,19 @@ window.wp = window.wp || {};
 				 *
 				 * @return {void}
 				 */
-				$$( document ).on( 'click', function( event ) {
-					var id, mode,
+				$$( document ).on( 'click', function ( event ) {
+					var id,
+						mode,
 						target = $$( event.target );
 
 					if ( target.hasClass( 'wp-switch-editor' ) ) {
 						id = target.attr( 'data-wp-editor-id' );
-						mode = target.hasClass( 'switch-tmce' ) ? 'tmce' : 'html';
+						mode = target.hasClass( 'switch-tmce' )
+							? 'tmce'
+							: 'html';
 						switchEditor( id, mode );
 					}
-				});
+				} );
 			}
 		}
 
@@ -51,7 +55,7 @@ window.wp = window.wp || {};
 		 * else return 30.
 		 */
 		function getToolbarHeight( editor ) {
-			var node = $$( '.mce-toolbar-grp', editor.getContainer() )[0],
+			var node = $$( '.mce-toolbar-grp', editor.getContainer() )[ 0 ],
 				height = node && node.clientHeight;
 
 			if ( height && height > 10 && height < 200 ) {
@@ -76,11 +80,13 @@ window.wp = window.wp || {};
 			id = id || 'content';
 			mode = mode || 'toggle';
 
-			var editorHeight, toolbarHeight, iframe,
+			var editorHeight,
+				toolbarHeight,
+				iframe,
 				editor = tinymce.get( id ),
 				wrap = $$( '#wp-' + id + '-wrap' ),
 				$textarea = $$( '#' + id ),
-				textarea = $textarea[0];
+				textarea = $textarea[ 0 ];
 
 			if ( 'toggle' === mode ) {
 				if ( editor && ! editor.isHidden() ) {
@@ -97,7 +103,7 @@ window.wp = window.wp || {};
 				}
 
 				// Insert closing tags for any open tags in QuickTags.
-				if ( typeof( window.QTags ) !== 'undefined' ) {
+				if ( typeof window.QTags !== 'undefined' ) {
 					window.QTags.closeAllTags( id );
 				}
 
@@ -105,10 +111,14 @@ window.wp = window.wp || {};
 
 				var keepSelection = false;
 				if ( editor ) {
-					keepSelection = editor.getParam( 'wp_keep_scroll_position' );
+					keepSelection = editor.getParam(
+						'wp_keep_scroll_position'
+					);
 				} else {
-					keepSelection = window.tinyMCEPreInit.mceInit[ id ] &&
-									window.tinyMCEPreInit.mceInit[ id ].wp_keep_scroll_position;
+					keepSelection =
+						window.tinyMCEPreInit.mceInit[ id ] &&
+						window.tinyMCEPreInit.mceInit[ id ]
+							.wp_keep_scroll_position;
 				}
 
 				if ( keepSelection ) {
@@ -141,7 +151,6 @@ window.wp = window.wp || {};
 				wrap.removeClass( 'html-active' ).addClass( 'tmce-active' );
 				$textarea.attr( 'aria-hidden', true );
 				window.setUserSetting( 'editor', 'tinymce' );
-
 			} else if ( 'html' === mode ) {
 				// If the editor is hidden (Quicktags is shown) we don't need to switch.
 				if ( editor && editor.isHidden() ) {
@@ -153,7 +162,9 @@ window.wp = window.wp || {};
 					// The iframe is forced to 100% height there, we shouldn't match it.
 					if ( ! tinymce.Env.iOS ) {
 						iframe = editor.iframeElement;
-						editorHeight = iframe ? parseInt( iframe.style.height, 10 ) : 0;
+						editorHeight = iframe
+							? parseInt( iframe.style.height, 10 )
+							: 0;
 
 						if ( editorHeight ) {
 							toolbarHeight = getToolbarHeight( editor );
@@ -180,7 +191,7 @@ window.wp = window.wp || {};
 				} else {
 					// There is probably a JS error on the page.
 					// The TinyMCE editor instance doesn't exist. Show the textarea.
-					$textarea.css({ 'display': '', 'visibility': '' });
+					$textarea.css( { display: '', visibility: '' } );
 				}
 
 				wrap.removeClass( 'tmce-active' ).addClass( 'html-active' );
@@ -210,23 +221,28 @@ window.wp = window.wp || {};
 			var lastLtPos = content.lastIndexOf( '<', cursorPosition - 1 ),
 				lastGtPos = content.lastIndexOf( '>', cursorPosition );
 
-			if ( lastLtPos > lastGtPos || content.substr( cursorPosition, 1 ) === '>' ) {
+			if (
+				lastLtPos > lastGtPos ||
+				content.substr( cursorPosition, 1 ) === '>'
+			) {
 				// Find what the tag is.
 				var tagContent = content.substr( lastLtPos ),
-					tagMatch = tagContent.match( /<\s*(\/)?(\w+|\!-{2}.*-{2})/ );
+					tagMatch = tagContent.match(
+						/<\s*(\/)?(\w+|\!-{2}.*-{2})/
+					);
 
 				if ( ! tagMatch ) {
 					return null;
 				}
 
-				var tagType = tagMatch[2],
+				var tagType = tagMatch[ 2 ],
 					closingGt = tagContent.indexOf( '>' );
 
 				return {
 					ltPos: lastLtPos,
 					gtPos: lastLtPos + closingGt + 1, // Offset by one to get the position _after_ the character.
 					tagType: tagType,
-					isClosingTag: !! tagMatch[1]
+					isClosingTag: !! tagMatch[ 1 ],
 				};
 			}
 			return null;
@@ -258,7 +274,10 @@ window.wp = window.wp || {};
 			for ( var i = 0; i < contentShortcodes.length; i++ ) {
 				var element = contentShortcodes[ i ];
 
-				if ( cursorPosition >= element.startIndex && cursorPosition <= element.endIndex ) {
+				if (
+					cursorPosition >= element.startIndex &&
+					cursorPosition <= element.endIndex
+				) {
 					return element;
 				}
 			}
@@ -303,31 +322,36 @@ window.wp = window.wp || {};
 		 * @param {string} content The content we want to scan for shortcodes
 		 */
 		function getShortCodePositionsInText( content ) {
-			var allShortcodes = getShortcodesInText( content ), shortcodeInfo;
+			var allShortcodes = getShortcodesInText( content ),
+				shortcodeInfo;
 
 			if ( allShortcodes.length === 0 ) {
 				return [];
 			}
 
-			var shortcodeDetailsRegexp = wp.shortcode.regexp( allShortcodes.join( '|' ) ),
+			var shortcodeDetailsRegexp = wp.shortcode.regexp(
+					allShortcodes.join( '|' )
+				),
 				shortcodeMatch, // Define local scope for the variable to be used in the loop below.
 				shortcodesDetails = [];
 
-			while ( shortcodeMatch = shortcodeDetailsRegexp.exec( content ) ) {
+			while (
+				( shortcodeMatch = shortcodeDetailsRegexp.exec( content ) )
+			) {
 				/**
 				 * Check if the shortcode should be shown as plain text.
 				 *
 				 * This corresponds to the [[shortcode]] syntax, which doesn't parse the shortcode
 				 * and just shows it as text.
 				 */
-				var showAsPlainText = shortcodeMatch[1] === '[';
+				var showAsPlainText = shortcodeMatch[ 1 ] === '[';
 
 				shortcodeInfo = {
-					shortcodeName: shortcodeMatch[2],
+					shortcodeName: shortcodeMatch[ 2 ],
 					showAsPlainText: showAsPlainText,
 					startIndex: shortcodeMatch.index,
-					endIndex: shortcodeMatch.index + shortcodeMatch[0].length,
-					length: shortcodeMatch[0].length
+					endIndex: shortcodeMatch.index + shortcodeMatch[ 0 ].length,
+					length: shortcodeMatch[ 0 ].length,
 				};
 
 				shortcodesDetails.push( shortcodeInfo );
@@ -343,10 +367,11 @@ window.wp = window.wp || {};
 			 * are treated.
 			 */
 			var urlRegexp = new RegExp(
-				'(^|[\\n\\r][\\n\\r]|<p>)(https?:\\/\\/[^\s"]+?)(<\\/p>\s*|[\\n\\r][\\n\\r]|$)', 'gi'
+				'(^|[\\n\\r][\\n\\r]|<p>)(https?:\\/\\/[^s"]+?)(<\\/p>s*|[\\n\\r][\\n\\r]|$)',
+				'gi'
 			);
 
-			while ( shortcodeMatch = urlRegexp.exec( content ) ) {
+			while ( ( shortcodeMatch = urlRegexp.exec( content ) ) ) {
 				shortcodeInfo = {
 					shortcodeName: 'url',
 					showAsPlainText: false,
@@ -354,7 +379,7 @@ window.wp = window.wp || {};
 					endIndex: shortcodeMatch.index + shortcodeMatch[ 0 ].length,
 					length: shortcodeMatch[ 0 ].length,
 					urlAtStartOfContent: shortcodeMatch[ 1 ] === '',
-					urlAtEndOfContent: shortcodeMatch[ 3 ] === ''
+					urlAtEndOfContent: shortcodeMatch[ 3 ] === '',
 				};
 
 				shortcodesDetails.push( shortcodeInfo );
@@ -374,13 +399,14 @@ window.wp = window.wp || {};
 		 * @param {string} content The content to insert into the cursor marker element.
 		 */
 		function getCursorMarkerSpan( domLib, content ) {
-			return domLib( '<span>' ).css( {
-						display: 'inline-block',
-						width: 0,
-						overflow: 'hidden',
-						'line-height': 0
-					} )
-					.html( content ? content : '' );
+			return domLib( '<span>' )
+				.css( {
+					display: 'inline-block',
+					width: 0,
+					overflow: 'hidden',
+					'line-height': 0,
+				} )
+				.html( content ? content : '' );
 		}
 
 		/**
@@ -399,14 +425,30 @@ window.wp = window.wp || {};
 		 */
 		function adjustTextAreaSelectionCursors( content, cursorPositions ) {
 			var voidElements = [
-				'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input',
-				'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr'
+				'area',
+				'base',
+				'br',
+				'col',
+				'embed',
+				'hr',
+				'img',
+				'input',
+				'keygen',
+				'link',
+				'meta',
+				'param',
+				'source',
+				'track',
+				'wbr',
 			];
 
 			var cursorStart = cursorPositions.cursorStart,
 				cursorEnd = cursorPositions.cursorEnd,
 				// Check if the cursor is in a tag and if so, adjust it.
-				isCursorStartInTag = getContainingTagInfo( content, cursorStart );
+				isCursorStartInTag = getContainingTagInfo(
+					content,
+					cursorStart
+				);
 
 			if ( isCursorStartInTag ) {
 				/**
@@ -422,7 +464,9 @@ window.wp = window.wp || {};
 				 * In cases where the tag is not a void element, the cursor is put to the end of the tag,
 				 * so it's either between the opening and closing tag elements or after the closing tag.
 				 */
-				if ( voidElements.indexOf( isCursorStartInTag.tagType ) !== -1 ) {
+				if (
+					voidElements.indexOf( isCursorStartInTag.tagType ) !== -1
+				) {
 					cursorStart = isCursorStartInTag.ltPos;
 				} else {
 					cursorStart = isCursorStartInTag.gtPos;
@@ -434,8 +478,14 @@ window.wp = window.wp || {};
 				cursorEnd = isCursorEndInTag.gtPos;
 			}
 
-			var isCursorStartInShortcode = getShortcodeWrapperInfo( content, cursorStart );
-			if ( isCursorStartInShortcode && ! isCursorStartInShortcode.showAsPlainText ) {
+			var isCursorStartInShortcode = getShortcodeWrapperInfo(
+				content,
+				cursorStart
+			);
+			if (
+				isCursorStartInShortcode &&
+				! isCursorStartInShortcode.showAsPlainText
+			) {
 				/**
 				 * If a URL is at the start or the end of the content,
 				 * the selection doesn't work, because it inserts a marker in the text,
@@ -451,8 +501,14 @@ window.wp = window.wp || {};
 				}
 			}
 
-			var isCursorEndInShortcode = getShortcodeWrapperInfo( content, cursorEnd );
-			if ( isCursorEndInShortcode && ! isCursorEndInShortcode.showAsPlainText ) {
+			var isCursorEndInShortcode = getShortcodeWrapperInfo(
+				content,
+				cursorEnd
+			);
+			if (
+				isCursorEndInShortcode &&
+				! isCursorEndInShortcode.showAsPlainText
+			) {
 				if ( isCursorEndInShortcode.urlAtEndOfContent ) {
 					cursorEnd = isCursorEndInShortcode.startIndex;
 				} else {
@@ -462,7 +518,7 @@ window.wp = window.wp || {};
 
 			return {
 				cursorStart: cursorStart,
-				cursorEnd: cursorEnd
+				cursorEnd: cursorEnd,
 			};
 		}
 
@@ -481,38 +537,49 @@ window.wp = window.wp || {};
 				return;
 			}
 
-			var textArea = $textarea[0],
+			var textArea = $textarea[ 0 ],
 				textAreaContent = textArea.value,
-
-				adjustedCursorPositions = adjustTextAreaSelectionCursors( textAreaContent, {
-					cursorStart: textArea.selectionStart,
-					cursorEnd: textArea.selectionEnd
-				} ),
-
-				htmlModeCursorStartPosition = adjustedCursorPositions.cursorStart,
+				adjustedCursorPositions = adjustTextAreaSelectionCursors(
+					textAreaContent,
+					{
+						cursorStart: textArea.selectionStart,
+						cursorEnd: textArea.selectionEnd,
+					}
+				),
+				htmlModeCursorStartPosition =
+					adjustedCursorPositions.cursorStart,
 				htmlModeCursorEndPosition = adjustedCursorPositions.cursorEnd,
-
-				mode = htmlModeCursorStartPosition !== htmlModeCursorEndPosition ? 'range' : 'single',
-
+				mode =
+					htmlModeCursorStartPosition !== htmlModeCursorEndPosition
+						? 'range'
+						: 'single',
 				selectedText = null,
-				cursorMarkerSkeleton = getCursorMarkerSpan( $$, '&#65279;' ).attr( 'data-mce-type','bookmark' );
+				cursorMarkerSkeleton = getCursorMarkerSpan(
+					$$,
+					'&#65279;'
+				).attr( 'data-mce-type', 'bookmark' );
 
 			if ( mode === 'range' ) {
-				var markedText = textArea.value.slice( htmlModeCursorStartPosition, htmlModeCursorEndPosition ),
-					bookMarkEnd = cursorMarkerSkeleton.clone().addClass( 'mce_SELRES_end' );
+				var markedText = textArea.value.slice(
+						htmlModeCursorStartPosition,
+						htmlModeCursorEndPosition
+					),
+					bookMarkEnd = cursorMarkerSkeleton
+						.clone()
+						.addClass( 'mce_SELRES_end' );
 
-				selectedText = [
-					markedText,
-					bookMarkEnd[0].outerHTML
-				].join( '' );
+				selectedText = [ markedText, bookMarkEnd[ 0 ].outerHTML ].join(
+					''
+				);
 			}
 
 			textArea.value = [
 				textArea.value.slice( 0, htmlModeCursorStartPosition ), // Text until the cursor/selection position.
-				cursorMarkerSkeleton.clone()							// Cursor/selection start marker.
-					.addClass( 'mce_SELRES_start' )[0].outerHTML,
-				selectedText, 											// Selected text with end cursor/position marker.
-				textArea.value.slice( htmlModeCursorEndPosition )		// Text from last cursor/selection position to end.
+				cursorMarkerSkeleton
+					.clone() // Cursor/selection start marker.
+					.addClass( 'mce_SELRES_start' )[ 0 ].outerHTML,
+				selectedText, // Selected text with end cursor/position marker.
+				textArea.value.slice( htmlModeCursorEndPosition ), // Text from last cursor/selection position to end.
 			].join( '' );
 		}
 
@@ -527,19 +594,23 @@ window.wp = window.wp || {};
 		 * @param {Object} editor TinyMCE editor instance.
 		 */
 		function focusHTMLBookmarkInVisualEditor( editor ) {
-			var startNode = editor.$( '.mce_SELRES_start' ).attr( 'data-mce-bogus', 1 ),
-				endNode = editor.$( '.mce_SELRES_end' ).attr( 'data-mce-bogus', 1 );
+			var startNode = editor
+					.$( '.mce_SELRES_start' )
+					.attr( 'data-mce-bogus', 1 ),
+				endNode = editor
+					.$( '.mce_SELRES_end' )
+					.attr( 'data-mce-bogus', 1 );
 
 			if ( startNode.length ) {
 				editor.focus();
 
 				if ( ! endNode.length ) {
-					editor.selection.select( startNode[0] );
+					editor.selection.select( startNode[ 0 ] );
 				} else {
 					var selection = editor.getDoc().createRange();
 
-					selection.setStartAfter( startNode[0] );
-					selection.setEndBefore( endNode[0] );
+					selection.setStartAfter( startNode[ 0 ] );
+					selection.setEndBefore( endNode[ 0 ] );
 
 					editor.selection.setRng( selection );
 				}
@@ -569,7 +640,11 @@ window.wp = window.wp || {};
 			$marker.remove();
 
 			//Remove empty paragraph left over after removing the marker.
-			if ( $markerParent.is( 'p' ) && ! $markerParent.children().length && ! $markerParent.text() ) {
+			if (
+				$markerParent.is( 'p' ) &&
+				! $markerParent.children().length &&
+				! $markerParent.text()
+			) {
 				$markerParent.remove();
 			}
 		}
@@ -589,14 +664,13 @@ window.wp = window.wp || {};
 		 */
 		function scrollVisualModeToStartElement( editor, element ) {
 			var elementTop = editor.$( element ).offset().top,
-				TinyMCEContentAreaTop = editor.$( editor.getContentAreaContainer() ).offset().top,
-
+				TinyMCEContentAreaTop = editor
+					.$( editor.getContentAreaContainer() )
+					.offset().top,
 				toolbarHeight = getToolbarHeight( editor ),
-
 				edTools = $( '#wp-content-editor-tools' ),
 				edToolsHeight = 0,
 				edToolsOffsetTop = 0,
-
 				$scrollArea;
 
 			if ( edTools.length ) {
@@ -604,10 +678,13 @@ window.wp = window.wp || {};
 				edToolsOffsetTop = edTools.offset().top;
 			}
 
-			var windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight,
-
+			var windowHeight =
+					window.innerHeight ||
+					document.documentElement.clientHeight ||
+					document.body.clientHeight,
 				selectionPosition = TinyMCEContentAreaTop + elementTop,
-				visibleAreaHeight = windowHeight - ( edToolsHeight + toolbarHeight );
+				visibleAreaHeight =
+					windowHeight - ( edToolsHeight + toolbarHeight );
 
 			// There's no need to scroll if the selection is inside the visible area.
 			if ( selectionPosition < visibleAreaHeight ) {
@@ -625,15 +702,21 @@ window.wp = window.wp || {};
 			var adjustedScroll;
 			if ( editor.settings.wp_autoresize_on ) {
 				$scrollArea = $( 'html,body' );
-				adjustedScroll = Math.max( selectionPosition - visibleAreaHeight / 2, edToolsOffsetTop - edToolsHeight );
+				adjustedScroll = Math.max(
+					selectionPosition - visibleAreaHeight / 2,
+					edToolsOffsetTop - edToolsHeight
+				);
 			} else {
 				$scrollArea = $( editor.contentDocument ).find( 'html,body' );
 				adjustedScroll = elementTop;
 			}
 
-			$scrollArea.animate( {
-				scrollTop: parseInt( adjustedScroll, 10 )
-			}, 100 );
+			$scrollArea.animate(
+				{
+					scrollTop: parseInt( adjustedScroll, 10 ),
+				},
+				100
+			);
 		}
 
 		/**
@@ -646,7 +729,10 @@ window.wp = window.wp || {};
 		 */
 		function fixTextAreaContent( event ) {
 			// Keep empty paragraphs :(
-			event.content = event.content.replace( /<p>(?:<br ?\/?>|\u00a0|\uFEFF| )*<\/p>/g, '<p>&nbsp;</p>' );
+			event.content = event.content.replace(
+				/<p>(?:<br ?\/?>|\u00a0|\uFEFF| )*<\/p>/g,
+				'<p>&nbsp;</p>'
+			);
 		}
 
 		/**
@@ -687,7 +773,9 @@ window.wp = window.wp || {};
 			 * random content flickering in the editor when switching between modes.
 			 */
 			var spanSkeleton = getCursorMarkerSpan( editor.$, selectionID ),
-				startElement = spanSkeleton.clone().addClass( 'mce_SELRES_start' ),
+				startElement = spanSkeleton
+					.clone()
+					.addClass( 'mce_SELRES_start' ),
 				endElement = spanSkeleton.clone().addClass( 'mce_SELRES_end' );
 
 			/**
@@ -727,8 +815,11 @@ window.wp = window.wp || {};
 			 * If the selection is on a shortcode with Live View, TinyMCE creates a bogus markup,
 			 * which we have to account for.
 			 */
-			if ( editor.$( startNode ).parents( '.mce-offscreen-selection' ).length > 0 ) {
-				startNode = editor.$( '[data-mce-selected]' )[0];
+			if (
+				editor.$( startNode ).parents( '.mce-offscreen-selection' )
+					.length > 0
+			) {
+				startNode = editor.$( '[data-mce-selected]' )[ 0 ];
 
 				/**
 				 * Marking the start and end element with `data-mce-object-selection` helps
@@ -740,18 +831,18 @@ window.wp = window.wp || {};
 				startElement.attr( 'data-mce-object-selection', 'true' );
 				endElement.attr( 'data-mce-object-selection', 'true' );
 
-				editor.$( startNode ).before( startElement[0] );
-				editor.$( startNode ).after( endElement[0] );
+				editor.$( startNode ).before( startElement[ 0 ] );
+				editor.$( startNode ).after( endElement[ 0 ] );
 			} else {
 				boundaryRange.collapse( false );
-				boundaryRange.insertNode( endElement[0] );
+				boundaryRange.insertNode( endElement[ 0 ] );
 
 				boundaryRange.setStart( startNode, startOffset );
 				boundaryRange.collapse( true );
-				boundaryRange.insertNode( startElement[0] );
+				boundaryRange.insertNode( startElement[ 0 ] );
 
-				range.setStartAfter( startElement[0] );
-				range.setEndBefore( endElement[0] );
+				range.setStartAfter( startElement[ 0 ] );
+				range.setEndBefore( endElement[ 0 ] );
 				selection.removeAllRanges();
 				selection.addRange( range );
 			}
@@ -772,11 +863,15 @@ window.wp = window.wp || {};
 			endElement.remove();
 
 			var startRegex = new RegExp(
-				'<span[^>]*\\s*class="mce_SELRES_start"[^>]+>\\s*' + selectionID + '[^<]*<\\/span>(\\s*)'
+				'<span[^>]*\\s*class="mce_SELRES_start"[^>]+>\\s*' +
+					selectionID +
+					'[^<]*<\\/span>(\\s*)'
 			);
 
 			var endRegex = new RegExp(
-				'(\\s*)<span[^>]*\\s*class="mce_SELRES_end"[^>]+>\\s*' + selectionID + '[^<]*<\\/span>'
+				'(\\s*)<span[^>]*\\s*class="mce_SELRES_end"[^>]+>\\s*' +
+					selectionID +
+					'[^<]*<\\/span>'
 			);
 
 			var startMatch = content.match( startRegex ),
@@ -787,23 +882,28 @@ window.wp = window.wp || {};
 			}
 
 			var startIndex = startMatch.index,
-				startMatchLength = startMatch[0].length,
+				startMatchLength = startMatch[ 0 ].length,
 				endIndex = null;
 
-			if (endMatch) {
+			if ( endMatch ) {
 				/**
 				 * Adjust the selection index, if the selection contains a Live Preview object or not.
 				 *
 				 * Check where the `data-mce-object-selection` attribute is set above for more context.
 				 */
-				if ( startMatch[0].indexOf( 'data-mce-object-selection' ) !== -1 ) {
-					startMatchLength -= startMatch[1].length;
+				if (
+					startMatch[ 0 ].indexOf( 'data-mce-object-selection' ) !==
+					-1
+				) {
+					startMatchLength -= startMatch[ 1 ].length;
 				}
 
 				var endMatchIndex = endMatch.index;
 
-				if ( endMatch[0].indexOf( 'data-mce-object-selection' ) !== -1 ) {
-					endMatchIndex -= endMatch[1].length;
+				if (
+					endMatch[ 0 ].indexOf( 'data-mce-object-selection' ) !== -1
+				) {
+					endMatchIndex -= endMatch[ 1 ].length;
 				}
 
 				// We need to adjust the end position to discard the length of the range start marker.
@@ -812,7 +912,7 @@ window.wp = window.wp || {};
 
 			return {
 				start: startIndex,
-				end: endIndex
+				end: endIndex,
 			};
 		}
 
@@ -839,7 +939,7 @@ window.wp = window.wp || {};
 
 			if ( textArea.focus ) {
 				// Wait for the Visual editor to be hidden, then focus and scroll to the position.
-				setTimeout( function() {
+				setTimeout( function () {
 					textArea.setSelectionRange( start, end );
 					if ( textArea.blur ) {
 						// Defocus before focusing.
@@ -851,11 +951,14 @@ window.wp = window.wp || {};
 		}
 
 		// Restore the selection when the editor is initialized. Needed when the Text editor is the default.
-		$( document ).on( 'tinymce-editor-init.keep-scroll-position', function( event, editor ) {
-			if ( editor.$( '.mce_SELRES_start' ).length ) {
-				focusHTMLBookmarkInVisualEditor( editor );
+		$( document ).on(
+			'tinymce-editor-init.keep-scroll-position',
+			function ( event, editor ) {
+				if ( editor.$( '.mce_SELRES_start' ).length ) {
+					focusHTMLBookmarkInVisualEditor( editor );
+				}
 			}
-		} );
+		);
 
 		/**
 		 * Replaces <p> tags with two line breaks. "Opposite" of wpautop().
@@ -872,7 +975,8 @@ window.wp = window.wp || {};
 		 * @return {string} The content with stripped paragraph tags.
 		 */
 		function removep( html ) {
-			var blocklist = 'blockquote|ul|ol|li|dl|dt|dd|table|thead|tbody|tfoot|tr|th|td|h[1-6]|fieldset|figure',
+			var blocklist =
+					'blockquote|ul|ol|li|dl|dt|dd|table|thead|tbody|tfoot|tr|th|td|h[1-6]|fieldset|figure',
 				blocklist1 = blocklist + '|div|p',
 				blocklist2 = blocklist + '|pre',
 				preserve_linebreaks = false,
@@ -884,34 +988,60 @@ window.wp = window.wp || {};
 			}
 
 			// Protect script and style tags.
-			if ( html.indexOf( '<script' ) !== -1 || html.indexOf( '<style' ) !== -1 ) {
-				html = html.replace( /<(script|style)[^>]*>[\s\S]*?<\/\1>/g, function( match ) {
-					preserve.push( match );
-					return '<wp-preserve>';
-				} );
+			if (
+				html.indexOf( '<script' ) !== -1 ||
+				html.indexOf( '<style' ) !== -1
+			) {
+				html = html.replace(
+					/<(script|style)[^>]*>[\s\S]*?<\/\1>/g,
+					function ( match ) {
+						preserve.push( match );
+						return '<wp-preserve>';
+					}
+				);
 			}
 
 			// Protect pre tags.
 			if ( html.indexOf( '<pre' ) !== -1 ) {
 				preserve_linebreaks = true;
-				html = html.replace( /<pre[^>]*>[\s\S]+?<\/pre>/g, function( a ) {
-					a = a.replace( /<br ?\/?>(\r\n|\n)?/g, '<wp-line-break>' );
-					a = a.replace( /<\/?p( [^>]*)?>(\r\n|\n)?/g, '<wp-line-break>' );
-					return a.replace( /\r?\n/g, '<wp-line-break>' );
-				});
+				html = html.replace(
+					/<pre[^>]*>[\s\S]+?<\/pre>/g,
+					function ( a ) {
+						a = a.replace(
+							/<br ?\/?>(\r\n|\n)?/g,
+							'<wp-line-break>'
+						);
+						a = a.replace(
+							/<\/?p( [^>]*)?>(\r\n|\n)?/g,
+							'<wp-line-break>'
+						);
+						return a.replace( /\r?\n/g, '<wp-line-break>' );
+					}
+				);
 			}
 
 			// Remove line breaks but keep <br> tags inside image captions.
 			if ( html.indexOf( '[caption' ) !== -1 ) {
 				preserve_br = true;
-				html = html.replace( /\[caption[\s\S]+?\[\/caption\]/g, function( a ) {
-					return a.replace( /<br([^>]*)>/g, '<wp-temp-br$1>' ).replace( /[\r\n\t]+/, '' );
-				});
+				html = html.replace(
+					/\[caption[\s\S]+?\[\/caption\]/g,
+					function ( a ) {
+						return a
+							.replace( /<br([^>]*)>/g, '<wp-temp-br$1>' )
+							.replace( /[\r\n\t]+/, '' );
+					}
+				);
 			}
 
 			// Normalize white space characters before and after block tags.
-			html = html.replace( new RegExp( '\\s*</(' + blocklist1 + ')>\\s*', 'g' ), '</$1>\n' );
-			html = html.replace( new RegExp( '\\s*<((?:' + blocklist1 + ')(?: [^>]*)?)>', 'g' ), '\n<$1>' );
+			html = html.replace(
+				new RegExp( '\\s*</(' + blocklist1 + ')>\\s*', 'g' ),
+				'</$1>\n'
+			);
+			html = html.replace(
+				new RegExp( '\\s*<((?:' + blocklist1 + ')(?: [^>]*)?)>', 'g' ),
+				'\n<$1>'
+			);
 
 			// Mark </p> if it has any attributes.
 			html = html.replace( /(<p [^>]+>.*?)<\/p>/g, '$1</p#>' );
@@ -927,25 +1057,43 @@ window.wp = window.wp || {};
 			html = html.replace( /\n[\s\u00a0]+\n/g, '\n\n' );
 
 			// Replace <br> tags with line breaks.
-			html = html.replace( /(\s*)<br ?\/?>\s*/gi, function( match, space ) {
-				if ( space && space.indexOf( '\n' ) !== -1 ) {
-					return '\n\n';
-				}
+			html = html.replace(
+				/(\s*)<br ?\/?>\s*/gi,
+				function ( match, space ) {
+					if ( space && space.indexOf( '\n' ) !== -1 ) {
+						return '\n\n';
+					}
 
-				return '\n';
-			});
+					return '\n';
+				}
+			);
 
 			// Fix line breaks around <div>.
 			html = html.replace( /\s*<div/g, '\n<div' );
 			html = html.replace( /<\/div>\s*/g, '</div>\n' );
 
 			// Fix line breaks around caption shortcodes.
-			html = html.replace( /\s*\[caption([^\[]+)\[\/caption\]\s*/gi, '\n\n[caption$1[/caption]\n\n' );
-			html = html.replace( /caption\]\n\n+\[caption/g, 'caption]\n\n[caption' );
+			html = html.replace(
+				/\s*\[caption([^\[]+)\[\/caption\]\s*/gi,
+				'\n\n[caption$1[/caption]\n\n'
+			);
+			html = html.replace(
+				/caption\]\n\n+\[caption/g,
+				'caption]\n\n[caption'
+			);
 
 			// Pad block elements tags with a line break.
-			html = html.replace( new RegExp('\\s*<((?:' + blocklist2 + ')(?: [^>]*)?)\\s*>', 'g' ), '\n<$1>' );
-			html = html.replace( new RegExp('\\s*</(' + blocklist2 + ')>\\s*', 'g' ), '</$1>\n' );
+			html = html.replace(
+				new RegExp(
+					'\\s*<((?:' + blocklist2 + ')(?: [^>]*)?)\\s*>',
+					'g'
+				),
+				'\n<$1>'
+			);
+			html = html.replace(
+				new RegExp( '\\s*</(' + blocklist2 + ')>\\s*', 'g' ),
+				'</$1>\n'
+			);
 
 			// Indent <li>, <dt> and <dd> tags.
 			html = html.replace( /<((li|dt|dd)[^>]*)>/g, ' \t<$1>' );
@@ -963,9 +1111,12 @@ window.wp = window.wp || {};
 
 			// Remove line breaks in <object> tags.
 			if ( html.indexOf( '<object' ) !== -1 ) {
-				html = html.replace( /<object[\s\S]+?<\/object>/g, function( a ) {
-					return a.replace( /[\r\n]+/g, '' );
-				});
+				html = html.replace(
+					/<object[\s\S]+?<\/object>/g,
+					function ( a ) {
+						return a.replace( /[\r\n]+/g, '' );
+					}
+				);
 			}
 
 			// Unmark special paragraph closing tags.
@@ -988,7 +1139,7 @@ window.wp = window.wp || {};
 
 			// Restore preserved tags.
 			if ( preserve.length ) {
-				html = html.replace( /<wp-preserve>/g, function() {
+				html = html.replace( /<wp-preserve>/g, function () {
 					return preserve.shift();
 				} );
 			}
@@ -1011,7 +1162,8 @@ window.wp = window.wp || {};
 		function autop( text ) {
 			var preserve_linebreaks = false,
 				preserve_br = false,
-				blocklist = 'table|thead|tfoot|caption|col|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre' +
+				blocklist =
+					'table|thead|tfoot|caption|col|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre' +
 					'|form|map|area|blockquote|address|math|style|p|h[1-6]|hr|fieldset|legend|section' +
 					'|article|aside|hgroup|header|footer|nav|figure|figcaption|details|menu|summary';
 
@@ -1020,22 +1172,31 @@ window.wp = window.wp || {};
 
 			// Remove line breaks from <object>.
 			if ( text.indexOf( '<object' ) !== -1 ) {
-				text = text.replace( /<object[\s\S]+?<\/object>/g, function( a ) {
-					return a.replace( /\n+/g, '' );
-				});
+				text = text.replace(
+					/<object[\s\S]+?<\/object>/g,
+					function ( a ) {
+						return a.replace( /\n+/g, '' );
+					}
+				);
 			}
 
 			// Remove line breaks from tags.
-			text = text.replace( /<[^<>]+>/g, function( a ) {
+			text = text.replace( /<[^<>]+>/g, function ( a ) {
 				return a.replace( /[\n\t ]+/g, ' ' );
-			});
+			} );
 
 			// Preserve line breaks in <pre> and <script> tags.
-			if ( text.indexOf( '<pre' ) !== -1 || text.indexOf( '<script' ) !== -1 ) {
+			if (
+				text.indexOf( '<pre' ) !== -1 ||
+				text.indexOf( '<script' ) !== -1
+			) {
 				preserve_linebreaks = true;
-				text = text.replace( /<(pre|script)[^>]*>[\s\S]*?<\/\1>/g, function( a ) {
-					return a.replace( /\n/g, '<wp-line-break>' );
-				});
+				text = text.replace(
+					/<(pre|script)[^>]*>[\s\S]*?<\/\1>/g,
+					function ( a ) {
+						return a.replace( /\n/g, '<wp-line-break>' );
+					}
+				);
 			}
 
 			if ( text.indexOf( '<figcaption' ) !== -1 ) {
@@ -1047,23 +1208,32 @@ window.wp = window.wp || {};
 			if ( text.indexOf( '[caption' ) !== -1 ) {
 				preserve_br = true;
 
-				text = text.replace( /\[caption[\s\S]+?\[\/caption\]/g, function( a ) {
-					a = a.replace( /<br([^>]*)>/g, '<wp-temp-br$1>' );
+				text = text.replace(
+					/\[caption[\s\S]+?\[\/caption\]/g,
+					function ( a ) {
+						a = a.replace( /<br([^>]*)>/g, '<wp-temp-br$1>' );
 
-					a = a.replace( /<[^<>]+>/g, function( b ) {
-						return b.replace( /[\n\t ]+/, ' ' );
-					});
+						a = a.replace( /<[^<>]+>/g, function ( b ) {
+							return b.replace( /[\n\t ]+/, ' ' );
+						} );
 
-					return a.replace( /\s*\n\s*/g, '<wp-temp-br />' );
-				});
+						return a.replace( /\s*\n\s*/g, '<wp-temp-br />' );
+					}
+				);
 			}
 
 			text = text + '\n\n';
 			text = text.replace( /<br \/>\s*<br \/>/gi, '\n\n' );
 
 			// Pad block tags with two line breaks.
-			text = text.replace( new RegExp( '(<(?:' + blocklist + ')(?: [^>]*)?>)', 'gi' ), '\n\n$1' );
-			text = text.replace( new RegExp( '(</(?:' + blocklist + ')>)', 'gi' ), '$1\n\n' );
+			text = text.replace(
+				new RegExp( '(<(?:' + blocklist + ')(?: [^>]*)?>)', 'gi' ),
+				'\n\n$1'
+			);
+			text = text.replace(
+				new RegExp( '(</(?:' + blocklist + ')>)', 'gi' ),
+				'$1\n\n'
+			);
 			text = text.replace( /<hr( [^>]*)?>/gi, '<hr$1>\n\n' );
 
 			// Remove white space chars around <option>.
@@ -1077,40 +1247,79 @@ window.wp = window.wp || {};
 			text = text.replace( /([\s\S]+?)\n\n/g, '<p>$1</p>\n' );
 
 			// Remove empty paragraphs.
-			text = text.replace( /<p>\s*?<\/p>/gi, '');
+			text = text.replace( /<p>\s*?<\/p>/gi, '' );
 
 			// Remove <p> tags that are around block tags.
-			text = text.replace( new RegExp( '<p>\\s*(</?(?:' + blocklist + ')(?: [^>]*)?>)\\s*</p>', 'gi' ), '$1' );
-			text = text.replace( /<p>(<li.+?)<\/p>/gi, '$1');
+			text = text.replace(
+				new RegExp(
+					'<p>\\s*(</?(?:' + blocklist + ')(?: [^>]*)?>)\\s*</p>',
+					'gi'
+				),
+				'$1'
+			);
+			text = text.replace( /<p>(<li.+?)<\/p>/gi, '$1' );
 
 			// Fix <p> in blockquotes.
-			text = text.replace( /<p>\s*<blockquote([^>]*)>/gi, '<blockquote$1><p>');
-			text = text.replace( /<\/blockquote>\s*<\/p>/gi, '</p></blockquote>');
+			text = text.replace(
+				/<p>\s*<blockquote([^>]*)>/gi,
+				'<blockquote$1><p>'
+			);
+			text = text.replace(
+				/<\/blockquote>\s*<\/p>/gi,
+				'</p></blockquote>'
+			);
 
 			// Remove <p> tags that are wrapped around block tags.
-			text = text.replace( new RegExp( '<p>\\s*(</?(?:' + blocklist + ')(?: [^>]*)?>)', 'gi' ), '$1' );
-			text = text.replace( new RegExp( '(</?(?:' + blocklist + ')(?: [^>]*)?>)\\s*</p>', 'gi' ), '$1' );
+			text = text.replace(
+				new RegExp(
+					'<p>\\s*(</?(?:' + blocklist + ')(?: [^>]*)?>)',
+					'gi'
+				),
+				'$1'
+			);
+			text = text.replace(
+				new RegExp(
+					'(</?(?:' + blocklist + ')(?: [^>]*)?>)\\s*</p>',
+					'gi'
+				),
+				'$1'
+			);
 
 			text = text.replace( /(<br[^>]*>)\s*\n/gi, '$1' );
 
 			// Add <br> tags.
-			text = text.replace( /\s*\n/g, '<br />\n');
+			text = text.replace( /\s*\n/g, '<br />\n' );
 
 			// Remove <br> tags that are around block tags.
-			text = text.replace( new RegExp( '(</?(?:' + blocklist + ')[^>]*>)\\s*<br />', 'gi' ), '$1' );
-			text = text.replace( /<br \/>(\s*<\/?(?:p|li|div|dl|dd|dt|th|pre|td|ul|ol)>)/gi, '$1' );
+			text = text.replace(
+				new RegExp(
+					'(</?(?:' + blocklist + ')[^>]*>)\\s*<br />',
+					'gi'
+				),
+				'$1'
+			);
+			text = text.replace(
+				/<br \/>(\s*<\/?(?:p|li|div|dl|dd|dt|th|pre|td|ul|ol)>)/gi,
+				'$1'
+			);
 
 			// Remove <p> and <br> around captions.
-			text = text.replace( /(?:<p>|<br ?\/?>)*\s*\[caption([^\[]+)\[\/caption\]\s*(?:<\/p>|<br ?\/?>)*/gi, '[caption$1[/caption]' );
+			text = text.replace(
+				/(?:<p>|<br ?\/?>)*\s*\[caption([^\[]+)\[\/caption\]\s*(?:<\/p>|<br ?\/?>)*/gi,
+				'[caption$1[/caption]'
+			);
 
 			// Make sure there is <p> when there is </p> inside block tags that can contain other blocks.
-			text = text.replace( /(<(?:div|th|td|form|fieldset|dd)[^>]*>)(.*?)<\/p>/g, function( a, b, c ) {
-				if ( c.match( /<p( [^>]*)?>/ ) ) {
-					return a;
-				}
+			text = text.replace(
+				/(<(?:div|th|td|form|fieldset|dd)[^>]*>)(.*?)<\/p>/g,
+				function ( a, b, c ) {
+					if ( c.match( /<p( [^>]*)?>/ ) ) {
+						return a;
+					}
 
-				return b + '<p>' + c + '</p>';
-			});
+					return b + '<p>' + c + '</p>';
+				}
+			);
 
 			// Restore the line breaks in <pre> and <script> tags.
 			if ( preserve_linebreaks ) {
@@ -1184,7 +1393,7 @@ window.wp = window.wp || {};
 			window.addEventListener( 'load', init, false );
 		} else if ( window.attachEvent ) {
 			window.attachEvent( 'onload', init );
-			document.attachEvent( 'onreadystatechange', function() {
+			document.attachEvent( 'onreadystatechange', function () {
 				if ( 'complete' === document.readyState ) {
 					init();
 				}
@@ -1199,7 +1408,7 @@ window.wp = window.wp || {};
 			wpautop: wpautop,
 			pre_wpautop: pre_wpautop,
 			_wp_Autop: autop,
-			_wp_Nop: removep
+			_wp_Nop: removep,
 		};
 
 		return exports;
@@ -1236,12 +1445,12 @@ window.wp = window.wp || {};
 	 *    }
 	 *
 	 *    // Alternatively set to `true` to use the defaults.
-	 *	  quicktags: {
+	 *    quicktags: {
 	 *        buttons: 'strong,em,link'
 	 *    }
 	 * }
 	 */
-	wp.editor.initialize = function( id, settings ) {
+	wp.editor.initialize = function ( id, settings ) {
 		var init;
 		var defaults;
 
@@ -1254,7 +1463,7 @@ window.wp = window.wp || {};
 		// Initialize TinyMCE by default.
 		if ( ! settings ) {
 			settings = {
-				tinymce: true
+				tinymce: true,
 			};
 		}
 
@@ -1263,50 +1472,73 @@ window.wp = window.wp || {};
 			var $textarea = $( '#' + id );
 
 			var $wrap = $( '<div>' ).attr( {
-					'class': 'wp-core-ui wp-editor-wrap tmce-active',
-					id: 'wp-' + id + '-wrap'
-				} );
+				class: 'wp-core-ui wp-editor-wrap tmce-active',
+				id: 'wp-' + id + '-wrap',
+			} );
 
 			var $editorContainer = $( '<div class="wp-editor-container">' );
 
 			var $button = $( '<button>' ).attr( {
-					type: 'button',
-					'data-wp-editor-id': id
-				} );
+				type: 'button',
+				'data-wp-editor-id': id,
+			} );
 
 			var $editorTools = $( '<div class="wp-editor-tools">' );
 
 			if ( settings.mediaButtons ) {
 				var buttonText = 'Add Media';
 
-				if ( window._wpMediaViewsL10n && window._wpMediaViewsL10n.addMedia ) {
+				if (
+					window._wpMediaViewsL10n &&
+					window._wpMediaViewsL10n.addMedia
+				) {
 					buttonText = window._wpMediaViewsL10n.addMedia;
 				}
 
-				var $addMediaButton = $( '<button type="button" class="button insert-media add_media">' );
+				var $addMediaButton = $(
+					'<button type="button" class="button insert-media add_media">'
+				);
 
-				$addMediaButton.append( '<span class="wp-media-buttons-icon"></span>' );
-				$addMediaButton.append( document.createTextNode( ' ' + buttonText ) );
+				$addMediaButton.append(
+					'<span class="wp-media-buttons-icon"></span>'
+				);
+				$addMediaButton.append(
+					document.createTextNode( ' ' + buttonText )
+				);
 				$addMediaButton.data( 'editor', id );
 
 				$editorTools.append(
-					$( '<div class="wp-media-buttons">' )
-						.append( $addMediaButton )
+					$( '<div class="wp-media-buttons">' ).append(
+						$addMediaButton
+					)
 				);
 			}
 
 			$wrap.append(
 				$editorTools
-					.append( $( '<div class="wp-editor-tabs">' )
-						.append( $button.clone().attr({
-							id: id + '-tmce',
-							'class': 'wp-switch-editor switch-tmce'
-						}).text( window.tinymce.translate( 'Visual' ) ) )
-						.append( $button.attr({
-							id: id + '-html',
-							'class': 'wp-switch-editor switch-html'
-						}).text( window.tinymce.translate( 'Text' ) ) )
-					).append( $editorContainer )
+					.append(
+						$( '<div class="wp-editor-tabs">' )
+							.append(
+								$button
+									.clone()
+									.attr( {
+										id: id + '-tmce',
+										class: 'wp-switch-editor switch-tmce',
+									} )
+									.text(
+										window.tinymce.translate( 'Visual' )
+									)
+							)
+							.append(
+								$button
+									.attr( {
+										id: id + '-html',
+										class: 'wp-switch-editor switch-html',
+									} )
+									.text( window.tinymce.translate( 'Text' ) )
+							)
+					)
+					.append( $editorContainer )
 			);
 
 			$textarea.after( $wrap );
@@ -1355,8 +1587,9 @@ window.wp = window.wp || {};
 	 *
 	 * @param {string} id The HTML id of the editor textarea.
 	 */
-	wp.editor.remove = function( id ) {
-		var mceInstance, qtInstance,
+	wp.editor.remove = function ( id ) {
+		var mceInstance,
+			qtInstance,
 			$wrap = $( '#wp-' + id + '-wrap' );
 
 		if ( window.tinymce ) {
@@ -1395,7 +1628,7 @@ window.wp = window.wp || {};
 	 * @param {string} id The HTML id of the editor textarea.
 	 * @return The editor content.
 	 */
-	wp.editor.getContent = function( id ) {
+	wp.editor.getContent = function ( id ) {
 		var editor;
 
 		if ( ! $ || ! id ) {
@@ -1412,5 +1645,4 @@ window.wp = window.wp || {};
 
 		return $( '#' + id ).val();
 	};
-
-}( window.jQuery, window.wp ));
+} )( window.jQuery, window.wp );

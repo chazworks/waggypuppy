@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tests for the block editor methods.
  *
@@ -54,9 +55,9 @@ class Tests_Blocks_Editor extends WP_UnitTestCase
 
         return [
             [
-                'slug'  => 'filtered-category',
+                'slug' => 'filtered-category',
                 'title' => 'Filtered Category',
-                'icon'  => null,
+                'icon' => null,
             ],
         ];
     }
@@ -151,12 +152,12 @@ class Tests_Blocks_Editor extends WP_UnitTestCase
         $this->assertSameSets(
             [
                 [
-                    'slug'  => 'filtered-category',
+                    'slug' => 'filtered-category',
                     'title' => 'Filtered Category',
-                    'icon'  => null,
+                    'icon' => null,
                 ],
             ],
-            $block_categories
+            $block_categories,
         );
     }
 
@@ -169,19 +170,19 @@ class Tests_Blocks_Editor extends WP_UnitTestCase
         add_filter('block_categories', [$this, 'filter_set_block_categories_post'], 10, 2);
 
         $post_editor_context = new WP_Block_Editor_Context(['post' => get_post()]);
-        $block_categories    = get_block_categories($post_editor_context);
+        $block_categories = get_block_categories($post_editor_context);
 
         remove_filter('block_categories', [$this, 'filter_set_block_categories_post']);
 
         $this->assertSameSets(
             [
                 [
-                    'slug'  => 'filtered-category',
+                    'slug' => 'filtered-category',
                     'title' => 'Filtered Category',
-                    'icon'  => null,
+                    'icon' => null,
                 ],
             ],
-            $block_categories
+            $block_categories,
         );
     }
 
@@ -226,42 +227,42 @@ class Tests_Blocks_Editor extends WP_UnitTestCase
         $this->assertSameSets(
             [
                 [
-                    'slug'  => 'text',
+                    'slug' => 'text',
                     'title' => 'Text',
-                    'icon'  => null,
+                    'icon' => null,
                 ],
                 [
-                    'slug'  => 'media',
+                    'slug' => 'media',
                     'title' => 'Media',
-                    'icon'  => null,
+                    'icon' => null,
                 ],
                 [
-                    'slug'  => 'design',
+                    'slug' => 'design',
                     'title' => 'Design',
-                    'icon'  => null,
+                    'icon' => null,
                 ],
                 [
-                    'slug'  => 'widgets',
+                    'slug' => 'widgets',
                     'title' => 'Widgets',
-                    'icon'  => null,
+                    'icon' => null,
                 ],
                 [
-                    'slug'  => 'theme',
+                    'slug' => 'theme',
                     'title' => 'Theme',
-                    'icon'  => null,
+                    'icon' => null,
                 ],
                 [
-                    'slug'  => 'embed',
+                    'slug' => 'embed',
                     'title' => 'Embeds',
-                    'icon'  => null,
+                    'icon' => null,
                 ],
                 [
-                    'slug'  => 'reusable',
+                    'slug' => 'reusable',
                     'title' => 'Patterns',
-                    'icon'  => null,
+                    'icon' => null,
                 ],
             ],
-            $settings['blockCategories']
+            $settings['blockCategories'],
         );
         $this->assertFalse($settings['disableCustomColors']);
         $this->assertFalse($settings['disableCustomFontSizes']);
@@ -275,22 +276,22 @@ class Tests_Blocks_Editor extends WP_UnitTestCase
         $this->assertSameSets(
             [
                 [
-                    'width'  => 150,
+                    'width' => 150,
                     'height' => 150,
-                    'crop'   => true,
+                    'crop' => true,
                 ],
                 [
-                    'width'  => 300,
+                    'width' => 300,
                     'height' => 300,
-                    'crop'   => false,
+                    'crop' => false,
                 ],
                 [
-                    'width'  => 1024,
+                    'width' => 1024,
                     'height' => 1024,
-                    'crop'   => false,
+                    'crop' => false,
                 ],
             ],
-            $settings['imageDimensions']
+            $settings['imageDimensions'],
         );
         $this->assertTrue($settings['imageEditing']);
         $this->assertSameSets(
@@ -312,7 +313,7 @@ class Tests_Blocks_Editor extends WP_UnitTestCase
                     'name' => 'Thumbnail',
                 ],
             ],
-            $settings['imageSizes']
+            $settings['imageSizes'],
         );
         $this->assertIsInt($settings['maxUploadFileSize']);
         $this->assertTrue($settings['__unstableGalleryWithImageBlocks']);
@@ -328,7 +329,7 @@ class Tests_Blocks_Editor extends WP_UnitTestCase
             'upload_size_limit',
             static function () {
                 return 500;
-            }
+            },
         );
 
         // Expect 0 when user is not allowed to upload (as wp_max_upload_size() should not be called).
@@ -370,7 +371,7 @@ class Tests_Blocks_Editor extends WP_UnitTestCase
                 'tag_cloud',
                 'text',
             ],
-            $settings['widgetTypesToHideFromLegacyWidgetBlock']
+            $settings['widgetTypesToHideFromLegacyWidgetBlock'],
         );
     }
 
@@ -383,16 +384,18 @@ class Tests_Blocks_Editor extends WP_UnitTestCase
         {
             return ['test/filtered-my-block'];
         }
+
         function filter_block_categories_my_editor()
         {
             return [
                 [
-                    'slug'  => 'filtered-my-category',
+                    'slug' => 'filtered-my-category',
                     'title' => 'Filtered My Category',
-                    'icon'  => null,
+                    'icon' => null,
                 ],
             ];
         }
+
         function filter_block_editor_settings_my_editor($editor_settings)
         {
             $editor_settings['maxUploadFileSize'] = 12345;
@@ -405,7 +408,7 @@ class Tests_Blocks_Editor extends WP_UnitTestCase
         add_filter('block_editor_settings_all', 'filter_block_editor_settings_my_editor', 10, 1);
 
         $my_editor_context = new WP_Block_Editor_Context();
-        $settings          = get_block_editor_settings([], $my_editor_context);
+        $settings = get_block_editor_settings([], $my_editor_context);
 
         remove_filter('allowed_block_types_all', 'filter_allowed_block_types_my_editor');
         remove_filter('block_categories_all', 'filter_block_categories_my_editor');
@@ -415,12 +418,12 @@ class Tests_Blocks_Editor extends WP_UnitTestCase
         $this->assertSameSets(
             [
                 [
-                    'slug'  => 'filtered-my-category',
+                    'slug' => 'filtered-my-category',
                     'title' => 'Filtered My Category',
-                    'icon'  => null,
+                    'icon' => null,
                 ],
             ],
-            $settings['blockCategories']
+            $settings['blockCategories'],
         );
         $this->assertSame(12345, $settings['maxUploadFileSize']);
     }
@@ -430,14 +433,14 @@ class Tests_Blocks_Editor extends WP_UnitTestCase
      */
     public function test_wp_get_first_block()
     {
-        $block_name               = 'core/paragraph';
-        $blocks                   = [
+        $block_name = 'core/paragraph';
+        $blocks = [
             [
                 'blockName' => 'core/image',
             ],
             [
                 'blockName' => $block_name,
-                'attrs'     => [
+                'attrs' => [
                     'content' => 'Hello World!',
                 ],
             ],
@@ -502,28 +505,28 @@ class Tests_Blocks_Editor extends WP_UnitTestCase
         $this->assertSameSetsWithIndex(
             [
                 [
-                    'slug'  => 'light',
-                    'name'  => 'Light',
+                    'slug' => 'light',
+                    'name' => 'Light',
                     'color' => '#f5f7f9',
                 ],
                 [
-                    'slug'  => 'dark',
-                    'name'  => 'Dark',
+                    'slug' => 'dark',
+                    'name' => 'Dark',
                     'color' => '#000',
                 ],
             ],
-            $settings['colors']
+            $settings['colors'],
         );
         // settings.color.gradients
         $this->assertSameSetsWithIndex(
             [
                 [
-                    'name'     => 'Custom gradient',
+                    'name' => 'Custom gradient',
                     'gradient' => 'linear-gradient(135deg,rgba(0,0,0) 0%,rgb(0,0,0) 100%)',
-                    'slug'     => 'custom-gradient',
+                    'slug' => 'custom-gradient',
                 ],
             ],
-            $settings['gradients']
+            $settings['gradients'],
         );
         // settings.typography.fontSizes
         $this->assertSameSetsWithIndex(
@@ -534,7 +537,7 @@ class Tests_Blocks_Editor extends WP_UnitTestCase
                     'size' => '100px',
                 ],
             ],
-            $settings['fontSizes']
+            $settings['fontSizes'],
         );
         // settings.color.custom
         $this->assertTrue($settings['disableCustomColors']);
@@ -555,7 +558,7 @@ class Tests_Blocks_Editor extends WP_UnitTestCase
                     'type' => 'constrained',
                 ],
             ],
-            $settings['postContentAttributes']
+            $settings['postContentAttributes'],
         );
 
         switch_theme(WP_DEFAULT_THEME);
@@ -566,7 +569,6 @@ class Tests_Blocks_Editor extends WP_UnitTestCase
      */
     public function test_get_block_editor_settings_without_post_content_block()
     {
-
         $post_editor_context = new WP_Block_Editor_Context(['post' => get_post()]);
 
         $settings = get_block_editor_settings([], $post_editor_context);
@@ -583,7 +585,7 @@ class Tests_Blocks_Editor extends WP_UnitTestCase
         add_filter('block_editor_settings', [$this, 'filter_set_block_editor_settings_post'], 10, 2);
 
         $post_editor_context = new WP_Block_Editor_Context(['post' => get_post()]);
-        $settings            = get_block_editor_settings([], $post_editor_context);
+        $settings = get_block_editor_settings([], $post_editor_context);
 
         remove_filter('block_editor_settings', [$this, 'filter_set_block_editor_settings_post']);
 
@@ -591,7 +593,7 @@ class Tests_Blocks_Editor extends WP_UnitTestCase
             [
                 'filter' => 'deprecated',
             ],
-            $settings
+            $settings,
         );
     }
 
@@ -620,6 +622,7 @@ class Tests_Blocks_Editor extends WP_UnitTestCase
             }
             return [];
         }
+
         add_filter('block_editor_preload_paths', 'filter_remove_preload_paths', 10, 2);
 
         $post_editor_context = new WP_Block_Editor_Context(['post' => get_post()]);
@@ -627,7 +630,7 @@ class Tests_Blocks_Editor extends WP_UnitTestCase
             [
                 ['/wp/v2/blocks', 'OPTIONS'],
             ],
-            $post_editor_context
+            $post_editor_context,
         );
 
         remove_filter('block_editor_preload_paths', 'filter_remove_preload_paths');
@@ -649,6 +652,7 @@ class Tests_Blocks_Editor extends WP_UnitTestCase
 
             return $preload_paths;
         }
+
         add_filter('block_editor_rest_api_preload_paths', 'filter_add_preload_paths', 10, 2);
 
         $editor_context = new WP_Block_Editor_Context();
@@ -656,7 +660,7 @@ class Tests_Blocks_Editor extends WP_UnitTestCase
             [
                 ['/wp/v2/blocks', 'OPTIONS'],
             ],
-            $editor_context
+            $editor_context,
         );
 
         remove_filter('block_editor_rest_api_preload_paths', 'filter_add_preload_paths');
@@ -673,8 +677,8 @@ class Tests_Blocks_Editor extends WP_UnitTestCase
      *
      * @covers ::block_editor_rest_api_preload
      *
-     * @param array  $preload_paths The paths to preload.
-     * @param string $expected      The expected substring.
+     * @param array $preload_paths The paths to preload.
+     * @param string $expected The expected substring.
      */
     public function test_block_editor_rest_api_preload_adds_missing_leading_slash(array $preload_paths, $expected)
     {
@@ -707,18 +711,25 @@ class Tests_Blocks_Editor extends WP_UnitTestCase
         $settings = get_classic_theme_supports_block_editor_settings();
         remove_theme_support('editor-font-sizes');
 
-        $this->assertFalse($settings['disableCustomColors'], 'Value for array key "disableCustomColors" does not match expectations');
-        $this->assertFalse($settings['disableCustomFontSizes'], 'Value for array key "disableCustomFontSizes" does not match expectations');
-        $this->assertFalse($settings['disableCustomGradients'], 'Value for array key "disableCustomGradients" does not match expectations');
-        $this->assertFalse($settings['disableLayoutStyles'], 'Value for array key "disableLayoutStyles" does not match expectations');
-        $this->assertFalse($settings['enableCustomLineHeight'], 'Value for array key "enableCustomLineHeight" does not match expectations');
-        $this->assertFalse($settings['enableCustomSpacing'], 'Value for array key "enableCustomSpacing" does not match expectations');
-        $this->assertFalse($settings['enableCustomUnits'], 'Value for array key "enableCustomUnits" does not match expectations');
+        $this->assertFalse($settings['disableCustomColors'],
+            'Value for array key "disableCustomColors" does not match expectations');
+        $this->assertFalse($settings['disableCustomFontSizes'],
+            'Value for array key "disableCustomFontSizes" does not match expectations');
+        $this->assertFalse($settings['disableCustomGradients'],
+            'Value for array key "disableCustomGradients" does not match expectations');
+        $this->assertFalse($settings['disableLayoutStyles'],
+            'Value for array key "disableLayoutStyles" does not match expectations');
+        $this->assertFalse($settings['enableCustomLineHeight'],
+            'Value for array key "enableCustomLineHeight" does not match expectations');
+        $this->assertFalse($settings['enableCustomSpacing'],
+            'Value for array key "enableCustomSpacing" does not match expectations');
+        $this->assertFalse($settings['enableCustomUnits'],
+            'Value for array key "enableCustomUnits" does not match expectations');
 
         $this->assertSame(
             $font_sizes,
             $settings['fontSizes'],
-            'Value for array key "fontSizes" does not match expectations'
+            'Value for array key "fontSizes" does not match expectations',
         );
     }
 
@@ -730,29 +741,29 @@ class Tests_Blocks_Editor extends WP_UnitTestCase
     public function data_block_editor_rest_api_preload_adds_missing_leading_slash()
     {
         return [
-            'a string without a slash'               => [
+            'a string without a slash' => [
                 'preload_paths' => ['wp/v2/blocks'],
-                'expected'      => '\/wp\/v2\/blocks',
+                'expected' => '\/wp\/v2\/blocks',
             ],
-            'a string with a slash'                  => [
+            'a string with a slash' => [
                 'preload_paths' => ['/wp/v2/blocks'],
-                'expected'      => '\/wp\/v2\/blocks',
+                'expected' => '\/wp\/v2\/blocks',
             ],
             'a string starting with a question mark' => [
                 'preload_paths' => ['?context=edit'],
-                'expected'      => '/?context=edit',
+                'expected' => '/?context=edit',
             ],
             'an array with a string without a slash' => [
                 'preload_paths' => [['wp/v2/blocks', 'OPTIONS']],
-                'expected'      => '\/wp\/v2\/blocks',
+                'expected' => '\/wp\/v2\/blocks',
             ],
-            'an array with a string with a slash'    => [
+            'an array with a string with a slash' => [
                 'preload_paths' => [['/wp/v2/blocks', 'OPTIONS']],
-                'expected'      => '\/wp\/v2\/blocks',
+                'expected' => '\/wp\/v2\/blocks',
             ],
             'an array with a string starting with a question mark' => [
                 'preload_paths' => [['?context=edit', 'OPTIONS']],
-                'expected'      => '\/?context=edit',
+                'expected' => '\/?context=edit',
             ],
         ];
     }
@@ -766,19 +777,19 @@ class Tests_Blocks_Editor extends WP_UnitTestCase
         register_block_bindings_source(
             'test/source-one',
             [
-                'label'              => 'Source One',
+                'label' => 'Source One',
                 'get_value_callback' => function () {},
-                'uses_context'       => ['postId'],
-            ]
+                'uses_context' => ['postId'],
+            ],
         );
         register_block_bindings_source(
             'test/source-two',
             [
-                'label'              => 'Source Two',
+                'label' => 'Source Two',
                 'get_value_callback' => function () {},
-            ]
+            ],
         );
-        $settings        = get_block_editor_settings([], $block_editor_context);
+        $settings = get_block_editor_settings([], $block_editor_context);
         $exposed_sources = $settings['blockBindingsSources'];
         unregister_block_bindings_source('test/source-one');
         unregister_block_bindings_source('test/source-two');

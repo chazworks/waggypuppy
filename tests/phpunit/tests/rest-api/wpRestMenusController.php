@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering WP_REST_Menus_Controller functionality.
  *
@@ -49,20 +50,20 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase
      */
     public static function wpSetUpBeforeClass($factory)
     {
-        self::$admin_id      = $factory->user->create(
+        self::$admin_id = $factory->user->create(
             [
                 'role' => 'administrator',
-            ]
+            ],
         );
-        self::$editor_id     = $factory->user->create(
+        self::$editor_id = $factory->user->create(
             [
                 'role' => 'editor',
-            ]
+            ],
         );
         self::$subscriber_id = $factory->user->create(
             [
                 'role' => 'subscriber',
-            ]
+            ],
         );
     }
 
@@ -78,10 +79,10 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase
         }
 
         $orig_args = [
-            'name'        => 'Original Name',
+            'name' => 'Original Name',
             'description' => 'Original Description',
-            'slug'        => 'original-slug',
-            'taxonomy'    => 'nav_menu',
+            'slug' => 'original-slug',
+            'taxonomy' => 'nav_menu',
         ];
 
         $this->menu_id = self::factory()->term->create($orig_args);
@@ -91,10 +92,10 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase
             'test_single_menu',
             [
                 'object_subtype' => self::TAXONOMY,
-                'show_in_rest'   => true,
-                'single'         => true,
-                'type'           => 'string',
-            ]
+                'show_in_rest' => true,
+                'single' => true,
+                'type' => 'string',
+            ],
         );
     }
 
@@ -128,17 +129,17 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase
     public function test_context_param()
     {
         // Collection.
-        $request  = new WP_REST_Request('OPTIONS', '/wp/v2/menus');
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/menus');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
         $this->assertSameSets(['view', 'embed', 'edit'], $data['endpoints'][0]['args']['context']['enum']);
         $this->assertSame(['v1' => true], $data['endpoints'][0]['allow_batch']);
         // Single.
-        $tag1     = self::factory()->tag->create(['name' => 'Season 5']);
-        $request  = new WP_REST_Request('OPTIONS', '/wp/v2/menus/' . $tag1);
+        $tag1 = self::factory()->tag->create(['name' => 'Season 5']);
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/menus/' . $tag1);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
         $this->assertSameSets(['view', 'embed', 'edit'], $data['endpoints'][0]['args']['context']['enum']);
         $this->assertSame(['v1' => true], $data['endpoints'][0]['allow_batch']);
@@ -150,10 +151,10 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase
      */
     public function test_registered_query_params()
     {
-        $request  = new WP_REST_Request('OPTIONS', '/wp/v2/menus');
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/menus');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
-        $keys     = array_keys($data['endpoints'][0]['args']);
+        $data = $response->get_data();
+        $keys = array_keys($data['endpoints'][0]['args']);
         sort($keys);
         $this->assertSame(
             [
@@ -170,7 +171,7 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase
                 'search',
                 'slug',
             ],
-            $keys
+            $keys,
         );
     }
 
@@ -185,8 +186,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase
             0,
             [
                 'description' => 'Test get',
-                'menu-name'   => 'test Name get',
-            ]
+                'menu-name' => 'test Name get',
+            ],
         );
         $request = new WP_REST_Request('GET', '/wp/v2/menus');
         $request->set_param('per_page', self::$per_page);
@@ -205,14 +206,14 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase
             0,
             [
                 'description' => 'Test menu',
-                'menu-name'   => 'test Name',
-            ]
+                'menu-name' => 'test Name',
+            ],
         );
 
         $this->register_nav_menu_locations(['primary']);
         set_theme_mod('nav_menu_locations', ['primary' => $nav_menu_id]);
 
-        $request  = new WP_REST_Request('GET', '/wp/v2/menus/' . $nav_menu_id);
+        $request = new WP_REST_Request('GET', '/wp/v2/menus/' . $nav_menu_id);
         $response = rest_get_server()->dispatch($request);
         $this->check_get_taxonomy_term_response($response, $nav_menu_id);
     }
@@ -231,7 +232,7 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(201, $response->get_status());
         $headers = $response->get_headers();
-        $data    = $response->get_data();
+        $data = $response->get_data();
         $this->assertStringContainsString('/wp/v2/menus/' . $data['id'], $headers['Location']);
         $this->assertSame('My Awesome menus', $data['name']);
         $this->assertSame('This menu is so awesome.', $data['description']);
@@ -250,8 +251,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase
             0,
             [
                 'description' => 'This menu is so Original',
-                'menu-name'   => 'Original',
-            ]
+                'menu-name' => 'Original',
+            ],
         );
 
         $request = new WP_REST_Request('POST', '/wp/v2/menus');
@@ -279,7 +280,7 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase
             'meta',
             [
                 'test_single_menu' => 'just meta',
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(200, $response->get_status());
@@ -304,8 +305,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase
             0,
             [
                 'description' => 'Deleted Menu',
-                'menu-name'   => 'Deleted Menu',
-            ]
+                'menu-name' => 'Deleted Menu',
+            ],
         );
 
         $term = get_term_by('id', $nav_menu_id, self::TAXONOMY);
@@ -330,15 +331,15 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase
             0,
             [
                 'description' => 'Foo Menu',
-                'menu-name'   => 'Foo Menu',
-            ]
+                'menu-name' => 'Foo Menu',
+            ],
         );
 
         $term = get_term_by('id', $nav_menu_id, self::TAXONOMY);
         wp_set_current_user(self::$admin_id);
-        $request  = new WP_REST_Request('GET', '/wp/v2/menus/' . $term->term_id);
+        $request = new WP_REST_Request('GET', '/wp/v2/menus/' . $term->term_id);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         $this->check_taxonomy_term($term, $data, $response->get_links());
     }
@@ -349,9 +350,9 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase
      */
     public function test_get_item_schema()
     {
-        $request    = new WP_REST_Request('OPTIONS', '/wp/v2/menus');
-        $response   = rest_get_server()->dispatch($request);
-        $data       = $response->get_data();
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/menus');
+        $response = rest_get_server()->dispatch($request);
+        $data = $response->get_data();
         $properties = $data['schema']['properties'];
         $this->assertCount(7, $properties);
         $this->assertArrayHasKey('id', $properties);
@@ -376,8 +377,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase
         $request->set_param('locations', 'primary');
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(201, $response->get_status());
-        $data      = $response->get_data();
-        $term_id   = $data['id'];
+        $data = $response->get_data();
+        $term_id = $data['id'];
         $locations = get_nav_menu_locations();
         $this->assertSame($locations['primary'], $term_id);
     }
@@ -466,15 +467,15 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase
             0,
             [
                 'description' => 'Foo Menu',
-                'menu-name'   => 'Foo Menu',
-            ]
+                'menu-name' => 'Foo Menu',
+            ],
         );
 
         register_nav_menu('foo', 'Bar');
 
         set_theme_mod('nav_menu_locations', ['foo' => $nav_menu_id]);
 
-        $request  = new WP_REST_Request('GET', sprintf('/wp/v2/menus/%d', $nav_menu_id));
+        $request = new WP_REST_Request('GET', sprintf('/wp/v2/menus/%d', $nav_menu_id));
         $response = rest_get_server()->dispatch($request);
 
         $links = $response->get_links();
@@ -494,15 +495,15 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase
         $this->register_nav_menu_locations(['primary', 'secondary']);
         $secondary_id = self::factory()->term->create(
             [
-                'name'        => 'Secondary Name',
+                'name' => 'Secondary Name',
                 'description' => 'Secondary Description',
-                'slug'        => 'secondary-slug',
-                'taxonomy'    => 'nav_menu',
-            ]
+                'slug' => 'secondary-slug',
+                'taxonomy' => 'nav_menu',
+            ],
         );
 
-        $locations              = get_nav_menu_locations();
-        $locations['primary']   = $this->menu_id;
+        $locations = get_nav_menu_locations();
+        $locations['primary'] = $this->menu_id;
         $locations['secondary'] = $secondary_id;
         set_theme_mod('nav_menu_locations', $locations);
 
@@ -512,7 +513,7 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase
         $request->set_body_params(
             [
                 'locations' => ['secondary'],
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
 
@@ -532,7 +533,7 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase
     public function test_get_items_no_permission()
     {
         wp_set_current_user(0);
-        $request  = new WP_REST_Request('GET', '/wp/v2/menus');
+        $request = new WP_REST_Request('GET', '/wp/v2/menus');
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_cannot_view', $response, 401);
     }
@@ -545,7 +546,7 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase
     public function test_get_item_no_permission()
     {
         wp_set_current_user(0);
-        $request  = new WP_REST_Request('GET', '/wp/v2/menus/' . $this->menu_id);
+        $request = new WP_REST_Request('GET', '/wp/v2/menus/' . $this->menu_id);
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_cannot_view', $response, 401);
     }
@@ -558,7 +559,7 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase
     public function test_get_items_wrong_permission()
     {
         wp_set_current_user(self::$subscriber_id);
-        $request  = new WP_REST_Request('GET', '/wp/v2/menus');
+        $request = new WP_REST_Request('GET', '/wp/v2/menus');
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_cannot_view', $response, 403);
     }
@@ -571,7 +572,7 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase
     public function test_get_item_wrong_permission()
     {
         wp_set_current_user(self::$subscriber_id);
-        $request  = new WP_REST_Request('GET', '/wp/v2/menus/' . $this->menu_id);
+        $request = new WP_REST_Request('GET', '/wp/v2/menus/' . $this->menu_id);
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_cannot_view', $response, 403);
     }
@@ -610,7 +611,7 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase
 
     /**
      * @param WP_REST_Response $response Response Class.
-     * @param int              $id Term ID.
+     * @param int $id Term ID.
      */
     protected function check_get_taxonomy_term_response($response, $id)
     {
@@ -623,8 +624,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase
 
     /**
      * @param WP_Term $term WP_Term object.
-     * @param array   $data Data from REST API.
-     * @param array   $links Array of links.
+     * @param array $data Data from REST API.
+     * @param array $links Array of links.
      */
     protected function check_taxonomy_term($term, $data, $links)
     {
@@ -635,7 +636,7 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase
         $this->assertFalse(isset($data['parent']));
 
         $locations = get_nav_menu_locations();
-        if (! empty($locations)) {
+        if (!empty($locations)) {
             $menu_locations = [];
             foreach ($locations as $location => $menu_id) {
                 if ($menu_id === $term->term_id) {
@@ -653,16 +654,17 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase
             'https://api.w.org/post_type',
         ];
 
-        if (! empty($data['parent'])) {
+        if (!empty($data['parent'])) {
             $relations[] = 'up';
         }
 
-        if (! empty($data['locations'])) {
+        if (!empty($data['locations'])) {
             $relations[] = 'https://api.w.org/menu-location';
         }
 
         $this->assertSameSets($relations, array_keys($links));
         $this->assertStringContainsString('wp/v2/taxonomies/' . $term->taxonomy, $links['about'][0]['href']);
-        $this->assertSame(add_query_arg('menus', $term->term_id, rest_url('wp/v2/menu-items')), $links['https://api.w.org/post_type'][0]['href']);
+        $this->assertSame(add_query_arg('menus', $term->term_id, rest_url('wp/v2/menu-items')),
+            $links['https://api.w.org/post_type'][0]['href']);
     }
 }

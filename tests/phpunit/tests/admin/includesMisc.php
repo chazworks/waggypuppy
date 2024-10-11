@@ -13,17 +13,17 @@ class Tests_Admin_IncludesMisc extends WP_UnitTestCase
     {
         $tests = [
             'wp\.org/about/philosophy'
-                => 'wp\.org/about/philosophy',     // No longer strips slashes.
+            => 'wp\.org/about/philosophy',     // No longer strips slashes.
             'wp.org/about/philosophy'
-                => 'wp.org/about/philosophy',
+            => 'wp.org/about/philosophy',
             'http://wp.org/about/philosophy/'
-                => 'wp.org/about/philosophy',      // Remove http, trailing slash.
+            => 'wp.org/about/philosophy',      // Remove http, trailing slash.
             'http://www.wp.org/about/philosophy/'
-                => 'wp.org/about/philosophy',      // Remove http, www.
+            => 'wp.org/about/philosophy',      // Remove http, www.
             'http://wp.org/about/philosophy/#box'
-                => 'wp.org/about/philosophy/#box',      // Don't shorten 35 characters.
+            => 'wp.org/about/philosophy/#box',      // Don't shorten 35 characters.
             'http://wordpress.org/about/philosophy/#decisions'
-                => 'wordpress.org/about/philosophy/#&hellip;', // Shorten to 32 if > 35 after cleaning.
+            => 'wordpress.org/about/philosophy/#&hellip;', // Shorten to 32 if > 35 after cleaning.
         ];
         foreach ($tests as $k => $v) {
             $this->assertSame($v, url_shorten($k));
@@ -47,7 +47,7 @@ class Tests_Admin_IncludesMisc extends WP_UnitTestCase
                 return 'Filtered Admin Email Address';
             },
             10,
-            1
+            1,
         );
 
         $mailer->mock_sent = [];

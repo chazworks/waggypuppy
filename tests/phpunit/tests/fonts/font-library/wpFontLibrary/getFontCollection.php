@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test WP_Font_Library::get_font_collections().
  *
@@ -16,7 +17,7 @@ class Tests_Fonts_WpFontLibrary_GetFontCollection extends WP_Font_Library_UnitTe
     public function test_should_get_font_collection()
     {
         $mock_collection_data = [
-            'name'          => 'Test Collection',
+            'name' => 'Test Collection',
             'font_families' => ['mock'],
         ];
 

@@ -15,96 +15,104 @@
  * @mixin
  * @mixes Backbone.Events
  */
-var StateMachine = function() {
+var StateMachine = function () {
 	return {
 		// Use Backbone's self-propagating `extend` inheritance method.
-		extend: Backbone.Model.extend
+		extend: Backbone.Model.extend,
 	};
 };
 
-_.extend( StateMachine.prototype, Backbone.Events,/** @lends wp.media.controller.StateMachine.prototype */{
-	/**
-	 * Fetch a state.
-	 *
-	 * If no `id` is provided, returns the active state.
-	 *
-	 * Implicitly creates states.
-	 *
-	 * Ensure that the `states` collection exists so the `StateMachine`
-	 * can be used as a mixin.
-	 *
-	 * @since 3.5.0
-	 *
-	 * @param {string} id
-	 * @return {wp.media.controller.State} Returns a State model from
-	 *                                     the StateMachine collection.
-	 */
-	state: function( id ) {
-		this.states = this.states || new Backbone.Collection();
+_.extend(
+	StateMachine.prototype,
+	Backbone.Events,
+	/** @lends wp.media.controller.StateMachine.prototype */ {
+		/**
+		 * Fetch a state.
+		 *
+		 * If no `id` is provided, returns the active state.
+		 *
+		 * Implicitly creates states.
+		 *
+		 * Ensure that the `states` collection exists so the `StateMachine`
+		 * can be used as a mixin.
+		 *
+		 * @since 3.5.0
+		 *
+		 * @param {string} id
+		 * @return {wp.media.controller.State} Returns a State model from
+		 *                                     the StateMachine collection.
+		 */
+		state: function ( id ) {
+			this.states = this.states || new Backbone.Collection();
 
-		// Default to the active state.
-		id = id || this._state;
+			// Default to the active state.
+			id = id || this._state;
 
-		if ( id && ! this.states.get( id ) ) {
-			this.states.add({ id: id });
-		}
-		return this.states.get( id );
-	},
+			if ( id && ! this.states.get( id ) ) {
+				this.states.add( { id: id } );
+			}
+			return this.states.get( id );
+		},
 
-	/**
-	 * Sets the active state.
-	 *
-	 * Bail if we're trying to select the current state, if we haven't
-	 * created the `states` collection, or are trying to select a state
-	 * that does not exist.
-	 *
-	 * @since 3.5.0
-	 *
-	 * @param {string} id
-	 *
-	 * @fires wp.media.controller.State#deactivate
-	 * @fires wp.media.controller.State#activate
-	 *
-	 * @return {wp.media.controller.StateMachine} Returns itself to allow chaining.
-	 */
-	setState: function( id ) {
-		var previous = this.state();
+		/**
+		 * Sets the active state.
+		 *
+		 * Bail if we're trying to select the current state, if we haven't
+		 * created the `states` collection, or are trying to select a state
+		 * that does not exist.
+		 *
+		 * @since 3.5.0
+		 *
+		 * @param {string} id
+		 *
+		 * @fires wp.media.controller.State#deactivate
+		 * @fires wp.media.controller.State#activate
+		 *
+		 * @return {wp.media.controller.StateMachine} Returns itself to allow chaining.
+		 */
+		setState: function ( id ) {
+			var previous = this.state();
 
-		if ( ( previous && id === previous.id ) || ! this.states || ! this.states.get( id ) ) {
+			if (
+				( previous && id === previous.id ) ||
+				! this.states ||
+				! this.states.get( id )
+			) {
+				return this;
+			}
+
+			if ( previous ) {
+				previous.trigger( 'deactivate' );
+				this._lastState = previous.id;
+			}
+
+			this._state = id;
+			this.state().trigger( 'activate' );
+
 			return this;
-		}
+		},
 
-		if ( previous ) {
-			previous.trigger('deactivate');
-			this._lastState = previous.id;
-		}
-
-		this._state = id;
-		this.state().trigger('activate');
-
-		return this;
-	},
-
-	/**
-	 * Returns the previous active state.
-	 *
-	 * Call the `state()` method with no parameters to retrieve the current
-	 * active state.
-	 *
-	 * @since 3.5.0
-	 *
-	 * @return {wp.media.controller.State} Returns a State model from
-	 *                                     the StateMachine collection.
-	 */
-	lastState: function() {
-		if ( this._lastState ) {
-			return this.state( this._lastState );
-		}
+		/**
+		 * Returns the previous active state.
+		 *
+		 * Call the `state()` method with no parameters to retrieve the current
+		 * active state.
+		 *
+		 * @since 3.5.0
+		 *
+		 * @return {wp.media.controller.State} Returns a State model from
+		 *                                     the StateMachine collection.
+		 */
+		lastState: function () {
+			if ( this._lastState ) {
+				return this.state( this._lastState );
+			}
+		},
 	}
-});
+);
 
 // Map all event binding and triggering on a StateMachine to its `states` collection.
-_.each([ 'on', 'off', 'trigger' ], function( method ) {
+_.each( [ 'on', 'off', 'trigger' ], function ( method ) {
 	/**
 	 * @function on
 	 * @memberOf wp.media.controller.StateMachine
@@ -123,7 +131,7 @@ _.each([ 'on', 'off', 'trigger' ], function( method ) {
 	 * @instance
 	 * @return {wp.media.controller.StateMachine} Returns itself to allow chaining.
 	 */
-	StateMachine.prototype[ method ] = function() {
+	StateMachine.prototype[ method ] = function () {
 		// Ensure that the `states` collection exists so the `StateMachine`
 		// can be used as a mixin.
 		this.states = this.states || new Backbone.Collection();
@@ -131,6 +139,6 @@ _.each([ 'on', 'off', 'trigger' ], function( method ) {
 		this.states[ method ].apply( this.states, arguments );
 		return this;
 	};
-});
+} );
 
 module.exports = StateMachine;

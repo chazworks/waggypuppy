@@ -17,7 +17,7 @@ class Tests_Post_IsPostPubliclyViewable extends WP_UnitTestCase
     {
         $post_statuses = ['publish', 'private', 'future', 'trash', 'delete'];
         foreach ($post_statuses as $post_status) {
-            $date          = '';
+            $date = '';
             $actual_status = $post_status;
             if ('future' === $post_status) {
                 $date = date_format(date_create('+1 year'), 'Y-m-d H:i:s');
@@ -28,10 +28,10 @@ class Tests_Post_IsPostPubliclyViewable extends WP_UnitTestCase
             self::$parent_post_ids[$post_status] = $factory->post->create(
                 [
                     'post_status' => $actual_status,
-                    'post_name'   => "$post_status-post",
-                    'post_date'   => $date,
-                    'post_type'   => 'page',
-                ]
+                    'post_name' => "$post_status-post",
+                    'post_date' => $date,
+                    'post_type' => 'page',
+                ],
             );
         }
 
@@ -45,10 +45,10 @@ class Tests_Post_IsPostPubliclyViewable extends WP_UnitTestCase
      * @dataProvider data_is_post_publicly_viewable
      * @ticket 49380
      *
-     * @param string $post_type   The post type.
+     * @param string $post_type The post type.
      * @param string $post_status The post status.
-     * @param bool   $expected    The expected result of the function call.
-     * @param string $parent_key  The parent key as set up in shared fixtures.
+     * @param bool $expected The expected result of the function call.
+     * @param string $parent_key The parent key as set up in shared fixtures.
      */
     public function test_is_post_publicly_viewable($post_type, $post_status, $expected, $parent_key = '')
     {
@@ -59,11 +59,11 @@ class Tests_Post_IsPostPubliclyViewable extends WP_UnitTestCase
 
         $post_id = self::factory()->post->create(
             [
-                'post_type'   => $post_type,
+                'post_type' => $post_type,
                 'post_status' => $post_status,
                 'post_parent' => $parent_key ? self::$parent_post_ids[$parent_key] : 0,
-                'post_date'   => $date,
-            ]
+                'post_date' => $date,
+            ],
         );
 
         $this->assertSame($expected, is_post_publicly_viewable($post_id));
@@ -73,10 +73,10 @@ class Tests_Post_IsPostPubliclyViewable extends WP_UnitTestCase
      * Data provider for test_is_post_publicly_viewable().
      *
      * return array[] {
-     *     @type string $post_type   The post type.
-     *     @type string $post_status The post status.
-     *     @type bool   $expected    The expected result of the function call.
-     *     @type string $parent_key  The parent key as set up in shared fixtures.
+     * @type string $post_type The post type.
+     * @type string $post_status The post status.
+     * @type bool $expected The expected result of the function call.
+     * @type string $parent_key The parent key as set up in shared fixtures.
      * }
      */
     public function data_is_post_publicly_viewable()

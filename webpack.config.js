@@ -4,13 +4,15 @@ const packagesConfig = require( './tools/webpack/packages' );
 const scriptModulesConfig = require( './tools/webpack/script-modules' );
 const vendorsConfig = require( './tools/webpack/vendors' );
 
-module.exports = function( env = { environment: "production", watch: false, buildTarget: false } ) {
+module.exports = function (
+	env = { environment: 'production', watch: false, buildTarget: false }
+) {
 	if ( ! env.watch ) {
 		env.watch = false;
 	}
 
 	if ( ! env.buildTarget ) {
-		env.buildTarget = ( env.mode === 'production' ? 'build/' : 'src/' );
+		env.buildTarget = env.mode === 'production' ? 'build/' : 'src/';
 	}
 
 	const config = [

@@ -43,25 +43,26 @@ class WP_REST_Template_Revisions_Controller extends WP_REST_Revisions_Controller
     /**
      * Constructor.
      *
+     * @param string $parent_post_type Post type of the parent.
      * @since 6.4.0
      *
-     * @param string $parent_post_type Post type of the parent.
      */
     public function __construct($parent_post_type)
     {
         parent::__construct($parent_post_type);
         $this->parent_post_type = $parent_post_type;
-        $post_type_object       = get_post_type_object($parent_post_type);
-        $parent_controller      = $post_type_object->get_rest_controller();
+        $post_type_object = get_post_type_object($parent_post_type);
+        $parent_controller = $post_type_object->get_rest_controller();
 
-        if (! $parent_controller) {
+        if (!$parent_controller) {
             $parent_controller = new WP_REST_Templates_Controller($parent_post_type);
         }
 
         $this->parent_controller = $parent_controller;
-        $this->rest_base         = 'revisions';
-        $this->parent_base       = ! empty($post_type_object->rest_base) ? $post_type_object->rest_base : $post_type_object->name;
-        $this->namespace         = ! empty($post_type_object->rest_namespace) ? $post_type_object->rest_namespace : 'wp/v2';
+        $this->rest_base = 'revisions';
+        $this->parent_base = !empty($post_type_object->rest_base) ? $post_type_object->rest_base
+            : $post_type_object->name;
+        $this->namespace = !empty($post_type_object->rest_namespace) ? $post_type_object->rest_namespace : 'wp/v2';
     }
 
     /**
@@ -73,7 +74,6 @@ class WP_REST_Template_Revisions_Controller extends WP_REST_Revisions_Controller
      */
     public function register_routes()
     {
-
         register_rest_route(
             $this->namespace,
             sprintf(
@@ -86,24 +86,24 @@ class WP_REST_Template_Revisions_Controller extends WP_REST_Revisions_Controller
                 '([^\/:<>\*\?"\|]+(?:\/[^\/:<>\*\?"\|]+)?)',
                 // Matches the template name.
                 '[\/\w%-]+',
-                $this->rest_base
+                $this->rest_base,
             ),
             [
-                'args'   => [
+                'args' => [
                     'parent' => [
-                        'description'       => __('The id of a template'),
-                        'type'              => 'string',
+                        'description' => __('The id of a template'),
+                        'type' => 'string',
                         'sanitize_callback' => [$this->parent_controller, '_sanitize_template_id'],
                     ],
                 ],
                 [
-                    'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => [$this, 'get_items'],
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_items'],
                     'permission_callback' => [$this, 'get_items_permissions_check'],
-                    'args'                => $this->get_collection_params(),
+                    'args' => $this->get_collection_params(),
                 ],
                 'schema' => [$this, 'get_public_item_schema'],
-            ]
+            ],
         );
 
         register_rest_route(
@@ -119,62 +119,62 @@ class WP_REST_Template_Revisions_Controller extends WP_REST_Revisions_Controller
                 // Matches the template name.
                 '[\/\w%-]+',
                 $this->rest_base,
-                '(?P<id>[\d]+)'
+                '(?P<id>[\d]+)',
             ),
             [
-                'args'   => [
+                'args' => [
                     'parent' => [
-                        'description'       => __('The id of a template'),
-                        'type'              => 'string',
+                        'description' => __('The id of a template'),
+                        'type' => 'string',
                         'sanitize_callback' => [$this->parent_controller, '_sanitize_template_id'],
                     ],
-                    'id'     => [
+                    'id' => [
                         'description' => __('Unique identifier for the revision.'),
-                        'type'        => 'integer',
+                        'type' => 'integer',
                     ],
                 ],
                 [
-                    'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => [$this, 'get_item'],
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_item'],
                     'permission_callback' => [$this, 'get_item_permissions_check'],
-                    'args'                => [
+                    'args' => [
                         'context' => $this->get_context_param(['default' => 'view']),
                     ],
                 ],
                 [
-                    'methods'             => WP_REST_Server::DELETABLE,
-                    'callback'            => [$this, 'delete_item'],
+                    'methods' => WP_REST_Server::DELETABLE,
+                    'callback' => [$this, 'delete_item'],
                     'permission_callback' => [$this, 'delete_item_permissions_check'],
-                    'args'                => [
+                    'args' => [
                         'force' => [
-                            'type'        => 'boolean',
-                            'default'     => false,
+                            'type' => 'boolean',
+                            'default' => false,
                             'description' => __('Required to be true, as revisions do not support trashing.'),
                         ],
                     ],
                 ],
                 'schema' => [$this, 'get_public_item_schema'],
-            ]
+            ],
         );
     }
 
     /**
      * Gets the parent post, if the template ID is valid.
      *
-     * @since 6.4.0
-     *
      * @param string $parent_template_id Supplied ID.
      * @return WP_Post|WP_Error Post object if ID is valid, WP_Error otherwise.
+     * @since 6.4.0
+     *
      */
     protected function get_parent($parent_template_id)
     {
         $template = get_block_template($parent_template_id, $this->parent_post_type);
 
-        if (! $template) {
+        if (!$template) {
             return new WP_Error(
                 'rest_post_invalid_parent',
                 __('Invalid template parent ID.'),
-                ['status' => 404]
+                ['status' => 404],
             );
         }
 
@@ -184,11 +184,11 @@ class WP_REST_Template_Revisions_Controller extends WP_REST_Revisions_Controller
     /**
      * Prepares the item for the REST response.
      *
-     * @since 6.4.0
-     *
-     * @param WP_Post         $item    Post revision object.
+     * @param WP_Post $item Post revision object.
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response Response object.
+     * @since 6.4.0
+     *
      */
     public function prepare_item_for_response($item, $request)
     {
@@ -196,14 +196,14 @@ class WP_REST_Template_Revisions_Controller extends WP_REST_Revisions_Controller
         $response = $this->parent_controller->prepare_item_for_response($template, $request);
 
         $fields = $this->get_fields_for_response($request);
-        $data   = $response->get_data();
+        $data = $response->get_data();
 
         if (in_array('parent', $fields, true)) {
-            $data['parent'] = (int) $item->post_parent;
+            $data['parent'] = (int)$item->post_parent;
         }
 
-        $context = ! empty($request['context']) ? $request['context'] : 'view';
-        $data    = $this->filter_response_by_context($data, $context);
+        $context = !empty($request['context']) ? $request['context'] : 'view';
+        $data = $this->filter_response_by_context($data, $context);
 
         // Wrap the data in a response object.
         $response = new WP_REST_Response($data);
@@ -219,10 +219,10 @@ class WP_REST_Template_Revisions_Controller extends WP_REST_Revisions_Controller
     /**
      * Checks if a given request has access to delete a revision.
      *
-     * @since 6.4.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has access to delete the item, WP_Error object otherwise.
+     * @since 6.4.0
+     *
      */
     public function delete_item_permissions_check($request)
     {
@@ -231,11 +231,11 @@ class WP_REST_Template_Revisions_Controller extends WP_REST_Revisions_Controller
             return $parent;
         }
 
-        if (! current_user_can('delete_post', $parent->ID)) {
+        if (!current_user_can('delete_post', $parent->ID)) {
             return new WP_Error(
                 'rest_cannot_delete',
                 __('Sorry, you are not allowed to delete revisions of this post.'),
-                ['status' => rest_authorization_required_code()]
+                ['status' => rest_authorization_required_code()],
             );
         }
 
@@ -244,11 +244,11 @@ class WP_REST_Template_Revisions_Controller extends WP_REST_Revisions_Controller
             return $revision;
         }
 
-        if (! current_user_can('edit_theme_options')) {
+        if (!current_user_can('edit_theme_options')) {
             return new WP_Error(
                 'rest_cannot_delete',
                 __('Sorry, you are not allowed to delete this revision.'),
-                ['status' => rest_authorization_required_code()]
+                ['status' => rest_authorization_required_code()],
             );
         }
 
@@ -258,16 +258,17 @@ class WP_REST_Template_Revisions_Controller extends WP_REST_Revisions_Controller
     /**
      * Prepares links for the request.
      *
-     * @since 6.4.0
-     *
      * @param WP_Block_Template $template Template.
      * @return array Links for the given post.
+     * @since 6.4.0
+     *
      */
     protected function prepare_links($template)
     {
         $links = [
-            'self'   => [
-                'href' => rest_url(sprintf('/%s/%s/%s/%s/%d', $this->namespace, $this->parent_base, $template->id, $this->rest_base, $template->wp_id)),
+            'self' => [
+                'href' => rest_url(sprintf('/%s/%s/%s/%s/%d', $this->namespace, $this->parent_base, $template->id,
+                    $this->rest_base, $template->wp_id)),
             ],
             'parent' => [
                 'href' => rest_url(sprintf('/%s/%s/%s', $this->namespace, $this->parent_base, $template->id)),
@@ -280,9 +281,9 @@ class WP_REST_Template_Revisions_Controller extends WP_REST_Revisions_Controller
     /**
      * Retrieves the item's schema, conforming to JSON Schema.
      *
+     * @return array Item schema data.
      * @since 6.4.0
      *
-     * @return array Item schema data.
      */
     public function get_item_schema()
     {
@@ -294,8 +295,8 @@ class WP_REST_Template_Revisions_Controller extends WP_REST_Revisions_Controller
 
         $schema['properties']['parent'] = [
             'description' => __('The ID for the parent of the revision.'),
-            'type'        => 'integer',
-            'context'     => ['view', 'edit', 'embed'],
+            'type' => 'integer',
+            'context' => ['view', 'edit', 'embed'],
         ];
 
         $this->schema = $schema;

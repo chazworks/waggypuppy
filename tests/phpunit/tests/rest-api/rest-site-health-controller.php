@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering the site health controller.
  *
@@ -34,21 +35,21 @@ class WP_Test_REST_Site_Health_Controller extends WP_Test_REST_TestCase
     /**
      * Set up class test fixtures.
      *
+     * @param WP_UnitTest_Factory $factory waggypuppy unit test factory.
      * @since 5.6.0
      *
-     * @param WP_UnitTest_Factory $factory waggypuppy unit test factory.
      */
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$subscriber = $factory->user->create(
             [
                 'role' => 'subscriber',
-            ]
+            ],
         );
-        self::$admin      = $factory->user->create(
+        self::$admin = $factory->user->create(
             [
                 'role' => 'administrator',
-            ]
+            ],
         );
 
         if (is_multisite()) {
@@ -91,7 +92,7 @@ class WP_Test_REST_Site_Health_Controller extends WP_Test_REST_TestCase
             'site_health_test_rest_capability_dotorg_communication',
             static function () {
                 return 'a_custom_capability';
-            }
+            },
         );
 
         $response = rest_do_request('/wp-site-health/v1/tests/dotorg-communication');
@@ -124,12 +125,12 @@ class WP_Test_REST_Site_Health_Controller extends WP_Test_REST_TestCase
         $route = current($route);
         $this->assertSame(
             [WP_REST_Server::READABLE => true],
-            $route['methods']
+            $route['methods'],
         );
 
         $this->assertSame(
             'test_page_cache',
-            $route['callback'][1]
+            $route['callback'][1],
         );
 
         $this->assertIsCallable($route['permission_callback']);

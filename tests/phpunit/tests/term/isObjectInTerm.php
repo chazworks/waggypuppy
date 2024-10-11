@@ -31,8 +31,8 @@ class Tests_IsObjectInTerm extends WP_UnitTestCase
         $posts = self::factory()->post->create_many(2);
         wp_set_object_terms($posts[0], [$t1], 'wptests_tax');
 
-        $t1_str = (string) $t1;
-        $t2_str = (string) $t2;
+        $t1_str = (string)$t1;
+        $t2_str = (string)$t2;
 
         $this->assertTrue(is_object_in_term($posts[0], 'wptests_tax', [$t1_str, $t2_str]));
         $this->assertFalse(is_object_in_term($posts[1], 'wptests_tax', [$t1_str, $t2_str]));
@@ -47,14 +47,14 @@ class Tests_IsObjectInTerm extends WP_UnitTestCase
         $t1 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-                'name'     => 'Foo',
-            ]
+                'name' => 'Foo',
+            ],
         );
         $t2 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-                'name'     => 'Bar',
-            ]
+                'name' => 'Bar',
+            ],
         );
 
         $posts = self::factory()->post->create_many(2);
@@ -73,14 +73,14 @@ class Tests_IsObjectInTerm extends WP_UnitTestCase
         $t1 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-                'slug'     => 'foo',
-            ]
+                'slug' => 'foo',
+            ],
         );
         $t2 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-                'slug'     => 'bar',
-            ]
+                'slug' => 'bar',
+            ],
         );
 
         $posts = self::factory()->post->create_many(2);
@@ -99,14 +99,14 @@ class Tests_IsObjectInTerm extends WP_UnitTestCase
         $t1 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-                'slug'     => 'foo',
-            ]
+                'slug' => 'foo',
+            ],
         );
         $t2 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-                'slug'     => 'bar',
-            ]
+                'slug' => 'bar',
+            ],
         );
 
         $posts = self::factory()->post->create_many(2);

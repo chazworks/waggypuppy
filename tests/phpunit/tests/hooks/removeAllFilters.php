@@ -11,10 +11,10 @@ class Tests_Hooks_RemoveAllFilters extends WP_UnitTestCase
 
     public function test_remove_all_filters()
     {
-        $callback      = '__return_null';
-        $hook          = new WP_Hook();
-        $hook_name     = __FUNCTION__;
-        $priority      = 1;
+        $callback = '__return_null';
+        $hook = new WP_Hook();
+        $hook_name = __FUNCTION__;
+        $priority = 1;
         $accepted_args = 2;
 
         $hook->add_filter($hook_name, $callback, $priority, $accepted_args);
@@ -27,11 +27,11 @@ class Tests_Hooks_RemoveAllFilters extends WP_UnitTestCase
 
     public function test_remove_all_filters_with_priority()
     {
-        $callback_one  = '__return_null';
-        $callback_two  = '__return_false';
-        $hook          = new WP_Hook();
-        $hook_name     = __FUNCTION__;
-        $priority      = 1;
+        $callback_one = '__return_null';
+        $callback_two = '__return_false';
+        $hook = new WP_Hook();
+        $hook_name = __FUNCTION__;
+        $priority = 1;
         $accepted_args = 2;
 
         $hook->add_filter($hook_name, $callback_one, $priority, $accepted_args);
@@ -59,9 +59,10 @@ class Tests_Hooks_RemoveAllFilters extends WP_UnitTestCase
 
         $this->assertContains($priority, $priorities);
     }
+
     protected function get_priorities($hook)
     {
-        $reflection          = new ReflectionClass($hook);
+        $reflection = new ReflectionClass($hook);
         $reflection_property = $reflection->getProperty('priorities');
         $reflection_property->setAccessible(true);
 

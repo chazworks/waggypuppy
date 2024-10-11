@@ -58,9 +58,9 @@ final class WP_Customize_Selective_Refresh
     /**
      * Plugin bootstrap for Partial Refresh functionality.
      *
+     * @param WP_Customize_Manager $manager Customizer bootstrap instance.
      * @since 4.5.0
      *
-     * @param WP_Customize_Manager $manager Customizer bootstrap instance.
      */
     public function __construct(WP_Customize_Manager $manager)
     {
@@ -73,9 +73,9 @@ final class WP_Customize_Selective_Refresh
     /**
      * Retrieves the registered partials.
      *
+     * @return array Partials.
      * @since 4.5.0
      *
-     * @return array Partials.
      */
     public function partials()
     {
@@ -85,15 +85,15 @@ final class WP_Customize_Selective_Refresh
     /**
      * Adds a partial.
      *
-     * @since 4.5.0
-     *
-     * @see WP_Customize_Partial::__construct()
-     *
-     * @param WP_Customize_Partial|string $id   Customize Partial object, or Partial ID.
-     * @param array                       $args Optional. Array of properties for the new Partials object.
+     * @param WP_Customize_Partial|string $id Customize Partial object, or Partial ID.
+     * @param array $args Optional. Array of properties for the new Partials object.
      *                                          See WP_Customize_Partial::__construct() for information
      *                                          on accepted arguments. Default empty array.
      * @return WP_Customize_Partial The instance of the partial that was added.
+     * @see WP_Customize_Partial::__construct()
+     *
+     * @since 4.5.0
+     *
      */
     public function add_partial($id, $args = [])
     {
@@ -118,10 +118,10 @@ final class WP_Customize_Selective_Refresh
     /**
      * Retrieves a partial.
      *
-     * @since 4.5.0
-     *
      * @param string $id Customize Partial ID.
      * @return WP_Customize_Partial|null The partial, if set. Otherwise null.
+     * @since 4.5.0
+     *
      */
     public function get_partial($id)
     {
@@ -135,9 +135,9 @@ final class WP_Customize_Selective_Refresh
     /**
      * Removes a partial.
      *
+     * @param string $id Customize Partial ID.
      * @since 4.5.0
      *
-     * @param string $id Customize Partial ID.
      */
     public function remove_partial($id)
     {
@@ -182,12 +182,12 @@ final class WP_Customize_Selective_Refresh
         }
 
         $switched_locale = switch_to_user_locale(get_current_user_id());
-        $l10n            = [
+        $l10n = [
             'shiftClickToEdit' => __('Shift-click to edit this element.'),
-            'clickEditMenu'    => __('Click to edit this menu.'),
-            'clickEditWidget'  => __('Click to edit this widget.'),
-            'clickEditTitle'   => __('Click to edit the site title.'),
-            'clickEditMisc'    => __('Click to edit this element.'),
+            'clickEditMenu' => __('Click to edit this menu.'),
+            'clickEditWidget' => __('Click to edit this widget.'),
+            'clickEditTitle' => __('Click to edit the site title.'),
+            'clickEditMisc' => __('Click to edit this element.'),
             /* translators: %s: document.write() */
             'badDocumentWrite' => sprintf(__('%s is forbidden'), 'document.write()'),
         ];
@@ -196,9 +196,9 @@ final class WP_Customize_Selective_Refresh
         }
 
         $exports = [
-            'partials'       => $partials,
+            'partials' => $partials,
             'renderQueryVar' => self::RENDER_QUERY_VAR,
-            'l10n'           => $l10n,
+            'l10n' => $l10n,
         ];
 
         // Export data to JS.
@@ -208,26 +208,25 @@ final class WP_Customize_Selective_Refresh
     /**
      * Registers dynamically-created partials.
      *
+     * @param string[] $partial_ids Array of the partial IDs to add.
+     * @return WP_Customize_Partial[] Array of added WP_Customize_Partial instances.
      * @since 4.5.0
      *
      * @see WP_Customize_Manager::add_dynamic_settings()
      *
-     * @param string[] $partial_ids Array of the partial IDs to add.
-     * @return WP_Customize_Partial[] Array of added WP_Customize_Partial instances.
      */
     public function add_dynamic_partials($partial_ids)
     {
         $new_partials = [];
 
         foreach ($partial_ids as $partial_id) {
-
             // Skip partials already created.
             $partial = $this->get_partial($partial_id);
             if ($partial) {
                 continue;
             }
 
-            $partial_args  = false;
+            $partial_args = false;
             $partial_class = 'WP_Customize_Partial';
 
             /**
@@ -237,10 +236,10 @@ final class WP_Customize_Selective_Refresh
              * to override the default false value with an array of args to pass to
              * the WP_Customize_Partial constructor.
              *
+             * @param false|array $partial_args The arguments to the WP_Customize_Partial constructor.
+             * @param string $partial_id ID for dynamic partial.
              * @since 4.5.0
              *
-             * @param false|array $partial_args The arguments to the WP_Customize_Partial constructor.
-             * @param string      $partial_id   ID for dynamic partial.
              */
             $partial_args = apply_filters('customize_dynamic_partial_args', $partial_args, $partial_id);
             if (false === $partial_args) {
@@ -252,13 +251,14 @@ final class WP_Customize_Selective_Refresh
              *
              * Allow non-statically created partials to be constructed with custom WP_Customize_Partial subclass.
              *
+             * @param string $partial_class WP_Customize_Partial or a subclass.
+             * @param string $partial_id ID for dynamic partial.
+             * @param array $partial_args The arguments to the WP_Customize_Partial constructor.
              * @since 4.5.0
              *
-             * @param string $partial_class WP_Customize_Partial or a subclass.
-             * @param string $partial_id    ID for dynamic partial.
-             * @param array  $partial_args  The arguments to the WP_Customize_Partial constructor.
              */
-            $partial_class = apply_filters('customize_dynamic_partial_class', $partial_class, $partial_id, $partial_args);
+            $partial_class = apply_filters('customize_dynamic_partial_class', $partial_class, $partial_id,
+                $partial_args);
 
             $partial = new $partial_class($this, $partial_id, $partial_args);
 
@@ -274,13 +274,13 @@ final class WP_Customize_Selective_Refresh
      * Note that this will not consider whether the request is authorized or valid,
      * just that essentially the route is a match.
      *
+     * @return bool Whether the request is for rendering partials.
      * @since 4.5.0
      *
-     * @return bool Whether the request is for rendering partials.
      */
     public function is_render_partials_request()
     {
-        return ! empty($_POST[self::RENDER_QUERY_VAR]);
+        return !empty($_POST[self::RENDER_QUERY_VAR]);
     }
 
     /**
@@ -288,22 +288,22 @@ final class WP_Customize_Selective_Refresh
      *
      * These errors will be relayed back to the client in the Ajax response.
      *
+     * @param int $errno Error number.
+     * @param string $errstr Error string.
+     * @param string $errfile Error file.
+     * @param int $errline Error line.
+     * @return true Always true.
      * @since 4.5.0
      *
-     * @param int    $errno   Error number.
-     * @param string $errstr  Error string.
-     * @param string $errfile Error file.
-     * @param int    $errline Error line.
-     * @return true Always true.
      */
     public function handle_error($errno, $errstr, $errfile = null, $errline = null)
     {
         $this->triggered_errors[] = [
-            'partial'      => $this->current_partial_id,
+            'partial' => $this->current_partial_id,
             'error_number' => $errno,
             'error_string' => $errstr,
-            'error_file'   => $errfile,
-            'error_line'   => $errline,
+            'error_file' => $errfile,
+            'error_line' => $errline,
         ];
         return true;
     }
@@ -315,7 +315,7 @@ final class WP_Customize_Selective_Refresh
      */
     public function handle_render_partials_request()
     {
-        if (! $this->is_render_partials_request()) {
+        if (!$this->is_render_partials_request()) {
             return;
         }
 
@@ -324,9 +324,9 @@ final class WP_Customize_Selective_Refresh
          * user passed the 'customize' capability check and the nonce check, since
          * WP_Customize_Manager::setup_theme() is where the previewing flag is set.
          */
-        if (! is_customize_preview()) {
+        if (!is_customize_preview()) {
             wp_send_json_error('expected_customize_preview', 403);
-        } elseif (! isset($_POST['partials'])) {
+        } elseif (!isset($_POST['partials'])) {
             wp_send_json_error('missing_partials', 400);
         }
 
@@ -335,7 +335,7 @@ final class WP_Customize_Selective_Refresh
 
         $partials = json_decode(wp_unslash($_POST['partials']), true);
 
-        if (! is_array($partials)) {
+        if (!is_array($partials)) {
             wp_send_json_error('malformed_partials');
         }
 
@@ -347,12 +347,12 @@ final class WP_Customize_Selective_Refresh
          * Plugins may do things like call wp_enqueue_scripts() and gather a list of the scripts
          * and styles which may get enqueued in the response.
          *
-         * @since 4.5.0
-         *
-         * @param WP_Customize_Selective_Refresh $refresh  Selective refresh component.
-         * @param array                          $partials Placements' context data for the partials rendered in the request.
+         * @param WP_Customize_Selective_Refresh $refresh Selective refresh component.
+         * @param array $partials Placements' context data for the partials rendered in the request.
          *                                                 The array is keyed by partial ID, with each item being an array of
          *                                                 the placements' context data.
+         * @since 4.5.0
+         *
          */
         do_action('customize_render_partials_before', $this, $partials);
 
@@ -363,13 +363,13 @@ final class WP_Customize_Selective_Refresh
         foreach ($partials as $partial_id => $container_contexts) {
             $this->current_partial_id = $partial_id;
 
-            if (! is_array($container_contexts)) {
+            if (!is_array($container_contexts)) {
                 wp_send_json_error('malformed_container_contexts');
             }
 
             $partial = $this->get_partial($partial_id);
 
-            if (! $partial || ! $partial->check_capabilities()) {
+            if (!$partial || !$partial->check_capabilities()) {
                 $contents[$partial_id] = null;
                 continue;
             }
@@ -396,12 +396,12 @@ final class WP_Customize_Selective_Refresh
          * Plugins may do things like call wp_footer() to scrape scripts output and return them
          * via the {@see 'customize_render_partials_response'} filter.
          *
-         * @since 4.5.0
-         *
-         * @param WP_Customize_Selective_Refresh $refresh  Selective refresh component.
-         * @param array                          $partials Placements' context data for the partials rendered in the request.
+         * @param WP_Customize_Selective_Refresh $refresh Selective refresh component.
+         * @param array $partials Placements' context data for the partials rendered in the request.
          *                                                 The array is keyed by partial ID, with each item being an array of
          *                                                 the placements' context data.
+         * @since 4.5.0
+         *
          */
         do_action('customize_render_partials_after', $this, $partials);
 
@@ -413,8 +413,9 @@ final class WP_Customize_Selective_Refresh
             $response['errors'] = $this->triggered_errors;
         }
 
-        $setting_validities             = $this->manager->validate_setting_values($this->manager->unsanitized_post_values());
-        $exported_setting_validities    = array_map([$this->manager, 'prepare_setting_validity_for_js'], $setting_validities);
+        $setting_validities = $this->manager->validate_setting_values($this->manager->unsanitized_post_values());
+        $exported_setting_validities = array_map([$this->manager, 'prepare_setting_validity_for_js'],
+            $setting_validities);
         $response['setting_validities'] = $exported_setting_validities;
 
         /**
@@ -432,20 +433,20 @@ final class WP_Customize_Selective_Refresh
          * Plugins should be aware that `$scripts` and `$styles` may eventually be included by
          * default in the response.
          *
-         * @since 4.5.0
-         *
          * @param array $response {
          *     Response.
          *
-         *     @type array $contents Associative array mapping a partial ID its corresponding array of contents
+         * @type array $contents Associative array mapping a partial ID its corresponding array of contents
          *                           for the containers requested.
-         *     @type array $errors   List of errors triggered during rendering of partials, if `WP_DEBUG_DISPLAY`
+         * @type array $errors List of errors triggered during rendering of partials, if `WP_DEBUG_DISPLAY`
          *                           is enabled.
          * }
-         * @param WP_Customize_Selective_Refresh $refresh  Selective refresh component.
-         * @param array                          $partials Placements' context data for the partials rendered in the request.
+         * @param WP_Customize_Selective_Refresh $refresh Selective refresh component.
+         * @param array $partials Placements' context data for the partials rendered in the request.
          *                                                 The array is keyed by partial ID, with each item being an array of
          *                                                 the placements' context data.
+         * @since 4.5.0
+         *
          */
         $response = apply_filters('customize_render_partials_response', $response, $this, $partials);
 

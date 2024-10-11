@@ -23,8 +23,8 @@ class Tests_Compat_arrayIsList extends WP_UnitTestCase
      *
      * @ticket 55105
      *
-     * @param bool  $expected Whether the array is a list.
-     * @param array $arr      The array.
+     * @param bool $expected Whether the array is a list.
+     * @param array $arr The array.
      */
     public function test_array_is_list($expected, $arr)
     {
@@ -39,77 +39,77 @@ class Tests_Compat_arrayIsList extends WP_UnitTestCase
     public function data_array_is_list()
     {
         return [
-            'empty array'                   => [
+            'empty array' => [
                 'expected' => true,
-                'arr'      => [],
+                'arr' => [],
             ],
-            'array(NAN)'                    => [
+            'array(NAN)' => [
                 'expected' => true,
-                'arr'      => [NAN],
+                'arr' => [NAN],
             ],
-            'array( INF )'                  => [
+            'array( INF )' => [
                 'expected' => true,
-                'arr'      => [INF],
+                'arr' => [INF],
             ],
-            'consecutive int keys from 0'   => [
+            'consecutive int keys from 0' => [
                 'expected' => true,
-                'arr'      => [
+                'arr' => [
                     0 => 'one',
                     1 => 'two',
                 ],
             ],
             'consecutive float keys from 0' => [
                 'expected' => true,
-                'arr'      => [
+                'arr' => [
                     0.0 => 'one',
                     1.0 => 'two',
                 ],
             ],
-            'consecutive str keys from 0'   => [
+            'consecutive str keys from 0' => [
                 'expected' => true,
-                'arr'      => [
+                'arr' => [
                     '0' => 'one',
                     '1' => 'two',
                 ],
             ],
-            'consecutive int keys from 1'   => [
+            'consecutive int keys from 1' => [
                 'expected' => false,
-                'arr'      => [
+                'arr' => [
                     1 => 'one',
                     2 => 'two',
                 ],
             ],
             'consecutive float keys from 1' => [
                 'expected' => false,
-                'arr'      => [
+                'arr' => [
                     1.0 => 'one',
                     2.0 => 'two',
                 ],
             ],
-            'consecutive str keys from 1'   => [
+            'consecutive str keys from 1' => [
                 'expected' => false,
-                'arr'      => [
+                'arr' => [
                     '1' => 'one',
                     '2' => 'two',
                 ],
             ],
-            'non-consecutive int keys'      => [
+            'non-consecutive int keys' => [
                 'expected' => false,
-                'arr'      => [
+                'arr' => [
                     1 => 'one',
                     0 => 'two',
                 ],
             ],
-            'non-consecutive float keys'    => [
+            'non-consecutive float keys' => [
                 'expected' => false,
-                'arr'      => [
+                'arr' => [
                     1.0 => 'one',
                     0.0 => 'two',
                 ],
             ],
-            'non-consecutive string keys'   => [
+            'non-consecutive string keys' => [
                 'expected' => false,
-                'arr'      => [
+                'arr' => [
                     '1' => 'one',
                     '0' => 'two',
                 ],

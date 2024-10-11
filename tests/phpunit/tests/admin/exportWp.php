@@ -21,25 +21,25 @@ class Tests_Admin_ExportWp extends WP_UnitTestCase
      * IDs will be created in this order.
      *
      * @var array {
-     *      @type array $data {
+     * @type array $data {
      *          Data for each post, page, or attachment.
      *
-     *          @type int $post_id        The ID for the post, page, or attachment.
-     *          @type int $post_author    The author's ID.
-     *          @type int $xml_item_index The XML item index for this post, page, or attachment.
+     * @type int $post_id The ID for the post, page, or attachment.
+     * @type int $post_author The author's ID.
+     * @type int $xml_item_index The XML item index for this post, page, or attachment.
      *                                    This number is based upon all of the posts, pages, and attachments
      *                                    in the self::$post_ids static property.
      *      }
      * }
      */
     private static $post_ids = [
-        'post 1'                => [],
+        'post 1' => [],
         'attachment for post 1' => [],
-        'post 2'                => [],
+        'post 2' => [],
         'attachment for post 2' => [],
-        'page 1'                => [],
+        'page 1' => [],
         'attachment for page 1' => [],
-        'page 2'                => [],
+        'page 2' => [],
         'attachment for page 2' => [],
     ];
 
@@ -51,40 +51,40 @@ class Tests_Admin_ExportWp extends WP_UnitTestCase
         $dataset = [
             'post 1' => [
                 'post_title' => 'Test Post 1',
-                'post_type'  => 'post',
+                'post_type' => 'post',
             ],
             'post 2' => [
                 'post_title' => 'Test Post 2',
-                'post_type'  => 'post',
+                'post_type' => 'post',
             ],
             'page 1' => [
                 'post_title' => 'Test Page 1',
-                'post_type'  => 'page',
+                'post_type' => 'page',
             ],
             'page 2' => [
                 'post_title' => 'Test Page 2',
-                'post_type'  => 'page',
+                'post_type' => 'page',
             ],
         ];
 
         $xml_item_index = -1;
 
         foreach ($dataset as $post_key => $post_data) {
-            $attachment_key           = "attachment for $post_key";
+            $attachment_key = "attachment for $post_key";
             $post_data['post_author'] = $factory->user->create(['role' => 'editor']);
 
-            $post_id       = $factory->post->create($post_data);
+            $post_id = $factory->post->create($post_data);
             $attachment_id = $factory->attachment->create_upload_object($file, $post_id);
             set_post_thumbnail($post_id, $attachment_id);
 
-            self::$post_ids[$post_key]       = [
-                'post_id'        => $post_id,
-                'post_author'    => $post_data['post_author'],
+            self::$post_ids[$post_key] = [
+                'post_id' => $post_id,
+                'post_author' => $post_data['post_author'],
                 'xml_item_index' => ++$xml_item_index,
             ];
             self::$post_ids[$attachment_key] = [
-                'post_id'        => $attachment_id,
-                'post_author'    => $post_data['post_author'],
+                'post_id' => $attachment_id,
+                'post_author' => $post_data['post_author'],
                 'xml_item_index' => ++$xml_item_index,
             ];
         }
@@ -95,17 +95,17 @@ class Tests_Admin_ExportWp extends WP_UnitTestCase
      *
      * @ticket 17379
      *
-     * @param array $args            Arguments to pass to export_wp().
+     * @param array $args Arguments to pass to export_wp().
      * @param array $expected {
      *     The expected data.
      *
-     *     @type array $items {
+     * @type array $items {
      *         The expected XML items count assertion arguments.
      *
-     *         @type int    $number_of_items The expected number of XML items.
-     *         @type string $message         The assertion failure message.
+     * @type int $number_of_items The expected number of XML items.
+     * @type string $message The assertion failure message.
      *     }
-     *     @type array $ids A list of self::$post_ids keys.
+     * @type array $ids A list of self::$post_ids keys.
      */
     public function test_should_include_attachments(array $args, array $expected)
     {
@@ -122,8 +122,8 @@ class Tests_Admin_ExportWp extends WP_UnitTestCase
 
             $this->assertSame(
                 $this->get_expected_id($post_ids_key),
-                (int) $xml_item->post_id,
-                "In the XML, the {$post_ids_key}'s ID should match the expected content"
+                (int)$xml_item->post_id,
+                "In the XML, the {$post_ids_key}'s ID should match the expected content",
             );
         }
     }
@@ -136,16 +136,16 @@ class Tests_Admin_ExportWp extends WP_UnitTestCase
     public function data_should_include_attachments()
     {
         return [
-            'for all content'           => [
-                'args'     => [
+            'for all content' => [
+                'args' => [
                     'content' => 'all',
                 ],
                 'expected' => [
                     'items' => [
                         'number_of_items' => 8,
-                        'message'         => 'The number of items should be 8 = 2 pages, 2 posts and 4 attachments',
+                        'message' => 'The number of items should be 8 = 2 pages, 2 posts and 4 attachments',
                     ],
-                    'ids'   => [
+                    'ids' => [
                         'post 1',
                         'post 2',
                         'page 1',
@@ -157,16 +157,16 @@ class Tests_Admin_ExportWp extends WP_UnitTestCase
                     ],
                 ],
             ],
-            'for all posts'             => [
-                'args'     => [
+            'for all posts' => [
+                'args' => [
                     'content' => 'post',
                 ],
                 'expected' => [
                     'items' => [
                         'number_of_items' => 4,
-                        'message'         => 'The number of items should be 4 = 2 posts and 2 attachments',
+                        'message' => 'The number of items should be 4 = 2 posts and 2 attachments',
                     ],
-                    'ids'   => [
+                    'ids' => [
                         'post 1',
                         'post 2',
                         'attachment for post 1',
@@ -174,16 +174,16 @@ class Tests_Admin_ExportWp extends WP_UnitTestCase
                     ],
                 ],
             ],
-            'for all pages'             => [
-                'args'     => [
+            'for all pages' => [
+                'args' => [
                     'content' => 'page',
                 ],
                 'expected' => [
                     'items' => [
                         'number_of_items' => 4,
-                        'message'         => 'The number of items should be 4 = 2 pages and 2 attachments',
+                        'message' => 'The number of items should be 4 = 2 pages and 2 attachments',
                     ],
-                    'ids'   => [
+                    'ids' => [
                         'page 1',
                         'attachment for page 1',
                         'page 2',
@@ -192,32 +192,32 @@ class Tests_Admin_ExportWp extends WP_UnitTestCase
                 ],
             ],
             'for specific author posts' => [
-                'args'     => [
+                'args' => [
                     'content' => 'post',
-                    'author'  => '', // The test will populate the author's ID.
+                    'author' => '', // The test will populate the author's ID.
                 ],
                 'expected' => [
                     'items' => [
                         'number_of_items' => 2,
-                        'message'         => 'The number of items should be 2 = 1 post and 1 attachment',
+                        'message' => 'The number of items should be 2 = 1 post and 1 attachment',
                     ],
-                    'ids'   => [
+                    'ids' => [
                         'post 1',
                         'attachment for post 1',
                     ],
                 ],
             ],
             'for specific author pages' => [
-                'args'     => [
+                'args' => [
                     'content' => 'page',
-                    'author'  => '', // The test will populate the author's ID.
+                    'author' => '', // The test will populate the author's ID.
                 ],
                 'expected' => [
                     'items' => [
                         'number_of_items' => 2,
-                        'message'         => 'The number of items should be 2 = 1 page and 1 attachment',
+                        'message' => 'The number of items should be 2 = 1 page and 1 attachment',
                     ],
-                    'ids'   => [
+                    'ids' => [
                         'page 2',
                         'attachment for page 2',
                     ],
@@ -229,10 +229,10 @@ class Tests_Admin_ExportWp extends WP_UnitTestCase
     /**
      * Gets the export results.
      *
-     * @since 6.5.0
-     *
      * @param array $args Arguments to pass to export_wp().
      * @return SimpleXMLElement|false Returns the XML object on success, otherwise false is returned.
+     * @since 6.5.0
+     *
      */
     private function get_the_export($args)
     {
@@ -246,10 +246,10 @@ class Tests_Admin_ExportWp extends WP_UnitTestCase
     /**
      * Gets the expected ID.
      *
-     * @since 6.5.0
-     *
      * @param string $post_ids_key The key to lookup in the $post_ids static property.
      * @return int Expected ID.
+     * @since 6.5.0
+     *
      */
     private function get_expected_id($post_ids_key)
     {
@@ -261,12 +261,12 @@ class Tests_Admin_ExportWp extends WP_UnitTestCase
     /**
      * Gets the XML item for the given post or attachment in the self::$post_ids.
      *
+     * @param SimpleXMLElement $xml XML object.
+     * @param string $post_ids_key The key to lookup in the $post_ids static property.
+     * @param int $number_of_items The number of expected XML items.
+     * @return SimpleXMLElement The XML item.
      * @since 6.5.0
      *
-     * @param SimpleXMLElement $xml             XML object.
-     * @param string           $post_ids_key    The key to lookup in the $post_ids static property.
-     * @param int              $number_of_items The number of expected XML items.
-     * @return SimpleXMLElement The XML item.
      */
     private function get_xml_item($xml, $post_ids_key, $number_of_items)
     {
@@ -286,16 +286,16 @@ class Tests_Admin_ExportWp extends WP_UnitTestCase
     /**
      * Populates the post author in the given args.
      *
+     * @param array $args Passed by reference. export_wp() arguments to process.
      * @since 6.5.0
      *
-     * @param array $args Passed by reference. export_wp() arguments to process.
      */
     private function populate_args_post_authors(array &$args, $expected_ids)
     {
-        if (! isset($args['author'])) {
+        if (!isset($args['author'])) {
             return;
         }
-        $post_ids_key   = $expected_ids[0];
+        $post_ids_key = $expected_ids[0];
         $args['author'] = self::$post_ids[$post_ids_key]['post_author'];
     }
 }

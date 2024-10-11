@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test wp_prime_option_caches_by_group().
  *

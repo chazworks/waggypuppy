@@ -8,18 +8,18 @@
 /**
  * Renders the `core/post-content` block on the server.
  *
+ * @param array $attributes Block attributes.
+ * @param string $content Block default content.
+ * @param WP_Block $block Block instance.
+ * @return string Returns the filtered post content of the current post.
  * @since 5.8.0
  *
- * @param array    $attributes Block attributes.
- * @param string   $content    Block default content.
- * @param WP_Block $block      Block instance.
- * @return string Returns the filtered post content of the current post.
  */
 function render_block_core_post_content($attributes, $content, $block)
 {
     static $seen_ids = [];
 
-    if (! isset($block->context['postId'])) {
+    if (!isset($block->context['postId'])) {
         return '';
     }
 
@@ -30,9 +30,11 @@ function render_block_core_post_content($attributes, $content, $block)
         // is set in `wp_debug_mode()`.
         $is_debug = WP_DEBUG && WP_DEBUG_DISPLAY;
 
-        return $is_debug ?
+        return $is_debug
+            ?
             // translators: Visible only in the front end, this warning takes the place of a faulty block.
-            __('[block rendering halted]') :
+            __('[block rendering halted]')
+            :
             '';
     }
 
@@ -59,7 +61,7 @@ function render_block_core_post_content($attributes, $content, $block)
 
     return (
         '<div ' . $wrapper_attributes . '>' .
-            $content .
+        $content .
         '</div>'
     );
 }
@@ -75,7 +77,8 @@ function register_block_core_post_content()
         __DIR__ . '/post-content',
         [
             'render_callback' => 'render_block_core_post_content',
-        ]
+        ],
     );
 }
+
 add_action('init', 'register_block_core_post_content');

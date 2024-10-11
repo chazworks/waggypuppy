@@ -29,13 +29,13 @@ class Tests_Filesystem_WpFilesystemDirect_Construct extends WP_Filesystem_Direct
         $this->assertSame(
             'direct',
             $filesystem->method,
-            'The "$method" property is not set to "direct".'
+            'The "$method" property is not set to "direct".',
         );
 
         $this->assertInstanceOf(
             'WP_Error',
             $filesystem->errors,
-            'The "$errors" property is not set to a WP_Error object.'
+            'The "$errors" property is not set to a WP_Error object.',
         );
     }
 }

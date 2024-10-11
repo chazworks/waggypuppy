@@ -13,11 +13,11 @@ class Tests_Import_Import extends WP_Import_UnitTestCase
 
         parent::set_up();
 
-        if (! defined('WP_IMPORTING')) {
+        if (!defined('WP_IMPORTING')) {
             define('WP_IMPORTING', true);
         }
 
-        if (! defined('WP_LOAD_IMPORTERS')) {
+        if (!defined('WP_LOAD_IMPORTERS')) {
             define('WP_LOAD_IMPORTERS', true);
         }
 
@@ -26,7 +26,16 @@ class Tests_Import_Import extends WP_Import_UnitTestCase
         require_once IMPORTER_PLUGIN_FOR_TESTS;
 
         // Crude but effective: make sure there's no residual data in the main tables.
-        foreach (['posts', 'postmeta', 'comments', 'terms', 'term_taxonomy', 'term_relationships', 'users', 'usermeta'] as $table) {
+        foreach ([
+                     'posts',
+                     'postmeta',
+                     'comments',
+                     'terms',
+                     'term_taxonomy',
+                     'term_relationships',
+                     'users',
+                     'usermeta',
+                 ] as $table) {
             $wpdb->query("DELETE FROM {$wpdb->$table}");
         }
     }
@@ -39,7 +48,7 @@ class Tests_Import_Import extends WP_Import_UnitTestCase
         global $wpdb;
 
         $authors = [
-            'admin'  => false,
+            'admin' => false,
             'editor' => false,
             'author' => false,
         ];
@@ -65,7 +74,7 @@ class Tests_Import_Import extends WP_Import_UnitTestCase
         $this->assertSame('3', wp_count_terms(['taxonomy' => 'post_tag']));
         $foo = get_term_by('slug', 'foo', 'category');
         $this->assertSame(0, $foo->parent);
-        $bar     = get_term_by('slug', 'bar', 'category');
+        $bar = get_term_by('slug', 'bar', 'category');
         $foo_bar = get_term_by('slug', 'foo-bar', 'category');
         $this->assertSame($bar->term_id, $foo_bar->parent);
 
@@ -82,10 +91,10 @@ class Tests_Import_Import extends WP_Import_UnitTestCase
         $posts = get_posts(
             [
                 'numberposts' => 20,
-                'post_type'   => 'any',
+                'post_type' => 'any',
                 'post_status' => 'any',
-                'orderby'     => 'ID',
-            ]
+                'orderby' => 'ID',
+            ],
         );
         $this->assertCount(11, $posts);
 
@@ -209,7 +218,7 @@ class Tests_Import_Import extends WP_Import_UnitTestCase
     public function test_double_import()
     {
         $authors = [
-            'admin'  => false,
+            'admin' => false,
             'editor' => false,
             'author' => false,
         ];
@@ -234,7 +243,7 @@ class Tests_Import_Import extends WP_Import_UnitTestCase
         $this->assertSame('3', wp_count_terms(['taxonomy' => 'post_tag']));
         $foo = get_term_by('slug', 'foo', 'category');
         $this->assertSame(0, $foo->parent);
-        $bar     = get_term_by('slug', 'bar', 'category');
+        $bar = get_term_by('slug', 'bar', 'category');
         $foo_bar = get_term_by('slug', 'foo-bar', 'category');
         $this->assertSame($bar->term_id, $foo_bar->parent);
 
@@ -255,7 +264,7 @@ class Tests_Import_Import extends WP_Import_UnitTestCase
     {
         global $wp_importers;
         $_wp_importers = $wp_importers; // Preserve global state.
-        $wp_importers  = [
+        $wp_importers = [
             'xyz1' => ['xyz1'],
             'XYZ2' => ['XYZ2'],
             'abc2' => ['abc2'],
@@ -270,7 +279,7 @@ class Tests_Import_Import extends WP_Import_UnitTestCase
                 'xyz1' => ['xyz1'],
                 'XYZ2' => ['XYZ2'],
             ],
-            get_importers()
+            get_importers(),
         );
         $wp_importers = $_wp_importers; // Restore global state.
     }
@@ -295,9 +304,9 @@ class Tests_Import_Import extends WP_Import_UnitTestCase
 
         $posts = get_posts(
             [
-                'post_type'   => 'any',
+                'post_type' => 'any',
                 'post_status' => 'any',
-            ]
+            ],
         );
         $this->assertSame('Slashes aren\\\'t \"cool\"', $posts[0]->post_content);
     }

@@ -26,8 +26,8 @@ class Tests_Formatting_MapDeep extends WP_UnitTestCase
                     'a',
                     'x',
                 ],
-                [$this, 'append_baba']
-            )
+                [$this, 'append_baba'],
+            ),
         );
     }
 
@@ -47,8 +47,8 @@ class Tests_Formatting_MapDeep extends WP_UnitTestCase
                         'x',
                     ],
                 ],
-                [$this, 'append_baba']
-            )
+                [$this, 'append_baba'],
+            ),
         );
     }
 
@@ -57,19 +57,19 @@ class Tests_Formatting_MapDeep extends WP_UnitTestCase
         $this->assertEqualSets(
             [
                 'var0' => 'ababa',
-                'var1' => (object) [
+                'var1' => (object)[
                     'var0' => 'xbaba',
                 ],
             ],
             map_deep(
                 [
                     'var0' => 'a',
-                    'var1' => (object) [
+                    'var1' => (object)[
                         'var0' => 'x',
                     ],
                 ],
-                [$this, 'append_baba']
-            )
+                [$this, 'append_baba'],
+            ),
         );
     }
 
@@ -86,59 +86,59 @@ class Tests_Formatting_MapDeep extends WP_UnitTestCase
     public function test_map_deep_should_map_each_property_of_an_object()
     {
         $this->assertEquals(
-            (object) [
+            (object)[
                 'var0' => 'ababa',
                 'var1' => 'xbaba',
             ],
             map_deep(
-                (object) [
+                (object)[
                     'var0' => 'a',
                     'var1' => 'x',
                 ],
-                [$this, 'append_baba']
-            )
+                [$this, 'append_baba'],
+            ),
         );
     }
 
     public function test_map_deep_should_map_each_array_property_of_an_object()
     {
         $this->assertEquals(
-            (object) [
+            (object)[
                 'var0' => 'ababa',
                 'var1' => [
                     'xbaba',
                 ],
             ],
             map_deep(
-                (object) [
+                (object)[
                     'var0' => 'a',
                     'var1' => [
                         'x',
                     ],
                 ],
-                [$this, 'append_baba']
-            )
+                [$this, 'append_baba'],
+            ),
         );
     }
 
     public function test_map_deep_should_map_each_object_property_of_an_object()
     {
         $this->assertEquals(
-            (object) [
+            (object)[
                 'var0' => 'ababa',
-                'var1' => (object) [
+                'var1' => (object)[
                     'var0' => 'xbaba',
                 ],
             ],
             map_deep(
-                (object) [
+                (object)[
                     'var0' => 'a',
-                    'var1' => (object) [
+                    'var1' => (object)[
                         'var0' => 'x',
                     ],
                 ],
-                [$this, 'append_baba']
-            )
+                [$this, 'append_baba'],
+            ),
         );
     }
 
@@ -147,17 +147,17 @@ class Tests_Formatting_MapDeep extends WP_UnitTestCase
      */
     public function test_map_deep_should_map_object_properties_passed_by_reference()
     {
-        $object_a = (object) ['var0' => 'a'];
-        $object_b = (object) [
+        $object_a = (object)['var0' => 'a'];
+        $object_b = (object)[
             'var0' => &$object_a->var0,
             'var1' => 'x',
         ];
         $this->assertEquals(
-            (object) [
+            (object)[
                 'var0' => 'ababa',
                 'var1' => 'xbaba',
             ],
-            map_deep($object_b, [$this, 'append_baba'])
+            map_deep($object_b, [$this, 'append_baba']),
         );
     }
 
@@ -176,7 +176,7 @@ class Tests_Formatting_MapDeep extends WP_UnitTestCase
                 'var0' => 'ababa',
                 'var1' => 'xbaba',
             ],
-            map_deep($array_b, [$this, 'append_baba'])
+            map_deep($array_b, [$this, 'append_baba']),
         );
     }
 

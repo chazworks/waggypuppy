@@ -25,7 +25,7 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase
         $this->assertSame(
             WP_HTML_Processor::normalize("apples > or\x00anges"),
             'apples &gt; oranges',
-            'Should have returned an HTML string with applicable characters properly encoded.'
+            'Should have returned an HTML string with applicable characters properly encoded.',
         );
     }
 
@@ -43,7 +43,7 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase
         $this->assertSame(
             WP_HTML_Processor::normalize('<div>'),
             '<div></div>',
-            'Should have provided the explicit closer to the un-closed DIV element.'
+            'Should have provided the explicit closer to the un-closed DIV element.',
         );
     }
 
@@ -57,7 +57,7 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase
         $this->assertSame(
             WP_HTML_Processor::normalize('<input disabled>'),
             '<input disabled>',
-            'Should have preserved the boolean attribute upon serialization.'
+            'Should have preserved the boolean attribute upon serialization.',
         );
     }
 
@@ -71,7 +71,7 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase
         $this->assertSame(
             WP_HTML_Processor::normalize('<p id=3></p>'),
             '<p id="3"></p>',
-            'Should double-quote all attribute values.'
+            'Should double-quote all attribute values.',
         );
     }
 
@@ -97,7 +97,7 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase
         $this->assertSame(
             WP_HTML_Processor::normalize('<br class="clear"/>'),
             '<br class="clear">',
-            'Should have removed dangerous self-closing flag on HTML void element.'
+            'Should have removed dangerous self-closing flag on HTML void element.',
         );
     }
 
@@ -111,7 +111,7 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase
         $this->assertSame(
             WP_HTML_Processor::normalize('<div one=1 one="one" one=\'won\' one>'),
             '<div one="1"></div>',
-            'Should have removed all but the first copy of an attribute when duplicates exist.'
+            'Should have removed all but the first copy of an attribute when duplicates exist.',
         );
     }
 
@@ -125,7 +125,7 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase
         $this->assertSame(
             WP_HTML_Processor::normalize("<script>apples > or\x00anges</script>"),
             "<script>apples > or\u{FFFD}anges</script>",
-            'Should have preserved text inside a SCRIPT element, except for replacing NULL bytes.'
+            'Should have preserved text inside a SCRIPT element, except for replacing NULL bytes.',
         );
     }
 
@@ -139,7 +139,7 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase
         $this->assertSame(
             WP_HTML_Processor::normalize("<style>apples > or\x00anges</style>"),
             "<style>apples > or\u{FFFD}anges</style>",
-            'Should have preserved text inside a STYLE element, except for replacing NULL bytes.'
+            'Should have preserved text inside a STYLE element, except for replacing NULL bytes.',
         );
     }
 
@@ -148,7 +148,7 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase
         $this->assertSame(
             WP_HTML_Processor::normalize('one</div>two</span>three'),
             'onetwothree',
-            'Should have removed unpected closing tags.'
+            'Should have removed unpected closing tags.',
         );
     }
 
@@ -162,7 +162,7 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase
         $this->assertSame(
             WP_HTML_Processor::normalize('<svg><g><g /></svg>'),
             '<svg><g><g /></g></svg>',
-            'Should have closed unclosed G element, but preserved the self-closing nature of the other G element.'
+            'Should have closed unclosed G element, but preserved the self-closing nature of the other G element.',
         );
     }
 
@@ -181,7 +181,7 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase
         $this->assertSame(
             WP_HTML_Processor::normalize("content{$incomplete_token}"),
             'content',
-            'Should have removed the incomplete token from the end of the input.'
+            'Should have removed the incomplete token from the end of the input.',
         );
     }
 
@@ -193,10 +193,10 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase
     public static function data_incomplete_syntax_tokens()
     {
         return [
-            'Comment opener'       => ['<!--'],
+            'Comment opener' => ['<!--'],
             'Bogus comment opener' => ['<![sneaky['],
-            'Incomplete tag'       => ['<my-custom status="pending"'],
-            'SCRIPT opening tag'   => ['<script>'],
+            'Incomplete tag' => ['<my-custom status="pending"'],
+            'SCRIPT opening tag' => ['<script>'],
         ];
     }
 
@@ -210,7 +210,7 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase
         $this->assertSame(
             WP_HTML_Processor::normalize('<>'),
             '&lt;&gt;',
-            'Should have encoded the invalid presumptuous opening tag as plaintext.'
+            'Should have encoded the invalid presumptuous opening tag as plaintext.',
         );
     }
 
@@ -224,7 +224,7 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase
         $this->assertSame(
             WP_HTML_Processor::normalize('</>'),
             '',
-            'Should have completely ignored the presumptuous tag closer.'
+            'Should have completely ignored the presumptuous tag closer.',
         );
     }
 
@@ -235,16 +235,16 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase
      *
      * @dataProvider data_bogus_comments
      *
-     * @param string $opening      Start of bogus comment, e.g. "<!".
+     * @param string $opening Start of bogus comment, e.g. "<!".
      * @param string $comment_text Comment content, as reported in a browser.
-     * @param string $closing      End of bogus comment, e.g. ">".
+     * @param string $closing End of bogus comment, e.g. ">".
      */
     public function test_normalizes_bogus_comment_forms(string $opening, string $comment_text, string $closing)
     {
         $this->assertSame(
             WP_HTML_Processor::normalize("{$opening}{$comment_text}{$closing}"),
             "<!--{$comment_text}-->",
-            'Should have replaced the invalid comment syntax with normative syntax.'
+            'Should have replaced the invalid comment syntax with normative syntax.',
         );
     }
 
@@ -256,12 +256,12 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase
     public function data_bogus_comments()
     {
         return [
-            'False DOCTYPE'                         => ['<!', 'html', '>'],
-            'CDATA look-alike'                      => ['<!', '[CDATA[inside]]', '>'],
+            'False DOCTYPE' => ['<!', 'html', '>'],
+            'CDATA look-alike' => ['<!', '[CDATA[inside]]', '>'],
             'Immediately-closed markup instruction' => ['<!', '?', '>'],
-            'Warning Symbol'                        => ['<!', '', '>'],
-            'PHP block look-alike'                  => ['<', '?php foo(); ?', '>'],
-            'Funky comment'                         => ['</', '%display-name', '>'],
+            'Warning Symbol' => ['<!', '', '>'],
+            'PHP block look-alike' => ['<', '?php foo(); ?', '>'],
+            'Funky comment' => ['</', '%display-name', '>'],
             'XML Processing Instruction look-alike' => ['<', '?xml foo ', '>'],
         ];
     }
@@ -281,7 +281,7 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase
         $this->assertSame(
             WP_HTML_Processor::normalize($html_with_nulls),
             $expected_output,
-            'Should have properly replaced or removed NULL bytes.'
+            'Should have properly replaced or removed NULL bytes.',
         );
     }
 
@@ -293,14 +293,14 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase
     public static function data_tokens_with_null_bytes()
     {
         return [
-            'Tag name'             => ["<img\x00id=5>", "<img\u{FFFD}id=5></img\u{FFFD}id=5>"],
-            'Attribute name'       => ["<img/\x00id=5>", "<img \u{FFFD}id=\"5\">"],
-            'Attribute value'      => ["<img id='5\x00'>", "<img id=\"5\u{FFFD}\">"],
-            'Body text'            => ["one\x00two", 'onetwo'],
+            'Tag name' => ["<img\x00id=5>", "<img\u{FFFD}id=5></img\u{FFFD}id=5>"],
+            'Attribute name' => ["<img/\x00id=5>", "<img \u{FFFD}id=\"5\">"],
+            'Attribute value' => ["<img id='5\x00'>", "<img id=\"5\u{FFFD}\">"],
+            'Body text' => ["one\x00two", 'onetwo'],
             'Foreign content text' => ["<svg>one\x00two</svg>", "<svg>one\u{FFFD}two</svg>"],
-            'SCRIPT content'       => ["<script>alert(\x00)</script>", "<script>alert(\u{FFFD})</script>"],
-            'STYLE content'        => ["<style>\x00 {}</style>", "<style>\u{FFFD} {}</style>"],
-            'Comment text'         => ["<!-- \x00 -->", "<!-- \u{FFFD} -->"],
+            'SCRIPT content' => ["<script>alert(\x00)</script>", "<script>alert(\u{FFFD})</script>"],
+            'STYLE content' => ["<style>\x00 {}</style>", "<style>\u{FFFD} {}</style>"],
+            'Comment text' => ["<!-- \x00 -->", "<!-- \u{FFFD} -->"],
         ];
     }
 }

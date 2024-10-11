@@ -8,18 +8,18 @@
 /**
  * Function that recursively renders a list of nested comments.
  *
- * @since 6.3.0 Changed render_block_context priority to `1`.
- *
+ * @param WP_Comment[] $comments The array of comments.
+ * @param WP_Block $block Block instance.
+ * @return string
  * @global int $comment_depth
  *
- * @param WP_Comment[] $comments        The array of comments.
- * @param WP_Block     $block           Block instance.
- * @return string
+ * @since 6.3.0 Changed render_block_context priority to `1`.
+ *
  */
 function block_core_comment_template_render_comments($comments, $block)
 {
     global $comment_depth;
-    $thread_comments       = get_option('thread_comments');
+    $thread_comments = get_option('thread_comments');
     $thread_comments_depth = get_option('thread_comments_depth');
 
     if (empty($comment_depth)) {
@@ -28,7 +28,7 @@ function block_core_comment_template_render_comments($comments, $block)
 
     $content = '';
     foreach ($comments as $comment) {
-        $comment_id           = $comment->comment_ID;
+        $comment_id = $comment->comment_ID;
         $filter_block_context = static function ($context) use ($comment_id) {
             $context['commentId'] = $comment_id;
             return $context;
@@ -67,24 +67,25 @@ function block_core_comment_template_render_comments($comments, $block)
 
         // If the comment has children, recurse to create the HTML for the nested
         // comments.
-        if (! empty($children) && ! empty($thread_comments)) {
+        if (!empty($children) && !empty($thread_comments)) {
             if ($comment_depth < $thread_comments_depth) {
                 ++$comment_depth;
-                $inner_content  = block_core_comment_template_render_comments(
+                $inner_content = block_core_comment_template_render_comments(
                     $children,
-                    $block
+                    $block,
                 );
                 $block_content .= sprintf('<ol>%1$s</ol>', $inner_content);
                 --$comment_depth;
             } else {
                 $block_content .= block_core_comment_template_render_comments(
                     $children,
-                    $block
+                    $block,
                 );
             }
         }
 
-        $content .= sprintf('<li id="comment-%1$s" %2$s>%3$s</li>', $comment->comment_ID, $comment_classes, $block_content);
+        $content .= sprintf('<li id="comment-%1$s" %2$s>%3$s</li>', $comment->comment_ID, $comment_classes,
+            $block_content);
     }
 
     return $content;
@@ -93,14 +94,14 @@ function block_core_comment_template_render_comments($comments, $block)
 /**
  * Renders the `core/comment-template` block on the server.
  *
- * @since 6.0.0
- *
- * @param array    $attributes Block attributes.
- * @param string   $content    Block default content.
- * @param WP_Block $block      Block instance.
+ * @param array $attributes Block attributes.
+ * @param string $content Block default content.
+ * @param WP_Block $block Block instance.
  *
  * @return string Returns the HTML representing the comments using the layout
  * defined by the block's inner blocks.
+ * @since 6.0.0
+ *
  */
 function render_block_core_comment_template($attributes, $content, $block)
 {
@@ -114,7 +115,7 @@ function render_block_core_comment_template($attributes, $content, $block)
     }
 
     $comment_query = new WP_Comment_Query(
-        build_comment_query_vars_from_block($block)
+        build_comment_query_vars_from_block($block),
     );
 
     // Get an array of comments for the current post.
@@ -134,7 +135,7 @@ function render_block_core_comment_template($attributes, $content, $block)
     return sprintf(
         '<ol %1$s>%2$s</ol>',
         $wrapper_attributes,
-        block_core_comment_template_render_comments($comments, $block)
+        block_core_comment_template_render_comments($comments, $block),
     );
 }
 
@@ -148,9 +149,10 @@ function register_block_core_comment_template()
     register_block_type_from_metadata(
         __DIR__ . '/comment-template',
         [
-            'render_callback'   => 'render_block_core_comment_template',
+            'render_callback' => 'render_block_core_comment_template',
             'skip_inner_blocks' => true,
-        ]
+        ],
     );
 }
+
 add_action('init', 'register_block_core_comment_template');

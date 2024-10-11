@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tests for the WP_Customize_Selective_Refresh class.
  *
@@ -31,7 +32,7 @@ class Test_WP_Customize_Selective_Refresh extends WP_UnitTestCase
         parent::set_up();
         require_once ABSPATH . WPINC . '/class-wp-customize-manager.php';
         $GLOBALS['wp_customize'] = new WP_Customize_Manager();
-        $this->wp_customize      = $GLOBALS['wp_customize'];
+        $this->wp_customize = $GLOBALS['wp_customize'];
         if (isset($this->wp_customize->selective_refresh)) {
             $this->selective_refresh = $this->wp_customize->selective_refresh;
         }
@@ -115,7 +116,8 @@ class Test_WP_Customize_Selective_Refresh extends WP_UnitTestCase
     public function test_init_preview()
     {
         $this->selective_refresh->init_preview();
-        $this->assertSame(10, has_action('template_redirect', [$this->selective_refresh, 'handle_render_partials_request']));
+        $this->assertSame(10,
+            has_action('template_redirect', [$this->selective_refresh, 'handle_render_partials_request']));
         $this->assertSame(10, has_action('wp_enqueue_scripts', [$this->selective_refresh, 'enqueue_preview_scripts']));
     }
 
@@ -149,24 +151,24 @@ class Test_WP_Customize_Selective_Refresh extends WP_UnitTestCase
             'top_secret_message',
             [
                 'capability' => 'top_secret_clearance', // The administrator role lacks this.
-            ]
+            ],
         );
         $this->selective_refresh->add_partial(
             'blogname',
             [
                 'selector' => '#site-title',
-            ]
+            ],
         );
         $this->selective_refresh->add_partial(
             'top_secret_message',
             [
                 'settings' => ['top_secret_message'],
-            ]
+            ],
         );
         ob_start();
         $this->selective_refresh->export_preview_data();
         $html = ob_get_clean();
-        $this->assertTrue((bool) preg_match('/_customizePartialRefreshExports = ({.+})/s', $html, $matches));
+        $this->assertTrue((bool)preg_match('/_customizePartialRefreshExports = ({.+})/s', $html, $matches));
         $exported_data = json_decode($matches[1], true);
         $this->assertIsArray($exported_data);
         $this->assertArrayHasKey('partials', $exported_data);
@@ -206,11 +208,11 @@ class Test_WP_Customize_Selective_Refresh extends WP_UnitTestCase
     /**
      * Filter customize_dynamic_partial_args.
      *
+     * @param false|array $partial_args The arguments to the WP_Customize_Partial constructor.
+     * @param string $partial_id ID for dynamic partial.
+     * @return false|array Dynamic partial args.
      * @see Test_WP_Customize_Selective_Refresh::test_add_dynamic_partials()
      *
-     * @param false|array $partial_args The arguments to the WP_Customize_Partial constructor.
-     * @param string      $partial_id   ID for dynamic partial.
-     * @return false|array Dynamic partial args.
      */
     public function filter_customize_dynamic_partial_args($partial_args, $partial_id)
     {
@@ -229,12 +231,12 @@ class Test_WP_Customize_Selective_Refresh extends WP_UnitTestCase
     /**
      * Filter customize_dynamic_partial_class.
      *
+     * @param string $partial_class WP_Customize_Partial or a subclass.
+     * @param string $partial_id ID for dynamic partial.
+     * @param array $partial_args The arguments to the WP_Customize_Partial constructor.
+     * @return string
      * @see Test_WP_Customize_Selective_Refresh::test_add_dynamic_partials()
      *
-     * @param string $partial_class WP_Customize_Partial or a subclass.
-     * @param string $partial_id    ID for dynamic partial.
-     * @param array  $partial_args  The arguments to the WP_Customize_Partial constructor.
-     * @return string
      */
     public function filter_customize_dynamic_partial_class($partial_class, $partial_id, $partial_args)
     {

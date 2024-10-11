@@ -13,75 +13,75 @@ require_once ABSPATH . WPINC . '/class-walker-nav-menu.php';
 /**
  * Displays a navigation menu.
  *
- * @since 3.0.0
- * @since 4.7.0 Added the `item_spacing` argument.
- * @since 5.5.0 Added the `container_aria_label` argument.
- *
  * @param array $args {
  *     Optional. Array of nav menu arguments.
  *
- *     @type int|string|WP_Term $menu                 Desired menu. Accepts a menu ID, slug, name, or object.
+ * @type int|string|WP_Term $menu Desired menu. Accepts a menu ID, slug, name, or object.
  *                                                    Default empty.
- *     @type string             $menu_class           CSS class to use for the ul element which forms the menu.
+ * @type string $menu_class CSS class to use for the ul element which forms the menu.
  *                                                    Default 'menu'.
- *     @type string             $menu_id              The ID that is applied to the ul element which forms the menu.
+ * @type string $menu_id The ID that is applied to the ul element which forms the menu.
  *                                                    Default is the menu slug, incremented.
- *     @type string             $container            Whether to wrap the ul, and what to wrap it with.
+ * @type string $container Whether to wrap the ul, and what to wrap it with.
  *                                                    Default 'div'.
- *     @type string             $container_class      Class that is applied to the container.
+ * @type string $container_class Class that is applied to the container.
  *                                                    Default 'menu-{menu slug}-container'.
- *     @type string             $container_id         The ID that is applied to the container. Default empty.
- *     @type string             $container_aria_label The aria-label attribute that is applied to the container
+ * @type string $container_id The ID that is applied to the container. Default empty.
+ * @type string $container_aria_label The aria-label attribute that is applied to the container
  *                                                    when it's a nav element. Default empty.
- *     @type callable|false     $fallback_cb          If the menu doesn't exist, a callback function will fire.
+ * @type callable|false $fallback_cb If the menu doesn't exist, a callback function will fire.
  *                                                    Default is 'wp_page_menu'. Set to false for no fallback.
- *     @type string             $before               Text before the link markup. Default empty.
- *     @type string             $after                Text after the link markup. Default empty.
- *     @type string             $link_before          Text before the link text. Default empty.
- *     @type string             $link_after           Text after the link text. Default empty.
- *     @type bool               $echo                 Whether to echo the menu or return it. Default true.
- *     @type int                $depth                How many levels of the hierarchy are to be included.
+ * @type string $before Text before the link markup. Default empty.
+ * @type string $after Text after the link markup. Default empty.
+ * @type string $link_before Text before the link text. Default empty.
+ * @type string $link_after Text after the link text. Default empty.
+ * @type bool $echo Whether to echo the menu or return it. Default true.
+ * @type int $depth How many levels of the hierarchy are to be included.
  *                                                    0 means all. Default 0.
  *                                                    Default 0.
- *     @type object             $walker               Instance of a custom walker class. Default empty.
- *     @type string             $theme_location       Theme location to be used. Must be registered with
+ * @type object $walker Instance of a custom walker class. Default empty.
+ * @type string $theme_location Theme location to be used. Must be registered with
  *                                                    register_nav_menu() in order to be selectable by the user.
- *     @type string             $items_wrap           How the list items should be wrapped. Uses printf() format with
+ * @type string $items_wrap How the list items should be wrapped. Uses printf() format with
  *                                                    numbered placeholders. Default is a ul with an id and class.
- *     @type string             $item_spacing         Whether to preserve whitespace within the menu's HTML.
+ * @type string $item_spacing Whether to preserve whitespace within the menu's HTML.
  *                                                    Accepts 'preserve' or 'discard'. Default 'preserve'.
  * }
  * @return void|string|false Void if 'echo' argument is true, menu output if 'echo' is false.
  *                           False if there are no items or no menu was found.
+ * @since 5.5.0 Added the `container_aria_label` argument.
+ *
+ * @since 3.0.0
+ * @since 4.7.0 Added the `item_spacing` argument.
  */
 function wp_nav_menu($args = [])
 {
     static $menu_id_slugs = [];
 
     $defaults = [
-        'menu'                 => '',
-        'container'            => 'div',
-        'container_class'      => '',
-        'container_id'         => '',
+        'menu' => '',
+        'container' => 'div',
+        'container_class' => '',
+        'container_id' => '',
         'container_aria_label' => '',
-        'menu_class'           => 'menu',
-        'menu_id'              => '',
-        'echo'                 => true,
-        'fallback_cb'          => 'wp_page_menu',
-        'before'               => '',
-        'after'                => '',
-        'link_before'          => '',
-        'link_after'           => '',
-        'items_wrap'           => '<ul id="%1$s" class="%2$s">%3$s</ul>',
-        'item_spacing'         => 'preserve',
-        'depth'                => 0,
-        'walker'               => '',
-        'theme_location'       => '',
+        'menu_class' => 'menu',
+        'menu_id' => '',
+        'echo' => true,
+        'fallback_cb' => 'wp_page_menu',
+        'before' => '',
+        'after' => '',
+        'link_before' => '',
+        'link_after' => '',
+        'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+        'item_spacing' => 'preserve',
+        'depth' => 0,
+        'walker' => '',
+        'theme_location' => '',
     ];
 
     $args = wp_parse_args($args, $defaults);
 
-    if (! in_array($args['item_spacing'], ['preserve', 'discard'], true)) {
+    if (!in_array($args['item_spacing'], ['preserve', 'discard'], true)) {
         // Invalid value, fall back to default.
         $args['item_spacing'] = $defaults['item_spacing'];
     }
@@ -89,14 +89,14 @@ function wp_nav_menu($args = [])
     /**
      * Filters the arguments used to display a navigation menu.
      *
-     * @since 3.0.0
-     *
+     * @param array $args Array of wp_nav_menu() arguments.
      * @see wp_nav_menu()
      *
-     * @param array $args Array of wp_nav_menu() arguments.
+     * @since 3.0.0
+     *
      */
     $args = apply_filters('wp_nav_menu_args', $args);
-    $args = (object) $args;
+    $args = (object)$args;
 
     /**
      * Filters whether to short-circuit the wp_nav_menu() output.
@@ -104,12 +104,12 @@ function wp_nav_menu($args = [])
      * Returning a non-null value from the filter will short-circuit wp_nav_menu(),
      * echoing that value if $args->echo is true, returning that value otherwise.
      *
+     * @param string|null $output Nav menu output to short-circuit with. Default null.
+     * @param stdClass $args An object containing wp_nav_menu() arguments.
      * @since 3.9.0
      *
      * @see wp_nav_menu()
      *
-     * @param string|null $output Nav menu output to short-circuit with. Default null.
-     * @param stdClass    $args   An object containing wp_nav_menu() arguments.
      */
     $nav_menu = apply_filters('pre_wp_nav_menu', null, $args);
 
@@ -127,12 +127,12 @@ function wp_nav_menu($args = [])
 
     // Get the nav menu based on the theme_location.
     $locations = get_nav_menu_locations();
-    if (! $menu && $args->theme_location && $locations && isset($locations[$args->theme_location])) {
+    if (!$menu && $args->theme_location && $locations && isset($locations[$args->theme_location])) {
         $menu = wp_get_nav_menu_object($locations[$args->theme_location]);
     }
 
     // Get the first menu that has items if we still can't find a menu.
-    if (! $menu && ! $args->theme_location) {
+    if (!$menu && !$args->theme_location) {
         $menus = wp_get_nav_menus();
         foreach ($menus as $menu_maybe) {
             $menu_items = wp_get_nav_menu_items($menu_maybe->term_id, ['update_post_term_cache' => false]);
@@ -148,7 +148,7 @@ function wp_nav_menu($args = [])
     }
 
     // If the menu exists, get its items.
-    if ($menu && ! is_wp_error($menu) && ! isset($menu_items)) {
+    if ($menu && !is_wp_error($menu) && !isset($menu_items)) {
         $menu_items = wp_get_nav_menu_items($menu->term_id, ['update_post_term_cache' => false]);
     }
 
@@ -160,50 +160,58 @@ function wp_nav_menu($args = [])
      *  - Fall back, but only if no theme location was specified.
      *  - Otherwise, bail.
      */
-    if ((! $menu || is_wp_error($menu) || (isset($menu_items) && empty($menu_items) && ! $args->theme_location))
-        && isset($args->fallback_cb) && $args->fallback_cb && is_callable($args->fallback_cb)) {
-            return call_user_func($args->fallback_cb, (array) $args);
+    if ((!$menu || is_wp_error($menu) || (isset($menu_items) && empty($menu_items) && !$args->theme_location))
+        && isset($args->fallback_cb)
+        && $args->fallback_cb
+        && is_callable($args->fallback_cb)) {
+        return call_user_func($args->fallback_cb, (array)$args);
     }
 
-    if (! $menu || is_wp_error($menu)) {
+    if (!$menu || is_wp_error($menu)) {
         return false;
     }
 
     $nav_menu = '';
-    $items    = '';
+    $items = '';
 
     $show_container = false;
     if ($args->container) {
         /**
          * Filters the list of HTML tags that are valid for use as menu containers.
          *
-         * @since 3.0.0
-         *
          * @param string[] $tags The acceptable HTML tags for use as menu containers.
          *                       Default is array containing 'div' and 'nav'.
+         * @since 3.0.0
+         *
          */
         $allowed_tags = apply_filters('wp_nav_menu_container_allowedtags', ['div', 'nav']);
 
         if (is_string($args->container) && in_array($args->container, $allowed_tags, true)) {
             $show_container = true;
-            $class          = $args->container_class ? ' class="' . esc_attr($args->container_class) . '"' : ' class="menu-' . $menu->slug . '-container"';
-            $id             = $args->container_id ? ' id="' . esc_attr($args->container_id) . '"' : '';
-            $aria_label     = ('nav' === $args->container && $args->container_aria_label) ? ' aria-label="' . esc_attr($args->container_aria_label) . '"' : '';
-            $nav_menu      .= '<' . $args->container . $id . $class . $aria_label . '>';
+            $class = $args->container_class
+                ? ' class="' . esc_attr($args->container_class) . '"'
+                : ' class="menu-'
+                . $menu->slug
+                . '-container"';
+            $id = $args->container_id ? ' id="' . esc_attr($args->container_id) . '"' : '';
+            $aria_label = ('nav' === $args->container && $args->container_aria_label) ? ' aria-label="'
+                . esc_attr($args->container_aria_label)
+                . '"' : '';
+            $nav_menu .= '<' . $args->container . $id . $class . $aria_label . '>';
         }
     }
 
     // Set up the $menu_item variables.
     _wp_menu_item_classes_by_context($menu_items);
 
-    $sorted_menu_items        = [];
+    $sorted_menu_items = [];
     $menu_items_with_children = [];
-    foreach ((array) $menu_items as $menu_item) {
+    foreach ((array)$menu_items as $menu_item) {
         /*
          * Fix invalid `menu_item_parent`. See: https://core.trac.wp.org/ticket/56926.
          * Compare as strings. Plugins may change the ID to a string.
          */
-        if ((string) $menu_item->ID === (string) $menu_item->menu_item_parent) {
+        if ((string)$menu_item->ID === (string)$menu_item->menu_item_parent) {
             $menu_item->menu_item_parent = 0;
         }
 
@@ -227,10 +235,10 @@ function wp_nav_menu($args = [])
     /**
      * Filters the sorted list of menu item objects before generating the menu's HTML.
      *
+     * @param array $sorted_menu_items The menu items, sorted by each menu item's menu order.
+     * @param stdClass $args An object containing wp_nav_menu() arguments.
      * @since 3.1.0
      *
-     * @param array    $sorted_menu_items The menu items, sorted by each menu item's menu order.
-     * @param stdClass $args              An object containing wp_nav_menu() arguments.
      */
     $sorted_menu_items = apply_filters('wp_nav_menu_objects', $sorted_menu_items, $args);
 
@@ -238,7 +246,7 @@ function wp_nav_menu($args = [])
     unset($sorted_menu_items);
 
     // Attributes.
-    if (! empty($args->menu_id)) {
+    if (!empty($args->menu_id)) {
         $wrap_id = $args->menu_id;
     } else {
         $wrap_id = 'menu-' . $menu->slug;
@@ -258,23 +266,23 @@ function wp_nav_menu($args = [])
     /**
      * Filters the HTML list content for navigation menus.
      *
+     * @param string $items The HTML list content for the menu items.
+     * @param stdClass $args An object containing wp_nav_menu() arguments.
      * @since 3.0.0
      *
      * @see wp_nav_menu()
      *
-     * @param string   $items The HTML list content for the menu items.
-     * @param stdClass $args  An object containing wp_nav_menu() arguments.
      */
     $items = apply_filters('wp_nav_menu_items', $items, $args);
     /**
      * Filters the HTML list content for a specific navigation menu.
      *
+     * @param string $items The HTML list content for the menu items.
+     * @param stdClass $args An object containing wp_nav_menu() arguments.
      * @since 3.0.0
      *
      * @see wp_nav_menu()
      *
-     * @param string   $items The HTML list content for the menu items.
-     * @param stdClass $args  An object containing wp_nav_menu() arguments.
      */
     $items = apply_filters("wp_nav_menu_{$menu->slug}_items", $items, $args);
 
@@ -293,12 +301,12 @@ function wp_nav_menu($args = [])
     /**
      * Filters the HTML content for navigation menus.
      *
+     * @param string $nav_menu The HTML content for the navigation menu.
+     * @param stdClass $args An object containing wp_nav_menu() arguments.
      * @since 3.0.0
      *
      * @see wp_nav_menu()
      *
-     * @param string   $nav_menu The HTML content for the navigation menu.
-     * @param stdClass $args     An object containing wp_nav_menu() arguments.
      */
     $nav_menu = apply_filters('wp_nav_menu', $nav_menu, $args);
 
@@ -313,38 +321,40 @@ function wp_nav_menu($args = [])
  * Adds the class property classes for the current context, if applicable.
  *
  * @access private
- * @since 3.0.0
- *
- * @global WP_Query   $wp_query   waggypuppy Query object.
+ * @param array $menu_items The current menu item objects to which to add the class property information.
+ * @global WP_Query $wp_query waggypuppy Query object.
  * @global WP_Rewrite $wp_rewrite waggypuppy rewrite component.
  *
- * @param array $menu_items The current menu item objects to which to add the class property information.
+ * @since 3.0.0
+ *
  */
 function _wp_menu_item_classes_by_context(&$menu_items)
 {
     global $wp_query, $wp_rewrite;
 
-    $queried_object    = $wp_query->get_queried_object();
-    $queried_object_id = (int) $wp_query->queried_object_id;
+    $queried_object = $wp_query->get_queried_object();
+    $queried_object_id = (int)$wp_query->queried_object_id;
 
-    $active_object               = '';
-    $active_ancestor_item_ids    = [];
-    $active_parent_item_ids      = [];
-    $active_parent_object_ids    = [];
+    $active_object = '';
+    $active_ancestor_item_ids = [];
+    $active_parent_item_ids = [];
+    $active_parent_object_ids = [];
     $possible_taxonomy_ancestors = [];
-    $possible_object_parents     = [];
-    $home_page_id                = (int) get_option('page_for_posts');
+    $possible_object_parents = [];
+    $home_page_id = (int)get_option('page_for_posts');
 
-    if ($wp_query->is_singular && ! empty($queried_object->post_type) && ! is_post_type_hierarchical($queried_object->post_type)) {
-        foreach ((array) get_object_taxonomies($queried_object->post_type) as $taxonomy) {
+    if ($wp_query->is_singular
+        && !empty($queried_object->post_type)
+        && !is_post_type_hierarchical($queried_object->post_type)) {
+        foreach ((array)get_object_taxonomies($queried_object->post_type) as $taxonomy) {
             if (is_taxonomy_hierarchical($taxonomy)) {
                 $term_hierarchy = _get_term_hierarchy($taxonomy);
-                $terms          = wp_get_object_terms($queried_object_id, $taxonomy, ['fields' => 'ids']);
+                $terms = wp_get_object_terms($queried_object_id, $taxonomy, ['fields' => 'ids']);
                 if (is_array($terms)) {
                     $possible_object_parents = array_merge($possible_object_parents, $terms);
-                    $term_to_ancestor        = [];
-                    foreach ((array) $term_hierarchy as $ancestor => $descendents) {
-                        foreach ((array) $descendents as $desc) {
+                    $term_to_ancestor = [];
+                    foreach ((array)$term_hierarchy as $ancestor => $descendents) {
+                        foreach ((array)$descendents as $desc) {
                             $term_to_ancestor[$desc] = $ancestor;
                         }
                     }
@@ -359,16 +369,16 @@ function _wp_menu_item_classes_by_context(&$menu_items)
                             } else {
                                 $desc = 0;
                             }
-                        } while (! empty($desc));
+                        } while (!empty($desc));
                     }
                 }
             }
         }
-    } elseif (! empty($queried_object->taxonomy) && is_taxonomy_hierarchical($queried_object->taxonomy)) {
-        $term_hierarchy   = _get_term_hierarchy($queried_object->taxonomy);
+    } elseif (!empty($queried_object->taxonomy) && is_taxonomy_hierarchical($queried_object->taxonomy)) {
+        $term_hierarchy = _get_term_hierarchy($queried_object->taxonomy);
         $term_to_ancestor = [];
-        foreach ((array) $term_hierarchy as $ancestor => $descendents) {
-            foreach ((array) $descendents as $desc) {
+        foreach ((array)$term_hierarchy as $ancestor => $descendents) {
+            foreach ((array)$descendents as $desc) {
                 $term_to_ancestor[$desc] = $ancestor;
             }
         }
@@ -382,59 +392,58 @@ function _wp_menu_item_classes_by_context(&$menu_items)
             } else {
                 $desc = 0;
             }
-        } while (! empty($desc));
+        } while (!empty($desc));
     }
 
     $possible_object_parents = array_filter($possible_object_parents);
 
-    $front_page_url         = home_url();
-    $front_page_id          = (int) get_option('page_on_front');
-    $privacy_policy_page_id = (int) get_option('wp_page_for_privacy_policy');
+    $front_page_url = home_url();
+    $front_page_id = (int)get_option('page_on_front');
+    $privacy_policy_page_id = (int)get_option('wp_page_for_privacy_policy');
 
-    foreach ((array) $menu_items as $key => $menu_item) {
-
+    foreach ((array)$menu_items as $key => $menu_item) {
         $menu_items[$key]->current = false;
 
-        $classes   = (array) $menu_item->classes;
+        $classes = (array)$menu_item->classes;
         $classes[] = 'menu-item';
         $classes[] = 'menu-item-type-' . $menu_item->type;
         $classes[] = 'menu-item-object-' . $menu_item->object;
 
         // This menu item is set as the 'Front Page'.
-        if ('post_type' === $menu_item->type && $front_page_id === (int) $menu_item->object_id) {
+        if ('post_type' === $menu_item->type && $front_page_id === (int)$menu_item->object_id) {
             $classes[] = 'menu-item-home';
         }
 
         // This menu item is set as the 'Privacy Policy Page'.
-        if ('post_type' === $menu_item->type && $privacy_policy_page_id === (int) $menu_item->object_id) {
+        if ('post_type' === $menu_item->type && $privacy_policy_page_id === (int)$menu_item->object_id) {
             $classes[] = 'menu-item-privacy-policy';
         }
 
         // If the menu item corresponds to a taxonomy term for the currently queried non-hierarchical post object.
         if ($wp_query->is_singular && 'taxonomy' === $menu_item->type
-            && in_array((int) $menu_item->object_id, $possible_object_parents, true)
+            && in_array((int)$menu_item->object_id, $possible_object_parents, true)
         ) {
-            $active_parent_object_ids[] = (int) $menu_item->object_id;
-            $active_parent_item_ids[]   = (int) $menu_item->db_id;
-            $active_object              = $queried_object->post_type;
-
+            $active_parent_object_ids[] = (int)$menu_item->object_id;
+            $active_parent_item_ids[] = (int)$menu_item->db_id;
+            $active_object = $queried_object->post_type;
             // If the menu item corresponds to the currently queried post or taxonomy object.
-        } elseif ((int) $menu_item->object_id === $queried_object_id
+        } elseif ((int)$menu_item->object_id === $queried_object_id
             && (
-                (! empty($home_page_id) && 'post_type' === $menu_item->type
-                    && $wp_query->is_home && $home_page_id === (int) $menu_item->object_id)
+                (!empty($home_page_id) && 'post_type' === $menu_item->type
+                    && $wp_query->is_home
+                    && $home_page_id === (int)$menu_item->object_id)
                 || ('post_type' === $menu_item->type && $wp_query->is_singular)
                 || ('taxonomy' === $menu_item->type
                     && ($wp_query->is_category || $wp_query->is_tag || $wp_query->is_tax)
                     && $queried_object->taxonomy === $menu_item->object)
             )
         ) {
-            $classes[]                 = 'current-menu-item';
+            $classes[] = 'current-menu-item';
             $menu_items[$key]->current = true;
-            $ancestor_id               = (int) $menu_item->db_id;
+            $ancestor_id = (int)$menu_item->db_id;
 
-            while (($ancestor_id = (int) get_post_meta($ancestor_id, '_menu_item_menu_item_parent', true))
-                && ! in_array($ancestor_id, $active_ancestor_item_ids, true)
+            while (($ancestor_id = (int)get_post_meta($ancestor_id, '_menu_item_menu_item_parent', true))
+                && !in_array($ancestor_id, $active_ancestor_item_ids, true)
             ) {
                 $active_ancestor_item_ids[] = $ancestor_id;
             }
@@ -446,26 +455,24 @@ function _wp_menu_item_classes_by_context(&$menu_items)
                 $classes[] = 'current_page_item';
             }
 
-            $active_parent_item_ids[]   = (int) $menu_item->menu_item_parent;
-            $active_parent_object_ids[] = (int) $menu_item->post_parent;
-            $active_object              = $menu_item->object;
-
+            $active_parent_item_ids[] = (int)$menu_item->menu_item_parent;
+            $active_parent_object_ids[] = (int)$menu_item->post_parent;
+            $active_object = $menu_item->object;
             // If the menu item corresponds to the currently queried post type archive.
         } elseif ('post_type_archive' === $menu_item->type
             && is_post_type_archive([$menu_item->object])
         ) {
-            $classes[]                 = 'current-menu-item';
+            $classes[] = 'current-menu-item';
             $menu_items[$key]->current = true;
-            $ancestor_id               = (int) $menu_item->db_id;
+            $ancestor_id = (int)$menu_item->db_id;
 
-            while (($ancestor_id = (int) get_post_meta($ancestor_id, '_menu_item_menu_item_parent', true))
-                && ! in_array($ancestor_id, $active_ancestor_item_ids, true)
+            while (($ancestor_id = (int)get_post_meta($ancestor_id, '_menu_item_menu_item_parent', true))
+                && !in_array($ancestor_id, $active_ancestor_item_ids, true)
             ) {
                 $active_ancestor_item_ids[] = $ancestor_id;
             }
 
-            $active_parent_item_ids[] = (int) $menu_item->menu_item_parent;
-
+            $active_parent_item_ids[] = (int)$menu_item->menu_item_parent;
             // If the menu item corresponds to the currently requested URL.
         } elseif ('custom' === $menu_item->object && isset($_SERVER['HTTP_HOST'])) {
             $_root_relative_current = untrailingslashit($_SERVER['REQUEST_URI']);
@@ -475,10 +482,12 @@ function _wp_menu_item_classes_by_context(&$menu_items)
                 $_root_relative_current = strtok(untrailingslashit($_SERVER['REQUEST_URI']), '?');
             }
 
-            $current_url        = set_url_scheme('http://' . $_SERVER['HTTP_HOST'] . $_root_relative_current);
-            $raw_item_url       = strpos($menu_item->url, '#') ? substr($menu_item->url, 0, strpos($menu_item->url, '#')) : $menu_item->url;
-            $item_url           = set_url_scheme(untrailingslashit($raw_item_url));
-            $_indexless_current = untrailingslashit(preg_replace('/' . preg_quote($wp_rewrite->index, '/') . '$/', '', $current_url));
+            $current_url = set_url_scheme('http://' . $_SERVER['HTTP_HOST'] . $_root_relative_current);
+            $raw_item_url = strpos($menu_item->url, '#') ? substr($menu_item->url, 0, strpos($menu_item->url, '#'))
+                : $menu_item->url;
+            $item_url = set_url_scheme(untrailingslashit($raw_item_url));
+            $_indexless_current = untrailingslashit(preg_replace('/' . preg_quote($wp_rewrite->index, '/') . '$/', '',
+                $current_url));
 
             $matches = [
                 $current_url,
@@ -490,24 +499,24 @@ function _wp_menu_item_classes_by_context(&$menu_items)
             ];
 
             if ($raw_item_url && in_array($item_url, $matches, true)) {
-                $classes[]                 = 'current-menu-item';
+                $classes[] = 'current-menu-item';
                 $menu_items[$key]->current = true;
-                $ancestor_id               = (int) $menu_item->db_id;
+                $ancestor_id = (int)$menu_item->db_id;
 
-                while (($ancestor_id = (int) get_post_meta($ancestor_id, '_menu_item_menu_item_parent', true))
-                    && ! in_array($ancestor_id, $active_ancestor_item_ids, true)
+                while (($ancestor_id = (int)get_post_meta($ancestor_id, '_menu_item_menu_item_parent', true))
+                    && !in_array($ancestor_id, $active_ancestor_item_ids, true)
                 ) {
                     $active_ancestor_item_ids[] = $ancestor_id;
                 }
 
-                if (in_array(home_url(), [untrailingslashit($current_url), untrailingslashit($_indexless_current)], true)) {
+                if (in_array(home_url(), [untrailingslashit($current_url), untrailingslashit($_indexless_current)],
+                    true)) {
                     // Back compat for home link to match wp_page_menu().
                     $classes[] = 'current_page_item';
                 }
-                $active_parent_item_ids[]   = (int) $menu_item->menu_item_parent;
-                $active_parent_object_ids[] = (int) $menu_item->post_parent;
-                $active_object              = $menu_item->object;
-
+                $active_parent_item_ids[] = (int)$menu_item->menu_item_parent;
+                $active_parent_object_ids[] = (int)$menu_item->post_parent;
+                $active_object = $menu_item->object;
                 // Give front page item the 'current-menu-item' class when extra query arguments are involved.
             } elseif ($item_url === $front_page_url && is_front_page()) {
                 $classes[] = 'current-menu-item';
@@ -519,8 +528,9 @@ function _wp_menu_item_classes_by_context(&$menu_items)
         }
 
         // Back-compat with wp_page_menu(): add "current_page_parent" to static home page link for any non-page query.
-        if (! empty($home_page_id) && 'post_type' === $menu_item->type
-            && empty($wp_query->is_page) && $home_page_id === (int) $menu_item->object_id
+        if (!empty($home_page_id) && 'post_type' === $menu_item->type
+            && empty($wp_query->is_page)
+            && $home_page_id === (int)$menu_item->object_id
         ) {
             $classes[] = 'current_page_parent';
         }
@@ -528,56 +538,54 @@ function _wp_menu_item_classes_by_context(&$menu_items)
         $menu_items[$key]->classes = array_unique($classes);
     }
     $active_ancestor_item_ids = array_filter(array_unique($active_ancestor_item_ids));
-    $active_parent_item_ids   = array_filter(array_unique($active_parent_item_ids));
+    $active_parent_item_ids = array_filter(array_unique($active_parent_item_ids));
     $active_parent_object_ids = array_filter(array_unique($active_parent_object_ids));
 
     // Set parent's class.
-    foreach ((array) $menu_items as $key => $parent_item) {
-        $classes                                 = (array) $parent_item->classes;
+    foreach ((array)$menu_items as $key => $parent_item) {
+        $classes = (array)$parent_item->classes;
         $menu_items[$key]->current_item_ancestor = false;
-        $menu_items[$key]->current_item_parent   = false;
+        $menu_items[$key]->current_item_parent = false;
 
         if (isset($parent_item->type)
             && (
                 // Ancestral post object.
                 (
                     'post_type' === $parent_item->type
-                    && ! empty($queried_object->post_type)
+                    && !empty($queried_object->post_type)
                     && is_post_type_hierarchical($queried_object->post_type)
-                    && in_array((int) $parent_item->object_id, $queried_object->ancestors, true)
-                    && (int) $parent_item->object_id !== $queried_object->ID
-                ) ||
-
-                // Ancestral term.
+                    && in_array((int)$parent_item->object_id, $queried_object->ancestors, true)
+                    && (int)$parent_item->object_id !== $queried_object->ID
+                )
+                || // Ancestral term.
                 (
                     'taxonomy' === $parent_item->type
                     && isset($possible_taxonomy_ancestors[$parent_item->object])
-                    && in_array((int) $parent_item->object_id, $possible_taxonomy_ancestors[$parent_item->object], true)
+                    && in_array((int)$parent_item->object_id, $possible_taxonomy_ancestors[$parent_item->object], true)
                     && (
-                        ! isset($queried_object->term_id) ||
-                        (int) $parent_item->object_id !== $queried_object->term_id
+                        !isset($queried_object->term_id) || (int)$parent_item->object_id !== $queried_object->term_id
                     )
                 )
             )
         ) {
-            if (! empty($queried_object->taxonomy)) {
+            if (!empty($queried_object->taxonomy)) {
                 $classes[] = 'current-' . $queried_object->taxonomy . '-ancestor';
             } else {
                 $classes[] = 'current-' . $queried_object->post_type . '-ancestor';
             }
         }
 
-        if (in_array((int) $parent_item->db_id, $active_ancestor_item_ids, true)) {
+        if (in_array((int)$parent_item->db_id, $active_ancestor_item_ids, true)) {
             $classes[] = 'current-menu-ancestor';
 
             $menu_items[$key]->current_item_ancestor = true;
         }
-        if (in_array((int) $parent_item->db_id, $active_parent_item_ids, true)) {
+        if (in_array((int)$parent_item->db_id, $active_parent_item_ids, true)) {
             $classes[] = 'current-menu-parent';
 
             $menu_items[$key]->current_item_parent = true;
         }
-        if (in_array((int) $parent_item->object_id, $active_parent_object_ids, true)) {
+        if (in_array((int)$parent_item->object_id, $active_parent_object_ids, true)) {
             $classes[] = 'current-' . $active_object . '-parent';
         }
 
@@ -598,13 +606,13 @@ function _wp_menu_item_classes_by_context(&$menu_items)
 /**
  * Retrieves the HTML list content for nav menu items.
  *
+ * @param array $items The menu items, sorted by each menu item's menu order.
+ * @param int $depth Depth of the item in reference to parents.
+ * @param stdClass $args An object containing wp_nav_menu() arguments.
+ * @return string The HTML list content for the menu items.
  * @uses Walker_Nav_Menu to create HTML list content.
  * @since 3.0.0
  *
- * @param array    $items The menu items, sorted by each menu item's menu order.
- * @param int      $depth Depth of the item in reference to parents.
- * @param stdClass $args  An object containing wp_nav_menu() arguments.
- * @return string The HTML list content for the menu items.
  */
 function walk_nav_menu_tree($items, $depth, $args)
 {
@@ -616,12 +624,12 @@ function walk_nav_menu_tree($items, $depth, $args)
 /**
  * Prevents a menu item ID from being used more than once.
  *
- * @since 3.0.1
- * @access private
- *
  * @param string $id
  * @param object $item
  * @return string
+ * @since 3.0.1
+ * @access private
+ *
  */
 function _nav_menu_item_id_use_once($id, $item)
 {
@@ -648,10 +656,10 @@ function _nav_menu_item_id_use_once($id, $item)
  *
  * @since 6.2.0
  *
- * @param string[]       $classes   Array of the CSS classes that are applied to the menu item's `<li>` element.
- * @param WP_Post        $menu_item The current menu item object.
- * @param stdClass|false $args      An object of wp_nav_menu() arguments. Default false ($args unspecified when filter is called).
- * @param int|false      $depth     Depth of menu item. Default false ($depth unspecified when filter is called).
+ * @param string[] $classes Array of the CSS classes that are applied to the menu item's `<li>` element.
+ * @param WP_Post $menu_item The current menu item object.
+ * @param stdClass|false $args An object of wp_nav_menu() arguments. Default false ($args unspecified when filter is called).
+ * @param int|false $depth Depth of menu item. Default false ($depth unspecified when filter is called).
  * @return string[] Modified nav menu classes.
  */
 function wp_nav_menu_remove_menu_item_has_children_class($classes, $menu_item, $args = false, $depth = false)
@@ -673,7 +681,7 @@ function wp_nav_menu_remove_menu_item_has_children_class($classes, $menu_item, $
     }
 
     // Max-depth is 1-based.
-    $max_depth = isset($args->depth) ? (int) $args->depth : 0;
+    $max_depth = isset($args->depth) ? (int)$args->depth : 0;
     // Depth is 0-based so needs to be increased by one.
     $depth = $depth + 1;
 

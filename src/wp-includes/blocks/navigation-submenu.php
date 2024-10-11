@@ -9,20 +9,20 @@
  * Build an array with CSS classes and inline styles defining the font sizes
  * which will be applied to the navigation markup in the front-end.
  *
+ * @param array $context Navigation block context.
+ * @return array Font size CSS classes and inline styles.
  * @since 5.9.0
  *
- * @param  array $context Navigation block context.
- * @return array Font size CSS classes and inline styles.
  */
 function block_core_navigation_submenu_build_css_font_sizes($context)
 {
     // CSS classes.
     $font_sizes = [
-        'css_classes'   => [],
+        'css_classes' => [],
         'inline_styles' => '',
     ];
 
-    $has_named_font_size  = array_key_exists('fontSize', $context);
+    $has_named_font_size = array_key_exists('fontSize', $context);
     $has_custom_font_size = isset($context['style']['typography']['fontSize']);
 
     if ($has_named_font_size) {
@@ -35,8 +35,8 @@ function block_core_navigation_submenu_build_css_font_sizes($context)
             wp_get_typography_font_size_value(
                 [
                     'size' => $context['style']['typography']['fontSize'],
-                ]
-            )
+                ],
+            ),
         );
     }
 
@@ -46,9 +46,9 @@ function block_core_navigation_submenu_build_css_font_sizes($context)
 /**
  * Returns the top-level submenu SVG chevron icon.
  *
+ * @return string
  * @since 5.9.0
  *
- * @return string
  */
 function block_core_navigation_submenu_render_submenu_icon()
 {
@@ -58,19 +58,23 @@ function block_core_navigation_submenu_render_submenu_icon()
 /**
  * Renders the `core/navigation-submenu` block.
  *
- * @since 5.9.0
- *
- * @param array    $attributes The block attributes.
- * @param string   $content    The saved content.
- * @param WP_Block $block      The parsed block.
+ * @param array $attributes The block attributes.
+ * @param string $content The saved content.
+ * @param WP_Block $block The parsed block.
  *
  * @return string Returns the post content with the legacy widget added.
+ * @since 5.9.0
+ *
  */
 function render_block_core_navigation_submenu($attributes, $content, $block)
 {
     $navigation_link_has_id = isset($attributes['id']) && is_numeric($attributes['id']);
-    $is_post_type           = isset($attributes['kind']) && 'post-type' === $attributes['kind'];
-    $is_post_type           = $is_post_type || isset($attributes['type']) && ('post' === $attributes['type'] || 'page' === $attributes['type']);
+    $is_post_type = isset($attributes['kind']) && 'post-type' === $attributes['kind'];
+    $is_post_type = $is_post_type
+        || isset($attributes['type'])
+        && ('post' === $attributes['type']
+            || 'page'
+            === $attributes['type']);
 
     // Don't render the block's subtree if it is a draft.
     if ($is_post_type && $navigation_link_has_id && 'publish' !== get_post_status($attributes['id'])) {
@@ -82,13 +86,15 @@ function render_block_core_navigation_submenu($attributes, $content, $block)
         return '';
     }
 
-    $font_sizes      = block_core_navigation_submenu_build_css_font_sizes($block->context);
+    $font_sizes = block_core_navigation_submenu_build_css_font_sizes($block->context);
     $style_attribute = $font_sizes['inline_styles'];
 
     $css_classes = trim(implode(' ', $font_sizes['css_classes']));
     $has_submenu = count($block->inner_blocks) > 0;
-    $kind        = empty($attributes['kind']) ? 'post_type' : str_replace('-', '_', $attributes['kind']);
-    $is_active   = ! empty($attributes['id']) && get_queried_object_id() === (int) $attributes['id'] && ! empty(get_queried_object()->$kind);
+    $kind = empty($attributes['kind']) ? 'post_type' : str_replace('-', '_', $attributes['kind']);
+    $is_active = !empty($attributes['id'])
+        && get_queried_object_id() === (int)$attributes['id']
+        && !empty(get_queried_object()->$kind);
 
     if (is_post_type_archive()) {
         $queried_archive_link = get_post_type_archive_link(get_queried_object()->name);
@@ -98,17 +104,18 @@ function render_block_core_navigation_submenu($attributes, $content, $block)
     }
 
     $show_submenu_indicators = isset($block->context['showSubmenuIcon']) && $block->context['showSubmenuIcon'];
-    $open_on_click           = isset($block->context['openSubmenusOnClick']) && $block->context['openSubmenusOnClick'];
-    $open_on_hover_and_click = isset($block->context['openSubmenusOnClick']) && ! $block->context['openSubmenusOnClick'] &&
-        $show_submenu_indicators;
+    $open_on_click = isset($block->context['openSubmenusOnClick']) && $block->context['openSubmenusOnClick'];
+    $open_on_hover_and_click = isset($block->context['openSubmenusOnClick'])
+        && !$block->context['openSubmenusOnClick']
+        && $show_submenu_indicators;
 
     $wrapper_attributes = get_block_wrapper_attributes(
         [
             'class' => $css_classes . ' wp-block-navigation-item' . ($has_submenu ? ' has-child' : '') .
-            ($open_on_click ? ' open-on-click' : '') . ($open_on_hover_and_click ? ' open-on-hover-click' : '') .
-            ($is_active ? ' current-menu-item' : ''),
+                ($open_on_click ? ' open-on-click' : '') . ($open_on_hover_and_click ? ' open-on-hover-click' : '') .
+                ($is_active ? ' current-menu-item' : ''),
             'style' => $style_attribute,
-        ]
+        ],
     );
 
     $label = '';
@@ -118,16 +125,16 @@ function render_block_core_navigation_submenu($attributes, $content, $block)
     }
 
     $aria_label = sprintf(
-        /* translators: Accessibility text. %s: Parent page title. */
+    /* translators: Accessibility text. %s: Parent page title. */
         __('%s submenu'),
-        wp_strip_all_tags($label)
+        wp_strip_all_tags($label),
     );
 
     $html = '<li ' . $wrapper_attributes . '>';
 
     // If Submenus open on hover, we render an anchor tag with attributes.
     // If submenu icons are set to show, we also render a submenu button, so the submenu can be opened on click.
-    if (! $open_on_click) {
+    if (!$open_on_click) {
         $item_url = isset($attributes['url']) ? $attributes['url'] : '';
         // Start appending HTML attributes to anchor tag.
         $html .= '<a class="wp-block-navigation-item__content"';
@@ -137,7 +144,7 @@ function render_block_core_navigation_submenu($attributes, $content, $block)
         // But also The href attribute must have a value that is a valid URL potentially
         // surrounded by spaces.
         // see: https://html.spec.whatwg.org/multipage/links.html#links-created-by-a-and-area-elements.
-        if (! empty($item_url)) {
+        if (!empty($item_url)) {
             $html .= ' href="' . esc_url($item_url) . '"';
         }
 
@@ -170,11 +177,17 @@ function render_block_core_navigation_submenu($attributes, $content, $block)
         if ($show_submenu_indicators) {
             // The submenu icon is rendered in a button here
             // so that there's a clickable element to open the submenu.
-            $html .= '<button aria-label="' . esc_attr($aria_label) . '" class="wp-block-navigation__submenu-icon wp-block-navigation-submenu__toggle" aria-expanded="false">' . block_core_navigation_submenu_render_submenu_icon() . '</button>';
+            $html .= '<button aria-label="'
+                . esc_attr($aria_label)
+                . '" class="wp-block-navigation__submenu-icon wp-block-navigation-submenu__toggle" aria-expanded="false">'
+                . block_core_navigation_submenu_render_submenu_icon()
+                . '</button>';
         }
     } else {
         // If menus open on click, we render the parent as a button.
-        $html .= '<button aria-label="' . esc_attr($aria_label) . '" class="wp-block-navigation-item__content wp-block-navigation-submenu__toggle" aria-expanded="false">';
+        $html .= '<button aria-label="'
+            . esc_attr($aria_label)
+            . '" class="wp-block-navigation-item__content wp-block-navigation-submenu__toggle" aria-expanded="false">';
 
         // Wrap title with span to isolate it from submenu icon.
         $html .= '<span class="wp-block-navigation-item__label">';
@@ -185,8 +198,9 @@ function render_block_core_navigation_submenu($attributes, $content, $block)
 
         $html .= '</button>';
 
-        $html .= '<span class="wp-block-navigation__submenu-icon">' . block_core_navigation_submenu_render_submenu_icon() . '</span>';
-
+        $html .= '<span class="wp-block-navigation__submenu-icon">'
+            . block_core_navigation_submenu_render_submenu_icon()
+            . '</span>';
     }
 
     if ($has_submenu) {
@@ -207,8 +221,8 @@ function render_block_core_navigation_submenu($attributes, $content, $block)
 
         // This allows us to be able to get a response from wp_apply_colors_support.
         $block->block_type->supports['color'] = true;
-        $colors_supports                      = wp_apply_colors_support($block->block_type, $attributes);
-        $css_classes                          = 'wp-block-navigation__submenu-container';
+        $colors_supports = wp_apply_colors_support($block->block_type, $attributes);
+        $css_classes = 'wp-block-navigation__submenu-container';
         if (array_key_exists('class', $colors_supports)) {
             $css_classes .= ' ' . $colors_supports['class'];
         }
@@ -235,15 +249,14 @@ function render_block_core_navigation_submenu($attributes, $content, $block)
             [
                 'class' => $css_classes,
                 'style' => $style_attribute,
-            ]
+            ],
         );
 
         $html .= sprintf(
             '<ul %s>%s</ul>',
             $wrapper_attributes,
-            $inner_blocks_html
+            $inner_blocks_html,
         );
-
     }
 
     $html .= '</li>';
@@ -254,10 +267,10 @@ function render_block_core_navigation_submenu($attributes, $content, $block)
 /**
  * Register the navigation submenu block.
  *
+ * @throws WP_Error An WP_Error exception parsing the block definition.
+ * @uses render_block_core_navigation_submenu()
  * @since 5.9.0
  *
- * @uses render_block_core_navigation_submenu()
- * @throws WP_Error An WP_Error exception parsing the block definition.
  */
 function register_block_core_navigation_submenu()
 {
@@ -265,7 +278,8 @@ function register_block_core_navigation_submenu()
         __DIR__ . '/navigation-submenu',
         [
             'render_callback' => 'render_block_core_navigation_submenu',
-        ]
+        ],
     );
 }
+
 add_action('init', 'register_block_core_navigation_submenu');

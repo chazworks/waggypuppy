@@ -11,49 +11,50 @@ class IXR_IntrospectionServer extends IXR_Server
     var $signatures;
     var $help;
 
-	/**
-	 * PHP5 constructor.
-	 */
+    /**
+     * PHP5 constructor.
+     */
     function __construct()
     {
         $this->setCallbacks();
         $this->setCapabilities();
-        $this->capabilities['introspection'] = array(
+        $this->capabilities['introspection'] = [
             'specUrl' => 'http://xmlrpc.usefulinc.com/doc/reserved.html',
-            'specVersion' => 1
-        );
+            'specVersion' => 1,
+        ];
         $this->addCallback(
             'system.methodSignature',
             'this:methodSignature',
-            array('array', 'string'),
-            'Returns an array describing the return type and required parameters of a method'
+            ['array', 'string'],
+            'Returns an array describing the return type and required parameters of a method',
         );
         $this->addCallback(
             'system.getCapabilities',
             'this:getCapabilities',
-            array('struct'),
-            'Returns a struct describing the XML-RPC specifications supported by this server'
+            ['struct'],
+            'Returns a struct describing the XML-RPC specifications supported by this server',
         );
         $this->addCallback(
             'system.listMethods',
             'this:listMethods',
-            array('array'),
-            'Returns an array of available methods on this server'
+            ['array'],
+            'Returns an array of available methods on this server',
         );
         $this->addCallback(
             'system.methodHelp',
             'this:methodHelp',
-            array('string', 'string'),
-            'Returns a documentation string for the specified method'
+            ['string', 'string'],
+            'Returns a documentation string for the specified method',
         );
     }
 
-	/**
-	 * PHP4 constructor.
-	 */
-	public function IXR_IntrospectionServer() {
-		self::__construct();
-	}
+    /**
+     * PHP4 constructor.
+     */
+    public function IXR_IntrospectionServer()
+    {
+        self::__construct();
+    }
 
     function addCallback($method, $callback, $args, $help)
     {
@@ -66,12 +67,13 @@ class IXR_IntrospectionServer extends IXR_Server
     {
         // Make sure it's in an array
         if ($args && !is_array($args)) {
-            $args = array($args);
+            $args = [$args];
         }
 
         // Over-rides default call method, adds signature check
         if (!$this->hasMethod($methodname)) {
-            return new IXR_Error(-32601, 'server error. requested method "'.$this->message->methodName.'" not specified.');
+            return new IXR_Error(-32601,
+                'server error. requested method "' . $this->message->methodName . '" not specified.');
         }
         $method = $this->callbacks[$methodname];
         $signature = $this->signatures[$methodname];
@@ -130,11 +132,11 @@ class IXR_IntrospectionServer extends IXR_Server
     function methodSignature($method)
     {
         if (!$this->hasMethod($method)) {
-            return new IXR_Error(-32601, 'server error. requested method "'.$method.'" not specified.');
+            return new IXR_Error(-32601, 'server error. requested method "' . $method . '" not specified.');
         }
         // We should be returning an array of types
         $types = $this->signatures[$method];
-        $return = array();
+        $return = [];
         foreach ($types as $type) {
             switch ($type) {
                 case 'string':
@@ -157,10 +159,10 @@ class IXR_IntrospectionServer extends IXR_Server
                     $return[] = new IXR_Base64('base64');
                     break;
                 case 'array':
-                    $return[] = array('array');
+                    $return[] = ['array'];
                     break;
                 case 'struct':
-                    $return[] = array('struct' => 'struct');
+                    $return[] = ['struct' => 'struct'];
                     break;
             }
         }

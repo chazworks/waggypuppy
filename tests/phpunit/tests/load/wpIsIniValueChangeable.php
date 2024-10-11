@@ -17,8 +17,8 @@ class Tests_Load_wpIsIniValueChangeable extends WP_UnitTestCase
      *
      * @dataProvider data_wp_is_ini_value_changeable
      *
-     * @param string $setting  The setting passed to wp_is_ini_value_changeable().
-     * @param bool   $expected The expected output of wp_convert_hr_to_bytes().
+     * @param string $setting The setting passed to wp_is_ini_value_changeable().
+     * @param bool $expected The expected output of wp_convert_hr_to_bytes().
      */
     public function test_wp_is_ini_value_changeable($setting, $expected)
     {
@@ -29,9 +29,9 @@ class Tests_Load_wpIsIniValueChangeable extends WP_UnitTestCase
      * Data provider for test_wp_is_ini_value_changeable().
      *
      * @return array {
-     *     @type array {
-     *         @type string $setting  The setting passed to wp_is_ini_value_changeable().
-     *         @type bool   $expected The expected output of wp_convert_hr_to_bytes().
+     * @type array {
+     * @type string $setting The setting passed to wp_is_ini_value_changeable().
+     * @type bool $expected The expected output of wp_convert_hr_to_bytes().
      *     }
      * }
      */

@@ -74,8 +74,10 @@ if (is_multisite()) :
          *
          * @ticket 40063
          */
-        public function test_update_allowed_option_does_not_delete_short_blog_details_cache($allowed_option, $temporary_value)
-        {
+        public function test_update_allowed_option_does_not_delete_short_blog_details_cache(
+            $allowed_option,
+            $temporary_value,
+        ) {
             $blog_details = get_blog_details(null, false);
 
             $original_value = get_option($allowed_option);
@@ -157,7 +159,7 @@ if (is_multisite()) :
         public function test_site_details_filter_with_blogname()
         {
             add_filter('site_details', [$this, '_filter_site_details_blogname']);
-            $site     = get_site();
+            $site = get_site();
             $blogname = $site->blogname;
             remove_filter('site_details', [$this, '_filter_site_details_blogname']);
 
@@ -176,7 +178,7 @@ if (is_multisite()) :
         public function test_site_details_filter_with_custom_value_isetter()
         {
             add_filter('site_details', [$this, '_filter_site_details_custom_value']);
-            $site               = get_site();
+            $site = get_site();
             $custom_value_isset = isset($site->custom_value);
             remove_filter('site_details', [$this, '_filter_site_details_custom_value']);
 
@@ -189,7 +191,7 @@ if (is_multisite()) :
         public function test_site_details_filter_with_custom_value_getter()
         {
             add_filter('site_details', [$this, '_filter_site_details_custom_value']);
-            $site         = get_site();
+            $site = get_site();
             $custom_value = $site->custom_value;
             remove_filter('site_details', [$this, '_filter_site_details_custom_value']);
 

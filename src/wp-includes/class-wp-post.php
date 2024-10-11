@@ -14,8 +14,8 @@
  *
  * @property string $page_template
  *
- * @property-read int[]    $ancestors
- * @property-read int[]    $post_category
+ * @property-read int[] $ancestors
+ * @property-read int[] $post_category
  * @property-read string[] $tags_input
  */
 #[AllowDynamicProperties]
@@ -223,28 +223,28 @@ final class WP_Post
     /**
      * Retrieve WP_Post instance.
      *
+     * @param int $post_id Post ID.
+     * @return WP_Post|false Post object, false otherwise.
      * @since 3.5.0
      *
      * @global wpdb $wpdb waggypuppy database abstraction object.
      *
-     * @param int $post_id Post ID.
-     * @return WP_Post|false Post object, false otherwise.
      */
     public static function get_instance($post_id)
     {
         global $wpdb;
 
-        $post_id = (int) $post_id;
-        if (! $post_id) {
+        $post_id = (int)$post_id;
+        if (!$post_id) {
             return false;
         }
 
         $_post = wp_cache_get($post_id, 'posts');
 
-        if (! $_post) {
+        if (!$_post) {
             $_post = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->posts WHERE ID = %d LIMIT 1", $post_id));
 
-            if (! $_post) {
+            if (!$_post) {
                 return false;
             }
 
@@ -260,9 +260,9 @@ final class WP_Post
     /**
      * Constructor.
      *
+     * @param WP_Post|object $post Post object.
      * @since 3.5.0
      *
-     * @param WP_Post|object $post Post object.
      */
     public function __construct($post)
     {
@@ -274,10 +274,10 @@ final class WP_Post
     /**
      * Isset-er.
      *
-     * @since 3.5.0
-     *
      * @param string $key Property to check if set.
      * @return bool
+     * @since 3.5.0
+     *
      */
     public function __isset($key)
     {
@@ -303,10 +303,10 @@ final class WP_Post
     /**
      * Getter.
      *
-     * @since 3.5.0
-     *
      * @param string $key Key to get.
      * @return mixed
+     * @since 3.5.0
+     *
      */
     public function __get($key)
     {
@@ -355,10 +355,10 @@ final class WP_Post
     /**
      * {@Missing Summary}
      *
-     * @since 3.5.0
-     *
      * @param string $filter Filter.
      * @return WP_Post
+     * @since 3.5.0
+     *
      */
     public function filter($filter)
     {
@@ -376,9 +376,9 @@ final class WP_Post
     /**
      * Convert object to array.
      *
+     * @return array Object as array.
      * @since 3.5.0
      *
-     * @return array Object as array.
      */
     public function to_array()
     {

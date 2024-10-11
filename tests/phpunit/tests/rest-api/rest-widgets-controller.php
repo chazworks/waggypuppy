@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering WP_REST_Widgets_Controller functionality.
  *
@@ -8,7 +9,7 @@
  *
  * @covers WP_REST_Widgets_Controller
  *
- * @see WP_Test_REST_Controller_Testcase
+ * @see    WP_Test_REST_Controller_Testcase
  * @group restapi
  * @group widgets
  */
@@ -63,32 +64,32 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
     {
         self::$superadmin_id = $factory->user->create(
             [
-                'role'       => 'administrator',
+                'role' => 'administrator',
                 'user_login' => 'superadmin',
-            ]
+            ],
         );
         if (is_multisite()) {
             update_site_option('site_admins', ['superadmin']);
         }
-        self::$admin_id      = $factory->user->create(
+        self::$admin_id = $factory->user->create(
             [
                 'role' => 'administrator',
-            ]
+            ],
         );
-        self::$editor_id     = $factory->user->create(
+        self::$editor_id = $factory->user->create(
             [
                 'role' => 'editor',
-            ]
+            ],
         );
-        self::$author_id     = $factory->user->create(
+        self::$author_id = $factory->user->create(
             [
                 'role' => 'author',
-            ]
+            ],
         );
         self::$subscriber_id = $factory->user->create(
             [
                 'role' => 'subscriber',
-            ]
+            ],
         );
     }
 
@@ -112,7 +113,7 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
                 if (isset($_POST['update_testwidget'])) {
                     $settings = get_option('widget_testwidget', []);
 
-                    $settings['id']    = $_POST['test_id'];
+                    $settings['id'] = $_POST['test_id'];
                     $settings['title'] = $_POST['test_title'];
 
                     update_option('widget_testwidget', $settings);
@@ -121,7 +122,7 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
                 echo 'WP test widget form';
             },
             100,
-            200
+            200,
         );
         wp_register_sidebar_widget(
             'testwidget',
@@ -130,34 +131,34 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
                 $settings = wp_parse_args(
                     get_option('widget_testwidget', []),
                     [
-                        'id'    => 'Default id',
+                        'id' => 'Default id',
                         'title' => 'Default text',
-                    ]
+                    ],
                 );
                 echo '<h1>' . $settings['id'] . '</h1><span>' . $settings['title'] . '</span>';
             },
             [
                 'description' => 'A non-multi widget for testing.',
-            ]
+            ],
         );
     }
 
     public function clean_up_global_scope()
     {
         global
-            $wp_widget_factory,
-            $wp_registered_sidebars,
-            $wp_registered_widgets,
-            $wp_registered_widget_controls,
-            $wp_registered_widget_updates,
-            $_wp_sidebars_widgets;
+        $wp_widget_factory,
+        $wp_registered_sidebars,
+        $wp_registered_widgets,
+        $wp_registered_widget_controls,
+        $wp_registered_widget_updates,
+        $_wp_sidebars_widgets;
 
-        $wp_registered_sidebars        = [];
-        $wp_registered_widgets         = [];
+        $wp_registered_sidebars = [];
+        $wp_registered_widgets = [];
         $wp_registered_widget_controls = [];
-        $wp_registered_widget_updates  = [];
-        $wp_widget_factory->widgets    = [];
-        $_wp_sidebars_widgets          = [];
+        $wp_registered_widget_updates = [];
+        $wp_widget_factory->widgets = [];
+        $_wp_sidebars_widgets = [];
 
         update_option('sidebars_widgets', []);
 
@@ -189,21 +190,21 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
         update_option(
             'sidebars_widgets',
             array_merge(
-                (array) get_option('sidebars_widgets', []),
+                (array)get_option('sidebars_widgets', []),
                 [
                     $id => $widgets,
-                ]
-            )
+                ],
+            ),
         );
         $wp_registered_sidebars[$id] = array_merge(
             [
-                'id'            => $id,
+                'id' => $id,
                 'before_widget' => '',
-                'after_widget'  => '',
-                'before_title'  => '',
-                'after_title'   => '',
+                'after_widget' => '',
+                'before_title' => '',
+                'after_title' => '',
             ],
-            $attrs
+            $attrs,
         );
     }
 
@@ -230,9 +231,9 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
      */
     public function test_get_items_no_widgets()
     {
-        $request  = new WP_REST_Request('GET', '/wp/v2/widgets');
+        $request = new WP_REST_Request('GET', '/wp/v2/widgets');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         $this->assertSame([], $data);
     }
@@ -243,7 +244,7 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
     public function test_get_items_no_permission()
     {
         wp_set_current_user(0);
-        $request  = new WP_REST_Request('GET', '/wp/v2/widgets');
+        $request = new WP_REST_Request('GET', '/wp/v2/widgets');
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_cannot_manage_widgets', $response, 401);
     }
@@ -258,37 +259,37 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
             1,
             [
                 'text' => 'Custom text test',
-            ]
+            ],
         );
         $this->setup_sidebar(
             'sidebar-1',
             [
-                'name'         => 'Test sidebar',
+                'name' => 'Test sidebar',
                 'show_in_rest' => true,
             ],
-            ['text-1', 'testwidget']
+            ['text-1', 'testwidget'],
         );
 
-        $request  = new WP_REST_Request('GET', '/wp/v2/widgets');
+        $request = new WP_REST_Request('GET', '/wp/v2/widgets');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
-        $data     = $this->remove_links($data);
+        $data = $response->get_data();
+        $data = $this->remove_links($data);
         $this->assertSameIgnoreEOL(
             [
                 [
-                    'id'       => 'text-1',
-                    'id_base'  => 'text',
-                    'sidebar'  => 'sidebar-1',
+                    'id' => 'text-1',
+                    'id_base' => 'text',
+                    'sidebar' => 'sidebar-1',
                     'rendered' => '<div class="textwidget">Custom text test</div>',
                 ],
                 [
-                    'id'       => 'testwidget',
-                    'id_base'  => 'testwidget',
-                    'sidebar'  => 'sidebar-1',
+                    'id' => 'testwidget',
+                    'id_base' => 'testwidget',
+                    'sidebar' => 'sidebar-1',
                     'rendered' => '<h1>Default id</h1><span>Default text</span>',
                 ],
             ],
-            $data
+            $data,
         );
     }
 
@@ -303,44 +304,44 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
             1,
             [
                 'text' => 'Custom text test',
-            ]
+            ],
         );
         $this->setup_sidebar(
             'sidebar-1',
             [
-                'name'         => 'Test sidebar 1',
+                'name' => 'Test sidebar 1',
                 'show_in_rest' => true,
             ],
-            ['text-1', 'testwidget']
+            ['text-1', 'testwidget'],
         );
         $this->setup_sidebar(
             'sidebar-2',
             [
-                'name'         => 'Test sidebar 2',
+                'name' => 'Test sidebar 2',
                 'show_in_rest' => false,
             ],
-            ['text-1', 'testwidget']
+            ['text-1', 'testwidget'],
         );
-        $request  = new WP_REST_Request('GET', '/wp/v2/widgets');
+        $request = new WP_REST_Request('GET', '/wp/v2/widgets');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
-        $data     = $this->remove_links($data);
+        $data = $response->get_data();
+        $data = $this->remove_links($data);
         $this->assertSameIgnoreEOL(
             [
                 [
-                    'id'       => 'text-1',
-                    'id_base'  => 'text',
-                    'sidebar'  => 'sidebar-1',
+                    'id' => 'text-1',
+                    'id_base' => 'text',
+                    'sidebar' => 'sidebar-1',
                     'rendered' => '<div class="textwidget">Custom text test</div>',
                 ],
                 [
-                    'id'       => 'testwidget',
-                    'id_base'  => 'testwidget',
-                    'sidebar'  => 'sidebar-1',
+                    'id' => 'testwidget',
+                    'id_base' => 'testwidget',
+                    'sidebar' => 'sidebar-1',
                     'rendered' => '<h1>Default id</h1><span>Default text</span>',
                 ],
             ],
-            $data
+            $data,
         );
     }
 
@@ -350,7 +351,7 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
     public function test_get_items_wrong_permission_author()
     {
         wp_set_current_user(self::$author_id);
-        $request  = new WP_REST_Request('GET', '/wp/v2/widgets');
+        $request = new WP_REST_Request('GET', '/wp/v2/widgets');
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_cannot_manage_widgets', $response, 403);
     }
@@ -374,50 +375,52 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
             1,
             [
                 'title' => 'RSS test',
-                'url'   => 'https://wp.org/news/feed',
-            ]
+                'url' => 'https://wp.org/news/feed',
+            ],
         );
         $this->setup_widget(
             'block',
             1,
             [
                 'content' => $block_content,
-            ]
+            ],
         );
         $this->setup_sidebar(
             'sidebar-1',
             [
                 'name' => 'Test sidebar',
             ],
-            ['block-1', 'rss-1', 'testwidget']
+            ['block-1', 'rss-1', 'testwidget'],
         );
 
-        $request  = new WP_REST_Request('GET', '/wp/v2/widgets');
+        $request = new WP_REST_Request('GET', '/wp/v2/widgets');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
-        $data     = $this->remove_links($data);
+        $data = $response->get_data();
+        $data = $this->remove_links($data);
         $this->assertSameSets(
             [
                 [
-                    'id'       => 'block-1',
-                    'id_base'  => 'block',
-                    'sidebar'  => 'sidebar-1',
+                    'id' => 'block-1',
+                    'id_base' => 'block',
+                    'sidebar' => 'sidebar-1',
                     'rendered' => '<p>Block test</p>',
                 ],
                 [
-                    'id'       => 'rss-1',
-                    'id_base'  => 'rss',
-                    'sidebar'  => 'sidebar-1',
-                    'rendered' => '<a class="rsswidget rss-widget-feed" href="https://wp.org/news/feed"><img class="rss-widget-icon" style="border:0" width="14" height="14" src="http://' . WP_TESTS_DOMAIN . '/wp-includes/images/rss.png" alt="RSS" loading="lazy" /></a> <a class="rsswidget rss-widget-title" href="https://wp.org/news">RSS test</a><ul><li><a class=\'rsswidget\' href=\'https://wp.org/news/2020/12/introducing-learn-wordpress/\'>Introducing Learn WP</a></li><li><a class=\'rsswidget\' href=\'https://wp.org/news/2020/12/simone/\'>WP 5.6 “Simone”</a></li><li><a class=\'rsswidget\' href=\'https://wp.org/news/2020/12/state-of-the-word-2020/\'>State of the Word 2020</a></li><li><a class=\'rsswidget\' href=\'https://wp.org/news/2020/12/the-month-in-wordpress-november-2020/\'>The Month in WP: November 2020</a></li><li><a class=\'rsswidget\' href=\'https://wp.org/news/2020/12/wordpress-5-6-release-candidate-2/\'>WP 5.6 Release Candidate 2</a></li><li><a class=\'rsswidget\' href=\'https://wp.org/news/2020/11/wordpress-5-6-release-candidate/\'>WP 5.6 Release Candidate</a></li><li><a class=\'rsswidget\' href=\'https://wp.org/news/2020/11/wordpress-5-6-beta-4/\'>WP 5.6 Beta 4</a></li><li><a class=\'rsswidget\' href=\'https://wp.org/news/2020/11/wordpress-5-6-beta-3/\'>WP 5.6 Beta 3</a></li><li><a class=\'rsswidget\' href=\'https://wp.org/news/2020/11/the-month-in-wordpress-october-2020/\'>The Month in WP: October 2020</a></li><li><a class=\'rsswidget\' href=\'https://wp.org/news/2020/10/wordpress-5-5-3-maintenance-release/\'>WP 5.5.3 Maintenance Release</a></li></ul>',
+                    'id' => 'rss-1',
+                    'id_base' => 'rss',
+                    'sidebar' => 'sidebar-1',
+                    'rendered' => '<a class="rsswidget rss-widget-feed" href="https://wp.org/news/feed"><img class="rss-widget-icon" style="border:0" width="14" height="14" src="http://'
+                        . WP_TESTS_DOMAIN
+                        . '/wp-includes/images/rss.png" alt="RSS" loading="lazy" /></a> <a class="rsswidget rss-widget-title" href="https://wp.org/news">RSS test</a><ul><li><a class=\'rsswidget\' href=\'https://wp.org/news/2020/12/introducing-learn-wordpress/\'>Introducing Learn WP</a></li><li><a class=\'rsswidget\' href=\'https://wp.org/news/2020/12/simone/\'>WP 5.6 “Simone”</a></li><li><a class=\'rsswidget\' href=\'https://wp.org/news/2020/12/state-of-the-word-2020/\'>State of the Word 2020</a></li><li><a class=\'rsswidget\' href=\'https://wp.org/news/2020/12/the-month-in-wordpress-november-2020/\'>The Month in WP: November 2020</a></li><li><a class=\'rsswidget\' href=\'https://wp.org/news/2020/12/wordpress-5-6-release-candidate-2/\'>WP 5.6 Release Candidate 2</a></li><li><a class=\'rsswidget\' href=\'https://wp.org/news/2020/11/wordpress-5-6-release-candidate/\'>WP 5.6 Release Candidate</a></li><li><a class=\'rsswidget\' href=\'https://wp.org/news/2020/11/wordpress-5-6-beta-4/\'>WP 5.6 Beta 4</a></li><li><a class=\'rsswidget\' href=\'https://wp.org/news/2020/11/wordpress-5-6-beta-3/\'>WP 5.6 Beta 3</a></li><li><a class=\'rsswidget\' href=\'https://wp.org/news/2020/11/the-month-in-wordpress-october-2020/\'>The Month in WP: October 2020</a></li><li><a class=\'rsswidget\' href=\'https://wp.org/news/2020/10/wordpress-5-5-3-maintenance-release/\'>WP 5.5.3 Maintenance Release</a></li></ul>',
                 ],
                 [
-                    'id'       => 'testwidget',
-                    'id_base'  => 'testwidget',
-                    'sidebar'  => 'sidebar-1',
+                    'id' => 'testwidget',
+                    'id_base' => 'testwidget',
+                    'sidebar' => 'sidebar-1',
                     'rendered' => '<h1>Default id</h1><span>Default text</span>',
                 ],
             ],
-            $data
+            $data,
         );
 
         $wp_widget_factory->widgets['WP_Widget_RSS']->widget_options['show_instance_in_rest'] = true;
@@ -427,17 +430,17 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
     {
         $single_value_headers = [
             'Content-Type' => 'application/rss+xml; charset=UTF-8',
-            'link'         => '<https://wp.org/news/wp-json/>; rel="https://api.w.org/"',
+            'link' => '<https://wp.org/news/wp-json/>; rel="https://api.w.org/"',
         ];
 
         return [
-            'headers'  => new WpOrg\Requests\Utility\CaseInsensitiveDictionary($single_value_headers),
-            'body'     => file_get_contents(DIR_TESTDATA . '/feed/wordpress-org-news.xml'),
+            'headers' => new WpOrg\Requests\Utility\CaseInsensitiveDictionary($single_value_headers),
+            'body' => file_get_contents(DIR_TESTDATA . '/feed/wordpress-org-news.xml'),
             'response' => [
-                'code'    => 200,
+                'code' => 200,
                 'message' => 'OK',
             ],
-            'cookies'  => [],
+            'cookies' => [],
             'filename' => null,
         ];
     }
@@ -456,62 +459,68 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
             1,
             [
                 'text' => 'Custom text test',
-            ]
+            ],
         );
         $this->setup_sidebar(
             'sidebar-1',
             [
                 'name' => 'Test sidebar',
             ],
-            ['text-1', 'testwidget']
+            ['text-1', 'testwidget'],
         );
 
-        $request            = new WP_REST_Request('GET', '/wp/v2/widgets');
+        $request = new WP_REST_Request('GET', '/wp/v2/widgets');
         $request['context'] = 'edit';
-        $response           = rest_get_server()->dispatch($request);
-        $data               = $response->get_data();
-        $data               = $this->remove_links($data);
+        $response = rest_get_server()->dispatch($request);
+        $data = $response->get_data();
+        $data = $this->remove_links($data);
         $this->assertSameIgnoreEOL(
             [
                 [
-                    'id'            => 'text-1',
-                    'id_base'       => 'text',
-                    'sidebar'       => 'sidebar-1',
-                    'rendered'      => '<div class="textwidget">Custom text test</div>',
-                    'rendered_form' => '<input id="widget-text-1-title" name="widget-text[1][title]" class="title sync-input" type="hidden" value="">' . "\n" .
-                                    '			<textarea id="widget-text-1-text" name="widget-text[1][text]" class="text sync-input" hidden>Custom text test</textarea>' . "\n" .
-                                    '			<input id="widget-text-1-filter" name="widget-text[1][filter]" class="filter sync-input" type="hidden" value="on">' . "\n" .
-                                    '			<input id="widget-text-1-visual" name="widget-text[1][visual]" class="visual sync-input" type="hidden" value="on">',
-                    'instance'      => [
+                    'id' => 'text-1',
+                    'id_base' => 'text',
+                    'sidebar' => 'sidebar-1',
+                    'rendered' => '<div class="textwidget">Custom text test</div>',
+                    'rendered_form' => '<input id="widget-text-1-title" name="widget-text[1][title]" class="title sync-input" type="hidden" value="">'
+                        . "\n"
+                        .
+                        '			<textarea id="widget-text-1-text" name="widget-text[1][text]" class="text sync-input" hidden>Custom text test</textarea>'
+                        . "\n"
+                        .
+                        '			<input id="widget-text-1-filter" name="widget-text[1][filter]" class="filter sync-input" type="hidden" value="on">'
+                        . "\n"
+                        .
+                        '			<input id="widget-text-1-visual" name="widget-text[1][visual]" class="visual sync-input" type="hidden" value="on">',
+                    'instance' => [
                         'encoded' => base64_encode(
                             serialize(
                                 [
                                     'text' => 'Custom text test',
-                                ]
-                            )
+                                ],
+                            ),
                         ),
-                        'hash'    => wp_hash(
+                        'hash' => wp_hash(
                             serialize(
                                 [
                                     'text' => 'Custom text test',
-                                ]
-                            )
+                                ],
+                            ),
                         ),
-                        'raw'     => [
+                        'raw' => [
                             'text' => 'Custom text test',
                         ],
                     ],
                 ],
                 [
-                    'id'            => 'testwidget',
-                    'id_base'       => 'testwidget',
-                    'sidebar'       => 'sidebar-1',
-                    'rendered'      => '<h1>Default id</h1><span>Default text</span>',
+                    'id' => 'testwidget',
+                    'id_base' => 'testwidget',
+                    'sidebar' => 'sidebar-1',
+                    'rendered' => '<h1>Default id</h1><span>Default text</span>',
                     'rendered_form' => 'WP test widget form',
-                    'instance'      => null,
+                    'instance' => null,
                 ],
             ],
-            $data
+            $data,
         );
     }
 
@@ -525,27 +534,27 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
             1,
             [
                 'text' => 'Custom text test',
-            ]
+            ],
         );
         $this->setup_sidebar(
             'sidebar-1',
             [
                 'name' => 'Test sidebar',
             ],
-            ['text-1']
+            ['text-1'],
         );
 
-        $request  = new WP_REST_Request('GET', '/wp/v2/widgets/text-1');
+        $request = new WP_REST_Request('GET', '/wp/v2/widgets/text-1');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSameSets(
             [
-                'id'       => 'text-1',
-                'id_base'  => 'text',
-                'sidebar'  => 'sidebar-1',
+                'id' => 'text-1',
+                'id_base' => 'text',
+                'sidebar' => 'sidebar-1',
                 'rendered' => '<div class="textwidget">Custom text test</div>',
             ],
-            $data
+            $data,
         );
     }
 
@@ -561,17 +570,17 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
             1,
             [
                 'text' => 'Custom text test',
-            ]
+            ],
         );
         $this->setup_sidebar(
             'sidebar-1',
             [
                 'name' => 'Test sidebar',
             ],
-            ['text-1']
+            ['text-1'],
         );
 
-        $request  = new WP_REST_Request('GET', '/wp/v2/widgets/text-1');
+        $request = new WP_REST_Request('GET', '/wp/v2/widgets/text-1');
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_cannot_manage_widgets', $response, 401);
     }
@@ -587,16 +596,16 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
             1,
             [
                 'text' => 'Custom text test',
-            ]
+            ],
         );
         $this->setup_sidebar(
             'sidebar-1',
             [
                 'name' => 'Test sidebar',
-            ]
+            ],
         );
 
-        $request  = new WP_REST_Request('GET', '/wp/v2/widgets/text-1');
+        $request = new WP_REST_Request('GET', '/wp/v2/widgets/text-1');
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_cannot_manage_widgets', $response, 403);
     }
@@ -613,28 +622,28 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
             1,
             [
                 'text' => 'Custom text test',
-            ]
+            ],
         );
         $this->setup_sidebar(
             'sidebar-1',
             [
-                'name'         => 'Test sidebar',
+                'name' => 'Test sidebar',
                 'show_in_rest' => true,
             ],
-            ['text-1']
+            ['text-1'],
         );
 
-        $request  = new WP_REST_Request('GET', '/wp/v2/widgets/text-1');
+        $request = new WP_REST_Request('GET', '/wp/v2/widgets/text-1');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSameSets(
             [
-                'id'       => 'text-1',
-                'id_base'  => 'text',
-                'sidebar'  => 'sidebar-1',
+                'id' => 'text-1',
+                'id_base' => 'text',
+                'sidebar' => 'sidebar-1',
                 'rendered' => '<div class="textwidget">Custom text test</div>',
             ],
-            $data
+            $data,
         );
     }
 
@@ -647,43 +656,43 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
             'sidebar-1',
             [
                 'name' => 'Test sidebar',
-            ]
+            ],
         );
 
         $request = new WP_REST_Request('POST', '/wp/v2/widgets');
         $request->set_body_params(
             [
-                'id_base'  => 'text',
-                'sidebar'  => 'sidebar-1',
+                'id_base' => 'text',
+                'sidebar' => 'sidebar-1',
                 'instance' => [
                     'encoded' => base64_encode(
                         serialize(
                             [
                                 'text' => 'Updated text test',
-                            ]
-                        )
+                            ],
+                        ),
                     ),
-                    'hash'    => wp_hash(
+                    'hash' => wp_hash(
                         serialize(
                             [
                                 'text' => 'Updated text test',
-                            ]
-                        )
+                            ],
+                        ),
                     ),
                 ],
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame('text-2', $data['id']);
         $this->assertSame('sidebar-1', $data['sidebar']);
         $this->assertSameSetsWithIndex(
             [
-                'text'   => 'Updated text test',
-                'title'  => '',
+                'text' => 'Updated text test',
+                'title' => '',
                 'filter' => false,
             ],
-            get_option('widget_text')[2]
+            get_option('widget_text')[2],
         );
     }
 
@@ -696,25 +705,25 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
             'sidebar-1',
             [
                 'name' => 'Test sidebar',
-            ]
+            ],
         );
 
         $request = new WP_REST_Request('POST', '/wp/v2/widgets');
         $request->set_body_params(
             [
-                'id_base'  => 'text',
-                'sidebar'  => 'sidebar-1',
+                'id_base' => 'text',
+                'sidebar' => 'sidebar-1',
                 'instance' => [
                     'encoded' => base64_encode(
                         serialize(
                             [
                                 'text' => 'Updated text test',
-                            ]
-                        )
+                            ],
+                        ),
                     ),
-                    'hash'    => 'badhash',
+                    'hash' => 'badhash',
                 ],
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_invalid_widget', $response, 400);
@@ -729,16 +738,16 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
             'sidebar-1',
             [
                 'name' => 'Test sidebar',
-            ]
+            ],
         );
 
         $request = new WP_REST_Request('POST', '/wp/v2/widgets');
         $request->set_body_params(
             [
-                'id_base'  => 'text',
-                'sidebar'  => 'sidebar-1',
+                'id_base' => 'text',
+                'sidebar' => 'sidebar-1',
                 'instance' => [],
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_invalid_widget', $response, 400);
@@ -753,30 +762,30 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
             'sidebar-1',
             [
                 'name' => 'Test sidebar',
-            ]
+            ],
         );
 
         $request = new WP_REST_Request('POST', '/wp/v2/widgets');
         $request->set_body_params(
             [
-                'id_base'  => 'block',
-                'sidebar'  => 'sidebar-1',
+                'id_base' => 'block',
+                'sidebar' => 'sidebar-1',
                 'instance' => [
                     'raw' => [
                         'content' => '<!-- wp:paragraph --><p>Block test</p><!-- /wp:paragraph -->',
                     ],
                 ],
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame('block-7', $data['id']);
         $this->assertSame('sidebar-1', $data['sidebar']);
         $this->assertSameSets(
             [
                 'content' => '<!-- wp:paragraph --><p>Block test</p><!-- /wp:paragraph -->',
             ],
-            get_option('widget_block')[7]
+            get_option('widget_block')[7],
         );
     }
 
@@ -793,20 +802,20 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
             'sidebar-1',
             [
                 'name' => 'Test sidebar',
-            ]
+            ],
         );
 
         $request = new WP_REST_Request('POST', '/wp/v2/widgets');
         $request->set_body_params(
             [
-                'id_base'  => 'text',
-                'sidebar'  => 'sidebar-1',
+                'id_base' => 'text',
+                'sidebar' => 'sidebar-1',
                 'instance' => [
                     'raw' => [
                         'title' => 'Updated text test',
                     ],
                 ],
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_invalid_widget', $response, 400);
@@ -823,28 +832,28 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
             'sidebar-1',
             [
                 'name' => 'Test sidebar',
-            ]
+            ],
         );
 
         $request = new WP_REST_Request('POST', '/wp/v2/widgets');
         $request->set_body_params(
             [
-                'id_base'   => 'text',
-                'sidebar'   => 'sidebar-1',
+                'id_base' => 'text',
+                'sidebar' => 'sidebar-1',
                 'form_data' => 'widget-text[2][text]=Updated+text+test',
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame('text-2', $data['id']);
         $this->assertSame('sidebar-1', $data['sidebar']);
         $this->assertSameSetsWithIndex(
             [
-                'text'   => 'Updated text test',
-                'title'  => '',
+                'text' => 'Updated text test',
+                'title' => '',
                 'filter' => false,
             ],
-            $data['instance']['raw']
+            $data['instance']['raw'],
         );
     }
 
@@ -857,53 +866,53 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
             'sidebar-1',
             [
                 'name' => 'Test sidebar',
-            ]
+            ],
         );
 
         $request = new WP_REST_Request('POST', '/wp/v2/widgets');
         $request->set_body_params(
             [
-                'id_base'  => 'text',
-                'sidebar'  => 'sidebar-1',
+                'id_base' => 'text',
+                'sidebar' => 'sidebar-1',
                 'instance' => [
                     'raw' => ['text' => 'Text 1'],
                 ],
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame('text-2', $data['id']);
         $this->assertSame('sidebar-1', $data['sidebar']);
         $this->assertSameSetsWithIndex(
             [
-                'text'   => 'Text 1',
-                'title'  => '',
+                'text' => 'Text 1',
+                'title' => '',
                 'filter' => false,
             ],
-            $data['instance']['raw']
+            $data['instance']['raw'],
         );
 
         $request = new WP_REST_Request('POST', '/wp/v2/widgets');
         $request->set_body_params(
             [
-                'id_base'  => 'text',
-                'sidebar'  => 'sidebar-1',
+                'id_base' => 'text',
+                'sidebar' => 'sidebar-1',
                 'instance' => [
                     'raw' => ['text' => 'Text 2'],
                 ],
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame('text-3', $data['id']);
         $this->assertSame('sidebar-1', $data['sidebar']);
         $this->assertSameSetsWithIndex(
             [
-                'text'   => 'Text 2',
-                'title'  => '',
+                'text' => 'Text 2',
+                'title' => '',
                 'filter' => false,
             ],
-            $data['instance']['raw']
+            $data['instance']['raw'],
         );
 
         $sidebar = rest_do_request('/wp/v2/sidebars/sidebar-1');
@@ -921,38 +930,38 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
             1,
             [
                 'text' => 'Custom text test',
-            ]
+            ],
         );
         $this->setup_sidebar(
             'sidebar-1',
             [
                 'name' => 'Test sidebar',
-            ]
+            ],
         );
 
         $request = new WP_REST_Request('POST', '/wp/v2/widgets');
         $request->set_body_params(
             [
-                'id_base'  => 'text',
-                'sidebar'  => 'sidebar-1',
+                'id_base' => 'text',
+                'sidebar' => 'sidebar-1',
                 'instance' => [
                     'raw' => [
                         'text' => 'Updated text test',
                     ],
                 ],
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame('text-2', $data['id']);
         $this->assertSame('sidebar-1', $data['sidebar']);
         $this->assertSameSetsWithIndex(
             [
-                'text'   => 'Updated text test',
-                'title'  => '',
+                'text' => 'Updated text test',
+                'title' => '',
                 'filter' => false,
             ],
-            $data['instance']['raw']
+            $data['instance']['raw'],
         );
     }
 
@@ -966,41 +975,41 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
             1,
             [
                 'text' => 'Custom text test',
-            ]
+            ],
         );
         $this->setup_sidebar(
             'sidebar-1',
             [
                 'name' => 'Test sidebar',
             ],
-            ['text-1', 'rss-1']
+            ['text-1', 'rss-1'],
         );
 
         $request = new WP_REST_Request('PUT', '/wp/v2/widgets/text-1');
         $request->set_body_params(
             [
-                'id'       => 'text-1',
-                'id_base'  => 'text',
-                'sidebar'  => 'sidebar-1',
+                'id' => 'text-1',
+                'id_base' => 'text',
+                'sidebar' => 'sidebar-1',
                 'instance' => [
                     'raw' => [
                         'text' => 'Updated text test',
                     ],
                 ],
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         $this->assertSame('text-1', $data['id']);
         $this->assertSame('sidebar-1', $data['sidebar']);
         $this->assertSameSetsWithIndex(
             [
-                'text'   => 'Updated text test',
-                'title'  => '',
+                'text' => 'Updated text test',
+                'title' => '',
                 'filter' => false,
             ],
-            $data['instance']['raw']
+            $data['instance']['raw'],
         );
     }
 
@@ -1014,31 +1023,31 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
             1,
             [
                 'text' => 'Custom text test',
-            ]
+            ],
         );
         $this->setup_sidebar(
             'sidebar-1',
             [
                 'name' => 'Test sidebar',
             ],
-            ['text-1', 'rss-1']
+            ['text-1', 'rss-1'],
         );
         $this->setup_sidebar(
             'sidebar-2',
             [
                 'name' => 'Test sidebar',
             ],
-            []
+            [],
         );
 
         $request = new WP_REST_Request('PUT', '/wp/v2/widgets/text-1');
         $request->set_body_params(
             [
                 'sidebar' => 'sidebar-2',
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
-        $error    = $response->as_error();
+        $error = $response->as_error();
         $this->assertNotWPError($error, $error ? $error->get_error_message() : '');
         $this->assertSame('sidebar-2', $response->get_data()['sidebar']);
 
@@ -1059,39 +1068,39 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
             1,
             [
                 'text' => 'Custom text test',
-            ]
+            ],
         );
         $this->setup_sidebar(
             'sidebar-1',
             [
                 'name' => 'Test sidebar',
             ],
-            ['text-1', 'rss-1']
+            ['text-1', 'rss-1'],
         );
 
         $request = new WP_REST_Request('PUT', '/wp/v2/widgets/text-1');
         $request->set_body_params(
             [
-                'id'       => 'text-1',
+                'id' => 'text-1',
                 'instance' => [
                     'raw' => [
                         'text' => 'Updated text test',
                     ],
                 ],
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         $this->assertSame('text-1', $data['id']);
         $this->assertSame('sidebar-1', $data['sidebar']);
         $this->assertSameSetsWithIndex(
             [
-                'text'   => 'Updated text test',
-                'title'  => '',
+                'text' => 'Updated text test',
+                'title' => '',
                 'filter' => false,
             ],
-            $data['instance']['raw']
+            $data['instance']['raw'],
         );
     }
 
@@ -1103,12 +1112,12 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
         if (is_multisite()) {
             $this->assertSame(
                 '<div class="textwidget">alert(1)</div>',
-                $this->update_text_widget_with_raw_html('<script>alert(1)</script>')
+                $this->update_text_widget_with_raw_html('<script>alert(1)</script>'),
             );
         } else {
             $this->assertSame(
                 '<div class="textwidget"><script>alert(1)</script></div>',
-                $this->update_text_widget_with_raw_html('<script>alert(1)</script>')
+                $this->update_text_widget_with_raw_html('<script>alert(1)</script>'),
             );
         }
     }
@@ -1122,12 +1131,12 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
         if (is_multisite()) {
             $this->assertSame(
                 '<div class="textwidget"><script>alert(1)</script></div>',
-                $this->update_text_widget_with_raw_html('<script>alert(1)</script>')
+                $this->update_text_widget_with_raw_html('<script>alert(1)</script>'),
             );
         } else {
             $this->assertSame(
                 '<div class="textwidget"><script>alert(1)</script></div>',
-                $this->update_text_widget_with_raw_html('<script>alert(1)</script>')
+                $this->update_text_widget_with_raw_html('<script>alert(1)</script>'),
             );
         }
     }
@@ -1139,30 +1148,30 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
             1,
             [
                 'text' => 'Custom text test',
-            ]
+            ],
         );
         $this->setup_sidebar(
             'sidebar-1',
             [
                 'name' => 'Test sidebar',
             ],
-            ['text-1']
+            ['text-1'],
         );
 
         $request = new WP_REST_Request('PUT', '/wp/v2/widgets/text-1');
         $request->set_body_params(
             [
-                'id'       => 'text-1',
-                'id_base'  => 'text',
+                'id' => 'text-1',
+                'id_base' => 'text',
                 'instance' => [
                     'raw' => [
                         'text' => $html,
                     ],
                 ],
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         return $data['rendered'];
     }
@@ -1177,30 +1186,30 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
             [
                 'name' => 'Test sidebar',
             ],
-            ['testwidget']
+            ['testwidget'],
         );
 
         $request = new WP_REST_Request('PUT', '/wp/v2/widgets/testwidget');
         $request->set_body_params(
             [
-                'id'        => 'testwidget',
-                'name'      => 'WP test widget',
+                'id' => 'testwidget',
+                'name' => 'WP test widget',
                 'form_data' => 'test_id=My+test+id&test_title=My+test+title&update_testwidget=true',
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
-        $data     = $this->remove_links($data);
+        $data = $response->get_data();
+        $data = $this->remove_links($data);
         $this->assertSame(
             [
-                'id'            => 'testwidget',
-                'id_base'       => 'testwidget',
-                'sidebar'       => 'sidebar-1',
-                'rendered'      => '<h1>My test id</h1><span>My test title</span>',
+                'id' => 'testwidget',
+                'id_base' => 'testwidget',
+                'sidebar' => 'sidebar-1',
+                'rendered' => '<h1>My test id</h1><span>My test title</span>',
                 'rendered_form' => 'WP test widget form',
-                'instance'      => null,
+                'instance' => null,
             ],
-            $data
+            $data,
         );
     }
 
@@ -1214,31 +1223,31 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
             [
                 'name' => 'Test sidebar',
             ],
-            []
+            [],
         );
 
         $request = new WP_REST_Request('PUT', '/wp/v2/widgets/testwidget');
         $request->set_body_params(
             [
-                'id'        => 'testwidget',
-                'sidebar'   => 'sidebar-1',
-                'name'      => 'WP test widget',
+                'id' => 'testwidget',
+                'sidebar' => 'sidebar-1',
+                'name' => 'WP test widget',
                 'form_data' => 'test_id=My+test+id&test_title=My+test+title&update_testwidget=true',
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
-        $data     = $this->remove_links($data);
+        $data = $response->get_data();
+        $data = $this->remove_links($data);
         $this->assertSame(
             [
-                'id'            => 'testwidget',
-                'id_base'       => 'testwidget',
-                'sidebar'       => 'sidebar-1',
-                'rendered'      => '<h1>My test id</h1><span>My test title</span>',
+                'id' => 'testwidget',
+                'id_base' => 'testwidget',
+                'sidebar' => 'sidebar-1',
+                'rendered' => '<h1>My test id</h1><span>My test title</span>',
                 'rendered_form' => 'WP test widget form',
-                'instance'      => null,
+                'instance' => null,
             ],
-            $data
+            $data,
         );
     }
 
@@ -1253,7 +1262,7 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
         $request->set_body_params(
             [
                 'widgets' => [],
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_cannot_manage_widgets', $response, 401);
@@ -1270,7 +1279,7 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
         $request->set_body_params(
             [
                 'widgets' => [],
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_cannot_manage_widgets', $response, 403);
@@ -1287,31 +1296,31 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
         $request = new WP_REST_Request('PUT', '/wp/v2/widgets/text-1');
         $request->set_body_params(
             [
-                'id'       => 'text-1',
-                'id_base'  => 'text',
-                'sidebar'  => 'sidebar-1',
+                'id' => 'text-1',
+                'id_base' => 'text',
+                'sidebar' => 'sidebar-1',
                 'instance' => [
                     'raw' => [
                         'text' => 'Updated \\" \\\' text test',
                     ],
                 ],
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         $this->assertSameSetsWithIndex(
             [
-                'text'   => 'Updated \\" \\\' text test',
-                'title'  => '',
+                'text' => 'Updated \\" \\\' text test',
+                'title' => '',
                 'filter' => false,
             ],
-            $data['instance']['raw']
+            $data['instance']['raw'],
         );
 
         $this->assertSame(
             '<div class="textwidget">Updated \\" \\\' text test</div>',
-            $data['rendered']
+            $data['rendered'],
         );
     }
 
@@ -1327,50 +1336,56 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
             1,
             [
                 'text' => 'Custom text test',
-            ]
+            ],
         );
         $this->setup_sidebar(
             'sidebar-1',
             [
                 'name' => 'Test sidebar',
             ],
-            ['text-1', 'rss-1']
+            ['text-1', 'rss-1'],
         );
 
-        $request  = new WP_REST_Request('DELETE', '/wp/v2/widgets/text-1');
+        $request = new WP_REST_Request('DELETE', '/wp/v2/widgets/text-1');
         $response = rest_do_request($request);
 
         $this->assertSameIgnoreEOL(
             [
-                'id'            => 'text-1',
-                'id_base'       => 'text',
-                'sidebar'       => 'wp_inactive_widgets',
-                'rendered'      => '',
-                'rendered_form' => '<input id="widget-text-1-title" name="widget-text[1][title]" class="title sync-input" type="hidden" value="">' . "\n" .
-                                '			<textarea id="widget-text-1-text" name="widget-text[1][text]" class="text sync-input" hidden>Custom text test</textarea>' . "\n" .
-                                '			<input id="widget-text-1-filter" name="widget-text[1][filter]" class="filter sync-input" type="hidden" value="on">' . "\n" .
-                                '			<input id="widget-text-1-visual" name="widget-text[1][visual]" class="visual sync-input" type="hidden" value="on">',
-                'instance'      => [
+                'id' => 'text-1',
+                'id_base' => 'text',
+                'sidebar' => 'wp_inactive_widgets',
+                'rendered' => '',
+                'rendered_form' => '<input id="widget-text-1-title" name="widget-text[1][title]" class="title sync-input" type="hidden" value="">'
+                    . "\n"
+                    .
+                    '			<textarea id="widget-text-1-text" name="widget-text[1][text]" class="text sync-input" hidden>Custom text test</textarea>'
+                    . "\n"
+                    .
+                    '			<input id="widget-text-1-filter" name="widget-text[1][filter]" class="filter sync-input" type="hidden" value="on">'
+                    . "\n"
+                    .
+                    '			<input id="widget-text-1-visual" name="widget-text[1][visual]" class="visual sync-input" type="hidden" value="on">',
+                'instance' => [
                     'encoded' => base64_encode(
                         serialize(
                             [
                                 'text' => 'Custom text test',
-                            ]
-                        )
+                            ],
+                        ),
                     ),
-                    'hash'    => wp_hash(
+                    'hash' => wp_hash(
                         serialize(
                             [
                                 'text' => 'Custom text test',
-                            ]
-                        )
+                            ],
+                        ),
                     ),
-                    'raw'     => [
+                    'raw' => [
                         'text' => 'Custom text test',
                     ],
                 ],
             ],
-            $response->get_data()
+            $response->get_data(),
         );
     }
 
@@ -1386,14 +1401,14 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
             1,
             [
                 'text' => 'Custom text test',
-            ]
+            ],
         );
         $this->setup_sidebar(
             'sidebar-1',
             [
                 'name' => 'Test sidebar',
             ],
-            ['text-1', 'rss-1']
+            ['text-1', 'rss-1'],
         );
 
         $request = new WP_REST_Request('DELETE', '/wp/v2/widgets/text-1');
@@ -1402,40 +1417,46 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
 
         $this->assertSameIgnoreEOL(
             [
-                'deleted'  => true,
+                'deleted' => true,
                 'previous' => [
 
-                    'id'            => 'text-1',
-                    'id_base'       => 'text',
-                    'sidebar'       => 'sidebar-1',
-                    'rendered'      => '<div class="textwidget">Custom text test</div>',
-                    'rendered_form' => '<input id="widget-text-1-title" name="widget-text[1][title]" class="title sync-input" type="hidden" value="">' . "\n" .
-                                    '			<textarea id="widget-text-1-text" name="widget-text[1][text]" class="text sync-input" hidden>Custom text test</textarea>' . "\n" .
-                                    '			<input id="widget-text-1-filter" name="widget-text[1][filter]" class="filter sync-input" type="hidden" value="on">' . "\n" .
-                                    '			<input id="widget-text-1-visual" name="widget-text[1][visual]" class="visual sync-input" type="hidden" value="on">',
-                    'instance'      => [
+                    'id' => 'text-1',
+                    'id_base' => 'text',
+                    'sidebar' => 'sidebar-1',
+                    'rendered' => '<div class="textwidget">Custom text test</div>',
+                    'rendered_form' => '<input id="widget-text-1-title" name="widget-text[1][title]" class="title sync-input" type="hidden" value="">'
+                        . "\n"
+                        .
+                        '			<textarea id="widget-text-1-text" name="widget-text[1][text]" class="text sync-input" hidden>Custom text test</textarea>'
+                        . "\n"
+                        .
+                        '			<input id="widget-text-1-filter" name="widget-text[1][filter]" class="filter sync-input" type="hidden" value="on">'
+                        . "\n"
+                        .
+                        '			<input id="widget-text-1-visual" name="widget-text[1][visual]" class="visual sync-input" type="hidden" value="on">',
+                    'instance' => [
                         'encoded' => base64_encode(
                             serialize(
                                 [
                                     'text' => 'Custom text test',
-                                ]
-                            )
+                                ],
+                            ),
                         ),
-                        'hash'    => wp_hash(
+                        'hash' => wp_hash(
                             serialize(
                                 [
                                     'text' => 'Custom text test',
-                                ]
-                            )
+                                ],
+                            ),
                         ),
-                        'raw'     => [
+                        'raw' => [
                             'text' => 'Custom text test',
                         ],
                     ],
 
                 ],
             ],
-            $response->get_data()
+            $response->get_data(),
         );
 
         $response = rest_do_request('/wp/v2/widgets/text-1');
@@ -1457,17 +1478,17 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
             1,
             [
                 'text' => 'Custom text test',
-            ]
+            ],
         );
         $this->setup_sidebar(
             'sidebar-1',
             [
                 'name' => 'Test sidebar',
             ],
-            ['text-1', 'rss-1']
+            ['text-1', 'rss-1'],
         );
 
-        $request  = new WP_REST_Request('DELETE', '/wp/v2/widgets/text-1');
+        $request = new WP_REST_Request('DELETE', '/wp/v2/widgets/text-1');
         $response = rest_do_request($request);
 
         $this->assertErrorResponse('rest_cannot_manage_widgets', $response, 401);
@@ -1485,17 +1506,17 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
             1,
             [
                 'text' => 'Custom text test',
-            ]
+            ],
         );
         $this->setup_sidebar(
             'sidebar-1',
             [
                 'name' => 'Test sidebar',
             ],
-            ['text-1', 'rss-1']
+            ['text-1', 'rss-1'],
         );
 
-        $request  = new WP_REST_Request('DELETE', '/wp/v2/widgets/text-1');
+        $request = new WP_REST_Request('DELETE', '/wp/v2/widgets/text-1');
         $response = rest_do_request($request);
 
         $this->assertErrorResponse('rest_cannot_manage_widgets', $response, 403);
@@ -1512,14 +1533,14 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
                 2 => ['text' => 'Text widget'],
                 3 => ['text' => 'Text widget'],
                 4 => ['text' => 'Text widget'],
-            ]
+            ],
         );
         $this->setup_sidebar(
             'sidebar-1',
             [
                 'name' => 'Test sidebar',
             ],
-            ['text-2', 'text-3', 'text-4']
+            ['text-2', 'text-3', 'text-4'],
         );
 
         $request = new WP_REST_Request('POST', '/batch/v1');
@@ -1528,18 +1549,18 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
                 'requests' => [
                     [
                         'method' => 'DELETE',
-                        'path'   => '/wp/v2/widgets/text-2?force=1',
+                        'path' => '/wp/v2/widgets/text-2?force=1',
                     ],
                     [
                         'method' => 'DELETE',
-                        'path'   => '/wp/v2/widgets/text-3?force=1',
+                        'path' => '/wp/v2/widgets/text-3?force=1',
                     ],
                     [
                         'method' => 'DELETE',
-                        'path'   => '/wp/v2/widgets/text-4?force=1',
+                        'path' => '/wp/v2/widgets/text-4?force=1',
                     ],
                 ],
-            ]
+            ],
         );
         $response = rest_do_request($request);
 
@@ -1547,13 +1568,13 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
             [
                 'sidebar-1' => [],
             ],
-            wp_get_sidebars_widgets()
+            wp_get_sidebars_widgets(),
         );
         $this->assertSame(
             [
                 '_multiwidget' => 1,
             ],
-            get_option('widget_text')
+            get_option('widget_text'),
         );
     }
 
@@ -1573,9 +1594,9 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
     public function test_get_item_schema()
     {
         wp_set_current_user(self::$admin_id);
-        $request    = new WP_REST_Request('OPTIONS', '/wp/v2/widgets');
-        $response   = rest_get_server()->dispatch($request);
-        $data       = $response->get_data();
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/widgets');
+        $response = rest_get_server()->dispatch($request);
+        $data = $response->get_data();
         $properties = $data['schema']['properties'];
 
         $this->assertSame(['v1' => true], $data['endpoints'][0]['allow_batch']);
@@ -1599,7 +1620,7 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
      */
     protected function remove_links($data)
     {
-        if (! is_array($data)) {
+        if (!is_array($data)) {
             return $data;
         }
         $count = 0;

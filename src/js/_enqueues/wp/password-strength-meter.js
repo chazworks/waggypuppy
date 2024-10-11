@@ -5,7 +5,7 @@
 /* global zxcvbn */
 window.wp = window.wp || {};
 
-(function($){
+( function ( $ ) {
 	var __ = wp.i18n.__,
 		sprintf = wp.i18n.sprintf;
 
@@ -31,11 +31,11 @@ window.wp = window.wp || {};
 		 *
 		 * @return {number} The password strength score.
 		 */
-		meter : function( password1, disallowedList, password2 ) {
+		meter: function ( password1, disallowedList, password2 ) {
 			if ( ! Array.isArray( disallowedList ) )
 				disallowedList = [ disallowedList.toString() ];
 
-			if (password1 != password2 && password2 && password2.length > 0)
+			if ( password1 != password2 && password2 && password2.length > 0 )
 				return 5;
 
 			if ( 'undefined' === typeof window.zxcvbn ) {
@@ -59,11 +59,13 @@ window.wp = window.wp || {};
 		 *
 		 * @return {string[]} The array of words to be disallowed.
 		 */
-		userInputBlacklist : function() {
+		userInputBlacklist: function () {
 			window.console.log(
 				sprintf(
 					/* translators: 1: Deprecated function name, 2: Version number, 3: Alternative function name. */
-					__( '%1$s is deprecated since version %2$s! Use %3$s instead. Please consider writing more inclusive code.' ),
+					__(
+						'%1$s is deprecated since version %2$s! Use %3$s instead. Please consider writing more inclusive code.'
+					),
 					'wp.passwordStrength.userInputBlacklist()',
 					'5.5.0',
 					'wp.passwordStrength.userInputDisallowedList()'
@@ -84,11 +86,25 @@ window.wp = window.wp || {};
 		 *
 		 * @return {string[]} The array of words to be disallowed.
 		 */
-		userInputDisallowedList : function() {
-			var i, userInputFieldsLength, rawValuesLength, currentField,
-				rawValues       = [],
-				disallowedList  = [],
-				userInputFields = [ 'user_login', 'first_name', 'last_name', 'nickname', 'display_name', 'email', 'url', 'description', 'weblog_title', 'admin_email' ];
+		userInputDisallowedList: function () {
+			var i,
+				userInputFieldsLength,
+				rawValuesLength,
+				currentField,
+				rawValues = [],
+				disallowedList = [],
+				userInputFields = [
+					'user_login',
+					'first_name',
+					'last_name',
+					'nickname',
+					'display_name',
+					'email',
+					'url',
+					'description',
+					'weblog_title',
+					'admin_email',
+				];
 
 			// Collect all the strings we want to disallow.
 			rawValues.push( document.title );
@@ -102,7 +118,7 @@ window.wp = window.wp || {};
 					continue;
 				}
 
-				rawValues.push( currentField[0].defaultValue );
+				rawValues.push( currentField[ 0 ].defaultValue );
 				rawValues.push( currentField.val() );
 			}
 
@@ -113,7 +129,9 @@ window.wp = window.wp || {};
 			rawValuesLength = rawValues.length;
 			for ( i = 0; i < rawValuesLength; i++ ) {
 				if ( rawValues[ i ] ) {
-					disallowedList = disallowedList.concat( rawValues[ i ].replace( /\W/g, ' ' ).split( ' ' ) );
+					disallowedList = disallowedList.concat(
+						rawValues[ i ].replace( /\W/g, ' ' ).split( ' ' )
+					);
 				}
 			}
 
@@ -121,16 +139,16 @@ window.wp = window.wp || {};
 			 * Remove empty values, short words and duplicates. Short words are likely to
 			 * cause many false positives.
 			 */
-			disallowedList = $.grep( disallowedList, function( value, key ) {
+			disallowedList = $.grep( disallowedList, function ( value, key ) {
 				if ( '' === value || 4 > value.length ) {
 					return false;
 				}
 
 				return $.inArray( value, disallowedList ) === key;
-			});
+			} );
 
 			return disallowedList;
-		}
+		},
 	};
 
 	// Backward compatibility.
@@ -146,4 +164,4 @@ window.wp = window.wp || {};
 	 * @type {wp.passwordStrength.meter}
 	 */
 	window.passwordStrength = wp.passwordStrength.meter;
-})(jQuery);
+} )( jQuery );

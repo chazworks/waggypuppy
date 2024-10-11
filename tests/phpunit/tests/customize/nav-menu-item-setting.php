@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tests WP_Customize_Nav_Menu_Item_Setting.
  *
@@ -27,7 +28,7 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
 
         global $wp_customize;
         $this->wp_customize = new WP_Customize_Manager();
-        $wp_customize       = $this->wp_customize;
+        $wp_customize = $this->wp_customize;
     }
 
     /**
@@ -82,22 +83,22 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
         $this->assertIsArray($setting->default);
 
         $default = [
-            'object_id'        => 0,
-            'object'           => '',
+            'object_id' => 0,
+            'object' => '',
             'menu_item_parent' => 0,
-            'position'         => 0,
-            'type'             => 'custom',
-            'title'            => '',
-            'url'              => '',
-            'target'           => '',
-            'attr_title'       => '',
-            'description'      => '',
-            'classes'          => '',
-            'xfn'              => '',
-            'status'           => 'publish',
-            'original_title'   => '',
+            'position' => 0,
+            'type' => 'custom',
+            'title' => '',
+            'url' => '',
+            'target' => '',
+            'attr_title' => '',
+            'description' => '',
+            'classes' => '',
+            'xfn' => '',
+            'status' => 'publish',
+            'original_title' => '',
             'nav_menu_term_id' => 0,
-            '_invalid'         => false,
+            '_invalid' => false,
         ];
         $this->assertSame($default, $setting->default);
 
@@ -139,8 +140,8 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
     {
         do_action('customize_register', $this->wp_customize);
         $default = [
-            'title'            => 'Lorem',
-            'description'      => 'ipsum',
+            'title' => 'Lorem',
+            'description' => 'ipsum',
             'menu_item_parent' => 123,
         ];
         $setting = new WP_Customize_Nav_Menu_Item_Setting($this->wp_customize, 'nav_menu_item[-5]', compact('default'));
@@ -160,26 +161,26 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
 
         $post_id = self::factory()->post->create(['post_title' => 'Hello World']);
 
-        $menu_id    = wp_create_nav_menu('Menu');
+        $menu_id = wp_create_nav_menu('Menu');
         $item_title = 'Greetings';
-        $item_id    = wp_update_nav_menu_item(
+        $item_id = wp_update_nav_menu_item(
             $menu_id,
             0,
             [
-                'menu-item-type'      => 'post_type',
-                'menu-item-object'    => 'post',
+                'menu-item-type' => 'post_type',
+                'menu-item-object' => 'post',
                 'menu-item-object-id' => $post_id,
-                'menu-item-title'     => $item_title,
-                'menu-item-status'    => 'publish',
-            ]
+                'menu-item-title' => $item_title,
+                'menu-item-status' => 'publish',
+            ],
         );
 
-        $post      = get_post($item_id);
+        $post = get_post($item_id);
         $menu_item = wp_setup_nav_menu_item($post);
         $this->assertSame($item_title, $menu_item->title);
 
         $setting_id = "nav_menu_item[$item_id]";
-        $setting    = new WP_Customize_Nav_Menu_Item_Setting($this->wp_customize, $setting_id);
+        $setting = new WP_Customize_Nav_Menu_Item_Setting($this->wp_customize, $setting_id);
 
         $value = $setting->value();
         $this->assertSame($menu_item->title, $value['title']);
@@ -194,7 +195,7 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
             $item_id,
             [
                 'menu-item-title' => 'Hola',
-            ]
+            ],
         );
         $value = $setting->value();
         $this->assertSame('Hola', $value['title']);
@@ -211,23 +212,23 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
         do_action('customize_register', $this->wp_customize);
 
         $original_title = 'Hello World';
-        $post_id        = self::factory()->post->create(['post_title' => $original_title]);
+        $post_id = self::factory()->post->create(['post_title' => $original_title]);
 
         $menu_id = wp_create_nav_menu('Menu');
         $item_id = wp_update_nav_menu_item(
             $menu_id,
             0,
             [
-                'menu-item-type'      => 'post_type',
-                'menu-item-object'    => 'post',
+                'menu-item-type' => 'post_type',
+                'menu-item-object' => 'post',
                 'menu-item-object-id' => $post_id,
-                'menu-item-title'     => '',
-                'menu-item-status'    => 'publish',
-            ]
+                'menu-item-title' => '',
+                'menu-item-status' => 'publish',
+            ],
         );
 
         $setting_id = "nav_menu_item[$item_id]";
-        $setting    = new WP_Customize_Nav_Menu_Item_Setting($this->wp_customize, $setting_id);
+        $setting = new WP_Customize_Nav_Menu_Item_Setting($this->wp_customize, $setting_id);
 
         $value = $setting->value();
         $this->assertSame('', $value['title']);
@@ -245,26 +246,26 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
 
         $tax_id = self::factory()->category->create(['name' => 'Salutations']);
 
-        $menu_id    = wp_create_nav_menu('Menu');
+        $menu_id = wp_create_nav_menu('Menu');
         $item_title = 'Greetings';
-        $item_id    = wp_update_nav_menu_item(
+        $item_id = wp_update_nav_menu_item(
             $menu_id,
             0,
             [
-                'menu-item-type'      => 'taxonomy',
-                'menu-item-object'    => 'category',
+                'menu-item-type' => 'taxonomy',
+                'menu-item-object' => 'category',
                 'menu-item-object-id' => $tax_id,
-                'menu-item-title'     => $item_title,
-                'menu-item-status'    => 'publish',
-            ]
+                'menu-item-title' => $item_title,
+                'menu-item-status' => 'publish',
+            ],
         );
 
-        $post      = get_post($item_id);
+        $post = get_post($item_id);
         $menu_item = wp_setup_nav_menu_item($post);
         $this->assertSame($item_title, $menu_item->title);
 
         $setting_id = "nav_menu_item[$item_id]";
-        $setting    = new WP_Customize_Nav_Menu_Item_Setting($this->wp_customize, $setting_id);
+        $setting = new WP_Customize_Nav_Menu_Item_Setting($this->wp_customize, $setting_id);
 
         $value = $setting->value();
         $this->assertSame($menu_item->title, $value['title']);
@@ -289,18 +290,18 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
             $menu_id,
             0,
             [
-                'menu-item-type'   => 'custom_type',
+                'menu-item-type' => 'custom_type',
                 'menu-item-object' => 'custom_object',
-                'menu-item-title'  => 'Cool beans',
+                'menu-item-title' => 'Cool beans',
                 'menu-item-status' => 'publish',
-            ]
+            ],
         );
 
-        $post      = get_post($item_id);
+        $post = get_post($item_id);
         $menu_item = wp_setup_nav_menu_item($post);
 
         $setting_id = "nav_menu_item[$item_id]";
-        $setting    = new WP_Customize_Nav_Menu_Item_Setting($this->wp_customize, $setting_id);
+        $setting = new WP_Customize_Nav_Menu_Item_Setting($this->wp_customize, $setting_id);
 
         $value = $setting->value();
         $this->assertSame($menu_item->type_label, 'Custom Label');
@@ -316,15 +317,15 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
     {
         do_action('customize_register', $this->wp_customize);
 
-        $menu_id    = -123;
+        $menu_id = -123;
         $post_value = [
-            'name'        => 'Secondary',
+            'name' => 'Secondary',
             'description' => '',
-            'parent'      => 0,
-            'auto_add'    => false,
+            'parent' => 0,
+            'auto_add' => false,
         ];
         $setting_id = "nav_menu[$menu_id]";
-        $menu       = new WP_Customize_Nav_Menu_Setting($this->wp_customize, $setting_id);
+        $menu = new WP_Customize_Nav_Menu_Setting($this->wp_customize, $setting_id);
 
         $this->wp_customize->set_post_value($menu->id, $post_value);
         $menu->preview();
@@ -336,20 +337,20 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
             $menu_id,
             0,
             [
-                'menu-item-type'      => 'post_type',
-                'menu-item-object'    => 'post',
+                'menu-item-type' => 'post_type',
+                'menu-item-object' => 'post',
                 'menu-item-object-id' => $post_id,
-                'menu-item-title'     => 'Hello World',
-                'menu-item-status'    => 'publish',
-            ]
+                'menu-item-title' => 'Hello World',
+                'menu-item-status' => 'publish',
+            ],
         );
 
-        $post      = get_post($item_id);
+        $post = get_post($item_id);
         $menu_item = wp_setup_nav_menu_item($post);
 
         $setting_id = "nav_menu_item[$item_id]";
-        $setting    = new WP_Customize_Nav_Menu_Item_Setting($this->wp_customize, $setting_id);
-        $value      = $setting->value();
+        $setting = new WP_Customize_Nav_Menu_Item_Setting($this->wp_customize, $setting_id);
+        $value = $setting->value();
         $this->assertSame(0, $value['nav_menu_term_id']);
     }
 
@@ -362,35 +363,35 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
     {
         do_action('customize_register', $this->wp_customize);
 
-        $first_post_id  = self::factory()->post->create(['post_title' => 'Hello World']);
+        $first_post_id = self::factory()->post->create(['post_title' => 'Hello World']);
         $second_post_id = self::factory()->post->create(['post_title' => 'Hola Muno']);
 
-        $primary_menu_id   = wp_create_nav_menu('Primary');
+        $primary_menu_id = wp_create_nav_menu('Primary');
         $secondary_menu_id = wp_create_nav_menu('Secondary');
-        $item_title        = 'Greetings';
-        $item_id           = wp_update_nav_menu_item(
+        $item_title = 'Greetings';
+        $item_id = wp_update_nav_menu_item(
             $primary_menu_id,
             0,
             [
-                'menu-item-type'      => 'post_type',
-                'menu-item-object'    => 'post',
+                'menu-item-type' => 'post_type',
+                'menu-item-object' => 'post',
                 'menu-item-object-id' => $first_post_id,
-                'menu-item-title'     => $item_title,
-                'menu-item-status'    => 'publish',
-            ]
+                'menu-item-title' => $item_title,
+                'menu-item-status' => 'publish',
+            ],
         );
         $this->assertNotEmpty(wp_get_nav_menu_items($primary_menu_id, ['post_status' => 'publish,draft']));
 
         $post_value = [
-            'type'             => 'post_type',
-            'object'           => 'post',
-            'object_id'        => $second_post_id,
-            'title'            => 'Saludos',
-            'status'           => 'publish',
+            'type' => 'post_type',
+            'object' => 'post',
+            'object_id' => $second_post_id,
+            'title' => 'Saludos',
+            'status' => 'publish',
             'nav_menu_term_id' => $secondary_menu_id,
         ];
         $setting_id = "nav_menu_item[$item_id]";
-        $setting    = new WP_Customize_Nav_Menu_Item_Setting($this->wp_customize, $setting_id);
+        $setting = new WP_Customize_Nav_Menu_Item_Setting($this->wp_customize, $setting_id);
         $this->wp_customize->set_post_value($setting_id, $post_value);
         unset($post_value['nav_menu_term_id']);
         $setting->preview();
@@ -398,10 +399,10 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
         // Make sure the menu item appears in the new menu.
         $this->assertNotContains($item_id, wp_list_pluck(wp_get_nav_menu_items($primary_menu_id), 'db_id'));
         $menu_items = wp_get_nav_menu_items($secondary_menu_id);
-        $db_ids     = wp_list_pluck($menu_items, 'db_id');
+        $db_ids = wp_list_pluck($menu_items, 'db_id');
         $this->assertContains($item_id, $db_ids);
-        $i                         = array_search($item_id, $db_ids, true);
-        $updated_item              = $menu_items[$i];
+        $i = array_search($item_id, $db_ids, true);
+        $updated_item = $menu_items[$i];
         $post_value['post_status'] = $post_value['status'];
         unset($post_value['status']);
         foreach ($post_value as $key => $value) {
@@ -418,38 +419,38 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
     {
         do_action('customize_register', $this->wp_customize);
 
-        $menu_id  = wp_create_nav_menu('Primary');
-        $post_id  = self::factory()->post->create(['post_title' => 'Hello World']);
+        $menu_id = wp_create_nav_menu('Primary');
+        $post_id = self::factory()->post->create(['post_title' => 'Hello World']);
         $item_ids = [];
         for ($i = 0; $i < 5; $i += 1) {
-            $item_id    = wp_update_nav_menu_item(
+            $item_id = wp_update_nav_menu_item(
                 $menu_id,
                 0,
                 [
-                    'menu-item-type'      => 'post_type',
-                    'menu-item-object'    => 'post',
+                    'menu-item-type' => 'post_type',
+                    'menu-item-object' => 'post',
                     'menu-item-object-id' => $post_id,
-                    'menu-item-title'     => "Item $i",
-                    'menu-item-status'    => 'publish',
-                    'menu-item-position'  => $i + 1,
-                ]
+                    'menu-item-title' => "Item $i",
+                    'menu-item-status' => 'publish',
+                    'menu-item-position' => $i + 1,
+                ],
             );
             $item_ids[] = $item_id;
         }
 
         $post_value = [
-            'type'             => 'post_type',
-            'object'           => 'post',
-            'object_id'        => $post_id,
-            'title'            => 'Inserted item',
-            'status'           => 'publish',
+            'type' => 'post_type',
+            'object' => 'post',
+            'object_id' => $post_id,
+            'title' => 'Inserted item',
+            'status' => 'publish',
             'nav_menu_term_id' => $menu_id,
-            'position'         => count($item_ids) + 1,
+            'position' => count($item_ids) + 1,
         ];
 
         $new_item_id = -10;
-        $setting_id  = "nav_menu_item[$new_item_id]";
-        $setting     = new WP_Customize_Nav_Menu_Item_Setting($this->wp_customize, $setting_id);
+        $setting_id = "nav_menu_item[$new_item_id]";
+        $setting = new WP_Customize_Nav_Menu_Item_Setting($this->wp_customize, $setting_id);
         $this->wp_customize->set_post_value($setting_id, $post_value);
         unset($post_value['nav_menu_term_id']);
 
@@ -478,28 +479,28 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
     {
         do_action('customize_register', $this->wp_customize);
 
-        $menu_id  = wp_create_nav_menu('Primary');
-        $post_id  = self::factory()->post->create(['post_title' => 'Hello World']);
+        $menu_id = wp_create_nav_menu('Primary');
+        $post_id = self::factory()->post->create(['post_title' => 'Hello World']);
         $item_ids = [];
         for ($i = 0; $i < 5; $i += 1) {
-            $item_id    = wp_update_nav_menu_item(
+            $item_id = wp_update_nav_menu_item(
                 $menu_id,
                 0,
                 [
-                    'menu-item-type'      => 'post_type',
-                    'menu-item-object'    => 'post',
+                    'menu-item-type' => 'post_type',
+                    'menu-item-object' => 'post',
                     'menu-item-object-id' => $post_id,
-                    'menu-item-title'     => "Item $i",
-                    'menu-item-status'    => 'publish',
-                    'menu-item-position'  => $i + 1,
-                ]
+                    'menu-item-title' => "Item $i",
+                    'menu-item-status' => 'publish',
+                    'menu-item-position' => $i + 1,
+                ],
             );
             $item_ids[] = $item_id;
         }
 
         $delete_item_id = $item_ids[2];
-        $setting_id     = "nav_menu_item[$delete_item_id]";
-        $setting        = new WP_Customize_Nav_Menu_Item_Setting($this->wp_customize, $setting_id);
+        $setting_id = "nav_menu_item[$delete_item_id]";
+        $setting = new WP_Customize_Nav_Menu_Item_Setting($this->wp_customize, $setting_id);
         $this->wp_customize->set_post_value($setting_id, false);
 
         $current_items = wp_get_nav_menu_items($menu_id);
@@ -566,39 +567,44 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
         }
 
         $unsanitized = [
-            'object_id'        => 'bad',
-            'object'           => '<b>hello</b>',
+            'object_id' => 'bad',
+            'object' => '<b>hello</b>',
             'menu_item_parent' => 'asdasd',
-            'position'         => -123,
-            'type'             => 'custom<b>',
-            'title'            => '\o/ o\'o Hi<script>unfilteredHtml()</script>',
-            'url'              => '', // Note the javascript: protocol is checked above and results in a hard validation error, beyond mere sanitization.
-            'target'           => '" onclick="',
-            'attr_title'       => '\o/ o\'o <b>bolded</b><script>unfilteredHtml()</script>',
-            'description'      => '\o/ o\'o <b>Hello world</b><script>unfilteredHtml()</script>',
-            'classes'          => 'hello " inject="',
-            'xfn'              => 'hello " inject="',
-            'status'           => 'forbidden',
-            'original_title'   => 'Hi<script>unfilteredHtml()</script>',
+            'position' => -123,
+            'type' => 'custom<b>',
+            'title' => '\o/ o\'o Hi<script>unfilteredHtml()</script>',
+            'url' => '',
+            // Note the javascript: protocol is checked above and results in a hard validation error, beyond mere sanitization.
+            'target' => '" onclick="',
+            'attr_title' => '\o/ o\'o <b>bolded</b><script>unfilteredHtml()</script>',
+            'description' => '\o/ o\'o <b>Hello world</b><script>unfilteredHtml()</script>',
+            'classes' => 'hello " inject="',
+            'xfn' => 'hello " inject="',
+            'status' => 'forbidden',
+            'original_title' => 'Hi<script>unfilteredHtml()</script>',
             'nav_menu_term_id' => 'heilo',
-            '_invalid'         => false,
+            '_invalid' => false,
         ];
 
         $expected_sanitized = [
-            'object_id'        => 0,
-            'object'           => 'bhellob',
+            'object_id' => 0,
+            'object' => 'bhellob',
             'menu_item_parent' => 0,
-            'position'         => -123,
-            'type'             => 'customb',
-            'title'            => current_user_can('unfiltered_html') ? '\o/ o\'o Hi<script>unfilteredHtml()</script>' : '\o/ o\'o HiunfilteredHtml()',
-            'url'              => '',
-            'target'           => 'onclick',
-            'attr_title'       => current_user_can('unfiltered_html') ? '\o/ o\'o <b>bolded</b><script>unfilteredHtml()</script>' : '\o/ o\'o <b>bolded</b>unfilteredHtml()',
-            'description'      => current_user_can('unfiltered_html') ? '\o/ o\'o <b>Hello world</b><script>unfilteredHtml()</script>' : '\o/ o\'o <b>Hello world</b>unfilteredHtml()',
-            'classes'          => 'hello  inject',
-            'xfn'              => 'hello  inject',
-            'status'           => 'draft',
-            'original_title'   => 'Hi',
+            'position' => -123,
+            'type' => 'customb',
+            'title' => current_user_can('unfiltered_html') ? '\o/ o\'o Hi<script>unfilteredHtml()</script>'
+                : '\o/ o\'o HiunfilteredHtml()',
+            'url' => '',
+            'target' => 'onclick',
+            'attr_title' => current_user_can('unfiltered_html')
+                ? '\o/ o\'o <b>bolded</b><script>unfilteredHtml()</script>' : '\o/ o\'o <b>bolded</b>unfilteredHtml()',
+            'description' => current_user_can('unfiltered_html')
+                ? '\o/ o\'o <b>Hello world</b><script>unfilteredHtml()</script>'
+                : '\o/ o\'o <b>Hello world</b>unfilteredHtml()',
+            'classes' => 'hello  inject',
+            'xfn' => 'hello  inject',
+            'status' => 'draft',
+            'original_title' => 'Hi',
             'nav_menu_term_id' => 0,
         ];
 
@@ -614,24 +620,24 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
             0,
             wp_slash(
                 [
-                    'menu-item-object-id'   => $unsanitized['object_id'],
-                    'menu-item-object'      => $unsanitized['object'],
-                    'menu-item-parent-id'   => $unsanitized['menu_item_parent'],
-                    'menu-item-position'    => $unsanitized['position'],
-                    'menu-item-type'        => $unsanitized['type'],
-                    'menu-item-title'       => $unsanitized['title'],
-                    'menu-item-url'         => $unsanitized['url'],
+                    'menu-item-object-id' => $unsanitized['object_id'],
+                    'menu-item-object' => $unsanitized['object'],
+                    'menu-item-parent-id' => $unsanitized['menu_item_parent'],
+                    'menu-item-position' => $unsanitized['position'],
+                    'menu-item-type' => $unsanitized['type'],
+                    'menu-item-title' => $unsanitized['title'],
+                    'menu-item-url' => $unsanitized['url'],
                     'menu-item-description' => $unsanitized['description'],
-                    'menu-item-attr-title'  => $unsanitized['attr_title'],
-                    'menu-item-target'      => $unsanitized['target'],
-                    'menu-item-classes'     => $unsanitized['classes'],
-                    'menu-item-xfn'         => $unsanitized['xfn'],
-                    'menu-item-status'      => $unsanitized['status'],
-                ]
-            )
+                    'menu-item-attr-title' => $unsanitized['attr_title'],
+                    'menu-item-target' => $unsanitized['target'],
+                    'menu-item-classes' => $unsanitized['classes'],
+                    'menu-item-xfn' => $unsanitized['xfn'],
+                    'menu-item-status' => $unsanitized['status'],
+                ],
+            ),
         );
 
-        $post          = get_post($nav_menu_item_id);
+        $post = get_post($nav_menu_item_id);
         $nav_menu_item = wp_setup_nav_menu_item(clone $post);
 
         $this->assertEquals($expected_sanitized['object_id'], $nav_menu_item->object_id);
@@ -658,35 +664,35 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
     {
         do_action('customize_register', $this->wp_customize);
 
-        $first_post_id  = self::factory()->post->create(['post_title' => 'Hello World']);
+        $first_post_id = self::factory()->post->create(['post_title' => 'Hello World']);
         $second_post_id = self::factory()->post->create(['post_title' => 'Hola Muno']);
 
-        $primary_menu_id   = wp_create_nav_menu('Primary');
+        $primary_menu_id = wp_create_nav_menu('Primary');
         $secondary_menu_id = wp_create_nav_menu('Secondary');
-        $item_title        = 'Greetings';
-        $item_id           = wp_update_nav_menu_item(
+        $item_title = 'Greetings';
+        $item_id = wp_update_nav_menu_item(
             $primary_menu_id,
             0,
             [
-                'menu-item-type'      => 'post_type',
-                'menu-item-object'    => 'post',
+                'menu-item-type' => 'post_type',
+                'menu-item-object' => 'post',
                 'menu-item-object-id' => $first_post_id,
-                'menu-item-title'     => $item_title,
-                'menu-item-status'    => 'publish',
-            ]
+                'menu-item-title' => $item_title,
+                'menu-item-status' => 'publish',
+            ],
         );
         $this->assertNotEmpty(wp_get_nav_menu_items($primary_menu_id, ['post_status' => 'publish,draft']));
 
         $post_value = [
-            'type'             => 'post_type',
-            'object'           => 'post',
-            'object_id'        => $second_post_id,
-            'title'            => 'Saludos \o/ o\'o',
-            'status'           => 'publish',
+            'type' => 'post_type',
+            'object' => 'post',
+            'object_id' => $second_post_id,
+            'title' => 'Saludos \o/ o\'o',
+            'status' => 'publish',
             'nav_menu_term_id' => $secondary_menu_id,
         ];
         $setting_id = "nav_menu_item[$item_id]";
-        $setting    = new WP_Customize_Nav_Menu_Item_Setting($this->wp_customize, $setting_id);
+        $setting = new WP_Customize_Nav_Menu_Item_Setting($this->wp_customize, $setting_id);
         $this->wp_customize->set_post_value($setting_id, $post_value);
         unset($post_value['nav_menu_term_id']);
         $setting->save();
@@ -694,10 +700,10 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
         // Make sure the menu item appears in the new menu.
         $this->assertNotContains($item_id, wp_list_pluck(wp_get_nav_menu_items($primary_menu_id), 'db_id'));
         $menu_items = wp_get_nav_menu_items($secondary_menu_id);
-        $db_ids     = wp_list_pluck($menu_items, 'db_id');
+        $db_ids = wp_list_pluck($menu_items, 'db_id');
         $this->assertContains($item_id, $db_ids);
-        $i                         = array_search($item_id, $db_ids, true);
-        $updated_item              = $menu_items[$i];
+        $i = array_search($item_id, $db_ids, true);
+        $updated_item = $menu_items[$i];
         $post_value['post_status'] = $post_value['status'];
         unset($post_value['status']);
         foreach ($post_value as $key => $value) {
@@ -728,38 +734,38 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
     {
         do_action('customize_register', $this->wp_customize);
 
-        $menu_id  = wp_create_nav_menu('Primary');
-        $post_id  = self::factory()->post->create(['post_title' => 'Hello World']);
+        $menu_id = wp_create_nav_menu('Primary');
+        $post_id = self::factory()->post->create(['post_title' => 'Hello World']);
         $item_ids = [];
         for ($i = 0; $i < 5; $i += 1) {
-            $item_id    = wp_update_nav_menu_item(
+            $item_id = wp_update_nav_menu_item(
                 $menu_id,
                 0,
                 [
-                    'menu-item-type'      => 'post_type',
-                    'menu-item-object'    => 'post',
+                    'menu-item-type' => 'post_type',
+                    'menu-item-object' => 'post',
                     'menu-item-object-id' => $post_id,
-                    'menu-item-title'     => "Item $i",
-                    'menu-item-status'    => 'publish',
-                    'menu-item-position'  => $i + 1,
-                ]
+                    'menu-item-title' => "Item $i",
+                    'menu-item-status' => 'publish',
+                    'menu-item-position' => $i + 1,
+                ],
             );
             $item_ids[] = $item_id;
         }
 
         $post_value = [
-            'type'             => 'post_type',
-            'object'           => 'post',
-            'object_id'        => $post_id,
-            'title'            => 'Inserted item',
-            'status'           => 'publish',
+            'type' => 'post_type',
+            'object' => 'post',
+            'object_id' => $post_id,
+            'title' => 'Inserted item',
+            'status' => 'publish',
             'nav_menu_term_id' => $menu_id,
-            'position'         => count($item_ids) + 1,
+            'position' => count($item_ids) + 1,
         ];
 
         $new_item_id = -10;
-        $setting_id  = "nav_menu_item[$new_item_id]";
-        $setting     = new WP_Customize_Nav_Menu_Item_Setting($this->wp_customize, $setting_id);
+        $setting_id = "nav_menu_item[$new_item_id]";
+        $setting = new WP_Customize_Nav_Menu_Item_Setting($this->wp_customize, $setting_id);
         $this->wp_customize->set_post_value($setting_id, $post_value);
         unset($post_value['nav_menu_term_id']);
 
@@ -802,28 +808,28 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
     {
         do_action('customize_register', $this->wp_customize);
 
-        $menu_id  = wp_create_nav_menu('Primary');
-        $post_id  = self::factory()->post->create(['post_title' => 'Hello World']);
+        $menu_id = wp_create_nav_menu('Primary');
+        $post_id = self::factory()->post->create(['post_title' => 'Hello World']);
         $item_ids = [];
         for ($i = 0; $i < 5; $i += 1) {
-            $item_id    = wp_update_nav_menu_item(
+            $item_id = wp_update_nav_menu_item(
                 $menu_id,
                 0,
                 [
-                    'menu-item-type'      => 'post_type',
-                    'menu-item-object'    => 'post',
+                    'menu-item-type' => 'post_type',
+                    'menu-item-object' => 'post',
                     'menu-item-object-id' => $post_id,
-                    'menu-item-title'     => "Item $i",
-                    'menu-item-status'    => 'publish',
-                    'menu-item-position'  => $i + 1,
-                ]
+                    'menu-item-title' => "Item $i",
+                    'menu-item-status' => 'publish',
+                    'menu-item-position' => $i + 1,
+                ],
             );
             $item_ids[] = $item_id;
         }
 
         $delete_item_id = $item_ids[2];
-        $setting_id     = "nav_menu_item[$delete_item_id]";
-        $setting        = new WP_Customize_Nav_Menu_Item_Setting($this->wp_customize, $setting_id);
+        $setting_id = "nav_menu_item[$delete_item_id]";
+        $setting = new WP_Customize_Nav_Menu_Item_Setting($this->wp_customize, $setting_id);
         $this->wp_customize->set_post_value($setting_id, false);
 
         $current_items = wp_get_nav_menu_items($menu_id);
@@ -858,27 +864,27 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
             'poem',
             [
                 'public' => true,
-            ]
+            ],
         );
 
-        $post_id    = self::factory()->post->create(
+        $post_id = self::factory()->post->create(
             [
-                'post_type'  => 'poem',
+                'post_type' => 'poem',
                 'post_title' => 'Code is poetry.',
-            ]
+            ],
         );
-        $post       = get_post($post_id);
-        $item_id    = wp_update_nav_menu_item(
+        $post = get_post($post_id);
+        $item_id = wp_update_nav_menu_item(
             $menu_id,
             0,
             [
-                'menu-item-type'      => 'post_type',
-                'menu-item-object'    => 'poem',
+                'menu-item-type' => 'post_type',
+                'menu-item-object' => 'poem',
                 'menu-item-object-id' => $post_id,
-                'menu-item-title'     => $post->post_title,
-                'menu-item-status'    => 'publish',
-                'menu-item-position'  => 1,
-            ]
+                'menu-item-title' => $post->post_title,
+                'menu-item-status' => 'publish',
+                'menu-item-position' => 1,
+            ],
         );
         $setting_id = "nav_menu_item[$item_id]";
 
@@ -891,14 +897,14 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
         $this->assertFalse($value_object->_invalid);
 
         $setting = new WP_Customize_Nav_Menu_Item_Setting($this->wp_customize, $setting_id);
-        $value   = $setting->value();
+        $value = $setting->value();
         $this->assertFalse($value['_invalid']);
         $value_object = $setting->value_as_wp_post_nav_menu_item();
         $this->assertFalse($value_object->_invalid);
 
         _unregister_post_type('poem');
         $setting = new WP_Customize_Nav_Menu_Item_Setting($this->wp_customize, $setting_id);
-        $value   = $setting->value();
+        $value = $setting->value();
         $this->assertTrue($value['_invalid']);
         $value_object = $setting->value_as_wp_post_nav_menu_item();
         $this->assertTrue($value_object->_invalid);
@@ -913,27 +919,27 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
     {
         $post_id = self::factory()->post->create();
 
-        $setting    = new WP_Customize_Nav_Menu_Item_Setting(
+        $setting = new WP_Customize_Nav_Menu_Item_Setting(
             $this->wp_customize,
-            'nav_menu_item[123]'
+            'nav_menu_item[123]',
         );
         $post_value = [
-            'object_id'        => $post_id,
-            'object'           => 'post',
+            'object_id' => $post_id,
+            'object' => 'post',
             'menu_item_parent' => 0,
-            'position'         => 2,
-            'type'             => 'custom_type',
-            'title'            => 'Hello \o/ o\'o World',
-            'url'              => '',
-            'target'           => '',
-            'attr_title'       => '">att \o/ o\'o empted <b>baddie</b>',
-            'description'      => 'Attempted \o/ o\'o <b>markup</b>',
-            'classes'          => 'class-1 class-2',
-            'xfn'              => '',
-            'status'           => 'publish',
-            'original_title'   => '',
+            'position' => 2,
+            'type' => 'custom_type',
+            'title' => 'Hello \o/ o\'o World',
+            'url' => '',
+            'target' => '',
+            'attr_title' => '">att \o/ o\'o empted <b>baddie</b>',
+            'description' => 'Attempted \o/ o\'o <b>markup</b>',
+            'classes' => 'class-1 class-2',
+            'xfn' => '',
+            'status' => 'publish',
+            'original_title' => '',
             'nav_menu_term_id' => 0,
-            '_invalid'         => false,
+            '_invalid' => false,
         ];
         $this->wp_customize->set_post_value($setting->id, $post_value);
 
@@ -959,7 +965,8 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
         $this->assertSame(123, $nav_menu_item->db_id);
         $this->assertSame(wp_get_current_user()->ID, $nav_menu_item->post_author);
         $this->assertObjectHasProperty('type_label', $nav_menu_item);
-        $expected = apply_filters('nav_menu_attr_title', wp_unslash(apply_filters('excerpt_save_pre', wp_slash($post_value['attr_title']))));
+        $expected = apply_filters('nav_menu_attr_title',
+            wp_unslash(apply_filters('excerpt_save_pre', wp_slash($post_value['attr_title']))));
         $this->assertSame($expected, $nav_menu_item->attr_title);
         $this->assertSame('Attempted \o/ o&#8217;o markup', $nav_menu_item->description);
         $this->assertSame(['class-1', 'class-2'], $nav_menu_item->classes);
@@ -978,24 +985,24 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
             'press_release',
             [
                 'has_archive' => true,
-            ]
+            ],
         );
         $post_id = self::factory()->post->create(['post_type' => 'press_release']);
 
         // Term.
         $setting = new WP_Customize_Nav_Menu_Item_Setting(
             $this->wp_customize,
-            'nav_menu_item[-1]'
+            'nav_menu_item[-1]',
         );
         $this->wp_customize->set_post_value(
             $setting->id,
             [
-                'type'      => 'taxonomy',
-                'object'    => 'category',
+                'type' => 'taxonomy',
+                'object' => 'category',
                 'object_id' => $term_id,
-                'title'     => 'Category',
-                'url'       => '',
-            ]
+                'title' => 'Category',
+                'url' => '',
+            ],
         );
         $setting->preview();
         $nav_menu_item = $setting->value_as_wp_post_nav_menu_item();
@@ -1004,17 +1011,17 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
         // Post.
         $setting = new WP_Customize_Nav_Menu_Item_Setting(
             $this->wp_customize,
-            'nav_menu_item[-2]'
+            'nav_menu_item[-2]',
         );
         $this->wp_customize->set_post_value(
             $setting->id,
             [
-                'type'      => 'post_type',
-                'object'    => 'press_release',
+                'type' => 'post_type',
+                'object' => 'press_release',
                 'object_id' => $post_id,
-                'title'     => 'PR',
-                'url'       => '',
-            ]
+                'title' => 'PR',
+                'url' => '',
+            ],
         );
         $setting->preview();
         $nav_menu_item = $setting->value_as_wp_post_nav_menu_item();
@@ -1023,16 +1030,16 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
         // Post type archive.
         $setting = new WP_Customize_Nav_Menu_Item_Setting(
             $this->wp_customize,
-            'nav_menu_item[-3]'
+            'nav_menu_item[-3]',
         );
         $this->wp_customize->set_post_value(
             $setting->id,
             [
-                'type'   => 'post_type_archive',
+                'type' => 'post_type_archive',
                 'object' => 'press_release',
-                'title'  => 'PR',
-                'url'    => '',
-            ]
+                'title' => 'PR',
+                'url' => '',
+            ],
         );
         $setting->preview();
         $nav_menu_item = $setting->value_as_wp_post_nav_menu_item();
@@ -1052,26 +1059,26 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
             'press_release',
             [
                 'has_archive' => true,
-                'labels'      => [
-                    'name'          => 'PRs',
+                'labels' => [
+                    'name' => 'PRs',
                     'singular_name' => 'PR',
-                    'archives'      => 'All PRs',
+                    'archives' => 'All PRs',
                 ],
-            ]
+            ],
         );
         $original_post_title = 'The PR Post';
-        $post_id             = self::factory()->post->create(
+        $post_id = self::factory()->post->create(
             [
-                'post_type'  => 'press_release',
+                'post_type' => 'press_release',
                 'post_title' => $original_post_title,
-            ]
+            ],
         );
         $original_term_title = 'The Category Term';
-        $term_id             = self::factory()->term->create(
+        $term_id = self::factory()->term->create(
             [
                 'taxonomy' => 'category',
-                'name'     => $original_term_title,
-            ]
+                'name' => $original_term_title,
+            ],
         );
 
         // Post: existing nav menu item.
@@ -1080,17 +1087,17 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
             0,
             [
                 'menu-item-object-id' => $post_id,
-                'menu-item-type'      => 'post_type',
-                'menu-item-object'    => 'press_release',
-                'menu-item-title'     => '',
-                'menu-item-status'    => 'publish',
-            ]
+                'menu-item-type' => 'post_type',
+                'menu-item-object' => 'press_release',
+                'menu-item-title' => '',
+                'menu-item-status' => 'publish',
+            ],
         );
-        $setting          = new WP_Customize_Nav_Menu_Item_Setting(
+        $setting = new WP_Customize_Nav_Menu_Item_Setting(
             $this->wp_customize,
-            'nav_menu_item[' . $nav_menu_item_id . ']'
+            'nav_menu_item[' . $nav_menu_item_id . ']',
         );
-        $item_value       = $setting->value();
+        $item_value = $setting->value();
         $this->assertSame($original_post_title, $item_value['original_title']);
         $this->assertSame('', $item_value['title']);
         $item = $setting->value_as_wp_post_nav_menu_item();
@@ -1104,17 +1111,17 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
         // Post: staged nav menu item.
         $setting = new WP_Customize_Nav_Menu_Item_Setting(
             $this->wp_customize,
-            'nav_menu_item[-1]'
+            'nav_menu_item[-1]',
         );
         $this->wp_customize->set_post_value(
             $setting->id,
             [
                 'object_id' => $post_id,
-                'type'      => 'post_type',
-                'object'    => 'press_release',
-                'title'     => '',
-                'status'    => 'publish',
-            ]
+                'type' => 'post_type',
+                'object' => 'press_release',
+                'title' => '',
+                'status' => 'publish',
+            ],
         );
         $setting->preview();
         $item_value = $setting->value();
@@ -1134,17 +1141,17 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
             0,
             [
                 'menu-item-object-id' => $term_id,
-                'menu-item-type'      => 'taxonomy',
-                'menu-item-object'    => 'category',
-                'menu-item-title'     => '',
-                'menu-item-status'    => 'publish',
-            ]
+                'menu-item-type' => 'taxonomy',
+                'menu-item-object' => 'category',
+                'menu-item-title' => '',
+                'menu-item-status' => 'publish',
+            ],
         );
-        $setting          = new WP_Customize_Nav_Menu_Item_Setting(
+        $setting = new WP_Customize_Nav_Menu_Item_Setting(
             $this->wp_customize,
-            'nav_menu_item[' . $nav_menu_item_id . ']'
+            'nav_menu_item[' . $nav_menu_item_id . ']',
         );
-        $item_value       = $setting->value();
+        $item_value = $setting->value();
         $this->assertSame($original_term_title, $item_value['original_title']);
         $this->assertSame('', $item_value['title']);
         $item = $setting->value_as_wp_post_nav_menu_item();
@@ -1158,17 +1165,17 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
         // Term: staged nav menu item.
         $setting = new WP_Customize_Nav_Menu_Item_Setting(
             $this->wp_customize,
-            'nav_menu_item[-2]'
+            'nav_menu_item[-2]',
         );
         $this->wp_customize->set_post_value(
             $setting->id,
             [
                 'object_id' => $term_id,
-                'type'      => 'taxonomy',
-                'object'    => 'category',
-                'title'     => '',
-                'status'    => 'publish',
-            ]
+                'type' => 'taxonomy',
+                'object' => 'category',
+                'title' => '',
+                'status' => 'publish',
+            ],
         );
         $setting->preview();
         $item_value = $setting->value();
@@ -1187,17 +1194,17 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
             $menu_id,
             0,
             [
-                'menu-item-type'   => 'post_type_archive',
+                'menu-item-type' => 'post_type_archive',
                 'menu-item-object' => 'press_release',
-                'menu-item-title'  => '',
+                'menu-item-title' => '',
                 'menu-item-status' => 'publish',
-            ]
+            ],
         );
-        $setting          = new WP_Customize_Nav_Menu_Item_Setting(
+        $setting = new WP_Customize_Nav_Menu_Item_Setting(
             $this->wp_customize,
-            'nav_menu_item[' . $nav_menu_item_id . ']'
+            'nav_menu_item[' . $nav_menu_item_id . ']',
         );
-        $item_value       = $setting->value();
+        $item_value = $setting->value();
         $this->assertSame(get_post_type_object('press_release')->labels->archives, $item_value['original_title']);
         $this->assertSame('', $item_value['title']);
         $item = $setting->value_as_wp_post_nav_menu_item();
@@ -1211,16 +1218,16 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
         // Post Type Archive: staged nav menu item.
         $setting = new WP_Customize_Nav_Menu_Item_Setting(
             $this->wp_customize,
-            'nav_menu_item[-3]'
+            'nav_menu_item[-3]',
         );
         $this->wp_customize->set_post_value(
             $setting->id,
             [
-                'type'   => 'post_type_archive',
+                'type' => 'post_type_archive',
                 'object' => 'press_release',
-                'title'  => '',
+                'title' => '',
                 'status' => 'publish',
-            ]
+            ],
         );
         $setting->preview();
         $item_value = $setting->value();
@@ -1244,22 +1251,22 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
     public function test_value_as_wp_post_nav_menu_item_with_empty_title()
     {
         $original_title = 'The Original Title';
-        $post_id        = self::factory()->post->create(['post_title' => $original_title]);
+        $post_id = self::factory()->post->create(['post_title' => $original_title]);
 
         $setting = new WP_Customize_Nav_Menu_Item_Setting(
             $this->wp_customize,
-            'nav_menu_item[123]'
+            'nav_menu_item[123]',
         );
 
         $post_value = array_merge(
             $setting->default,
             [
-                'object_id'        => $post_id,
-                'object'           => 'post',
-                'type'             => 'post_type',
-                'status'           => 'publish',
+                'object_id' => $post_id,
+                'object' => 'post',
+                'type' => 'post_type',
+                'status' => 'publish',
                 'nav_menu_term_id' => 0,
-            ]
+            ],
         );
         $this->wp_customize->set_post_value($setting->id, $post_value);
 

@@ -14,15 +14,15 @@
 /**
  * Retrieves the value of a query variable in the WP_Query class.
  *
+ * @param string $query_var The variable key to retrieve.
+ * @param mixed $default_value Optional. Value to return if the query variable is not set.
+ *                              Default empty string.
+ * @return mixed Contents of the query variable.
  * @since 1.5.0
  * @since 3.9.0 The `$default_value` argument was introduced.
  *
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @param string $query_var     The variable key to retrieve.
- * @param mixed  $default_value Optional. Value to return if the query variable is not set.
- *                              Default empty string.
- * @return mixed Contents of the query variable.
  */
 function get_query_var($query_var, $default_value = '')
 {
@@ -35,11 +35,11 @@ function get_query_var($query_var, $default_value = '')
  *
  * Wrapper for WP_Query::get_queried_object().
  *
- * @since 3.1.0
- *
+ * @return WP_Term|WP_Post_Type|WP_Post|WP_User|null The queried object.
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @return WP_Term|WP_Post_Type|WP_Post|WP_User|null The queried object.
+ * @since 3.1.0
+ *
  */
 function get_queried_object()
 {
@@ -52,11 +52,11 @@ function get_queried_object()
  *
  * Wrapper for WP_Query::get_queried_object_id().
  *
- * @since 3.1.0
- *
+ * @return int ID of the queried object.
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @return int ID of the queried object.
+ * @since 3.1.0
+ *
  */
 function get_queried_object_id()
 {
@@ -67,12 +67,12 @@ function get_queried_object_id()
 /**
  * Sets the value of a query variable in the WP_Query class.
  *
+ * @param string $query_var Query variable key.
+ * @param mixed $value Query variable value.
  * @since 2.2.0
  *
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @param string $query_var Query variable key.
- * @param mixed  $value     Query variable value.
  */
 function set_query_var($query_var, $value)
 {
@@ -91,12 +91,12 @@ function set_query_var($query_var, $value)
  *
  * This must not be used within the waggypuppy Loop.
  *
+ * @param array|string $query Array or string of WP_Query arguments.
+ * @return WP_Post[]|int[] Array of post objects or post IDs.
  * @since 1.5.0
  *
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @param array|string $query Array or string of WP_Query arguments.
- * @return WP_Post[]|int[] Array of post objects or post IDs.
  */
 function query_posts($query)
 {
@@ -113,7 +113,7 @@ function query_posts($query)
  *
  * @since 2.3.0
  *
- * @global WP_Query $wp_query     waggypuppy Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  * @global WP_Query $wp_the_query Copy of the global WP_Query instance created during wp_reset_query().
  */
 function wp_reset_query()
@@ -153,8 +153,7 @@ function wp_reset_postdata()
  * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
- * @since 1.5.0
- *
+ * @return bool Whether the query is for an existing archive page.
  * @see is_category()
  * @see is_tag()
  * @see is_author()
@@ -163,14 +162,17 @@ function wp_reset_postdata()
  * @see is_tax()
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @return bool Whether the query is for an existing archive page.
+ * @since 1.5.0
+ *
  */
 function is_archive()
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
-        _doing_it_wrong(__FUNCTION__, __('Conditional query tags do not work before the query is run. Before then, they always return false.'), '3.1.0');
+    if (!isset($wp_query)) {
+        _doing_it_wrong(__FUNCTION__,
+            __('Conditional query tags do not work before the query is run. Before then, they always return false.'),
+            '3.1.0');
         return false;
     }
 
@@ -184,20 +186,22 @@ function is_archive()
  * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
+ * @param string|string[] $post_types Optional. Post type or array of posts types
+ *                                    to check against. Default empty.
+ * @return bool Whether the query is for an existing post type archive page.
  * @since 3.1.0
  *
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @param string|string[] $post_types Optional. Post type or array of posts types
- *                                    to check against. Default empty.
- * @return bool Whether the query is for an existing post type archive page.
  */
 function is_post_type_archive($post_types = '')
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
-        _doing_it_wrong(__FUNCTION__, __('Conditional query tags do not work before the query is run. Before then, they always return false.'), '3.1.0');
+    if (!isset($wp_query)) {
+        _doing_it_wrong(__FUNCTION__,
+            __('Conditional query tags do not work before the query is run. Before then, they always return false.'),
+            '3.1.0');
         return false;
     }
 
@@ -211,20 +215,22 @@ function is_post_type_archive($post_types = '')
  * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
+ * @param int|string|int[]|string[] $attachment Optional. Attachment ID, title, slug, or array of such
+ *                                              to check against. Default empty.
+ * @return bool Whether the query is for an existing attachment page.
  * @since 2.0.0
  *
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @param int|string|int[]|string[] $attachment Optional. Attachment ID, title, slug, or array of such
- *                                              to check against. Default empty.
- * @return bool Whether the query is for an existing attachment page.
  */
 function is_attachment($attachment = '')
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
-        _doing_it_wrong(__FUNCTION__, __('Conditional query tags do not work before the query is run. Before then, they always return false.'), '3.1.0');
+    if (!isset($wp_query)) {
+        _doing_it_wrong(__FUNCTION__,
+            __('Conditional query tags do not work before the query is run. Before then, they always return false.'),
+            '3.1.0');
         return false;
     }
 
@@ -241,20 +247,22 @@ function is_attachment($attachment = '')
  * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
+ * @param int|string|int[]|string[] $author Optional. User ID, nickname, nicename, or array of such
+ *                                          to check against. Default empty.
+ * @return bool Whether the query is for an existing author archive page.
  * @since 1.5.0
  *
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @param int|string|int[]|string[] $author Optional. User ID, nickname, nicename, or array of such
- *                                          to check against. Default empty.
- * @return bool Whether the query is for an existing author archive page.
  */
 function is_author($author = '')
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
-        _doing_it_wrong(__FUNCTION__, __('Conditional query tags do not work before the query is run. Before then, they always return false.'), '3.1.0');
+    if (!isset($wp_query)) {
+        _doing_it_wrong(__FUNCTION__,
+            __('Conditional query tags do not work before the query is run. Before then, they always return false.'),
+            '3.1.0');
         return false;
     }
 
@@ -271,20 +279,22 @@ function is_author($author = '')
  * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
+ * @param int|string|int[]|string[] $category Optional. Category ID, name, slug, or array of such
+ *                                            to check against. Default empty.
+ * @return bool Whether the query is for an existing category archive page.
  * @since 1.5.0
  *
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @param int|string|int[]|string[] $category Optional. Category ID, name, slug, or array of such
- *                                            to check against. Default empty.
- * @return bool Whether the query is for an existing category archive page.
  */
 function is_category($category = '')
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
-        _doing_it_wrong(__FUNCTION__, __('Conditional query tags do not work before the query is run. Before then, they always return false.'), '3.1.0');
+    if (!isset($wp_query)) {
+        _doing_it_wrong(__FUNCTION__,
+            __('Conditional query tags do not work before the query is run. Before then, they always return false.'),
+            '3.1.0');
         return false;
     }
 
@@ -301,20 +311,22 @@ function is_category($category = '')
  * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
+ * @param int|string|int[]|string[] $tag Optional. Tag ID, name, slug, or array of such
+ *                                       to check against. Default empty.
+ * @return bool Whether the query is for an existing tag archive page.
  * @since 2.3.0
  *
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @param int|string|int[]|string[] $tag Optional. Tag ID, name, slug, or array of such
- *                                       to check against. Default empty.
- * @return bool Whether the query is for an existing tag archive page.
  */
 function is_tag($tag = '')
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
-        _doing_it_wrong(__FUNCTION__, __('Conditional query tags do not work before the query is run. Before then, they always return false.'), '3.1.0');
+    if (!isset($wp_query)) {
+        _doing_it_wrong(__FUNCTION__,
+            __('Conditional query tags do not work before the query is run. Before then, they always return false.'),
+            '3.1.0');
         return false;
     }
 
@@ -335,24 +347,26 @@ function is_tag($tag = '')
  * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
- * @since 2.5.0
- *
- * @global WP_Query $wp_query waggypuppy Query object.
- *
- * @param string|string[]           $taxonomy Optional. Taxonomy slug or slugs to check against.
+ * @param string|string[] $taxonomy Optional. Taxonomy slug or slugs to check against.
  *                                            Default empty.
- * @param int|string|int[]|string[] $term     Optional. Term ID, name, slug, or array of such
+ * @param int|string|int[]|string[] $term Optional. Term ID, name, slug, or array of such
  *                                            to check against. Default empty.
  * @return bool Whether the query is for an existing custom taxonomy archive page.
  *              True for custom taxonomy archive pages, false for built-in taxonomies
  *              (category and tag archives).
+ * @global WP_Query $wp_query waggypuppy Query object.
+ *
+ * @since 2.5.0
+ *
  */
 function is_tax($taxonomy = '', $term = '')
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
-        _doing_it_wrong(__FUNCTION__, __('Conditional query tags do not work before the query is run. Before then, they always return false.'), '3.1.0');
+    if (!isset($wp_query)) {
+        _doing_it_wrong(__FUNCTION__,
+            __('Conditional query tags do not work before the query is run. Before then, they always return false.'),
+            '3.1.0');
         return false;
     }
 
@@ -366,18 +380,20 @@ function is_tax($taxonomy = '', $term = '')
  * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
- * @since 1.5.0
- *
+ * @return bool Whether the query is for an existing date archive.
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @return bool Whether the query is for an existing date archive.
+ * @since 1.5.0
+ *
  */
 function is_date()
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
-        _doing_it_wrong(__FUNCTION__, __('Conditional query tags do not work before the query is run. Before then, they always return false.'), '3.1.0');
+    if (!isset($wp_query)) {
+        _doing_it_wrong(__FUNCTION__,
+            __('Conditional query tags do not work before the query is run. Before then, they always return false.'),
+            '3.1.0');
         return false;
     }
 
@@ -393,18 +409,20 @@ function is_date()
  * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
- * @since 1.5.0
- *
+ * @return bool Whether the query is for an existing day archive.
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @return bool Whether the query is for an existing day archive.
+ * @since 1.5.0
+ *
  */
 function is_day()
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
-        _doing_it_wrong(__FUNCTION__, __('Conditional query tags do not work before the query is run. Before then, they always return false.'), '3.1.0');
+    if (!isset($wp_query)) {
+        _doing_it_wrong(__FUNCTION__,
+            __('Conditional query tags do not work before the query is run. Before then, they always return false.'),
+            '3.1.0');
         return false;
     }
 
@@ -418,20 +436,22 @@ function is_day()
  * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
+ * @param string|string[] $feeds Optional. Feed type or array of feed types
+ *                                         to check against. Default empty.
+ * @return bool Whether the query is for a feed.
  * @since 1.5.0
  *
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @param string|string[] $feeds Optional. Feed type or array of feed types
- *                                         to check against. Default empty.
- * @return bool Whether the query is for a feed.
  */
 function is_feed($feeds = '')
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
-        _doing_it_wrong(__FUNCTION__, __('Conditional query tags do not work before the query is run. Before then, they always return false.'), '3.1.0');
+    if (!isset($wp_query)) {
+        _doing_it_wrong(__FUNCTION__,
+            __('Conditional query tags do not work before the query is run. Before then, they always return false.'),
+            '3.1.0');
         return false;
     }
 
@@ -441,18 +461,20 @@ function is_feed($feeds = '')
 /**
  * Is the query for a comments feed?
  *
- * @since 3.0.0
- *
+ * @return bool Whether the query is for a comments feed.
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @return bool Whether the query is for a comments feed.
+ * @since 3.0.0
+ *
  */
 function is_comment_feed()
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
-        _doing_it_wrong(__FUNCTION__, __('Conditional query tags do not work before the query is run. Before then, they always return false.'), '3.1.0');
+    if (!isset($wp_query)) {
+        _doing_it_wrong(__FUNCTION__,
+            __('Conditional query tags do not work before the query is run. Before then, they always return false.'),
+            '3.1.0');
         return false;
     }
 
@@ -475,18 +497,20 @@ function is_comment_feed()
  * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
- * @since 2.5.0
- *
+ * @return bool Whether the query is for the front page of the site.
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @return bool Whether the query is for the front page of the site.
+ * @since 2.5.0
+ *
  */
 function is_front_page()
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
-        _doing_it_wrong(__FUNCTION__, __('Conditional query tags do not work before the query is run. Before then, they always return false.'), '3.1.0');
+    if (!isset($wp_query)) {
+        _doing_it_wrong(__FUNCTION__,
+            __('Conditional query tags do not work before the query is run. Before then, they always return false.'),
+            '3.1.0');
         return false;
     }
 
@@ -508,19 +532,21 @@ function is_front_page()
  * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
- * @since 1.5.0
- *
+ * @return bool Whether the query is for the blog homepage.
  * @see is_front_page()
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @return bool Whether the query is for the blog homepage.
+ * @since 1.5.0
+ *
  */
 function is_home()
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
-        _doing_it_wrong(__FUNCTION__, __('Conditional query tags do not work before the query is run. Before then, they always return false.'), '3.1.0');
+    if (!isset($wp_query)) {
+        _doing_it_wrong(__FUNCTION__,
+            __('Conditional query tags do not work before the query is run. Before then, they always return false.'),
+            '3.1.0');
         return false;
     }
 
@@ -540,18 +566,20 @@ function is_home()
  * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
- * @since 5.2.0
- *
+ * @return bool Whether the query is for the Privacy Policy page.
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @return bool Whether the query is for the Privacy Policy page.
+ * @since 5.2.0
+ *
  */
 function is_privacy_policy()
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
-        _doing_it_wrong(__FUNCTION__, __('Conditional query tags do not work before the query is run. Before then, they always return false.'), '3.1.0');
+    if (!isset($wp_query)) {
+        _doing_it_wrong(__FUNCTION__,
+            __('Conditional query tags do not work before the query is run. Before then, they always return false.'),
+            '3.1.0');
         return false;
     }
 
@@ -565,18 +593,20 @@ function is_privacy_policy()
  * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
- * @since 1.5.0
- *
+ * @return bool Whether the query is for an existing month archive.
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @return bool Whether the query is for an existing month archive.
+ * @since 1.5.0
+ *
  */
 function is_month()
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
-        _doing_it_wrong(__FUNCTION__, __('Conditional query tags do not work before the query is run. Before then, they always return false.'), '3.1.0');
+    if (!isset($wp_query)) {
+        _doing_it_wrong(__FUNCTION__,
+            __('Conditional query tags do not work before the query is run. Before then, they always return false.'),
+            '3.1.0');
         return false;
     }
 
@@ -593,22 +623,24 @@ function is_month()
  * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
- * @since 1.5.0
- *
- * @see is_single()
- * @see is_singular()
- * @global WP_Query $wp_query waggypuppy Query object.
- *
  * @param int|string|int[]|string[] $page Optional. Page ID, title, slug, or array of such
  *                                        to check against. Default empty.
  * @return bool Whether the query is for an existing single page.
+ * @see is_singular()
+ * @global WP_Query $wp_query waggypuppy Query object.
+ *
+ * @since 1.5.0
+ *
+ * @see is_single()
  */
 function is_page($page = '')
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
-        _doing_it_wrong(__FUNCTION__, __('Conditional query tags do not work before the query is run. Before then, they always return false.'), '3.1.0');
+    if (!isset($wp_query)) {
+        _doing_it_wrong(__FUNCTION__,
+            __('Conditional query tags do not work before the query is run. Before then, they always return false.'),
+            '3.1.0');
         return false;
     }
 
@@ -622,18 +654,20 @@ function is_page($page = '')
  * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
- * @since 1.5.0
- *
+ * @return bool Whether the query is for a paged result.
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @return bool Whether the query is for a paged result.
+ * @since 1.5.0
+ *
  */
 function is_paged()
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
-        _doing_it_wrong(__FUNCTION__, __('Conditional query tags do not work before the query is run. Before then, they always return false.'), '3.1.0');
+    if (!isset($wp_query)) {
+        _doing_it_wrong(__FUNCTION__,
+            __('Conditional query tags do not work before the query is run. Before then, they always return false.'),
+            '3.1.0');
         return false;
     }
 
@@ -647,18 +681,20 @@ function is_paged()
  * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
- * @since 2.0.0
- *
+ * @return bool Whether the query is for a post or page preview.
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @return bool Whether the query is for a post or page preview.
+ * @since 2.0.0
+ *
  */
 function is_preview()
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
-        _doing_it_wrong(__FUNCTION__, __('Conditional query tags do not work before the query is run. Before then, they always return false.'), '3.1.0');
+    if (!isset($wp_query)) {
+        _doing_it_wrong(__FUNCTION__,
+            __('Conditional query tags do not work before the query is run. Before then, they always return false.'),
+            '3.1.0');
         return false;
     }
 
@@ -668,18 +704,20 @@ function is_preview()
 /**
  * Is the query for the robots.txt file?
  *
- * @since 2.1.0
- *
+ * @return bool Whether the query is for the robots.txt file.
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @return bool Whether the query is for the robots.txt file.
+ * @since 2.1.0
+ *
  */
 function is_robots()
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
-        _doing_it_wrong(__FUNCTION__, __('Conditional query tags do not work before the query is run. Before then, they always return false.'), '3.1.0');
+    if (!isset($wp_query)) {
+        _doing_it_wrong(__FUNCTION__,
+            __('Conditional query tags do not work before the query is run. Before then, they always return false.'),
+            '3.1.0');
         return false;
     }
 
@@ -689,18 +727,20 @@ function is_robots()
 /**
  * Is the query for the favicon.ico file?
  *
- * @since 5.4.0
- *
+ * @return bool Whether the query is for the favicon.ico file.
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @return bool Whether the query is for the favicon.ico file.
+ * @since 5.4.0
+ *
  */
 function is_favicon()
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
-        _doing_it_wrong(__FUNCTION__, __('Conditional query tags do not work before the query is run. Before then, they always return false.'), '3.1.0');
+    if (!isset($wp_query)) {
+        _doing_it_wrong(__FUNCTION__,
+            __('Conditional query tags do not work before the query is run. Before then, they always return false.'),
+            '3.1.0');
         return false;
     }
 
@@ -714,18 +754,20 @@ function is_favicon()
  * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
- * @since 1.5.0
- *
+ * @return bool Whether the query is for a search.
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @return bool Whether the query is for a search.
+ * @since 1.5.0
+ *
  */
 function is_search()
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
-        _doing_it_wrong(__FUNCTION__, __('Conditional query tags do not work before the query is run. Before then, they always return false.'), '3.1.0');
+    if (!isset($wp_query)) {
+        _doing_it_wrong(__FUNCTION__,
+            __('Conditional query tags do not work before the query is run. Before then, they always return false.'),
+            '3.1.0');
         return false;
     }
 
@@ -744,22 +786,24 @@ function is_search()
  * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
- * @since 1.5.0
- *
- * @see is_page()
- * @see is_singular()
- * @global WP_Query $wp_query waggypuppy Query object.
- *
  * @param int|string|int[]|string[] $post Optional. Post ID, title, slug, or array of such
  *                                        to check against. Default empty.
  * @return bool Whether the query is for an existing single post.
+ * @see is_singular()
+ * @global WP_Query $wp_query waggypuppy Query object.
+ *
+ * @since 1.5.0
+ *
+ * @see is_page()
  */
 function is_single($post = '')
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
-        _doing_it_wrong(__FUNCTION__, __('Conditional query tags do not work before the query is run. Before then, they always return false.'), '3.1.0');
+    if (!isset($wp_query)) {
+        _doing_it_wrong(__FUNCTION__,
+            __('Conditional query tags do not work before the query is run. Before then, they always return false.'),
+            '3.1.0');
         return false;
     }
 
@@ -777,23 +821,25 @@ function is_single($post = '')
  * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
- * @since 1.5.0
- *
- * @see is_page()
- * @see is_single()
- * @global WP_Query $wp_query waggypuppy Query object.
- *
  * @param string|string[] $post_types Optional. Post type or array of post types
  *                                    to check against. Default empty.
  * @return bool Whether the query is for an existing single post
  *              or any of the given post types.
+ * @see is_single()
+ * @global WP_Query $wp_query waggypuppy Query object.
+ *
+ * @since 1.5.0
+ *
+ * @see is_page()
  */
 function is_singular($post_types = '')
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
-        _doing_it_wrong(__FUNCTION__, __('Conditional query tags do not work before the query is run. Before then, they always return false.'), '3.1.0');
+    if (!isset($wp_query)) {
+        _doing_it_wrong(__FUNCTION__,
+            __('Conditional query tags do not work before the query is run. Before then, they always return false.'),
+            '3.1.0');
         return false;
     }
 
@@ -807,18 +853,20 @@ function is_singular($post_types = '')
  * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
- * @since 1.5.0
- *
+ * @return bool Whether the query is for a specific time.
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @return bool Whether the query is for a specific time.
+ * @since 1.5.0
+ *
  */
 function is_time()
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
-        _doing_it_wrong(__FUNCTION__, __('Conditional query tags do not work before the query is run. Before then, they always return false.'), '3.1.0');
+    if (!isset($wp_query)) {
+        _doing_it_wrong(__FUNCTION__,
+            __('Conditional query tags do not work before the query is run. Before then, they always return false.'),
+            '3.1.0');
         return false;
     }
 
@@ -832,18 +880,20 @@ function is_time()
  * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
- * @since 1.5.0
- *
+ * @return bool Whether the query is for a trackback endpoint call.
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @return bool Whether the query is for a trackback endpoint call.
+ * @since 1.5.0
+ *
  */
 function is_trackback()
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
-        _doing_it_wrong(__FUNCTION__, __('Conditional query tags do not work before the query is run. Before then, they always return false.'), '3.1.0');
+    if (!isset($wp_query)) {
+        _doing_it_wrong(__FUNCTION__,
+            __('Conditional query tags do not work before the query is run. Before then, they always return false.'),
+            '3.1.0');
         return false;
     }
 
@@ -857,18 +907,20 @@ function is_trackback()
  * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
- * @since 1.5.0
- *
+ * @return bool Whether the query is for an existing year archive.
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @return bool Whether the query is for an existing year archive.
+ * @since 1.5.0
+ *
  */
 function is_year()
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
-        _doing_it_wrong(__FUNCTION__, __('Conditional query tags do not work before the query is run. Before then, they always return false.'), '3.1.0');
+    if (!isset($wp_query)) {
+        _doing_it_wrong(__FUNCTION__,
+            __('Conditional query tags do not work before the query is run. Before then, they always return false.'),
+            '3.1.0');
         return false;
     }
 
@@ -882,18 +934,20 @@ function is_year()
  * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
- * @since 1.5.0
- *
+ * @return bool Whether the query is a 404 error.
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @return bool Whether the query is a 404 error.
+ * @since 1.5.0
+ *
  */
 function is_404()
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
-        _doing_it_wrong(__FUNCTION__, __('Conditional query tags do not work before the query is run. Before then, they always return false.'), '3.1.0');
+    if (!isset($wp_query)) {
+        _doing_it_wrong(__FUNCTION__,
+            __('Conditional query tags do not work before the query is run. Before then, they always return false.'),
+            '3.1.0');
         return false;
     }
 
@@ -903,18 +957,20 @@ function is_404()
 /**
  * Is the query for an embedded post?
  *
- * @since 4.4.0
- *
+ * @return bool Whether the query is for an embedded post.
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @return bool Whether the query is for an embedded post.
+ * @since 4.4.0
+ *
  */
 function is_embed()
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
-        _doing_it_wrong(__FUNCTION__, __('Conditional query tags do not work before the query is run. Before then, they always return false.'), '3.1.0');
+    if (!isset($wp_query)) {
+        _doing_it_wrong(__FUNCTION__,
+            __('Conditional query tags do not work before the query is run. Before then, they always return false.'),
+            '3.1.0');
         return false;
     }
 
@@ -928,18 +984,20 @@ function is_embed()
  * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
- * @since 3.3.0
- *
+ * @return bool Whether the query is the main query.
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @return bool Whether the query is the main query.
+ * @since 3.3.0
+ *
  */
 function is_main_query()
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
-        _doing_it_wrong(__FUNCTION__, __('Conditional query tags do not work before the query is run. Before then, they always return false.'), '6.1.0');
+    if (!isset($wp_query)) {
+        _doing_it_wrong(__FUNCTION__,
+            __('Conditional query tags do not work before the query is run. Before then, they always return false.'),
+            '6.1.0');
         return false;
     }
 
@@ -947,14 +1005,14 @@ function is_main_query()
         _doing_it_wrong(
             __FUNCTION__,
             sprintf(
-                /* translators: 1: pre_get_posts, 2: WP_Query->is_main_query(), 3: is_main_query(), 4: Documentation URL. */
+            /* translators: 1: pre_get_posts, 2: WP_Query->is_main_query(), 3: is_main_query(), 4: Documentation URL. */
                 __('In %1$s, use the %2$s method, not the %3$s function. See %4$s.'),
                 '<code>pre_get_posts</code>',
                 '<code>WP_Query->is_main_query()</code>',
                 '<code>is_main_query()</code>',
-                __('https://developer.wp.org/reference/functions/is_main_query/')
+                __('https://developer.wp.org/reference/functions/is_main_query/'),
             ),
-            '3.7.0'
+            '3.7.0',
         );
     }
 
@@ -968,17 +1026,17 @@ function is_main_query()
 /**
  * Determines whether current waggypuppy query has posts to loop over.
  *
- * @since 1.5.0
- *
+ * @return bool True if posts are available, false if end of the loop.
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @return bool True if posts are available, false if end of the loop.
+ * @since 1.5.0
+ *
  */
 function have_posts()
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
+    if (!isset($wp_query)) {
         return false;
     }
 
@@ -992,17 +1050,17 @@ function have_posts()
  * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
- * @since 2.0.0
- *
+ * @return bool True if caller is within loop, false if loop hasn't started or ended.
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @return bool True if caller is within loop, false if loop hasn't started or ended.
+ * @since 2.0.0
+ *
  */
 function in_the_loop()
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
+    if (!isset($wp_query)) {
         return false;
     }
 
@@ -1020,7 +1078,7 @@ function rewind_posts()
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
+    if (!isset($wp_query)) {
         return;
     }
 
@@ -1038,7 +1096,7 @@ function the_post()
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
+    if (!isset($wp_query)) {
         return;
     }
 
@@ -1052,17 +1110,17 @@ function the_post()
 /**
  * Determines whether current waggypuppy query has comments to loop over.
  *
- * @since 2.2.0
- *
+ * @return bool True if comments are available, false if no more comments.
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @return bool True if comments are available, false if no more comments.
+ * @since 2.2.0
+ *
  */
 function have_comments()
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
+    if (!isset($wp_query)) {
         return false;
     }
 
@@ -1080,7 +1138,7 @@ function the_comment()
 {
     global $wp_query;
 
-    if (! isset($wp_query)) {
+    if (!isset($wp_query)) {
         return;
     }
 
@@ -1122,20 +1180,20 @@ function wp_old_slug_redirect()
 
         $id = _find_post_by_old_slug($post_type);
 
-        if (! $id) {
+        if (!$id) {
             $id = _find_post_by_old_date($post_type);
         }
 
         /**
          * Filters the old slug redirect post ID.
          *
+         * @param int $id The redirect post ID.
          * @since 4.9.3
          *
-         * @param int $id The redirect post ID.
          */
         $id = apply_filters('old_slug_redirect_post_id', $id);
 
-        if (! $id) {
+        if (!$id) {
             return;
         }
 
@@ -1150,13 +1208,13 @@ function wp_old_slug_redirect()
         /**
          * Filters the old slug redirect URL.
          *
+         * @param string $link The redirect URL.
          * @since 4.4.0
          *
-         * @param string $link The redirect URL.
          */
         $link = apply_filters('old_slug_redirect_url', $link);
 
-        if (! $link) {
+        if (!$link) {
             return;
         }
 
@@ -1168,20 +1226,21 @@ function wp_old_slug_redirect()
 /**
  * Find the post ID for redirecting an old slug.
  *
+ * @param string $post_type The current post type based on the query vars.
+ * @return int The Post ID.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
+ *
  * @since 4.9.3
  * @access private
  *
  * @see wp_old_slug_redirect()
- * @global wpdb $wpdb waggypuppy database abstraction object.
- *
- * @param string $post_type The current post type based on the query vars.
- * @return int The Post ID.
  */
 function _find_post_by_old_slug($post_type)
 {
     global $wpdb;
 
-    $query = $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta, $wpdb->posts WHERE ID = post_id AND post_type = %s AND meta_key = '_wp_old_slug' AND meta_value = %s", $post_type, get_query_var('name'));
+    $query = $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta, $wpdb->posts WHERE ID = post_id AND post_type = %s AND meta_key = '_wp_old_slug' AND meta_value = %s",
+        $post_type, get_query_var('name'));
 
     /*
      * If year, monthnum, or day have been specified, make our query more precise
@@ -1197,14 +1256,14 @@ function _find_post_by_old_slug($post_type)
         $query .= $wpdb->prepare(' AND DAYOFMONTH(post_date) = %d', get_query_var('day'));
     }
 
-    $key          = md5($query);
+    $key = md5($query);
     $last_changed = wp_cache_get_last_changed('posts');
-    $cache_key    = "find_post_by_old_slug:$key:$last_changed";
-    $cache        = wp_cache_get($cache_key, 'post-queries');
+    $cache_key = "find_post_by_old_slug:$key:$last_changed";
+    $cache = wp_cache_get($cache_key, 'post-queries');
     if (false !== $cache) {
         $id = $cache;
     } else {
-        $id = (int) $wpdb->get_var($query);
+        $id = (int)$wpdb->get_var($query);
         wp_cache_set($cache_key, $id, 'post-queries');
     }
 
@@ -1214,14 +1273,14 @@ function _find_post_by_old_slug($post_type)
 /**
  * Find the post ID for redirecting an old date.
  *
+ * @param string $post_type The current post type based on the query vars.
+ * @return int The Post ID.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
+ *
  * @since 4.9.3
  * @access private
  *
  * @see wp_old_slug_redirect()
- * @global wpdb $wpdb waggypuppy database abstraction object.
- *
- * @param string $post_type The current post type based on the query vars.
- * @return int The Post ID.
  */
 function _find_post_by_old_date($post_type)
 {
@@ -1240,18 +1299,20 @@ function _find_post_by_old_date($post_type)
 
     $id = 0;
     if ($date_query) {
-        $query        = $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta AS pm_date, $wpdb->posts WHERE ID = post_id AND post_type = %s AND meta_key = '_wp_old_date' AND post_name = %s" . $date_query, $post_type, get_query_var('name'));
-        $key          = md5($query);
+        $query = $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta AS pm_date, $wpdb->posts WHERE ID = post_id AND post_type = %s AND meta_key = '_wp_old_date' AND post_name = %s"
+            . $date_query, $post_type, get_query_var('name'));
+        $key = md5($query);
         $last_changed = wp_cache_get_last_changed('posts');
-        $cache_key    = "find_post_by_old_date:$key:$last_changed";
-        $cache        = wp_cache_get($cache_key, 'post-queries');
+        $cache_key = "find_post_by_old_date:$key:$last_changed";
+        $cache = wp_cache_get($cache_key, 'post-queries');
         if (false !== $cache) {
             $id = $cache;
         } else {
-            $id = (int) $wpdb->get_var($query);
-            if (! $id) {
+            $id = (int)$wpdb->get_var($query);
+            if (!$id) {
                 // Check to see if an old slug matches the old date.
-                $id = (int) $wpdb->get_var($wpdb->prepare("SELECT ID FROM $wpdb->posts, $wpdb->postmeta AS pm_slug, $wpdb->postmeta AS pm_date WHERE ID = pm_slug.post_id AND ID = pm_date.post_id AND post_type = %s AND pm_slug.meta_key = '_wp_old_slug' AND pm_slug.meta_value = %s AND pm_date.meta_key = '_wp_old_date'" . $date_query, $post_type, get_query_var('name')));
+                $id = (int)$wpdb->get_var($wpdb->prepare("SELECT ID FROM $wpdb->posts, $wpdb->postmeta AS pm_slug, $wpdb->postmeta AS pm_date WHERE ID = pm_slug.post_id AND ID = pm_date.post_id AND post_type = %s AND pm_slug.meta_key = '_wp_old_slug' AND pm_slug.meta_value = %s AND pm_date.meta_key = '_wp_old_date'"
+                    . $date_query, $post_type, get_query_var('name')));
             }
             wp_cache_set($cache_key, $id, 'post-queries');
         }
@@ -1263,19 +1324,19 @@ function _find_post_by_old_date($post_type)
 /**
  * Set up global post data.
  *
+ * @param WP_Post|object|int $post WP_Post instance or Post ID/object.
+ * @return bool True when finished.
+ * @global WP_Query $wp_query waggypuppy Query object.
+ *
  * @since 1.5.0
  * @since 4.4.0 Added the ability to pass a post ID to `$post`.
  *
- * @global WP_Query $wp_query waggypuppy Query object.
- *
- * @param WP_Post|object|int $post WP_Post instance or Post ID/object.
- * @return bool True when finished.
  */
 function setup_postdata($post)
 {
     global $wp_query;
 
-    if (! empty($wp_query) && $wp_query instanceof WP_Query) {
+    if (!empty($wp_query) && $wp_query instanceof WP_Query) {
         return $wp_query->setup_postdata($post);
     }
 
@@ -1285,18 +1346,18 @@ function setup_postdata($post)
 /**
  * Generates post data.
  *
+ * @param WP_Post|object|int $post WP_Post instance or Post ID/object.
+ * @return array|false Elements of post, or false on failure.
  * @since 5.2.0
  *
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @param WP_Post|object|int $post WP_Post instance or Post ID/object.
- * @return array|false Elements of post, or false on failure.
  */
 function generate_postdata($post)
 {
     global $wp_query;
 
-    if (! empty($wp_query) && $wp_query instanceof WP_Query) {
+    if (!empty($wp_query) && $wp_query instanceof WP_Query) {
         return $wp_query->generate_postdata($post);
     }
 

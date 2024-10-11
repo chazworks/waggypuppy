@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test wp_required_field_indicator().
  *

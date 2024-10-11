@@ -18,7 +18,7 @@ class WP_Filesystem_Find_Folder_Test extends WP_Filesystem_UnitTestCase
 			/var/www/wordpress/
 			/var/www/wordpress/wp-includes/
 			/var/www/wordpress/index.php
-		'
+		',
         );
 
         $path = $fs->find_folder('/var/www/wordpress/');
@@ -42,7 +42,7 @@ class WP_Filesystem_Find_Folder_Test extends WP_Filesystem_UnitTestCase
 			/www/wp.example.com/wordpress/wp-content/
 			/www/wp.example.com/wordpress/index.php
 			/www/index.php
-		'
+		',
         );
 
         $path = $fs->find_folder('/var/www/example.com/wordpress/');
@@ -70,7 +70,7 @@ class WP_Filesystem_Find_Folder_Test extends WP_Filesystem_UnitTestCase
 			/wp.example.com/wordpress/index.php
 			/wp-includes/
 			/index.php
-		'
+		',
         );
 
         $path = $fs->abspath('/var/www/example.com/wp.example.com/wordpress/');
@@ -100,7 +100,7 @@ class WP_Filesystem_Find_Folder_Test extends WP_Filesystem_UnitTestCase
 			/example.com/sub/index.php
 			/example.com/sub/wp-includes/
 			/example.com/sub/wp-content/plugins/
-		'
+		',
         );
 
         // www.example.com

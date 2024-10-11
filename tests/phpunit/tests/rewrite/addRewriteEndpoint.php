@@ -14,7 +14,7 @@ class Tests_Rewrite_AddRewriteEndpoint extends WP_UnitTestCase
         self::$test_page_id = $factory->post->create(
             [
                 'post_type' => 'page',
-            ]
+            ],
         );
         self::$test_post_id = $factory->post->create();
     }
@@ -74,9 +74,9 @@ class Tests_Rewrite_AddRewriteEndpoint extends WP_UnitTestCase
     /**
      * @ticket 25143
      */
-    public function test_is_home_should_be_false_when_visiting_custom_endpoint_without_a_registered_query_var_and_page_on_front_is_set()
+    public function test_is_home_should_be_false_when_visiting_custom_endpoint_without_a_registered_query_var_and_page_on_front_is_set(
+    )
     {
-
         update_option('show_on_front', 'page');
         update_option('page_on_front', self::$test_page_id);
 

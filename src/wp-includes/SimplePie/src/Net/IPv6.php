@@ -12,16 +12,16 @@
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
  *
- * 	* Redistributions of source code must retain the above copyright notice, this list of
- * 	  conditions and the following disclaimer.
+ *    * Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
  *
- * 	* Redistributions in binary form must reproduce the above copyright notice, this list
- * 	  of conditions and the following disclaimer in the documentation and/or other materials
- * 	  provided with the distribution.
+ *    * Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
  *
- * 	* Neither the name of the SimplePie Team nor the names of its contributors may be used
- * 	  to endorse or promote products derived from this software without specific prior
- * 	  written permission.
+ *    * Neither the name of the SimplePie Team nor the names of its contributors may be used
+ *      to endorse or promote products derived from this software without specific prior
+ *      written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
  * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
@@ -69,13 +69,13 @@ class IPv6
      * Example:  FF01::101   ->  FF01:0:0:0:0:0:0:101
      *           ::1         ->  0:0:0:0:0:0:0:1
      *
-     * @author Alexander Merz <alexander.merz@web.de>
-     * @author elfrink at introweb dot nl
+     * @param string $ip An IPv6 address
+     * @return string The uncompressed IPv6 address
      * @author Josh Peck <jmp at joshpeck dot org>
      * @copyright 2003-2005 The PHP Group
      * @license http://www.opensource.org/licenses/bsd-license.php
-     * @param string $ip An IPv6 address
-     * @return string The uncompressed IPv6 address
+     * @author Alexander Merz <alexander.merz@web.de>
+     * @author elfrink at introweb dot nl
      */
     public static function uncompress($ip)
     {
@@ -99,18 +99,15 @@ class IPv6
             // ::
             if ($c1 === -1 && $c2 === -1) {
                 $ip = '0:0:0:0:0:0:0:0';
-            }
-            // ::xxx
+            } // ::xxx
             elseif ($c1 === -1) {
                 $fill = str_repeat('0:', 7 - $c2);
                 $ip = str_replace('::', $fill, $ip);
-            }
-            // xxx::
+            } // xxx::
             elseif ($c2 === -1) {
                 $fill = str_repeat(':0', 7 - $c1);
                 $ip = str_replace('::', $fill, $ip);
-            }
-            // xxx::xxx
+            } // xxx::xxx
             else {
                 $fill = ':' . str_repeat('0:', 6 - $c2 - $c1);
                 $ip = str_replace('::', $fill, $ip);
@@ -129,9 +126,9 @@ class IPv6
      * Example:  FF01:0:0:0:0:0:0:101   ->  FF01::101
      *           0:0:0:0:0:0:0:1        ->  ::1
      *
-     * @see uncompress()
      * @param string $ip An IPv6 address
      * @return string The compressed IPv6 address
+     * @see uncompress()
      */
     public static function compress($ip)
     {
@@ -227,8 +224,8 @@ class IPv6
             }
             if (count($ipv4) === 4) {
                 foreach ($ipv4 as $ipv4_part) {
-                    $value = (int) $ipv4_part;
-                    if ((string) $value !== $ipv4_part || $value < 0 || $value > 0xFF) {
+                    $value = (int)$ipv4_part;
+                    if ((string)$value !== $ipv4_part || $value < 0 || $value > 0xFF) {
                         return false;
                     }
                 }
@@ -243,10 +240,10 @@ class IPv6
      * Checks if the given IP is a valid IPv6 address
      *
      * @codeCoverageIgnore
-     * @deprecated Use {@see IPv6::check_ipv6()} instead
-     * @see check_ipv6
      * @param string $ip An IPv6 address
      * @return bool true if $ip is a valid IPv6 address
+     * @deprecated Use {@see IPv6::check_ipv6()} instead
+     * @see check_ipv6
      */
     public static function checkIPv6($ip)
     {

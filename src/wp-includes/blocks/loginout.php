@@ -8,26 +8,25 @@
 /**
  * Renders the `core/loginout` block on server.
  *
- * @since 5.8.0
- *
  * @param array $attributes The block attributes.
  *
  * @return string Returns the login-out link or form.
+ * @since 5.8.0
+ *
  */
 function render_block_core_loginout($attributes)
 {
-
     // Build the redirect URL.
     $current_url = (is_ssl() ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
-    $classes  = is_user_logged_in() ? 'logged-in' : 'logged-out';
+    $classes = is_user_logged_in() ? 'logged-in' : 'logged-out';
     $contents = wp_loginout(
         isset($attributes['redirectToCurrent']) && $attributes['redirectToCurrent'] ? $current_url : '',
-        false
+        false,
     );
 
     // If logged-out and displayLoginAsForm is true, show the login form.
-    if (! is_user_logged_in() && ! empty($attributes['displayLoginAsForm'])) {
+    if (!is_user_logged_in() && !empty($attributes['displayLoginAsForm'])) {
         // Add a class.
         $classes .= ' has-login-form';
 
@@ -51,7 +50,8 @@ function register_block_core_loginout()
         __DIR__ . '/loginout',
         [
             'render_callback' => 'render_block_core_loginout',
-        ]
+        ],
     );
 }
+
 add_action('init', 'register_block_core_loginout');

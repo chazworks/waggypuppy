@@ -47,13 +47,12 @@ class Tests_Ajax_wpAjaxAjaxTagSearch extends WP_Ajax_UnitTestCase
      */
     public function test_post_tag()
     {
-
         // Become an administrator.
         $this->_setRole('administrator');
 
         // Set up a default request.
         $_GET['tax'] = 'post_tag';
-        $_GET['q']   = 'chat';
+        $_GET['q'] = 'chat';
 
         // Make the request.
         try {
@@ -71,13 +70,12 @@ class Tests_Ajax_wpAjaxAjaxTagSearch extends WP_Ajax_UnitTestCase
      */
     public function test_no_results()
     {
-
         // Become an administrator.
         $this->_setRole('administrator');
 
         // Set up a default request.
         $_GET['tax'] = 'post_tag';
-        $_GET['q']   = md5(uniqid());
+        $_GET['q'] = md5(uniqid());
 
         // Make the request.
         // No output, so we get a stop exception.
@@ -91,13 +89,12 @@ class Tests_Ajax_wpAjaxAjaxTagSearch extends WP_Ajax_UnitTestCase
      */
     public function test_with_comma()
     {
-
         // Become an administrator.
         $this->_setRole('administrator');
 
         // Set up a default request.
         $_GET['tax'] = 'post_tag';
-        $_GET['q']   = 'some,nonsense, terms,chat'; // Only the last term in the list is searched.
+        $_GET['q'] = 'some,nonsense, terms,chat'; // Only the last term in the list is searched.
 
         // Make the request.
         try {
@@ -115,13 +112,12 @@ class Tests_Ajax_wpAjaxAjaxTagSearch extends WP_Ajax_UnitTestCase
      */
     public function test_logged_out()
     {
-
         // Log out.
         wp_logout();
 
         // Set up a default request.
         $_GET['tax'] = 'post_tag';
-        $_GET['q']   = 'chat';
+        $_GET['q'] = 'chat';
 
         // Make the request.
         $this->expectException('WPAjaxDieStopException');
@@ -134,13 +130,12 @@ class Tests_Ajax_wpAjaxAjaxTagSearch extends WP_Ajax_UnitTestCase
      */
     public function test_invalid_tax()
     {
-
         // Become an administrator.
         $this->_setRole('administrator');
 
         // Set up a default request.
         $_GET['tax'] = 'invalid-taxonomy';
-        $_GET['q']   = 'chat';
+        $_GET['q'] = 'chat';
 
         // Make the request.
         $this->expectException('WPAjaxDieStopException');
@@ -153,13 +148,12 @@ class Tests_Ajax_wpAjaxAjaxTagSearch extends WP_Ajax_UnitTestCase
      */
     public function test_unprivileged_user()
     {
-
         // Become a subscriber.
         $this->_setRole('subscriber');
 
         // Set up a default request.
         $_GET['tax'] = 'post_tag';
-        $_GET['q']   = 'chat';
+        $_GET['q'] = 'chat';
 
         // Make the request.
         $this->expectException('WPAjaxDieStopException');
@@ -174,13 +168,12 @@ class Tests_Ajax_wpAjaxAjaxTagSearch extends WP_Ajax_UnitTestCase
      */
     public function test_ajax_term_search_results_filter()
     {
-
         // Become an administrator.
         $this->_setRole('administrator');
 
         // Set up a default request.
         $_GET['tax'] = 'post_tag';
-        $_GET['q']   = 'chat';
+        $_GET['q'] = 'chat';
 
         // Add the ajax_term_search_results filter.
         add_filter(
@@ -189,7 +182,7 @@ class Tests_Ajax_wpAjaxAjaxTagSearch extends WP_Ajax_UnitTestCase
                 return ['ajax_term_search_results was applied'];
             },
             10,
-            3
+            3,
         );
 
         // Make the request.

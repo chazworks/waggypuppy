@@ -13,7 +13,7 @@ class Tests_Post_Pings extends WP_UnitTestCase
             [
                 'to_ping' => 'http://www.example.com
 					http://www.otherexample.com',
-            ]
+            ],
         );
         $this->assertSame(['http://www.example.com', 'http://www.otherexample.com'], get_to_ping($post_id));
     }
@@ -24,9 +24,9 @@ class Tests_Post_Pings extends WP_UnitTestCase
             [
                 'to_ping' => 'http://www.example.com
 					http://www.otherexample.com',
-            ]
+            ],
         );
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
         $this->assertSame(['http://www.example.com', 'http://www.otherexample.com'], get_to_ping($post));
     }
 
@@ -39,7 +39,7 @@ class Tests_Post_Pings extends WP_UnitTestCase
     public function test_returns_pinged_sites_from_post_object()
     {
         $post_id = self::factory()->post->create(['pinged' => 'foo bar baz']);
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
         $this->assertSame(['foo', 'bar', 'baz'], get_pung($post));
     }
 
@@ -62,7 +62,7 @@ class Tests_Post_Pings extends WP_UnitTestCase
     public function test_add_ping_with_post_object()
     {
         $post_id = self::factory()->post->create();
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
         add_ping($post, 'foo');
         $this->assertSame(['foo'], get_pung($post_id));
     }

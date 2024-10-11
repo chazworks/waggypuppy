@@ -20,8 +20,8 @@ class Tests_Post_WpUntrashPost extends WP_UnitTestCase
             $this->factory()->post->create(
                 [
                     'post_status' => 'draft',
-                ]
-            )
+                ],
+            ),
         );
     }
 
@@ -42,16 +42,19 @@ class Tests_Post_WpUntrashPost extends WP_UnitTestCase
         $trashed = get_posts(
             [
                 'post_status' => 'trash',
-                'fields'      => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
-        $this->assertNotContains($this->trashed_post->ID, $trashed, 'Untrashed post should not belong to trashed posts anymore.');
+        $this->assertNotContains($this->trashed_post->ID, $trashed,
+            'Untrashed post should not belong to trashed posts anymore.');
 
         $untrashed_post_metas = get_post_meta($this->trashed_post->ID);
 
-        $this->assertArrayNotHasKey('_wp_trash_meta_status', $untrashed_post_metas, 'Untrashed post should not have _wp_trash_meta_status meta anymore.');
-        $this->assertArrayNotHasKey('_wp_trash_meta_time', $untrashed_post_metas, 'Untrashed post should not have _wp_trash_meta_time meta anymore.');
+        $this->assertArrayNotHasKey('_wp_trash_meta_status', $untrashed_post_metas,
+            'Untrashed post should not have _wp_trash_meta_status meta anymore.');
+        $this->assertArrayNotHasKey('_wp_trash_meta_time', $untrashed_post_metas,
+            'Untrashed post should not have _wp_trash_meta_time meta anymore.');
 
         $post = get_post($this->trashed_post->ID);
 
@@ -72,13 +75,15 @@ class Tests_Post_WpUntrashPost extends WP_UnitTestCase
             'pre_untrash_post',
             function ($trash, $post, $previous_status) {
                 $this->assertNull($trash, 'pre_untrash_post first parameter should be null.');
-                $this->assertSame($this->trashed_post->ID, $post->ID, 'pre_untrash_post second parameter should be the trashed post ID.');
-                $this->assertSame($this->trashed_post->post_status, $previous_status, 'pre_untrash_post third parameter should be the previous trashed post status.');
+                $this->assertSame($this->trashed_post->ID, $post->ID,
+                    'pre_untrash_post second parameter should be the trashed post ID.');
+                $this->assertSame($this->trashed_post->post_status, $previous_status,
+                    'pre_untrash_post third parameter should be the previous trashed post status.');
 
                 return $trash;
             },
             10,
-            3
+            3,
         );
 
         wp_untrash_post($this->trashed_post->ID);
@@ -99,11 +104,13 @@ class Tests_Post_WpUntrashPost extends WP_UnitTestCase
         add_action(
             'untrash_post',
             function ($post_id, $previous_status) {
-                $this->assertSame($this->trashed_post->ID, $post_id, 'untrash_post first parameter should be the trashed post ID.');
-                $this->assertSame($this->trashed_post->post_status, $previous_status, 'untrash_post second parameter should be the previous trashed post status.');
+                $this->assertSame($this->trashed_post->ID, $post_id,
+                    'untrash_post first parameter should be the trashed post ID.');
+                $this->assertSame($this->trashed_post->post_status, $previous_status,
+                    'untrash_post second parameter should be the previous trashed post status.');
             },
             10,
-            2
+            2,
         );
 
         wp_untrash_post($this->trashed_post->ID);
@@ -124,11 +131,13 @@ class Tests_Post_WpUntrashPost extends WP_UnitTestCase
         add_action(
             'untrashed_post',
             function ($post_id, $previous_status) {
-                $this->assertSame($this->trashed_post->ID, $post_id, 'untrashed_post first parameter should be the trashed post ID.');
-                $this->assertSame($this->trashed_post->post_status, $previous_status, 'untrashed_post second parameter should be the previous trashed post status.');
+                $this->assertSame($this->trashed_post->ID, $post_id,
+                    'untrashed_post first parameter should be the trashed post ID.');
+                $this->assertSame($this->trashed_post->post_status, $previous_status,
+                    'untrashed_post second parameter should be the previous trashed post status.');
             },
             10,
-            2
+            2,
         );
 
         wp_untrash_post($this->trashed_post->ID);

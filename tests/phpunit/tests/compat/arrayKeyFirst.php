@@ -23,7 +23,7 @@ class Tests_Compat_arrayKeyFirst extends WP_UnitTestCase
      * @ticket 45055
      *
      * @param bool $expected The value of the key extracted to extracted from given array.
-     * @param array $arr     The array to get first key from.
+     * @param array $arr The array to get first key from.
      */
     public function test_array_key_first($expected, $arr)
     {
@@ -38,34 +38,34 @@ class Tests_Compat_arrayKeyFirst extends WP_UnitTestCase
     public function data_array_key_first()
     {
         return [
-            'string key'  => [
+            'string key' => [
                 'expected' => 'key1',
-                'arr'      => [
+                'arr' => [
                     'key1' => 'val1',
                     'key2' => 'val2',
                 ],
             ],
-            'int key'     => [
+            'int key' => [
                 'expected' => 99,
-                'arr'      => [
+                'arr' => [
                     99 => 'val1',
-                    1  => 'val2',
+                    1 => 'val2',
                 ],
             ],
-            'no key'      => [
+            'no key' => [
                 'expected' => 0,
-                'arr'      => ['val1', 'val2'],
+                'arr' => ['val1', 'val2'],
             ],
             'multi array' => [
                 'expected' => 99,
-                'arr'      => [
+                'arr' => [
                     99 => [22 => 'val1'],
-                    1  => 'val2',
+                    1 => 'val2',
                 ],
             ],
             'empty array' => [
                 'expected' => null,
-                'arr'      => [],
+                'arr' => [],
             ],
         ];
     }

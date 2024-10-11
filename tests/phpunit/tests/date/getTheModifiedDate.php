@@ -19,14 +19,14 @@ class Tests_Date_GetTheModifiedDate extends WP_UnitTestCase
      */
     public function test_get_the_modified_date_with_post_id()
     {
-        $details  = [
-            'post_date'     => '2016-01-21 15:34:36',
+        $details = [
+            'post_date' => '2016-01-21 15:34:36',
             'post_date_gmt' => '2016-01-21 15:34:36',
         ];
-        $post_id  = self::factory()->post->create($details);
-        $format   = 'Y-m-d';
+        $post_id = self::factory()->post->create($details);
+        $format = 'Y-m-d';
         $expected = '2016-01-21';
-        $actual   = get_the_modified_date($format, $post_id);
+        $actual = get_the_modified_date($format, $post_id);
         $this->assertSame($expected, $actual);
     }
 
@@ -40,17 +40,17 @@ class Tests_Date_GetTheModifiedDate extends WP_UnitTestCase
     public function test_get_the_modified_date_default()
     {
         $details = [
-            'post_date'     => '2016-01-21 15:34:36',
+            'post_date' => '2016-01-21 15:34:36',
             'post_date_gmt' => '2016-01-21 15:34:36',
         ];
         $post_id = self::factory()->post->create($details);
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
 
         $GLOBALS['post'] = $post;
 
         $expected = '2016-01-21';
-        $format   = 'Y-m-d';
-        $actual   = get_the_modified_date($format);
+        $format = 'Y-m-d';
+        $actual = get_the_modified_date($format);
         $this->assertSame($expected, $actual);
     }
 
@@ -76,7 +76,7 @@ class Tests_Date_GetTheModifiedDate extends WP_UnitTestCase
     public function _filter_get_the_modified_date_failure($the_date)
     {
         $expected = false;
-        $actual   = $the_date;
+        $actual = $the_date;
         $this->assertSame($expected, $actual);
 
         if (false === $the_date) {
@@ -116,14 +116,14 @@ class Tests_Date_GetTheModifiedDate extends WP_UnitTestCase
      */
     public function test_get_the_modified_time_with_post_id()
     {
-        $details  = [
-            'post_date'     => '2016-01-21 15:34:36',
+        $details = [
+            'post_date' => '2016-01-21 15:34:36',
             'post_date_gmt' => '2016-01-21 15:34:36',
         ];
-        $post_id  = self::factory()->post->create($details);
-        $format   = 'G';
+        $post_id = self::factory()->post->create($details);
+        $format = 'G';
         $expected = 1453390476;
-        $actual   = get_the_modified_time($format, $post_id);
+        $actual = get_the_modified_time($format, $post_id);
         $this->assertSame($expected, $actual);
     }
 
@@ -137,17 +137,17 @@ class Tests_Date_GetTheModifiedDate extends WP_UnitTestCase
     public function test_get_the_modified_time_default()
     {
         $details = [
-            'post_date'     => '2016-01-21 15:34:36',
+            'post_date' => '2016-01-21 15:34:36',
             'post_date_gmt' => '2016-01-21 15:34:36',
         ];
         $post_id = self::factory()->post->create($details);
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
 
         $GLOBALS['post'] = $post;
 
         $expected = 1453390476;
-        $format   = 'G';
-        $actual   = get_the_modified_time($format);
+        $format = 'G';
+        $actual = get_the_modified_time($format);
         $this->assertSame($expected, $actual);
     }
 
@@ -173,7 +173,7 @@ class Tests_Date_GetTheModifiedDate extends WP_UnitTestCase
     public function _filter_get_the_modified_time_failure($the_time)
     {
         $expected = false;
-        $actual   = $the_time;
+        $actual = $the_time;
         $this->assertSame($expected, $actual);
 
         if (false === $the_time) {

@@ -22,8 +22,8 @@ class Tests_Option_SiteTransient extends WP_UnitTestCase
      */
     public function test_the_basics()
     {
-        $key    = 'key1';
-        $value  = 'value1';
+        $key = 'key1';
+        $value = 'value1';
         $value2 = 'value2';
 
         $this->assertFalse(get_site_transient('doesnotexist'));
@@ -44,7 +44,7 @@ class Tests_Option_SiteTransient extends WP_UnitTestCase
      */
     public function test_serialized_data()
     {
-        $key   = __FUNCTION__;
+        $key = __FUNCTION__;
         $value = [
             'foo' => true,
             'bar' => true,
@@ -53,7 +53,7 @@ class Tests_Option_SiteTransient extends WP_UnitTestCase
         $this->assertTrue(set_site_transient($key, $value));
         $this->assertSame($value, get_site_transient($key));
 
-        $value = (object) $value;
+        $value = (object)$value;
         $this->assertTrue(set_site_transient($key, $value));
         $this->assertEquals($value, get_site_transient($key));
         $this->assertTrue(delete_site_transient($key));

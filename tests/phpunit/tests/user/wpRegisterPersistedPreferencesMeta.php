@@ -26,30 +26,30 @@ class Tests_User_WpRegisterPersistedPreferencesMeta extends WP_UnitTestCase
         $this->assertArrayHasKey(
             $meta_key,
             $wp_meta_keys['user'][''],
-            'The expected meta key was not registered'
+            'The expected meta key was not registered',
         );
 
         // Test to detect changes in meta key structure.
         $this->assertSame(
             [
-                'type'              => 'object',
-                'label'             => '',
-                'description'       => '',
-                'single'            => true,
+                'type' => 'object',
+                'label' => '',
+                'description' => '',
+                'single' => true,
                 'sanitize_callback' => null,
-                'auth_callback'     => '__return_true',
-                'show_in_rest'      => [
-                    'name'   => 'persisted_preferences',
-                    'type'   => 'object',
+                'auth_callback' => '__return_true',
+                'show_in_rest' => [
+                    'name' => 'persisted_preferences',
+                    'type' => 'object',
                     'schema' => [
-                        'type'                 => 'object',
-                        'context'              => ['edit'],
-                        'properties'           => [
+                        'type' => 'object',
+                        'context' => ['edit'],
+                        'properties' => [
                             '_modified' => [
                                 'description' => __('The date and time the preferences were updated.'),
-                                'type'        => 'string',
-                                'format'      => 'date-time',
-                                'readonly'    => false,
+                                'type' => 'string',
+                                'format' => 'date-time',
+                                'readonly' => false,
                             ],
                         ],
                         'additionalProperties' => true,
@@ -58,7 +58,7 @@ class Tests_User_WpRegisterPersistedPreferencesMeta extends WP_UnitTestCase
                 'revisions_enabled' => false,
             ],
             $wp_meta_keys['user'][''][$meta_key],
-            'The registered metadata did not have the expected structure'
+            'The registered metadata did not have the expected structure',
         );
     }
 }

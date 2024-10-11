@@ -36,16 +36,15 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control
      * @since 3.4.2
      * @deprecated 4.1.0
      */
-    public function prepare_control()
-    {}
+    public function prepare_control() {}
 
     /**
-     * @since 3.4.0
-     * @deprecated 4.1.0
-     *
      * @param string $id
      * @param string $label
-     * @param mixed  $callback
+     * @param mixed $callback
+     * @deprecated 4.1.0
+     *
+     * @since 3.4.0
      */
     public function add_tab($id, $label, $callback)
     {
@@ -53,10 +52,10 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control
     }
 
     /**
-     * @since 3.4.0
+     * @param string $id
      * @deprecated 4.1.0
      *
-     * @param string $id
+     * @since 3.4.0
      */
     public function remove_tab($id)
     {
@@ -64,11 +63,11 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control
     }
 
     /**
+     * @param string $url
+     * @param string $thumbnail_url
      * @since 3.4.0
      * @deprecated 4.1.0
      *
-     * @param string $url
-     * @param string $thumbnail_url
      */
     public function print_tab_image($url, $thumbnail_url = null)
     {

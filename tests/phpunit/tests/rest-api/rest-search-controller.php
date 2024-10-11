@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering WP_REST_Search_Controller functionality.
  *
@@ -58,23 +59,23 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
             4,
             [
                 'post_title' => 'my-footitle',
-                'post_type'  => 'post',
-            ]
+                'post_type' => 'post',
+            ],
         );
 
         self::$my_title_page_ids = $factory->post->create_many(
             4,
             [
                 'post_title' => 'my-footitle',
-                'post_type'  => 'page',
-            ]
+                'post_type' => 'page',
+            ],
         );
 
         self::$my_content_post_ids = $factory->post->create_many(
             6,
             [
                 'post_content' => 'my-foocontent',
-            ]
+            ],
         );
 
         set_post_format(self::$my_title_post_ids[0], 'aside');
@@ -82,15 +83,15 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
         self::$my_category_id = $factory->term->create(
             [
                 'taxonomy' => 'category',
-                'name'     => 'Test Category',
-            ]
+                'name' => 'Test Category',
+            ],
         );
 
         self::$my_tag_id = $factory->term->create(
             [
                 'taxonomy' => 'post_tag',
-                'name'     => 'Test Tag',
-            ]
+                'name' => 'Test Tag',
+            ],
         );
     }
 
@@ -104,7 +105,7 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
         $post_ids = array_merge(
             self::$my_title_post_ids,
             self::$my_title_page_ids,
-            self::$my_content_post_ids
+            self::$my_content_post_ids,
         );
 
         foreach ($post_ids as $post_id) {
@@ -138,7 +139,7 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
     public function test_context_param()
     {
         $response = $this->do_request_with_params([], 'OPTIONS');
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
         $this->assertSame(['view', 'embed'], $data['endpoints'][0]['args']['context']['enum']);
@@ -152,7 +153,7 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
         $response = $this->do_request_with_params(
             [
                 'per_page' => 100,
-            ]
+            ],
         );
 
         $this->assertSame(200, $response->get_status());
@@ -160,9 +161,9 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
             array_merge(
                 self::$my_title_post_ids,
                 self::$my_title_page_ids,
-                self::$my_content_post_ids
+                self::$my_content_post_ids,
             ),
-            wp_list_pluck($response->get_data(), 'id')
+            wp_list_pluck($response->get_data(), 'id'),
         );
     }
 
@@ -174,7 +175,7 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
         $response = $this->do_request_with_params(
             [
                 'per_page' => 3,
-            ]
+            ],
         );
 
         $this->assertSame(200, $response->get_status());
@@ -189,8 +190,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
         $response = $this->do_request_with_params(
             [
                 'per_page' => 100,
-                'type'     => 'post',
-            ]
+                'type' => 'post',
+            ],
         );
 
         $this->assertSame(200, $response->get_status());
@@ -198,9 +199,9 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
             array_merge(
                 self::$my_title_post_ids,
                 self::$my_title_page_ids,
-                self::$my_content_post_ids
+                self::$my_content_post_ids,
             ),
-            wp_list_pluck($response->get_data(), 'id')
+            wp_list_pluck($response->get_data(), 'id'),
         );
     }
 
@@ -212,18 +213,18 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
         $response = $this->do_request_with_params(
             [
                 'per_page' => 100,
-                'type'     => 'post',
-                'subtype'  => 'post',
-            ]
+                'type' => 'post',
+                'subtype' => 'post',
+            ],
         );
 
         $this->assertSame(200, $response->get_status());
         $this->assertSameSets(
             array_merge(
                 self::$my_title_post_ids,
-                self::$my_content_post_ids
+                self::$my_content_post_ids,
             ),
-            wp_list_pluck($response->get_data(), 'id')
+            wp_list_pluck($response->get_data(), 'id'),
         );
     }
 
@@ -235,15 +236,15 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
         $response = $this->do_request_with_params(
             [
                 'per_page' => 100,
-                'type'     => 'post',
-                'subtype'  => 'page',
-            ]
+                'type' => 'post',
+                'subtype' => 'page',
+            ],
         );
 
         $this->assertSame(200, $response->get_status());
         $this->assertSameSets(
             self::$my_title_page_ids,
-            wp_list_pluck($response->get_data(), 'id')
+            wp_list_pluck($response->get_data(), 'id'),
         );
     }
 
@@ -255,8 +256,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
         $response = $this->do_request_with_params(
             [
                 'per_page' => 100,
-                'type'     => 'invalid',
-            ]
+                'type' => 'invalid',
+            ],
         );
 
         $this->assertErrorResponse('rest_invalid_param', $response, 400);
@@ -270,9 +271,9 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
         $response = $this->do_request_with_params(
             [
                 'per_page' => 100,
-                'type'     => 'post',
-                'subtype'  => 'invalid',
-            ]
+                'type' => 'post',
+                'subtype' => 'invalid',
+            ],
         );
 
         $this->assertErrorResponse('rest_invalid_param', $response, 400);
@@ -286,9 +287,9 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
         $response = $this->do_request_with_params(
             [
                 'per_page' => 100,
-                'type'     => 'post',
-                'subtype'  => 'post,page',
-            ]
+                'type' => 'post',
+                'subtype' => 'post,page',
+            ],
         );
 
         $this->assertSame(200, $response->get_status());
@@ -296,9 +297,9 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
             array_merge(
                 self::$my_title_post_ids,
                 self::$my_title_page_ids,
-                self::$my_content_post_ids
+                self::$my_content_post_ids,
             ),
-            wp_list_pluck($response->get_data(), 'id')
+            wp_list_pluck($response->get_data(), 'id'),
         );
     }
 
@@ -310,17 +311,17 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
         $response = $this->do_request_with_params(
             [
                 'per_page' => 100,
-                'search'   => 'footitle',
-            ]
+                'search' => 'footitle',
+            ],
         );
 
         $this->assertSame(200, $response->get_status());
         $this->assertSameSets(
             array_merge(
                 self::$my_title_post_ids,
-                self::$my_title_page_ids
+                self::$my_title_page_ids,
             ),
-            wp_list_pluck($response->get_data(), 'id')
+            wp_list_pluck($response->get_data(), 'id'),
         );
     }
 
@@ -332,14 +333,14 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
         $response = $this->do_request_with_params(
             [
                 'per_page' => 100,
-                'search'   => 'foocontent',
-            ]
+                'search' => 'foocontent',
+            ],
         );
 
         $this->assertSame(200, $response->get_status());
         $this->assertSameSets(
             self::$my_content_post_ids,
-            wp_list_pluck($response->get_data(), 'id')
+            wp_list_pluck($response->get_data(), 'id'),
         );
     }
 
@@ -353,15 +354,16 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
 
         $query_args = [
             'per_page' => 100,
-            'search'   => 'foocontent',
+            'search' => 'foocontent',
         ];
-        $response   = $this->do_request_with_params($query_args);
+        $response = $this->do_request_with_params($query_args);
         $this->assertSame(200, $response->get_status(), 'Request Status Response is not 200.');
 
         $ids = wp_list_pluck($response->get_data(), 'id');
-        $this->assertSameSets(self::$my_content_post_ids, $ids, 'Query result posts ids do not match with expected ones.');
+        $this->assertSameSets(self::$my_content_post_ids, $ids,
+            'Query result posts ids do not match with expected ones.');
 
-        $args               = $action->get_args();
+        $args = $action->get_args();
         $primed_query_found = false;
         foreach ($args as $arg) {
             // Primed query will use WHERE ID IN clause.
@@ -380,7 +382,7 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
     public function test_get_item()
     {
         /** The search controller does not allow getting individual item content */
-        $request  = new WP_REST_Request('GET', '/wp/v2/search' . self::$my_title_post_ids[0]);
+        $request = new WP_REST_Request('GET', '/wp/v2/search' . self::$my_title_post_ids[0]);
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(404, $response->get_status());
     }
@@ -391,7 +393,7 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
     public function test_create_item()
     {
         /** The search controller does not allow creating content */
-        $request  = new WP_REST_Request('POST', '/wp/v2/search');
+        $request = new WP_REST_Request('POST', '/wp/v2/search');
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(404, $response->get_status());
     }
@@ -402,7 +404,7 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
     public function test_update_item()
     {
         /** The search controller does not allow upading content */
-        $request  = new WP_REST_Request('POST', '/wp/v2/search' . self::$my_title_post_ids[0]);
+        $request = new WP_REST_Request('POST', '/wp/v2/search' . self::$my_title_post_ids[0]);
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(404, $response->get_status());
     }
@@ -413,7 +415,7 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
     public function test_delete_item()
     {
         /** The search controller does not allow deleting content */
-        $request  = new WP_REST_Request('DELETE', '/wp/v2/search' . self::$my_title_post_ids[0]);
+        $request = new WP_REST_Request('DELETE', '/wp/v2/search' . self::$my_title_post_ids[0]);
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(404, $response->get_status());
     }
@@ -436,7 +438,7 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
                 'subtype',
                 '_links',
             ],
-            array_keys($data[0])
+            array_keys($data[0]),
         );
     }
 
@@ -445,14 +447,14 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
      */
     public function test_prepare_item_limit_fields()
     {
-        if (! method_exists('WP_REST_Controller', 'get_fields_for_response')) {
+        if (!method_exists('WP_REST_Controller', 'get_fields_for_response')) {
             $this->markTestSkipped('Limiting fields requires the WP_REST_Controller::get_fields_for_response() method.');
         }
 
         $response = $this->do_request_with_params(
             [
                 '_fields' => 'id,title',
-            ]
+            ],
         );
         $this->assertSame(200, $response->get_status());
 
@@ -462,7 +464,7 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
                 'id',
                 'title',
             ],
-            array_keys($data[0])
+            array_keys($data[0]),
         );
     }
 
@@ -471,9 +473,9 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
      */
     public function test_get_item_schema()
     {
-        $request    = new WP_REST_Request('OPTIONS', '/wp/v2/search');
-        $response   = rest_get_server()->dispatch($request);
-        $data       = $response->get_data();
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/search');
+        $response = rest_get_server()->dispatch($request);
+        $data = $response->get_data();
         $properties = $data['schema']['properties'];
 
         $this->assertArrayHasKey('id', $properties);
@@ -490,9 +492,9 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
     {
         $response = $this->do_request_with_params(
             [
-                'type'    => 'post',
+                'type' => 'post',
                 'subtype' => 'post,nav_menu_item',
-            ]
+            ],
         );
         $this->assertErrorResponse('rest_invalid_param', $response, 400);
     }
@@ -504,24 +506,24 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
     {
         $controller = new WP_REST_Search_Controller([new WP_REST_Test_Search_Handler(10)]);
 
-        $request  = $this->get_request(
+        $request = $this->get_request(
             [
-                'page'     => 1,
+                'page' => 1,
                 'per_page' => 10,
-                'type'     => 'test',
-                'subtype'  => [WP_REST_Search_Controller::TYPE_ANY],
-            ]
+                'type' => 'test',
+                'subtype' => [WP_REST_Search_Controller::TYPE_ANY],
+            ],
         );
         $response = $controller->get_items($request);
         $this->assertSameSets(range(1, 10), wp_list_pluck($response->get_data(), 'id'));
 
-        $request  = $this->get_request(
+        $request = $this->get_request(
             [
-                'page'     => 1,
+                'page' => 1,
                 'per_page' => 10,
-                'type'     => 'test',
-                'subtype'  => ['test_first_type'],
-            ]
+                'type' => 'test',
+                'subtype' => ['test_first_type'],
+            ],
         );
         $response = $controller->get_items($request);
         $this->assertSameSets(range(1, 5), wp_list_pluck($response->get_data(), 'id'));
@@ -534,14 +536,14 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
     {
         $controller = new WP_REST_Search_Controller([new WP_REST_Test_Search_Handler(10)]);
 
-        $request  = $this->get_request(
+        $request = $this->get_request(
             [
-                'type'    => 'test',
+                'type' => 'test',
                 'subtype' => [WP_REST_Search_Controller::TYPE_ANY],
-            ]
+            ],
         );
         $response = $controller->prepare_item_for_response(1, $request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame(
             [
                 'id',
@@ -550,7 +552,7 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
                 'type',
                 'subtype',
             ],
-            array_keys($data)
+            array_keys($data),
         );
     }
 
@@ -559,27 +561,27 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
      */
     public function test_custom_search_handler_prepare_item_limit_fields()
     {
-        if (! method_exists('WP_REST_Controller', 'get_fields_for_response')) {
+        if (!method_exists('WP_REST_Controller', 'get_fields_for_response')) {
             $this->markTestSkipped('Limiting fields requires the WP_REST_Controller::get_fields_for_response() method.');
         }
 
         $controller = new WP_REST_Search_Controller([new WP_REST_Test_Search_Handler(10)]);
 
-        $request  = $this->get_request(
+        $request = $this->get_request(
             [
-                'type'    => 'test',
+                'type' => 'test',
                 'subtype' => [WP_REST_Search_Controller::TYPE_ANY],
                 '_fields' => 'id,title',
-            ]
+            ],
         );
         $response = $controller->prepare_item_for_response(1, $request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame(
             [
                 'id',
                 'title',
             ],
-            array_keys($data)
+            array_keys($data),
         );
     }
 
@@ -593,7 +595,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
         $params = $controller->get_collection_params();
         $this->assertSame('test', $params[WP_REST_Search_Controller::PROP_TYPE]['default']);
         $this->assertSameSets(['test'], $params[WP_REST_Search_Controller::PROP_TYPE]['enum']);
-        $this->assertSameSets(['test_first_type', 'test_second_type', WP_REST_Search_Controller::TYPE_ANY], $params[WP_REST_Search_Controller::PROP_SUBTYPE]['items']['enum']);
+        $this->assertSameSets(['test_first_type', 'test_second_type', WP_REST_Search_Controller::TYPE_ANY],
+            $params[WP_REST_Search_Controller::PROP_SUBTYPE]['items']['enum']);
     }
 
     /**
@@ -602,13 +605,14 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
     public function test_search_result_links_are_embedded()
     {
         $response = $this->do_request_with_params(['per_page' => 1]);
-        $data     = rest_get_server()->response_to_data($response, true)[0];
+        $data = rest_get_server()->response_to_data($response, true)[0];
 
         $this->assertArrayHasKey('_embedded', $data);
         $this->assertArrayHasKey('self', $data['_embedded']);
         $this->assertCount(1, $data['_embedded']['self']);
         $this->assertArrayHasKey(WP_REST_Search_Controller::PROP_ID, $data['_embedded']['self'][0]);
-        $this->assertSame($data[WP_REST_Search_Controller::PROP_ID], $data['_embedded']['self'][0][WP_REST_Search_Controller::PROP_ID]);
+        $this->assertSame($data[WP_REST_Search_Controller::PROP_ID],
+            $data['_embedded']['self'][0][WP_REST_Search_Controller::PROP_ID]);
     }
 
     /**
@@ -621,8 +625,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
         $response = $this->do_request_with_params(
             [
                 'per_page' => 100,
-                'type'     => 'term',
-            ]
+                'type' => 'term',
+            ],
         );
         $this->assertSame(200, $response->get_status());
         $this->assertSameSets(
@@ -631,7 +635,7 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
                 self::$my_category_id,
                 self::$my_tag_id,
             ],
-            wp_list_pluck($response->get_data(), 'id')
+            wp_list_pluck($response->get_data(), 'id'),
         );
     }
 
@@ -645,9 +649,9 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
         $response = $this->do_request_with_params(
             [
                 'per_page' => 100,
-                'type'     => 'term',
-                'subtype'  => 'category',
-            ]
+                'type' => 'term',
+                'subtype' => 'category',
+            ],
         );
 
         $this->assertSame(200, $response->get_status());
@@ -656,7 +660,7 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
                 0 => 1, // That is the default category.
                 self::$my_category_id,
             ],
-            wp_list_pluck($response->get_data(), 'id')
+            wp_list_pluck($response->get_data(), 'id'),
         );
     }
 
@@ -670,9 +674,9 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
         $response = $this->do_request_with_params(
             [
                 'per_page' => 100,
-                'type'     => 'term',
-                'subtype'  => 'invalid',
-            ]
+                'type' => 'term',
+                'subtype' => 'invalid',
+            ],
         );
 
         $this->assertErrorResponse('rest_invalid_param', $response, 400);
@@ -688,9 +692,9 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
         $response = $this->do_request_with_params(
             [
                 'per_page' => 100,
-                'type'     => 'term',
-                'subtype'  => 'category,post_tag',
-            ]
+                'type' => 'term',
+                'subtype' => 'category,post_tag',
+            ],
         );
         $this->assertSame(200, $response->get_status());
         $this->assertSameSets(
@@ -699,7 +703,7 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
                 self::$my_category_id,
                 self::$my_tag_id,
             ],
-            wp_list_pluck($response->get_data(), 'id')
+            wp_list_pluck($response->get_data(), 'id'),
         );
     }
 
@@ -713,9 +717,9 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
         $response = $this->do_request_with_params(
             [
                 'per_page' => 100,
-                'search'   => 'Test Category',
-                'type'     => 'term',
-            ]
+                'search' => 'Test Category',
+                'type' => 'term',
+            ],
         );
 
         $this->assertSame(200, $response->get_status());
@@ -723,7 +727,7 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
             [
                 self::$my_category_id,
             ],
-            wp_list_pluck($response->get_data(), 'id')
+            wp_list_pluck($response->get_data(), 'id'),
         );
     }
 
@@ -737,9 +741,9 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
         $response = $this->do_request_with_params(
             [
                 'per_page' => 100,
-                'search'   => 'Test Tag',
-                'type'     => 'term',
-            ]
+                'search' => 'Test Tag',
+                'type' => 'term',
+            ],
         );
 
         $this->assertSame(200, $response->get_status());
@@ -747,7 +751,7 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
             [
                 self::$my_tag_id,
             ],
-            wp_list_pluck($response->get_data(), 'id')
+            wp_list_pluck($response->get_data(), 'id'),
         );
     }
 
@@ -761,9 +765,9 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
         $response = $this->do_request_with_params(
             [
                 'per_page' => 100,
-                'search'   => 'Doesn\'t exist',
-                'type'     => 'term',
-            ]
+                'search' => 'Doesn\'t exist',
+                'type' => 'term',
+            ],
         );
 
         $this->assertSame(200, $response->get_status());
@@ -780,13 +784,13 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
         $response = $this->do_request_with_params(
             [
                 'per_page' => 100,
-                'type'     => 'post-format',
-            ]
+                'type' => 'post-format',
+            ],
         );
         $this->assertSame(200, $response->get_status());
         $this->assertContains(
             'Aside',
-            wp_list_pluck($response->get_data(), 'title')
+            wp_list_pluck($response->get_data(), 'title'),
         );
     }
 
@@ -800,15 +804,15 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
         $response = $this->do_request_with_params(
             [
                 'per_page' => 100,
-                'search'   => 'Aside',
-                'type'     => 'post-format',
-            ]
+                'search' => 'Aside',
+                'type' => 'post-format',
+            ],
         );
 
         $this->assertSame(200, $response->get_status());
         $this->assertContains(
             'Aside',
-            wp_list_pluck($response->get_data(), 'title')
+            wp_list_pluck($response->get_data(), 'title'),
         );
     }
 
@@ -823,9 +827,9 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
         $response = $this->do_request_with_params(
             [
                 'per_page' => 100,
-                'search'   => 'Doesn\'t exist',
-                'type'     => 'post-format',
-            ]
+                'search' => 'Doesn\'t exist',
+                'type' => 'post-format',
+            ],
         );
 
         $this->assertSame(200, $response->get_status());
@@ -864,13 +868,13 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
         $response = $this->do_request_with_params(
             [
                 'include' => array_slice(self::$my_title_post_ids, 1, 2),
-            ]
+            ],
         );
 
         $this->assertSame(200, $response->get_status());
         $this->assertSameSets(
             [self::$my_title_post_ids[1], self::$my_title_post_ids[2]],
-            wp_list_pluck($response->get_data(), 'id')
+            wp_list_pluck($response->get_data(), 'id'),
         );
     }
 
@@ -882,16 +886,16 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
         $response = $this->do_request_with_params(
             [
                 'exclude' => self::$my_title_page_ids,
-            ]
+            ],
         );
 
         $this->assertSame(200, $response->get_status());
         $this->assertSameSets(
             array_merge(
                 self::$my_title_post_ids,
-                self::$my_content_post_ids
+                self::$my_content_post_ids,
             ),
-            wp_list_pluck($response->get_data(), 'id')
+            wp_list_pluck($response->get_data(), 'id'),
         );
     }
 
@@ -903,14 +907,14 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
         $response = $this->do_request_with_params(
             [
                 'include' => self::$my_tag_id,
-                'type'    => 'term',
-            ]
+                'type' => 'term',
+            ],
         );
 
         $this->assertSame(200, $response->get_status());
         $this->assertSameSets(
             [self::$my_tag_id],
-            wp_list_pluck($response->get_data(), 'id')
+            wp_list_pluck($response->get_data(), 'id'),
         );
     }
 
@@ -923,14 +927,14 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
             [
                 // "1" is the default category.
                 'exclude' => [1, self::$my_tag_id],
-                'type'    => 'term',
-            ]
+                'type' => 'term',
+            ],
         );
 
         $this->assertSame(200, $response->get_status());
         $this->assertSameSets(
             [self::$my_category_id],
-            wp_list_pluck($response->get_data(), 'id')
+            wp_list_pluck($response->get_data(), 'id'),
         );
     }
 
@@ -942,8 +946,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
         $response = $this->do_request_with_params(
             [
                 'subtype' => 'page',
-                'type'    => ['invalid'],
-            ]
+                'type' => ['invalid'],
+            ],
         );
 
         $this->assertErrorResponse('rest_invalid_param', $response, 400);
