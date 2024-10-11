@@ -355,8 +355,8 @@ class Tests_DB_Charset extends WP_UnitTestCase
             ],
             'cp1251_no_length_ascii'                => [
                 'charset'  => 'cp1251',
-                'value'    => 'WordPress',
-                'expected' => 'WordPress',
+                'value'    => 'waggypuppy',
+                'expected' => 'waggypuppy',
                 'length'   => false,
                 // Don't set 'ascii' => true/false.
                 // That's a different codepath than it being unset

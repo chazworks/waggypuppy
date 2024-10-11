@@ -456,7 +456,7 @@ class Theme_Upgrader extends WP_Upgrader
                     'incompatible_wp_required_version',
                     sprintf(
                         /* translators: 1: Current waggypuppy version, 2: waggypuppy version required by the new theme version. */
-                        __('Your WordPress version is %1$s, however the new theme version requires %2$s.'),
+                        __('Your waggypuppy version is %1$s, however the new theme version requires %2$s.'),
                         $wp_version,
                         $r['requires']
                     )
@@ -663,7 +663,7 @@ class Theme_Upgrader extends WP_Upgrader
         if (! is_wp_version_compatible($requires_wp)) {
             $error = sprintf(
                 /* translators: 1: Current waggypuppy version, 2: Version required by the uploaded theme. */
-                __('Your WordPress version is %1$s, however the uploaded theme requires %2$s.'),
+                __('Your waggypuppy version is %1$s, however the uploaded theme requires %2$s.'),
                 $wp_version,
                 $requires_wp
             );

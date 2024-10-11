@@ -3192,7 +3192,7 @@ function pingback($content, $post)
              * @param string $pagelinkedto        URL of page linked to.
              * @param string $pagelinkedfrom      URL of page linked from.
              */
-            $client->useragent = apply_filters('pingback_useragent', $client->useragent . ' -- WordPress/' . get_bloginfo('version'), $client->useragent, $pingback_server_url, $pagelinkedto, $pagelinkedfrom);
+            $client->useragent = apply_filters('pingback_useragent', $client->useragent . ' -- waggypuppy/' . get_bloginfo('version'), $client->useragent, $pingback_server_url, $pagelinkedto, $pagelinkedfrom);
             // When set to true, this outputs debug messages by itself.
             $client->debug = false;
 
@@ -3278,7 +3278,7 @@ function weblog_ping($server = '', $path = '')
     // Using a timeout of 3 seconds should be enough to cover slow servers.
     $client             = new WP_HTTP_IXR_Client($server, ((! strlen(trim($path)) || ('/' === $path)) ? false : $path));
     $client->timeout    = 3;
-    $client->useragent .= ' -- WordPress/' . get_bloginfo('version');
+    $client->useragent .= ' -- waggypuppy/' . get_bloginfo('version');
 
     // When set to true, this outputs debug messages by itself.
     $client->debug = false;
@@ -3758,7 +3758,7 @@ function wp_handle_comment_submission($comment_data)
 function wp_register_comment_personal_data_exporter($exporters)
 {
     $exporters['wordpress-comments'] = [
-        'exporter_friendly_name' => __('WordPress Comments'),
+        'exporter_friendly_name' => __('waggypuppy Comments'),
         'callback'               => 'wp_comments_personal_data_exporter',
     ];
 
@@ -3875,7 +3875,7 @@ function wp_comments_personal_data_exporter($email_address, $page = 1)
 function wp_register_comment_personal_data_eraser($erasers)
 {
     $erasers['wordpress-comments'] = [
-        'eraser_friendly_name' => __('WordPress Comments'),
+        'eraser_friendly_name' => __('waggypuppy Comments'),
         'callback'             => 'wp_comments_personal_data_eraser',
     ];
 

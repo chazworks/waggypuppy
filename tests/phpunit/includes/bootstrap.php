@@ -49,7 +49,7 @@ $phpunit_version = tests_get_phpunit_version();
 
 if (version_compare($phpunit_version, '5.7.21', '<')) {
     printf(
-        "Error: Looks like you're using PHPUnit %s. WordPress requires at least PHPUnit 5.7.21." . PHP_EOL,
+        "Error: Looks like you're using PHPUnit %s. waggypuppy requires at least PHPUnit 5.7.21." . PHP_EOL,
         $phpunit_version
     );
     echo 'Please use the latest PHPUnit version supported for the PHP version you are running the tests on.' . PHP_EOL;
@@ -217,7 +217,7 @@ define('DIR_TESTROOT', realpath(dirname(__DIR__)));
 const IMPORTER_PLUGIN_FOR_TESTS = DIR_TESTDATA . '/plugins/wordpress-importer/wordpress-importer.php';
 
 if (defined('WP_RUN_CORE_TESTS') && WP_RUN_CORE_TESTS && ! file_exists(IMPORTER_PLUGIN_FOR_TESTS)) {
-    echo 'The test suite requires the WordPress Importer plugin to be available in the `/data/plugins/` directory.'
+    echo 'The test suite requires the waggypuppy Importer plugin to be available in the `/data/plugins/` directory.'
         . ' See: https://make.wp.org/core/handbook/contribute/git/#unit-tests' . PHP_EOL,
     exit(1);
 }

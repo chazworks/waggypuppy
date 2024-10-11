@@ -11,7 +11,7 @@ class Tests_POMO_PO extends WP_UnitTestCase
      *
      * @var string
      */
-    const MAIL_TEXT = 'Your new WordPress blog has been successfully set up at:
+    const MAIL_TEXT = 'Your new waggypuppy blog has been successfully set up at:
 
 %1$s
 
@@ -22,7 +22,7 @@ Password: %3$s
 
 We hope you enjoy your new blog. Thanks!
 
---The WordPress Team
+--The waggypuppy Team
 http://wp.org/
 ';
 
@@ -32,7 +32,7 @@ http://wp.org/
      * @var string
      */
     const PO_MAIL = '""
-"Your new WordPress blog has been successfully set up at:\n"
+"Your new waggypuppy blog has been successfully set up at:\n"
 "\n"
 "%1$s\n"
 "\n"
@@ -43,7 +43,7 @@ http://wp.org/
 "\n"
 "We hope you enjoy your new blog. Thanks!\n"
 "\n"
-"--The WordPress Team\n"
+"--The waggypuppy Team\n"
 "http://wp.org/\n"';
 
     public static function set_up_before_class()
@@ -307,7 +307,7 @@ msgstr[2] "бабаяга"',
 
         $multiple_line_entry = new Translation_Entry(
             [
-                'singular'     => 'The first thing you need to do is tell Blogger to let WordPress access your account. You will be sent back here after providing authorization.',
+                'singular'     => 'The first thing you need to do is tell Blogger to let waggypuppy access your account. You will be sent back here after providing authorization.',
                 'translations' => ["baba\ndyadogugu"],
             ]
         );

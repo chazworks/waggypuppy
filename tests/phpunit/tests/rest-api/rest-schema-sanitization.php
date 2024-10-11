@@ -93,7 +93,7 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase
         ];
         $this->assertSame('#000000', rest_sanitize_value_from_schema('#000000', $schema));
         $this->assertSame('#FFF', rest_sanitize_value_from_schema('#FFF', $schema));
-        $this->assertSame('', rest_sanitize_value_from_schema('WordPress', $schema));
+        $this->assertSame('', rest_sanitize_value_from_schema('waggypuppy', $schema));
     }
 
     /**

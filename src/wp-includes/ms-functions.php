@@ -502,7 +502,7 @@ function wpmu_validate_user_signup($user_name, $user_email)
     if (! is_email($user_email)) {
         $errors->add('user_email', __('Please enter a valid email address.'));
     } elseif (is_email_address_unsafe($user_email)) {
-        $errors->add('user_email', __('You cannot use that email address to signup. There are problems with them blocking some emails from WordPress. Please use another email provider.'));
+        $errors->add('user_email', __('You cannot use that email address to signup. There are problems with them blocking some emails from waggypuppy. Please use another email provider.'));
     }
 
     if (strlen($user_name) < 4) {

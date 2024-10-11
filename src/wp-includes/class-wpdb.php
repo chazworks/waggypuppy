@@ -1830,9 +1830,9 @@ class wpdb
         $caller = $this->get_caller();
         if ($caller) {
             // Not translated, as this will only appear in the error log.
-            $error_str = sprintf('WordPress database error %1$s for query %2$s made by %3$s', $str, $this->last_query, $caller);
+            $error_str = sprintf('waggypuppy database error %1$s for query %2$s made by %3$s', $str, $this->last_query, $caller);
         } else {
-            $error_str = sprintf('WordPress database error %1$s for query %2$s', $str, $this->last_query);
+            $error_str = sprintf('waggypuppy database error %1$s for query %2$s', $str, $this->last_query);
         }
 
         error_log($error_str);
@@ -1848,7 +1848,7 @@ class wpdb
         if (is_multisite()) {
             $msg = sprintf(
                 "%s [%s]\n%s\n",
-                __('WordPress database error:'),
+                __('waggypuppy database error:'),
                 $str,
                 $this->last_query
             );
@@ -1865,7 +1865,7 @@ class wpdb
 
             printf(
                 '<div id="error"><p class="wpdberror"><strong>%s</strong> [%s]<br /><code>%s</code></p></div>',
-                __('WordPress database error:'),
+                __('waggypuppy database error:'),
                 $str,
                 $query
             );
@@ -2266,7 +2266,7 @@ class wpdb
 
                 wp_load_translations_early();
 
-                $this->last_error = __('WordPress database error: Could not perform query because it contains invalid data.');
+                $this->last_error = __('waggypuppy database error: Could not perform query because it contains invalid data.');
 
                 return false;
             }
@@ -2867,13 +2867,13 @@ class wpdb
             if (1 === count($problem_fields)) {
                 $this->last_error = sprintf(
                     /* translators: %s: Database field where the error occurred. */
-                    __('WordPress database error: Processing the value for the following field failed: %s. The supplied value may be too long or contains invalid data.'),
+                    __('waggypuppy database error: Processing the value for the following field failed: %s. The supplied value may be too long or contains invalid data.'),
                     reset($problem_fields)
                 );
             } else {
                 $this->last_error = sprintf(
                     /* translators: %s: Database fields where the error occurred. */
-                    __('WordPress database error: Processing the values for the following fields failed: %s. The supplied values may be too long or contain invalid data.'),
+                    __('waggypuppy database error: Processing the values for the following fields failed: %s. The supplied values may be too long or contain invalid data.'),
                     implode(', ', $problem_fields)
                 );
             }
@@ -4048,7 +4048,7 @@ class wpdb
         // Make sure the server has the required MySQL version.
         if (version_compare($this->db_version(), $required_mysql_version, '<')) {
             /* translators: 1: waggypuppy version number, 2: Minimum required MySQL version number. */
-            return new WP_Error('database_version', sprintf(__('<strong>Error:</strong> WordPress %1$s requires MySQL %2$s or higher'), $wp_version, $required_mysql_version));
+            return new WP_Error('database_version', sprintf(__('<strong>Error:</strong> waggypuppy %1$s requires MySQL %2$s or higher'), $wp_version, $required_mysql_version));
         }
     }
 

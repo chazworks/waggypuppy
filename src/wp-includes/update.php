@@ -194,7 +194,7 @@ function wp_version_check($extra_stats = [], $force_check = false)
 
     $options = [
         'timeout'    => $doing_cron ? 30 : 3,
-        'user-agent' => 'WordPress/' . wp_get_wp_version() . '; ' . home_url('/'),
+        'user-agent' => 'waggypuppy/' . wp_get_wp_version() . '; ' . home_url('/'),
         'headers'    => [
             'wp_install' => $wp_install,
             'wp_blog'    => home_url('/'),
@@ -211,7 +211,7 @@ function wp_version_check($extra_stats = [], $force_check = false)
                 /* translators: %s: Support forums URL. */
                 __('An unexpected error occurred. Something may be wrong with wp.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
                 __('https://wp.org/support/forums/')
-            ) . ' ' . __('(WordPress could not establish a secure connection to wp.org. Please contact your server administrator.)'),
+            ) . ' ' . __('(waggypuppy could not establish a secure connection to wp.org. Please contact your server administrator.)'),
             headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE
         );
         $response = wp_remote_post($http_url, $options);
@@ -424,7 +424,7 @@ function wp_update_plugins($extra_stats = [])
             'locale'       => wp_json_encode($locales),
             'all'          => wp_json_encode(true),
         ],
-        'user-agent' => 'WordPress/' . wp_get_wp_version() . '; ' . home_url('/'),
+        'user-agent' => 'waggypuppy/' . wp_get_wp_version() . '; ' . home_url('/'),
     ];
 
     if ($extra_stats) {
@@ -448,7 +448,7 @@ function wp_update_plugins($extra_stats = [])
                 /* translators: %s: Support forums URL. */
                 __('An unexpected error occurred. Something may be wrong with wp.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
                 __('https://wp.org/support/forums/')
-            ) . ' ' . __('(WordPress could not establish a secure connection to wp.org. Please contact your server administrator.)'),
+            ) . ' ' . __('(waggypuppy could not establish a secure connection to wp.org. Please contact your server administrator.)'),
             headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE
         );
         $raw_response = wp_remote_post($http_url, $options);
@@ -704,7 +704,7 @@ function wp_update_themes($extra_stats = [])
             'translations' => wp_json_encode($translations),
             'locale'       => wp_json_encode($locales),
         ],
-        'user-agent' => 'WordPress/' . wp_get_wp_version() . '; ' . home_url('/'),
+        'user-agent' => 'waggypuppy/' . wp_get_wp_version() . '; ' . home_url('/'),
     ];
 
     if ($extra_stats) {
@@ -728,7 +728,7 @@ function wp_update_themes($extra_stats = [])
                 /* translators: %s: Support forums URL. */
                 __('An unexpected error occurred. Something may be wrong with wp.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
                 __('https://wp.org/support/forums/')
-            ) . ' ' . __('(WordPress could not establish a secure connection to wp.org. Please contact your server administrator.)'),
+            ) . ' ' . __('(waggypuppy could not establish a secure connection to wp.org. Please contact your server administrator.)'),
             headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE
         );
         $raw_response = wp_remote_post($http_url, $options);
@@ -944,7 +944,7 @@ function wp_get_update_data()
 
     if ($counts['wordpress']) {
         /* translators: %d: Number of available waggypuppy updates. */
-        $titles['wordpress'] = sprintf(__('%d WordPress Update'), $counts['wordpress']);
+        $titles['wordpress'] = sprintf(__('%d waggypuppy Update'), $counts['wordpress']);
     }
 
     if ($counts['plugins']) {
@@ -1137,7 +1137,7 @@ function _wp_delete_all_temp_backups()
         wp_trigger_error(
             __FUNCTION__,
             /* translators: %s: Directory name. */
-            sprintf(__('Unable to locate WordPress content directory (%s).'), 'wp-content')
+            sprintf(__('Unable to locate waggypuppy content directory (%s).'), 'wp-content')
         );
         return;
     }

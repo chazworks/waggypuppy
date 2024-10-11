@@ -2082,7 +2082,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WordPress/__VAR_WP-Coding-Standards/zipball/9333efcbff231f10dfd9c56bb7b65818b4733ca7",
+                "url": "https://api.github.com/repos/__VAR_WP/__VAR_WP-Coding-Standards/zipball/9333efcbff231f10dfd9c56bb7b65818b4733ca7",
                 "reference": "9333efcbff231f10dfd9c56bb7b65818b4733ca7",
                 "shasum": ""
             },
@@ -2118,7 +2118,7 @@
                     "homepage": "https://github.com/__VAR_WP/__VAR_WP-Coding-Standards/graphs/contributors"
                 }
             ],
-            "description": "PHP_CodeSniffer rules (sniffs) to enforce WordPress coding conventions",
+            "description": "PHP_CodeSniffer rules (sniffs) to enforce WP coding conventions",
             "keywords": [
                 "phpcs",
                 "standards",

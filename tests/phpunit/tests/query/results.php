@@ -1195,7 +1195,7 @@ class Tests_Query_Results extends WP_UnitTestCase
         );
         $post_2 = self::factory()->post->create(
             [
-                'post_title' => 'Contributing to the WordPress Codex',
+                'post_title' => 'Contributing to the WP Codex',
                 'post_type'  => 'handbook',
             ]
         );
@@ -1225,7 +1225,7 @@ class Tests_Query_Results extends WP_UnitTestCase
 
         $post_1 = self::factory()->post->create(
             [
-                'post_title' => 'Contributing to the WordPress Codex',
+                'post_title' => 'Contributing to the WP Codex',
                 'post_type'  => 'handbook',
             ]
         );

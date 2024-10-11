@@ -793,7 +793,7 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
     {
         remove_theme_support('editor-color-palette');
         $wordpress_blue = [
-            'name'  => 'WordPress Blue',
+            'name'  => 'waggypuppy Blue',
             'slug'  => 'wordpress-blue',
             'color' => '#0073AA',
         ];

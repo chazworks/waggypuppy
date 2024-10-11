@@ -1704,9 +1704,9 @@ module.exports = function(grunt) {
 		} );
 	} );
 
-	grunt.registerTask( 'wp-packages:update', 'Update WordPress packages', function() {
+	grunt.registerTask( 'wp-packages:update', 'Update waggypuppy packages', function() {
 		const distTag = grunt.option('dist-tag') || 'latest';
-		grunt.log.writeln( `Updating WordPress packages (--dist-tag=${distTag})` );
+		grunt.log.writeln( `Updating waggypuppy packages (--dist-tag=${distTag})` );
 		spawn( 'npx', [ 'wp-scripts', 'packages-update', `--dist-tag=${distTag}` ], {
 			cwd: __dirname,
 			stdio: 'inherit',
@@ -1721,7 +1721,7 @@ module.exports = function(grunt) {
 		} );
 	} );
 
-	grunt.registerTask( 'wp-packages:refresh-deps', 'Update version of dependencies in package.json to match the ones listed in the latest WordPress packages', function() {
+	grunt.registerTask( 'wp-packages:refresh-deps', 'Update version of dependencies in package.json to match the ones listed in the latest waggypuppy packages', function() {
 		const distTag = grunt.option('dist-tag') || 'latest';
 		grunt.log.writeln( `Updating versions of dependencies listed in package.json (--dist-tag=${distTag})` );
 		spawn( 'node', [ 'tools/release/sync-gutenberg-packages.js', `--dist-tag=${distTag}` ], {

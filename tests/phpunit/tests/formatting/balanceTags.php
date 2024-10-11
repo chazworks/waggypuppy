@@ -375,14 +375,14 @@ class Tests_Formatting_BalanceTags extends WP_UnitTestCase
             '<p>Test',
             '<p>Test test</em> test</p>',
             '</p>Test',
-            '<p>We are <strong class="wp">#WordPressStrong</p>',
+            '<p>We are <strong class="wp">#waggypuppyStrong</p>',
         ];
         $expected = [
             '<b><i>Test</i></b>',
             '<p>Test</p>',
             '<p>Test test test</p>',
             'Test',
-            '<p>We are <strong class="wp">#WordPressStrong</strong></p>',
+            '<p>We are <strong class="wp">#waggypuppyStrong</strong></p>',
         ];
 
         foreach ($inputs as $key => $input) {

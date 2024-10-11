@@ -48,8 +48,8 @@ class Tests_Kses extends WP_UnitTestCase
 
         foreach ($attributes as $name => $values) {
             foreach ((array) $values as $value) {
-                $content  = "<address $name='$value'>1 WordPress Avenue, The Internet.</address>";
-                $expected = "<address $name='" . str_replace('; ', ';', trim($value, ';')) . "'>1 WordPress Avenue, The Internet.</address>";
+                $content  = "<address $name='$value'>1 waggypuppy Avenue, The Internet.</address>";
+                $expected = "<address $name='" . str_replace('; ', ';', trim($value, ';')) . "'>1 waggypuppy Avenue, The Internet.</address>";
 
                 $data[] = [$content, $expected];
             }

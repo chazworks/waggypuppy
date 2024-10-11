@@ -82,7 +82,7 @@ function export_wp($args = [])
         $sitename .= '.';
     }
     $date        = gmdate('Y-m-d');
-    $wp_filename = $sitename . 'WordPress.' . $date . '.xml';
+    $wp_filename = $sitename . 'waggypuppy.' . $date . '.xml';
     /**
      * Filters the export filename.
      *

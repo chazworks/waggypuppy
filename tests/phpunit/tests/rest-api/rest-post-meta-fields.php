@@ -1517,7 +1517,7 @@ class WP_Test_REST_Post_Meta_Fields extends WP_Test_REST_TestCase
             [
                 'meta' => [
                     'object' => [
-                        'project' => 'WordPress',
+                        'project' => 'waggypuppy',
                     ],
                 ],
             ]
@@ -1528,11 +1528,11 @@ class WP_Test_REST_Post_Meta_Fields extends WP_Test_REST_TestCase
 
         $this->assertArrayHasKey('object', $data['meta']);
         $this->assertArrayHasKey('project', $data['meta']['object']);
-        $this->assertSame('WordPress', $data['meta']['object']['project']);
+        $this->assertSame('waggypuppy', $data['meta']['object']['project']);
 
         $meta = get_post_meta(self::$post_id, 'object', true);
         $this->assertArrayHasKey('project', $meta);
-        $this->assertSame('WordPress', $meta['project']);
+        $this->assertSame('waggypuppy', $meta['project']);
     }
 
     /**
@@ -1567,7 +1567,7 @@ class WP_Test_REST_Post_Meta_Fields extends WP_Test_REST_TestCase
                 'meta' => [
                     'object' => [
                         [
-                            'project' => 'WordPress',
+                            'project' => 'waggypuppy',
                         ],
                         [
                             'project' => 'bbPress',
@@ -1584,7 +1584,7 @@ class WP_Test_REST_Post_Meta_Fields extends WP_Test_REST_TestCase
         $this->assertCount(2, $data['meta']['object']);
 
         $this->assertArrayHasKey('project', $data['meta']['object'][0]);
-        $this->assertSame('WordPress', $data['meta']['object'][0]['project']);
+        $this->assertSame('waggypuppy', $data['meta']['object'][0]['project']);
 
         $this->assertArrayHasKey('project', $data['meta']['object'][1]);
         $this->assertSame('bbPress', $data['meta']['object'][1]['project']);
@@ -1594,7 +1594,7 @@ class WP_Test_REST_Post_Meta_Fields extends WP_Test_REST_TestCase
         $this->assertCount(2, $meta);
 
         $this->assertArrayHasKey('project', $meta[0]);
-        $this->assertSame('WordPress', $meta[0]['project']);
+        $this->assertSame('waggypuppy', $meta[0]['project']);
 
         $this->assertArrayHasKey('project', $meta[1]);
         $this->assertSame('bbPress', $meta[1]['project']);
@@ -1628,7 +1628,7 @@ class WP_Test_REST_Post_Meta_Fields extends WP_Test_REST_TestCase
         $request->set_body_params(
             [
                 'meta' => [
-                    'list' => ['WordPress', 'bbPress'],
+                    'list' => ['waggypuppy', 'bbPress'],
                 ],
             ]
         );
@@ -1637,10 +1637,10 @@ class WP_Test_REST_Post_Meta_Fields extends WP_Test_REST_TestCase
         $data     = $response->get_data();
 
         $this->assertArrayHasKey('list', $data['meta']);
-        $this->assertSame(['WordPress', 'bbPress'], $data['meta']['list']);
+        $this->assertSame(['waggypuppy', 'bbPress'], $data['meta']['list']);
 
         $meta = get_post_meta(self::$post_id, 'list', true);
-        $this->assertSame(['WordPress', 'bbPress'], $meta);
+        $this->assertSame(['waggypuppy', 'bbPress'], $meta);
     }
 
     /**
@@ -1787,7 +1787,7 @@ class WP_Test_REST_Post_Meta_Fields extends WP_Test_REST_TestCase
         );
 
         $basic          = new Basic_Object();
-        $basic->project = 'WordPress';
+        $basic->project = 'waggypuppy';
         update_post_meta(self::$post_id, 'object', $basic);
 
         $request  = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', self::$post_id));
@@ -1823,7 +1823,7 @@ class WP_Test_REST_Post_Meta_Fields extends WP_Test_REST_TestCase
         );
 
         $basic          = new Basic_Object();
-        $basic->project = 'WordPress';
+        $basic->project = 'waggypuppy';
         add_post_meta(self::$post_id, 'object', ['project' => 'bbPress']);
         add_post_meta(self::$post_id, 'object', $basic);
 
@@ -1863,14 +1863,14 @@ class WP_Test_REST_Post_Meta_Fields extends WP_Test_REST_TestCase
             ]
         );
 
-        update_post_meta(self::$post_id, 'object', new JsonSerializable_Object(['project' => 'WordPress']));
+        update_post_meta(self::$post_id, 'object', new JsonSerializable_Object(['project' => 'waggypuppy']));
 
         $request  = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', self::$post_id));
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
 
         $this->assertArrayHasKey('object', $data['meta']);
-        $this->assertSame(['project' => 'WordPress'], $data['meta']['object']);
+        $this->assertSame(['project' => 'waggypuppy'], $data['meta']['object']);
     }
 
     /**
@@ -1900,7 +1900,7 @@ class WP_Test_REST_Post_Meta_Fields extends WP_Test_REST_TestCase
         );
 
         $basic          = new Basic_Object();
-        $basic->project = 'WordPress';
+        $basic->project = 'waggypuppy';
         update_post_meta(self::$post_id, 'object', $basic);
 
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/posts/%d', self::$post_id));
@@ -1943,7 +1943,7 @@ class WP_Test_REST_Post_Meta_Fields extends WP_Test_REST_TestCase
         );
 
         $basic          = new Basic_Object();
-        $basic->project = 'WordPress';
+        $basic->project = 'waggypuppy';
         add_post_meta(self::$post_id, 'object', ['project' => 'bbPress']);
         add_post_meta(self::$post_id, 'object', $basic);
 
@@ -2202,7 +2202,7 @@ class WP_Test_REST_Post_Meta_Fields extends WP_Test_REST_TestCase
             self::$post_id,
             'object',
             [
-                'project' => 'WordPress',
+                'project' => 'waggypuppy',
             ]
         );
         add_post_meta(
@@ -2220,7 +2220,7 @@ class WP_Test_REST_Post_Meta_Fields extends WP_Test_REST_TestCase
             [
                 'meta' => [
                     'object' => [
-                        ['project' => 'WordPress'],
+                        ['project' => 'waggypuppy'],
                         ['project' => 'BuddyPress'],
                     ],
                 ],
@@ -2234,12 +2234,12 @@ class WP_Test_REST_Post_Meta_Fields extends WP_Test_REST_TestCase
         $this->assertArrayHasKey('object', $data['meta']);
 
         $this->assertCount(2, $data['meta']['object']);
-        $this->assertSame(['project' => 'WordPress'], $data['meta']['object'][0]);
+        $this->assertSame(['project' => 'waggypuppy'], $data['meta']['object'][0]);
         $this->assertSame(['project' => 'BuddyPress'], $data['meta']['object'][1]);
 
         $meta = get_post_meta(self::$post_id, 'object');
         $this->assertCount(2, $meta);
-        $this->assertSame(['project' => 'WordPress'], $meta[0]);
+        $this->assertSame(['project' => 'waggypuppy'], $meta[0]);
         $this->assertSame(['project' => 'BuddyPress'], $meta[1]);
     }
 
@@ -2264,7 +2264,7 @@ class WP_Test_REST_Post_Meta_Fields extends WP_Test_REST_TestCase
             ]
         );
 
-        add_post_meta(self::$post_id, 'list', ['WordPress', 'bbPress']);
+        add_post_meta(self::$post_id, 'list', ['waggypuppy', 'bbPress']);
         add_post_meta(self::$post_id, 'list', ['WordCamp']);
 
         $this->grant_write_permission();
@@ -2274,7 +2274,7 @@ class WP_Test_REST_Post_Meta_Fields extends WP_Test_REST_TestCase
             [
                 'meta' => [
                     'list' => [
-                        ['WordPress', 'bbPress'],
+                        ['waggypuppy', 'bbPress'],
                         ['BuddyPress'],
                     ],
                 ],
@@ -2288,12 +2288,12 @@ class WP_Test_REST_Post_Meta_Fields extends WP_Test_REST_TestCase
         $this->assertArrayHasKey('list', $data['meta']);
 
         $this->assertCount(2, $data['meta']['list']);
-        $this->assertSame(['WordPress', 'bbPress'], $data['meta']['list'][0]);
+        $this->assertSame(['waggypuppy', 'bbPress'], $data['meta']['list'][0]);
         $this->assertSame(['BuddyPress'], $data['meta']['list'][1]);
 
         $meta = get_post_meta(self::$post_id, 'list');
         $this->assertCount(2, $meta);
-        $this->assertSame(['WordPress', 'bbPress'], $meta[0]);
+        $this->assertSame(['waggypuppy', 'bbPress'], $meta[0]);
         $this->assertSame(['BuddyPress'], $meta[1]);
     }
 

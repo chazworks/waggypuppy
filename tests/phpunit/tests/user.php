@@ -33,7 +33,7 @@ class Tests_User extends WP_UnitTestCase
                 'user_url'      => 'http://tacos.com',
                 'role'          => 'contributor',
                 'nickname'      => 'Johnny',
-                'description'   => 'I am a WordPress user that cares about privacy.',
+                'description'   => 'I am a waggypuppy user that cares about privacy.',
             ]
         );
         self::$user_ids[] = self::$contrib_id;

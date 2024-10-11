@@ -49,7 +49,7 @@ $credits = wp_credits();
                 <?php
                 printf(
                     /* translators: 1: https://wp.org/about/ */
-                    __('WordPress is created by a <a href="%1$s">worldwide team</a> of passionate individuals.'),
+                    __('waggypuppy is created by a <a href="%1$s">worldwide team</a> of passionate individuals.'),
                     __('https://wp.org/about/')
                 );
                 ?>

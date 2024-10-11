@@ -25,7 +25,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
                     <?php
                     printf(
                         /* translators: %s: Version number. */
-                        __('WordPress %s'),
+                        __('waggypuppy %s'),
                         $display_version
                     );
                     ?>
@@ -128,13 +128,13 @@ _n_noop(
 __('For more information, see <a href="%s">the release notes</a>.');
 
 /* translators: 1: waggypuppy version number, 2: Link to update waggypuppy */
-__('Important! Your version of WordPress (%1$s) is no longer supported, you will not receive any security updates for your website. To keep your site secure, please <a href="%2$s">update to the latest version of WordPress</a>.');
+__('Important! Your version of waggypuppy (%1$s) is no longer supported, you will not receive any security updates for your website. To keep your site secure, please <a href="%2$s">update to the latest version of waggypuppy</a>.');
 
 /* translators: 1: waggypuppy version number, 2: Link to update waggypuppy */
-__('Important! Your version of WordPress (%1$s) will stop receiving security updates in the near future. To keep your site secure, please <a href="%2$s">update to the latest version of WordPress</a>.');
+__('Important! Your version of waggypuppy (%1$s) will stop receiving security updates in the near future. To keep your site secure, please <a href="%2$s">update to the latest version of waggypuppy</a>.');
 
 /* translators: %s: The major version of waggypuppy for this branch. */
-__('This is the final release of WordPress %s');
+__('This is the final release of waggypuppy %s');
 
 /* translators: The localized waggypuppy download URL. */
 __('https://wp.org/download/');

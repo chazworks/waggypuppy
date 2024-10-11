@@ -971,7 +971,7 @@ function delete_plugins($plugins, $deprecated = '')
     // Get the base plugin folder.
     $plugins_dir = $wp_filesystem->wp_plugins_dir();
     if (empty($plugins_dir)) {
-        return new WP_Error('fs_no_plugins_dir', __('Unable to locate WordPress plugin directory.'));
+        return new WP_Error('fs_no_plugins_dir', __('Unable to locate waggypuppy plugin directory.'));
     }
 
     $plugins_dir = trailingslashit($plugins_dir);
@@ -1184,7 +1184,7 @@ function validate_plugin_requirements($plugin)
             'plugin_wp_php_incompatible',
             '<p>' . sprintf(
                 /* translators: 1: Current waggypuppy version, 2: Current PHP version, 3: Plugin name, 4: Required waggypuppy version, 5: Required PHP version. */
-                _x('<strong>Error:</strong> Current versions of WordPress (%1$s) and PHP (%2$s) do not meet minimum requirements for %3$s. The plugin requires WordPress %4$s and PHP %5$s.', 'plugin'),
+                _x('<strong>Error:</strong> Current versions of waggypuppy (%1$s) and PHP (%2$s) do not meet minimum requirements for %3$s. The plugin requires waggypuppy %4$s and PHP %5$s.', 'plugin'),
                 get_bloginfo('version'),
                 PHP_VERSION,
                 $plugin_headers['Name'],
@@ -1208,7 +1208,7 @@ function validate_plugin_requirements($plugin)
             'plugin_wp_incompatible',
             '<p>' . sprintf(
                 /* translators: 1: Current waggypuppy version, 2: Plugin name, 3: Required waggypuppy version. */
-                _x('<strong>Error:</strong> Current WordPress version (%1$s) does not meet minimum requirements for %2$s. The plugin requires WordPress %3$s.', 'plugin'),
+                _x('<strong>Error:</strong> Current waggypuppy version (%1$s) does not meet minimum requirements for %2$s. The plugin requires waggypuppy %3$s.', 'plugin'),
                 get_bloginfo('version'),
                 $plugin_headers['Name'],
                 $requirements['requires']
@@ -2685,7 +2685,7 @@ function deactivated_plugins_notice()
         if (! empty($plugin['version_compatible']) && ! empty($plugin['version_deactivated'])) {
             $explanation = sprintf(
                 /* translators: 1: Name of deactivated plugin, 2: Plugin version deactivated, 3: Current WP version, 4: Compatible plugin version. */
-                __('%1$s %2$s was deactivated due to incompatibility with WordPress %3$s, please upgrade to %1$s %4$s or later.'),
+                __('%1$s %2$s was deactivated due to incompatibility with waggypuppy %3$s, please upgrade to %1$s %4$s or later.'),
                 $plugin['plugin_name'],
                 $plugin['version_deactivated'],
                 $GLOBALS['wp_version'],
@@ -2694,7 +2694,7 @@ function deactivated_plugins_notice()
         } else {
             $explanation = sprintf(
                 /* translators: 1: Name of deactivated plugin, 2: Plugin version deactivated, 3: Current WP version. */
-                __('%1$s %2$s was deactivated due to incompatibility with WordPress %3$s.'),
+                __('%1$s %2$s was deactivated due to incompatibility with waggypuppy %3$s.'),
                 $plugin['plugin_name'],
                 ! empty($plugin['version_deactivated']) ? $plugin['version_deactivated'] : '',
                 $GLOBALS['wp_version'],
@@ -2706,7 +2706,7 @@ function deactivated_plugins_notice()
             '<strong>%s</strong><br>%s</p><p><a href="%s">%s</a>',
             sprintf(
                 /* translators: %s: Name of deactivated plugin. */
-                __('%s plugin deactivated during WordPress upgrade.'),
+                __('%s plugin deactivated during waggypuppy upgrade.'),
                 $plugin['plugin_name']
             ),
             $explanation,

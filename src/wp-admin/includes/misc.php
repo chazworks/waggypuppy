@@ -145,7 +145,7 @@ function insert_with_markers($filename, $marker, $insertion)
         /* translators: 1: Marker. */
         __(
             'The directives (lines) between "BEGIN %1$s" and "END %1$s" are
-dynamically generated, and should only be modified via WordPress filters.
+dynamically generated, and should only be modified via waggypuppy filters.
 Any changes to the directives between these markers will be overwritten.'
         ),
         $marker
@@ -287,7 +287,7 @@ function save_mod_rewrite_rules()
         if (got_mod_rewrite()) {
             $rules = explode("\n", $wp_rewrite->mod_rewrite_rules());
 
-            return insert_with_markers($htaccess_file, 'WordPress', $rules);
+            return insert_with_markers($htaccess_file, 'waggypuppy', $rules);
         }
     }
 
@@ -851,7 +851,7 @@ function iis7_rewrite_rule_exists($filename)
     }
 
     $xpath = new DOMXPath($doc);
-    $rules = $xpath->query('/configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'wordpress\')] | /configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'WordPress\')]');
+    $rules = $xpath->query('/configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'wordpress\')] | /configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'__VAR_WP\')]');
 
     if (0 === $rules->length) {
         return false;
@@ -887,7 +887,7 @@ function iis7_delete_rewrite_rule($filename)
     }
 
     $xpath = new DOMXPath($doc);
-    $rules = $xpath->query('/configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'wordpress\')] | /configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'WordPress\')]');
+    $rules = $xpath->query('/configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'wordpress\')] | /configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'__VAR_WP\')]');
 
     if ($rules->length > 0) {
         $child  = $rules->item(0);
@@ -932,7 +932,7 @@ function iis7_add_rewrite_rule($filename, $rewrite_rule)
     $xpath = new DOMXPath($doc);
 
     // First check if the rule already exists as in that case there is no need to re-add it.
-    $wordpress_rules = $xpath->query('/configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'wordpress\')] | /configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'WordPress\')]');
+    $wordpress_rules = $xpath->query('/configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'wordpress\')] | /configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'__VAR_WP\')]');
 
     if ($wordpress_rules->length > 0) {
         return true;

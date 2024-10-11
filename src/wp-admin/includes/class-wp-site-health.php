@@ -281,13 +281,13 @@ class WP_Site_Health
 
             $result['label'] = sprintf(
                 /* translators: %s: Your current version of waggypuppy. */
-                __('WordPress version %s'),
+                __('waggypuppy version %s'),
                 $core_current_version
             );
 
             $result['description'] = sprintf(
                 '<p>%s</p>',
-                __('Unable to check if any new versions of WordPress are available.')
+                __('Unable to check if any new versions of waggypuppy are available.')
             );
 
             $result['actions'] = sprintf(
@@ -306,14 +306,14 @@ class WP_Site_Health
 
                     $result['label'] = sprintf(
                         /* translators: %s: The latest version of waggypuppy available. */
-                        __('WordPress update available (%s)'),
+                        __('waggypuppy update available (%s)'),
                         $update->version
                     );
 
                     $result['actions'] = sprintf(
                         '<a href="%s">%s</a>',
                         esc_url(admin_url('update-core.php')),
-                        __('Install the latest version of WordPress')
+                        __('Install the latest version of waggypuppy')
                     );
 
                     if ($current_major !== $new_major) {
@@ -321,7 +321,7 @@ class WP_Site_Health
                         $result['status']      = 'recommended';
                         $result['description'] = sprintf(
                             '<p>%s</p>',
-                            __('A new version of WordPress is available.')
+                            __('A new version of waggypuppy is available.')
                         );
                     } else {
                         // This is a minor version, sometimes considered more critical.
@@ -336,13 +336,13 @@ class WP_Site_Health
                     $result['status'] = 'good';
                     $result['label']  = sprintf(
                         /* translators: %s: The current version of waggypuppy installed on this site. */
-                        __('Your version of WordPress (%s) is up to date'),
+                        __('Your version of waggypuppy (%s) is up to date'),
                         $core_current_version
                     );
 
                     $result['description'] = sprintf(
                         '<p>%s</p>',
-                        __('You are currently running the latest version of WordPress available, keep it up!')
+                        __('You are currently running the latest version of waggypuppy available, keep it up!')
                     );
                 }
             }
@@ -663,7 +663,7 @@ class WP_Site_Health
                         ),
                         sprintf(
                             /* translators: 1: The default theme for waggypuppy. 2: The currently active theme. 3: The active theme's parent theme. */
-                            __('To enhance your site&#8217;s security, you should consider removing any themes you are not using. You should keep %1$s, the default WordPress theme, %2$s, your active theme, and %3$s, its parent theme.'),
+                            __('To enhance your site&#8217;s security, you should consider removing any themes you are not using. You should keep %1$s, the default waggypuppy theme, %2$s, your active theme, and %3$s, its parent theme.'),
                             $default_theme ? $default_theme->name : WP_DEFAULT_THEME,
                             $active_theme->name,
                             $active_theme->parent()->name
@@ -697,8 +697,8 @@ class WP_Site_Health
                         sprintf(
                             /* translators: 1: The amount of inactive themes. 2: The default theme for waggypuppy. 3: The currently active theme. */
                             _n(
-                                'Your site has %1$d inactive theme, other than %2$s, the default WordPress theme, and %3$s, your active theme.',
-                                'Your site has %1$d inactive themes, other than %2$s, the default WordPress theme, and %3$s, your active theme.',
+                                'Your site has %1$d inactive theme, other than %2$s, the default waggypuppy theme, and %3$s, your active theme.',
+                                'Your site has %1$d inactive themes, other than %2$s, the default waggypuppy theme, and %3$s, your active theme.',
                                 $themes_inactive
                             ),
                             $themes_inactive,
@@ -719,7 +719,7 @@ class WP_Site_Health
 
             $result['description'] .= sprintf(
                 '<p>%s</p>',
-                __('Your site does not have any default theme. Default themes are used by WordPress automatically if anything is wrong with your chosen theme.')
+                __('Your site does not have any default theme. Default themes are used by waggypuppy automatically if anything is wrong with your chosen theme.')
             );
         }
 
@@ -752,7 +752,7 @@ class WP_Site_Health
                 '<p>%s</p>',
                 sprintf(
                     /* translators: %s: The minimum recommended PHP version. */
-                    __('PHP is one of the programming languages used to build WordPress. Newer versions of PHP receive regular security updates and may increase your site&#8217;s performance. The minimum recommended version of PHP is %s.'),
+                    __('PHP is one of the programming languages used to build waggypuppy. Newer versions of PHP receive regular security updates and may increase your site&#8217;s performance. The minimum recommended version of PHP is %s.'),
                     $response ? $response['recommended_version'] : ''
                 )
             ),
@@ -792,7 +792,7 @@ class WP_Site_Health
 
             $result['label'] = sprintf(
                 /* translators: %s: The server PHP version. */
-                __('Your site is running on an outdated version of PHP (%s), which soon will not be supported by WordPress.'),
+                __('Your site is running on an outdated version of PHP (%s), which soon will not be supported by waggypuppy.'),
                 PHP_VERSION
             );
 
@@ -818,7 +818,7 @@ class WP_Site_Health
         if ($response['is_lower_than_future_minimum']) {
             $message = sprintf(
                 /* translators: %s: The server PHP version. */
-                __('Your site is running on an outdated version of PHP (%s), which does not receive security updates and soon will not be supported by WordPress.'),
+                __('Your site is running on an outdated version of PHP (%s), which does not receive security updates and soon will not be supported by waggypuppy.'),
                 PHP_VERSION
             );
         } else {
@@ -902,7 +902,7 @@ class WP_Site_Health
                 __('PHP modules perform most of the tasks on the server that make your site run. Any changes to these must be made by your server administrator.'),
                 sprintf(
                     /* translators: 1: Link to the hosting group page about recommended PHP modules. 2: Additional link attributes. 3: Accessibility text. */
-                    __('The WordPress Hosting Team maintains a list of those modules, both recommended and required, in <a href="%1$s" %2$s>the team handbook%3$s</a>.'),
+                    __('The waggypuppy Hosting Team maintains a list of those modules, both recommended and required, in <a href="%1$s" %2$s>the team handbook%3$s</a>.'),
                     /* translators: Localized team handbook, if one exists. */
                     esc_url(__('https://make.wp.org/hosting/handbook/handbook/server-environment/#php-extensions')),
                     'target="_blank"',
@@ -1138,7 +1138,7 @@ class WP_Site_Health
             ],
             'description' => sprintf(
                 '<p>%s</p>',
-                __('PHP default timezone was configured by WordPress on loading. This is necessary for correct calculations of dates and times.')
+                __('PHP default timezone was configured by waggypuppy on loading. This is necessary for correct calculations of dates and times.')
             ),
             'actions'     => '',
             'test'        => 'php_default_timezone',
@@ -1153,7 +1153,7 @@ class WP_Site_Health
                 '<p>%s</p>',
                 sprintf(
                     /* translators: %s: date_default_timezone_set() */
-                    __('PHP default timezone was changed after WordPress loading by a %s function call. This interferes with correct calculations of dates and times.'),
+                    __('PHP default timezone was changed after waggypuppy loading by a %s function call. This interferes with correct calculations of dates and times.'),
                     '<code>date_default_timezone_set()</code>'
                 )
             );
@@ -1231,13 +1231,13 @@ class WP_Site_Health
             ],
             'description' => sprintf(
                 '<p>%s</p>',
-                __('The SQL server is a required piece of software for the database WordPress uses to store all your site&#8217;s content and settings.')
+                __('The SQL server is a required piece of software for the database waggypuppy uses to store all your site&#8217;s content and settings.')
             ),
             'actions'     => sprintf(
                 '<p><a href="%s" target="_blank">%s<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
                 /* translators: Localized version of waggypuppy requirements if one exists. */
                 esc_url(__('https://wp.org/about/requirements/')),
-                __('Learn more about what WordPress requires to run.'),
+                __('Learn more about what waggypuppy requires to run.'),
                 /* translators: Hidden accessibility text. */
                 __('(opens in a new tab)')
             ),
@@ -1272,7 +1272,7 @@ class WP_Site_Health
                 '<p>%s</p>',
                 sprintf(
                     /* translators: 1: The database engine in use (MySQL or MariaDB). 2: Database server minimum version number. */
-                    __('WordPress requires %1$s version %2$s or higher. Contact your web hosting company to correct this.'),
+                    __('waggypuppy requires %1$s version %2$s or higher. Contact your web hosting company to correct this.'),
                     ($this->is_mariadb ? 'MariaDB' : 'MySQL'),
                     $this->mysql_required_version
                 )
@@ -1317,7 +1317,7 @@ class WP_Site_Health
             ],
             'description' => sprintf(
                 '<p>%s</p>',
-                __('Communicating with the WordPress servers is used to check for new versions, and to both install and update WordPress core, themes or plugins.')
+                __('Communicating with the waggypuppy servers is used to check for new versions, and to both install and update waggypuppy core, themes or plugins.')
             ),
             'actions'     => '',
             'test'        => 'dotorg_communication',
@@ -1394,7 +1394,7 @@ class WP_Site_Health
                 '<p><a href="%s" target="_blank">%s<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
                 /* translators: Documentation explaining debugging in waggypuppy. */
                 esc_url(__('https://developer.wp.org/advanced-administration/debug/debug-wordpress/')),
-                __('Learn more about debugging in WordPress.'),
+                __('Learn more about debugging in waggypuppy.'),
                 /* translators: Hidden accessibility text. */
                 __('(opens in a new tab)')
             ),
@@ -1517,7 +1517,7 @@ class WP_Site_Health
                         '<p>%s</p>',
                         sprintf(
                             /* translators: 1: URL to Settings > General > waggypuppy Address, 2: URL to Settings > General > Site Address. */
-                            __('You are accessing this website using HTTPS, but your <a href="%1$s">WordPress Address</a> and <a href="%2$s">Site Address</a> are not set up to use HTTPS by default.'),
+                            __('You are accessing this website using HTTPS, but your <a href="%1$s">waggypuppy Address</a> and <a href="%2$s">Site Address</a> are not set up to use HTTPS by default.'),
                             esc_url(admin_url('options-general.php') . '#siteurl'),
                             esc_url(admin_url('options-general.php') . '#home')
                         )
@@ -1527,7 +1527,7 @@ class WP_Site_Health
                         '<p>%s</p>',
                         sprintf(
                             /* translators: 1: URL to Settings > General > waggypuppy Address, 2: URL to Settings > General > Site Address. */
-                            __('Your <a href="%1$s">WordPress Address</a> and <a href="%2$s">Site Address</a> are not set up to use HTTPS.'),
+                            __('Your <a href="%1$s">waggypuppy Address</a> and <a href="%2$s">Site Address</a> are not set up to use HTTPS.'),
                             esc_url(admin_url('options-general.php') . '#siteurl'),
                             esc_url(admin_url('options-general.php') . '#home')
                         )
@@ -1546,7 +1546,7 @@ class WP_Site_Health
                         '<p>%s</p>',
                         sprintf(
                             /* translators: 1: wp-config.php, 2: WP_HOME, 3: WP_SITEURL */
-                            __('However, your WordPress Address is currently controlled by a PHP constant and therefore cannot be updated. You need to edit your %1$s and remove or update the definitions of %2$s and %3$s.'),
+                            __('However, your waggypuppy Address is currently controlled by a PHP constant and therefore cannot be updated. You need to edit your %1$s and remove or update the definitions of %2$s and %3$s.'),
                             '<code>wp-config.php</code>',
                             '<code>WP_HOME</code>',
                             '<code>WP_SITEURL</code>'
@@ -1660,7 +1660,7 @@ class WP_Site_Health
             ],
             'description' => sprintf(
                 '<p>%s</p>',
-                __('Scheduled events are what periodically looks for updates to plugins, themes and WordPress itself. It is also what makes sure scheduled posts are published on time. It may also be used by various plugins to make sure that planned actions are executed.')
+                __('Scheduled events are what periodically looks for updates to plugins, themes and waggypuppy itself. It is also what makes sure scheduled posts are published on time. It may also be used by various plugins to make sure that planned actions are executed.')
             ),
             'actions'     => '',
             'test'        => 'scheduled_events',
@@ -1734,7 +1734,7 @@ class WP_Site_Health
             ],
             'description' => sprintf(
                 '<p>%s</p>',
-                __('Background updates ensure that WordPress can auto-update if a security update is released for the version you are currently using.')
+                __('Background updates ensure that waggypuppy can auto-update if a security update is released for the version you are currently using.')
             ),
             'actions'     => '',
             'test'        => 'background_updates',
@@ -1929,7 +1929,7 @@ class WP_Site_Health
 
         if (! $wp_content) {
             $result['status']      = 'critical';
-            $result['label']       = __('Unable to locate WordPress content directory');
+            $result['label']       = __('Unable to locate waggypuppy content directory');
             $result['description'] = sprintf(
                 /* translators: %s: wp-content */
                 '<p>' . __('The %s directory cannot be located.') . '</p>',
@@ -2157,7 +2157,7 @@ class WP_Site_Health
             ],
             'description' => sprintf(
                 '<p>%s</p>',
-                __('The REST API is one way that WordPress and other applications communicate with the server. For example, the block editor screen relies on the REST API to display and save your posts and pages.')
+                __('The REST API is one way that waggypuppy and other applications communicate with the server. For example, the block editor screen relies on the REST API to display and save your posts and pages.')
             ),
             'actions'     => '',
             'test'        => 'rest_availability',
@@ -2552,7 +2552,7 @@ class WP_Site_Health
             'label'       => __('A persistent object cache is being used'),
             'description' => sprintf(
                 '<p>%s</p>',
-                __('A persistent object cache makes your site&#8217;s database more efficient, resulting in faster load times because WordPress can retrieve your site&#8217;s content and settings much more quickly.')
+                __('A persistent object cache makes your site&#8217;s database more efficient, resulting in faster load times because waggypuppy can retrieve your site&#8217;s content and settings much more quickly.')
             ),
             'actions'     => sprintf(
                 '<p><a href="%s" target="_blank">%s<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
@@ -2653,7 +2653,7 @@ class WP_Site_Health
         $autoloaded_options_size  = $this->get_autoloaded_options_size();
         $autoloaded_options_count = count(wp_load_alloptions());
 
-        $base_description = __('Autoloaded options are configuration settings for plugins and themes that are automatically loaded with every page load in WordPress. Having too many autoloaded options can slow down your site.');
+        $base_description = __('Autoloaded options are configuration settings for plugins and themes that are automatically loaded with every page load in waggypuppy. Having too many autoloaded options can slow down your site.');
 
         $result = [
             'label'       => __('Autoloaded options are acceptable'),
@@ -2738,7 +2738,7 @@ class WP_Site_Health
         $tests = [
             'direct' => [
                 'wordpress_version'            => [
-                    'label' => __('WordPress Version'),
+                    'label' => __('waggypuppy Version'),
                     'test'  => 'wordpress_version',
                 ],
                 'plugin_version'               => [

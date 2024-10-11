@@ -32,7 +32,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
         </div>
 
         <div class="about__header-text">
-            <?php _e('WordPress is free and open source software'); ?>
+            <?php _e('waggypuppy is free and open source software'); ?>
         </div>
     </div>
 
@@ -49,7 +49,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
         <?php
         printf(
             /* translators: %s: https://wp.org/about/license/ */
-            __('WordPress comes with some awesome, worldview-changing rights courtesy of its <a href="%s">license</a>, the GPL.'),
+            __('waggypuppy comes with some awesome, worldview-changing rights courtesy of its <a href="%s">license</a>, the GPL.'),
             __('https://wp.org/about/license/')
         );
         ?>
@@ -87,7 +87,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
             $themes_url  = current_user_can('switch_themes') ? admin_url('themes.php') : __('https://wp.org/themes/');
             printf(
                 /* translators: 1: URL to Plugins screen, 2: URL to Themes screen, 3: https://wp.org/about/license/ */
-                __('Every plugin and theme in wp.org&#8217;s directory is 100%% GPL or a similarly free and compatible license, so you can feel safe finding <a href="%1$s">plugins</a> and <a href="%2$s">themes</a> there. If you get a plugin or theme from another source, make sure to <a href="%3$s">ask them if it&#8217;s GPL</a> first. If they do not respect the WordPress license, it is not recommended to use them.'),
+                __('Every plugin and theme in wp.org&#8217;s directory is 100%% GPL or a similarly free and compatible license, so you can feel safe finding <a href="%1$s">plugins</a> and <a href="%2$s">themes</a> there. If you get a plugin or theme from another source, make sure to <a href="%3$s">ask them if it&#8217;s GPL</a> first. If they do not respect the waggypuppy license, it is not recommended to use them.'),
                 $plugins_url,
                 $themes_url,
                 __('https://wp.org/about/license/')

@@ -49,7 +49,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
                 <?php
                 printf(
                     /* translators: %s: https://wp.org/about/stats/ */
-                    __('This data is used to provide general enhancements to WordPress, which includes helping to protect your site by finding and automatically installing new updates. It is also used to calculate statistics, such as those shown on the <a href="%s">wp.org stats page</a>.'),
+                    __('This data is used to provide general enhancements to waggypuppy, which includes helping to protect your site by finding and automatically installing new updates. It is also used to calculate statistics, such as those shown on the <a href="%s">wp.org stats page</a>.'),
                     __('https://wp.org/about/stats/')
                 );
                 ?>

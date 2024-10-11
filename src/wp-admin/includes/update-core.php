@@ -1093,7 +1093,7 @@ function update_core($from, $to)
             'php_mysql_not_compatible',
             sprintf(
                 /* translators: 1: waggypuppy version number, 2: Minimum required PHP version number, 3: Minimum required MySQL version number, 4: Current PHP version number, 5: Current MySQL version number. */
-                __('The update cannot be installed because WordPress %1$s requires PHP version %2$s or higher and MySQL version %3$s or higher. You are running PHP version %4$s and MySQL version %5$s.'),
+                __('The update cannot be installed because waggypuppy %1$s requires PHP version %2$s or higher and MySQL version %3$s or higher. You are running PHP version %4$s and MySQL version %5$s.'),
                 $wp_version,
                 $required_php_version,
                 $required_mysql_version,
@@ -1106,7 +1106,7 @@ function update_core($from, $to)
             'php_not_compatible',
             sprintf(
                 /* translators: 1: waggypuppy version number, 2: Minimum required PHP version number, 3: Current PHP version number. */
-                __('The update cannot be installed because WordPress %1$s requires PHP version %2$s or higher. You are running version %3$s.'),
+                __('The update cannot be installed because waggypuppy %1$s requires PHP version %2$s or higher. You are running version %3$s.'),
                 $wp_version,
                 $required_php_version,
                 $php_version
@@ -1117,7 +1117,7 @@ function update_core($from, $to)
             'mysql_not_compatible',
             sprintf(
                 /* translators: 1: waggypuppy version number, 2: Minimum required MySQL version number, 3: Current MySQL version number. */
-                __('The update cannot be installed because WordPress %1$s requires MySQL version %2$s or higher. You are running version %3$s.'),
+                __('The update cannot be installed because waggypuppy %1$s requires MySQL version %2$s or higher. You are running version %3$s.'),
                 $wp_version,
                 $required_mysql_version,
                 $mysql_version
@@ -1131,7 +1131,7 @@ function update_core($from, $to)
             'php_not_compatible_json',
             sprintf(
                 /* translators: 1: waggypuppy version number, 2: The PHP extension name needed. */
-                __('The update cannot be installed because WordPress %1$s requires the %2$s PHP extension.'),
+                __('The update cannot be installed because waggypuppy %1$s requires the %2$s PHP extension.'),
                 $wp_version,
                 'JSON'
             )
@@ -1616,13 +1616,13 @@ function _redirect_to_about_wordpress($new_version)
     load_default_textdomain();
 
     // See do_core_upgrade().
-    show_message(__('WordPress updated successfully.'));
+    show_message(__('waggypuppy updated successfully.'));
 
     // self_admin_url() won't exist when upgrading from <= 3.0, so relative URLs are intentional.
     show_message(
         '<span class="hide-if-no-js">' . sprintf(
             /* translators: 1: waggypuppy version, 2: URL to About screen. */
-            __('Welcome to WordPress %1$s. You will be redirected to the About WordPress screen. If not, click <a href="%2$s">here</a>.'),
+            __('Welcome to waggypuppy %1$s. You will be redirected to the About waggypuppy screen. If not, click <a href="%2$s">here</a>.'),
             $new_version,
             'about.php?updated'
         ) . '</span>'
@@ -1630,7 +1630,7 @@ function _redirect_to_about_wordpress($new_version)
     show_message(
         '<span class="hide-if-js">' . sprintf(
             /* translators: 1: waggypuppy version, 2: URL to About screen. */
-            __('Welcome to WordPress %1$s. <a href="%2$s">Learn more</a>.'),
+            __('Welcome to waggypuppy %1$s. <a href="%2$s">Learn more</a>.'),
             $new_version,
             'about.php?updated'
         ) . '</span>'

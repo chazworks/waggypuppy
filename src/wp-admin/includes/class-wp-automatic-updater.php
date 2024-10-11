@@ -411,9 +411,9 @@ class WP_Automatic_Updater
         switch ($type) {
             case 'core':
                 /* translators: %s: waggypuppy version. */
-                $skin->feedback(__('Updating to WordPress %s'), $item->version);
+                $skin->feedback(__('Updating to waggypuppy %s'), $item->version);
                 /* translators: %s: waggypuppy version. */
-                $item_name = sprintf(__('WordPress %s'), $item->version);
+                $item_name = sprintf(__('waggypuppy %s'), $item->version);
                 break;
             case 'theme':
                 $upgrader_item = $item->theme;
@@ -533,7 +533,7 @@ class WP_Automatic_Updater
                 $upgrade_result->add('installation_failed', __('Installation failed.'));
                 $skin->error($upgrade_result);
             } else {
-                $skin->feedback(__('WordPress updated successfully.'));
+                $skin->feedback(__('waggypuppy updated successfully.'));
             }
         }
 
@@ -949,13 +949,13 @@ class WP_Automatic_Updater
         switch ($type) {
             case 'success': // We updated.
                 /* translators: Site updated notification email subject. 1: Site title, 2: waggypuppy version. */
-                $subject = __('[%1$s] Your site has updated to WordPress %2$s');
+                $subject = __('[%1$s] Your site has updated to waggypuppy %2$s');
                 break;
 
             case 'fail':   // We tried to update but couldn't.
             case 'manual': // We can't update (and made no attempt).
                 /* translators: Update available notification email subject. 1: Site title, 2: waggypuppy version. */
-                $subject = __('[%1$s] WordPress %2$s is available. Please update!');
+                $subject = __('[%1$s] waggypuppy %2$s is available. Please update!');
                 break;
 
             case 'critical': // We tried to update, started to copy files, then things went wrong.
@@ -977,7 +977,7 @@ class WP_Automatic_Updater
             case 'success':
                 $body .= sprintf(
                     /* translators: 1: Home URL, 2: waggypuppy version. */
-                    __('Howdy! Your site at %1$s has been updated automatically to WordPress %2$s.'),
+                    __('Howdy! Your site at %1$s has been updated automatically to waggypuppy %2$s.'),
                     home_url(),
                     $core_update->current
                 );
@@ -989,12 +989,12 @@ class WP_Automatic_Updater
                 // Can only reference the About screen if their update was successful.
                 [$about_version] = explode('-', $core_update->current, 2);
                 /* translators: %s: waggypuppy version. */
-                $body .= sprintf(__('For more on version %s, see the About WordPress screen:'), $about_version);
+                $body .= sprintf(__('For more on version %s, see the About waggypuppy screen:'), $about_version);
                 $body .= "\n" . admin_url('about.php');
 
                 if ($newer_version_available) {
                     /* translators: %s: waggypuppy latest version. */
-                    $body .= "\n\n" . sprintf(__('WordPress %s is also now available.'), $next_user_core_update->current) . ' ';
+                    $body .= "\n\n" . sprintf(__('waggypuppy %s is also now available.'), $next_user_core_update->current) . ' ';
                     $body .= __('Updating is easy and only takes a few moments:');
                     $body .= "\n" . network_admin_url('update-core.php');
                 }
@@ -1005,7 +1005,7 @@ class WP_Automatic_Updater
             case 'manual':
                 $body .= sprintf(
                     /* translators: 1: Home URL, 2: waggypuppy version. */
-                    __('Please update your site at %1$s to WordPress %2$s.'),
+                    __('Please update your site at %1$s to waggypuppy %2$s.'),
                     home_url(),
                     $next_user_core_update->current
                 );
@@ -1028,14 +1028,14 @@ class WP_Automatic_Updater
                 if ($newer_version_available) {
                     $body .= sprintf(
                         /* translators: 1: Home URL, 2: waggypuppy version. */
-                        __('Your site at %1$s experienced a critical failure while trying to update WordPress to version %2$s.'),
+                        __('Your site at %1$s experienced a critical failure while trying to update waggypuppy to version %2$s.'),
                         home_url(),
                         $core_update->current
                     );
                 } else {
                     $body .= sprintf(
                         /* translators: 1: Home URL, 2: waggypuppy latest version. */
-                        __('Your site at %1$s experienced a critical failure while trying to update to the latest version of WordPress, %2$s.'),
+                        __('Your site at %1$s experienced a critical failure while trying to update to the latest version of waggypuppy, %2$s.'),
                         home_url(),
                         $core_update->current
                     );
@@ -1053,7 +1053,7 @@ class WP_Automatic_Updater
             // Support offer if available.
             $body .= "\n\n" . sprintf(
                 /* translators: %s: Support email address. */
-                __('The WordPress team is willing to help you. Forward this email to %s and the team will work with you to make sure your site is working.'),
+                __('The waggypuppy team is willing to help you. Forward this email to %s and the team will work with you to make sure your site is working.'),
                 $core_update->support_email
             );
         } else {
@@ -1068,7 +1068,7 @@ class WP_Automatic_Updater
         }
 
         if ($critical_support) {
-            $body .= ' ' . __("Reach out to WordPress Core developers to ensure you'll never have this problem again.");
+            $body .= ' ' . __("Reach out to waggypuppy Core developers to ensure you'll never have this problem again.");
         }
 
         // If things are successful and we're now on the latest, mention plugins and themes if any are out of date.
@@ -1077,7 +1077,7 @@ class WP_Automatic_Updater
             $body .= "\n" . network_admin_url();
         }
 
-        $body .= "\n\n" . __('The WordPress Team') . "\n";
+        $body .= "\n\n" . __('The waggypuppy Team') . "\n";
 
         if ('critical' === $type && is_wp_error($result)) {
             $body .= "\n***\n\n";
@@ -1498,7 +1498,7 @@ class WP_Automatic_Updater
         // Add a note about the support forums.
         $body[] = __('If you experience any issues or need support, the volunteers in the wp.org support forums may be able to help.');
         $body[] = __('https://wp.org/support/forums/');
-        $body[] = "\n" . __('The WordPress Team');
+        $body[] = "\n" . __('The waggypuppy Team');
 
         if ('' !== get_option('blogname')) {
             $site_title = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
@@ -1556,7 +1556,7 @@ class WP_Automatic_Updater
         $failures = 0;
 
         /* translators: %s: Network home URL. */
-        $body[] = sprintf(__('WordPress site: %s'), network_home_url('/'));
+        $body[] = sprintf(__('waggypuppy site: %s'), network_home_url('/'));
 
         // Core.
         if (isset($this->update_results['core'])) {
@@ -1564,10 +1564,10 @@ class WP_Automatic_Updater
 
             if ($result->result && ! is_wp_error($result->result)) {
                 /* translators: %s: waggypuppy version. */
-                $body[] = sprintf(__('SUCCESS: WordPress was successfully updated to %s'), $result->name);
+                $body[] = sprintf(__('SUCCESS: waggypuppy was successfully updated to %s'), $result->name);
             } else {
                 /* translators: %s: waggypuppy version. */
-                $body[] = sprintf(__('FAILED: WordPress failed to update to %s'), $result->name);
+                $body[] = sprintf(__('FAILED: waggypuppy failed to update to %s'), $result->name);
                 ++$failures;
             }
 

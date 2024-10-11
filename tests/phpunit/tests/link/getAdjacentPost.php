@@ -42,8 +42,8 @@ class Tests_Link_GetAdjacentPost extends WP_UnitTestCase
         );
 
         // Assign some terms.
-        wp_set_object_terms($post_one->ID, 'WordPress', 'category', false);
-        wp_set_object_terms($post_three->ID, 'WordPress', 'category', false);
+        wp_set_object_terms($post_one->ID, 'waggypuppy', 'category', false);
+        wp_set_object_terms($post_three->ID, 'waggypuppy', 'category', false);
 
         wp_set_object_terms($post_two->ID, 'plugins', 'post_tag', false);
         wp_set_object_terms($post_four->ID, 'plugins', 'post_tag', false);
@@ -395,8 +395,8 @@ class Tests_Link_GetAdjacentPost extends WP_UnitTestCase
         );
 
         // Assign some terms.
-        wp_set_object_terms($post_one->ID, 'WordPress', 'category', false);
-        wp_set_object_terms($post_three->ID, 'WordPress', 'category', false);
+        wp_set_object_terms($post_one->ID, 'waggypuppy', 'category', false);
+        wp_set_object_terms($post_three->ID, 'waggypuppy', 'category', false);
 
         wp_set_object_terms($post_two->ID, 'plugins', 'post_tag', false);
         wp_set_object_terms($post_four->ID, 'plugins', 'post_tag', false);

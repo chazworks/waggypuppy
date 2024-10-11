@@ -547,7 +547,7 @@ class wp_xmlrpc_server extends IXR_Server
                 'value'    => get_bloginfo('version'),
             ],
             'blog_url'                => [
-                'desc'     => __('WordPress Address (URL)'),
+                'desc'     => __('waggypuppy Address (URL)'),
                 'readonly' => true,
                 'option'   => 'siteurl',
             ],
@@ -7060,7 +7060,7 @@ class wp_xmlrpc_server extends IXR_Server
         $remote_ip = preg_replace('/[^0-9a-fA-F:., ]/', '', $_SERVER['REMOTE_ADDR']);
 
         /** This filter is documented in wp-includes/class-wp-http.php */
-        $user_agent = apply_filters('http_headers_useragent', 'WordPress/' . get_bloginfo('version') . '; ' . get_bloginfo('url'), $pagelinkedfrom);
+        $user_agent = apply_filters('http_headers_useragent', 'waggypuppy/' . get_bloginfo('version') . '; ' . get_bloginfo('url'), $pagelinkedfrom);
 
         // Let's check the remote site.
         $http_api_args = [

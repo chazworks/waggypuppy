@@ -14,7 +14,7 @@ class Tests_Readme extends WP_UnitTestCase
     public function test_readme_php_version()
     {
         $this->markTestSkipped(
-            'Temporarily disabled. Test should be re-enabled once WordPress is fully compatible with PHP 8.0+.'
+            'Temporarily disabled. Test should be re-enabled once waggypuppy is fully compatible with PHP 8.0+.'
         );
 
         // This test is designed to only run on trunk.

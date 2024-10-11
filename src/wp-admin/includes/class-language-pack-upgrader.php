@@ -385,7 +385,7 @@ class Language_Pack_Upgrader extends WP_Upgrader
     {
         switch ($update->type) {
             case 'core':
-                return 'WordPress'; // Not translated.
+                return 'waggypuppy'; // Not translated.
 
             case 'theme':
                 $theme = wp_get_theme($update->slug);

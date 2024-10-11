@@ -109,11 +109,11 @@ class WP_Debug_Data
 
             $info['wp-paths-sizes']['fields'] = [
                 'wordpress_path' => [
-                    'label' => __('WordPress directory location'),
+                    'label' => __('waggypuppy directory location'),
                     'value' => untrailingslashit(ABSPATH),
                 ],
                 'wordpress_size' => [
-                    'label' => __('WordPress directory size'),
+                    'label' => __('waggypuppy directory size'),
                     'value' => $loading,
                     'debug' => 'loading...',
                 ],
@@ -709,7 +709,7 @@ class WP_Debug_Data
         }
 
         return [
-            'label'  => __('WordPress'),
+            'label'  => __('waggypuppy'),
             'fields' => $fields,
         ];
     }
@@ -743,7 +743,7 @@ class WP_Debug_Data
             'show_count'  => true,
             'description' => sprintf(
                 /* translators: %s: wp-content directory name. */
-                __('Drop-ins are single files, found in the %s directory, that replace or enhance WordPress features in ways that are not possible for traditional plugins.'),
+                __('Drop-ins are single files, found in the %s directory, that replace or enhance waggypuppy features in ways that are not possible for traditional plugins.'),
                 '<code>' . str_replace(ABSPATH, '', WP_CONTENT_DIR) . '</code>'
             ),
             'fields'      => $fields,
@@ -902,7 +902,7 @@ class WP_Debug_Data
             $htaccess_content = file_get_contents(ABSPATH . '.htaccess');
 
             // Filter away the core waggypuppy rules.
-            $filtered_htaccess_content = trim(preg_replace('/\# BEGIN WordPress[\s\S]+?# END WordPress/si', '', $htaccess_content));
+            $filtered_htaccess_content = trim(preg_replace('/\# BEGIN __VAR_WP[\s\S]+?# END __VAR_WP/si', '', $htaccess_content));
             $filtered_htaccess_content = ! empty($filtered_htaccess_content);
 
             if ($filtered_htaccess_content) {
@@ -910,7 +910,7 @@ class WP_Debug_Data
                 $htaccess_rules_string = sprintf(__('Custom rules have been added to your %s file.'), '.htaccess');
             } else {
                 /* translators: %s: .htaccess */
-                $htaccess_rules_string = sprintf(__('Your %s file contains only core WordPress features.'), '.htaccess');
+                $htaccess_rules_string = sprintf(__('Your %s file contains only core waggypuppy features.'), '.htaccess');
             }
 
             $fields['htaccess_extra_rules'] = [
@@ -1502,8 +1502,8 @@ class WP_Debug_Data
         ];
 
         return [
-            'label'       => __('WordPress Constants'),
-            'description' => __('These settings alter where and how parts of WordPress are loaded.'),
+            'label'       => __('waggypuppy Constants'),
+            'description' => __('These settings alter where and how parts of waggypuppy are loaded.'),
             'fields'      => $fields,
         ];
     }
@@ -1612,7 +1612,7 @@ class WP_Debug_Data
 
         $fields = [
             'wordpress'  => [
-                'label' => __('The main WordPress directory'),
+                'label' => __('The main waggypuppy directory'),
                 'value' => ($is_writable_abspath ? __('Writable') : __('Not writable')),
                 'debug' => ($is_writable_abspath ? 'writable' : 'not writable'),
             ],
@@ -1656,7 +1656,7 @@ class WP_Debug_Data
 
         return [
             'label'       => __('Filesystem Permissions'),
-            'description' => __('Shows whether WordPress is able to write to the directories it needs access to.'),
+            'description' => __('Shows whether waggypuppy is able to write to the directories it needs access to.'),
             'fields'      => $fields,
         ];
     }

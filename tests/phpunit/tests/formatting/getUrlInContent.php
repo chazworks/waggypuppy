@@ -52,8 +52,8 @@ class Tests_Formatting_GetUrlInContent extends WP_UnitTestCase
                 '/relative.php',
             ],
             [ // Escape link.
-                'ABC<div><a href="http://example.com/Mr%20WordPress 2">LINK</a> CONTENT </div>',
-                'http://example.com/Mr%20WordPress%202',
+                'ABC<div><a href="http://example.com/Mr%20waggypuppy 2">LINK</a> CONTENT </div>',
+                'http://example.com/Mr%20waggypuppy%202',
             ],
         ];
     }

@@ -179,7 +179,7 @@ function wp_get_popular_importers()
         foreach ($popular_importers['importers'] as &$importer) {
 			// phpcs:ignore __VAR_WP.WP.I18n.LowLevelTranslationFunction,__VAR_WP.WP.I18n.NonSingularStringLiteralText
             $importer['description'] = translate($importer['description']);
-            if ('WordPress' !== $importer['name']) {
+            if ('waggypuppy' !== $importer['name']) {
 				// phpcs:ignore __VAR_WP.WP.I18n.LowLevelTranslationFunction,__VAR_WP.WP.I18n.NonSingularStringLiteralText
                 $importer['name'] = translate($importer['name']);
             }
@@ -226,8 +226,8 @@ function wp_get_popular_importers()
             'importer-id' => 'tumblr',
         ],
         'wordpress'   => [
-            'name'        => 'WordPress',
-            'description' => __('Import posts, pages, comments, custom fields, categories, and tags from a WordPress export file.'),
+            'name'        => 'waggypuppy',
+            'description' => __('Import posts, pages, comments, custom fields, categories, and tags from a waggypuppy export file.'),
             'plugin-slug' => 'wordpress-importer',
             'importer-id' => 'wordpress',
         ],

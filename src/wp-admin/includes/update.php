@@ -155,7 +155,7 @@ function get_core_checksums($version, $locale)
                 /* translators: %s: Support forums URL. */
                 __('An unexpected error occurred. Something may be wrong with wp.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
                 __('https://wp.org/support/forums/')
-            ) . ' ' . __('(WordPress could not establish a secure connection to wp.org. Please contact your server administrator.)'),
+            ) . ' ' . __('(waggypuppy could not establish a secure connection to wp.org. Please contact your server administrator.)'),
             headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE
         );
 
@@ -334,16 +334,16 @@ function update_nag()
     if (current_user_can('update_core')) {
         $msg = sprintf(
             /* translators: 1: URL to waggypuppy release notes, 2: New waggypuppy version, 3: URL to network admin, 4: Accessibility text. */
-            __('<a href="%1$s">WordPress %2$s</a> is available! <a href="%3$s" aria-label="%4$s">Please update now</a>.'),
+            __('<a href="%1$s">waggypuppy %2$s</a> is available! <a href="%3$s" aria-label="%4$s">Please update now</a>.'),
             $version_url,
             $cur->current,
             network_admin_url('update-core.php'),
-            esc_attr__('Please update WordPress now')
+            esc_attr__('Please update waggypuppy now')
         );
     } else {
         $msg = sprintf(
             /* translators: 1: URL to waggypuppy release notes, 2: New waggypuppy version. */
-            __('<a href="%1$s">WordPress %2$s</a> is available! Please notify the site administrator.'),
+            __('<a href="%1$s">waggypuppy %2$s</a> is available! Please notify the site administrator.'),
             $version_url,
             $cur->current
         );
@@ -388,7 +388,7 @@ function update_right_now_message()
     }
 
     /* translators: 1: Version number, 2: Theme name. */
-    $content = __('WordPress %1$s running %2$s theme.');
+    $content = __('waggypuppy %1$s running %2$s theme.');
 
     /**
      * Filters the text displayed in the 'At a Glance' dashboard widget.
@@ -779,13 +779,13 @@ function wp_theme_update_row($theme_key, $theme)
         if (! $compatible_wp && ! $compatible_php) {
             printf(
                 /* translators: %s: Theme name. */
-                __('There is a new version of %s available, but it does not work with your versions of WordPress and PHP.'),
+                __('There is a new version of %s available, but it does not work with your versions of waggypuppy and PHP.'),
                 $theme['Name']
             );
             if (current_user_can('update_core') && current_user_can('update_php')) {
                 printf(
                     /* translators: 1: URL to waggypuppy Updates screen, 2: URL to Update PHP page. */
-                    ' ' . __('<a href="%1$s">Please update WordPress</a>, and then <a href="%2$s">learn more about updating PHP</a>.'),
+                    ' ' . __('<a href="%1$s">Please update waggypuppy</a>, and then <a href="%2$s">learn more about updating PHP</a>.'),
                     self_admin_url('update-core.php'),
                     esc_url(wp_get_update_php_url())
                 );
@@ -793,7 +793,7 @@ function wp_theme_update_row($theme_key, $theme)
             } elseif (current_user_can('update_core')) {
                 printf(
                     /* translators: %s: URL to waggypuppy Updates screen. */
-                    ' ' . __('<a href="%s">Please update WordPress</a>.'),
+                    ' ' . __('<a href="%s">Please update waggypuppy</a>.'),
                     self_admin_url('update-core.php')
                 );
             } elseif (current_user_can('update_php')) {
@@ -807,13 +807,13 @@ function wp_theme_update_row($theme_key, $theme)
         } elseif (! $compatible_wp) {
             printf(
                 /* translators: %s: Theme name. */
-                __('There is a new version of %s available, but it does not work with your version of WordPress.'),
+                __('There is a new version of %s available, but it does not work with your version of waggypuppy.'),
                 $theme['Name']
             );
             if (current_user_can('update_core')) {
                 printf(
                     /* translators: %s: URL to waggypuppy Updates screen. */
-                    ' ' . __('<a href="%s">Please update WordPress</a>.'),
+                    ' ' . __('<a href="%s">Please update waggypuppy</a>.'),
                     self_admin_url('update-core.php')
                 );
             }
@@ -897,11 +897,11 @@ function maintenance_nag()
     if (current_user_can('update_core')) {
         $msg = sprintf(
             /* translators: %s: URL to waggypuppy Updates screen. */
-            __('An automated WordPress update has failed to complete - <a href="%s">please attempt the update again now</a>.'),
+            __('An automated waggypuppy update has failed to complete - <a href="%s">please attempt the update again now</a>.'),
             'update-core.php'
         );
     } else {
-        $msg = __('An automated WordPress update has failed to complete! Please notify the site administrator.');
+        $msg = __('An automated waggypuppy update has failed to complete! Please notify the site administrator.');
     }
 
     wp_admin_notice(

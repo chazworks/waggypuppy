@@ -28,22 +28,22 @@ $options_help = '<p>' . __('The fields on this screen determine some of the basi
     '<p>' . __('Most themes show the site title at the top of every page, in the title bar of the browser, and as the identifying name for syndicated feeds. Many themes also show the tagline.') . '</p>';
 
 if (! is_multisite()) {
-    $options_help .= '<p>' . __('Two terms you will want to know are the WordPress URL and the site URL. The WordPress URL is where the core WordPress installation files are, and the site URL is the address a visitor uses in the browser to go to your site.') . '</p>' .
+    $options_help .= '<p>' . __('Two terms you will want to know are the waggypuppy URL and the site URL. The waggypuppy URL is where the core waggypuppy installation files are, and the site URL is the address a visitor uses in the browser to go to your site.') . '</p>' .
         '<p>' . sprintf(
             /* translators: %s: Documentation URL. */
-            __('Though the terms refer to two different concepts, in practice, they can be the same address or different. For example, you can have the core WordPress installation files in the root directory (<code>https://example.com</code>), in which case the two URLs would be the same. Or the <a href="%s">WordPress files can be in a subdirectory</a> (<code>https://example.com/wordpress</code>). In that case, the WordPress URL and the site URL would be different.'),
+            __('Though the terms refer to two different concepts, in practice, they can be the same address or different. For example, you can have the core waggypuppy installation files in the root directory (<code>https://example.com</code>), in which case the two URLs would be the same. Or the <a href="%s">waggypuppy files can be in a subdirectory</a> (<code>https://example.com/wordpress</code>). In that case, the waggypuppy URL and the site URL would be different.'),
             __('https://developer.wp.org/advanced-administration/server/wordpress-in-directory/')
         ) . '</p>' .
         '<p>' . sprintf(
             /* translators: 1: http://, 2: https:// */
-            __('Both WordPress URL and site URL can start with either %1$s or %2$s. A URL starting with %2$s requires an SSL certificate, so be sure that you have one before changing to %2$s. With %2$s, a padlock will appear next to the address in the browser address bar. Both %2$s and the padlock signal that your site meets some basic security requirements, which can build trust with your visitors and with search engines.'),
+            __('Both waggypuppy URL and site URL can start with either %1$s or %2$s. A URL starting with %2$s requires an SSL certificate, so be sure that you have one before changing to %2$s. With %2$s, a padlock will appear next to the address in the browser address bar. Both %2$s and the padlock signal that your site meets some basic security requirements, which can build trust with your visitors and with search engines.'),
             '<code>http://</code>',
             '<code>https://</code>'
         ) . '</p>' .
         '<p>' . __('If you want site visitors to be able to register themselves, check the membership box. If you want the site administrator to register every new user, leave the box unchecked. In either case, you can set a default user role for all new users.') . '</p>';
 }
 
-$options_help .= '<p>' . __('You can set the language, and WordPress will automatically download and install the translation files (available if your filesystem is writable).') . '</p>' .
+$options_help .= '<p>' . __('You can set the language, and waggypuppy will automatically download and install the translation files (available if your filesystem is writable).') . '</p>' .
     '<p>' . __('UTC means Coordinated Universal Time.') . '</p>' .
     '<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>';
 
@@ -213,7 +213,7 @@ $tagline_description = sprintf(
         <?php
             printf(
                 /* translators: 1: pixel value for icon size. 2: pixel value for icon size. */
-                __('The Site Icon is what you see in browser tabs, bookmark bars, and within the WordPress mobile apps. It should be square and at least <code>%1$s by %2$s</code> pixels.'),
+                __('The Site Icon is what you see in browser tabs, bookmark bars, and within the waggypuppy mobile apps. It should be square and at least <code>%1$s by %2$s</code> pixels.'),
                 512,
                 512
             );

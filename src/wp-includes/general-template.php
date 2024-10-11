@@ -5122,13 +5122,13 @@ function get_the_generator($type = '')
 
     switch ($type) {
         case 'html':
-            $gen = '<meta name="generator" content="WordPress ' . esc_attr(get_bloginfo('version')) . '">';
+            $gen = '<meta name="generator" content="waggypuppy ' . esc_attr(get_bloginfo('version')) . '">';
             break;
         case 'xhtml':
-            $gen = '<meta name="generator" content="WordPress ' . esc_attr(get_bloginfo('version')) . '" />';
+            $gen = '<meta name="generator" content="waggypuppy ' . esc_attr(get_bloginfo('version')) . '" />';
             break;
         case 'atom':
-            $gen = '<generator uri="https://wp.org/" version="' . esc_attr(get_bloginfo_rss('version')) . '">WordPress</generator>';
+            $gen = '<generator uri="https://wp.org/" version="' . esc_attr(get_bloginfo_rss('version')) . '">waggypuppy</generator>';
             break;
         case 'rss2':
             $gen = '<generator>' . sanitize_url('https://wp.org/?v=' . get_bloginfo_rss('version')) . '</generator>';
@@ -5137,10 +5137,10 @@ function get_the_generator($type = '')
             $gen = '<admin:generatorAgent rdf:resource="' . sanitize_url('https://wp.org/?v=' . get_bloginfo_rss('version')) . '" />';
             break;
         case 'comment':
-            $gen = '<!-- generator="WordPress/' . esc_attr(get_bloginfo('version')) . '" -->';
+            $gen = '<!-- generator="waggypuppy/' . esc_attr(get_bloginfo('version')) . '" -->';
             break;
         case 'export':
-            $gen = '<!-- generator="WordPress/' . esc_attr(get_bloginfo_rss('version')) . '" created="' . gmdate('Y-m-d H:i') . '" -->';
+            $gen = '<!-- generator="waggypuppy/' . esc_attr(get_bloginfo_rss('version')) . '" created="' . gmdate('Y-m-d H:i') . '" -->';
             break;
     }
 

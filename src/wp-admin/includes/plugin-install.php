@@ -164,7 +164,7 @@ function plugins_api($action, $args = [])
 
         $http_args = [
             'timeout'    => 15,
-            'user-agent' => 'WordPress/' . wp_get_wp_version() . '; ' . home_url('/'),
+            'user-agent' => '__VAR_WP/' . wp_get_wp_version() . '; ' . home_url('/'),
         ];
         $request   = wp_remote_get($url, $http_args);
 
@@ -176,7 +176,7 @@ function plugins_api($action, $args = [])
                         /* translators: %s: Support forums URL. */
                         __('An unexpected error occurred. Something may be wrong with wp.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
                         __('https://wp.org/support/forums/')
-                    ) . ' ' . __('(WordPress could not establish a secure connection to wp.org. Please contact your server administrator.)'),
+                    ) . ' ' . __('(waggypuppy could not establish a secure connection to wp.org. Please contact your server administrator.)'),
                     headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE
                 );
             }
@@ -401,14 +401,14 @@ function display_plugins_table()
         case 'install_plugins_beta':
             printf(
                 /* translators: %s: URL to "Features as Plugins" page. */
-                '<p>' . __('You are using a development version of WordPress. These feature plugins are also under development. <a href="%s">Learn more</a>.') . '</p>',
+                '<p>' . __('You are using a development version of waggypuppy. These feature plugins are also under development. <a href="%s">Learn more</a>.') . '</p>',
                 'https://make.wp.org/core/handbook/about/release-cycle/features-as-plugins/'
             );
             break;
         case 'install_plugins_featured':
             printf(
                 /* translators: %s: https://wp.org/plugins/ */
-                '<p>' . __('Plugins extend and expand the functionality of WordPress. You may install plugins in the <a href="%s">WordPress Plugin Directory</a> right from here, or upload a plugin in .zip format by clicking the button at the top of this page.') . '</p>',
+                '<p>' . __('Plugins extend and expand the functionality of waggypuppy. You may install plugins in the <a href="%s">waggypuppy Plugin Directory</a> right from here, or upload a plugin in .zip format by clicking the button at the top of this page.') . '</p>',
                 __('https://wp.org/plugins/')
             );
             break;
@@ -678,7 +678,7 @@ function install_plugin_information()
                 </li>
             <?php } if (! empty($api->requires)) { ?>
                 <li>
-                    <strong><?php _e('Requires WordPress Version:'); ?></strong>
+                    <strong><?php _e('Requires waggypuppy Version:'); ?></strong>
                     <?php
                     /* translators: %s: Version number. */
                     printf(__('%s or higher'), $api->requires);
@@ -842,18 +842,18 @@ function install_plugin_information()
 
     if (! $tested_wp) {
         wp_admin_notice(
-            __('<strong>Warning:</strong> This plugin <strong>has not been tested</strong> with your current version of WordPress.'),
+            __('<strong>Warning:</strong> This plugin <strong>has not been tested</strong> with your current version of waggypuppy.'),
             [
                 'type'               => 'warning',
                 'additional_classes' => ['notice-alt'],
             ]
         );
     } elseif (! $compatible_wp) {
-        $compatible_wp_notice_message = __('<strong>Error:</strong> This plugin <strong>requires a newer version of WordPress</strong>.');
+        $compatible_wp_notice_message = __('<strong>Error:</strong> This plugin <strong>requires a newer version of waggypuppy</strong>.');
         if (current_user_can('update_core')) {
             $compatible_wp_notice_message .= sprintf(
                 /* translators: %s: URL to waggypuppy Updates screen. */
-                ' ' . __('<a href="%s" target="_parent">Click here to update WordPress</a>.'),
+                ' ' . __('<a href="%s" target="_parent">Click here to update waggypuppy</a>.'),
                 esc_url(self_admin_url('update-core.php'))
             );
         }

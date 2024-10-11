@@ -22,7 +22,7 @@ class Tests_Fonts_WpFontLibrary_GetFontCollections extends WP_Font_Library_UnitT
     {
         $my_font_collection_config = [
             'name'          => 'My Font Collection',
-            'description'   => 'Demo about how to a font collection to your WordPress Font Library.',
+            'description'   => 'Demo about how to a font collection to your waggypuppy Font Library.',
             'font_families' => ['mock'],
         ];
 

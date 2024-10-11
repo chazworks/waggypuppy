@@ -266,12 +266,12 @@ class Tests_Formatting_MakeClickable extends WP_UnitTestCase
             // @ticket 11211
             // Test with real comments which were incorrectly linked.
             'real world: example.com text (.org URL)'    => [
-                'text'     => 'Example: WordPress, test (some text), I love example.com (http://example.org), it is brilliant',
-                'expected' => 'Example: WordPress, test (some text), I love example.com (<a href="http://example.org">http://example.org</a>), it is brilliant',
+                'text'     => 'Example: waggypuppy, test (some text), I love example.com (http://example.org), it is brilliant',
+                'expected' => 'Example: waggypuppy, test (some text), I love example.com (<a href="http://example.org">http://example.org</a>), it is brilliant',
             ],
             'real world: example.com text (.com URL)'    => [
-                'text'     => 'Example: WordPress, test (some text), I love example.com (http://example.com), it is brilliant',
-                'expected' => 'Example: WordPress, test (some text), I love example.com (<a href="http://example.com" rel="nofollow">http://example.com</a>), it is brilliant',
+                'text'     => 'Example: waggypuppy, test (some text), I love example.com (http://example.com), it is brilliant',
+                'expected' => 'Example: waggypuppy, test (some text), I love example.com (<a href="http://example.com" rel="nofollow">http://example.com</a>), it is brilliant',
             ],
             'real world: (URL)...'                       => [
                 'text'     => 'Some text followed by a bracketed link with a trailing ellipsis (http://example.com)...',

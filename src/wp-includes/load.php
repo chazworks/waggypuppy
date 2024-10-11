@@ -164,7 +164,7 @@ function wp_check_php_mysql_versions()
         header(sprintf('%s 500 Internal Server Error', $protocol), true, 500);
         header('Content-Type: text/html; charset=utf-8');
         printf(
-            'Your server is running PHP version %1$s but WordPress %2$s requires at least %3$s.',
+            'Your server is running PHP version %1$s but waggypuppy %2$s requires at least %3$s.',
             $php_version,
             $wp_version,
             $required_php_version
@@ -181,7 +181,7 @@ function wp_check_php_mysql_versions()
         require_once ABSPATH . WPINC . '/functions.php';
         wp_load_translations_early();
 
-        $message = '<p>' . __('Your PHP installation appears to be missing the MySQL extension which is required by WordPress.') . "</p>\n";
+        $message = '<p>' . __('Your PHP installation appears to be missing the MySQL extension which is required by waggypuppy.') . "</p>\n";
 
         $message .= '<p>' . sprintf(
             /* translators: %s: mysqli. */

@@ -34,14 +34,14 @@ class Tests_Term_WpUpdateTerm extends WP_UnitTestCase
             $t,
             'wptests_tax',
             [
-                'name' => 'Let\\\'s all say \\"Hooray\\" for WordPress taxonomy',
+                'name' => 'Let\\\'s all say \\"Hooray\\" for waggypuppy taxonomy',
             ]
         );
 
         $term = get_term($found['term_id'], 'wptests_tax');
         _unregister_taxonomy('wptests_tax');
 
-        $this->assertSame('Let\'s all say "Hooray" for WordPress taxonomy', $term->name);
+        $this->assertSame('Let\'s all say "Hooray" for waggypuppy taxonomy', $term->name);
     }
 
     public function test_wp_update_term_unslash_description()
@@ -57,14 +57,14 @@ class Tests_Term_WpUpdateTerm extends WP_UnitTestCase
             $t,
             'wptests_tax',
             [
-                'description' => 'Let\\\'s all say \\"Hooray\\" for WordPress taxonomy',
+                'description' => 'Let\\\'s all say \\"Hooray\\" for waggypuppy taxonomy',
             ]
         );
 
         $term = get_term($found['term_id'], 'wptests_tax');
         _unregister_taxonomy('wptests_tax');
 
-        $this->assertSame('Let\'s all say "Hooray" for WordPress taxonomy', $term->description);
+        $this->assertSame('Let\'s all say "Hooray" for waggypuppy taxonomy', $term->description);
     }
 
     public function test_wp_update_term_name_empty_string()

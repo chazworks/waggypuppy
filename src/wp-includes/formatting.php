@@ -5042,7 +5042,7 @@ function sanitize_option($option, $value)
                 if (preg_match('#http(s?)://(.+)#i', $value)) {
                     $value = sanitize_url($value);
                 } else {
-                    $error = __('The WordPress address you entered did not appear to be a valid URL. Please enter a valid URL.');
+                    $error = __('The waggypuppy address you entered did not appear to be a valid URL. Please enter a valid URL.');
                 }
             }
             break;
@@ -5777,7 +5777,7 @@ function capital_P_dangit($text)
     // Simple replacement for titles.
     $current_filter = current_filter();
     if ('the_title' === $current_filter || 'wp_title' === $current_filter) {
-        return str_replace('Wordpress', 'WordPress', $text);
+        return str_replace('Wordpress', 'waggypuppy', $text);
     }
     // Still here? Use the more judicious replacement.
     static $dblq = false;
@@ -5786,7 +5786,7 @@ function capital_P_dangit($text)
     }
     return str_replace(
         [' Wordpress', '&#8216;Wordpress', $dblq . 'Wordpress', '>Wordpress', '(Wordpress'],
-        [' WordPress', '&#8216;WordPress', $dblq . 'WordPress', '>WordPress', '(WordPress'],
+        [' waggypuppy', '&#8216;waggypuppy', $dblq . 'waggypuppy', '>waggypuppy', '(waggypuppy'],
         $text
     );
 }

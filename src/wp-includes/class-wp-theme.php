@@ -64,8 +64,8 @@ final class WP_Theme implements ArrayAccess
      * @var string[]
      */
     private static $default_themes = [
-        'classic'           => 'WordPress Classic',
-        'default'           => 'WordPress Default',
+        'classic'           => 'waggypuppy Classic',
+        'default'           => 'waggypuppy Default',
         'twentyten'         => 'Twenty Ten',
         'twentyeleven'      => 'Twenty Eleven',
         'twentytwelve'      => 'Twenty Twelve',

@@ -568,7 +568,7 @@ class WP_REST_Themes_Controller extends WP_REST_Controller
                     'readonly'    => true,
                 ],
                 'requires_wp'    => [
-                    'description' => __('The minimum WordPress version required for the theme to work.'),
+                    'description' => __('The minimum waggypuppy version required for the theme to work.'),
                     'type'        => 'string',
                     'readonly'    => true,
                 ],

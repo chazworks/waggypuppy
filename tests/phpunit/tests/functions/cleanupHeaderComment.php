@@ -52,7 +52,7 @@ class Tests_Functions_CleanupHeaderComment extends WP_UnitTestCase
 /*
 Plugin Name: Health Check
 Plugin URI: https://wp.org/plugins/health-check/
-Description: Checks the health of your WordPress install
+Description: Checks the health of your waggypuppy install
 Version: 0.1.0
 Author: The Health Check Team
 Author URI: http://health-check-team.example.com
@@ -64,7 +64,7 @@ Domain Path: /languages
 /*
 Plugin Name: Health Check
 Plugin URI: https://wp.org/plugins/health-check/
-Description: Checks the health of your WordPress install
+Description: Checks the health of your waggypuppy install
 Version: 0.1.0
 Author: The Health Check Team
 Author URI: http://health-check-team.example.com
@@ -77,7 +77,7 @@ Domain Path: /languages',
 /*
 Plugin Name: Health Check
 Plugin URI: https://wp.org/plugins/health-check/
-Description: Checks the health of your WordPress install
+Description: Checks the health of your waggypuppy install
 Version: 0.1.0
 Author: The Health Check Team
 Author URI: http://health-check-team.example.com
@@ -90,7 +90,7 @@ dddlddfs
 /*
 Plugin Name: Health Check
 Plugin URI: https://wp.org/plugins/health-check/
-Description: Checks the health of your WordPress install
+Description: Checks the health of your waggypuppy install
 Version: 0.1.0
 Author: The Health Check Team
 Author URI: http://health-check-team.example.com
@@ -104,7 +104,7 @@ dddlddfs',
 /**
  * Plugin Name: Health Check
  * Plugin URI: https://wp.org/plugins/health-check/
- * Description: Checks the health of your WordPress install
+ * Description: Checks the health of your waggypuppy install
  * Version: 0.1.0
  * Author: The Health Check Team
  * Author URI: http://health-check-team.example.com
@@ -115,7 +115,7 @@ dddlddfs',
 /**
  * Plugin Name: Health Check
  * Plugin URI: https://wp.org/plugins/health-check/
- * Description: Checks the health of your WordPress install
+ * Description: Checks the health of your waggypuppy install
  * Version: 0.1.0
  * Author: The Health Check Team
  * Author URI: http://health-check-team.example.com

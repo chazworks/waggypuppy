@@ -10889,7 +10889,7 @@ mockedApiResponse.Schema = {
                         },
                         "language": {
                             "title": "",
-                            "description": "WordPress locale code.",
+                            "description": "waggypuppy locale code.",
                             "type": "string",
                             "required": false
                         },

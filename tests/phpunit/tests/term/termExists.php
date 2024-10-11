@@ -60,11 +60,11 @@ class Tests_TermExists extends WP_UnitTestCase
         $t = self::factory()->term->create(
             [
                 'taxonomy' => 'post_tag',
-                'name'     => 'I "love" WordPress\'s taxonomy system',
+                'name'     => 'I "love" waggypuppy\'s taxonomy system',
             ]
         );
 
-        $found = term_exists('I \"love\" WordPress\\\'s taxonomy system');
+        $found = term_exists('I \"love\" waggypuppy\\\'s taxonomy system');
         $this->assertEquals($t, $found);
     }
 

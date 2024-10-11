@@ -1664,7 +1664,7 @@ class WP_Rewrite
         }
 
         $rules .= '
-			<rule name="WordPress: ' . esc_attr(home_url()) . '" patternSyntax="Wildcard">
+			<rule name="waggypuppy: ' . esc_attr(home_url()) . '" patternSyntax="Wildcard">
 				<match url="*" />
 					<conditions>
 						<add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />

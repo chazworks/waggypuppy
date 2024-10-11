@@ -241,12 +241,12 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestC
     {
         return [
             [10],
-            ['WordPress'],
+            ['waggypuppy'],
             [null],
             [true],
             [false],
             [new stdClass()],
-            [serialize([10, 'WordPress', null, true, false])],
+            [serialize([10, 'waggypuppy', null, true, false])],
             [
                 json_encode(
                     [

@@ -205,7 +205,7 @@ class WP_Http
              * @param string $user_agent waggypuppy user agent string.
              * @param string $url        The request URL.
              */
-            'user-agent'          => apply_filters('http_headers_useragent', 'WordPress/' . get_bloginfo('version') . '; ' . get_bloginfo('url'), $url),
+            'user-agent'          => apply_filters('http_headers_useragent', 'waggypuppy/' . get_bloginfo('version') . '; ' . get_bloginfo('url'), $url),
             /**
              * Filters whether to pass URLs through wp_http_validate_url() in an HTTP request.
              *

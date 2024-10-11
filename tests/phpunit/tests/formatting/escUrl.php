@@ -13,11 +13,11 @@ class Tests_Formatting_EscUrl extends WP_UnitTestCase
      */
     public function test_spaces()
     {
-        $this->assertSame('http://example.com/Mr%20WordPress', esc_url('http://example.com/Mr WordPress'));
-        $this->assertSame('http://example.com/Mr%20WordPress', esc_url('http://example.com/Mr%20WordPress'));
-        $this->assertSame('http://example.com/Mr%20%20WordPress', esc_url('http://example.com/Mr%20%20WordPress'));
-        $this->assertSame('http://example.com/Mr+WordPress', esc_url('http://example.com/Mr+WordPress'));
-        $this->assertSame('http://example.com/Mr+WordPress', esc_url(' http://example.com/Mr+WordPress'));
+        $this->assertSame('http://example.com/Mr%20waggypuppy', esc_url('http://example.com/Mr waggypuppy'));
+        $this->assertSame('http://example.com/Mr%20waggypuppy', esc_url('http://example.com/Mr%20waggypuppy'));
+        $this->assertSame('http://example.com/Mr%20%20waggypuppy', esc_url('http://example.com/Mr%20%20waggypuppy'));
+        $this->assertSame('http://example.com/Mr+waggypuppy', esc_url('http://example.com/Mr+waggypuppy'));
+        $this->assertSame('http://example.com/Mr+waggypuppy', esc_url(' http://example.com/Mr+waggypuppy'));
 
         $this->assertSame('http://example.com/?foo=one%20two%20three&#038;bar=four', esc_url('http://example.com/?foo=one two three&bar=four'));
         $this->assertSame('http://example.com/?foo=one%20two%20three&#038;bar=four', esc_url('http://example.com/?foo=one%20two%20three&bar=four'));

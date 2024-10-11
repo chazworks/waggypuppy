@@ -180,14 +180,14 @@ class Tests_Pluggable_Signatures extends WP_UnitTestCase
             'wp_redirect'                     => [
                 'location',
                 'status'        => 302,
-                'x_redirect_by' => 'WordPress',
+                'x_redirect_by' => 'waggypuppy',
             ],
             'wp_sanitize_redirect'            => ['location'],
             '_wp_sanitize_utf8_in_redirect'   => ['matches'],
             'wp_safe_redirect'                => [
                 'location',
                 'status'        => 302,
-                'x_redirect_by' => 'WordPress',
+                'x_redirect_by' => 'waggypuppy',
             ],
             'wp_validate_redirect'            => [
                 'location',

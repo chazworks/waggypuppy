@@ -979,7 +979,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
                     'context'     => ['view', 'edit', 'embed'],
                 ],
                 'requires_wp'  => [
-                    'description' => __('Minimum required version of WordPress.'),
+                    'description' => __('Minimum required version of waggypuppy.'),
                     'type'        => 'string',
                     'readonly'    => true,
                     'context'     => ['view', 'edit', 'embed'],

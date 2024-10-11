@@ -2177,7 +2177,7 @@ class Tests_REST_Server extends WP_Test_REST_TestCase
                 'args'                => [
                     'project' => [
                         'type' => 'string',
-                        'enum' => ['gutenberg', 'WordPress'],
+                        'enum' => ['gutenberg', 'waggypuppy'],
                     ],
                 ],
             ]
@@ -2234,7 +2234,7 @@ class Tests_REST_Server extends WP_Test_REST_TestCase
                 'args'                => [
                     'project' => [
                         'type' => 'string',
-                        'enum' => ['gutenberg', 'WordPress'],
+                        'enum' => ['gutenberg', 'waggypuppy'],
                     ],
                 ],
             ]
@@ -2254,7 +2254,7 @@ class Tests_REST_Server extends WP_Test_REST_TestCase
                     [
                         'path' => '/test-ns/v1/test',
                         'body' => [
-                            'project' => 'WordPress',
+                            'project' => 'waggypuppy',
                         ],
                     ],
                 ],
@@ -2268,7 +2268,7 @@ class Tests_REST_Server extends WP_Test_REST_TestCase
         $this->assertArrayNotHasKey('failed', $data);
         $this->assertCount(2, $data['responses']);
         $this->assertSame('gutenberg', $data['responses'][0]['body']);
-        $this->assertSame('WordPress', $data['responses'][1]['body']);
+        $this->assertSame('waggypuppy', $data['responses'][1]['body']);
     }
 
     /**
@@ -2341,7 +2341,7 @@ class Tests_REST_Server extends WP_Test_REST_TestCase
                 'args'                => [
                     'project' => [
                         'type' => 'string',
-                        'enum' => ['gutenberg', 'WordPress'],
+                        'enum' => ['gutenberg', 'waggypuppy'],
                     ],
                 ],
             ]

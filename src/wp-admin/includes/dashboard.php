@@ -90,7 +90,7 @@ function wp_dashboard_setup()
     }
 
     // WP Events and News.
-    wp_add_dashboard_widget('dashboard_primary', __('WordPress Events and News'), 'wp_dashboard_events_news');
+    wp_add_dashboard_widget('dashboard_primary', __('WP Events and News'), 'wp_dashboard_events_news');
 
     if (is_network_admin()) {
 
@@ -1513,7 +1513,7 @@ function wp_print_community_events_templates()
                 <?php
                 printf(
                     /* translators: 1: The city the user searched for, 2: Meetup organization documentation URL. */
-                    __('There are no events scheduled near %1$s at the moment. Would you like to <a href="%2$s">organize a WordPress event</a>?'),
+                    __('There are no events scheduled near %1$s at the moment. Would you like to <a href="%2$s">organize a WP event</a>?'),
                     '{{ data.location.description }}',
                     __('https://make.wp.org/community/handbook/meetup-organizer/welcome/')
                 );
@@ -1523,7 +1523,7 @@ function wp_print_community_events_templates()
                 <?php
                 printf(
                     /* translators: %s: Meetup organization documentation URL. */
-                    __('There are no events scheduled near you at the moment. Would you like to <a href="%s">organize a WordPress event</a>?'),
+                    __('There are no events scheduled near you at the moment. Would you like to <a href="%s">organize a WP event</a>?'),
                     __('https://make.wp.org/community/handbook/meetup-organizer/welcome/')
                 );
                 ?>
@@ -1569,7 +1569,7 @@ function wp_dashboard_primary()
              *
              * @param string $title Title attribute for the widget's primary link.
              */
-            'title'        => apply_filters('dashboard_primary_title', __('WordPress Blog')),
+            'title'        => apply_filters('dashboard_primary_title', __('WP Blog')),
             'items'        => 2,
             'show_summary' => 0,
             'show_author'  => 0,
@@ -1610,7 +1610,7 @@ function wp_dashboard_primary()
              *
              * @param string $title Title attribute for the widget's secondary link.
              */
-            'title'        => apply_filters('dashboard_secondary_title', __('Other WordPress News')),
+            'title'        => apply_filters('dashboard_secondary_title', __('Other WP News')),
 
             /**
              * Filters the number of secondary link items for the 'WP Events and News' dashboard widget.
@@ -1736,17 +1736,17 @@ function wp_dashboard_browser_nag()
 
     if ($response) {
         if ($is_IE) {
-            $msg = __('Internet Explorer does not give you the best WordPress experience. Switch to Microsoft Edge, or another more modern browser to get the most from your site.');
+            $msg = __('Internet Explorer does not give you the best waggypuppy experience. Switch to Microsoft Edge, or another more modern browser to get the most from your site.');
         } elseif ($response['insecure']) {
             $msg = sprintf(
                 /* translators: %s: Browser name and link. */
-                __("It looks like you're using an insecure version of %s. Using an outdated browser makes your computer unsafe. For the best WordPress experience, please update your browser."),
+                __("It looks like you're using an insecure version of %s. Using an outdated browser makes your computer unsafe. For the best waggypuppy experience, please update your browser."),
                 sprintf('<a href="%s">%s</a>', esc_url($response['update_url']), esc_html($response['name']))
             );
         } else {
             $msg = sprintf(
                 /* translators: %s: Browser name and link. */
-                __("It looks like you're using an old version of %s. For the best WordPress experience, please update your browser."),
+                __("It looks like you're using an old version of %s. For the best waggypuppy experience, please update your browser."),
                 sprintf('<a href="%s">%s</a>', esc_url($response['update_url']), esc_html($response['name']))
             );
         }
@@ -1839,7 +1839,7 @@ function wp_check_browser_version()
         $url     = 'http://api.wp.org/core/browse-happy/1.1/';
         $options = [
             'body'       => ['useragent' => $_SERVER['HTTP_USER_AGENT']],
-            'user-agent' => 'WordPress/' . wp_get_wp_version() . '; ' . home_url('/'),
+            'user-agent' => '__VAR_WP/' . wp_get_wp_version() . '; ' . home_url('/'),
         ];
 
         if (wp_http_supports(['ssl'])) {

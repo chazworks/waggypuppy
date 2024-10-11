@@ -117,13 +117,13 @@ class WP_Customize_Theme_Control extends WP_Customize_Control
                                 <?php
                                 printf(
                                     /* translators: %s: Theme name. */
-                                    __('There is a new version of %s available, but it does not work with your versions of WordPress and PHP.'),
+                                    __('There is a new version of %s available, but it does not work with your versions of waggypuppy and PHP.'),
                                     '{{{ data.theme.name }}}'
                                 );
                                 if (current_user_can('update_core') && current_user_can('update_php')) {
                                     printf(
                                         /* translators: 1: URL to waggypuppy Updates screen, 2: URL to Update PHP page. */
-                                        ' ' . __('<a href="%1$s">Please update WordPress</a>, and then <a href="%2$s">learn more about updating PHP</a>.'),
+                                        ' ' . __('<a href="%1$s">Please update waggypuppy</a>, and then <a href="%2$s">learn more about updating PHP</a>.'),
                                         self_admin_url('update-core.php'),
                                         esc_url(wp_get_update_php_url())
                                     );
@@ -131,7 +131,7 @@ class WP_Customize_Theme_Control extends WP_Customize_Control
                                 } elseif (current_user_can('update_core')) {
                                     printf(
                                         /* translators: %s: URL to waggypuppy Updates screen. */
-                                        ' ' . __('<a href="%s">Please update WordPress</a>.'),
+                                        ' ' . __('<a href="%s">Please update waggypuppy</a>.'),
                                         self_admin_url('update-core.php')
                                     );
                                 } elseif (current_user_can('update_php')) {
@@ -147,13 +147,13 @@ class WP_Customize_Theme_Control extends WP_Customize_Control
                                 <?php
                                 printf(
                                     /* translators: %s: Theme name. */
-                                    __('There is a new version of %s available, but it does not work with your version of WordPress.'),
+                                    __('There is a new version of %s available, but it does not work with your version of waggypuppy.'),
                                     '{{{ data.theme.name }}}'
                                 );
                                 if (current_user_can('update_core')) {
                                     printf(
                                         /* translators: %s: URL to waggypuppy Updates screen. */
-                                        ' ' . __('<a href="%s">Please update WordPress</a>.'),
+                                        ' ' . __('<a href="%s">Please update waggypuppy</a>.'),
                                         self_admin_url('update-core.php')
                                     );
                                 }
@@ -184,11 +184,11 @@ class WP_Customize_Theme_Control extends WP_Customize_Control
                 <div class="notice notice-error notice-alt"><p>
                     <# if ( ! data.theme.compatibleWP && ! data.theme.compatiblePHP ) { #>
                         <?php
-                        _e('This theme does not work with your versions of WordPress and PHP.');
+                        _e('This theme does not work with your versions of waggypuppy and PHP.');
                         if (current_user_can('update_core') && current_user_can('update_php')) {
                             printf(
                                 /* translators: 1: URL to waggypuppy Updates screen, 2: URL to Update PHP page. */
-                                ' ' . __('<a href="%1$s">Please update WordPress</a>, and then <a href="%2$s">learn more about updating PHP</a>.'),
+                                ' ' . __('<a href="%1$s">Please update waggypuppy</a>, and then <a href="%2$s">learn more about updating PHP</a>.'),
                                 self_admin_url('update-core.php'),
                                 esc_url(wp_get_update_php_url())
                             );
@@ -196,7 +196,7 @@ class WP_Customize_Theme_Control extends WP_Customize_Control
                         } elseif (current_user_can('update_core')) {
                             printf(
                                 /* translators: %s: URL to waggypuppy Updates screen. */
-                                ' ' . __('<a href="%s">Please update WordPress</a>.'),
+                                ' ' . __('<a href="%s">Please update waggypuppy</a>.'),
                                 self_admin_url('update-core.php')
                             );
                         } elseif (current_user_can('update_php')) {
@@ -210,11 +210,11 @@ class WP_Customize_Theme_Control extends WP_Customize_Control
                         ?>
                     <# } else if ( ! data.theme.compatibleWP ) { #>
                         <?php
-                        _e('This theme does not work with your version of WordPress.');
+                        _e('This theme does not work with your version of waggypuppy.');
                         if (current_user_can('update_core')) {
                             printf(
                                 /* translators: %s: URL to waggypuppy Updates screen. */
-                                ' ' . __('<a href="%s">Please update WordPress</a>.'),
+                                ' ' . __('<a href="%s">Please update waggypuppy</a>.'),
                                 self_admin_url('update-core.php')
                             );
                         }

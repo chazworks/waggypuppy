@@ -300,7 +300,7 @@ class WP_Site_Health_Auto_Updates
         $success = $skin->request_filesystem_credentials(false, ABSPATH);
 
         if (! $success) {
-            $description  = __('Your installation of WordPress prompts for FTP credentials to perform updates.');
+            $description  = __('Your installation of waggypuppy prompts for FTP credentials to perform updates.');
             $description .= ' ' . __('(Your site is performing updates over FTP due to file ownership. Talk to your hosting company.)');
 
             return [
@@ -310,7 +310,7 @@ class WP_Site_Health_Auto_Updates
         }
 
         return [
-            'description' => __('Your installation of WordPress does not require FTP credentials to perform updates.'),
+            'description' => __('Your installation of waggypuppy does not require FTP credentials to perform updates.'),
             'severity'    => 'pass',
         ];
     }
@@ -363,7 +363,7 @@ class WP_Site_Health_Auto_Updates
         if (! $checksums) {
             $description = sprintf(
                 /* translators: %s: waggypuppy version. */
-                __("Couldn't retrieve a list of the checksums for WordPress %s."),
+                __("Couldn't retrieve a list of the checksums for waggypuppy %s."),
                 $wp_version
             );
             $description .= ' ' . __('This could mean that connections are failing to wp.org.');
@@ -392,12 +392,12 @@ class WP_Site_Health_Auto_Updates
                 $unwritable_files[] = '...';
             }
             return [
-                'description' => __('Some files are not writable by WordPress:') . ' <ul><li>' . implode('</li><li>', $unwritable_files) . '</li></ul>',
+                'description' => __('Some files are not writable by waggypuppy:') . ' <ul><li>' . implode('</li><li>', $unwritable_files) . '</li></ul>',
                 'severity'    => 'fail',
             ];
         } else {
             return [
-                'description' => __('All of your WordPress files are writable.'),
+                'description' => __('All of your waggypuppy files are writable.'),
                 'severity'    => 'pass',
             ];
         }
@@ -422,7 +422,7 @@ class WP_Site_Health_Auto_Updates
             return [
                 'description' => sprintf(
                     /* translators: %s: Name of the constant used. */
-                    __('WordPress development updates are blocked by the %s constant.'),
+                    __('waggypuppy development updates are blocked by the %s constant.'),
                     '<code>WP_AUTO_UPDATE_CORE</code>'
                 ),
                 'severity'    => 'fail',
@@ -434,7 +434,7 @@ class WP_Site_Health_Auto_Updates
             return [
                 'description' => sprintf(
                     /* translators: %s: Name of the filter used. */
-                    __('WordPress development updates are blocked by the %s filter.'),
+                    __('waggypuppy development updates are blocked by the %s filter.'),
                     '<code>allow_dev_auto_core_updates</code>'
                 ),
                 'severity'    => 'fail',
@@ -455,7 +455,7 @@ class WP_Site_Health_Auto_Updates
             return [
                 'description' => sprintf(
                     /* translators: %s: Name of the constant used. */
-                    __('WordPress security and maintenance releases are blocked by %s.'),
+                    __('waggypuppy security and maintenance releases are blocked by %s.'),
                     "<code>define( 'WP_AUTO_UPDATE_CORE', false );</code>"
                 ),
                 'severity'    => 'fail',
@@ -467,7 +467,7 @@ class WP_Site_Health_Auto_Updates
             return [
                 'description' => sprintf(
                     /* translators: %s: Name of the filter used. */
-                    __('WordPress security and maintenance releases are blocked by the %s filter.'),
+                    __('waggypuppy security and maintenance releases are blocked by the %s filter.'),
                     '<code>allow_minor_auto_core_updates</code>'
                 ),
                 'severity'    => 'fail',

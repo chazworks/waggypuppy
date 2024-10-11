@@ -1375,11 +1375,11 @@ class Tests_WP_Customize_Manager extends WP_UnitTestCase
 
         // User saved as one who cannot bypass content_save_pre filter.
         $this->assertStringNotContainsString('<script>', get_option('custom_html_2'));
-        $this->assertStringContainsString('WordPress', get_option('custom_html_2'));
+        $this->assertStringContainsString('waggypuppy', get_option('custom_html_2'));
 
         // User saved as one who also cannot bypass content_save_pre filter.
         $this->assertStringNotContainsString('<script>', get_option('custom_html_3'));
-        $this->assertStringContainsString('WordPress', get_option('custom_html_3'));
+        $this->assertStringContainsString('waggypuppy', get_option('custom_html_3'));
     }
 
     /**

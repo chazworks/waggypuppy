@@ -1373,7 +1373,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
             return;
         }
         if (! TracTickets::isTracTicketClosed('https://core.trac.wp.org', $ticket_id)) {
-            $this->markTestSkipped(sprintf('WordPress Ticket #%d is not fixed', $ticket_id));
+            $this->markTestSkipped(sprintf('WP Ticket #%d is not fixed', $ticket_id));
         }
     }
 
@@ -1403,7 +1403,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
             return;
         }
         if (! TracTickets::isTracTicketClosed('https://plugins.trac.wp.org', $ticket_id)) {
-            $this->markTestSkipped(sprintf('WordPress Plugin Ticket #%d is not fixed', $ticket_id));
+            $this->markTestSkipped(sprintf('WP Plugin Ticket #%d is not fixed', $ticket_id));
         }
     }
 
