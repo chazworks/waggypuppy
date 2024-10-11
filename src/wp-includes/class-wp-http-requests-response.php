@@ -2,7 +2,7 @@
 /**
  * HTTP API: WP_HTTP_Requests_Response class
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage HTTP
  * @since 4.6.0
  */

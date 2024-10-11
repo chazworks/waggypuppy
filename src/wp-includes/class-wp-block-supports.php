@@ -2,7 +2,7 @@
 /**
  * Block support flags.
  *
- * @package waggypuppy
+ * @package WP
  *
  * @since 5.6.0
  */

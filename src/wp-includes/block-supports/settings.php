@@ -2,7 +2,7 @@
 /**
  * Block level presets support.
  *
- * @package waggypuppy
+ * @package WP
  * @since 6.2.0
  */
 

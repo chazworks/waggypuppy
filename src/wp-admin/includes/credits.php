@@ -2,7 +2,7 @@
 /**
  * WordPress Credits Administration API.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  * @since 4.4.0
  */

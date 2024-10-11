@@ -2,7 +2,7 @@
 /**
  * Core Translation API
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage i18n
  * @since 1.2.0
  */

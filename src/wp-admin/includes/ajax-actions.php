@@ -2,7 +2,7 @@
 /**
  * Administration API: Core Ajax handlers
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  * @since 2.1.0
  */

@@ -2,7 +2,7 @@
 /**
  * Tests for the WP_Filesystem_Direct::get_contents_array() method.
  *
- * @package waggypuppy
+ * @package WP
  */
 
 require_once __DIR__ . '/base.php';

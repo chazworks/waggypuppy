@@ -2,7 +2,7 @@
 /**
  * WordPress core upgrade functionality.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  * @since 2.7.0
  */

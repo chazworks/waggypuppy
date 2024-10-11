@@ -2,7 +2,7 @@
 /**
  * WordPress API for media display.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Media
  */
 

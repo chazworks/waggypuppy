@@ -2,7 +2,7 @@
 /**
  * WordPress Administration Template Footer
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 

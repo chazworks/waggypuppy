@@ -2,7 +2,7 @@
 /**
  * Tests for block asset urls.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Blocks
  *
  * @since 6.4.0

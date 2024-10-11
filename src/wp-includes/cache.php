@@ -4,7 +4,7 @@
  *
  * @link https://developer.wp.org/reference/classes/wp_object_cache/
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Cache
  */
 

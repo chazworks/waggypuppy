@@ -25,7 +25,7 @@
  *
  * @link https://developer.wp.org/plugins/shortcodes/
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Shortcodes
  * @since 2.5.0
  */

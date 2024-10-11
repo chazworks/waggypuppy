@@ -6,7 +6,7 @@
  *
  * @link https://developer.wp.org/themes/functionality/widgets/#developing-widgets
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Twenty_Eleven
  * @since Twenty Eleven 1.0
  */

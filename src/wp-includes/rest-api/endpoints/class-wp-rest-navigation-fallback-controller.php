@@ -4,7 +4,7 @@
  *
  * REST Controller to create/fetch a fallback Navigation Menu.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage REST_API
  * @since 6.3.0
  */

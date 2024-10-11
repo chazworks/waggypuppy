@@ -2,7 +2,7 @@
 /**
  * Displays the footer widget area.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Twenty_Twenty_One
  * @since Twenty Twenty-One 1.0
  */

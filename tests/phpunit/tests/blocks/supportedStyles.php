@@ -2,7 +2,7 @@
 /**
  * Test block supported styles.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Blocks
  * @since 5.6.0
  *

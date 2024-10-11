@@ -2,7 +2,7 @@
 /**
  * Template for displaying search forms in Twenty Sixteen
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Twenty_Sixteen
  * @since Twenty Sixteen 1.0
  */

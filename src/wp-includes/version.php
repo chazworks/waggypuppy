@@ -4,7 +4,7 @@
  *
  * Contains version information for the current WordPress release.
  *
- * @package waggypuppy
+ * @package WP
  * @since 1.2.0
  */
 

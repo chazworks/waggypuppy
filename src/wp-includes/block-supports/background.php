@@ -2,7 +2,7 @@
 /**
  * Background block support flag.
  *
- * @package waggypuppy
+ * @package WP
  * @since 6.4.0
  */
 

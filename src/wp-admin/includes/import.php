@@ -2,7 +2,7 @@
 /**
  * WordPress Administration Importer API.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 

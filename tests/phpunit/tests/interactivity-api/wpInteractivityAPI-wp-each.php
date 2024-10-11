@@ -3,7 +3,7 @@
  * Unit tests covering the data_wp_each_processor functionality of the
  * WP_Interactivity_API class.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Interactivity API
  *
  * @coversDefaultClass WP_Interactivity_API

@@ -2,7 +2,7 @@
 /**
  * Displays the search icon and modal
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Twenty_Twenty
  * @since Twenty Twenty 1.0
  */

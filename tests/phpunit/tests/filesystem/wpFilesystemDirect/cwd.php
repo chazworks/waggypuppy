@@ -2,7 +2,7 @@
 /**
  * Tests for the WP_Filesystem_Direct::cwd() method.
  *
- * @package waggypuppy
+ * @package WP
  */
 
 /**

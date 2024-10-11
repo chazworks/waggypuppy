@@ -2,7 +2,7 @@
 /**
  * Edit Term Administration Screen.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  * @since 4.5.0
  */

@@ -2,7 +2,7 @@
 /**
  * WordPress Dashboard Widget Administration Screen API
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 

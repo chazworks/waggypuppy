@@ -2,7 +2,7 @@
 /**
  * Query: Standard.
  *
- * @package waggypuppy
+ * @package WP
  */
 
 return [

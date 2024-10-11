@@ -2,7 +2,7 @@
 /**
  * WordPress Administration Bootstrap
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 

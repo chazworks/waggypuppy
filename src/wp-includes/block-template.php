@@ -2,7 +2,7 @@
 /**
  * Block template loader functions.
  *
- * @package waggypuppy
+ * @package WP
  */
 
 /**

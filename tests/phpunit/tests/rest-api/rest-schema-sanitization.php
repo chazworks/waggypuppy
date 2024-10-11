@@ -2,7 +2,7 @@
 /**
  * Unit tests covering schema validation and sanitization functionality.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage REST API
  *
  * @group restapi

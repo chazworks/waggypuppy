@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_HTML_Tag_Processor functionality.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage HTML-API
  */
 

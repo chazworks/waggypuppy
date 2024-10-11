@@ -7,7 +7,7 @@ require_once ABSPATH . 'wp-admin/includes/ajax-actions.php';
 /**
  * Testing Ajax media editing.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage UnitTests
  * @since 3.5.0
  *

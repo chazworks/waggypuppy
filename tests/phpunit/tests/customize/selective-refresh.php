@@ -2,7 +2,7 @@
 /**
  * Tests for the WP_Customize_Selective_Refresh class.
  *
- * @package waggypuppy
+ * @package WP
  *
  * @group customize
  */

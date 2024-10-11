@@ -2,7 +2,7 @@
 /**
  * Tests for the block template loading algorithm.
  *
- * @package waggypuppy
+ * @package WP
  *
  * @group block-templates
  */

@@ -2,7 +2,7 @@
 /**
  * Customize API: WP_Customize_Nav_Menu_Locations_Control class
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Customize
  * @since 4.9.0
  */

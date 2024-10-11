@@ -3,7 +3,7 @@
 /**
  * Test WP_Theme class.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Theme
  *
  * @group themes

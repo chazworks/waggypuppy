@@ -2,7 +2,7 @@
 /**
  * Block Metadata Registry
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Blocks
  * @since 6.7.0
  */

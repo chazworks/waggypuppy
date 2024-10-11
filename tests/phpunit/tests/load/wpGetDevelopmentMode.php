@@ -2,7 +2,7 @@
 /**
  * Unit tests for `wp_get_development_mode()`.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage UnitTests
  * @since 6.3.0
  *

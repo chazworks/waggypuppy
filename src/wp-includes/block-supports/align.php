@@ -2,7 +2,7 @@
 /**
  * Align block support flag.
  *
- * @package waggypuppy
+ * @package WP
  * @since 5.6.0
  */
 

@@ -2,7 +2,7 @@
 /**
  * Block support utility functions.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Block Supports
  * @since 6.0.0
  */

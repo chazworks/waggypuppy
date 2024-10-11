@@ -2,7 +2,7 @@
 /**
  * Deprecated. Use rss.php instead.
  *
- * @package waggypuppy
+ * @package WP
  * @deprecated 2.1.0
  */
 

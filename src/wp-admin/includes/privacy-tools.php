@@ -2,7 +2,7 @@
 /**
  * WordPress Administration Privacy Tools API.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 

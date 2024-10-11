@@ -2,7 +2,7 @@
 /**
  * Network Freedoms administration panel.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Multisite
  * @since 3.4.0
  */

@@ -4,7 +4,7 @@
  *
  * @since 0.71
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Trackbacks
  */
 

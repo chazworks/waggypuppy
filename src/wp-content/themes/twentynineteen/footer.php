@@ -6,7 +6,7 @@
  *
  * @link https://developer.wp.org/themes/basics/template-files/#template-partials
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Twenty_Nineteen
  * @since Twenty Nineteen 1.0
  */

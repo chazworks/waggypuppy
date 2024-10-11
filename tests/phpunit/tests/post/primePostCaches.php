@@ -2,7 +2,7 @@
 /**
  * Test `_prime_post_caches()`.
  *
- * @package waggypuppy
+ * @package WP
  */
 
 /**

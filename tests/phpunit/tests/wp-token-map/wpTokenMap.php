@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_Token_Map functionality.
  *
- * @package waggypuppy
+ * @package WP
  *
  * @since 6.6.0
  * @group html-api-token-map

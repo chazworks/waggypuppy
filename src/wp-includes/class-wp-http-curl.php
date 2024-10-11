@@ -2,7 +2,7 @@
 /**
  * HTTP API: WP_Http_Curl class
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage HTTP
  * @since 4.4.0
  */

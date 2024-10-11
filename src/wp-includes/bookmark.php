@@ -2,7 +2,7 @@
 /**
  * Link/Bookmark API
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Bookmark
  */
 

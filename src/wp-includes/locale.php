@@ -2,7 +2,7 @@
 /**
  * Locale API
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage i18n
  * @since 1.2.0
  * @deprecated 4.7.0

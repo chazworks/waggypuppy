@@ -4,7 +4,7 @@
  *
  * Original code from {@link http://php.justinvincent.com Justin Vincent (justin@visunet.ie)}
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Database
  * @since 0.71
  */

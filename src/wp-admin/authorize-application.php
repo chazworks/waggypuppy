@@ -2,7 +2,7 @@
 /**
  * Authorize Application Screen
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 

@@ -2,7 +2,7 @@
 /**
  * Post API: WP_Post class
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Post
  * @since 4.4.0
  */

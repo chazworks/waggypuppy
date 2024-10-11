@@ -2,7 +2,7 @@
 /**
  * Tests for the WP_Plugin_Dependencies::get_dependent_names() method.
  *
- * @package waggypuppy
+ * @package WP
  */
 
 require_once __DIR__ . '/base.php';

@@ -2,7 +2,7 @@
 /**
  * Rewrite API: WP_Rewrite class
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Rewrite
  * @since 1.5.0
  */

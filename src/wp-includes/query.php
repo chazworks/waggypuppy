@@ -7,7 +7,7 @@
  *
  * @link https://developer.wp.org/themes/basics/the-loop/ More information on The Loop.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Query
  */
 

@@ -2,7 +2,7 @@
 /**
  * Tests WP_Navigation_Fallback
  *
- * @package waggypuppy
+ * @package WP
  */
 
 /**

@@ -2,7 +2,7 @@
 /**
  * Used to set up all core blocks used with the block editor.
  *
- * @package waggypuppy
+ * @package WP
  */
 
 // Don't load directly.

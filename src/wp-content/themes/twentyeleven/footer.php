@@ -4,7 +4,7 @@
  *
  * Contains the closing of the id=main div and all content after
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Twenty_Eleven
  * @since Twenty Eleven 1.0
  */

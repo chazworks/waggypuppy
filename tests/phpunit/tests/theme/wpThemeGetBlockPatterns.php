@@ -2,7 +2,7 @@
 /**
  * Tests for WP_Theme::get_block_patterns.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Blocks
  * @since 6.4.0
  *

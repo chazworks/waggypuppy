@@ -2,7 +2,7 @@
 /**
  * Build Network Administration Menu.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Multisite
  * @since 3.1.0
  */

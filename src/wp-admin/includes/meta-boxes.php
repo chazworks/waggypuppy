@@ -2,7 +2,7 @@
 /**
  * WordPress Administration Meta Boxes API.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 

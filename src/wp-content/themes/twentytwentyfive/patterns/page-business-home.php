@@ -9,7 +9,7 @@
  * Viewport width: 1400
  * Description: A business homepage pattern.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Twenty_Twenty_Five
  * @since Twenty Twenty-Five 1.0
  */

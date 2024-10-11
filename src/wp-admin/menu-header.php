@@ -2,7 +2,7 @@
 /**
  * Displays Administration Menu.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 

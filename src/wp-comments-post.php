@@ -2,7 +2,7 @@
 /**
  * Handles Comment Post to WordPress and prevents duplicate comment posting.
  *
- * @package waggypuppy
+ * @package WP
  */
 
 if ('POST' !== $_SERVER['REQUEST_METHOD']) {

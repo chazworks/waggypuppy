@@ -2,7 +2,7 @@
 /**
  * Block Serialization Parser
  *
- * @package waggypuppy
+ * @package WP
  */
 
 /**

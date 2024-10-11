@@ -2,7 +2,7 @@
 /**
  * Edit Site Settings Administration Screen
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Multisite
  * @since 3.1.0
  */

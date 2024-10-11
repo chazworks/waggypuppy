@@ -32,7 +32,7 @@
  *         ++$error_count;
  *     }
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Plugin
  */
 

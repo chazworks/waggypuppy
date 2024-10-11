@@ -2,7 +2,7 @@
 /**
  * WordPress Cron API
  *
- * @package waggypuppy
+ * @package WP
  */
 
 /**

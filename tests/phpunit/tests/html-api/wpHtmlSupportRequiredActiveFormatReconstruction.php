@@ -3,7 +3,7 @@
  * Unit tests for the HTML API ensuring proper handling of behaviors related to
  * active format reconstruction.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage HTML-API
  *
  * @since 6.5.0

@@ -4,7 +4,7 @@
  *
  * Handles many functions for formatting output.
  *
- * @package waggypuppy
+ * @package WP
  */
 
 /**

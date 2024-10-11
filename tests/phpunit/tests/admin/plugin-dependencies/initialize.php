@@ -2,7 +2,7 @@
 /**
  * Tests for the WP_Plugin_Dependencies::initialize() method.
  *
- * @package waggypuppy
+ * @package WP
  */
 
 require_once __DIR__ . '/base.php';

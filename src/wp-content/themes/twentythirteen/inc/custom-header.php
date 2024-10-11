@@ -4,7 +4,7 @@
  *
  * @link https://codex.wp.org/Custom_Headers
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Twenty_Thirteen
  * @since Twenty Thirteen 1.0
  */

@@ -2,7 +2,7 @@
 /**
  * Administration: Community Events class.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  * @since 4.8.0
  */

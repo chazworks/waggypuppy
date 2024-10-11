@@ -2,7 +2,7 @@
 /**
  * Network Contribute administration panel.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Multisite
  * @since 6.3.0
  */

@@ -2,7 +2,7 @@
 /**
  * API for easily embedding rich media such as videos and images into content.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Embed
  * @since 2.9.0
  */

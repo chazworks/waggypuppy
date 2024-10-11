@@ -2,7 +2,7 @@
 /**
  * WordPress Network Administration Bootstrap
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Multisite
  * @since 3.1.0
  */

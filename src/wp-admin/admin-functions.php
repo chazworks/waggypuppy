@@ -5,7 +5,7 @@
  * This file is deprecated, use 'wp-admin/includes/admin.php' instead.
  *
  * @deprecated 2.5.0
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 

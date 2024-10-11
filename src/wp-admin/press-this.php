@@ -2,7 +2,7 @@
 /**
  * Press This Display and Handler.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Press_This
  */
 

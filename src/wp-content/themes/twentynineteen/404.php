@@ -4,7 +4,7 @@
  *
  * @link https://codex.wp.org/Creating_an_Error_404_Page
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Twenty_Nineteen
  * @since Twenty Nineteen 1.0
  */

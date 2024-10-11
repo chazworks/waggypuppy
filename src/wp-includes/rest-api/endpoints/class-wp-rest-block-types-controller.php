@@ -2,7 +2,7 @@
 /**
  * REST API: WP_REST_Block_Types_Controller class
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage REST_API
  * @since 5.5.0
  */

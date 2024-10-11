@@ -2,7 +2,7 @@
 /**
  * Taxonomy API: WP_Term class
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Taxonomy
  * @since 4.4.0
  */

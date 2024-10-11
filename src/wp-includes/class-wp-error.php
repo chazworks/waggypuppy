@@ -2,7 +2,7 @@
 /**
  * WordPress Error API.
  *
- * @package waggypuppy
+ * @package WP
  */
 
 /**

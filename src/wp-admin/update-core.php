@@ -2,7 +2,7 @@
 /**
  * Update Core administration panel.  Currently does not function for waggypuppy.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 

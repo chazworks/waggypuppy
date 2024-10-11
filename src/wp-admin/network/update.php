@@ -2,7 +2,7 @@
 /**
  * Update/Install Plugin/Theme network administration panel.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Multisite
  * @since 3.1.0
  */

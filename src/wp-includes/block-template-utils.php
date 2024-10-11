@@ -2,7 +2,7 @@
 /**
  * Utilities used to fetch and create templates and template parts.
  *
- * @package waggypuppy
+ * @package WP
  * @since 5.8.0
  */
 

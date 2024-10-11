@@ -8,7 +8,7 @@
  *
  * @since 2.1.0
  *
- * @package waggypuppy
+ * @package WP
  * @abstract
  */
 #[AllowDynamicProperties]

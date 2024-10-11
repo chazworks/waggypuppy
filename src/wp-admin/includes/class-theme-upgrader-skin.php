@@ -2,7 +2,7 @@
 /**
  * Upgrader API: Theme_Upgrader_Skin class
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Upgrader
  * @since 4.6.0
  */

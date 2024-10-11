@@ -4,7 +4,7 @@
  *
  * The area of the page that contains comments and the comment form.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Twenty_Thirteen
  * @since Twenty Thirteen 1.0
  */

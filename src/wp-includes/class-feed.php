@@ -2,7 +2,7 @@
 /**
  * Feed API
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Feed
  * @deprecated 4.7.0
  */

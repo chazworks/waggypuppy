@@ -2,7 +2,7 @@
 /**
  * Tools Administration Screen.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 

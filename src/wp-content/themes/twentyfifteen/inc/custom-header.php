@@ -2,7 +2,7 @@
 /**
  * Custom Header functionality for Twenty Fifteen
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Twenty_Fifteen
  * @since Twenty Fifteen 1.0
  */

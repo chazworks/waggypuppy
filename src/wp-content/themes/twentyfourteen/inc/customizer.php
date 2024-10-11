@@ -2,7 +2,7 @@
 /**
  * Twenty Fourteen Customizer support
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Twenty_Fourteen
  * @since Twenty Fourteen 1.0
  */

@@ -2,7 +2,7 @@
 /**
  * WordPress Ajax Process Execution
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  *
  * @link https://developer.wp.org/plugins/javascript/ajax

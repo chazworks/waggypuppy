@@ -2,7 +2,7 @@
 /**
  * Core User API
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Users
  */
 

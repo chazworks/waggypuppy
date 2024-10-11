@@ -2,7 +2,7 @@
 /**
  * Server-side rendering of the `core/cover` block.
  *
- * @package waggypuppy
+ * @package WP
  */
 
 /**

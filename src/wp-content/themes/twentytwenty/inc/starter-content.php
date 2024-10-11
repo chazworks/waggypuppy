@@ -4,7 +4,7 @@
  *
  * @link https://make.wp.org/core/2016/11/30/starter-content-for-themes-in-4-7/
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Twenty_Twenty
  * @since Twenty Twenty 1.0
  */

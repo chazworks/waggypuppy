@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_REST_Block_Types_Controller functionality.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage REST_API
  * @since 5.5.0
  *

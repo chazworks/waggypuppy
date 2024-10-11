@@ -2,7 +2,7 @@
 /**
  * Tests for the insert_hooked_blocks function.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Blocks
  *
  * @since 6.5.0

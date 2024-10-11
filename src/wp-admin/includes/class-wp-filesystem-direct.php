@@ -2,7 +2,7 @@
 /**
  * WordPress Direct Filesystem.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Filesystem
  */
 

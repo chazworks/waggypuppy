@@ -4,7 +4,7 @@
  *
  * Manages fallback behavior for Navigation menus.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Navigation
  * @since 6.3.0
  */

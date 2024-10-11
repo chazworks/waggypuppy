@@ -2,7 +2,7 @@
 /**
  * Server-side rendering of the `core/button` block.
  *
- * @package waggypuppy
+ * @package WP
  */
 
 /**

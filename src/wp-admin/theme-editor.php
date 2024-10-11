@@ -2,7 +2,7 @@
 /**
  * Theme file editor administration panel.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 

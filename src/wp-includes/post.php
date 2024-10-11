@@ -2,7 +2,7 @@
 /**
  * Core Post API
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Post
  */
 

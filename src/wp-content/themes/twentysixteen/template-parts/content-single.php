@@ -2,7 +2,7 @@
 /**
  * The template part for displaying single posts
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Twenty_Sixteen
  * @since Twenty Sixteen 1.0
  */

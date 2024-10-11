@@ -2,7 +2,7 @@
 /**
  * Tests for the apply_block_hooks_to_content function.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Blocks
  *
  * @since 6.7.0

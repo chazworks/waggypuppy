@@ -5,7 +5,7 @@
  * Categories: call-to-action
  * Description: A list of events with call to action.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Twenty_Twenty_Five
  * @since Twenty Twenty-Five 1.0
  */

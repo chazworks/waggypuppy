@@ -2,7 +2,7 @@
 /**
  * Post revision functions.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Post_Revisions
  */
 

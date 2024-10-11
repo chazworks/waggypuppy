@@ -2,7 +2,7 @@
 /**
  * Plugin API: WP_Hook class
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Plugin
  * @since 4.7.0
  */

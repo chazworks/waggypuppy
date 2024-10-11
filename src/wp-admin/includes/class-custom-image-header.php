@@ -2,7 +2,7 @@
 /**
  * The custom header image script.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 

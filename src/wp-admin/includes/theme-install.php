@@ -2,7 +2,7 @@
 /**
  * WordPress Theme Installation Administration API
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 

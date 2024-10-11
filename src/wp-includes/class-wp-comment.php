@@ -2,7 +2,7 @@
 /**
  * Comment API: WP_Comment class
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Comments
  * @since 4.4.0
  */

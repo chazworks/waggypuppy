@@ -2,7 +2,7 @@
 /**
  * Tests for the set_ignored_hooked_blocks_metadata function.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Blocks
  *
  * @since 6.5.0

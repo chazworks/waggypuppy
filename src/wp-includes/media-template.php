@@ -2,7 +2,7 @@
 /**
  * WordPress media templates.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Media
  * @since 3.5.0
  */

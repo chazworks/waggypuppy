@@ -2,7 +2,7 @@
 /**
  * Test class for `_get_non_cached_ids()`.
  *
- * @package waggypuppy
+ * @package WP
  *
  * @group functions
  * @group cache

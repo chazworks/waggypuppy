@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_HTML_Processor compliance with HTML5 semantic parsing rules.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage HTML-API
  *
  * @since 6.4.0

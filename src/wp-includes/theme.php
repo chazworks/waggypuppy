@@ -2,7 +2,7 @@
 /**
  * Theme, template, and stylesheet functions.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Theme
  */
 

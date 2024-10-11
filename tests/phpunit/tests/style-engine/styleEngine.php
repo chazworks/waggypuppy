@@ -2,7 +2,7 @@
 /**
  * Tests the Style Engine global functions that interact with the WP_Style_Engine class.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage StyleEngine
  * @since 6.1.0
  *

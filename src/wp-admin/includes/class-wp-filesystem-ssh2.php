@@ -30,7 +30,7 @@
  *
  * @since 2.7.0
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Filesystem
  */
 class WP_Filesystem_SSH2 extends WP_Filesystem_Base

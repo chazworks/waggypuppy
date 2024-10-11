@@ -35,7 +35,7 @@
  *
  * For more information on hooks, actions, and filters, see https://developer.wp.org/plugins/.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Twenty_Eleven
  * @since Twenty Eleven 1.0
  */

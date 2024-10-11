@@ -2,7 +2,7 @@
 /**
  * Test cases for the `wp_create_user_request()` function.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage UnitTests
  * @since 5.2.0
  *

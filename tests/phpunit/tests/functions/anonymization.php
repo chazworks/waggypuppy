@@ -2,7 +2,7 @@
 /**
  * Test anonymization functions.
  *
- * @package waggypuppy\UnitTests
+ * @package WP\UnitTests
  *
  * @since 4.9.6
  *

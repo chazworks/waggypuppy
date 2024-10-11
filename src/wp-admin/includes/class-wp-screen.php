@@ -2,7 +2,7 @@
 /**
  * Screen API: WP_Screen class
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  * @since 4.4.0
  */

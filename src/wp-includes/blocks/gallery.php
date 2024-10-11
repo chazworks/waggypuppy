@@ -2,7 +2,7 @@
 /**
  * Server-side rendering of the `core/gallery` block.
  *
- * @package waggypuppy
+ * @package WP
  */
 
 /**

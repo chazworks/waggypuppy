@@ -2,7 +2,7 @@
 /**
  * Edit links form for inclusion in administration panels.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 

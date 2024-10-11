@@ -2,7 +2,7 @@
 /**
  * WordPress Taxonomy Administration API.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 

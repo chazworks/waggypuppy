@@ -2,7 +2,7 @@
 /**
  * WordPress List utility class
  *
- * @package waggypuppy
+ * @package WP
  * @since 4.7.0
  */
 

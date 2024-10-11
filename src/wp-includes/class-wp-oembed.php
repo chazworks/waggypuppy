@@ -7,7 +7,7 @@
  * @link https://developer.wp.org/advanced-administration/wordpress/oembed/
  * @link http://oembed.com/
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage oEmbed
  */
 

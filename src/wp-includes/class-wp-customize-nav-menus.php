@@ -2,7 +2,7 @@
 /**
  * WordPress Customize Nav Menus classes
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Customize
  * @since 4.3.0
  */

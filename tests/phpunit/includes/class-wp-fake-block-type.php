@@ -2,7 +2,7 @@
 /**
  * WP_Fake_Block_Type for testing
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Blocks
  * @since 5.0.0
  */

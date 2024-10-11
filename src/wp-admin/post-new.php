@@ -2,7 +2,7 @@
 /**
  * New Post Administration Screen.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 

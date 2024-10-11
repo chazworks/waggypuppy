@@ -2,7 +2,7 @@
 /**
  * REST API: WP_REST_Comments_Controller class
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage REST_API
  * @since 4.7.0
  */

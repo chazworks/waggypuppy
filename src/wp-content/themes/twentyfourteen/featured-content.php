@@ -2,7 +2,7 @@
 /**
  * The template for displaying featured content
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Twenty_Fourteen
  * @since Twenty Fourteen 1.0
  */

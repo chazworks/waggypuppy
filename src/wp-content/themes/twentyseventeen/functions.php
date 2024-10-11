@@ -4,7 +4,7 @@
  *
  * @link https://developer.wp.org/themes/basics/theme-functions/
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Twenty_Seventeen
  * @since Twenty Seventeen 1.0
  */

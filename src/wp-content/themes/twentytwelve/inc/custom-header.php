@@ -4,7 +4,7 @@
  *
  * See https://codex.wp.org/Custom_Headers
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Twenty_Twelve
  * @since Twenty Twelve 1.0
  */

@@ -2,7 +2,7 @@
 /**
  * Tests for the block editor methods.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Blocks
  * @since 5.5.0
  *

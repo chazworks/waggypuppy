@@ -2,7 +2,7 @@
 /**
  * Database Repair and Optimization Script.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Database
  */
 const WP_REPAIRING = true;

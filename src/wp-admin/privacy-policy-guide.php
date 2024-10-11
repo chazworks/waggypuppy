@@ -2,7 +2,7 @@
 /**
  * Privacy Policy Guide Screen.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 

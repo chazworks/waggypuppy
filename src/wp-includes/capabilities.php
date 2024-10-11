@@ -2,7 +2,7 @@
 /**
  * Core User Role & Capabilities API
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Users
  */
 

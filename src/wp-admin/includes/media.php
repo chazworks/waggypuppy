@@ -2,7 +2,7 @@
 /**
  * WordPress Administration Media API.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 

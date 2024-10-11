@@ -2,7 +2,7 @@
 /**
  * Navigation Menu API: Walker_Nav_Menu_Edit class
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  * @since 4.4.0
  */

@@ -2,7 +2,7 @@
 /**
  * Meta API: WP_Meta_Query class
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Meta
  * @since 4.4.0
  */

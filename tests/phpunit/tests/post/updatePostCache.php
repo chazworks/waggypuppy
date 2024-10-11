@@ -2,7 +2,7 @@
 /**
  * Test `update_post_cache()`.
  *
- * @package waggypuppy
+ * @package WP
  */
 
 /**

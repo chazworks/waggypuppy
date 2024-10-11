@@ -2,7 +2,7 @@
 /**
  * Block Editor API.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Editor
  * @since 5.8.0
  */

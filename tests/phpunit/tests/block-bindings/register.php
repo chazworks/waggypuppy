@@ -2,7 +2,7 @@
 /**
  * Tests for Block Bindings API helper functions.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Blocks
  * @since 6.5.0
  *

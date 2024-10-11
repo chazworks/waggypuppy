@@ -2,7 +2,7 @@
 /**
  * Block Renderer REST API: WP_REST_Block_Renderer_Controller class
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage REST_API
  * @since 5.0.0
  */

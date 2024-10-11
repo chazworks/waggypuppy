@@ -2,7 +2,7 @@
 /**
  * Widget API: Default core widgets
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Widgets
  * @since 2.8.0
  */

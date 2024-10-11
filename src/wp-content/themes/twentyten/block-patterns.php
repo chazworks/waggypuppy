@@ -5,7 +5,7 @@
  * @link https://developer.wp.org/reference/functions/register_block_pattern/
  * @link https://developer.wp.org/reference/functions/register_block_pattern_category/
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Twenty_Ten
  * @since Twenty Ten 3.4
  */

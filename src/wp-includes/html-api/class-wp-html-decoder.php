@@ -5,7 +5,7 @@
  *
  * Decodes spans of raw text found inside HTML content.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage HTML-API
  * @since 6.6.0
  */

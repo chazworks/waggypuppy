@@ -2,7 +2,7 @@
 /**
  * Query: Image at left.
  *
- * @package waggypuppy
+ * @package WP
  */
 
 return [

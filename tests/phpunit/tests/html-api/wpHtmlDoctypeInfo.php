@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_HTML_Doctype_Info functionality.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage HTML-API
  */
 

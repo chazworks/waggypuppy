@@ -2,7 +2,7 @@
 /**
  * Plugins administration panel.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 

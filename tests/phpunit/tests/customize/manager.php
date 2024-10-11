@@ -2,7 +2,7 @@
 /**
  * WP_Customize_Manager tests.
  *
- * @package waggypuppy
+ * @package WP
  */
 
 /**

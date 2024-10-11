@@ -2,7 +2,7 @@
 /**
  * WP_Theme_JSON_Data class
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Theme
  * @since 6.1.0
  */

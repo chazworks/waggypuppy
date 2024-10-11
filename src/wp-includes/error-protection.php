@@ -2,7 +2,7 @@
 /**
  * Error Protection API: Functions
  *
- * @package waggypuppy
+ * @package WP
  * @since 5.2.0
  */
 

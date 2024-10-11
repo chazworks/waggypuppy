@@ -16,7 +16,7 @@
  *    This would increase the size of the changes for some operations but leave more
  *    natural-looking output HTML.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage HTML-API
  * @since 6.2.0
  */

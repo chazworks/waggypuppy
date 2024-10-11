@@ -4,7 +4,7 @@
  *
  * Manage Post actions: post, edit, delete, etc.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 

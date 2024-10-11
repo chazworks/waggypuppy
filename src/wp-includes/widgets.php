@@ -13,7 +13,7 @@
  * @link https://wp.org/documentation/article/manage-wordpress-widgets/
  * @link https://developer.wp.org/themes/functionality/widgets/
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Widgets
  * @since 2.2.0
  */

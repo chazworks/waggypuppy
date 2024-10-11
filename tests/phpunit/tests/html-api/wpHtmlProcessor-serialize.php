@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_HTML_Processor serialization functionality.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage HTML-API
  *
  * @since 6.7.0

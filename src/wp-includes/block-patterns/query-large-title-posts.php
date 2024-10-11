@@ -2,7 +2,7 @@
 /**
  * Query: Large title.
  *
- * @package waggypuppy
+ * @package WP
  */
 
 return [

@@ -2,7 +2,7 @@
 /**
  * Testing the search columns support in `WP_Query`.
  *
- * @package waggypuppy\UnitTests
+ * @package WP\UnitTests
  * @since 6.2.0
  */
 

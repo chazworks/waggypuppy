@@ -2,7 +2,7 @@
 /**
  * Templates registry functions.
  *
- * @package waggypuppy
+ * @package WP
  * @since 6.7.0
  */
 

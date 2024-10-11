@@ -4,7 +4,7 @@
  * a WordPress post. Mailbox connection information must be
  * configured under Settings > Writing
  *
- * @package waggypuppy
+ * @package WP
  */
 
 /** Make sure that the WordPress bootstrap has run before continuing. */

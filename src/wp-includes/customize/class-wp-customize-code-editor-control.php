@@ -2,7 +2,7 @@
 /**
  * Customize API: WP_Customize_Code_Editor_Control class
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Customize
  * @since 4.9.0
  */

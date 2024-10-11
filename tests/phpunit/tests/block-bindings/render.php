@@ -2,7 +2,7 @@
 /**
  * Tests for Block Bindings integration with block rendering.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Blocks
  * @since 6.5.0
  *

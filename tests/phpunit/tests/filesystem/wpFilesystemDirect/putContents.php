@@ -2,7 +2,7 @@
 /**
  * Tests for the WP_Filesystem_Direct::put_contents() method.
  *
- * @package waggypuppy
+ * @package WP
  */
 
 require_once __DIR__ . '/base.php';

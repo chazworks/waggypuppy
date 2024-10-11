@@ -2,7 +2,7 @@
 /**
  * WordPress Post Administration API.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 

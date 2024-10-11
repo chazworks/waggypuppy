@@ -2,7 +2,7 @@
 /**
  * Toolbar API: Top-level Toolbar functionality
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Toolbar
  * @since 3.1.0
  */

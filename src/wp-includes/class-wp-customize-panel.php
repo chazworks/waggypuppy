@@ -2,7 +2,7 @@
 /**
  * WordPress Customize Panel classes
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Customize
  * @since 4.0.0
  */

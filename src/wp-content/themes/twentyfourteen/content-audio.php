@@ -2,7 +2,7 @@
 /**
  * The template for displaying posts in the Audio post format
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Twenty_Fourteen
  * @since Twenty Fourteen 1.0
  */

@@ -2,7 +2,7 @@
 /**
  * HTML API: WP_HTML_Stack_Event class
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage HTML-API
  * @since 6.6.0
  */

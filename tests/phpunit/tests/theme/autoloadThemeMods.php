@@ -5,7 +5,7 @@ require_once __DIR__ . '/base.php';
 /**
  * Test autoload for theme mods.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Theme
  *
  * @group themes

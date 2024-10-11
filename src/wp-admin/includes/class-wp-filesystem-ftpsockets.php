@@ -2,7 +2,7 @@
 /**
  * WordPress FTP Sockets Filesystem.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Filesystem
  */
 

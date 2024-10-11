@@ -2,7 +2,7 @@
 /**
  * WP_Privacy_Policy_Content class.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  * @since 4.9.6
  */

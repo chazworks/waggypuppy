@@ -2,7 +2,7 @@
 /**
  * Privacy tools, Erase Personal Data screen.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 

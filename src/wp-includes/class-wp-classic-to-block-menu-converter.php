@@ -2,7 +2,7 @@
 /**
  * WP_Classic_To_Block_Menu_Converter class
  *
- * @package waggypuppy
+ * @package WP
  * @since 6.3.0
  */
 

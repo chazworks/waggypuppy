@@ -4,7 +4,7 @@
  *
  * Requires wp-admin/includes/revision.php.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  * @since 2.6.0
  */

@@ -6,7 +6,7 @@
  *
  * @link https://codex.wp.org/Author_Templates
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Template
  */
 

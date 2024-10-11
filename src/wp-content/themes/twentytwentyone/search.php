@@ -4,7 +4,7 @@
  *
  * @link https://developer.wp.org/themes/basics/template-hierarchy/#search-result
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Twenty_Twenty_One
  * @since Twenty Twenty-One 1.0
  */

@@ -2,7 +2,7 @@
 /**
  * WordPress Installer
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 

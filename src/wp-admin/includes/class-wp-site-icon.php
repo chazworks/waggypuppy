@@ -2,7 +2,7 @@
 /**
  * Administration API: WP_Site_Icon class
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  * @since 4.3.0
  */

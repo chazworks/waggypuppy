@@ -2,7 +2,7 @@
 /**
  * New User Administration Screen.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 

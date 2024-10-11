@@ -19,7 +19,7 @@
  *
  * For more information on hooks, actions, and filters, @link https://developer.wp.org/plugins/
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Twenty_Twelve
  * @since Twenty Twelve 1.0
  */

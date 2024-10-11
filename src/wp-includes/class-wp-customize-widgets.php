@@ -2,7 +2,7 @@
 /**
  * WordPress Customize Widgets classes
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Customize
  * @since 3.9.0
  */

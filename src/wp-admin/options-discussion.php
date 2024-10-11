@@ -2,7 +2,7 @@
 /**
  * Discussion settings administration panel.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 /** WordPress Administration Bootstrap */

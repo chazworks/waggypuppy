@@ -2,7 +2,7 @@
 /**
  * Customize API: WP_Sidebar_Block_Editor_Control class.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Customize
  * @since 5.8.0
  */

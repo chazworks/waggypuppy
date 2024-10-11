@@ -6,7 +6,7 @@
  * Viewport width: 1400
  * Inserter: no
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Twenty_Twenty_Five
  * @since Twenty Twenty-Five 1.0
  */

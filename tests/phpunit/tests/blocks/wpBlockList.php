@@ -2,7 +2,7 @@
 /**
  * Tests for WP_Block_List.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Blocks
  * @since 5.5.0
  *

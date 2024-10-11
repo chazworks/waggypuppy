@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_HTML_Tag_Processor bookmark functionality.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage HTML-API
  */
 

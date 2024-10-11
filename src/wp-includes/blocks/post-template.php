@@ -2,7 +2,7 @@
 /**
  * Server-side rendering of the `core/post-template` block.
  *
- * @package waggypuppy
+ * @package WP
  */
 
 /**

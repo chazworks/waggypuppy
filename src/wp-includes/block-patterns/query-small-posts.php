@@ -2,7 +2,7 @@
 /**
  * Query: Small image and title.
  *
- * @package waggypuppy
+ * @package WP
  */
 
 return [

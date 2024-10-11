@@ -2,7 +2,7 @@
 /**
  * WordPress Image Editor
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 

@@ -2,7 +2,7 @@
 /**
  * Navigation Menu functions
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Nav_Menus
  * @since 3.0.0
  */

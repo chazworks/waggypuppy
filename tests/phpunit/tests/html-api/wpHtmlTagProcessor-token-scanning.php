@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_HTML_Tag_Processor token-scanning functionality.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage HTML-API
  *
  * @since 6.5.0

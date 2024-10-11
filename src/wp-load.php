@@ -13,7 +13,7 @@
  * directory to allow the WordPress directory to remain
  * untouched.
  *
- * @package waggypuppy
+ * @package WP
  */
 
 require_once __DIR__ . '/autoload.php';

@@ -16,7 +16,7 @@
  *
  * This file should have no external dependencies.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Plugin
  * @since 1.5.0
  */

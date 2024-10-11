@@ -2,7 +2,7 @@
 /**
  * Edit Tags Administration Screen.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 

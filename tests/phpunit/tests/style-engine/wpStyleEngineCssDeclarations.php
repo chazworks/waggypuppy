@@ -2,7 +2,7 @@
 /**
  * Tests the Style Engine CSS declarations class.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage StyleEngine
  * @since 6.1.0
  *

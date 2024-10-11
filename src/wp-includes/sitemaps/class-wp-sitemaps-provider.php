@@ -4,7 +4,7 @@
  *
  * This class is a base class for other sitemap providers to extend and contains shared functionality.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Sitemaps
  * @since 5.5.0
  */

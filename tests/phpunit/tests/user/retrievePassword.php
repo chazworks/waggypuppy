@@ -2,7 +2,7 @@
 /**
  * Test cases for the `retrieve_password()` function.
  *
- * @package waggypuppy
+ * @package WP
  * @since 6.0.0
  *
  * @group user

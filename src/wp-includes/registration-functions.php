@@ -2,7 +2,7 @@
 /**
  * Deprecated. No longer needed.
  *
- * @package waggypuppy
+ * @package WP
  * @deprecated 2.1.0
  */
 

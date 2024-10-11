@@ -2,7 +2,7 @@
 /**
  * Testing Ajax handler for exporting personal data.
  *
- * @package waggypuppy\UnitTests
+ * @package WP\UnitTests
  * @since 5.2.0
  *
  * @group ajax

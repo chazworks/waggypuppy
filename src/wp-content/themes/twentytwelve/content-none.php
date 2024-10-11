@@ -2,7 +2,7 @@
 /**
  * The template for displaying a "No posts found" message
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Twenty_Twelve
  * @since Twenty Twelve 1.0
  */

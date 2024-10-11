@@ -2,7 +2,7 @@
 /**
  * Template for displaying 404 pages (Not Found)
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Twenty_Ten
  * @since Twenty Ten 1.0
  */

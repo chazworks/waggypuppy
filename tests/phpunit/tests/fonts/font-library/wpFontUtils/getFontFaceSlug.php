@@ -2,7 +2,7 @@
 /**
  * Test WP_Font_Utils::get_font_face_slug().
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Font Library
  *
  * @group fonts

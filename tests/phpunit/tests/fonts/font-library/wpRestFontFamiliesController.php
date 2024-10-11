@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_REST_Font_Families_Controller_Test functionality.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage REST_API
  * @since 6.5.0
  *

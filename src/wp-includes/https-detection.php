@@ -2,7 +2,7 @@
 /**
  * HTTPS detection functions.
  *
- * @package waggypuppy
+ * @package WP
  * @since 5.7.0
  */
 

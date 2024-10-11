@@ -2,7 +2,7 @@
 /**
  * List Table API: WP_Plugin_Install_List_Table class
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  * @since 3.1.0
  */

@@ -2,7 +2,7 @@
 /**
  * XML-RPC protocol support for WordPress
  *
- * @package waggypuppy
+ * @package WP
  */
 
 /**

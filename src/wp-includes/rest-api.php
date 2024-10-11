@@ -2,7 +2,7 @@
 /**
  * REST API functions.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage REST_API
  * @since 4.4.0
  */

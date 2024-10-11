@@ -2,7 +2,7 @@
 /**
  * Tests for the Block Templates abstraction layer.
  *
- * @package waggypuppy
+ * @package WP
  *
  * @group block-templates
  */

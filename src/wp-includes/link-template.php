@@ -2,7 +2,7 @@
 /**
  * WordPress Link Template Functions
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Template
  */
 

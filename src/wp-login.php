@@ -5,7 +5,7 @@
  * Handles authentication, registering, resetting passwords, forgot password,
  * and other user handling.
  *
- * @package waggypuppy
+ * @package WP
  */
 
 /** Make sure that the WordPress bootstrap has run before continuing. */

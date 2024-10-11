@@ -2,7 +2,7 @@
 /**
  * Multisite WordPress API
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Multisite
  * @since 3.0.0
  */

@@ -2,7 +2,7 @@
 /**
  * Core Navigation Menu API
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Nav_Menus
  * @since 3.0.0
  */

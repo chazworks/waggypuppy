@@ -5,7 +5,7 @@
  * Categories: contact, featured
  * Description: Contact section with a location address, a directions link, and an image of the location.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Twenty_Twenty_Five
  * @since Twenty Twenty-Five 1.0
  */

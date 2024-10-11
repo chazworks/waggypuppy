@@ -15,7 +15,7 @@
  *
  * @link https://developer.wp.org/advanced-administration/wordpress/wp-config/
  *
- * @package waggypuppy
+ * @package WP
  */
 
 // ** Database settings - You can get this info from your web host ** //

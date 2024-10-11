@@ -2,7 +2,7 @@
 /**
  * Test cases for the `is_avatar_comment_type()` function.
  *
- * @package waggypuppy\UnitTests
+ * @package WP\UnitTests
  *
  * @since 5.1.0
  *

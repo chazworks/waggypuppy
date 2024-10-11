@@ -2,7 +2,7 @@
 /**
  * HTML API: WP_HTML_Attribute_Token class
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage HTML-API
  * @since 6.2.0
  */

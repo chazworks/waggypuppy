@@ -2,7 +2,7 @@
 /**
  * Widget API: WP_Widget_Calendar class
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Widgets
  * @since 4.4.0
  */

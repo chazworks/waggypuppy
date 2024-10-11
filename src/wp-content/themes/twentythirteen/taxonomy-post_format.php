@@ -8,7 +8,7 @@
  *
  * @link https://developer.wp.org/themes/basics/template-hierarchy/
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Twenty_Thirteen
  * @since Twenty Thirteen 1.0
  */

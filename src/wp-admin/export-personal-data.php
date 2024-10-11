@@ -2,7 +2,7 @@
 /**
  * Privacy tools, Export Personal Data screen.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 

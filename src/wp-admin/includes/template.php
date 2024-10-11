@@ -4,7 +4,7 @@
  *
  * A Big Mess. Also some neat functions that are nicely written.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 

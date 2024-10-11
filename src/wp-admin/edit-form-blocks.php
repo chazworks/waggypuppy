@@ -4,7 +4,7 @@
  *
  * @since 5.0.0
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 

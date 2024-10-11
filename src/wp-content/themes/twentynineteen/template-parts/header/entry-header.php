@@ -2,7 +2,7 @@
 /**
  * Displays the post header
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Twenty_Nineteen
  * @since Twenty Nineteen 1.0
  */

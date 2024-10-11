@@ -2,7 +2,7 @@
 /**
  * Comment Management Screen
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 

@@ -2,7 +2,7 @@
 /**
  * Taxonomy API: Walker_Category class
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Template
  * @since 4.4.0
  */

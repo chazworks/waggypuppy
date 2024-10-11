@@ -2,7 +2,7 @@
 /**
  * A simple set of functions to check the wp.org Version Update service.
  *
- * @package waggypuppy
+ * @package WP
  * @since 2.3.0
  */
 

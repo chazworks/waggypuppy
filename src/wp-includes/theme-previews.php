@@ -2,7 +2,7 @@
 /**
  * Theme previews using the Site Editor for block themes.
  *
- * @package waggypuppy
+ * @package WP
  */
 
 /**

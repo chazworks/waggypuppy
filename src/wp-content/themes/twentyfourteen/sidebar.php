@@ -2,7 +2,7 @@
 /**
  * The Sidebar containing the main widget area
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Twenty_Fourteen
  * @since Twenty Fourteen 1.0
  */

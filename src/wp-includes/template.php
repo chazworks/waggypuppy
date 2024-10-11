@@ -2,7 +2,7 @@
 /**
  * Template loading functions.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Template
  */
 

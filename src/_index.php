@@ -3,7 +3,7 @@
  * Front to the waggypuppy application. This file doesn't do anything, but loads
  * wp-blog-header.php which does and tells waggypuppy to load the theme.
  *
- * @package waggypuppy
+ * @package WP
  */
 
 /**

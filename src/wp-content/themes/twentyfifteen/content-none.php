@@ -4,7 +4,7 @@
  *
  * Learn more: {@link https://developer.wp.org/themes/basics/template-hierarchy/}
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Twenty_Fifteen
  * @since Twenty Fifteen 1.0
  */

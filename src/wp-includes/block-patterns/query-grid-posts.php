@@ -2,7 +2,7 @@
 /**
  * Query: Grid.
  *
- * @package waggypuppy
+ * @package WP
  */
 
 return [

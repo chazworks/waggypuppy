@@ -2,7 +2,7 @@
 /**
  * Tests the `WP_SimplePie_File` class.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage UnitTests
  * @since 5.6.1
  *

@@ -2,7 +2,7 @@
 /**
  * Customize API: WP_Widget_Area_Customize_Control class
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Customize
  * @since 4.4.0
  */

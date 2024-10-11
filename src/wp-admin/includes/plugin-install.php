@@ -2,7 +2,7 @@
 /**
  * WordPress Plugin Install Administration API
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Administration
  */
 

@@ -2,7 +2,7 @@
 /**
  * These functions are needed to load WordPress.
  *
- * @package waggypuppy
+ * @package WP
  */
 
 /**

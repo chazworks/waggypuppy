@@ -2,7 +2,7 @@
 /**
  * Widget API: WP_Widget_Media_Image class
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Widgets
  * @since 4.8.0
  */

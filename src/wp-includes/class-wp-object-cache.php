@@ -2,7 +2,7 @@
 /**
  * Object Cache API: WP_Object_Cache class
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Cache
  * @since 5.4.0
  */

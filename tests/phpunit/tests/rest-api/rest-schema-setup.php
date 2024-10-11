@@ -4,7 +4,7 @@
  *
  * Also generates the fixture data used by the wp-api.js QUnit tests.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage REST API
  *
  * @group restapi

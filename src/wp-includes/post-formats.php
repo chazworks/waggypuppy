@@ -2,7 +2,7 @@
 /**
  * Post format functions.
  *
- * @package waggypuppy
+ * @package WP
  * @subpackage Post
  */
 
