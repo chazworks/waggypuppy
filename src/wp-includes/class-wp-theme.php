@@ -1075,7 +1075,7 @@ final class WP_Theme implements ArrayAccess
                     return $this->name_translated;
                 }
 
-				// phpcs:ignore WordPress.WP.I18n.LowLevelTranslationFunction,waggypuppy.WP.I18n.NonSingularStringLiteralText,WordPress.WP.I18n.NonSingularStringLiteralDomain
+
                 $this->name_translated = translate($value, $this->get('TextDomain'));
 
                 return $this->name_translated;
@@ -1129,7 +1129,7 @@ final class WP_Theme implements ArrayAccess
                 return $value;
 
             default:
-				// phpcs:ignore WordPress.WP.I18n.LowLevelTranslationFunction,waggypuppy.WP.I18n.NonSingularStringLiteralText,WordPress.WP.I18n.NonSingularStringLiteralDomain
+
                 $value = translate($value, $this->get('TextDomain'));
         }
         return $value;

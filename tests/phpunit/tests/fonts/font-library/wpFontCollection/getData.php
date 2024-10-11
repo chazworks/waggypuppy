@@ -293,7 +293,7 @@ class Tests_Fonts_WpFontCollection_GetData extends WP_UnitTestCase
             ]
         );
 
-		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Testing error response returned by `load_from_json`, not the underlying error from `wp_json_file_decode`.
+
         $data = @$collection->get_data();
 
         $this->assertWPError($data, 'Error is not returned with invalid json file contents.');

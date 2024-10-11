@@ -360,7 +360,7 @@ function _prime_site_caches($ids, $update_meta_cache = true)
 
     $non_cached_ids = _get_non_cached_ids($ids, 'sites');
     if (! empty($non_cached_ids)) {
-        $fresh_sites = $wpdb->get_results(sprintf("SELECT * FROM $wpdb->blogs WHERE blog_id IN (%s)", implode(',', array_map('intval', $non_cached_ids)))); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+        $fresh_sites = $wpdb->get_results(sprintf("SELECT * FROM $wpdb->blogs WHERE blog_id IN (%s)", implode(',', array_map('intval', $non_cached_ids))));
 
         update_site_cache($fresh_sites, false);
     }
@@ -846,7 +846,7 @@ function wp_uninitialize_site($site_id)
     $drop_tables = apply_filters('wpmu_drop_tables', $tables, $site->id);
 
     foreach ((array) $drop_tables as $table) {
-        $wpdb->query("DROP TABLE IF EXISTS `$table`"); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+        $wpdb->query("DROP TABLE IF EXISTS `$table`");
     }
 
     /**
@@ -867,7 +867,7 @@ function wp_uninitialize_site($site_id)
         // Get indexed directory from stack.
         $dir = $stack[$index];
 
-		// phpcs:disable waggypuppy.PHP.NoSilencedErrors.Discouraged
+
         $dh = @opendir($dir);
         if ($dh) {
             $file = @readdir($dh);
@@ -897,7 +897,7 @@ function wp_uninitialize_site($site_id)
         }
     }
 
-	// phpcs:enable waggypuppy.PHP.NoSilencedErrors.Discouraged
+
     if ($switch) {
         restore_current_blog();
     }

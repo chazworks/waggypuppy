@@ -185,7 +185,7 @@ function apply_filters($hook_name, $value, ...$args)
     if (isset($wp_filter['all'])) {
         $wp_current_filter[] = $hook_name;
 
-        $all_args = func_get_args(); // phpcs:ignore PHPCompatibility.FunctionUse.ArgumentFunctionsReportCurrentValue.NeedsInspection
+        $all_args = func_get_args();
         _wp_call_all_hook($all_args);
     }
 
@@ -240,7 +240,7 @@ function apply_filters_ref_array($hook_name, $args)
     // Do 'all' actions first.
     if (isset($wp_filter['all'])) {
         $wp_current_filter[] = $hook_name;
-        $all_args            = func_get_args(); // phpcs:ignore PHPCompatibility.FunctionUse.ArgumentFunctionsReportCurrentValue.NeedsInspection
+        $all_args            = func_get_args();
         _wp_call_all_hook($all_args);
     }
 
@@ -502,7 +502,7 @@ function do_action($hook_name, ...$arg)
     // Do 'all' actions first.
     if (isset($wp_filter['all'])) {
         $wp_current_filter[] = $hook_name;
-        $all_args            = func_get_args(); // phpcs:ignore PHPCompatibility.FunctionUse.ArgumentFunctionsReportCurrentValue.NeedsInspection
+        $all_args            = func_get_args();
         _wp_call_all_hook($all_args);
     }
 
@@ -558,7 +558,7 @@ function do_action_ref_array($hook_name, $args)
     // Do 'all' actions first.
     if (isset($wp_filter['all'])) {
         $wp_current_filter[] = $hook_name;
-        $all_args            = func_get_args(); // phpcs:ignore PHPCompatibility.FunctionUse.ArgumentFunctionsReportCurrentValue.NeedsInspection
+        $all_args            = func_get_args();
         _wp_call_all_hook($all_args);
     }
 

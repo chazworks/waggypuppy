@@ -1261,7 +1261,7 @@ function wp_set_internal_encoding()
 {
     if (function_exists('mb_internal_encoding')) {
         $charset = get_option('blog_charset');
-		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+
         if (! $charset || ! @mb_internal_encoding($charset)) {
             mb_internal_encoding('UTF-8');
         }

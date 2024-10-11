@@ -514,7 +514,7 @@ if ($action) {
 
                 // Return early if all selected plugins already have auto-updates enabled or disabled.
                 // Must use non-strict comparison, so that array order is not treated as significant.
-                if ($new_auto_updates == $auto_updates) { // phpcs:ignore Universal.Operators.StrictComparisons.LooseEqual
+                if ($new_auto_updates == $auto_updates) {
                     wp_redirect($redirect);
                     exit;
                 }
@@ -542,7 +542,7 @@ if ($action) {
                 $plugins  = isset($_POST['checked']) ? (array) wp_unslash($_POST['checked']) : [];
 
                 /** This action is documented in wp-admin/edit.php */
-                $sendback = apply_filters("handle_bulk_actions-{$screen}", $sendback, $action, $plugins); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+                $sendback = apply_filters("handle_bulk_actions-{$screen}", $sendback, $action, $plugins);
                 wp_safe_redirect($sendback);
                 exit;
             }

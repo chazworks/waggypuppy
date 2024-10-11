@@ -18,7 +18,7 @@ const EZSQL_VERSION = 'WP1.25';
  * @since 0.71
  */
 const OBJECT = 'OBJECT';
-// phpcs:ignore Generic.NamingConventions.UpperCaseConstantName.ConstantNotUpperCase
+
 const object = 'OBJECT'; // Back compat.
 
 /**
@@ -2007,7 +2007,7 @@ class wpdb
         if (WP_DEBUG) {
             mysqli_real_connect($this->dbh, $host, $this->dbuser, $this->dbpassword, null, $port, $socket, $client_flags);
         } else {
-			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+
             @mysqli_real_connect($this->dbh, $host, $this->dbuser, $this->dbpassword, null, $port, $socket, $client_flags);
         }
 

@@ -33,7 +33,7 @@ global $opml;
  * @param string   $tag_name XML element name.
  * @param array    $attrs    XML element attributes.
  */
-function startElement($parser, $tag_name, $attrs)  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+function startElement($parser, $tag_name, $attrs)
 {
     global $names, $urls, $targets, $descriptions, $feeds;
 
@@ -73,7 +73,7 @@ function startElement($parser, $tag_name, $attrs)  // phpcs:ignore WordPress.Nam
  * @param resource $parser   XML Parser resource.
  * @param string   $tag_name XML tag name.
  */
-function endElement($parser, $tag_name)  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+function endElement($parser, $tag_name)
 {
     // Nothing to do.
 }

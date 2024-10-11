@@ -177,10 +177,10 @@ function wp_get_popular_importers()
         }
 
         foreach ($popular_importers['importers'] as &$importer) {
-			// phpcs:ignore WordPress.WP.I18n.LowLevelTranslationFunction,WordPress.WP.I18n.NonSingularStringLiteralText
+
             $importer['description'] = translate($importer['description']);
             if ('waggypuppy' !== $importer['name']) {
-				// phpcs:ignore WordPress.WP.I18n.LowLevelTranslationFunction,WordPress.WP.I18n.NonSingularStringLiteralText
+
                 $importer['name'] = translate($importer['name']);
             }
         }

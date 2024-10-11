@@ -23,7 +23,7 @@ if (! class_exists('POMO_Reader', false)) :
         public function __construct()
         {
             if (function_exists('mb_substr')
-                && ((int) ini_get('mbstring.func_overload') & 2) // phpcs:ignore PHPCompatibility.IniDirectives.RemovedIniDirectives.mbstring_func_overloadDeprecated
+                && ((int) ini_get('mbstring.func_overload') & 2)
             ) {
                 $this->is_overloaded = true;
             } else {
@@ -51,7 +51,7 @@ if (! class_exists('POMO_Reader', false)) :
          *
          * @param string $endian Set the endianness of the file. Accepts 'big', or 'little'.
          */
-        public function setEndian($endian)  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
+        public function setEndian($endian)
         {
             $this->endian = $endian;
         }

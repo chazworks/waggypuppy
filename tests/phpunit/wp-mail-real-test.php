@@ -55,7 +55,7 @@ wp_install(WP_BLOG_TITLE, WP_USER_NAME, WP_USER_EMAIL, true);
 // Make sure we're installed.
 assert(true === is_blog_installed());
 
-// phpcs:ignore Generic.NamingConventions.UpperCaseConstantName.ConstantNotUpperCase
+
 const PHPUnit_MAIN_METHOD = false;
 $original_wpdb = $GLOBALS['wpdb'];
 

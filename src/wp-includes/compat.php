@@ -40,7 +40,7 @@ function _wp_can_use_pcre_u($set = null)
     }
 
     if ('reset' === $utf8_pcre) {
-		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- intentional error generated to detect PCRE/u support.
+
         $utf8_pcre = @preg_match('/^./u', 'a');
     }
 
@@ -101,7 +101,7 @@ if (! function_exists('mb_substr')) :
      * @param string|null $encoding Optional. Character encoding to use. Default null.
      * @return string Extracted substring.
      */
-    function mb_substr($string, $start, $length = null, $encoding = null)  // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.stringFound
+    function mb_substr($string, $start, $length = null, $encoding = null)
     {
         return _mb_substr($string, $start, $length, $encoding);
     }
@@ -195,7 +195,7 @@ if (! function_exists('mb_strlen')) :
      * @param string|null $encoding Optional. Character encoding to use. Default null.
      * @return int String length of `$string`.
      */
-    function mb_strlen($string, $encoding = null)  // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.stringFound
+    function mb_strlen($string, $encoding = null)
     {
         return _mb_strlen($string, $encoding);
     }
@@ -425,7 +425,7 @@ if (! function_exists('array_key_first')) {
      * @return string|int|null The first key of array if the array
      *                         is not empty; `null` otherwise.
      */
-    function array_key_first(array $array)  // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.arrayFound
+    function array_key_first(array $array)
     {
         foreach ($array as $key => $value) {
             return $key;
@@ -446,7 +446,7 @@ if (! function_exists('array_key_last')) {
      * @return string|int|null The last key of array if the array
      *.                        is not empty; `null` otherwise.
      */
-    function array_key_last(array $array)  // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.arrayFound
+    function array_key_last(array $array)
     {
         if (empty($array)) {
             return null;

@@ -648,7 +648,7 @@ class WP_oEmbed
         libxml_use_internal_errors($errors);
 
         if (PHP_VERSION_ID < 80000 && isset($loader)) {
-			// phpcs:ignore PHPCompatibility.FunctionUse.RemovedFunctions.libxml_disable_entity_loaderDeprecated
+
             libxml_disable_entity_loader($loader);
         }
 

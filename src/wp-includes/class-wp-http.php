@@ -692,7 +692,7 @@ class WP_Http
      *     @type string $body    HTTP response body.
      * }
      */
-    public static function processResponse($response)  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
+    public static function processResponse($response)
     {
         $response = explode("\r\n\r\n", $response, 2);
 
@@ -725,7 +725,7 @@ class WP_Http
      *                                        an array containing `WP_Http_Cookie` objects is returned.
      * }
      */
-    public static function processHeaders($headers, $url = '')  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
+    public static function processHeaders($headers, $url = '')
     {
         // Split headers, one per array element.
         if (is_string($headers)) {
@@ -809,7 +809,7 @@ class WP_Http
      *
      * @param array $r Full array of args passed into ::request()
      */
-    public static function buildCookieHeader(&$r)  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
+    public static function buildCookieHeader(&$r)
     {
         if (! empty($r['cookies'])) {
             // Upgrade any name => value cookie pairs to WP_HTTP_Cookie instances.
@@ -846,7 +846,7 @@ class WP_Http
      * @param string $body Body content.
      * @return string Chunked decoded body on success or raw body on failure.
      */
-    public static function chunkTransferDecode($body)  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
+    public static function chunkTransferDecode($body)
     {
         // The body is not chunked encoded or is malformed.
         if (! preg_match('/^([0-9a-f]+)[^\r\n]*\r\n/i', trim($body))) {

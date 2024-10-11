@@ -633,7 +633,7 @@ function get_html_split_regex()
     static $regex;
 
     if (! isset($regex)) {
-		// phpcs:disable Squiz.Strings.ConcatenationSpacing.PaddingFound -- don't remove regex indentation
+
         $comments =
             '!'             // Start of comment, after the <.
             . '(?:'         // Unroll the loop: Consume everything until --> is found.
@@ -672,7 +672,7 @@ function get_html_split_regex()
             .         '[^>]*>?' // Find end of normal element.
             .     ')'
             . ')/';
-		// phpcs:enable
+
     }
 
     return $regex;
@@ -694,7 +694,7 @@ function _get_wptexturize_split_regex($shortcode_regex = '')
     static $html_regex;
 
     if (! isset($html_regex)) {
-		// phpcs:disable Squiz.Strings.ConcatenationSpacing.PaddingFound -- don't remove regex indentation
+
         $comment_regex =
             '!'             // Start of comment, after the <.
             . '(?:'         // Unroll the loop: Consume everything until --> is found.
@@ -710,7 +710,7 @@ function _get_wptexturize_split_regex($shortcode_regex = '')
             . '|'
             .     '[^>]*>?'      // Find end of element. If not found, match all input.
             . ')';
-		// phpcs:enable
+
     }
 
     if (empty($shortcode_regex)) {
@@ -736,7 +736,7 @@ function _get_wptexturize_shortcode_regex($tagnames)
 {
     $tagregexp = implode('|', array_map('preg_quote', $tagnames));
     $tagregexp = "(?:$tagregexp)(?=[\\s\\]\\/])"; // Excerpt of get_shortcode_regex().
-	// phpcs:disable Squiz.Strings.ConcatenationSpacing.PaddingFound -- don't remove regex indentation
+
     $regex =
         '\['                // Find start of shortcode.
         . '[\/\[]?'         // Shortcodes may begin with [/ or [[.
@@ -748,7 +748,7 @@ function _get_wptexturize_shortcode_regex($tagnames)
         . ')*+'             // Possessive critical.
         . '\]'              // Find end of shortcode.
         . '\]?';            // Shortcodes may end with ]].
-	// phpcs:enable
+
 
     return $regex;
 }
@@ -842,7 +842,7 @@ function shortcode_unautop($text)
     $tagregexp = implode('|', array_map('preg_quote', array_keys($shortcode_tags)));
     $spaces    = wp_spaces_regexp();
 
-	// phpcs:disable Squiz.Strings.ConcatenationSpacing.PaddingFound,Universal.WhiteSpace.PrecisionAlignment.Found -- don't remove regex indentation
+
     $pattern =
         '/'
         . '<p>'                              // Opening paragraph.
@@ -874,7 +874,7 @@ function shortcode_unautop($text)
         . '(?:' . $spaces . ')*+'            // Optional trailing whitespace.
         . '<\\/p>'                           // Closing paragraph.
         . '/';
-	// phpcs:enable
+
 
     return preg_replace($pattern, '$1', $text);
 }
@@ -1126,7 +1126,7 @@ function wp_check_invalid_utf8($text, $strip = false)
     // Check for support for utf8 in the installed PCRE library once and store the result in a static.
     static $utf8_pcre = null;
     if (! isset($utf8_pcre)) {
-		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+
         $utf8_pcre = @preg_match('/^./u', 'a');
     }
     // We can't demand utf8 in the PCRE installation, so just return the string in those cases.
@@ -1134,7 +1134,7 @@ function wp_check_invalid_utf8($text, $strip = false)
         return $text;
     }
 
-	// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- preg_match fails when it encounters invalid UTF8 in $text.
+
     if (1 === @preg_match('/^./us', $text)) {
         return $text;
     }
@@ -2042,7 +2042,7 @@ function sanitize_file_name($filename)
     // Check for support for utf8 in the installed PCRE library once and store the result in a static.
     static $utf8_pcre = null;
     if (! isset($utf8_pcre)) {
-		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+
         $utf8_pcre = @preg_match('/^./u', 'a');
     }
 
@@ -2568,7 +2568,7 @@ function convert_invalid_entities($content)
  * @param bool   $force If true, forces balancing, ignoring the value of the option. Default false.
  * @return string Balanced text
  */
-function balanceTags($text, $force = false)   // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+function balanceTags($text, $force = false)
 {
     if ($force || (int) get_option('use_balanceTags') === 1) {
         return force_balance_tags($text);
@@ -5761,7 +5761,7 @@ function wp_basename($path, $suffix = '')
     return urldecode(basename(str_replace(['%2F', '%5C'], '/', urlencode($path)), $suffix));
 }
 
-// phpcs:disable waggypuppy.WP.CapitalPDangit.MisspelledInComment,waggypuppy.WP.CapitalPDangit.MisspelledInText,waggypuppy.NamingConventions.ValidFunctionName.FunctionNameInvalid -- 8-)
+
 /**
  * Forever eliminate "Wordpress" from the planet (or at least the little bit we can influence).
  *
@@ -5790,7 +5790,7 @@ function capital_P_dangit($text)
         $text
     );
 }
-// phpcs:enable
+
 
 /**
  * Sanitizes a mime type

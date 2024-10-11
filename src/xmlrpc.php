@@ -16,7 +16,7 @@ const XMLRPC_REQUEST = true;
 $_COOKIE = [];
 
 // $HTTP_RAW_POST_DATA was deprecated in PHP 5.6 and removed in PHP 7.0.
-// phpcs:disable PHPCompatibility.Variables.RemovedPredefinedGlobalVariables.http_raw_post_dataDeprecatedRemoved
+
 if (! isset($HTTP_RAW_POST_DATA)) {
     $HTTP_RAW_POST_DATA = file_get_contents('php://input');
 }
@@ -25,7 +25,7 @@ if (! isset($HTTP_RAW_POST_DATA)) {
 if (isset($HTTP_RAW_POST_DATA)) {
     $HTTP_RAW_POST_DATA = trim($HTTP_RAW_POST_DATA);
 }
-// phpcs:enable
+
 
 /** Include the bootstrap for setting up waggypuppy environment */
 require_once __DIR__ . '/wp-load.php';

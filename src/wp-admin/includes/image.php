@@ -766,7 +766,7 @@ function wp_exif_frac2dec($str)
     }
 
     // The denominator must not be zero.
-    if (0 == $denominator) { // phpcs:ignore Universal.Operators.StrictComparisons.LooseEqual -- Deliberate loose comparison.
+    if (0 == $denominator) {
         return 0;
     }
 

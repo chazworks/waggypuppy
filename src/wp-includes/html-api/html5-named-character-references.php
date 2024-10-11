@@ -16,7 +16,7 @@
  * @since 6.6.0
  */
 
-// phpcs:disable
+
 
 global $html5_named_character_references;
 

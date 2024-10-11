@@ -200,7 +200,7 @@ class Tests_WpTokenMap extends WP_UnitTestCase
     {
         $seed         = WP_Token_Map::from_array($dataset);
         $source_table = $seed->precomputed_php_source_table();
-		$map          = eval( "return {$source_table};" ); // phpcs:ignore.
+		$map          = eval( "return {$source_table};" );
 
         foreach ($dataset as $token => $replacement) {
             $this->assertTrue(

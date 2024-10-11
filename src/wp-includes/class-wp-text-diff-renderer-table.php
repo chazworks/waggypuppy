@@ -290,7 +290,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer
      * @param array $final
      * @return string
      */
-    public function _changed($orig, $final)  // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.finalFound
+    public function _changed($orig, $final)
     {
         $r = '';
 
@@ -404,7 +404,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer
      *                                Value < 0 indicates a blank row.
      * }
      */
-    public function interleave_changed_lines($orig, $final)  // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.finalFound
+    public function interleave_changed_lines($orig, $final)
     {
 
         // Contains all pairwise string comparisons. Keys are such that this need only be a one dimensional array.

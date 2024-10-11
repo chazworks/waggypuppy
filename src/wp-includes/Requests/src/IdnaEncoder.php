@@ -171,7 +171,7 @@ class IdnaEncoder {
 		// Get number of bytes
 		$strlen = strlen($input);
 
-		// phpcs:ignore Generic.CodeAnalysis.JumbledIncrementer -- This is a deliberate choice.
+
 		for ($position = 0; $position < $strlen; $position++) {
 			$value = ord($input[$position]);
 

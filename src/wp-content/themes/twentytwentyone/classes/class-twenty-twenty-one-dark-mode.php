@@ -141,7 +141,7 @@ class Twenty_Twenty_One_Dark_Mode
         }
 
         // Custom notice control.
-        require_once get_theme_file_path('classes/class-twenty-twenty-one-customize-notice-control.php'); // phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+        require_once get_theme_file_path('classes/class-twenty-twenty-one-customize-notice-control.php');
 
         $wp_customize->add_setting(
             'respect_user_color_preference_notice',
@@ -376,7 +376,7 @@ class Twenty_Twenty_One_Dark_Mode
     public function the_script()
     {
         echo '<script>';
-        include get_template_directory() . '/assets/js/dark-mode-toggler.js'; // phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude
+        include get_template_directory() . '/assets/js/dark-mode-toggler.js';
         echo '</script>';
     }
 

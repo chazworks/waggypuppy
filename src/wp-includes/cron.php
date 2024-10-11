@@ -563,7 +563,7 @@ function wp_clear_scheduled_hook($hook, $args = [], $wp_error = false)
             __('This argument has changed to an array to match the behavior of the other cron functions.')
         );
 
-        $args     = array_slice(func_get_args(), 1); // phpcs:ignore PHPCompatibility.FunctionUse.ArgumentFunctionsReportCurrentValue.NeedsInspection
+        $args     = array_slice(func_get_args(), 1);
         $wp_error = false;
     }
 

@@ -48,15 +48,13 @@ final class FilteredIterator extends ArrayIterator {
 	/**
 	 * Prevent unserialization of the object for security reasons.
 	 *
-	 * @phpcs:disable PHPCompatibility.FunctionNameRestrictions.NewMagicMethods.__unserializeFound
-	 *
 	 * @param array $data Restored array of data originally serialized.
 	 *
 	 * @return void
 	 */
 	#[ReturnTypeWillChange]
 	public function __unserialize($data) {}
-	// phpcs:enable
+
 
 	/**
 	 * Perform reinitialization tasks.
