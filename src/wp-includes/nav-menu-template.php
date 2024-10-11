@@ -200,7 +200,7 @@ function wp_nav_menu($args = [])
     $menu_items_with_children = [];
     foreach ((array) $menu_items as $menu_item) {
         /*
-         * Fix invalid `menu_item_parent`. See: https://core.trac.wordpress.org/ticket/56926.
+         * Fix invalid `menu_item_parent`. See: https://core.trac.wp.org/ticket/56926.
          * Compare as strings. Plugins may change the ID to a string.
          */
         if ((string) $menu_item->ID === (string) $menu_item->menu_item_parent) {
@@ -644,7 +644,7 @@ function _nav_menu_item_id_use_once($id, $item)
  * WordPress 3.0.0 so this needs to allow for cases in which the filter is
  * called without them.
  *
- * @see https://core.trac.wordpress.org/ticket/56926
+ * @see https://core.trac.wp.org/ticket/56926
  *
  * @since 6.2.0
  *

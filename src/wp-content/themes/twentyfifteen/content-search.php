@@ -2,7 +2,7 @@
 /**
  * The template part for displaying results in search pages
  *
- * Learn more: {@link https://developer.wordpress.org/themes/basics/template-hierarchy/}
+ * Learn more: {@link https://developer.wp.org/themes/basics/template-hierarchy/}
  *
  * @package waggypuppy
  * @subpackage Twenty_Fifteen

@@ -251,7 +251,7 @@ function get_search_form($args = [])
      * @since 3.6.0
      * @since 5.5.0 The `$args` parameter was added.
      *
-     * @link https://core.trac.wordpress.org/ticket/19321
+     * @link https://core.trac.wp.org/ticket/19321
      *
      * @param array $args The array of arguments for building the search form.
      *                    See get_search_form() for information on accepted arguments.
@@ -750,7 +750,7 @@ function wp_register($before = '<li>', $after = '</li>', $display = true)
  *
  * @since 1.5.0
  *
- * @link https://core.trac.wordpress.org/ticket/1458 Explanation of 'wp_meta' action.
+ * @link https://core.trac.wp.org/ticket/1458 Explanation of 'wp_meta' action.
  */
 function wp_meta()
 {
@@ -3887,13 +3887,13 @@ function wp_default_editor()
  * Renders an editor.
  *
  * Using this function is the proper way to output all needed components for both TinyMCE and Quicktags.
- * _WP_Editors should not be used directly. See https://core.trac.wordpress.org/ticket/17144.
+ * _WP_Editors should not be used directly. See https://core.trac.wp.org/ticket/17144.
  *
  * NOTE: Once initialized the TinyMCE editor cannot be safely moved in the DOM. For that reason
  * running wp_editor() inside of a meta box is not a good idea unless only Quicktags is used.
  * On the post edit screen several actions can be used to include additional editors
  * containing TinyMCE: 'edit_page_form', 'edit_form_advanced' and 'dbx_post_sidebar'.
- * See https://core.trac.wordpress.org/ticket/19173 for more information.
+ * See https://core.trac.wp.org/ticket/19173 for more information.
  *
  * @see _WP_Editors::editor()
  * @see _WP_Editors::parse_settings()
@@ -5128,13 +5128,13 @@ function get_the_generator($type = '')
             $gen = '<meta name="generator" content="WordPress ' . esc_attr(get_bloginfo('version')) . '" />';
             break;
         case 'atom':
-            $gen = '<generator uri="https://wordpress.org/" version="' . esc_attr(get_bloginfo_rss('version')) . '">WordPress</generator>';
+            $gen = '<generator uri="https://wp.org/" version="' . esc_attr(get_bloginfo_rss('version')) . '">WordPress</generator>';
             break;
         case 'rss2':
-            $gen = '<generator>' . sanitize_url('https://wordpress.org/?v=' . get_bloginfo_rss('version')) . '</generator>';
+            $gen = '<generator>' . sanitize_url('https://wp.org/?v=' . get_bloginfo_rss('version')) . '</generator>';
             break;
         case 'rdf':
-            $gen = '<admin:generatorAgent rdf:resource="' . sanitize_url('https://wordpress.org/?v=' . get_bloginfo_rss('version')) . '" />';
+            $gen = '<admin:generatorAgent rdf:resource="' . sanitize_url('https://wp.org/?v=' . get_bloginfo_rss('version')) . '" />';
             break;
         case 'comment':
             $gen = '<!-- generator="WordPress/' . esc_attr(get_bloginfo('version')) . '" -->';

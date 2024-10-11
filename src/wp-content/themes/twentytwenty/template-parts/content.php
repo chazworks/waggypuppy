@@ -4,7 +4,7 @@
  *
  * Used for both singular and index.
  *
- * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
+ * @link https://developer.wp.org/themes/basics/template-hierarchy/
  *
  * @package waggypuppy
  * @subpackage Twenty_Twenty

@@ -1897,7 +1897,7 @@ $( function() {
 		 * Toggles the aria-haspopup attribute for the responsive admin menu.
 		 *
 		 * The aria-haspopup attribute is only necessary for the responsive menu.
-		 * See ticket https://core.trac.wordpress.org/ticket/43095
+		 * See ticket https://core.trac.wp.org/ticket/43095
 		 *
 		 * @since 6.6.0
 		 *

@@ -1275,7 +1275,7 @@ module.exports = function(grunt) {
 			 *
 			 * For more context, see:
 			 * https://github.com/__VAR_WP/wordpress-develop/pull/2621#discussion_r859840515
-			 * https://core.trac.wordpress.org/ticket/55559
+			 * https://core.trac.wp.org/ticket/55559
 			 */
 			grunt.task.run( 'browserslist:update' );
 		}

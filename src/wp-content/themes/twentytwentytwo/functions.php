@@ -2,7 +2,7 @@
 /**
  * Twenty Twenty-Two functions and definitions
  *
- * @link https://developer.wordpress.org/themes/basics/theme-functions/
+ * @link https://developer.wp.org/themes/basics/theme-functions/
  *
  * @package waggypuppy
  * @subpackage Twenty_Twenty_Two

@@ -211,7 +211,7 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase
             self::$posts['publish']->ID,
             [
                 'author'       => 'WordPress',
-                'author_email' => 'noreply@wordpress.org',
+                'author_email' => 'noreply@wp.org',
                 'content'      => 'Test Anon Comments',
             ],
         ];
@@ -237,7 +237,7 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase
             self::$posts['publish']->ID,
             [
                 'author'       => 'WordPress',
-                'author_email' => 'noreply at wordpress.org',
+                'author_email' => 'noreply at wp.org',
                 'content'      => 'Test Anon Comments',
             ],
         ];
@@ -263,7 +263,7 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase
             self::$posts['publish']->ID,
             [
                 'author'       => 'WordPress',
-                'author_email' => 'noreply at wordpress.org',
+                'author_email' => 'noreply at wp.org',
                 'content'      => 'Test Anon Comments',
             ],
         ];
@@ -296,7 +296,7 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase
             self::$posts[$post_key]->ID,
             [
                 'author'       => 'WordPress',
-                'author_email' => 'noreply@wordpress.org',
+                'author_email' => 'noreply@wp.org',
                 'content'      => 'Test Comment',
             ],
         ];

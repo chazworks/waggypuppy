@@ -5,7 +5,7 @@
  * @package waggypuppy
  * @subpackage Administration
  *
- * @link https://developer.wordpress.org/plugins/javascript/ajax
+ * @link https://developer.wp.org/plugins/javascript/ajax
  */
 
 /**

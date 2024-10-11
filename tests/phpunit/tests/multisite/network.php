@@ -26,24 +26,24 @@ if (is_multisite()) :
         {
             self::$different_network_id = $factory->network->create(
                 [
-                    'domain' => 'wordpress.org',
+                    'domain' => 'wp.org',
                     'path'   => '/',
                 ]
             );
 
             $sites = [
                 [
-                    'domain'     => 'wordpress.org',
+                    'domain'     => 'wp.org',
                     'path'       => '/',
                     'network_id' => self::$different_network_id,
                 ],
                 [
-                    'domain'     => 'wordpress.org',
+                    'domain'     => 'wp.org',
                     'path'       => '/foo/',
                     'network_id' => self::$different_network_id,
                 ],
                 [
-                    'domain'     => 'wordpress.org',
+                    'domain'     => 'wp.org',
                     'path'       => '/bar/',
                     'network_id' => self::$different_network_id,
                 ],

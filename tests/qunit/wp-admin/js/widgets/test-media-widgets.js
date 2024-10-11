@@ -35,10 +35,10 @@
 		widgetModelInstance.set({
 			title: 'chicken and ribs',
 			attachment_id: '1',
-			url: 'https://wordpress.org'
+			url: 'https://wp.org'
 		});
 		assert.equal( widgetModelInstance.get( 'title' ), 'chicken and ribs', 'wp.mediaWidgets.MediaWidgetModel properly sets the title attribute' );
-		assert.equal( widgetModelInstance.get( 'url' ), 'https://wordpress.org', 'wp.mediaWidgets.MediaWidgetModel properly sets the url attribute' );
+		assert.equal( widgetModelInstance.get( 'url' ), 'https://wp.org', 'wp.mediaWidgets.MediaWidgetModel properly sets the url attribute' );
 		assert.equal( widgetModelInstance.get( 'attachment_id' ), 1, 'wp.mediaWidgets.MediaWidgetModel properly sets and casts the attachment_id attribute' );
 	});
 

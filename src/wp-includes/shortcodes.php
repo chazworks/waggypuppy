@@ -23,7 +23,7 @@
  *
  *     $out = do_shortcode( $content );
  *
- * @link https://developer.wordpress.org/plugins/shortcodes/
+ * @link https://developer.wp.org/plugins/shortcodes/
  *
  * @package waggypuppy
  * @subpackage Shortcodes

@@ -13,7 +13,7 @@ class Tests_XMLRPC_wp_restoreRevision extends WP_XMLRPC_UnitTestCase
         parent::set_up();
 
         $this->post_id = self::factory()->post->create(['post_content' => 'edit1']); // Not saved as a revision.
-        // First saved revision on update, see https://core.trac.wordpress.org/changeset/24650
+        // First saved revision on update, see https://core.trac.wp.org/changeset/24650
         wp_insert_post(
             [
                 'ID'           => $this->post_id,
@@ -22,9 +22,9 @@ class Tests_XMLRPC_wp_restoreRevision extends WP_XMLRPC_UnitTestCase
         );
 
         $revisions = wp_get_post_revisions($this->post_id);
-        // First revision is empty, see https://core.trac.wordpress.org/changeset/23842
+        // First revision is empty, see https://core.trac.wp.org/changeset/23842
         // $revision = array_shift( $revisions );
-        // First revision is NOT empty, see https://core.trac.wordpress.org/changeset/24650
+        // First revision is NOT empty, see https://core.trac.wp.org/changeset/24650
         $revision          = array_shift($revisions);
         $this->revision_id = $revision->ID;
     }

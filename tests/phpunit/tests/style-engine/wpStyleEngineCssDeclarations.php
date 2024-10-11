@@ -155,8 +155,8 @@ class Tests_Style_Engine_wpStyleEngineCSSDeclarations extends WP_UnitTestCase
             'min-width'        => 'max(150vw, 100px)',
             'max-width'        => 'minmax(400px, 50%)',
             'padding'          => 'calc(80px * -1)',
-            'background-image' => 'url("https://wordpress.org")',
-            'line-height'      => 'url("https://wordpress.org")',
+            'background-image' => 'url("https://wp.org")',
+            'line-height'      => 'url("https://wp.org")',
             'margin'           => 'illegalfunction(30px)',
         ];
         $css_declarations                          = new WP_Style_Engine_CSS_Declarations($input_declarations);
@@ -173,7 +173,7 @@ class Tests_Style_Engine_wpStyleEngineCSSDeclarations extends WP_UnitTestCase
         );
 
         $this->assertSame(
-            'background:var(--wp--preset--color--primary, 10px);font-size:clamp(36.00rem, calc(32.00rem + 10.00vw), 40.00rem);width:min(150vw, 100px);min-width:max(150vw, 100px);max-width:minmax(400px, 50%);padding:calc(80px * -1);background-image:url("https://wordpress.org");',
+            'background:var(--wp--preset--color--primary, 10px);font-size:clamp(36.00rem, calc(32.00rem + 10.00vw), 40.00rem);width:min(150vw, 100px);min-width:max(150vw, 100px);max-width:minmax(400px, 50%);padding:calc(80px * -1);background-image:url("https://wp.org");',
             $css_declarations_string,
             'Unsafe values were not removed'
         );

@@ -199,7 +199,7 @@ function wp_normalize_remote_block_pattern($pattern)
 }
 
 /**
- * Register Core's official patterns from wordpress.org/patterns.
+ * Register Core's official patterns from wp.org/patterns.
  *
  * @since 5.8.0
  * @since 5.9.0 The $current_screen argument was removed.
@@ -250,7 +250,7 @@ function _load_remote_block_patterns($deprecated = null)
 }
 
 /**
- * Register `Featured` (category) patterns from wordpress.org/patterns.
+ * Register `Featured` (category) patterns from wp.org/patterns.
  *
  * @since 5.9.0
  * @since 6.2.0 Normalized the pattern from the API (snake_case) to the

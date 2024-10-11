@@ -376,7 +376,7 @@ if (! function_exists('wp_mail')) :
          * Some hosts will block outgoing mail from this address if it doesn't exist,
          * but there's no easy alternative. Defaulting to admin_email might appear to be
          * another option, but some hosts may refuse to relay mail from an unknown domain.
-         * See https://core.trac.wordpress.org/ticket/5007.
+         * See https://core.trac.wp.org/ticket/5007.
          */
         if (! isset($from_email)) {
             // Get the site domain and get rid of www.
@@ -1165,7 +1165,7 @@ if (! function_exists('is_user_logged_in')) :
      * Determines whether the current visitor is a logged in user.
      *
      * For more information on this and similar theme functions, check out
-     * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+     * the {@link https://developer.wp.org/themes/basics/conditional-tags/
      * Conditional Tags} article in the Theme Developer Handbook.
      *
      * @since 2.0.0
@@ -2289,7 +2289,7 @@ if (! function_exists('wp_new_user_notification')) :
          * end in a period. To avoid the ambiguity, ensure that the login is not the last query
          * arg in the URL. If moving it to the end, a trailing period will need to be escaped.
          *
-         * @see https://core.trac.wordpress.org/tickets/42957
+         * @see https://core.trac.wp.org/tickets/42957
          */
         $message .= network_site_url('wp-login.php?login=' . rawurlencode($user->user_login) . "&key=$key&action=rp", 'login') . "\r\n\r\n";
 
@@ -2469,7 +2469,7 @@ if (! function_exists('wp_salt')) :
      * The secret keys in wp-config.php should be updated to strong, random keys to maximize
      * security. Below is an example of how the secret key constants are defined.
      * Do not paste this example directly into wp-config.php. Instead, have a
-     * {@link https://api.wordpress.org/secret-key/1.1/salt/ secret key created} just
+     * {@link https://api.wp.org/secret-key/1.1/salt/ secret key created} just
      * for you.
      *
      *     define('AUTH_KEY',         ' Xakm<o xQy rw4EMsLKM-?!T+,PFF})H4lzcW57AF0U@N@< >M%G4Yt>f`z]MON');
@@ -2486,7 +2486,7 @@ if (! function_exists('wp_salt')) :
      *
      * @since 2.5.0
      *
-     * @link https://api.wordpress.org/secret-key/1.1/salt/ Create secrets for wp-config.php
+     * @link https://api.wp.org/secret-key/1.1/salt/ Create secrets for wp-config.php
      *
      * @param string $scheme Authentication scheme (auth, secure_auth, logged_in, nonce).
      * @return string Salt value
@@ -2516,7 +2516,7 @@ if (! function_exists('wp_salt')) :
             /*
              * translators: This string should only be translated if wp-config-sample.php is localized.
              * You can check the localized release package or
-             * https://i18n.svn.wordpress.org/<locale code>/branches/<wp version>/dist/wp-config-sample.php
+             * https://i18n.svn.wp.org/<locale code>/branches/<wp version>/dist/wp-config-sample.php
              */
             $duplicated_keys[__('put your unique phrase here')] = true;
 

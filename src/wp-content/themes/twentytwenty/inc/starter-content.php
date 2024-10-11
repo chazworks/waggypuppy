@@ -2,7 +2,7 @@
 /**
  * Twenty Twenty Starter Content
  *
- * @link https://make.wordpress.org/core/2016/11/30/starter-content-for-themes-in-4-7/
+ * @link https://make.wp.org/core/2016/11/30/starter-content-for-themes-in-4-7/
  *
  * @package waggypuppy
  * @subpackage Twenty_Twenty
@@ -71,7 +71,7 @@ function twentytwenty_get_starter_content()
                         '<p>' . __('August 1 -- December 1', 'twentytwenty') . '</p>',
                         '<!-- /wp:paragraph -->',
                         '<!-- wp:button {"className":"is-style-outline"} -->',
-                        '<div class="wp-block-button is-style-outline"><a class="wp-block-button__link" href="https://make.wordpress.org/core/2019/09/27/block-editor-theme-related-updates-in-wordpress-5-3/">' . __('Read More', 'twentytwenty') . '</a></div>',
+                        '<div class="wp-block-button is-style-outline"><a class="wp-block-button__link" href="https://make.wp.org/core/2019/09/27/block-editor-theme-related-updates-in-wordpress-5-3/">' . __('Read More', 'twentytwenty') . '</a></div>',
                         '<!-- /wp:button --></div></div>',
                         '<!-- /wp:group -->',
                         '<!-- wp:group -->',
@@ -86,7 +86,7 @@ function twentytwenty_get_starter_content()
                         '<p>' . __('October 1 -- December 1', 'twentytwenty') . '</p>',
                         '<!-- /wp:paragraph -->',
                         '<!-- wp:button {"className":"is-style-outline"} -->',
-                        '<div class="wp-block-button is-style-outline"><a class="wp-block-button__link" href="https://make.wordpress.org/core/2019/09/27/block-editor-theme-related-updates-in-wordpress-5-3/">' . __('Read More', 'twentytwenty') . '</a></div>',
+                        '<div class="wp-block-button is-style-outline"><a class="wp-block-button__link" href="https://make.wp.org/core/2019/09/27/block-editor-theme-related-updates-in-wordpress-5-3/">' . __('Read More', 'twentytwenty') . '</a></div>',
                         '<!-- /wp:button --></div></div>',
                         '<!-- /wp:group --></div>',
                         '<!-- /wp:column -->',
@@ -103,7 +103,7 @@ function twentytwenty_get_starter_content()
                         '<p>' . __('August 1 -- December 1', 'twentytwenty') . '</p>',
                         '<!-- /wp:paragraph -->',
                         '<!-- wp:button {"className":"is-style-outline"} -->',
-                        '<div class="wp-block-button is-style-outline"><a class="wp-block-button__link" href="https://make.wordpress.org/core/2019/09/27/block-editor-theme-related-updates-in-wordpress-5-3/">' . __('Read More', 'twentytwenty') . '</a></div>',
+                        '<div class="wp-block-button is-style-outline"><a class="wp-block-button__link" href="https://make.wp.org/core/2019/09/27/block-editor-theme-related-updates-in-wordpress-5-3/">' . __('Read More', 'twentytwenty') . '</a></div>',
                         '<!-- /wp:button --></div></div>',
                         '<!-- /wp:group -->',
                         '<!-- wp:group -->',
@@ -118,7 +118,7 @@ function twentytwenty_get_starter_content()
                         '<p>' . __('October 1 -- December 1', 'twentytwenty') . '</p>',
                         '<!-- /wp:paragraph -->',
                         '<!-- wp:button {"className":"is-style-outline"} -->',
-                        '<div class="wp-block-button is-style-outline"><a class="wp-block-button__link" href="https://make.wordpress.org/core/2019/09/27/block-editor-theme-related-updates-in-wordpress-5-3/">' . __('Read More', 'twentytwenty') . '</a></div>',
+                        '<div class="wp-block-button is-style-outline"><a class="wp-block-button__link" href="https://make.wp.org/core/2019/09/27/block-editor-theme-related-updates-in-wordpress-5-3/">' . __('Read More', 'twentytwenty') . '</a></div>',
                         '<!-- /wp:button --></div></div>',
                         '<!-- /wp:group --></div>',
                         '<!-- /wp:column --></div>',
@@ -149,7 +149,7 @@ function twentytwenty_get_starter_content()
                         '<p class="has-text-align-center">' . __('Members get access to exclusive exhibits and sales. Our memberships cost $99.99 and are billed annually.', 'twentytwenty') . '</p>',
                         '<!-- /wp:paragraph -->',
                         '<!-- wp:button {"align":"center"} -->',
-                        '<div class="wp-block-button aligncenter"><a class="wp-block-button__link" href="https://make.wordpress.org/core/2019/09/27/block-editor-theme-related-updates-in-wordpress-5-3/">' . __('Join the Club', 'twentytwenty') . '</a></div>',
+                        '<div class="wp-block-button aligncenter"><a class="wp-block-button__link" href="https://make.wp.org/core/2019/09/27/block-editor-theme-related-updates-in-wordpress-5-3/">' . __('Join the Club', 'twentytwenty') . '</a></div>',
                         '<!-- /wp:button --></div></div>',
                         '<!-- /wp:group --></div></div>',
                         '<!-- /wp:group -->',

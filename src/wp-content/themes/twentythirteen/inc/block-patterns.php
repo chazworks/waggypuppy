@@ -2,8 +2,8 @@
 /**
  * Block Patterns
  *
- * @link https://developer.wordpress.org/reference/functions/register_block_pattern/
- * @link https://developer.wordpress.org/reference/functions/register_block_pattern_category/
+ * @link https://developer.wp.org/reference/functions/register_block_pattern/
+ * @link https://developer.wp.org/reference/functions/register_block_pattern_category/
  *
  * @package waggypuppy
  * @subpackage Twenty_Thirteen

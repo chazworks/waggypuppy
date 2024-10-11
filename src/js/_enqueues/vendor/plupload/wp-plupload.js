@@ -303,7 +303,7 @@ window.wp = window.wp || {};
 				 * from being quickly removed and re-added when elements
 				 * inside the dropzone are repositioned.
 				 *
-				 * @see https://core.trac.wordpress.org/ticket/21705
+				 * @see https://core.trac.wp.org/ticket/21705
 				 */
 				timer = setTimeout( function() {
 					active = false;

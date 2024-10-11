@@ -330,14 +330,14 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase
             ],
             'disallowed tag in before_section'        => [
                 [
-                    'before_section' => '<div class="video-settings-section"><iframe src="https://www.wordpress.org/" />',
+                    'before_section' => '<div class="video-settings-section"><iframe src="https://www.wp.org/" />',
                     'after_section'  => '</div><!-- end of the test section -->',
                 ],
                 [
                     'id'             => 'test-section',
                     'title'          => 'Section title',
                     'callback'       => '__return_false',
-                    'before_section' => '<div class="video-settings-section"><iframe src="https://www.wordpress.org/" />',
+                    'before_section' => '<div class="video-settings-section"><iframe src="https://www.wp.org/" />',
                     'after_section'  => '</div><!-- end of the test section -->',
                     'section_class'  => '',
                 ],
@@ -347,14 +347,14 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase
             'disallowed tag in after_section'         => [
                 [
                     'before_section' => '<div class="video-settings-section">',
-                    'after_section'  => '</div><iframe src="https://www.wordpress.org/" />',
+                    'after_section'  => '</div><iframe src="https://www.wp.org/" />',
                 ],
                 [
                     'id'             => 'test-section',
                     'title'          => 'Section title',
                     'callback'       => '__return_false',
                     'before_section' => '<div class="video-settings-section">',
-                    'after_section'  => '</div><iframe src="https://www.wordpress.org/" />',
+                    'after_section'  => '</div><iframe src="https://www.wp.org/" />',
                     'section_class'  => '',
                 ],
                 '<div class="video-settings-section">',

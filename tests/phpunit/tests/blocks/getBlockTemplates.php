@@ -215,7 +215,7 @@ class Tests_Blocks_GetBlockTemplates extends WP_UnitTestCase
      * Data provider.
      *
      * The `custom-hero-template` is intentionally omitted from the theme.json's `customTemplates`.
-     * See: https://core.trac.wordpress.org/ticket/61110.
+     * See: https://core.trac.wp.org/ticket/61110.
      *
      * @return array
      */

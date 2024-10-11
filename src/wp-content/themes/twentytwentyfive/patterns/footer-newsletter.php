@@ -47,7 +47,7 @@
                     printf(
                         /* Translators: Designed with WordPress. %1$s: WordPress link. */
                         esc_html__('Designed with %1$s', 'twentytwentyfive'),
-                        '<a href="' . esc_url(__('https://wordpress.org', 'twentytwentyfive')) . '" rel="nofollow">WordPress</a>'
+                        '<a href="' . esc_url(__('https://wp.org', 'twentytwentyfive')) . '" rel="nofollow">WordPress</a>'
                     );
                     ?>
             </p>

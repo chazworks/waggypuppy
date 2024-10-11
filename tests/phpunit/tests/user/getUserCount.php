@@ -15,7 +15,7 @@ class Tests_User_GetUserCount extends WP_UnitTestCase
     {
         $different_network_id = self::factory()->network->create(
             [
-                'domain' => 'wordpress.org',
+                'domain' => 'wp.org',
                 'path'   => '/',
             ]
         );
@@ -38,7 +38,7 @@ class Tests_User_GetUserCount extends WP_UnitTestCase
     {
         $different_network_id = self::factory()->network->create(
             [
-                'domain' => 'wordpress.org',
+                'domain' => 'wp.org',
                 'path'   => '/',
             ]
         );

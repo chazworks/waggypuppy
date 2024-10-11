@@ -63,8 +63,8 @@ abstract class WP_Test_XML_TestCase extends WP_UnitTestCase
      *
      * This is similar to {@link https://phpunit.de/manual/6.5/en/appendixes.assertions.html#appendixes.assertions.assertXmlStringEqualsXmlString assertXmlStringEqualsXmlString()}
      * except that differences in namespace prefixes are normalized away, such that given
-     * `$actualXml = "<root xmlns='urn:wordpress.org'><child/></root>";` and
-     * `$expectedXml = "<ns0:root xmlns:ns0='urn:wordpress.org'><ns0:child></ns0:root>";`
+     * `$actualXml = "<root xmlns='urn:wp.org'><child/></root>";` and
+     * `$expectedXml = "<ns0:root xmlns:ns0='urn:wp.org'><ns0:child></ns0:root>";`
      * then `$this->assertXMLEquals( $expectedXml, $actualXml )` will succeed.
      *
      * @param string $expectedXml
@@ -82,8 +82,8 @@ abstract class WP_Test_XML_TestCase extends WP_UnitTestCase
      *
      * This is similar to {@link https://phpunit.de/manual/6.5/en/appendixes.assertions.html#appendixes.assertions.assertXmlStringEqualsXmlString assertXmlStringNotEqualsXmlString()}
      * except that differences in namespace prefixes are normalized away, such that given
-     * `$actualXml = "<root xmlns='urn:wordpress.org'><child></root>";` and
-     * `$expectedXml = "<ns0:root xmlns:ns0='urn:wordpress.org'><ns0:child/></ns0:root>";`
+     * `$actualXml = "<root xmlns='urn:wp.org'><child></root>";` and
+     * `$expectedXml = "<ns0:root xmlns:ns0='urn:wp.org'><ns0:child/></ns0:root>";`
      * then `$this->assertXMLNotEquals( $expectedXml, $actualXml )` will fail.
      *
      * @param string $expectedXml

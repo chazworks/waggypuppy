@@ -49,28 +49,28 @@ class Tests_Formatting_wpRelUgc extends WP_UnitTestCase
                 true,
             ],
             [
-                '<a href="https://wordpress.org">Double Quotes</a>',
-                '<a href="https://wordpress.org" rel="nofollow ugc">Double Quotes</a>',
+                '<a href="https://wp.org">Double Quotes</a>',
+                '<a href="https://wp.org" rel="nofollow ugc">Double Quotes</a>',
             ],
             [
-                "<a href='https://wordpress.org'>Single Quotes</a>",
-                "<a href='https://wordpress.org' rel=\"nofollow ugc\">Single Quotes</a>",
+                "<a href='https://wp.org'>Single Quotes</a>",
+                "<a href='https://wp.org' rel=\"nofollow ugc\">Single Quotes</a>",
             ],
             [
-                '<a href="https://wordpress.org" title="Title">Multiple attributes</a>',
-                '<a href="https://wordpress.org" title="Title" rel="nofollow ugc">Multiple attributes</a>',
+                '<a href="https://wp.org" title="Title">Multiple attributes</a>',
+                '<a href="https://wp.org" title="Title" rel="nofollow ugc">Multiple attributes</a>',
             ],
             [
-                '<a title="Title" href="https://wordpress.org">Multiple attributes</a>',
-                '<a title="Title" href="https://wordpress.org" rel="nofollow ugc">Multiple attributes</a>',
+                '<a title="Title" href="https://wp.org">Multiple attributes</a>',
+                '<a title="Title" href="https://wp.org" rel="nofollow ugc">Multiple attributes</a>',
             ],
             [
-                '<a data-someflag href="https://wordpress.org">Multiple attributes</a>',
-                '<a data-someflag href="https://wordpress.org" rel="nofollow ugc">Multiple attributes</a>',
+                '<a data-someflag href="https://wp.org">Multiple attributes</a>',
+                '<a data-someflag href="https://wp.org" rel="nofollow ugc">Multiple attributes</a>',
             ],
             [
-                '<a  data-someflag  title="Title"  href="https://wordpress.org" onclick=""  >Everything at once</a>',
-                '<a  data-someflag  title="Title"  href="https://wordpress.org" onclick=""   rel="nofollow ugc">Everything at once</a>',
+                '<a  data-someflag  title="Title"  href="https://wp.org" onclick=""  >Everything at once</a>',
+                '<a  data-someflag  title="Title"  href="https://wp.org" onclick=""   rel="nofollow ugc">Everything at once</a>',
             ],
             [
                 '<a href="' . $home_url_http . '/some-url">Home URL (http)</a>',

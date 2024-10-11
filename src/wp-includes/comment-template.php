@@ -1341,7 +1341,7 @@ function trackback_rdf($deprecated = '')
  * Determines whether the current post is open for comments.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 1.5.0
@@ -1371,7 +1371,7 @@ function comments_open($post = null)
  * Determines whether the current post is open for pings.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 1.5.0
@@ -2132,7 +2132,7 @@ function comment_id_fields($post = null)
  * Only affects users with JavaScript disabled.
  *
  * @internal The $comment global must be present to allow template tags access to the current
- *           comment. See https://core.trac.wordpress.org/changeset/36512.
+ *           comment. See https://core.trac.wp.org/changeset/36512.
  *
  * @since 2.7.0
  * @since 6.2.0 Added the `$post` parameter.

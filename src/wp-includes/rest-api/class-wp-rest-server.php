@@ -1412,7 +1412,7 @@ class WP_REST_Server
         }
 
         if (rest_is_field_included('_links', $fields) || rest_is_field_included('_embedded', $fields)) {
-            $response->add_link('help', 'https://developer.wordpress.org/rest-api/');
+            $response->add_link('help', 'https://developer.wp.org/rest-api/');
             $this->add_active_theme_link_to_index($response);
             $this->add_site_logo_to_index($response);
             $this->add_site_icon_to_index($response);

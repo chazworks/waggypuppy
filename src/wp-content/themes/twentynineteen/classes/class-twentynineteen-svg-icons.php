@@ -238,7 +238,7 @@ class TwentyNineteen_SVG_Icons
         ],
         'wordpress'   => [
             'wordpress.com',
-            'wordpress.org',
+            'wp.org',
         ],
     ];
 

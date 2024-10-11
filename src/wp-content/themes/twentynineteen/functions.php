@@ -2,7 +2,7 @@
 /**
  * Twenty Nineteen functions and definitions
  *
- * @link https://developer.wordpress.org/themes/basics/theme-functions/
+ * @link https://developer.wp.org/themes/basics/theme-functions/
  *
  * @package waggypuppy
  * @subpackage Twenty_Nineteen
@@ -42,7 +42,7 @@ if (! function_exists('twentynineteen_setup')) :
         /*
          * Enable support for Post Thumbnails on posts and pages.
          *
-         * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
+         * @link https://developer.wp.org/themes/functionality/featured-images-post-thumbnails/
          */
         add_theme_support('post-thumbnails');
         set_post_thumbnail_size(1568, 9999);
@@ -77,7 +77,7 @@ if (! function_exists('twentynineteen_setup')) :
         /**
          * Add support for core custom logo.
          *
-         * @link https://codex.wordpress.org/Theme_Logo
+         * @link https://codex.wp.org/Theme_Logo
          */
         add_theme_support(
             'custom-logo',
@@ -194,7 +194,7 @@ endif;
 /**
  * Register widget area.
  *
- * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
+ * @link https://developer.wp.org/themes/functionality/sidebars/#registering-a-sidebar
  */
 function twentynineteen_widgets_init()
 {

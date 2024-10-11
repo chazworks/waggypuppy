@@ -35,8 +35,8 @@ if (is_multisite()) :
         public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
         {
             self::$network_ids = [
-                'make.wordpress.org/' => [
-                    'domain' => 'make.wordpress.org',
+                'make.wp.org/' => [
+                    'domain' => 'make.wp.org',
                     'path'   => '/',
                 ],
             ];
@@ -47,15 +47,15 @@ if (is_multisite()) :
             unset($id);
 
             self::$site_ids = [
-                'make.wordpress.org/'     => [
-                    'domain'     => 'make.wordpress.org',
+                'make.wp.org/'     => [
+                    'domain'     => 'make.wp.org',
                     'path'       => '/',
-                    'network_id' => self::$network_ids['make.wordpress.org/'],
+                    'network_id' => self::$network_ids['make.wp.org/'],
                 ],
-                'make.wordpress.org/foo/' => [
-                    'domain'     => 'make.wordpress.org',
+                'make.wp.org/foo/' => [
+                    'domain'     => 'make.wp.org',
                     'path'       => '/foo/',
-                    'network_id' => self::$network_ids['make.wordpress.org/'],
+                    'network_id' => self::$network_ids['make.wp.org/'],
                 ],
             ];
 
@@ -69,7 +69,7 @@ if (is_multisite()) :
                 [
                     'domain'     => 'uninitialized.org',
                     'path'       => '/',
-                    'network_id' => self::$network_ids['make.wordpress.org/'],
+                    'network_id' => self::$network_ids['make.wp.org/'],
                 ]
             );
             add_action('wp_initialize_site', 'wp_initialize_site', 10, 2);
@@ -875,16 +875,16 @@ if (is_multisite()) :
          */
         public function test_different_network_language()
         {
-            $network = get_network(self::$network_ids['make.wordpress.org/']);
+            $network = get_network(self::$network_ids['make.wp.org/']);
 
             add_filter('sanitize_option_WPLANG', [$this, 'filter_allow_unavailable_languages'], 10, 3);
 
-            update_network_option(self::$network_ids['make.wordpress.org/'], 'WPLANG', 'wibble');
+            update_network_option(self::$network_ids['make.wp.org/'], 'WPLANG', 'wibble');
             $blog_id = wpmu_create_blog($network->domain, '/de-de/', 'New Blog', get_current_user_id(), [], $network->id);
 
             remove_filter('sanitize_option_WPLANG', [$this, 'filter_allow_unavailable_languages'], 10);
 
-            $this->assertSame(get_network_option(self::$network_ids['make.wordpress.org/'], 'WPLANG'), get_blog_option($blog_id, 'WPLANG'));
+            $this->assertSame(get_network_option(self::$network_ids['make.wp.org/'], 'WPLANG'), get_blog_option($blog_id, 'WPLANG'));
         }
 
         /**
@@ -905,7 +905,7 @@ if (is_multisite()) :
          */
         public function test_is_main_site_different_network()
         {
-            $this->assertTrue(is_main_site(self::$site_ids['make.wordpress.org/'], self::$network_ids['make.wordpress.org/']));
+            $this->assertTrue(is_main_site(self::$site_ids['make.wp.org/'], self::$network_ids['make.wp.org/']));
         }
 
         /**
@@ -913,7 +913,7 @@ if (is_multisite()) :
          */
         public function test_is_main_site_different_network_random_site()
         {
-            $this->assertFalse(is_main_site(self::$site_ids['make.wordpress.org/foo/'], self::$network_ids['make.wordpress.org/']));
+            $this->assertFalse(is_main_site(self::$site_ids['make.wp.org/foo/'], self::$network_ids['make.wp.org/']));
         }
 
         /**
@@ -922,7 +922,7 @@ if (is_multisite()) :
          */
         public function test_clean_blog_cache($key, $group)
         {
-            $site = get_site(self::$site_ids['make.wordpress.org/']);
+            $site = get_site(self::$site_ids['make.wp.org/']);
 
             $replacements = [
                 '%blog_id%'         => $site->blog_id,
@@ -949,7 +949,7 @@ if (is_multisite()) :
          */
         public function test_clean_blog_cache_with_id($key, $group)
         {
-            $site = get_site(self::$site_ids['make.wordpress.org/']);
+            $site = get_site(self::$site_ids['make.wp.org/']);
 
             $replacements = [
                 '%blog_id%'         => $site->blog_id,
@@ -975,7 +975,7 @@ if (is_multisite()) :
          */
         public function test_clean_blog_cache_resets_last_changed()
         {
-            $site = get_site(self::$site_ids['make.wordpress.org/']);
+            $site = get_site(self::$site_ids['make.wp.org/']);
 
             wp_cache_delete('last_changed', 'sites');
 
@@ -988,7 +988,7 @@ if (is_multisite()) :
          */
         public function test_clean_blog_cache_fires_action()
         {
-            $site = get_site(self::$site_ids['make.wordpress.org/']);
+            $site = get_site(self::$site_ids['make.wp.org/']);
 
             $old_count = did_action('clean_site_cache');
 
@@ -1001,7 +1001,7 @@ if (is_multisite()) :
          */
         public function test_clean_blog_cache_bails_on_suspend_cache_invalidation()
         {
-            $site = get_site(self::$site_ids['make.wordpress.org/']);
+            $site = get_site(self::$site_ids['make.wp.org/']);
 
             $old_count = did_action('clean_site_cache');
 
@@ -1052,7 +1052,7 @@ if (is_multisite()) :
          */
         public function test_refresh_blog_details($key, $group)
         {
-            $site = get_site(self::$site_ids['make.wordpress.org/']);
+            $site = get_site(self::$site_ids['make.wp.org/']);
 
             $replacements = [
                 '%blog_id%'         => $site->blog_id,
@@ -1417,7 +1417,7 @@ if (is_multisite()) :
         public function test_wp_delete_site_validate_site_deletion_action()
         {
             add_action('wp_validate_site_deletion', [$this, 'action_wp_validate_site_deletion_prevent_deletion']);
-            $result = wp_delete_site(self::$site_ids['make.wordpress.org/']);
+            $result = wp_delete_site(self::$site_ids['make.wp.org/']);
             $this->assertWPError($result);
             $this->assertSame('action_does_not_like_deletion', $result->get_error_code());
         }
@@ -1704,8 +1704,8 @@ if (is_multisite()) :
          */
         public function test_wp_update_site_cleans_old_cache_on_domain_change()
         {
-            $old_domain = 'old.wordpress.org';
-            $new_domain = 'new.wordpress.org';
+            $old_domain = 'old.wp.org';
+            $new_domain = 'new.wp.org';
 
             $site = self::factory()->blog->create_and_get(
                 [
@@ -1765,7 +1765,7 @@ if (is_multisite()) :
 
             $site = self::factory()->blog->create_and_get(
                 [
-                    'domain' => 'test.wordpress.org',
+                    'domain' => 'test.wp.org',
                     'path'   => $old_path,
                 ]
             );
@@ -1773,18 +1773,18 @@ if (is_multisite()) :
             // Populate the caches.
             get_blog_details(
                 [
-                    'domain' => 'test.wordpress.org',
+                    'domain' => 'test.wp.org',
                     'path'   => $old_path,
                 ]
             );
-            get_blog_id_from_url('test.wordpress.org', $old_path);
+            get_blog_id_from_url('test.wp.org', $old_path);
             get_blog_details(
                 [
-                    'domain' => 'test.wordpress.org',
+                    'domain' => 'test.wp.org',
                     'path'   => $new_path,
                 ]
             );
-            get_blog_id_from_url('test.wordpress.org', $new_path);
+            get_blog_id_from_url('test.wp.org', $new_path);
 
             wp_update_site(
                 $site->id,
@@ -1793,17 +1793,17 @@ if (is_multisite()) :
                 ]
             );
 
-            $domain_path_key_old = md5('test.wordpress.org' . $old_path);
-            $domain_path_key_new = md5('test.wordpress.org' . $new_path);
+            $domain_path_key_old = md5('test.wp.org' . $old_path);
+            $domain_path_key_new = md5('test.wp.org' . $new_path);
 
             // Ensure all respective cache values are empty.
             $result = [
                 wp_cache_get($domain_path_key_old, 'blog-lookup'),
                 wp_cache_get($domain_path_key_old, 'blog-id-cache'),
-                wp_cache_get('current_blog_test.wordpress.org' . $old_path, 'site-options'),
+                wp_cache_get('current_blog_test.wp.org' . $old_path, 'site-options'),
                 wp_cache_get($domain_path_key_new, 'blog-lookup'),
                 wp_cache_get($domain_path_key_new, 'blog-id-cache'),
-                wp_cache_get('current_blog_test.wordpress.org' . $new_path, 'site-options'),
+                wp_cache_get('current_blog_test.wp.org' . $new_path, 'site-options'),
             ];
 
             $this->assertEmpty(array_filter($result));

@@ -75,8 +75,8 @@ get_current_screen()->add_help_tab(
 
 get_current_screen()->set_help_sidebar(
     '<p><strong>' . __('For more information:') . '</strong></p>' .
-    '<p>' . __('<a href="https://wordpress.org/documentation/article/users-your-profile-screen/">Documentation on User Profiles</a>') . '</p>' .
-    '<p>' . __('<a href="https://wordpress.org/support/forums/">Support forums</a>') . '</p>'
+    '<p>' . __('<a href="https://wp.org/documentation/article/users-your-profile-screen/">Documentation on User Profiles</a>') . '</p>' .
+    '<p>' . __('<a href="https://wp.org/support/forums/">Support forums</a>') . '</p>'
 );
 
 $wp_http_referer = remove_query_arg(['update', 'delete_count', 'user_id'], $wp_http_referer);
@@ -361,7 +361,7 @@ switch ($action) {
                                 <input type="checkbox" name="comment_shortcuts" id="comment_shortcuts" value="true" <?php checked('true', $profile_user->comment_shortcuts); ?> />
                                 <?php _e('Enable keyboard shortcuts for comment moderation.'); ?>
                             </label>
-                            <?php _e('<a href="https://wordpress.org/documentation/article/keyboard-shortcuts-classic-editor/#keyboard-shortcuts-for-comments">Documentation on Keyboard Shortcuts</a>'); ?>
+                            <?php _e('<a href="https://wp.org/documentation/article/keyboard-shortcuts-classic-editor/#keyboard-shortcuts-for-comments">Documentation on Keyboard Shortcuts</a>'); ?>
                         </td>
                     </tr>
                     <?php endif; ?>
@@ -860,7 +860,7 @@ switch ($action) {
                                     printf(
                                         /* translators: %s: Documentation URL. */
                                         __('If this is a development website, you can <a href="%s">set the environment type accordingly</a> to enable application passwords.'),
-                                        __('https://developer.wordpress.org/apis/wp-config-php/#wp-environment-type')
+                                        __('https://developer.wp.org/apis/wp-config-php/#wp-environment-type')
                                     );
                                     ?>
                                 </p>

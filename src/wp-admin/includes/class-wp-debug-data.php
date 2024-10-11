@@ -687,7 +687,7 @@ class WP_Debug_Data
         ];
 
         // WordPress features requiring processing.
-        $wp_dotorg = wp_remote_get('https://wordpress.org', ['timeout' => 10]);
+        $wp_dotorg = wp_remote_get('https://wp.org', ['timeout' => 10]);
 
         if (! is_wp_error($wp_dotorg)) {
             $fields['dotorg_communication'] = [
@@ -701,7 +701,7 @@ class WP_Debug_Data
                 'value' => sprintf(
                 /* translators: 1: The IP address wp.org resolves to. 2: The error returned by the lookup. */
                     __('Unable to reach wp.org at %1$s: %2$s'),
-                    gethostbyname('wordpress.org'),
+                    gethostbyname('wp.org'),
                     $wp_dotorg->get_error_message()
                 ),
                 'debug' => $wp_dotorg->get_error_message(),

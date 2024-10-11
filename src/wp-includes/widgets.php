@@ -10,8 +10,8 @@
  * This functionality was found in a plugin before the WordPress 2.2 release, which
  * included it in the core from that point on.
  *
- * @link https://wordpress.org/documentation/article/manage-wordpress-widgets/
- * @link https://developer.wordpress.org/themes/functionality/widgets/
+ * @link https://wp.org/documentation/article/manage-wordpress-widgets/
+ * @link https://developer.wp.org/themes/functionality/widgets/
  *
  * @package waggypuppy
  * @subpackage Widgets
@@ -909,7 +909,7 @@ function dynamic_sidebar($index = 1)
  * this function has to run after widgets have initialized, at action {@see 'init'} or later.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 2.2.0
@@ -956,7 +956,7 @@ function is_active_widget($callback = false, $widget_id = false, $id_base = fals
  * Determines whether the dynamic sidebar is enabled and used by the theme.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 2.2.0
@@ -989,7 +989,7 @@ function is_dynamic_sidebar()
  * Determines whether a sidebar contains widgets.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 2.8.0
@@ -2119,11 +2119,11 @@ function wp_render_widget_control($id)
  * The 'wp-editor' script module is exposed as window.wp.editor. This overrides
  * the legacy TinyMCE editor module which is required by the widgets editor.
  * Because of that conflict, these two shouldn't be enqueued together.
- * See https://core.trac.wordpress.org/ticket/53569.
+ * See https://core.trac.wp.org/ticket/53569.
  *
  * There is also another conflict related to styles where the block widgets
  * editor is hidden if a block enqueues 'wp-edit-post' stylesheet.
- * See https://core.trac.wordpress.org/ticket/53569.
+ * See https://core.trac.wp.org/ticket/53569.
  *
  * @since 5.8.0
  * @access private

@@ -46,7 +46,7 @@ class Tests_HTTP_Functions extends WP_UnitTestCase
      */
     public function test_head_404()
     {
-        $url      = 'https://wordpress.org/screenshots/3.9/awefasdfawef.jpg';
+        $url      = 'https://wp.org/screenshots/3.9/awefasdfawef.jpg';
         $response = wp_remote_head($url);
 
         $this->skipTestOnTimeout($response);
@@ -83,7 +83,7 @@ class Tests_HTTP_Functions extends WP_UnitTestCase
      */
     public function test_get_redirect()
     {
-        // This will redirect to wordpress.org.
+        // This will redirect to wp.org.
         $url = 'https://wp.org/screenshots/3.9/dashboard.png';
 
         $response = wp_remote_get($url);
@@ -104,7 +104,7 @@ class Tests_HTTP_Functions extends WP_UnitTestCase
      */
     public function test_get_redirect_limit_exceeded()
     {
-        // This will redirect to wordpress.org.
+        // This will redirect to wp.org.
         $url = 'https://wp.org/screenshots/3.9/dashboard.png';
 
         // Pretend we've already redirected 5 times.
@@ -124,7 +124,7 @@ class Tests_HTTP_Functions extends WP_UnitTestCase
      */
     public function test_get_response_cookies()
     {
-        $url = 'https://login.wordpress.org/wp-login.php';
+        $url = 'https://login.wp.org/wp-login.php';
 
         $response = wp_remote_head($url);
 
@@ -159,7 +159,7 @@ class Tests_HTTP_Functions extends WP_UnitTestCase
      */
     public function test_get_response_cookies_with_wp_http_cookie_object()
     {
-        $url = 'https://login.wordpress.org/wp-login.php';
+        $url = 'https://login.wp.org/wp-login.php';
 
         $response = wp_remote_get(
             $url,
@@ -197,7 +197,7 @@ class Tests_HTTP_Functions extends WP_UnitTestCase
      */
     public function test_get_response_cookies_with_name_value_array()
     {
-        $url = 'https://login.wordpress.org/wp-login.php';
+        $url = 'https://login.wp.org/wp-login.php';
 
         $response = wp_remote_get(
             $url,
@@ -234,7 +234,7 @@ class Tests_HTTP_Functions extends WP_UnitTestCase
         // Emulate WP_Http::request() internals.
         $requests_response = new WpOrg\Requests\Response();
 
-        $requests_response->cookies['test'] = WpOrg\Requests\Cookie::parse('test=foo; domain=.wordpress.org');
+        $requests_response->cookies['test'] = WpOrg\Requests\Cookie::parse('test=foo; domain=.wp.org');
 
         $requests_response->cookies['test']->flags['host-only'] = false; // https://github.com/__VAR_WP/Requests/issues/306
 
@@ -244,7 +244,7 @@ class Tests_HTTP_Functions extends WP_UnitTestCase
 
         // Check the host_only flag in the resulting WP_Http_Cookie.
         $cookie = wp_remote_retrieve_cookie($response, 'test');
-        $this->assertSame($cookie->domain, 'wordpress.org');
+        $this->assertSame($cookie->domain, 'wp.org');
         $this->assertFalse($cookie->host_only, 'host-only flag not set');
 
         // Regurgitate (WpOrg\Requests\Cookie -> WP_Http_Cookie -> WpOrg\Requests\Cookie).

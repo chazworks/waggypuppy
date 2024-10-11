@@ -34,8 +34,8 @@ class Tests_Formatting_ExcerptRemoveFootnotes extends WP_UnitTestCase
                 'content'  => '<p>This is a paragraph<sup class="fn" id="1"><a href="#1" id="1a">1</a></sup>.</p>',
             ],
             'one footnote'                        => [
-                'expected' => '<p>This is a <a href="https://wordpress.org" data-type="URL" data-id="https://wordpress.org">paragraph</a>.</p>',
-                'content'  => '<p>This is a <a href="https://wordpress.org" data-type="URL" data-id="https://wordpress.org">paragraph</a><sup data-fn="d3b825b6-1890-4cb3-b276-002137515e99" class="fn"><a href="#d3b825b6-1890-4cb3-b276-002137515e99" id="d3b825b6-1890-4cb3-b276-002137515e99-link">1</a></sup>.</p>',
+                'expected' => '<p>This is a <a href="https://wp.org" data-type="URL" data-id="https://wp.org">paragraph</a>.</p>',
+                'content'  => '<p>This is a <a href="https://wp.org" data-type="URL" data-id="https://wp.org">paragraph</a><sup data-fn="d3b825b6-1890-4cb3-b276-002137515e99" class="fn"><a href="#d3b825b6-1890-4cb3-b276-002137515e99" id="d3b825b6-1890-4cb3-b276-002137515e99-link">1</a></sup>.</p>',
 
             ],
             'multiple footnotes in block content' => [

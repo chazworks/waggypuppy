@@ -148,7 +148,7 @@ class Twenty_Twenty_One_SVG_Icons
         ],
         'wordpress' => [
             'wordpress.com',
-            'wordpress.org',
+            'wp.org',
         ],
     ];
 

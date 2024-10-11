@@ -152,7 +152,7 @@ function wp_get_popular_importers()
                 'locale'  => $locale,
                 'version' => wp_get_wp_version(),
             ],
-            'http://api.wordpress.org/core/importers/1.1/'
+            'http://api.wp.org/core/importers/1.1/'
         );
         $options = ['user-agent' => 'WordPress/' . wp_get_wp_version() . '; ' . home_url('/')];
 

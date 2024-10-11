@@ -50,7 +50,7 @@ if (! class_exists('TwentyTwenty_Script_Loader')) {
          *
          * @since Twenty Twenty 1.0
          *
-         * @link https://core.trac.wordpress.org/ticket/12009
+         * @link https://core.trac.wp.org/ticket/12009
          *
          * @param string $tag    The script tag.
          * @param string $handle The script handle.

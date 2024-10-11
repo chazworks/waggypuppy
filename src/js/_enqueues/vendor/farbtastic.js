@@ -7,7 +7,7 @@
  */
 /**
  * Modified for WordPress: replaced deprecated jQuery methods.
- * See https://core.trac.wordpress.org/ticket/57946.
+ * See https://core.trac.wp.org/ticket/57946.
  */
 
 (function($) {

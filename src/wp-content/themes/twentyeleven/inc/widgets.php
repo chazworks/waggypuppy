@@ -4,7 +4,7 @@
  *
  * Handles displaying Aside, Link, Status, and Quote Posts available with Twenty Eleven.
  *
- * @link https://developer.wordpress.org/themes/functionality/widgets/#developing-widgets
+ * @link https://developer.wp.org/themes/functionality/widgets/#developing-widgets
  *
  * @package waggypuppy
  * @subpackage Twenty_Eleven

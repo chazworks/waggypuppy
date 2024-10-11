@@ -94,7 +94,7 @@ function list_core_update($update)
 
             $version_url = sprintf(
                 /* translators: %s: WordPress version. */
-                esc_url(__('https://wordpress.org/documentation/wordpress-version/version-%s/')),
+                esc_url(__('https://wp.org/documentation/wordpress-version/version-%s/')),
                 sanitize_title($update->current)
             );
 
@@ -263,8 +263,8 @@ function core_upgrade_preamble()
         $message = sprintf(
             /* translators: 1: Documentation on WordPress backups, 2: Documentation on updating WordPress. */
             __('<strong>Important:</strong> Before updating, please <a href="%1$s">back up your database and files</a>. For help with updates, visit the <a href="%2$s">Updating WordPress</a> documentation page.'),
-            __('https://developer.wordpress.org/advanced-administration/security/backup/'),
-            __('https://wordpress.org/documentation/article/updating-wordpress/')
+            __('https://developer.wp.org/advanced-administration/security/backup/'),
+            __('https://wp.org/documentation/article/updating-wordpress/')
         );
         wp_admin_notice(
             $message,
@@ -671,7 +671,7 @@ function list_theme_updates()
     printf(
         /* translators: %s: Link to documentation on child themes. */
         __('<strong>Please Note:</strong> Any customizations you have made to theme files will be lost. Please consider using <a href="%s">child themes</a> for modifications.'),
-        __('https://developer.wordpress.org/themes/advanced-topics/child-themes/')
+        __('https://developer.wp.org/themes/advanced-topics/child-themes/')
     );
     ?>
 </p>
@@ -1039,7 +1039,7 @@ if ((current_user_can('update_themes') && wp_is_auto_update_enabled_for_type('th
         ]
     );
 
-    $help_sidebar_autoupdates = '<p>' . __('<a href="https://wordpress.org/documentation/article/plugins-themes-auto-updates/">Documentation on Auto-updates</a>') . '</p>';
+    $help_sidebar_autoupdates = '<p>' . __('<a href="https://wp.org/documentation/article/plugins-themes-auto-updates/">Documentation on Auto-updates</a>') . '</p>';
 }
 
 $help_sidebar_rollback = '';
@@ -1057,14 +1057,14 @@ if (current_user_can('update_themes') || current_user_can('update_plugins')) {
         ]
     );
 
-    $help_sidebar_rollback = '<p>' . __('<a href="https://developer.wordpress.org/advanced-administration/wordpress/common-errors/">Common Errors</a>') . '</p>';
+    $help_sidebar_rollback = '<p>' . __('<a href="https://developer.wp.org/advanced-administration/wordpress/common-errors/">Common Errors</a>') . '</p>';
 }
 
 get_current_screen()->set_help_sidebar(
     '<p><strong>' . __('For more information:') . '</strong></p>' .
-    '<p>' . __('<a href="https://wordpress.org/documentation/article/dashboard-updates-screen/">Documentation on Updating WordPress</a>') . '</p>' .
+    '<p>' . __('<a href="https://wp.org/documentation/article/dashboard-updates-screen/">Documentation on Updating WordPress</a>') . '</p>' .
     $help_sidebar_autoupdates .
-    '<p>' . __('<a href="https://wordpress.org/support/forums/">Support forums</a>') . '</p>' .
+    '<p>' . __('<a href="https://wp.org/support/forums/">Support forums</a>') . '</p>' .
     $help_sidebar_rollback
 );
 

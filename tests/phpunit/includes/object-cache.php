@@ -2256,7 +2256,7 @@ class WP_Object_Cache
      * This function is inspired by the original WP Memcached Object cache.
      *
      * @author Ryan Boren
-     * @link http://wordpress.org/extend/plugins/memcached/
+     * @link http://wp.org/extend/plugins/memcached/
      *
      * @param string $key   The key under which to store the value.
      * @param string $group The group value appended to the $key.
@@ -2424,7 +2424,7 @@ class WP_Object_Cache
      * This function comes straight from the original WP Memcached Object cache.
      *
      * @author Ryan Boren
-     * @link http://wordpress.org/extend/plugins/memcached/
+     * @link http://wp.org/extend/plugins/memcached/
      *
      * @param array $groups Array of groups.
      */
@@ -2444,7 +2444,7 @@ class WP_Object_Cache
      * This function comes straight from the original WP Memcached Object cache.
      *
      * @author Ryan Boren
-     * @link http://wordpress.org/extend/plugins/memcached/
+     * @link http://wp.org/extend/plugins/memcached/
      *
      * @param array $groups Array of groups.
      */

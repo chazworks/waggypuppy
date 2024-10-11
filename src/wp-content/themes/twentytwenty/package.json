@@ -9,9 +9,9 @@
 		"Theme",
 		"TwentyTwenty"
 	],
-	"homepage": "https://wordpress.org/themes/twentytwenty/",
+	"homepage": "https://wp.org/themes/twentytwenty/",
 	"bugs": {
-		"url": "https://core.trac.wordpress.org/"
+		"url": "https://core.trac.wp.org/"
 	},
 	"engines": {
 		"node": ">=16",

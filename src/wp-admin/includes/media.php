@@ -2124,9 +2124,9 @@ function media_upload_form($errors = null)
 
     if (! _device_can_upload()) {
         echo '<p>' . sprintf(
-            /* translators: %s: https://apps.wordpress.org/ */
+            /* translators: %s: https://apps.wp.org/ */
             __('The web browser on your device cannot be used to upload files. You may be able to use the <a href="%s">native app for your device</a> instead.'),
-            'https://apps.wordpress.org/'
+            'https://apps.wp.org/'
         ) . '</p>';
         return;
     }

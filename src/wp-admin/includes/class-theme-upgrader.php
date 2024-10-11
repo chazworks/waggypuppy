@@ -640,7 +640,7 @@ class Theme_Upgrader extends WP_Upgrader
                     __('Template is missing. Standalone themes need to have a %1$s or %2$s template file. <a href="%3$s">Child themes</a> need to have a %4$s header in the %5$s stylesheet.'),
                     '<code>templates/index.html</code>',
                     '<code>index.php</code>',
-                    __('https://developer.wordpress.org/themes/advanced-topics/child-themes/'),
+                    __('https://developer.wp.org/themes/advanced-topics/child-themes/'),
                     '<code>Template</code>',
                     '<code>style.css</code>'
                 )

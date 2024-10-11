@@ -102,15 +102,15 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportGroupHtml extends WP_Unit
                 [
                     [
                         'name'  => 'HTTP Link',
-                        'value' => 'http://wordpress.org',
+                        'value' => 'http://wp.org',
                     ],
                     [
                         'name'  => 'HTTPS Link',
-                        'value' => 'https://wordpress.org',
+                        'value' => 'https://wp.org',
                     ],
                     [
                         'name'  => 'Link with Spaces',
-                        'value' => 'https://wordpress.org not a link.',
+                        'value' => 'https://wp.org not a link.',
                     ],
                 ],
             ],
@@ -118,9 +118,9 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportGroupHtml extends WP_Unit
 
         $actual = wp_privacy_generate_personal_data_export_group_html($data, 'test-data-group', 2);
 
-        $this->assertStringContainsString('<a href="http://wordpress.org">http://wordpress.org</a>', $actual);
-        $this->assertStringContainsString('<a href="https://wordpress.org">https://wordpress.org</a>', $actual);
-        $this->assertStringContainsString('https://wordpress.org not a link.', $actual);
+        $this->assertStringContainsString('<a href="http://wp.org">http://wp.org</a>', $actual);
+        $this->assertStringContainsString('<a href="https://wp.org">https://wp.org</a>', $actual);
+        $this->assertStringContainsString('https://wp.org not a link.', $actual);
     }
 
     /**
@@ -153,7 +153,7 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportGroupHtml extends WP_Unit
                 [
                     'links'      => [
                         'name'  => 'Links are allowed',
-                        'value' => '<a href="http://wordpress.org">http://wordpress.org</a>',
+                        'value' => '<a href="http://wp.org">http://wp.org</a>',
                     ],
                     'formatting' => [
                         'name'  => 'Simple formatting is allowed',

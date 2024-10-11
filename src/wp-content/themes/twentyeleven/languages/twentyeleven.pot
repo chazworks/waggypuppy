@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Eleven 3.3\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/theme/twentyeleven\n"
+"Report-Msgid-Bugs-To: https://wp.org/support/theme/twentyeleven\n"
 "POT-Creation-Date: 2019-05-07 18:19:59+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -257,7 +257,7 @@ msgid "Featured"
 msgstr ""
 
 #: footer.php:34
-msgid "https://wordpress.org/"
+msgid "https://wp.org/"
 msgstr ""
 
 #: footer.php:34
@@ -485,11 +485,11 @@ msgid "For more information:"
 msgstr ""
 
 #: inc/theme-options.php:121
-msgid "<a href=\"https://wordpress.org/support/article/appearance-customize-screen/\" target=\"_blank\">Documentation on Theme Options</a>"
+msgid "<a href=\"https://wp.org/support/article/appearance-customize-screen/\" target=\"_blank\">Documentation on Theme Options</a>"
 msgstr ""
 
 #: inc/theme-options.php:122
-msgid "<a href=\"https://wordpress.org/support/\" target=\"_blank\">Support</a>"
+msgid "<a href=\"https://wp.org/support/\" target=\"_blank\">Support</a>"
 msgstr ""
 
 #: inc/theme-options.php:130
@@ -612,7 +612,7 @@ msgid "Twenty Eleven"
 msgstr ""
 
 #. Theme URI of the plugin/theme
-msgid "https://wordpress.org/themes/twentyeleven/"
+msgid "https://wp.org/themes/twentyeleven/"
 msgstr ""
 
 #. Description of the plugin/theme
@@ -624,7 +624,7 @@ msgid "the WordPress team"
 msgstr ""
 
 #. Author URI of the plugin/theme
-msgid "https://wordpress.org/"
+msgid "https://wp.org/"
 msgstr ""
 
 #. Template Name of the plugin/theme

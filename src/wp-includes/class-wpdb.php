@@ -47,7 +47,7 @@ const ARRAY_N = 'ARRAY_N';
  * in wp-content/db.php file to your class. The wpdb class will still be included, so you can
  * extend it or simply use your own.
  *
- * @link https://developer.wordpress.org/reference/classes/wpdb/
+ * @link https://developer.wp.org/reference/classes/wpdb/
  *
  * @since 0.71
  */
@@ -743,7 +743,7 @@ class wpdb
      *
      * @since 2.0.8
      *
-     * @link https://core.trac.wordpress.org/ticket/3354
+     * @link https://core.trac.wp.org/ticket/3354
      *
      * @param string $dbuser     Database user.
      * @param string $dbpassword Database password.
@@ -2217,7 +2217,7 @@ class wpdb
      *
      * @since 0.71
      *
-     * @link https://developer.wordpress.org/reference/classes/wpdb/
+     * @link https://developer.wp.org/reference/classes/wpdb/
      *
      * @param string $query Database query.
      * @return int|bool Boolean true for CREATE, ALTER, TRUNCATE and DROP queries. Number of rows

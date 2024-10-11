@@ -332,7 +332,7 @@ function wp_print_file_editor_templates()
                     printf(
                         /* translators: %s: Documentation URL. */
                         __('You need to make this file writable before you can save your changes. See <a href="%s">Changing File Permissions</a> for more information.'),
-                        __('https://developer.wordpress.org/advanced-administration/server/file-permissions/')
+                        __('https://developer.wp.org/advanced-administration/server/file-permissions/')
                     );
                     ?>
                 </p>
@@ -1275,7 +1275,7 @@ function download_url($url, $timeout = 300, $signature_verification = false)
          *
          * @param string[] $hostnames List of hostnames.
          */
-        $signed_hostnames = apply_filters('wp_signature_hosts', ['wordpress.org', 'downloads.wordpress.org', 's.w.org']);
+        $signed_hostnames = apply_filters('wp_signature_hosts', ['wp.org', 'downloads.wp.org', 's.w.org']);
 
         $signature_verification = in_array(parse_url($url, PHP_URL_HOST), $signed_hostnames, true);
     }
@@ -2249,7 +2249,7 @@ function WP_Filesystem($args = false, $context = false, $allow_relaxed_file_owne
  * The return value can be overridden by defining the `FS_METHOD` constant in `wp-config.php`,
  * or filtering via {@see 'filesystem_method'}.
  *
- * @link https://developer.wordpress.org/advanced-administration/wordpress/wp-config/#wordpress-upgrade-constants
+ * @link https://developer.wp.org/advanced-administration/wordpress/wp-config/#wordpress-upgrade-constants
  *
  * Plugins may define a custom transport handler, See WP_Filesystem().
  *
@@ -2345,7 +2345,7 @@ function get_filesystem_method($args = [], $context = '', $allow_relaxed_file_ow
  *
  * All chosen/entered details are saved, excluding the password.
  *
- * Hostnames may be in the form of hostname:portnumber (eg: wordpress.org:2467)
+ * Hostnames may be in the form of hostname:portnumber (eg: wp.org:2467)
  * to specify an alternate FTP/SSH port.
  *
  * Plugins may override this form by returning true|false via the {@see 'request_filesystem_credentials'} filter.
@@ -2594,7 +2594,7 @@ function request_filesystem_credentials($form_post, $type = '', $error = false, 
 </p>
 <label for="hostname">
     <span class="field-title"><?php _e('Hostname'); ?></span>
-    <input name="hostname" type="text" id="hostname" aria-describedby="request-filesystem-credentials-desc" class="code" placeholder="<?php esc_attr_e('example: www.wordpress.org'); ?>" value="<?php echo $hostname_value; ?>"<?php disabled(defined('FTP_HOST')); ?> />
+    <input name="hostname" type="text" id="hostname" aria-describedby="request-filesystem-credentials-desc" class="code" placeholder="<?php esc_attr_e('example: www.wp.org'); ?>" value="<?php echo $hostname_value; ?>"<?php disabled(defined('FTP_HOST')); ?> />
 </label>
 <div class="ftp-username">
     <label for="username">
@@ -2742,7 +2742,7 @@ function wp_opcache_invalidate($filepath, $force = false)
      * For more details, see:
      * - https://www.php.net/manual/en/opcache.configuration.php
      * - https://www.php.net/manual/en/reserved.variables.server.php
-     * - https://core.trac.wordpress.org/ticket/36455
+     * - https://core.trac.wp.org/ticket/36455
      */
     if (null === $can_invalidate
         && function_exists('opcache_invalidate')

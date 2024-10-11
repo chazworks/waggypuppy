@@ -640,7 +640,7 @@ function maybe_serialize($data)
 
     /*
      * Double serialization is required for backward compatibility.
-     * See https://core.trac.wordpress.org/ticket/12930
+     * See https://core.trac.wp.org/ticket/12930
      * Also the world will end. See WP 3.6.1.
      */
     if (is_serialized($data, false)) {
@@ -1020,7 +1020,7 @@ function wp_get_http_headers($url, $deprecated = false)
  * from the publish date of the previous post in the loop.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 0.71
@@ -1799,7 +1799,7 @@ function do_favicon()
  * Checks for the 'siteurl' option for whether WordPress is installed.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 2.1.0
@@ -3232,7 +3232,7 @@ function wp_check_filetype_and_ext($file, $filename, $mimes = null)
              * this conditional reduces it to a single instance.
              *
              * @see https://bugs.php.net/bug.php?id=77784
-             * @see https://core.trac.wordpress.org/ticket/57898
+             * @see https://core.trac.wp.org/ticket/57898
              */
             if (2 === substr_count($real_mime, $google_docs_type)) {
                 $real_mime = $google_docs_type;
@@ -6130,7 +6130,7 @@ function _doing_it_wrong($function_name, $message, $version)
             $message .= ' ' . sprintf(
                 /* translators: %s: Documentation URL. */
                 __('Please see <a href="%s">Debugging in WordPress</a> for more information.'),
-                __('https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/')
+                __('https://developer.wp.org/advanced-administration/debug/debug-wordpress/')
             );
 
             $message = sprintf(
@@ -6147,7 +6147,7 @@ function _doing_it_wrong($function_name, $message, $version)
 
             $message .= sprintf(
                 ' Please see <a href="%s">Debugging in WordPress</a> for more information.',
-                'https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/'
+                'https://developer.wp.org/advanced-administration/debug/debug-wordpress/'
             );
 
             $message = sprintf(
@@ -6931,7 +6931,7 @@ function wp_timezone_choice($selected_zone, $locale = null)
  * @since 2.8.0
  * @access private
  *
- * @see https://core.trac.wordpress.org/ticket/8497
+ * @see https://core.trac.wp.org/ticket/8497
  *
  * @param string $str Header comment to clean up.
  * @return string
@@ -7004,7 +7004,7 @@ function wp_scheduled_delete()
  * If the file data is not within that first 8 KB, then the author should correct
  * their plugin file and move the data headers to the top.
  *
- * @link https://codex.wordpress.org/File_Header
+ * @link https://codex.wp.org/File_Header
  *
  * @since 2.9.0
  *
@@ -7320,7 +7320,7 @@ function wp_allowed_protocols()
  *
  * @since 3.4.0
  *
- * @see https://core.trac.wordpress.org/ticket/19589
+ * @see https://core.trac.wp.org/ticket/19589
  *
  * @param string $ignore_class Optional. A class to ignore all function calls within - useful
  *                             when you want to just give info about the callee. Default null.
@@ -7694,7 +7694,7 @@ function is_utf8_charset($blog_charset = null)
  * @since 3.6.0
  * @access private
  *
- * @see https://core.trac.wordpress.org/ticket/23688
+ * @see https://core.trac.wp.org/ticket/23688
  *
  * @param string $charset A charset name, e.g. "UTF-8", "Windows-1252", "SJIS".
  * @return string The canonical form of the charset.
@@ -8598,7 +8598,7 @@ function wp_get_update_php_url()
  */
 function wp_get_default_update_php_url()
 {
-    return _x('https://wordpress.org/support/update-php/', 'localized PHP upgrade information page');
+    return _x('https://wp.org/support/update-php/', 'localized PHP upgrade information page');
 }
 
 /**
@@ -8771,7 +8771,7 @@ function wp_get_update_https_url()
 function wp_get_default_update_https_url()
 {
     /* translators: Documentation explaining HTTPS and why it should be used. */
-    return __('https://developer.wordpress.org/advanced-administration/security/https/');
+    return __('https://developer.wp.org/advanced-administration/security/https/');
 }
 
 /**

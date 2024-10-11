@@ -436,7 +436,7 @@ function get_comment_count($post_id = 0)
  *
  * @since 2.9.0
  *
- * @link https://developer.wordpress.org/reference/functions/add_comment_meta/
+ * @link https://developer.wp.org/reference/functions/add_comment_meta/
  *
  * @param int    $comment_id Comment ID.
  * @param string $meta_key   Metadata name.
@@ -459,7 +459,7 @@ function add_comment_meta($comment_id, $meta_key, $meta_value, $unique = false)
  *
  * @since 2.9.0
  *
- * @link https://developer.wordpress.org/reference/functions/delete_comment_meta/
+ * @link https://developer.wp.org/reference/functions/delete_comment_meta/
  *
  * @param int    $comment_id Comment ID.
  * @param string $meta_key   Metadata name.
@@ -478,7 +478,7 @@ function delete_comment_meta($comment_id, $meta_key, $meta_value = '')
  *
  * @since 2.9.0
  *
- * @link https://developer.wordpress.org/reference/functions/get_comment_meta/
+ * @link https://developer.wp.org/reference/functions/get_comment_meta/
  *
  * @param int    $comment_id Comment ID.
  * @param string $key        Optional. The meta key to retrieve. By default,
@@ -523,7 +523,7 @@ function wp_lazyload_comment_meta(array $comment_ids)
  *
  * @since 2.9.0
  *
- * @link https://developer.wordpress.org/reference/functions/update_comment_meta/
+ * @link https://developer.wp.org/reference/functions/update_comment_meta/
  *
  * @param int    $comment_id Comment ID.
  * @param string $meta_key   Metadata key.
@@ -2211,7 +2211,7 @@ function wp_throttle_comment_flood($block, $time_lastcomment, $time_newcomment)
  * We use `REMOTE_ADDR` here directly. If you are behind a proxy, you should ensure
  * that it is properly set, such as in wp-config.php, for your environment.
  *
- * See {@link https://core.trac.wordpress.org/ticket/9235}
+ * See {@link https://core.trac.wp.org/ticket/9235}
  *
  * @since 1.5.0
  * @since 4.3.0 Introduced the `comment_agent` and `comment_author_IP` arguments.

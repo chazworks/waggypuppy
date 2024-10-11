@@ -1641,7 +1641,7 @@ function wp_check_php_version()
     $response = get_site_transient('php_check_' . $key);
 
     if (false === $response) {
-        $url = 'http://api.wordpress.org/core/serve-happy/1.0/';
+        $url = 'http://api.wp.org/core/serve-happy/1.0/';
 
         if (wp_http_supports(['ssl'])) {
             $url = set_url_scheme($url, 'https');
@@ -1670,7 +1670,7 @@ function wp_check_php_version()
          *
          * Returning false will trigger a PHP version warning to show up in the admin dashboard to administrators.
          *
-         * This filter is only run if the wordpress.org Serve Happy API considers the PHP version acceptable, ensuring
+         * This filter is only run if the wp.org Serve Happy API considers the PHP version acceptable, ensuring
          * that this filter can only make this check stricter, but not loosen it.
          *
          * @since 5.1.1

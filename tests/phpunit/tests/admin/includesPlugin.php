@@ -21,8 +21,8 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase
 
         $default_headers = [
             'Name'        => 'Hello Dolly',
-            'Title'       => '<a href="http://wordpress.org/#">Hello Dolly</a>',
-            'PluginURI'   => 'http://wordpress.org/#',
+            'Title'       => '<a href="http://wp.org/#">Hello Dolly</a>',
+            'PluginURI'   => 'http://wp.org/#',
             'Description' => 'This is not just a plugin, it symbolizes the hope and enthusiasm of an entire generation summed up in two words sung most famously by Louis Armstrong: Hello, Dolly. When activated you will randomly see a lyric from Hello, Dolly in the upper right of your admin screen on every page. <cite>By <a href="http://ma.tt/">Matt Mullenweg</a>.</cite>',
             'Author'      => '<a href="http://ma.tt/">Matt Mullenweg</a>',
             'AuthorURI'   => 'http://ma.tt/',

@@ -1189,7 +1189,7 @@ function add_user_meta($user_id, $meta_key, $meta_value, $unique = false)
  *
  * @since 3.0.0
  *
- * @link https://developer.wordpress.org/reference/functions/delete_user_meta/
+ * @link https://developer.wp.org/reference/functions/delete_user_meta/
  *
  * @param int    $user_id    User ID
  * @param string $meta_key   Metadata name.
@@ -1208,7 +1208,7 @@ function delete_user_meta($user_id, $meta_key, $meta_value = '')
  *
  * @since 3.0.0
  *
- * @link https://developer.wordpress.org/reference/functions/get_user_meta/
+ * @link https://developer.wp.org/reference/functions/get_user_meta/
  *
  * @param int    $user_id User ID.
  * @param string $key     Optional. The meta key to retrieve. By default,
@@ -1237,7 +1237,7 @@ function get_user_meta($user_id, $key = '', $single = false)
  *
  * @since 3.0.0
  *
- * @link https://developer.wordpress.org/reference/functions/update_user_meta/
+ * @link https://developer.wp.org/reference/functions/update_user_meta/
  *
  * @param int    $user_id    User ID.
  * @param string $meta_key   Metadata key.
@@ -2006,7 +2006,7 @@ function clean_user_cache($user)
  * Determines whether the given username exists.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 2.0.0
@@ -2039,7 +2039,7 @@ function username_exists($username)
  * Determines whether the given email exists.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 2.1.0
@@ -3284,7 +3284,7 @@ function retrieve_password($user_login = null)
      * end in a period. To avoid the ambiguity, ensure that the login is not the last query
      * arg in the URL. If moving it to the end, a trailing period will need to be escaped.
      *
-     * @see https://core.trac.wordpress.org/tickets/42957
+     * @see https://core.trac.wp.org/tickets/42957
      */
     $message .= network_site_url('wp-login.php?login=' . rawurlencode($user_login) . "&key=$key&action=rp", 'login') . '&wp_lang=' . $locale . "\r\n\r\n";
 
@@ -3385,7 +3385,7 @@ function retrieve_password($user_login = null)
             sprintf(
                 /* translators: %s: Documentation URL. */
                 __('<strong>Error:</strong> The email could not be sent. Your site may not be correctly configured to send emails. <a href="%s">Get support for resetting your password</a>.'),
-                esc_url(__('https://wordpress.org/documentation/article/reset-your-password/'))
+                esc_url(__('https://wp.org/documentation/article/reset-your-password/'))
             )
         );
         return $errors;

@@ -189,7 +189,7 @@ class Tests_Formatting_EscUrl extends WP_UnitTestCase
         $this->assertSame('', esc_url('feed:javascript:feed:alert(1)'));
         $this->assertSame('', esc_url('feed:feed:javascript:alert(1)'));
         $this->assertSame('feed:feed:alert(1)', esc_url('feed:feed:alert(1)'));
-        $this->assertSame('feed:http://wordpress.org/feed/', esc_url('feed:http://wordpress.org/feed/'));
+        $this->assertSame('feed:http://wp.org/feed/', esc_url('feed:http://wp.org/feed/'));
     }
 
     /**

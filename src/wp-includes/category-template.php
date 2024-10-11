@@ -248,7 +248,7 @@ function get_the_category_list($separator = '', $parents = '', $post_id = false)
  * As of 2.7, the function can be used anywhere if it is provided a post ID or post object.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 1.2.0
@@ -1532,7 +1532,7 @@ function has_category($category = '', $post = null)
  * If no tags are given, determines if post has any tags.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 2.6.0

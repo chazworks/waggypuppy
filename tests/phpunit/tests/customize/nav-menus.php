@@ -1230,7 +1230,7 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
             [
                 'menu-item-type'   => 'custom',
                 'menu-item-title'  => 'wp.org',
-                'menu-item-url'    => 'https://wordpress.org',
+                'menu-item-url'    => 'https://wp.org',
                 'menu-item-status' => 'publish',
             ]
         );

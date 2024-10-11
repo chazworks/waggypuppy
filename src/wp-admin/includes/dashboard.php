@@ -1325,7 +1325,7 @@ function wp_dashboard_events_news()
         <?php
             printf(
                 '<a href="%1$s" target="_blank">%2$s <span class="screen-reader-text"> %3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
-                'https://make.wordpress.org/community/meetups-landing-page',
+                'https://make.wp.org/community/meetups-landing-page',
                 __('Meetups'),
                 /* translators: Hidden accessibility text. */
                 __('(opens in a new tab)')
@@ -1349,8 +1349,8 @@ function wp_dashboard_events_news()
         <?php
             printf(
                 '<a href="%1$s" target="_blank">%2$s <span class="screen-reader-text"> %3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
-                /* translators: If a Rosetta site exists (e.g. https://es.wordpress.org/news/), then use that. Otherwise, leave untranslated. */
-                esc_url(_x('https://wordpress.org/news/', 'Events and News dashboard widget')),
+                /* translators: If a Rosetta site exists (e.g. https://es.wp.org/news/), then use that. Otherwise, leave untranslated. */
+                esc_url(_x('https://wp.org/news/', 'Events and News dashboard widget')),
                 __('News'),
                 /* translators: Hidden accessibility text. */
                 __('(opens in a new tab)')
@@ -1499,7 +1499,7 @@ function wp_print_community_events_templates()
                 printf(
                     /* translators: %s: Localized meetup organization documentation URL. */
                     __('Want more events? <a href="%s">Help organize the next one</a>!'),
-                    __('https://make.wordpress.org/community/organize-event-landing-page/')
+                    __('https://make.wp.org/community/organize-event-landing-page/')
                 );
                 ?>
             </li>
@@ -1515,7 +1515,7 @@ function wp_print_community_events_templates()
                     /* translators: 1: The city the user searched for, 2: Meetup organization documentation URL. */
                     __('There are no events scheduled near %1$s at the moment. Would you like to <a href="%2$s">organize a WordPress event</a>?'),
                     '{{ data.location.description }}',
-                    __('https://make.wordpress.org/community/handbook/meetup-organizer/welcome/')
+                    __('https://make.wp.org/community/handbook/meetup-organizer/welcome/')
                 );
                 ?>
 
@@ -1524,7 +1524,7 @@ function wp_print_community_events_templates()
                 printf(
                     /* translators: %s: Meetup organization documentation URL. */
                     __('There are no events scheduled near you at the moment. Would you like to <a href="%s">organize a WordPress event</a>?'),
-                    __('https://make.wordpress.org/community/handbook/meetup-organizer/welcome/')
+                    __('https://make.wp.org/community/handbook/meetup-organizer/welcome/')
                 );
                 ?>
             <# } #>
@@ -1551,7 +1551,7 @@ function wp_dashboard_primary()
              *
              * @param string $link The widget's primary link URL.
              */
-            'link'         => apply_filters('dashboard_primary_link', __('https://wordpress.org/news/')),
+            'link'         => apply_filters('dashboard_primary_link', __('https://wp.org/news/')),
 
             /**
              * Filters the primary feed URL for the 'WordPress Events and News' dashboard widget.
@@ -1560,7 +1560,7 @@ function wp_dashboard_primary()
              *
              * @param string $url The widget's primary feed URL.
              */
-            'url'          => apply_filters('dashboard_primary_feed', __('https://wordpress.org/news/feed/')),
+            'url'          => apply_filters('dashboard_primary_feed', __('https://wp.org/news/feed/')),
 
             /**
              * Filters the primary link title for the 'WordPress Events and News' dashboard widget.
@@ -1587,7 +1587,7 @@ function wp_dashboard_primary()
             'link'         => apply_filters(
                 'dashboard_secondary_link',
                 /* translators: Link to the Planet website of the locale. */
-                __('https://planet.wordpress.org/')
+                __('https://planet.wp.org/')
             ),
 
             /**
@@ -1600,7 +1600,7 @@ function wp_dashboard_primary()
             'url'          => apply_filters(
                 'dashboard_secondary_feed',
                 /* translators: Link to the Planet feed of the locale. */
-                __('https://planet.wordpress.org/feed/')
+                __('https://planet.wp.org/feed/')
             ),
 
             /**
@@ -1836,7 +1836,7 @@ function wp_check_browser_version()
     $response = get_site_transient('browser_' . $key);
 
     if (false === $response) {
-        $url     = 'http://api.wordpress.org/core/browse-happy/1.1/';
+        $url     = 'http://api.wp.org/core/browse-happy/1.1/';
         $options = [
             'body'       => ['useragent' => $_SERVER['HTTP_USER_AGENT']],
             'user-agent' => 'WordPress/' . wp_get_wp_version() . '; ' . home_url('/'),
@@ -2149,7 +2149,7 @@ function wp_welcome_panel()
             <?php else : ?>
                 <h3><?php _e('Discover a new way to build your site.'); ?></h3>
                 <p><?php _e('There is a new kind of WordPress theme, called a block theme, that lets you build the site you&#8217;ve always wanted &#8212; with blocks and styles.'); ?></p>
-                <a href="<?php echo esc_url(__('https://wordpress.org/documentation/article/block-themes/')); ?>"><?php _e('Learn about block themes'); ?></a>
+                <a href="<?php echo esc_url(__('https://wp.org/documentation/article/block-themes/')); ?>"><?php _e('Learn about block themes'); ?></a>
             <?php endif; ?>
             </div>
         </div>

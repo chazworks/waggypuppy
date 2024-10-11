@@ -33,7 +33,7 @@ function wp_credits($version = '', $locale = '')
         || str_contains($version, '-')
         || (isset($results['data']['version']) && ! str_starts_with($version, $results['data']['version']))
     ) {
-        $url     = "http://api.wordpress.org/core/credits/1.1/?version={$version}&locale={$locale}";
+        $url     = "http://api.wp.org/core/credits/1.1/?version={$version}&locale={$locale}";
         $options = ['user-agent' => 'WordPress/' . $version . '; ' . home_url('/')];
 
         if (wp_http_supports(['ssl'])) {

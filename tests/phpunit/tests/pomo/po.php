@@ -23,7 +23,7 @@ Password: %3$s
 We hope you enjoy your new blog. Thanks!
 
 --The WordPress Team
-http://wordpress.org/
+http://wp.org/
 ';
 
     /**
@@ -44,7 +44,7 @@ http://wordpress.org/
 "We hope you enjoy your new blog. Thanks!\n"
 "\n"
 "--The WordPress Team\n"
-"http://wordpress.org/\n"';
+"http://wp.org/\n"';
 
     public static function set_up_before_class()
     {

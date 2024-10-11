@@ -518,7 +518,7 @@ function network_step2($errors = false)
             /*
              * translators: This string should only be translated if wp-config-sample.php is localized.
              * You can check the localized release package or
-             * https://i18n.svn.wordpress.org/<locale code>/branches/<wp version>/dist/wp-config-sample.php
+             * https://i18n.svn.wp.org/<locale code>/branches/<wp version>/dist/wp-config-sample.php
              */
             '<code>/* ' . __('That&#8217;s all, stop editing! Happy publishing.') . ' */</code>'
         );
@@ -560,7 +560,7 @@ define( 'BLOG_ID_CURRENT_SITE', 1 );
 
         if (! empty($keys_salts)) {
             $keys_salts_str = '';
-            $from_api       = wp_remote_get('https://api.wordpress.org/secret-key/1.1/salt/');
+            $from_api       = wp_remote_get('https://api.wp.org/secret-key/1.1/salt/');
             if (is_wp_error($from_api)) {
                 foreach ($keys_salts as $c => $v) {
                     $keys_salts_str .= "\ndefine( '$c', '" . wp_generate_password(64, true, true) . "' );";
@@ -683,7 +683,7 @@ define( 'BLOG_ID_CURRENT_SITE', 1 );
         printf(
             /* translators: %s: Documentation URL. */
             __('It seems your network is running with Nginx web server. <a href="%s">Learn more about further configuration</a>.'),
-            __('https://developer.wordpress.org/advanced-administration/server/web-server/nginx/')
+            __('https://developer.wp.org/advanced-administration/server/web-server/nginx/')
         );
         echo '</p></li>';
 

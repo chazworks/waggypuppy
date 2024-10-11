@@ -3,8 +3,8 @@
  * The loop that displays an attachment
  *
  * The loop displays the posts and the post content. See
- * https://developer.wordpress.org/themes/basics/the-loop/ to understand it and
- * https://developer.wordpress.org/themes/basics/template-tags/ to understand
+ * https://developer.wp.org/themes/basics/the-loop/ to understand it and
+ * https://developer.wp.org/themes/basics/template-tags/ to understand
  * the tags used in it.
  *
  * This can be overridden in child themes with loop-attachment.php.

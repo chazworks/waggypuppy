@@ -48,9 +48,9 @@ $credits = wp_credits();
             <p>
                 <?php
                 printf(
-                    /* translators: 1: https://wordpress.org/about/ */
+                    /* translators: 1: https://wp.org/about/ */
                     __('WordPress is created by a <a href="%1$s">worldwide team</a> of passionate individuals.'),
-                    __('https://wordpress.org/about/')
+                    __('https://wp.org/about/')
                 );
                 ?>
                 <br />

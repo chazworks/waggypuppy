@@ -565,7 +565,7 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
         $request = new WP_REST_Request('POST', self::BASE);
         $request->set_body_params(['slug' => 'foo']);
 
-        $this->prevent_requests_to_host('api.wordpress.org');
+        $this->prevent_requests_to_host('api.wp.org');
 
         $this->expectWarning();
         $response = rest_do_request($request);
@@ -583,7 +583,7 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
             static function () {
                 /*
                  * Mocks the request to:
-                 * https://api.wordpress.org/plugins/info/1.2/?action=plugin_information&request%5Bslug%5D=alex-says-this-block-definitely-doesnt-exist&request%5Bfields%5D%5Bsections%5D=0&request%5Bfields%5D%5Blanguage_packs%5D=1&request%5Blocale%5D=en_US&request%5Bwp_version%5D=5.9
+                 * https://api.wp.org/plugins/info/1.2/?action=plugin_information&request%5Bslug%5D=alex-says-this-block-definitely-doesnt-exist&request%5Bfields%5D%5Bsections%5D=0&request%5Bfields%5D%5Blanguage_packs%5D=1&request%5Blocale%5D=en_US&request%5Bwp_version%5D=5.9
                  */
                 return [
                     'headers'  => [],
@@ -1077,11 +1077,11 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
         $this->assertSame('1.5.4', $data['version']);
         $this->assertSame('inactive', $data['status']);
         $this->assertSame('Test Plugin', $data['name']);
-        $this->assertSame('https://wordpress.org/plugins/test-plugin/', $data['plugin_uri']);
+        $this->assertSame('https://wp.org/plugins/test-plugin/', $data['plugin_uri']);
         $this->assertSame('wp.org', $data['author']);
-        $this->assertSame('https://wordpress.org/', $data['author_uri']);
+        $this->assertSame('https://wp.org/', $data['author_uri']);
         $this->assertSame("My 'Cool' Plugin", $data['description']['raw']);
-        $this->assertSame('My &#8216;Cool&#8217; Plugin <cite>By <a href="https://wordpress.org/">wp.org</a>.</cite>', $data['description']['rendered']);
+        $this->assertSame('My &#8216;Cool&#8217; Plugin <cite>By <a href="https://wp.org/">wp.org</a>.</cite>', $data['description']['rendered']);
         $this->assertSame($network_only, $data['network_only']);
         $this->assertSame('5.6.0', $data['requires_php']);
         $this->assertSame('5.4', $data['requires_wp']);
@@ -1210,11 +1210,11 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
 <?php
 /*
  * Plugin Name: Test Plugin
- * Plugin URI: https://wordpress.org/plugins/test-plugin/
+ * Plugin URI: https://wp.org/plugins/test-plugin/
  * Description: My 'Cool' Plugin
  * Version: 1.5.4
  * Author: wp.org
- * Author URI: https://wordpress.org/
+ * Author URI: https://wp.org/
  * Text Domain: test-plugin
  * Requires PHP: 5.6.0
  * Requires at least: 5.4{$network}
@@ -1231,7 +1231,7 @@ PHP;
      *
      * @param string $blocked_host The host to block connections to.
      */
-    private function prevent_requests_to_host($blocked_host = 'api.wordpress.org')
+    private function prevent_requests_to_host($blocked_host = 'api.wp.org')
     {
         add_filter(
             'pre_http_request',

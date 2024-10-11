@@ -2,7 +2,7 @@
 /**
  * Block Styles
  *
- * @link https://developer.wordpress.org/reference/functions/register_block_style/
+ * @link https://developer.wp.org/reference/functions/register_block_style/
  *
  * @package waggypuppy
  * @subpackage Twenty_Twenty_One

@@ -552,7 +552,7 @@ function populate_options(array $options = [])
         'auto_update_core_minor'          => 'enabled',
         /*
          * Default to enabled for new installs.
-         * See https://core.trac.wordpress.org/ticket/51742.
+         * See https://core.trac.wp.org/ticket/51742.
          */
         'auto_update_core_major'          => 'enabled',
 

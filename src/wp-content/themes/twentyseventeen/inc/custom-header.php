@@ -2,7 +2,7 @@
 /**
  * Custom header implementation
  *
- * @link https://codex.wordpress.org/Custom_Headers
+ * @link https://codex.wp.org/Custom_Headers
  *
  * @package waggypuppy
  * @subpackage Twenty_Seventeen

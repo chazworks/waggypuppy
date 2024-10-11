@@ -97,7 +97,7 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
         $request = new WP_REST_Request('GET', '/wp/v2/block-directory/search');
         $request->set_query_params(['term' => 'foo']);
 
-        $this->prevent_requests_to_host('api.wordpress.org');
+        $this->prevent_requests_to_host('api.wp.org');
 
         $this->expectWarning();
         $response = rest_do_request($request);
@@ -285,7 +285,7 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
      *
      * @param string $blocked_host The host to block connections to.
      */
-    private function prevent_requests_to_host($blocked_host = 'api.wordpress.org')
+    private function prevent_requests_to_host($blocked_host = 'api.wp.org')
     {
         add_filter(
             'pre_http_request',
@@ -316,7 +316,7 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
             'slug'                     => 'guidepost',
             'version'                  => '1.2.1',
             'author'                   => '<a href="https://sortabrilliant.com">sorta brilliant</a>',
-            'author_profile'           => 'https://profiles.wordpress.org/sortabrilliant',
+            'author_profile'           => 'https://profiles.wp.org/sortabrilliant',
             'requires'                 => '5.0',
             'tested'                   => '5.4.0',
             'requires_php'             => '5.6',
@@ -338,7 +338,7 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
             'homepage'                 => 'https://sortabrilliant.com/guidepost/',
             'description'              => '<p>A guidepost gives you directions. It lets you know where you’re going. It gives you a preview of what’s to come. How does it work? Guideposts are magic, no they really are.</p>',
             'short_description'        => 'A guidepost gives you directions. It lets you know where you’re going. It gives you a preview of what’s to come.',
-            'download_link'            => 'https://downloads.wordpress.org/plugin/guidepost.1.2.1.zip',
+            'download_link'            => 'https://downloads.wp.org/plugin/guidepost.1.2.1.zip',
             'tags'                     => [
                 'block'   => 'block',
                 'heading' => 'heading',

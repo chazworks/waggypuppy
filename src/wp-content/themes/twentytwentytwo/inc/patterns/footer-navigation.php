@@ -17,7 +17,7 @@ return [
                     sprintf(
                         /* Translators: WordPress link. */
                         esc_html__('Proudly powered by %s', 'twentytwentytwo'),
-                        '<a href="' . esc_url(__('https://wordpress.org', 'twentytwentytwo')) . '" rel="nofollow">WordPress</a>'
+                        '<a href="' . esc_url(__('https://wp.org', 'twentytwentytwo')) . '" rel="nofollow">WordPress</a>'
                     ) . '</p>
 					<!-- /wp:paragraph --></div>
 					<!-- /wp:group --></div>

@@ -674,8 +674,8 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
         $response = self::perform_active_theme_request();
         $result   = $response->get_data();
         $this->assertArrayHasKey('theme_uri', $result[0]);
-        $this->assertSame('http://wordpress.org/?search=1&term=2', $result[0]['theme_uri']['raw']);
-        $this->assertSame('http://wordpress.org/?search=1&#038;term=2', $result[0]['theme_uri']['rendered']);
+        $this->assertSame('http://wp.org/?search=1&term=2', $result[0]['theme_uri']['raw']);
+        $this->assertSame('http://wp.org/?search=1&#038;term=2', $result[0]['theme_uri']['rendered']);
     }
 
     /**

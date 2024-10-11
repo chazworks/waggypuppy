@@ -296,7 +296,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
      * point 1 above by aligning Imagick's timeout with PHP's timeout, assuming it is set.
      *
      * However seems it introduces more problems than it fixes,
-     * see https://core.trac.wordpress.org/ticket/58202.
+     * see https://core.trac.wp.org/ticket/58202.
      *
      * Note:
      *  - Imagick resource exhaustion does not issue catchable exceptions (yet).

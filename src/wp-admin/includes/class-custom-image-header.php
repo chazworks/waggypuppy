@@ -146,8 +146,8 @@ class Custom_Image_Header
 
         get_current_screen()->set_help_sidebar(
             '<p><strong>' . __('For more information:') . '</strong></p>' .
-            '<p>' . __('<a href="https://codex.wordpress.org/Appearance_Header_Screen">Documentation on Custom Header</a>') . '</p>' .
-            '<p>' . __('<a href="https://wordpress.org/support/forums/">Support forums</a>') . '</p>'
+            '<p>' . __('<a href="https://codex.wp.org/Appearance_Header_Screen">Documentation on Custom Header</a>') . '</p>' .
+            '<p>' . __('<a href="https://wp.org/support/forums/">Support forums</a>') . '</p>'
         );
     }
 

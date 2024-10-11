@@ -285,8 +285,8 @@ XSL;
 			 		#sitemap__table tr td.loc {
 						/*
 						 * URLs should always be LTR.
-						 * See https://core.trac.wordpress.org/ticket/16834
-						 * and https://core.trac.wordpress.org/ticket/49949
+						 * See https://core.trac.wp.org/ticket/16834
+						 * and https://core.trac.wp.org/ticket/49949
 						 */
 						direction: ltr;
 					}

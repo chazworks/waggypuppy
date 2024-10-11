@@ -2,7 +2,7 @@
 /**
  * Show the appropriate content for the Chat post format.
  *
- * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
+ * @link https://developer.wp.org/themes/basics/template-hierarchy/
  *
  * @package waggypuppy
  * @subpackage Twenty_Twenty_One

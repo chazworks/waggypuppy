@@ -22,7 +22,7 @@
 
 /**
  * Modified for WordPress, Silverlight and Flash runtimes support was removed.
- * See https://core.trac.wordpress.org/ticket/41755.
+ * See https://core.trac.wp.org/ticket/41755.
  */
 
 /*global mOxie:true */

@@ -133,7 +133,7 @@ function find_core_auto_update()
  */
 function get_core_checksums($version, $locale)
 {
-    $http_url = 'http://api.wordpress.org/core/checksums/1.0/?' . http_build_query(compact('version', 'locale'), '', '&');
+    $http_url = 'http://api.wp.org/core/checksums/1.0/?' . http_build_query(compact('version', 'locale'), '', '&');
     $url      = $http_url;
 
     $ssl = wp_http_supports(['ssl']);
@@ -154,7 +154,7 @@ function get_core_checksums($version, $locale)
             sprintf(
                 /* translators: %s: Support forums URL. */
                 __('An unexpected error occurred. Something may be wrong with wp.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
-                __('https://wordpress.org/support/forums/')
+                __('https://wp.org/support/forums/')
             ) . ' ' . __('(WordPress could not establish a secure connection to wp.org. Please contact your server administrator.)'),
             headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE
         );
@@ -327,7 +327,7 @@ function update_nag()
 
     $version_url = sprintf(
         /* translators: %s: WordPress version. */
-        esc_url(__('https://wordpress.org/documentation/wordpress-version/version-%s/')),
+        esc_url(__('https://wp.org/documentation/wordpress-version/version-%s/')),
         sanitize_title($cur->current)
     );
 

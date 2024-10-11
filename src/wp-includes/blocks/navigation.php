@@ -1068,7 +1068,7 @@ function block_core_navigation_block_contains_core_navigation($inner_blocks)
  * site when there is no menu assigned to the Nav block.
  *
  * This aims to mirror how the fallback mechanic for wp_nav_menu works.
- * See https://developer.wordpress.org/reference/functions/wp_nav_menu/#more-information.
+ * See https://developer.wp.org/reference/functions/wp_nav_menu/#more-information.
  *
  * @since 5.9.0
  *

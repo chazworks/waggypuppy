@@ -6,4 +6,4 @@ Released under LGPL
 
 Modified February 2008
 for __VAR_WP
-https://wordpress.org
+https://wp.org

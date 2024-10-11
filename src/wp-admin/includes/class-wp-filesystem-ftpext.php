@@ -445,7 +445,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base
          * Check for empty path. If ftp_nlist() receives an empty path,
          * it checks the current working directory and may return true.
          *
-         * See https://core.trac.wordpress.org/ticket/33058.
+         * See https://core.trac.wp.org/ticket/33058.
          */
         if ('' === $path) {
             return false;

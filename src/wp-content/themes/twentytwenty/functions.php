@@ -2,7 +2,7 @@
 /**
  * Twenty Twenty functions and definitions
  *
- * @link https://developer.wordpress.org/themes/basics/theme-functions/
+ * @link https://developer.wp.org/themes/basics/theme-functions/
  *
  * @package waggypuppy
  * @subpackage Twenty_Twenty
@@ -56,7 +56,7 @@ function twentytwenty_theme_support()
     /*
      * Enable support for Post Thumbnails on posts and pages.
      *
-     * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
+     * @link https://developer.wp.org/themes/functionality/featured-images-post-thumbnails/
      */
     add_theme_support('post-thumbnails');
 
@@ -386,7 +386,7 @@ add_action('wp_body_open', 'twentytwenty_skip_link', 5);
  *
  * @since Twenty Twenty 1.0
  *
- * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
+ * @link https://developer.wp.org/themes/functionality/sidebars/#registering-a-sidebar
  */
 function twentytwenty_sidebar_registration()
 {

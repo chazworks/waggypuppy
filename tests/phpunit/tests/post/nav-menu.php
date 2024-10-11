@@ -199,7 +199,7 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase
             [
                 'menu-item-type'   => 'custom',
                 'menu-item-title'  => 'Wordpress.org',
-                'menu-item-url'    => 'http://wordpress.org',
+                'menu-item-url'    => 'http://wp.org',
                 'menu-item-status' => 'publish',
             ]
         );
@@ -1202,8 +1202,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase
     public function data_trim_url_for_custom_item()
     {
         return [
-            ['https://wordpress.org ', 'https://wordpress.org'],
-            [' https://wordpress.org', 'https://wordpress.org'],
+            ['https://wp.org ', 'https://wp.org'],
+            [' https://wp.org', 'https://wp.org'],
         ];
     }
 

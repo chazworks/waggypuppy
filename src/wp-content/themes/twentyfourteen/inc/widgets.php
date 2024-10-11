@@ -4,7 +4,7 @@
  *
  * Displays posts from Aside, Quote, Video, Audio, Image, Gallery, and Link formats.
  *
- * @link https://developer.wordpress.org/themes/functionality/widgets/#developing-widgets
+ * @link https://developer.wp.org/themes/functionality/widgets/#developing-widgets
  *
  * @package waggypuppy
  * @subpackage Twenty_Fourteen

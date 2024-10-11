@@ -222,7 +222,7 @@ class WP_Embed
 
         /*
          * KSES converts & into &amp; and we need to undo this.
-         * See https://core.trac.wordpress.org/ticket/11311
+         * See https://core.trac.wp.org/ticket/11311
          */
         $url = str_replace('&amp;', '&', $url);
 

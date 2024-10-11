@@ -1193,7 +1193,7 @@ function load_script_textdomain($handle, $domain = 'default', $path = '')
 
         /*
          * Ensure correct languages path when using a custom `WP_PLUGIN_DIR` / `WP_PLUGIN_URL` configuration.
-         * See https://core.trac.wordpress.org/ticket/60891 and https://core.trac.wordpress.org/ticket/62016.
+         * See https://core.trac.wp.org/ticket/60891 and https://core.trac.wp.org/ticket/62016.
          */
         $plugins_dir = array_slice(explode('/', $plugins_url['path']), 2);
         $plugins_dir = trim($plugins_dir[0], '/');
@@ -1803,7 +1803,7 @@ function wp_dropdown_languages($args = [])
  * Determines whether the current locale is right-to-left (RTL).
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 3.0.0

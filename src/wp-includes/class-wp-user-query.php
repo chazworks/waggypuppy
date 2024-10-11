@@ -825,7 +825,7 @@ class WP_User_Query
         $this->results = apply_filters_ref_array('users_pre_query', [null, &$this]);
 
         if (null === $this->results) {
-            // Beginning of the string is on a new line to prevent leading whitespace. See https://core.trac.wordpress.org/ticket/56841.
+            // Beginning of the string is on a new line to prevent leading whitespace. See https://core.trac.wp.org/ticket/56841.
             $this->request =
                 "SELECT {$this->query_fields}
 				 {$this->query_from}

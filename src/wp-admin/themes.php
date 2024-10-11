@@ -152,9 +152,9 @@ if (current_user_can('install_themes')) {
         $help_install = '<p>' . __('Installing themes on Multisite can only be done from the Network Admin section.') . '</p>';
     } else {
         $help_install = '<p>' . sprintf(
-            /* translators: %s: https://wordpress.org/themes/ */
+            /* translators: %s: https://wp.org/themes/ */
             __('If you would like to see more themes to choose from, click on the &#8220;Add New Theme&#8221; button and you will be able to browse or search for additional themes from the <a href="%s">WordPress Theme Directory</a>. Themes in the WordPress Theme Directory are designed and developed by third parties, and are compatible with the license WordPress uses. Oh, and they are free!'),
-            __('https://wordpress.org/themes/')
+            __('https://wp.org/themes/')
         ) . '</p>';
     }
 
@@ -199,15 +199,15 @@ if (current_user_can('update_themes') && wp_is_auto_update_enabled_for_type('the
         ]
     );
 
-    $help_sidebar_autoupdates = '<p>' . __('<a href="https://wordpress.org/documentation/article/plugins-themes-auto-updates/">Documentation on Auto-updates</a>') . '</p>';
+    $help_sidebar_autoupdates = '<p>' . __('<a href="https://wp.org/documentation/article/plugins-themes-auto-updates/">Documentation on Auto-updates</a>') . '</p>';
 } // End if 'update_themes' && 'wp_is_auto_update_enabled_for_type'.
 
 get_current_screen()->set_help_sidebar(
     '<p><strong>' . __('For more information:') . '</strong></p>' .
-    '<p>' . __('<a href="https://wordpress.org/documentation/article/work-with-themes/">Documentation on Using Themes</a>') . '</p>' .
-    '<p>' . __('<a href="https://wordpress.org/documentation/article/appearance-themes-screen/">Documentation on Managing Themes</a>') . '</p>' .
+    '<p>' . __('<a href="https://wp.org/documentation/article/work-with-themes/">Documentation on Using Themes</a>') . '</p>' .
+    '<p>' . __('<a href="https://wp.org/documentation/article/appearance-themes-screen/">Documentation on Managing Themes</a>') . '</p>' .
     $help_sidebar_autoupdates .
-    '<p>' . __('<a href="https://wordpress.org/support/forums/">Support forums</a>') . '</p>'
+    '<p>' . __('<a href="https://wp.org/support/forums/">Support forums</a>') . '</p>'
 );
 
 if (current_user_can('switch_themes')) {

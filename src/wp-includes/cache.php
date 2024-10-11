@@ -2,7 +2,7 @@
 /**
  * Object Cache API
  *
- * @link https://developer.wordpress.org/reference/classes/wp_object_cache/
+ * @link https://developer.wp.org/reference/classes/wp_object_cache/
  *
  * @package waggypuppy
  * @subpackage Cache
