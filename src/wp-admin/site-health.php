@@ -6,7 +6,7 @@
  * @subpackage Administration
  */
 
-/** WordPress Administration Bootstrap */
+/** waggypuppy Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 
 $action = ! empty($_REQUEST['action']) ? sanitize_text_field($_REQUEST['action']) : '';

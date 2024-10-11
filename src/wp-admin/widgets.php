@@ -6,10 +6,10 @@
  * @subpackage Administration
  */
 
-/** WordPress Administration Bootstrap */
+/** waggypuppy Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 
-/** WordPress Administration Widgets API */
+/** waggypuppy Administration Widgets API */
 require_once ABSPATH . 'wp-admin/includes/widgets.php';
 
 if (! current_user_can('edit_theme_options')) {

@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Administration Importer API.
+ * waggypuppy Administration Importer API.
  *
  * @package WP
  * @subpackage Administration

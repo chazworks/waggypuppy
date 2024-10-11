@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress database access abstraction class.
+ * waggypuppy database access abstraction class.
  *
  * Original code from {@link http://php.justinvincent.com Justin Vincent (justin@visunet.ie)}
  *
@@ -37,7 +37,7 @@ const ARRAY_A = 'ARRAY_A';
 const ARRAY_N = 'ARRAY_N';
 
 /**
- * WordPress database access abstraction class.
+ * waggypuppy database access abstraction class.
  *
  * This class is used to interact with a database without needing to use raw SQL statements.
  * By default, WordPress uses this class to instantiate the global $wpdb object, providing

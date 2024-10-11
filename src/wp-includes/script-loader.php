@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress scripts and styles default loader.
+ * waggypuppy scripts and styles default loader.
  *
  * Several constants are used to manage the loading, concatenating and compression of scripts and CSS:
  * define('SCRIPT_DEBUG', true); loads the development (non-minified) versions of all scripts and CSS, and disables compression and concatenation,
@@ -16,22 +16,22 @@
  * @package WP
  */
 
-/** WordPress Dependency Class */
+/** waggypuppy Dependency Class */
 require ABSPATH . WPINC . '/class-wp-dependency.php';
 
-/** WordPress Dependencies Class */
+/** waggypuppy Dependencies Class */
 require ABSPATH . WPINC . '/class-wp-dependencies.php';
 
-/** WordPress Scripts Class */
+/** waggypuppy Scripts Class */
 require ABSPATH . WPINC . '/class-wp-scripts.php';
 
-/** WordPress Scripts Functions */
+/** waggypuppy Scripts Functions */
 require ABSPATH . WPINC . '/functions.wp-scripts.php';
 
-/** WordPress Styles Class */
+/** waggypuppy Styles Class */
 require ABSPATH . WPINC . '/class-wp-styles.php';
 
-/** WordPress Styles Functions */
+/** waggypuppy Styles Functions */
 require ABSPATH . WPINC . '/functions.wp-styles.php';
 
 /**

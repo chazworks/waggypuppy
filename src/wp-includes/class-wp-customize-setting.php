@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Customize Setting classes
+ * waggypuppy Customize Setting classes
  *
  * @package WP
  * @subpackage Customize

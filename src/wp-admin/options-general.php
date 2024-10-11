@@ -6,10 +6,10 @@
  * @subpackage Administration
  */
 
-/** WordPress Administration Bootstrap */
+/** waggypuppy Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 
-/** WordPress Translation Installation API */
+/** waggypuppy Translation Installation API */
 require_once ABSPATH . 'wp-admin/includes/translation-install.php';
 
 if (! current_user_can('manage_options')) {

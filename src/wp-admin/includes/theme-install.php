@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Theme Installation Administration API
+ * waggypuppy Theme Installation Administration API
  *
  * @package WP
  * @subpackage Administration

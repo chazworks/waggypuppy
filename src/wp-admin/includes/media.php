@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Administration Media API.
+ * waggypuppy Administration Media API.
  *
  * @package WP
  * @subpackage Administration

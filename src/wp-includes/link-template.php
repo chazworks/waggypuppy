@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Link Template Functions
+ * waggypuppy Link Template Functions
  *
  * @package WP
  * @subpackage Template

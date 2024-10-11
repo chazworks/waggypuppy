@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress environment setup class.
+ * waggypuppy environment setup class.
  *
  * @package WP
  * @since 2.0.0

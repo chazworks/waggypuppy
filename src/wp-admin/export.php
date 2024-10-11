@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Export Administration Screen
+ * waggypuppy Export Administration Screen
  *
  * @package WP
  * @subpackage Administration

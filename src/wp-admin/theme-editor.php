@@ -6,7 +6,7 @@
  * @subpackage Administration
  */
 
-/** WordPress Administration Bootstrap */
+/** waggypuppy Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 
 if (is_multisite() && ! is_network_admin()) {

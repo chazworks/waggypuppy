@@ -1,13 +1,13 @@
 <?php
 /**
- * WordPress FTP Filesystem.
+ * waggypuppy FTP Filesystem.
  *
  * @package WP
  * @subpackage Filesystem
  */
 
 /**
- * WordPress Filesystem Class for implementing FTP.
+ * waggypuppy Filesystem Class for implementing FTP.
  *
  * @since 2.5.0
  *

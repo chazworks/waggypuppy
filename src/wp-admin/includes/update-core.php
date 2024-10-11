@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress core upgrade functionality.
+ * waggypuppy core upgrade functionality.
  *
  * @package WP
  * @subpackage Administration

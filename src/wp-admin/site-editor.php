@@ -8,7 +8,7 @@
 
 global $editor_styles;
 
-/** WordPress Administration Bootstrap */
+/** waggypuppy Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 
 if (! current_user_can('edit_theme_options')) {

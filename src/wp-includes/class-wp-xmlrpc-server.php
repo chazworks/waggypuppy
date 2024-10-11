@@ -7,7 +7,7 @@
  */
 
 /**
- * WordPress XMLRPC server implementation.
+ * waggypuppy XMLRPC server implementation.
  *
  * Implements compatibility for Blogger API, MetaWeblog API, MovableType, and
  * pingback. Additional WordPress API for managing comments, pages, posts,

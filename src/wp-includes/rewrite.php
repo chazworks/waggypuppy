@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Rewrite API
+ * waggypuppy Rewrite API
  *
  * @package WP
  * @subpackage Rewrite

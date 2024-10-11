@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Administration Bootstrap
+ * waggypuppy Administration Bootstrap
  *
  * @package WP
  * @subpackage Administration

@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Version
+ * waggypuppy Version
  *
  * Contains version information for the current WordPress release.
  *

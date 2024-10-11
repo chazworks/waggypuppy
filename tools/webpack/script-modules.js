@@ -5,7 +5,7 @@ const { createRequire } = require( 'node:module' );
 const { dirname } = require( 'node:path' );
 
 /**
- * WordPress dependencies
+ * waggypuppy dependencies
  */
 const DependencyExtractionPlugin = require( '@wordpress/dependency-extraction-webpack-plugin' );
 

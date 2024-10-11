@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Credits Administration API.
+ * waggypuppy Credits Administration API.
  *
  * @package WP
  * @subpackage Administration

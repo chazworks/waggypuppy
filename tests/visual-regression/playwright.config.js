@@ -5,7 +5,7 @@ import path from 'node:path';
 import { defineConfig } from '@playwright/test';
 
 /**
- * WordPress dependencies
+ * waggypuppy dependencies
  */
 const baseConfig = require( '@wordpress/scripts/config/playwright.config' );
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Post Template Functions.
+ * waggypuppy Post Template Functions.
  *
  * Gets content for the current post in the loop.
  *

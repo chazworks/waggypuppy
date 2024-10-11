@@ -1,5 +1,5 @@
 /**
- * WordPress Administration Navigation Menu
+ * waggypuppy Administration Navigation Menu
  * Interface JS functions
  *
  * @version 2.0.0

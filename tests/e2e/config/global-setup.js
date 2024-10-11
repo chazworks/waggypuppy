@@ -4,7 +4,7 @@
 import { request } from '@playwright/test';
 
 /**
- * WordPress dependencies
+ * waggypuppy dependencies
  */
 import { RequestUtils } from '@wordpress/e2e-test-utils-playwright';
 

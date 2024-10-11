@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Ajax Process Execution
+ * waggypuppy Ajax Process Execution
  *
  * @package WP
  * @subpackage Administration

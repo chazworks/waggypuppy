@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Filesystem Class for implementing SSH2
+ * waggypuppy Filesystem Class for implementing SSH2
  *
  * To use this class you must follow these steps for PHP 5.2.6+
  *

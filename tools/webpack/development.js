@@ -4,7 +4,7 @@
 const { join } = require( 'path' );
 
 /**
- * WordPress dependencies
+ * waggypuppy dependencies
  */
 const DependencyExtractionWebpackPlugin = require( '@wordpress/dependency-extraction-webpack-plugin' );
 

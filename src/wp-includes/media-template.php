@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress media templates.
+ * waggypuppy media templates.
  *
  * @package WP
  * @subpackage Media

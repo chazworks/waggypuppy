@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Administration Meta Boxes API.
+ * waggypuppy Administration Meta Boxes API.
  *
  * @package WP
  * @subpackage Administration

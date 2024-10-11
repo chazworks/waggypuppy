@@ -1,13 +1,13 @@
 <?php
 /**
- * WordPress GD Image Editor
+ * waggypuppy GD Image Editor
  *
  * @package WP
  * @subpackage Image_Editor
  */
 
 /**
- * WordPress Image Editor Class for Image Manipulation through GD
+ * waggypuppy Image Editor Class for Image Manipulation through GD
  *
  * @since 3.5.0
  *

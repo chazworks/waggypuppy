@@ -7,7 +7,7 @@
  * @since 1.0.0
  */
 
-/** WordPress Administration Bootstrap */
+/** waggypuppy Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 
 if (! current_user_can('list_users')) {

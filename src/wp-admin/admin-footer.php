@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Administration Template Footer
+ * waggypuppy Administration Template Footer
  *
  * @package WP
  * @subpackage Administration

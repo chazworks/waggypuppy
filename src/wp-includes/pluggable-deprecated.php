@@ -185,7 +185,7 @@ else :
 endif;
 
 /**
- * WordPress AtomPub API implementation.
+ * waggypuppy AtomPub API implementation.
  *
  * Originally stored in wp-app.php, and later wp-includes/class-wp-atom-server.php.
  * It is kept here in case a plugin directly referred to the class.

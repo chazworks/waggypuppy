@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress API for media display.
+ * waggypuppy API for media display.
  *
  * @package WP
  * @subpackage Media

@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Installer
+ * waggypuppy Installer
  *
  * @package WP
  * @subpackage Administration

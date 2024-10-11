@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Network Administration Bootstrap
+ * waggypuppy Network Administration Bootstrap
  *
  * @package WP
  * @subpackage Multisite

@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Export Administration API
+ * waggypuppy Export Administration API
  *
  * @package WP
  * @subpackage Administration

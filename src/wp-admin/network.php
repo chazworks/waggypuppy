@@ -12,7 +12,7 @@
 
 const WP_INSTALLING_NETWORK = true;
 
-/** WordPress Administration Bootstrap */
+/** waggypuppy Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 
 if (! current_user_can('setup_network')) {

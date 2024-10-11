@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Bookmark Administration API
+ * waggypuppy Bookmark Administration API
  *
  * @package WP
  * @subpackage Administration

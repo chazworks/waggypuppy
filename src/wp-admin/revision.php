@@ -9,7 +9,7 @@
  * @since 2.6.0
  */
 
-/** WordPress Administration Bootstrap */
+/** waggypuppy Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 
 require ABSPATH . 'wp-admin/includes/revision.php';

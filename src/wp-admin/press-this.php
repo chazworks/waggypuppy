@@ -8,7 +8,7 @@
 
 const IFRAME_REQUEST = true;
 
-/** WordPress Administration Bootstrap */
+/** waggypuppy Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 
 function wp_load_press_this()

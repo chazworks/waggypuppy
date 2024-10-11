@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Options Administration API.
+ * waggypuppy Options Administration API.
  *
  * @package WP
  * @subpackage Administration

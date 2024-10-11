@@ -1,13 +1,13 @@
 <?php
 /**
- * WordPress Direct Filesystem.
+ * waggypuppy Direct Filesystem.
  *
  * @package WP
  * @subpackage Filesystem
  */
 
 /**
- * WordPress Filesystem Class for direct PHP file and folder manipulation.
+ * waggypuppy Filesystem Class for direct PHP file and folder manipulation.
  *
  * @since 2.5.0
  *

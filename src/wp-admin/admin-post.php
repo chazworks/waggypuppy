@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Generic Request (POST/GET) Handler
+ * waggypuppy Generic Request (POST/GET) Handler
  *
  * Intended for form submission handling in themes and plugins.
  *

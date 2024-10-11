@@ -416,7 +416,7 @@ add_action('after_setup_theme', [wp_interactivity(), 'add_hooks']);
 $GLOBALS['wp_embed'] = new WP_Embed();
 
 /**
- * WordPress Textdomain Registry object.
+ * waggypuppy Textdomain Registry object.
  *
  * Used to support just-in-time translations for manually loaded text domains.
  *
@@ -572,7 +572,7 @@ wp_magic_quotes();
 do_action('sanitize_comment_cookies');
 
 /**
- * WordPress Query object
+ * waggypuppy Query object
  *
  * @since 2.0.0
  *
@@ -600,7 +600,7 @@ $GLOBALS['wp_query'] = $GLOBALS['wp_the_query'];
 $GLOBALS['wp_rewrite'] = new WP_Rewrite();
 
 /**
- * WordPress Object
+ * waggypuppy Object
  *
  * @since 2.0.0
  *
@@ -609,7 +609,7 @@ $GLOBALS['wp_rewrite'] = new WP_Rewrite();
 $GLOBALS['wp'] = new WP();
 
 /**
- * WordPress Widget Factory Object
+ * waggypuppy Widget Factory Object
  *
  * @since 2.8.0
  *
@@ -618,7 +618,7 @@ $GLOBALS['wp'] = new WP();
 $GLOBALS['wp_widget_factory'] = new WP_Widget_Factory();
 
 /**
- * WordPress User Roles
+ * waggypuppy User Roles
  *
  * @since 2.0.0
  *
@@ -648,7 +648,7 @@ if ((0 === validate_file($locale)) && is_readable($locale_file)) {
 unset($locale_file);
 
 /**
- * WordPress Locale object for loading locale domain date and various strings.
+ * waggypuppy Locale object for loading locale domain date and various strings.
  *
  * @since 2.1.0
  *
@@ -657,7 +657,7 @@ unset($locale_file);
 $GLOBALS['wp_locale'] = new WP_Locale();
 
 /**
- * WordPress Locale Switcher object for switching locales.
+ * waggypuppy Locale Switcher object for switching locales.
  *
  * @since 4.7.0
  *

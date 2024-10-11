@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Administration Privacy Tools API.
+ * waggypuppy Administration Privacy Tools API.
  *
  * @package WP
  * @subpackage Administration

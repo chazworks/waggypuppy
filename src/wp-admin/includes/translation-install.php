@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Translation Installation Administration API
+ * waggypuppy Translation Installation Administration API
  *
  * @package WP
  * @subpackage Administration

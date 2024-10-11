@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Cron API
+ * waggypuppy Cron API
  *
  * @package WP
  */
