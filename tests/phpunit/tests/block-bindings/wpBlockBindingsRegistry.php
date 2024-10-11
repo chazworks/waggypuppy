@@ -2,7 +2,7 @@
 /**
  * Tests for WP_Block_Bindings_Registry.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Blocks
  * @since 6.5.0
  *

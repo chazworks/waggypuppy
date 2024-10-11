@@ -2,7 +2,7 @@
 /**
  * Tests for block serialization functions.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Blocks
  *
  * @since 5.3.3

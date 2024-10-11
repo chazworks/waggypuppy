@@ -5,7 +5,7 @@
  * This file is deprecated, use 'wp-admin/upload.php' instead.
  *
  * @deprecated 6.3.0
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Administration
  */
 

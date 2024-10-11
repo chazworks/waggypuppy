@@ -2,7 +2,7 @@
 /**
  * List Table API: WP_Privacy_Requests_Table class
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Administration
  * @since 4.9.6
  */

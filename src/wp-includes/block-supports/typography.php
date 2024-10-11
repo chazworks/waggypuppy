@@ -2,7 +2,7 @@
 /**
  * Typography block support flag.
  *
- * @package WordPress
+ * @package waggypuppy
  * @since 5.6.0
  */
 

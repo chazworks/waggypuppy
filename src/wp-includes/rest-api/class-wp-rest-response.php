@@ -2,7 +2,7 @@
 /**
  * REST API: WP_REST_Response class
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage REST_API
  * @since 4.4.0
  */

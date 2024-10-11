@@ -2,7 +2,7 @@
 /**
  * Tests for the Test_WP_Customize_Control class.
  *
- * @package WordPress
+ * @package waggypuppy
  *
  * @todo This is missing dedicated tests for all but one of the methods.
  *

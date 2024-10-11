@@ -2,7 +2,7 @@
 /**
  * Network Credits administration panel.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Multisite
  * @since 3.4.0
  */

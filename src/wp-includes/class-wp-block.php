@@ -2,7 +2,7 @@
 /**
  * Blocks API: WP_Block class
  *
- * @package WordPress
+ * @package waggypuppy
  * @since 5.5.0
  */
 

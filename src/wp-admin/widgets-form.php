@@ -2,7 +2,7 @@
 /**
  * The classic widget administration screen, for use in widgets.php.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Administration
  */
 

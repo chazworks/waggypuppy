@@ -2,7 +2,7 @@
 /**
  * User Dashboard Contribute administration panel.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Administration
  * @since 6.6.0
  */

@@ -2,7 +2,7 @@
 /**
  * Dashboard Administration Screen
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Administration
  */
 

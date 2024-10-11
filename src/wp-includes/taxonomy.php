@@ -2,7 +2,7 @@
 /**
  * Core Taxonomy API
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Taxonomy
  */
 

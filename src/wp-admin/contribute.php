@@ -2,7 +2,7 @@
 /**
  * Contribute administration panel.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Administration
  */
 

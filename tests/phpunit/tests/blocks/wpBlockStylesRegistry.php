@@ -2,7 +2,7 @@
 /**
  * Tests for WP_Block_Styles_Registry.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Blocks
  * @since 6.6.0
  *

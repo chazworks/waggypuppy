@@ -3,7 +3,7 @@
 /**
  * Unit tests for `wp_debug_mode()`.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage UnitTests
  * @since 5.9.0
  *

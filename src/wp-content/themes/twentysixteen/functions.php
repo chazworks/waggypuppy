@@ -20,7 +20,7 @@
  * For more information on hooks, actions, and filters,
  * {@link https://developer.wordpress.org/plugins/}
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Twenty_Sixteen
  * @since Twenty Sixteen 1.0
  */

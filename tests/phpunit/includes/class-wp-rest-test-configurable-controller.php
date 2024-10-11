@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_REST_Controller functionality using a flexible schema.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage REST API
  * @since 5.4.0
  */

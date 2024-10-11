@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_REST_Themes_Controller functionality.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage REST API
  *
  * @group restapi-themes

@@ -2,7 +2,7 @@
 /**
  * Unit tests for methods in WP_Community_Events.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage UnitTests
  * @since 4.8.0
  *

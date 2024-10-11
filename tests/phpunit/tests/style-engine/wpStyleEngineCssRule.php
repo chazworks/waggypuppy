@@ -2,7 +2,7 @@
 /**
  * Tests the Style Engine CSS Rule class.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage StyleEngine
  * @since 6.1.0
  *

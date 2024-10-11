@@ -2,7 +2,7 @@
 /**
  * Post API: Walker_PageDropdown class
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Post
  * @since 4.4.0
  */

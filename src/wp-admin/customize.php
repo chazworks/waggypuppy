@@ -2,7 +2,7 @@
 /**
  * Theme Customize Screen.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Customize
  * @since 3.4.0
  */

@@ -2,7 +2,7 @@
 /**
  * Test WP_Font_Collection constructor.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Font Library
  *
  * @group fonts

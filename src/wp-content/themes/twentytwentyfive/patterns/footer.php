@@ -6,7 +6,7 @@
  * Block Types: core/template-part/footer
  * Description: Footer columns with logo, title, tagline and links.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Twenty_Twenty_Five
  * @since Twenty Twenty-Five 1.0
  */

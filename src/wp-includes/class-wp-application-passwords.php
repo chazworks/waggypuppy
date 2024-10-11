@@ -2,14 +2,14 @@
 /**
  * WP_Application_Passwords class
  *
- * @package WordPress
+ * @package waggypuppy
  * @since   5.6.0
  */
 
 /**
  * Class for displaying, modifying, and sanitizing application passwords.
  *
- * @package WordPress
+ * @package waggypuppy
  */
 #[AllowDynamicProperties]
 class WP_Application_Passwords

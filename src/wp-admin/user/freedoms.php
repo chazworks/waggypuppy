@@ -2,7 +2,7 @@
 /**
  * User Dashboard Freedoms administration panel.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Administration
  * @since 3.4.0
  */

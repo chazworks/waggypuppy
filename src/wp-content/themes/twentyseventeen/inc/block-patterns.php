@@ -2,7 +2,7 @@
 /**
  * Twenty Seventeen Theme: Block Patterns
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Twenty_Seventeen
  * @since Twenty Seventeen 2.5
  */

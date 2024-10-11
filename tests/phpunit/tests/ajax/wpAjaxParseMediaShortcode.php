@@ -8,7 +8,7 @@ require_once ABSPATH . 'wp-admin/includes/ajax-actions.php';
 /**
  * Testing Ajax save draft functionality.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage UnitTests
  * @since 6.3.2
  *

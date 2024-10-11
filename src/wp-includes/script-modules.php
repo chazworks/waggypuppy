@@ -4,7 +4,7 @@
  *
  * @since 6.5.0
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Script Modules
  */
 

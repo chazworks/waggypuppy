@@ -2,7 +2,7 @@
 /**
  * Tests for the WP_Plugin_Dependencies::has_dependents() method.
  *
- * @package WordPress
+ * @package waggypuppy
  */
 
 require_once __DIR__ . '/base.php';

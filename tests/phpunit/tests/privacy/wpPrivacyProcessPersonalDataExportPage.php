@@ -2,7 +2,7 @@
 /**
  * Test cases for the `wp_privacy_process_personal_data_export_page()` function.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage UnitTests
  * @since 5.2.0
  *

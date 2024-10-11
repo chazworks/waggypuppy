@@ -2,7 +2,7 @@
 /**
  * The template used for displaying page content
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Twenty_Fourteen
  * @since Twenty Fourteen 1.0
  */

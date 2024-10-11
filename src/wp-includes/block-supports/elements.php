@@ -2,7 +2,7 @@
 /**
  * Elements styles block support.
  *
- * @package WordPress
+ * @package waggypuppy
  * @since 5.8.0
  */
 

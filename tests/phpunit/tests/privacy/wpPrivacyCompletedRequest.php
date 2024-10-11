@@ -2,7 +2,7 @@
 /**
  * Test cases for the `_wp_privacy_completed_request()` function.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage UnitTests
  * @since 4.9.6
  *

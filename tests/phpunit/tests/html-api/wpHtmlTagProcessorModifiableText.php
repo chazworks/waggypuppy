@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_HTML_Tag_Processor modifiable text functionality.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage HTML-API
  * @group html-api
  *

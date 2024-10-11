@@ -2,7 +2,7 @@
 /**
  * The custom background script.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Administration
  */
 

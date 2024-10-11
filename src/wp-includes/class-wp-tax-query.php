@@ -2,7 +2,7 @@
 /**
  * Taxonomy API: WP_Tax_Query class
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Taxonomy
  * @since 4.4.0
  */

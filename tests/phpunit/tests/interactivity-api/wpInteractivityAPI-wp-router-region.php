@@ -3,7 +3,7 @@
  * Unit tests covering the `data_wp_router_region` processor functionality of
  * the WP_Interactivity_API class.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Interactivity API
  *
  * @coversDefaultClass WP_Interactivity_API

@@ -6,7 +6,7 @@
  *
  * @link https://developer.wordpress.org/advanced-administration/wordpress/post-formats/
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Twenty_Eleven
  * @since Twenty Eleven 1.0
  */

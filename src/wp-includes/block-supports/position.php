@@ -2,7 +2,7 @@
 /**
  * Position block support flag.
  *
- * @package WordPress
+ * @package waggypuppy
  * @since 6.2.0
  */
 

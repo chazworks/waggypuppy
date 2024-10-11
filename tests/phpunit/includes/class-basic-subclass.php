@@ -2,7 +2,7 @@
 /**
  * Unit Tests: Basic_Subclass class
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage UnitTests
  * @since 4.7.0
  */

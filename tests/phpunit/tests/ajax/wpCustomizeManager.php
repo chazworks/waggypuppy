@@ -2,7 +2,7 @@
 /**
  * Testing Ajax customize manager functionality.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage UnitTests
  * @since 4.3.0
  *

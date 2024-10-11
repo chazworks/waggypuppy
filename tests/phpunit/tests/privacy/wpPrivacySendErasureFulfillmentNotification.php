@@ -2,7 +2,7 @@
 /**
  * Test cases for the `_wp_privacy_send_erasure_fulfillment_notification()` function.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage UnitTests
  * @since 5.1.0
  *

@@ -3,7 +3,7 @@
 /**
  * Base class for WP_Filesystem_Direct tests.
  *
- * @package WordPress
+ * @package waggypuppy
  */
 abstract class WP_Filesystem_Direct_UnitTestCase extends WP_UnitTestCase
 {

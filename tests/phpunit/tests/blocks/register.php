@@ -2,7 +2,7 @@
 /**
  * Tests for register_block_type(), unregister_block_type(), get_dynamic_block_names(), and register_block_style().
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Blocks
  * @since 5.0.0
  *

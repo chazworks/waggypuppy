@@ -2,7 +2,7 @@
 /**
  * Test Case for WP_Font_Library tests.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Font Library
  */
 abstract class WP_Font_Library_UnitTestCase extends WP_UnitTestCase

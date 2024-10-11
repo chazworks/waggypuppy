@@ -2,7 +2,7 @@
 /**
  * Main WordPress API
  *
- * @package WordPress
+ * @package waggypuppy
  */
 
 require ABSPATH . WPINC . '/option.php';

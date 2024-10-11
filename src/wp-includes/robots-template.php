@@ -2,7 +2,7 @@
 /**
  * Robots template functions.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Robots
  * @since 5.7.0
  */

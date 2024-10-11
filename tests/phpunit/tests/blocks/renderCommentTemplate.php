@@ -2,7 +2,7 @@
 /**
  * Tests for the Comment Template block rendering.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Blocks
  * @since 6.0.0
  *

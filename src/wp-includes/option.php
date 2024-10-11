@@ -2,7 +2,7 @@
 /**
  * Option API
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Option
  */
 

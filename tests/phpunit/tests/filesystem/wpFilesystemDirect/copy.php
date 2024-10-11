@@ -2,7 +2,7 @@
 /**
  * Tests for the WP_Filesystem_Direct::copy() method.
  *
- * @package WordPress
+ * @package waggypuppy
  */
 
 require_once __DIR__ . '/base.php';

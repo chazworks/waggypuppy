@@ -2,7 +2,7 @@
 /**
  * Privacy Settings Screen.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Administration
  */
 

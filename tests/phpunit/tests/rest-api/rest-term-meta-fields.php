@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_REST_Terms meta functionality.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage REST API
  *
  * @group restapi

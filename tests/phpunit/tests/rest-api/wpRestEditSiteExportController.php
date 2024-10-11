@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_REST_Edit_Site_Export_Controller functionality.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage REST_API
  * @since 5.9.0
  *

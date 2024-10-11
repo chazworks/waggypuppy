@@ -4,7 +4,7 @@
  *
  * This class provides the XSL stylesheets to style all sitemaps.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Sitemaps
  * @since 5.5.0
  */

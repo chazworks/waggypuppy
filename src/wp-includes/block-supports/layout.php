@@ -2,7 +2,7 @@
 /**
  * Layout block support flag.
  *
- * @package WordPress
+ * @package waggypuppy
  * @since 5.8.0
  */
 

@@ -6,7 +6,7 @@
  *
  * Based on a solution in WP Rig.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Twenty_Twenty
  * @since Twenty Twenty 1.0
  */

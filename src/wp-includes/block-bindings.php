@@ -4,7 +4,7 @@
  *
  * Contains functions for managing block bindings in WordPress.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Block Bindings
  * @since 6.5.0
  */

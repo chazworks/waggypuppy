@@ -2,7 +2,7 @@
 /**
  * Administration API: Default admin hooks
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Administration
  * @since 4.3.0
  */

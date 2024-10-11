@@ -4,7 +4,7 @@
  *
  * This is the main class integrating all other classes.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Sitemaps
  * @since 5.5.0
  */

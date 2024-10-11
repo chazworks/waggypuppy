@@ -2,7 +2,7 @@
 /**
  * Upgrade WordPress Page.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Administration
  */
 

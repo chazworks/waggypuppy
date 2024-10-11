@@ -2,7 +2,7 @@
 /**
  * Network Privacy administration panel.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Multisite
  * @since 4.9.0
  */

@@ -2,7 +2,7 @@
 /**
  * Implement Custom Header functionality for Twenty Fourteen
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Twenty_Fourteen
  * @since Twenty Fourteen 1.0
  */

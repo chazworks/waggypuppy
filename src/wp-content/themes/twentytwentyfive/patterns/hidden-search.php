@@ -4,7 +4,7 @@
  * Slug: twentytwentyfive/hidden-search
  * Inserter: no
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Twenty_Twenty_Five
  * @since Twenty Twenty-Five 1.0
  */

@@ -4,7 +4,7 @@
  *
  * Used for both single and index/archive/search.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Twenty_Fourteen
  * @since Twenty Fourteen 1.0
  */

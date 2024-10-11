@@ -2,7 +2,7 @@
 /**
  * Test cases for the `wp_send_user_request()` function.
  *
- * @package WordPress
+ * @package waggypuppy
  * @since 4.9.9
  *
  * @group privacy

@@ -2,7 +2,7 @@
 /**
  * Test deleting wp_font_family and wp_font_face post types.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Font Library
  *
  * @group fonts

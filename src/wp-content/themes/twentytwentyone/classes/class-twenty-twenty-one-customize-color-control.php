@@ -2,7 +2,7 @@
 /**
  * Customize API: WP_Customize_Color_Control class
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Twenty_Twenty_One
  * @since Twenty Twenty-One 1.0
  */

@@ -4,7 +4,7 @@
  *
  * Native support for ES Modules and Import Maps.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Script Modules
  */
 

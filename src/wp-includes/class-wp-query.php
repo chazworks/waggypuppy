@@ -2,7 +2,7 @@
 /**
  * Query API: WP_Query class
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Query
  * @since 4.7.0
  */

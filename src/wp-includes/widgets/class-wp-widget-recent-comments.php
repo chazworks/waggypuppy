@@ -2,7 +2,7 @@
 /**
  * Widget API: WP_Widget_Recent_Comments class
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Widgets
  * @since 4.4.0
  */

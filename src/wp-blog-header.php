@@ -2,7 +2,7 @@
 /**
  * Loads the WordPress environment and template.
  *
- * @package WordPress
+ * @package waggypuppy
  */
 
 if (! isset($wp_did_header)) {

@@ -2,7 +2,7 @@
 /**
  * Interactivity API: WP_Interactivity_API class.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Interactivity API
  * @since 6.5.0
  */

@@ -2,7 +2,7 @@
 /**
  * Tests for the Test_WP_Customize_Partial class.
  *
- * @package WordPress
+ * @package waggypuppy
  *
  * @group customize
  */

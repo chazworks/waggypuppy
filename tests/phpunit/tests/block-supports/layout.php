@@ -2,7 +2,7 @@
 /**
  * Tests for block supports related to layout.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Block Supports
  * @since 6.0.0
  *

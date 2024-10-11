@@ -2,7 +2,7 @@
 /**
  * WordPress Administration Revisions API
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Administration
  * @since 3.6.0
  */

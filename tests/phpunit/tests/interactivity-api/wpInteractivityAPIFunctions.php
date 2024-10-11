@@ -3,7 +3,7 @@
  * Unit tests covering the functionality of the public functions of the
  * Interactivity API.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Interactivity API
  *
  * @since 6.5.0

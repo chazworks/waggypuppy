@@ -2,7 +2,7 @@
 /**
  * Core Administration API
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Administration
  * @since 2.3.0
  */

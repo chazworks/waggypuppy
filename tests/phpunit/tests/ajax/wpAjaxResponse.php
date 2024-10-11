@@ -2,7 +2,7 @@
 /**
  * Testing Ajax response class
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage UnitTests
  * @since 3.5.0
  *

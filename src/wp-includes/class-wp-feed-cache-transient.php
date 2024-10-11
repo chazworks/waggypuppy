@@ -2,7 +2,7 @@
 /**
  * Feed API: WP_Feed_Cache_Transient class
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Feed
  * @since 4.7.0
  */

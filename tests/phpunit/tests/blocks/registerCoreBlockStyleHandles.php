@@ -3,7 +3,7 @@
 /**
  * Tests for block style handles.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Blocks
  *
  * @since 6.3.0

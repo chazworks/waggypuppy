@@ -2,7 +2,7 @@
 /**
  * Widget administration screen.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Administration
  */
 

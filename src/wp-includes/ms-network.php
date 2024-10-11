@@ -2,7 +2,7 @@
 /**
  * Network API
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Multisite
  * @since 5.1.0
  */

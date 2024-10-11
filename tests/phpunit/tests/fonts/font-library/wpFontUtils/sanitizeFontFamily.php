@@ -2,7 +2,7 @@
 /**
  * Test WP_Font_Utils::sanitize_font_family().
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Font Library
  *
  * @group fonts

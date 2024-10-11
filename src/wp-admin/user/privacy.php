@@ -2,7 +2,7 @@
 /**
  * User Dashboard Privacy administration panel.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Administration
  * @since 4.9.0
  */

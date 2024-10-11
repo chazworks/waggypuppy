@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_Interactivity_API functionality.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Interactivity API
  *
  * @since 6.5.0

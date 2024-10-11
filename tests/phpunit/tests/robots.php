@@ -2,7 +2,7 @@
 /**
  * Tests for robots template functions and filters.
  *
- * @package WordPress
+ * @package waggypuppy
  *
  * @group robots
  */

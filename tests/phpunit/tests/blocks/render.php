@@ -2,7 +2,7 @@
 /**
  * Tests for block rendering functions.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Blocks
  * @since 5.0.0
  *

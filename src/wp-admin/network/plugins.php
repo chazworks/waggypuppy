@@ -2,7 +2,7 @@
 /**
  * Network Plugins administration panel.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Multisite
  * @since 3.1.0
  */

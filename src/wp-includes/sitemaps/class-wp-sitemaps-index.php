@@ -4,7 +4,7 @@
  *
  * Generates the sitemap index.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Sitemaps
  * @since 5.5.0
  */

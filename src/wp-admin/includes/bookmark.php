@@ -2,7 +2,7 @@
 /**
  * WordPress Bookmark Administration API
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Administration
  */
 

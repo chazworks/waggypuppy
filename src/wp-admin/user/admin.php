@@ -2,7 +2,7 @@
 /**
  * WordPress User Administration Bootstrap
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Administration
  * @since 3.1.0
  */

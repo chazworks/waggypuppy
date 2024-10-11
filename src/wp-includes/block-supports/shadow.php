@@ -2,7 +2,7 @@
 /**
  * Shadow block support flag.
  *
- * @package WordPress
+ * @package waggypuppy
  * @since 6.3.0
  */
 

@@ -2,7 +2,7 @@
 /**
  * WP_HTTP_IXR_Client
  *
- * @package WordPress
+ * @package waggypuppy
  * @since 3.1.0
  */
 #[AllowDynamicProperties]

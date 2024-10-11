@@ -2,7 +2,7 @@
 /**
  * Multisite sites administration panel.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Multisite
  * @since 3.0.0
  */

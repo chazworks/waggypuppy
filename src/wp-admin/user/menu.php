@@ -2,7 +2,7 @@
 /**
  * Build User Administration Menu.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Administration
  * @since 3.1.0
  */

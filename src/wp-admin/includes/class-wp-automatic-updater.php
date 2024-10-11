@@ -2,7 +2,7 @@
 /**
  * Upgrade API: WP_Automatic_Updater class
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Upgrader
  * @since 4.6.0
  */

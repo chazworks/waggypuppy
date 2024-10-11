@@ -2,7 +2,7 @@
 /**
  * Tests the Style Engine Processor class.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage StyleEngine
  * @since 6.1.0
  *

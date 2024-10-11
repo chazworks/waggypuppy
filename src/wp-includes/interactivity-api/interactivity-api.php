@@ -2,7 +2,7 @@
 /**
  * Interactivity API: Functions and hooks
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Interactivity API
  * @since 6.5.0
  */

@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_REST_URL_Details_Controller functionality.
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage REST_API
  * @since 5.9.0
  *

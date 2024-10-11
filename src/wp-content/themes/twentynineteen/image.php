@@ -2,7 +2,7 @@
 /**
  * The template for displaying image attachments
  *
- * @package WordPress
+ * @package waggypuppy
  * @subpackage Twenty_Nineteen
  * @since Twenty Nineteen 1.0
  */
