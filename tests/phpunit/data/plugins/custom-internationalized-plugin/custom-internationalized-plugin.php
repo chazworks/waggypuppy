@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Custom Dummy Plugin
-Plugin URI: https://wordpress.org/
+Plugin URI: https://wp.org/
 Description: For testing purposes only.
 Version: 1.0.0
 Text Domain: custom-internationalized-plugin

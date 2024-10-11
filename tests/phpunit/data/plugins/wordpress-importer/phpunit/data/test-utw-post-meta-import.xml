@@ -17,26 +17,26 @@
 
 <!-- generator="WordPress/2.8.4" created="2009-12-04 09:06"-->
 <rss version="2.0"
-	xmlns:excerpt="http://wordpress.org/export/1.0/excerpt/"
+	xmlns:excerpt="http://wp.org/export/1.0/excerpt/"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
-	xmlns:wp="http://wordpress.org/export/1.0/"
+	xmlns:wp="http://wp.org/export/1.0/"
 >
 
 <channel>
 	<title>Test With Serialized Postmeta</title>
-	<link>http://test.wordpress.org/</link>
+	<link>http://test.wp.org/</link>
 	<description>Just another blog</description>
 	<pubDate>Mon, 30 Nov 2009 21:35:27 +0000</pubDate>
-	<generator>http://wordpress.org/?v=2.8.4</generator>
+	<generator>http://wp.org/?v=2.8.4</generator>
 	<language>en</language>
 	<wp:wxr_version>1.0</wp:wxr_version>
-	<wp:base_site_url>http://test.wordpress.org/</wp:base_site_url>
-	<wp:base_blog_url>http://test.wordpress.org/</wp:base_blog_url>
+	<wp:base_site_url>http://test.wp.org/</wp:base_site_url>
+	<wp:base_blog_url>http://test.wp.org/</wp:base_blog_url>
 		<item>
 <title>My Entry with UTW Postmeta</title>
-<link>http://test.wordpress.org/postmeta-utw</link>
+<link>http://test.wp.org/postmeta-utw</link>
 <pubDate>Tue, 30 Nov 1999 00:00:00 +0000</pubDate>
 <dc:creator><![CDATA[johncoswell]]></dc:creator>
 
@@ -44,7 +44,7 @@
 
 		<category domain="category" nicename="uncategorized"><![CDATA[Uncategorized]]></category>
 
-<guid isPermaLink="false">http://test.wordpress.org/postmeta-utw</guid>
+<guid isPermaLink="false">http://test.wp.org/postmeta-utw</guid>
 <description></description>
 <content:encoded><![CDATA[This is my content]]></content:encoded>
 <excerpt:encoded><![CDATA[]]></excerpt:encoded>

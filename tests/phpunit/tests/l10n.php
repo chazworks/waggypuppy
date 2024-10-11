@@ -117,7 +117,7 @@ class Tests_L10n extends WP_UnitTestCase
         $this->assertNotEmpty($installed_translations['default']['de_CH']);
         $data_en_gb = $installed_translations['default']['de_CH'];
         $this->assertSame('2024-01-31 19:08:22+0000', $data_en_gb['PO-Revision-Date']);
-        $this->assertSame('WP - 6.4.x - Development', $data_en_gb['Project-Id-Version']);
+        $this->assertSame('WordPress - 6.4.x - Development', $data_en_gb['Project-Id-Version']);
         $this->assertSame('GlotPress/4.0.0-beta.2', $data_en_gb['X-Generator']);
     }
 

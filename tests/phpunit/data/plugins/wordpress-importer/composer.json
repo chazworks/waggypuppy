@@ -6,9 +6,9 @@
     ],
     "type": "wordpress-plugin",
     "license": "GPL-2.0-or-later",
-    "homepage": "https://wordpress.org/plugins/wordpress-importer/",
+    "homepage": "https://wp.org/plugins/wordpress-importer/",
     "support": {
-        "issues": "https://wordpress.org/support/plugin/wordpress-importer/",
+        "issues": "https://wp.org/support/plugin/wordpress-importer/",
         "source": "https://github.com/WordPress/wordpress-importer"
     },
     "require": {

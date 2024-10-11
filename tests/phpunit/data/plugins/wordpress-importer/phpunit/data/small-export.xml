@@ -18,11 +18,11 @@
 
 <!-- generator="WordPress/3.1-RC2-17315" created="2011-01-18 08:06" -->
 <rss version="2.0"
-	xmlns:excerpt="http://wordpress.org/export/1.1/excerpt/"
+	xmlns:excerpt="http://wp.org/export/1.1/excerpt/"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
-	xmlns:wp="http://wordpress.org/export/1.1/"
+	xmlns:wp="http://wp.org/export/1.1/"
 >
 
 <channel>
@@ -73,7 +73,7 @@
 	<wp:tag><wp:term_id>34</wp:term_id><wp:tag_slug>tag2</wp:tag_slug><wp:tag_name><![CDATA[Tag2]]></wp:tag_name></wp:tag>
 	<wp:tag><wp:term_id>35</wp:term_id><wp:tag_slug>tag3</wp:tag_slug><wp:tag_name><![CDATA[Tag3]]></wp:tag_name></wp:tag>
 
-	<generator>http://wordpress.org/?v=3.1-RC2-17315</generator>
+	<generator>http://wp.org/?v=3.1-RC2-17315</generator>
 
 	<item>
 		<title>Hello world!</title>
@@ -109,7 +109,7 @@
 			<wp:comment_id>1</wp:comment_id>
 			<wp:comment_author><![CDATA[Mr WordPress]]></wp:comment_author>
 			<wp:comment_author_email></wp:comment_author_email>
-			<wp:comment_author_url>http://wordpress.org/</wp:comment_author_url>
+			<wp:comment_author_url>http://wp.org/</wp:comment_author_url>
 			<wp:comment_author_IP></wp:comment_author_IP>
 			<wp:comment_date>2011-01-18 07:40:14</wp:comment_date>
 			<wp:comment_date_gmt>2011-01-18 07:40:14</wp:comment_date_gmt>

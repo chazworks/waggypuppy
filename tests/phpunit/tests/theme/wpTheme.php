@@ -83,7 +83,7 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase
         $this->assertSame('My Subdir Theme', $theme->get('Name'));
         $this->assertSame('http://example.org/', $theme->get('ThemeURI'));
         $this->assertSame('An example theme in a sub directory', $theme->get('Description'));
-        $this->assertSame('Mr. waggypuppy', $theme->get('Author'));
+        $this->assertSame('Mr. WordPress', $theme->get('Author'));
         $this->assertSame('http://wp.org/', $theme->get('AuthorURI'));
         $this->assertSame('0.1', $theme->get('Version'));
         $this->assertSame('', $theme->get('Template'));
@@ -107,7 +107,7 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase
         $this->assertSame('My Subdir Theme', $theme->get('Name'));
         $this->assertSame('http://example.org/', $theme->get('ThemeURI'));
         $this->assertSame('An example theme in a sub directory', $theme->get('Description'));
-        $this->assertSame('Mr. waggypuppy', $theme->get('Author'));
+        $this->assertSame('Mr. WordPress', $theme->get('Author'));
         $this->assertSame('http://wp.org/', $theme->get('AuthorURI'));
         $this->assertSame('0.1', $theme->get('Version'));
         $this->assertSame('', $theme->get('Template'));

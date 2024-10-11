@@ -50,7 +50,7 @@ class WP_Translation_Controller_Tests extends WP_UnitTestCase
         $this->assertTrue($is_loaded, 'Text domain not considered loaded');
         $this->assertEqualSetsWithIndex(
             [
-                'Project-Id-Version'   => 'WP 2.6-bleeding',
+                'Project-Id-Version'   => 'WordPress 2.6-bleeding',
                 'Report-Msgid-Bugs-To' => 'wp-polyglots@lists.automattic.com',
             ],
             $headers,

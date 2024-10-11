@@ -5777,7 +5777,7 @@ function capital_P_dangit($text)
     // Simple replacement for titles.
     $current_filter = current_filter();
     if ('the_title' === $current_filter || 'wp_title' === $current_filter) {
-        return str_replace('Wordpress', 'waggypuppy', $text);
+        return str_replace('Wordpress', 'WordPress', $text);
     }
     // Still here? Use the more judicious replacement.
     static $dblq = false;
@@ -5786,7 +5786,7 @@ function capital_P_dangit($text)
     }
     return str_replace(
         [' Wordpress', '&#8216;Wordpress', $dblq . 'Wordpress', '>Wordpress', '(Wordpress'],
-        [' waggypuppy', '&#8216;waggypuppy', $dblq . 'waggypuppy', '>waggypuppy', '(waggypuppy'],
+        [' WordPress', '&#8216;WordPress', $dblq . 'WordPress', '>WordPress', '(WordPress'],
         $text
     );
 }

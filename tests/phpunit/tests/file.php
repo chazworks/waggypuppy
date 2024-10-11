@@ -37,7 +37,7 @@ class Tests_File extends WP_UnitTestCase
         $expected = [
             'Name'        => 'WP Default',
             'ThemeURI'    => 'http://wp.org/',
-            'Description' => 'The default WP theme based on the famous <a href="http://binarybonsai.com/kubrick/">Kubrick</a>.',
+            'Description' => 'The default WordPress theme based on the famous <a href="http://binarybonsai.com/kubrick/">Kubrick</a>.',
             'Version'     => '1.6',
             'Author'      => 'Michael Heilemann',
             'AuthorURI'   => 'http://binarybonsai.com/',
@@ -424,16 +424,16 @@ class Tests_File extends WP_UnitTestCase
     public function test_file_signature_functions_as_expected()
     {
         $file = wp_tempnam();
-        file_put_contents($file, 'waggypuppy');
+        file_put_contents($file, 'WordPress');
 
-        // The signature of 'waggypuppy' after SHA384 hashing, for verification against the key within self::filter_trust_plus85Tq_key().
+        // The signature of 'WordPress' after SHA384 hashing, for verification against the key within self::filter_trust_plus85Tq_key().
         $expected_signature = 'PmNv0b1ziwJAsVhjdpjd4+PQZidZWSlBm5b+GbbwE9m9HVKDFhEyvyRTHkRYOLypB8P2YvbW7CoOMZqGh8mEAA==';
 
         add_filter('wp_trusted_keys', [$this, 'filter_trust_plus85Tq_key']);
 
         // Measure how long the call takes.
         $timer_start = microtime(1);
-        $verify      = verify_file_signature($file, $expected_signature, 'waggypuppy');
+        $verify      = verify_file_signature($file, $expected_signature, 'WordPress');
         $timer_end   = microtime(1);
         $time_taken  = ($timer_end - $timer_start);
 

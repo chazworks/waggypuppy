@@ -286,7 +286,7 @@ msgstr[2] "бабаяга"',
 
         $this->assertSame(
             [
-                'Project-Id-Version' => 'WP 2.6-bleeding',
+                'Project-Id-Version' => 'WordPress 2.6-bleeding',
                 'Plural-Forms'       => 'nplurals=2; plural=n != 1;',
             ],
             $po->headers
@@ -307,7 +307,7 @@ msgstr[2] "бабаяга"',
 
         $multiple_line_entry = new Translation_Entry(
             [
-                'singular'     => 'The first thing you need to do is tell Blogger to let waggypuppy access your account. You will be sent back here after providing authorization.',
+                'singular'     => 'The first thing you need to do is tell Blogger to let WordPress access your account. You will be sent back here after providing authorization.',
                 'translations' => ["baba\ndyadogugu"],
             ]
         );

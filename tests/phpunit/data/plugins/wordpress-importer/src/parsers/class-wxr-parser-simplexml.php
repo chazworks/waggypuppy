@@ -64,10 +64,10 @@ class WXR_Parser_SimpleXML {
 
 		$namespaces = $xml->getDocNamespaces();
 		if ( ! isset( $namespaces['wp'] ) ) {
-			$namespaces['wp'] = 'http://wordpress.org/export/1.1/';
+			$namespaces['wp'] = 'http://wp.org/export/1.1/';
 		}
 		if ( ! isset( $namespaces['excerpt'] ) ) {
-			$namespaces['excerpt'] = 'http://wordpress.org/export/1.1/excerpt/';
+			$namespaces['excerpt'] = 'http://wp.org/export/1.1/excerpt/';
 		}
 
 		// grab authors
