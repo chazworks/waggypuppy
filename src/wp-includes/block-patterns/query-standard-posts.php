@@ -2,7 +2,7 @@
 /**
  * Query: Standard.
  *
- * @package WordPress
+ * @package WP
  */
 
 return [

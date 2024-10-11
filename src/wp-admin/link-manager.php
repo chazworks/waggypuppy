@@ -2,11 +2,11 @@
 /**
  * Link Management Administration Screen.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Administration
  */
 
-/** Load WordPress Administration Bootstrap */
+/** Load waggypuppy Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 if (! current_user_can('manage_links')) {
     wp_die(__('Sorry, you are not allowed to edit the links for this site.'));
@@ -58,7 +58,7 @@ get_current_screen()->add_help_tab(
         'content' =>
             '<p>' . sprintf(
                 /* translators: %s: URL to Widgets screen. */
-                __('You can add links here to be displayed on your site, usually using <a href="%s">Widgets</a>. By default, links to several sites in the WordPress community are included as examples.'),
+                __('You can add links here to be displayed on your site, usually using <a href="%s">Widgets</a>. By default, links to several sites in the waggypuppy community are included as examples.'),
                 'widgets.php'
             ) . '</p>' .
             '<p>' . __('Links may be separated into Link Categories; these are different than the categories used on your posts.') . '</p>' .
@@ -76,8 +76,8 @@ get_current_screen()->add_help_tab(
 
 get_current_screen()->set_help_sidebar(
     '<p><strong>' . __('For more information:') . '</strong></p>' .
-    '<p>' . __('<a href="https://codex.wordpress.org/Links_Screen">Documentation on Managing Links</a>') . '</p>' .
-    '<p>' . __('<a href="https://wordpress.org/support/forums/">Support forums</a>') . '</p>'
+    '<p>' . __('<a href="https://codex.wp.org/Links_Screen">Documentation on Managing Links</a>') . '</p>' .
+    '<p>' . __('<a href="https://wp.org/support/forums/">Support forums</a>') . '</p>'
 );
 
 get_current_screen()->set_screen_reader_content(

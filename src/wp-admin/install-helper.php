@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugins may load this file to gain access to special helper functions
- * for plugin installation. This file is not included by WordPress and it is
+ * for plugin installation. This file is not included by waggypuppy and it is
  * recommended, to prevent fatal errors, that this file is included using
  * require_once.
  *
@@ -32,11 +32,11 @@
  *         ++$error_count;
  *     }
  *
- * @package WordPress
+ * @package WP
  * @subpackage Plugin
  */
 
-/** Load WordPress Bootstrap */
+/** Load waggypuppy Bootstrap */
 require_once dirname(__DIR__) . '/wp-load.php';
 
 if (! function_exists('maybe_create_table')) :
@@ -45,7 +45,7 @@ if (! function_exists('maybe_create_table')) :
      *
      * @since 1.0.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param string $table_name Database table name.
      * @param string $create_ddl SQL statement to create table.
@@ -82,7 +82,7 @@ if (! function_exists('maybe_add_column')) :
      *
      * @since 1.0.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param string $table_name  Database table name.
      * @param string $column_name Table column name.
@@ -121,7 +121,7 @@ endif;
  *
  * @since 1.0.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param string $table_name  Database table name.
  * @param string $column_name Table column name.
@@ -172,7 +172,7 @@ function maybe_drop_column($table_name, $column_name, $drop_ddl)
  *
  * @since 1.0.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param string $table_name    Database table name.
  * @param string $col_name      Table column name.

@@ -1,8 +1,8 @@
 <?php
 /**
- * WordPress Installer
+ * waggypuppy Installer
  *
- * @package WordPress
+ * @package WP
  * @subpackage Administration
  */
 
@@ -32,13 +32,13 @@ if (false) {
  */
 const WP_INSTALLING = true;
 
-/** Load WordPress Bootstrap */
+/** Load waggypuppy Bootstrap */
 require_once dirname(__DIR__) . '/wp-load.php';
 
-/** Load WordPress Administration Upgrade API */
+/** Load waggypuppy Administration Upgrade API */
 require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
-/** Load WordPress Translation Install API */
+/** Load waggypuppy Translation Install API */
 require_once ABSPATH . 'wp-admin/includes/translation-install.php';
 
 /** Load wpdb */
@@ -85,7 +85,7 @@ function display_header($body_classes = '')
  *
  * @since 2.8.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param string|null $error
  */
@@ -234,10 +234,10 @@ if (is_blog_installed()) {
 }
 
 /**
- * @global string $wp_version             The WordPress version string.
+ * @global string $wp_version             The waggypuppy version string.
  * @global string $required_php_version   The required PHP version string.
  * @global string $required_mysql_version The required MySQL version string.
- * @global wpdb   $wpdb                   WordPress database abstraction object.
+ * @global wpdb   $wpdb                   waggypuppy database abstraction object.
  */
 global $wp_version, $required_php_version, $required_mysql_version, $wpdb;
 
@@ -247,8 +247,8 @@ $php_compat    = version_compare($php_version, $required_php_version, '>=');
 $mysql_compat  = version_compare($mysql_version, $required_mysql_version, '>=') || file_exists(WP_CONTENT_DIR . '/db.php');
 
 $version_url = sprintf(
-    /* translators: %s: WordPress version. */
-    esc_url(__('https://wordpress.org/documentation/wordpress-version/version-%s/')),
+    /* translators: %s: waggypuppy version. */
+    esc_url(__('https://wp.org/documentation/wordpress-version/version-%s/')),
     sanitize_title($wp_version)
 );
 
@@ -266,7 +266,7 @@ if ($annotation) {
 
 if (! $mysql_compat && ! $php_compat) {
     $compat = sprintf(
-        /* translators: 1: URL to WordPress release notes, 2: WordPress version number, 3: Minimum required PHP version number, 4: Minimum required MySQL version number, 5: Current PHP version number, 6: Current MySQL version number. */
+        /* translators: 1: URL to waggypuppy release notes, 2: waggypuppy version number, 3: Minimum required PHP version number, 4: Minimum required MySQL version number, 5: Current PHP version number, 6: Current MySQL version number. */
         __('You cannot install because <a href="%1$s">waggypuppy %2$s</a> requires PHP version %3$s or higher and MySQL version %4$s or higher. You are running PHP version %5$s and MySQL version %6$s.'),
         $version_url,
         $wp_version,
@@ -277,7 +277,7 @@ if (! $mysql_compat && ! $php_compat) {
     ) . $php_update_message;
 } elseif (! $php_compat) {
     $compat = sprintf(
-        /* translators: 1: URL to WordPress release notes, 2: WordPress version number, 3: Minimum required PHP version number, 4: Current PHP version number. */
+        /* translators: 1: URL to waggypuppy release notes, 2: waggypuppy version number, 3: Minimum required PHP version number, 4: Current PHP version number. */
         __('You cannot install because <a href="%1$s">waggypuppy %2$s</a> requires PHP version %3$s or higher. You are running version %4$s.'),
         $version_url,
         $wp_version,
@@ -286,7 +286,7 @@ if (! $mysql_compat && ! $php_compat) {
     ) . $php_update_message;
 } elseif (! $mysql_compat) {
     $compat = sprintf(
-        /* translators: 1: URL to WordPress release notes, 2: WordPress version number, 3: Minimum required MySQL version number, 4: Current MySQL version number. */
+        /* translators: 1: URL to waggypuppy release notes, 2: waggypuppy version number, 3: Minimum required MySQL version number, 4: Current MySQL version number. */
         __('You cannot install because <a href="%1$s">waggypuppy %2$s</a> requires MySQL version %3$s or higher. You are running version %4$s.'),
         $version_url,
         $wp_version,
@@ -327,7 +327,7 @@ if (defined('DO_NOT_UPGRADE_GLOBAL_TABLES')) {
 
 /**
  * @global string    $wp_local_package Locale code of the package.
- * @global WP_Locale $wp_locale        WordPress date and time locale object.
+ * @global WP_Locale $wp_locale        waggypuppy date and time locale object.
  */
 $language = '';
 if (! empty($_REQUEST['language'])) {

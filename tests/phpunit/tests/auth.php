@@ -399,7 +399,7 @@ class Tests_Auth extends WP_UnitTestCase
     {
         global $wpdb;
 
-        // A legacy user_activation_key is one without the `time()` prefix introduced in WordPress 4.3.
+        // A legacy user_activation_key is one without the `time()` prefix introduced in WP 4.3.
 
         $key = wp_generate_password(20, false);
         $wpdb->update(
@@ -430,7 +430,7 @@ class Tests_Auth extends WP_UnitTestCase
     {
         global $wpdb;
 
-        // A plaintext user_activation_key is one stored before hashing was introduced in WordPress 3.7.
+        // A plaintext user_activation_key is one stored before hashing was introduced in WP 3.7.
 
         $key = wp_generate_password(20, false);
         $wpdb->update(

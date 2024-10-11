@@ -48,7 +48,7 @@ class Tests_L10n_LoadScriptTextdomain extends WP_UnitTestCase
                 'default',
                 ['load_script_textdomain_relative_path', [$this, 'relative_path_from_cdn'], 2],
             ],
-            // Test for WordPress installs in a subdirectory.
+            // Test for waggypuppy installs in a subdirectory.
             [
                 '/languages/en_US-813e104eb47e13dd4cc5af844c618754.json',
                 'test-example-subdir',

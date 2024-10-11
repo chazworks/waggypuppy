@@ -2,7 +2,7 @@
 
 /*
  * Note: this file exists only to remind developers to build the assets.
- * For the real wp-admin/index.php that gets built and boots WordPress,
+ * For the real wp-admin/index.php that gets built and boots waggypuppy,
  * please refer to wp-admin/_index.php.
  */
 

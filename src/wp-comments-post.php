@@ -1,8 +1,8 @@
 <?php
 /**
- * Handles Comment Post to WordPress and prevents duplicate comment posting.
+ * Handles Comment Post to waggypuppy and prevents duplicate comment posting.
  *
- * @package WordPress
+ * @package WP
  */
 
 if ('POST' !== $_SERVER['REQUEST_METHOD']) {
@@ -17,7 +17,7 @@ if ('POST' !== $_SERVER['REQUEST_METHOD']) {
     exit;
 }
 
-/** Sets up the WordPress Environment. */
+/** Sets up the waggypuppy Environment. */
 require __DIR__ . '/wp-load.php';
 
 nocache_headers();

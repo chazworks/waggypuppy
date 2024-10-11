@@ -2,11 +2,11 @@
 /**
  * Edit Comments Administration Screen.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Administration
  */
 
-/** WordPress Administration Bootstrap */
+/** waggypuppy Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 if (! current_user_can('edit_posts')) {
     wp_die(
@@ -26,7 +26,7 @@ if ($doaction) {
 
     if ('delete_all' === $doaction && ! empty($_REQUEST['pagegen_timestamp'])) {
         /**
-         * @global wpdb $wpdb WordPress database abstraction object.
+         * @global wpdb $wpdb waggypuppy database abstraction object.
          */
         global $wpdb;
 
@@ -226,10 +226,10 @@ get_current_screen()->add_help_tab(
 
 get_current_screen()->set_help_sidebar(
     '<p><strong>' . __('For more information:') . '</strong></p>' .
-    '<p>' . __('<a href="https://wordpress.org/documentation/article/comments-screen/">Documentation on Comments</a>') . '</p>' .
-    '<p>' . __('<a href="https://wordpress.org/documentation/article/understand-comment-spam/">Documentation on Comment Spam</a>') . '</p>' .
-    '<p>' . __('<a href="https://wordpress.org/documentation/article/keyboard-shortcuts-classic-editor/#keyboard-shortcuts-for-comments">Documentation on Keyboard Shortcuts</a>') . '</p>' .
-    '<p>' . __('<a href="https://wordpress.org/support/forums/">Support forums</a>') . '</p>'
+    '<p>' . __('<a href="https://wp.org/documentation/article/comments-screen/">Documentation on Comments</a>') . '</p>' .
+    '<p>' . __('<a href="https://wp.org/documentation/article/understand-comment-spam/">Documentation on Comment Spam</a>') . '</p>' .
+    '<p>' . __('<a href="https://wp.org/documentation/article/keyboard-shortcuts-classic-editor/#keyboard-shortcuts-for-comments">Documentation on Keyboard Shortcuts</a>') . '</p>' .
+    '<p>' . __('<a href="https://wp.org/support/forums/">Support forums</a>') . '</p>'
 );
 
 get_current_screen()->set_screen_reader_content(

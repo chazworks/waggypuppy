@@ -18,13 +18,13 @@ if (is_multisite()) :
         {
             self::$site_id  = $factory->blog->create(
                 [
-                    'domain' => 'wordpress.org',
+                    'domain' => 'wp.org',
                     'path'   => '/',
                 ]
             );
             self::$site_id2 = $factory->blog->create(
                 [
-                    'domain' => 'wordpress.org',
+                    'domain' => 'wp.org',
                     'path'   => '/foo/',
                 ]
             );

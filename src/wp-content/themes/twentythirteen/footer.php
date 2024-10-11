@@ -4,7 +4,7 @@
  *
  * Contains footer content and the closing of the #main and #page div elements.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Twenty_Thirteen
  * @since Twenty Thirteen 1.0
  */
@@ -21,10 +21,10 @@
                     the_privacy_policy_link('', '<span role="separator" aria-hidden="true"></span>');
                 }
                 ?>
-                <a href="<?php echo esc_url(__('https://wordpress.org/', 'twentythirteen')); ?>" class="imprint">
+                <a href="<?php echo esc_url(__('https://wp.org/', 'twentythirteen')); ?>" class="imprint">
                     <?php
-                    /* translators: %s: WordPress */
-                    printf(__('Proudly powered by %s', 'twentythirteen'), 'WordPress');
+                    /* translators: %s: WP */
+                    printf(__('Proudly powered by %s', 'twentythirteen'), 'WP');
                     ?>
                 </a>
             </div><!-- .site-info -->

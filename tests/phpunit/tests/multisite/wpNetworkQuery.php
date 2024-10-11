@@ -16,12 +16,12 @@ if (is_multisite()) :
         public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
         {
             self::$network_ids = [
-                'wordpress.org/'      => [
-                    'domain' => 'wordpress.org',
+                'wp.org/'      => [
+                    'domain' => 'wp.org',
                     'path'   => '/',
                 ],
-                'make.wordpress.org/' => [
-                    'domain' => 'make.wordpress.org',
+                'make.wp.org/' => [
+                    'domain' => 'make.wp.org',
                     'path'   => '/',
                 ],
                 'www.wordpress.net/'  => [
@@ -65,7 +65,7 @@ if (is_multisite()) :
 
         public function test_wp_network_query_by_network__in_with_order()
         {
-            $expected = [self::$network_ids['wordpress.org/'], self::$network_ids['make.wordpress.org/']];
+            $expected = [self::$network_ids['wp.org/'], self::$network_ids['make.wp.org/']];
 
             $q     = new WP_Network_Query();
             $found = $q->query(
@@ -91,7 +91,7 @@ if (is_multisite()) :
 
         public function test_wp_network_query_by_network__in_with_single_id()
         {
-            $expected = [self::$network_ids['wordpress.org/']];
+            $expected = [self::$network_ids['wp.org/']];
 
             $q     = new WP_Network_Query();
             $found = $q->query(
@@ -106,7 +106,7 @@ if (is_multisite()) :
 
         public function test_wp_network_query_by_network__in_with_multiple_ids()
         {
-            $expected = [self::$network_ids['wordpress.org/'], self::$network_ids['www.wordpress.net/']];
+            $expected = [self::$network_ids['wp.org/'], self::$network_ids['www.wordpress.net/']];
 
             $q     = new WP_Network_Query();
             $found = $q->query(
@@ -121,7 +121,7 @@ if (is_multisite()) :
 
         public function test_wp_network_query_by_network__in_and_count_with_multiple_ids()
         {
-            $expected = [self::$network_ids['wordpress.org/'], self::$network_ids['make.wordpress.org/']];
+            $expected = [self::$network_ids['wp.org/'], self::$network_ids['make.wp.org/']];
 
             $q     = new WP_Network_Query();
             $found = $q->query(
@@ -137,7 +137,7 @@ if (is_multisite()) :
 
         public function test_wp_network_query_by_network__not_in_with_single_id()
         {
-            $excluded = [self::$network_ids['wordpress.org/']];
+            $excluded = [self::$network_ids['wp.org/']];
             $expected = array_diff(self::$network_ids, $excluded);
 
             // Exclude main network since we don't have control over it here.
@@ -156,7 +156,7 @@ if (is_multisite()) :
 
         public function test_wp_network_query_by_network__not_in_with_multiple_ids()
         {
-            $excluded = [self::$network_ids['wordpress.org/'], self::$network_ids['www.w.org/foo/']];
+            $excluded = [self::$network_ids['wp.org/'], self::$network_ids['www.w.org/foo/']];
             $expected = array_diff(self::$network_ids, $excluded);
 
             // Exclude main network since we don't have control over it here.
@@ -196,12 +196,12 @@ if (is_multisite()) :
             $found = $q->query(
                 [
                     'fields'     => 'ids',
-                    'domain__in' => ['make.wordpress.org'],
+                    'domain__in' => ['make.wp.org'],
                 ]
             );
 
             $expected = [
-                self::$network_ids['make.wordpress.org/'],
+                self::$network_ids['make.wp.org/'],
             ];
 
             $this->assertSameSets($expected, $found);
@@ -213,13 +213,13 @@ if (is_multisite()) :
             $found = $q->query(
                 [
                     'fields'     => 'ids',
-                    'domain__in' => ['wordpress.org', 'make.wordpress.org'],
+                    'domain__in' => ['wp.org', 'make.wp.org'],
                 ]
             );
 
             $expected = [
-                self::$network_ids['wordpress.org/'],
-                self::$network_ids['make.wordpress.org/'],
+                self::$network_ids['wp.org/'],
+                self::$network_ids['make.wp.org/'],
             ];
 
             $this->assertSameSets($expected, $found);
@@ -232,12 +232,12 @@ if (is_multisite()) :
                 [
                     'fields'     => 'ids',
                     'number'     => 1,
-                    'domain__in' => ['wordpress.org', 'make.wordpress.org'],
+                    'domain__in' => ['wp.org', 'make.wp.org'],
                 ]
             );
 
             $expected = [
-                self::$network_ids['wordpress.org/'],
+                self::$network_ids['wp.org/'],
             ];
 
             $this->assertSameSets($expected, $found);
@@ -251,12 +251,12 @@ if (is_multisite()) :
                     'fields'     => 'ids',
                     'number'     => 1,
                     'offset'     => 1,
-                    'domain__in' => ['wordpress.org', 'make.wordpress.org'],
+                    'domain__in' => ['wp.org', 'make.wp.org'],
                 ]
             );
 
             $expected = [
-                self::$network_ids['make.wordpress.org/'],
+                self::$network_ids['make.wp.org/'],
             ];
 
             $this->assertSameSets($expected, $found);
@@ -274,8 +274,8 @@ if (is_multisite()) :
 
             $expected = [
                 get_current_site()->id, // Account for the initial network added by the test suite.
-                self::$network_ids['wordpress.org/'],
-                self::$network_ids['make.wordpress.org/'],
+                self::$network_ids['wp.org/'],
+                self::$network_ids['make.wp.org/'],
                 self::$network_ids['www.wordpress.net/'],
             ];
 
@@ -288,13 +288,13 @@ if (is_multisite()) :
             $found = $q->query(
                 [
                     'fields'         => 'ids',
-                    'domain__not_in' => ['wordpress.org', 'www.w.org'],
+                    'domain__not_in' => ['wp.org', 'www.w.org'],
                 ]
             );
 
             $expected = [
                 get_current_site()->id, // Account for the initial network added by the test suite.
-                self::$network_ids['make.wordpress.org/'],
+                self::$network_ids['make.wp.org/'],
                 self::$network_ids['www.wordpress.net/'],
             ];
 
@@ -308,13 +308,13 @@ if (is_multisite()) :
                 [
                     'fields'         => 'ids',
                     'number'         => 2,
-                    'domain__not_in' => ['wordpress.org', 'www.w.org'],
+                    'domain__not_in' => ['wp.org', 'www.w.org'],
                 ]
             );
 
             $expected = [
                 get_current_site()->id, // Account for the initial network added by the test suite.
-                self::$network_ids['make.wordpress.org/'],
+                self::$network_ids['make.wp.org/'],
             ];
 
             $this->assertSameSets($expected, $found);
@@ -328,12 +328,12 @@ if (is_multisite()) :
                     'fields'         => 'ids',
                     'number'         => 2,
                     'offset'         => 1,
-                    'domain__not_in' => ['wordpress.org', 'www.w.org'],
+                    'domain__not_in' => ['wp.org', 'www.w.org'],
                 ]
             );
 
             $expected = [
-                self::$network_ids['make.wordpress.org/'],
+                self::$network_ids['make.wp.org/'],
                 self::$network_ids['www.wordpress.net/'],
             ];
 
@@ -352,8 +352,8 @@ if (is_multisite()) :
             );
 
             $expected = [
-                self::$network_ids['wordpress.org/'],
-                self::$network_ids['make.wordpress.org/'],
+                self::$network_ids['wp.org/'],
+                self::$network_ids['make.wp.org/'],
                 self::$network_ids['www.wordpress.net/'],
             ];
 
@@ -442,8 +442,8 @@ if (is_multisite()) :
 
             $expected = [
                 self::$network_ids['www.wordpress.net/'],
-                self::$network_ids['wordpress.org/'],
-                self::$network_ids['make.wordpress.org/'],
+                self::$network_ids['wp.org/'],
+                self::$network_ids['make.wp.org/'],
             ];
 
             $this->assertSame($expected, $found);
@@ -634,13 +634,13 @@ if (is_multisite()) :
             // Make sure the networks property is the same as the results.
             $this->assertSame($results, $q->networks);
 
-            // Make sure the network domain is `wordpress.org`.
-            $this->assertSame('wordpress.org', $q->networks[0]->domain);
+            // Make sure the network domain is `wp.org`.
+            $this->assertSame('wp.org', $q->networks[0]->domain);
         }
 
         public static function filter_networks_pre_query_and_set_networks($networks, $query)
         {
-            return [get_network(self::$network_ids['wordpress.org/'])];
+            return [get_network(self::$network_ids['wp.org/'])];
         }
 
         /**

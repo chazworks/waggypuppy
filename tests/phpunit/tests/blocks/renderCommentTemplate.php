@@ -2,7 +2,7 @@
 /**
  * Tests for the Comment Template block rendering.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Blocks
  * @since 6.0.0
  *
@@ -611,7 +611,7 @@ END
             if ('core/comment-template' === $parsed_block['blockName']) {
                 $inserted_block_markup = <<<END
 <!-- wp:social-links -->
-<ul class="wp-block-social-links"><!-- wp:social-link {"url":"https://wordpress.org","service":"wordpress"} /--></ul>
+<ul class="wp-block-social-links"><!-- wp:social-link {"url":"https://wp.org","service":"wordpress"} /--></ul>
 <!-- /wp:social-links -->'
 END;
 

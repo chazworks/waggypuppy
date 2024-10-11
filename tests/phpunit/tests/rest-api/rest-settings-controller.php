@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_Test_REST_Settings_Controller functionality.
  *
- * @package WordPress
+ * @package WP
  * @subpackage REST API
  *
  * @group restapi

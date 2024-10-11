@@ -9,9 +9,9 @@
  * new template file for each one. For example, tag.php (Tag archives),
  * category.php (Category archives), author.php (Author archives), etc.
  *
- * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
+ * @link https://developer.wp.org/themes/basics/template-hierarchy/
  *
- * @package WordPress
+ * @package WP
  * @subpackage Twenty_Sixteen
  * @since Twenty Sixteen 1.0
  */

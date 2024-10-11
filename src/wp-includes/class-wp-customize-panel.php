@@ -1,8 +1,8 @@
 <?php
 /**
- * WordPress Customize Panel classes
+ * waggypuppy Customize Panel classes
  *
- * @package WordPress
+ * @package WP
  * @subpackage Customize
  * @since 4.0.0
  */

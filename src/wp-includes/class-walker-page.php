@@ -2,7 +2,7 @@
 /**
  * Post API: Walker_Page class
  *
- * @package WordPress
+ * @package WP
  * @subpackage Template
  * @since 4.4.0
  */

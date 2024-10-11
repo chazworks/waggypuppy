@@ -64,11 +64,11 @@ EOD;
 
     public function test_filter_oembed_result_secret_param_available()
     {
-        $html   = '<iframe src="https://wordpress.org"></iframe>';
+        $html   = '<iframe src="https://wp.org"></iframe>';
         $actual = wp_filter_oembed_result($html, (object) ['type' => 'rich'], '');
 
         $matches = [];
-        preg_match('|src="https://wordpress.org#\?secret=([\w\d]+)" data-secret="([\w\d]+)"|', $actual, $matches);
+        preg_match('|src="https://wp.org#\?secret=([\w\d]+)" data-secret="([\w\d]+)"|', $actual, $matches);
 
         $this->assertArrayHasKey(1, $matches);
         $this->assertArrayHasKey(2, $matches);

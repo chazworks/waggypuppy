@@ -1,8 +1,8 @@
 <?php
 /**
- * WordPress List utility class
+ * waggypuppy List utility class
  *
- * @package WordPress
+ * @package WP
  * @since 4.7.0
  */
 

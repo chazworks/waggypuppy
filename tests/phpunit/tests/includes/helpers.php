@@ -339,7 +339,7 @@ class Tests_TestHelpers extends WP_UnitTestCase
                 ],
                 [
                     'message' => 'Broken.',
-                    'title'   => 'WordPress &rsaquo; Error',
+                    'title'   => 'waggypuppy &rsaquo; Error',
                     'args'    => [
                         'response'       => 500,
                         'code'           => 'wp_die',
@@ -374,7 +374,7 @@ class Tests_TestHelpers extends WP_UnitTestCase
                 ],
                 [
                     'message' => 'More breakage.',
-                    'title'   => 'WordPress &rsaquo; Error',
+                    'title'   => 'waggypuppy &rsaquo; Error',
                     'args'    => [
                         'response'       => 400,
                         'code'           => 'custom_code',

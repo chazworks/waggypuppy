@@ -2,7 +2,7 @@
 /**
  * Tests for the WP_Filesystem_Direct::move() method.
  *
- * @package WordPress
+ * @package WP
  */
 
 require_once __DIR__ . '/base.php';

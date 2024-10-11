@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Dummy Plugin 2
-Plugin URI: https://wordpress.org/
+Plugin URI: https://wp.org/
 Description: For testing purposes only. Only has an .l10n.php translation file.
 Version: 1.0.0
 Text Domain: internationalized-plugin

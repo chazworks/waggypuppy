@@ -185,10 +185,10 @@ function wp_cache_cas_by_key($cas_token, $server_key, $key, $value, $group = '',
 /**
  * Closes the cache.
  *
- * This function has ceased to do anything since WordPress 2.5.
+ * This function has ceased to do anything since WP 2.5.
  * The functionality was removed along with the rest of the persistent cache.
  * This does not mean that plugins can't implement this function when they need
- * to make sure that the cache is cleaned up after WordPress no longer needs it.
+ * to make sure that the cache is cleaned up after waggypuppy no longer needs it.
  *
  * @since 2.0.0
  *
@@ -219,7 +219,7 @@ function wp_cache_decrement($key, $offset = 1, $group = '')
  * Decrements a numeric item's value.
  *
  * This is the same as wp_cache_decrement(), but kept for backward compatibility.
- * The original WordPress caching backends use wp_cache_decr().
+ * The original waggypuppy caching backends use wp_cache_decr().
  *
  * @link https://www.php.net/manual/en/memcached.decrement.php
  *
@@ -645,7 +645,7 @@ function wp_cache_increment($key, $offset = 1, $group = '')
  * Increments a numeric item's value.
  *
  * This is the same as wp_cache_increment(), but kept for backward compatibility.
- * The original WordPress caching backends use wp_cache_incr().
+ * The original waggypuppy caching backends use wp_cache_incr().
  *
  * @link https://www.php.net/manual/en/memcached.increment.php
  *
@@ -877,7 +877,7 @@ function wp_cache_switch_to_blog($blog_id)
 /**
  * Sets up Object Cache Global and assigns it.
  *
- * @global WP_Object_Cache $wp_object_cache WordPress Object Cache
+ * @global WP_Object_Cache $wp_object_cache waggypuppy Object Cache
  */
 function wp_cache_init()
 {
@@ -907,7 +907,7 @@ function wp_cache_add_non_persistent_groups($groups)
     $wp_object_cache->add_non_persistent_groups($groups);
 }
 
-// phpcs:disable WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
+// phpcs:disable waggypuppy.NamingConventions.ValidFunctionName.MethodNameInvalid
 class WP_Object_Cache
 {
 
@@ -1043,7 +1043,7 @@ class WP_Object_Cache
         /*
          * Ensuring that wp_suspend_cache_addition is defined before calling, because sometimes an advanced-cache.php
          * file will load object-cache.php before wp-includes/functions.php is loaded. In those cases, if wp_cache_add
-         * is called in advanced-cache.php before any more of WordPress is loaded, we get a fatal error because
+         * is called in advanced-cache.php before any more of waggypuppy is loaded, we get a fatal error because
          * wp_suspend_cache_addition will not be defined until wp-includes/functions.php is loaded.
          */
         if (function_exists('wp_suspend_cache_addition') && wp_suspend_cache_addition()) {
@@ -2256,7 +2256,7 @@ class WP_Object_Cache
      * This function is inspired by the original WP Memcached Object cache.
      *
      * @author Ryan Boren
-     * @link http://wordpress.org/extend/plugins/memcached/
+     * @link http://wp.org/extend/plugins/memcached/
      *
      * @param string $key   The key under which to store the value.
      * @param string $group The group value appended to the $key.
@@ -2424,7 +2424,7 @@ class WP_Object_Cache
      * This function comes straight from the original WP Memcached Object cache.
      *
      * @author Ryan Boren
-     * @link http://wordpress.org/extend/plugins/memcached/
+     * @link http://wp.org/extend/plugins/memcached/
      *
      * @param array $groups Array of groups.
      */
@@ -2444,7 +2444,7 @@ class WP_Object_Cache
      * This function comes straight from the original WP Memcached Object cache.
      *
      * @author Ryan Boren
-     * @link http://wordpress.org/extend/plugins/memcached/
+     * @link http://wp.org/extend/plugins/memcached/
      *
      * @param array $groups Array of groups.
      */

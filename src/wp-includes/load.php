@@ -1,8 +1,8 @@
 <?php
 /**
- * These functions are needed to load WordPress.
+ * These functions are needed to load waggypuppy.
  *
- * @package WordPress
+ * @package WP
  */
 
 /**
@@ -100,7 +100,7 @@ function wp_fix_server_vars()
  * Populates the Basic Auth server details from the Authorization header.
  *
  * Some servers running in CGI or FastCGI mode don't pass the Authorization
- * header on to WordPress.  If it's been rewritten to the `HTTP_AUTHORIZATION` header,
+ * header on to waggypuppy.  If it's been rewritten to the `HTTP_AUTHORIZATION` header,
  * fill in the proper $_SERVER variables instead.
  *
  * @since 5.6.0
@@ -151,7 +151,7 @@ function wp_populate_basic_auth_from_authorization_header()
  * @access private
  *
  * @global string $required_php_version The required PHP version string.
- * @global string $wp_version           The WordPress version string.
+ * @global string $wp_version           The waggypuppy version string.
  */
 function wp_check_php_mysql_versions()
 {
@@ -164,7 +164,7 @@ function wp_check_php_mysql_versions()
         header(sprintf('%s 500 Internal Server Error', $protocol), true, 500);
         header('Content-Type: text/html; charset=utf-8');
         printf(
-            'Your server is running PHP version %1$s but WordPress %2$s requires at least %3$s.',
+            'Your server is running PHP version %1$s but waggypuppy %2$s requires at least %3$s.',
             $php_version,
             $wp_version,
             $required_php_version
@@ -181,7 +181,7 @@ function wp_check_php_mysql_versions()
         require_once ABSPATH . WPINC . '/functions.php';
         wp_load_translations_early();
 
-        $message = '<p>' . __('Your PHP installation appears to be missing the MySQL extension which is required by WordPress.') . "</p>\n";
+        $message = '<p>' . __('Your PHP installation appears to be missing the MySQL extension which is required by waggypuppy.') . "</p>\n";
 
         $message .= '<p>' . sprintf(
             /* translators: %s: mysqli. */
@@ -274,8 +274,8 @@ function wp_get_environment_type()
 /**
  * Retrieves the current development mode.
  *
- * The development mode affects how certain parts of the WordPress application behave,
- * which is relevant when developing for WordPress.
+ * The development mode affects how certain parts of the waggypuppy application behave,
+ * which is relevant when developing for waggypuppy.
  *
  * Development mode can be set via the `WP_DEVELOPMENT_MODE` constant in `wp-config.php`.
  * Possible values are 'core', 'plugin', 'theme', 'all', or an empty string to disable
@@ -283,7 +283,7 @@ function wp_get_environment_type()
  * ('core', 'plugin', and 'theme') are enabled.
  *
  * Development mode is considered separately from `WP_DEBUG` and wp_get_environment_type().
- * It does not affect debugging output, but rather functional nuances in WordPress.
+ * It does not affect debugging output, but rather functional nuances in waggypuppy.
  *
  * This function retrieves the currently set development mode value. To check whether
  * a specific development mode is enabled, use wp_is_development_mode().
@@ -349,7 +349,7 @@ function wp_is_development_mode($mode)
 }
 
 /**
- * Ensures all of WordPress is not loaded when handling a favicon.ico request.
+ * Ensures all of waggypuppy is not loaded when handling a favicon.ico request.
  *
  * Instead, send the headers for a zero-length favicon and bail.
  *
@@ -400,14 +400,14 @@ function wp_maintenance()
 /**
  * Checks if maintenance mode is enabled.
  *
- * Checks for a file in the WordPress root directory named ".maintenance".
+ * Checks for a file in the waggypuppy root directory named ".maintenance".
  * This file will contain the variable $upgrading, set to the time the file
- * was created. If the file was created less than 10 minutes ago, WordPress
+ * was created. If the file was created less than 10 minutes ago, waggypuppy
  * is in maintenance mode.
  *
  * @since 5.5.0
  *
- * @global int $upgrading The Unix timestamp marking when upgrading WordPress began.
+ * @global int $upgrading The Unix timestamp marking when upgrading waggypuppy began.
  *
  * @return bool True if maintenance mode is enabled, false otherwise.
  */
@@ -469,7 +469,7 @@ function timer_float()
 }
 
 /**
- * Starts the WordPress micro-timer.
+ * Starts the waggypuppy micro-timer.
  *
  * @since 0.71
  * @access private
@@ -524,14 +524,14 @@ function timer_stop($display = 0, $precision = 3)
 }
 
 /**
- * Sets PHP error reporting based on WordPress debug settings.
+ * Sets PHP error reporting based on waggypuppy debug settings.
  *
  * Uses three constants: `WP_DEBUG`, `WP_DEBUG_DISPLAY`, and `WP_DEBUG_LOG`.
  * All three can be defined in wp-config.php. By default, `WP_DEBUG` and
  * `WP_DEBUG_LOG` are set to false, and `WP_DEBUG_DISPLAY` is set to true.
  *
- * When `WP_DEBUG` is true, all PHP notices are reported. WordPress will also
- * display internal notices: when a deprecated WordPress function, function
+ * When `WP_DEBUG` is true, all PHP notices are reported. waggypuppy will also
+ * display internal notices: when a deprecated waggypuppy function, function
  * argument, or file is used. Deprecated code may be removed from a later
  * version.
  *
@@ -541,8 +541,8 @@ function timer_stop($display = 0, $precision = 3)
  * `WP_DEBUG_DISPLAY` and `WP_DEBUG_LOG` perform no function unless `WP_DEBUG`
  * is true.
  *
- * When `WP_DEBUG_DISPLAY` is true, WordPress will force errors to be displayed.
- * `WP_DEBUG_DISPLAY` defaults to true. Defining it as null prevents WordPress
+ * When `WP_DEBUG_DISPLAY` is true, waggypuppy will force errors to be displayed.
+ * `WP_DEBUG_DISPLAY` defaults to true. Defining it as null prevents waggypuppy
  * from changing the global configuration setting. Defining `WP_DEBUG_DISPLAY`
  * as false will force errors to be hidden.
  *
@@ -566,7 +566,7 @@ function wp_debug_mode()
      * will be used unless you take care to update them yourself.
      *
      * To use this filter you must define a `$wp_filter` global before
-     * WordPress loads, usually in `wp-config.php`.
+     * waggypuppy loads, usually in `wp-config.php`.
      *
      * Example:
      *
@@ -683,7 +683,7 @@ function wp_set_lang_dir()
  *
  * @since 2.5.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  */
 function require_wp_db()
 {
@@ -716,7 +716,7 @@ function require_wp_db()
  * @since 3.0.0
  * @access private
  *
- * @global wpdb   $wpdb         WordPress database abstraction object.
+ * @global wpdb   $wpdb         waggypuppy database abstraction object.
  * @global string $table_prefix The database table prefix.
  */
 function wp_set_wpdb_vars()
@@ -805,7 +805,7 @@ function wp_using_ext_object_cache($using = null)
 }
 
 /**
- * Starts the WordPress object cache.
+ * Starts the waggypuppy object cache.
  *
  * If an object-cache.php file exists in the wp-content directory,
  * it uses that drop-in as an external object cache.
@@ -917,7 +917,7 @@ function wp_start_object_cache()
 }
 
 /**
- * Redirects to the installer if WordPress is not installed.
+ * Redirects to the installer if waggypuppy is not installed.
  *
  * Dies with an error message when Multisite is enabled.
  *
@@ -986,7 +986,7 @@ function wp_get_mu_plugins()
 /**
  * Retrieves an array of active and valid plugin files.
  *
- * While upgrading or installing WordPress, no plugins are returned.
+ * While upgrading or installing waggypuppy, no plugins are returned.
  *
  * The default directory is `wp-content/plugins`. To change the default
  * directory manually, define `WP_PLUGIN_DIR` and `WP_PLUGIN_URL`
@@ -1071,7 +1071,7 @@ function wp_skip_paused_plugins(array $plugins)
 /**
  * Retrieves an array of active and valid themes.
  *
- * While upgrading or installing WordPress, no themes are returned.
+ * While upgrading or installing waggypuppy, no themes are returned.
  *
  * @since 5.1.0
  * @access private
@@ -1147,7 +1147,7 @@ function wp_skip_paused_themes(array $themes)
 }
 
 /**
- * Determines whether WordPress is in Recovery Mode.
+ * Determines whether waggypuppy is in Recovery Mode.
  *
  * In this mode, plugins or themes that cause WSODs will be paused.
  *
@@ -1190,7 +1190,7 @@ function is_protected_endpoint()
      * Filters whether the current request is against a protected endpoint.
      *
      * This filter is only fired when an endpoint is requested which is not already protected by
-     * WordPress core. As such, it exclusively allows providing further protected endpoints in
+     * waggypuppy core. As such, it exclusively allows providing further protected endpoints in
      * addition to the admin backend, login pages and protected Ajax actions.
      *
      * @since 5.2.0
@@ -1329,7 +1329,7 @@ function wp_clone($input_object)
  *
  * @see wp_login_url()
  *
- * @return bool True if inside WordPress login screen, false otherwise.
+ * @return bool True if inside waggypuppy login screen, false otherwise.
  */
 function is_login()
 {
@@ -1343,14 +1343,14 @@ function is_login()
  * for checking roles and capabilities.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 1.5.1
  *
- * @global WP_Screen $current_screen WordPress current screen object.
+ * @global WP_Screen $current_screen waggypuppy current screen object.
  *
- * @return bool True if inside WordPress administration interface, false otherwise.
+ * @return bool True if inside waggypuppy administration interface, false otherwise.
  */
 function is_admin()
 {
@@ -1373,9 +1373,9 @@ function is_admin()
  *
  * @since 3.1.0
  *
- * @global WP_Screen $current_screen WordPress current screen object.
+ * @global WP_Screen $current_screen waggypuppy current screen object.
  *
- * @return bool True if inside WordPress site administration pages.
+ * @return bool True if inside waggypuppy site administration pages.
  */
 function is_blog_admin()
 {
@@ -1401,9 +1401,9 @@ function is_blog_admin()
  *
  * @since 3.1.0
  *
- * @global WP_Screen $current_screen WordPress current screen object.
+ * @global WP_Screen $current_screen waggypuppy current screen object.
  *
- * @return bool True if inside WordPress network administration pages.
+ * @return bool True if inside waggypuppy network administration pages.
  */
 function is_network_admin()
 {
@@ -1426,9 +1426,9 @@ function is_network_admin()
  *
  * @since 3.1.0
  *
- * @global WP_Screen $current_screen WordPress current screen object.
+ * @global WP_Screen $current_screen waggypuppy current screen object.
  *
- * @return bool True if inside WordPress user administration pages.
+ * @return bool True if inside waggypuppy user administration pages.
  */
 function is_user_admin()
 {
@@ -1512,8 +1512,8 @@ function get_current_network_id()
  * @since 3.4.0
  * @access private
  *
- * @global WP_Textdomain_Registry $wp_textdomain_registry WordPress Textdomain Registry.
- * @global WP_Locale              $wp_locale              WordPress date and time locale object.
+ * @global WP_Textdomain_Registry $wp_textdomain_registry waggypuppy Textdomain Registry.
+ * @global WP_Locale              $wp_locale              waggypuppy date and time locale object.
  */
 function wp_load_translations_early()
 {
@@ -1614,7 +1614,7 @@ function wp_load_translations_early()
 }
 
 /**
- * Checks or sets whether WordPress is in "installation" mode.
+ * Checks or sets whether waggypuppy is in "installation" mode.
  *
  * If the `WP_INSTALLING` constant is defined during the bootstrap, `wp_installing()` will default to `true`.
  *
@@ -1735,20 +1735,20 @@ function wp_is_ini_value_changeable($setting)
 }
 
 /**
- * Determines whether the current request is a WordPress Ajax request.
+ * Determines whether the current request is a waggypuppy Ajax request.
  *
  * @since 4.7.0
  *
- * @return bool True if it's a WordPress Ajax request, false otherwise.
+ * @return bool True if it's a waggypuppy Ajax request, false otherwise.
  */
 function wp_doing_ajax()
 {
     /**
-     * Filters whether the current request is a WordPress Ajax request.
+     * Filters whether the current request is a waggypuppy Ajax request.
      *
      * @since 4.7.0
      *
-     * @param bool $wp_doing_ajax Whether the current request is a WordPress Ajax request.
+     * @param bool $wp_doing_ajax Whether the current request is a waggypuppy Ajax request.
      */
     return apply_filters('wp_doing_ajax', defined('DOING_AJAX') && DOING_AJAX);
 }
@@ -1773,26 +1773,26 @@ function wp_using_themes()
 }
 
 /**
- * Determines whether the current request is a WordPress cron request.
+ * Determines whether the current request is a waggypuppy cron request.
  *
  * @since 4.8.0
  *
- * @return bool True if it's a WordPress cron request, false otherwise.
+ * @return bool True if it's a waggypuppy cron request, false otherwise.
  */
 function wp_doing_cron()
 {
     /**
-     * Filters whether the current request is a WordPress cron request.
+     * Filters whether the current request is a waggypuppy cron request.
      *
      * @since 4.8.0
      *
-     * @param bool $wp_doing_cron Whether the current request is a WordPress cron request.
+     * @param bool $wp_doing_cron Whether the current request is a waggypuppy cron request.
      */
     return apply_filters('wp_doing_cron', defined('DOING_CRON') && DOING_CRON);
 }
 
 /**
- * Checks whether the given variable is a WordPress Error.
+ * Checks whether the given variable is a waggypuppy Error.
  *
  * Returns whether `$thing` is an instance of the `WP_Error` class.
  *

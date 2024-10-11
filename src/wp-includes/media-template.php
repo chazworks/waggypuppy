@@ -1,8 +1,8 @@
 <?php
 /**
- * WordPress media templates.
+ * waggypuppy media templates.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Media
  * @since 3.5.0
  */
@@ -247,9 +247,9 @@ function wp_print_media_templates()
                 <p>
                 <?php
                     printf(
-                        /* translators: %s: https://apps.wordpress.org/ */
+                        /* translators: %s: https://apps.wp.org/ */
                         __('The web browser on your device cannot be used to upload files. You may be able to use the <a href="%s">native app for your device</a> instead.'),
-                        'https://apps.wordpress.org/'
+                        'https://apps.wp.org/'
                     );
                 ?>
                 </p>
@@ -380,7 +380,7 @@ function wp_print_media_templates()
             <?php
             if (isset($_GET['error']) && 'deprecated' === $_GET['error']) {
                 wp_admin_notice(
-                    __('The Edit Media screen is deprecated as of WordPress 6.3. Please use the Media Library instead.'),
+                    __('The Edit Media screen is deprecated as of WP 6.3. Please use the Media Library instead.'),
                     [
                         'id'                 => 'message',
                         'additional_classes' => ['error'],

@@ -300,24 +300,24 @@ class Tests_URL extends WP_UnitTestCase
     public function test_set_url_scheme()
     {
         $links = [
-            'http://wordpress.org/',
-            'https://wordpress.org/',
-            'http://wordpress.org/news/',
-            'http://wordpress.org',
+            'http://wp.org/',
+            'https://wp.org/',
+            'http://wp.org/news/',
+            'http://wp.org',
         ];
 
         $https_links = [
-            'https://wordpress.org/',
-            'https://wordpress.org/',
-            'https://wordpress.org/news/',
-            'https://wordpress.org',
+            'https://wp.org/',
+            'https://wp.org/',
+            'https://wp.org/news/',
+            'https://wp.org',
         ];
 
         $http_links = [
-            'http://wordpress.org/',
-            'http://wordpress.org/',
-            'http://wordpress.org/news/',
-            'http://wordpress.org',
+            'http://wp.org/',
+            'http://wp.org/',
+            'http://wp.org/news/',
+            'http://wp.org',
         ];
 
         $relative_links = [

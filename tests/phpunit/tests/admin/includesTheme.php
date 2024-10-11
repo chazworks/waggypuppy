@@ -232,7 +232,7 @@ class Tests_Admin_IncludesTheme extends WP_UnitTestCase
     }
 
     /**
-     * Test that the list of theme features pulled from the WordPress.org API returns the expected data structure.
+     * Test that the list of theme features pulled from the wp.org API returns the expected data structure.
      *
      * Differences in the structure can also trigger failure by causing PHP notices/warnings.
      *

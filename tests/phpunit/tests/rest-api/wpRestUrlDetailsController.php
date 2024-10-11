@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_REST_URL_Details_Controller functionality.
  *
- * @package WordPress
+ * @package WP
  * @subpackage REST_API
  * @since 5.9.0
  *
@@ -62,7 +62,7 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      *
      * @since 5.9.0
      *
-     * @param WP_UnitTest_Factory $factory WordPress unit test factory.
+     * @param WP_UnitTest_Factory $factory waggypuppy unit test factory.
      */
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
@@ -236,7 +236,7 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
         return [
             'empty string'   => [''],
             'numeric'        => [1234456],
-            'invalid scheme' => ['invalid.proto://wordpress.org'],
+            'invalid scheme' => ['invalid.proto://wp.org'],
         ];
     }
 
@@ -548,7 +548,7 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
             'with other elements'            => [
                 '<meta name="viewport" content="width=device-width">
 				<title>Testing &lt;title&gt;</title>
-				<link rel="shortcut icon" href="https://wordpress.org/favicon.ico" />',
+				<link rel="shortcut icon" href="https://wp.org/favicon.ico" />',
                 'Testing',
             ],
             'multiline'                      => [
@@ -575,9 +575,9 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      *
      * @param string $html       Given HTML string.
      * @param string $expected   Expected found icon.
-     * @param string $target_url Optional. Target URL. Default 'https://wordpress.org'.
+     * @param string $target_url Optional. Target URL. Default 'https://wp.org'.
      */
-    public function test_get_icon($html, $expected, $target_url = 'https://wordpress.org')
+    public function test_get_icon($html, $expected, $target_url = 'https://wp.org')
     {
         $controller = new WP_REST_URL_Details_Controller();
         $method     = $this->get_reflective_method('get_icon');
@@ -601,103 +601,103 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
 
             // Happy path for default.
             'default'                               => [
-                '<link rel="shortcut icon" href="https://wordpress.org/favicon.ico" />',
-                'https://wordpress.org/favicon.ico',
+                '<link rel="shortcut icon" href="https://wp.org/favicon.ico" />',
+                'https://wp.org/favicon.ico',
             ],
             'default with no closing whitespace'    => [
-                '<link rel="shortcut icon" href="https://wordpress.org/favicon.ico"/>',
-                'https://wordpress.org/favicon.ico',
+                '<link rel="shortcut icon" href="https://wp.org/favicon.ico"/>',
+                'https://wp.org/favicon.ico',
             ],
             'default without self-closing'          => [
-                '<link rel="shortcut icon" href="https://wordpress.org/favicon.ico">',
-                'https://wordpress.org/favicon.ico',
+                '<link rel="shortcut icon" href="https://wp.org/favicon.ico">',
+                'https://wp.org/favicon.ico',
             ],
             'default with href first'               => [
-                '<link href="https://wordpress.org/favicon.ico" rel="shortcut icon" />',
-                'https://wordpress.org/favicon.ico',
+                '<link href="https://wp.org/favicon.ico" rel="shortcut icon" />',
+                'https://wp.org/favicon.ico',
             ],
             'default with type last'                => [
-                '<link href="https://wordpress.org/favicon.png" rel="icon" type="image/png" />',
-                'https://wordpress.org/favicon.png',
+                '<link href="https://wp.org/favicon.png" rel="icon" type="image/png" />',
+                'https://wp.org/favicon.png',
             ],
             'default with type first'               => [
-                '<link type="image/png" href="https://wordpress.org/favicon.png" rel="icon" />',
-                'https://wordpress.org/favicon.png',
+                '<link type="image/png" href="https://wp.org/favicon.png" rel="icon" />',
+                'https://wp.org/favicon.png',
             ],
             'default with single quotes'            => [
-                '<link type="image/png" href=\'https://wordpress.org/favicon.png\' rel=\'icon\' />',
-                'https://wordpress.org/favicon.png',
+                '<link type="image/png" href=\'https://wp.org/favicon.png\' rel=\'icon\' />',
+                'https://wp.org/favicon.png',
             ],
 
             // Happy paths.
             'with query string'                     => [
-                '<link rel="shortcut icon" href="https://wordpress.org/favicon.ico?somequerystring=foo&another=bar" />',
-                'https://wordpress.org/favicon.ico?somequerystring=foo&another=bar',
+                '<link rel="shortcut icon" href="https://wp.org/favicon.ico?somequerystring=foo&another=bar" />',
+                'https://wp.org/favicon.ico?somequerystring=foo&another=bar',
             ],
             'with another link'                     => [
-                '<link rel="shortcut icon" href="https://wordpress.org/favicon.ico" /><link rel="canonical" href="https://example.com">',
-                'https://wordpress.org/favicon.ico',
+                '<link rel="shortcut icon" href="https://wp.org/favicon.ico" /><link rel="canonical" href="https://example.com">',
+                'https://wp.org/favicon.ico',
             ],
             'with multiple links'                   => [
                 '<link rel="manifest" href="/manifest.56b1cedc.json">
-				<link rel="shortcut icon" href="https://wordpress.org/favicon.ico" />
+				<link rel="shortcut icon" href="https://wp.org/favicon.ico" />
 				<link rel="canonical" href="https://example.com">',
-                'https://wordpress.org/favicon.ico',
+                'https://wp.org/favicon.ico',
             ],
             'relative url'                          => [
                 '<link rel="shortcut icon" href="/favicon.ico" />',
-                'https://wordpress.org/favicon.ico',
+                'https://wp.org/favicon.ico',
             ],
             'relative url no slash'                 => [
                 '<link rel="shortcut icon" href="favicon.ico" />',
-                'https://wordpress.org/favicon.ico',
+                'https://wp.org/favicon.ico',
             ],
             'relative url with path'                => [
                 '<link rel="shortcut icon" href="favicon.ico" />',
-                'https://wordpress.org/favicon.ico',
-                'https://wordpress.org/my/path/here/',
+                'https://wp.org/favicon.ico',
+                'https://wp.org/my/path/here/',
             ],
             'rel reverse order'                     => [
-                '<link rel="icon shortcut" href="https://wordpress.org/favicon.ico" />',
-                'https://wordpress.org/favicon.ico',
+                '<link rel="icon shortcut" href="https://wp.org/favicon.ico" />',
+                'https://wp.org/favicon.ico',
             ],
             'rel icon only'                         => [
-                '<link rel="icon" href="https://wordpress.org/favicon.ico" />',
-                'https://wordpress.org/favicon.ico',
+                '<link rel="icon" href="https://wp.org/favicon.ico" />',
+                'https://wp.org/favicon.ico',
             ],
             'rel icon only with whitespace'         => [
-                '<link rel=" icon " href="https://wordpress.org/favicon.ico" />',
-                'https://wordpress.org/favicon.ico',
+                '<link rel=" icon " href="https://wp.org/favicon.ico" />',
+                'https://wp.org/favicon.ico',
             ],
             'multiline attributes'                  => [
                 '<link
 					rel="icon"
-					href="https://wordpress.org/favicon.ico"
+					href="https://wp.org/favicon.ico"
 				/>',
-                'https://wordpress.org/favicon.ico',
+                'https://wp.org/favicon.ico',
             ],
             'multiline attributes in reverse order' => [
                 '<link
 					rel="icon"
-					href="https://wordpress.org/favicon.ico"
+					href="https://wp.org/favicon.ico"
 				/>',
-                'https://wordpress.org/favicon.ico',
+                'https://wp.org/favicon.ico',
             ],
             'multiline attributes with type'        => [
                 '<link
 					rel="icon"
-					href="https://wordpress.org/favicon.ico"
+					href="https://wp.org/favicon.ico"
 					type="image/x-icon"
 				/>',
-                'https://wordpress.org/favicon.ico',
+                'https://wp.org/favicon.ico',
             ],
             'multiline with type first'             => [
                 '<link
 					type="image/x-icon"
 					rel="icon"
-					href="https://wordpress.org/favicon.ico"
+					href="https://wp.org/favicon.ico"
 				/>',
-                'https://wordpress.org/favicon.ico',
+                'https://wp.org/favicon.ico',
             ],
             'with data URL x-icon type'             => [
                 '<link rel="icon" href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQEAYAAABPYyMiAAAABmJLR0T///////8JWPfcAAAACXBIWXMAAABIAAAASABGyWs+AAAAF0lEQVRIx2NgGAWjYBSMglEwCkbBSAcACBAAAeaR9cIAAAAASUVORK5CYII=" type="image/x-icon" />',
@@ -710,7 +710,7 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
 
             // Unhappy paths.
             'empty rel'                             => [
-                '<link rel="" href="https://wordpress.org/favicon.ico" />',
+                '<link rel="" href="https://wp.org/favicon.ico" />',
                 '',
             ],
             'empty href'                            => [
@@ -718,7 +718,7 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
                 '',
             ],
             'no rel'                                => [
-                '<link href="https://wordpress.org/favicon.ico" />',
+                '<link href="https://wp.org/favicon.ico" />',
                 '',
             ],
             'link to external stylesheet'           => [
@@ -736,7 +736,7 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
             'multiline with no rel'                 => [
                 '<link
 					rel=""
-					href="https://wordpress.org/favicon.ico"
+					href="https://wp.org/favicon.ico"
 				/>',
                 '',
             ],
@@ -808,7 +808,7 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
                 'This is a description.',
             ],
             'with multiple elements'                     => [
-                '<meta property="og:image" content="https://wordpress.org/images/myimage.jpg" />
+                '<meta property="og:image" content="https://wp.org/images/myimage.jpg" />
 				<link rel="stylesheet" href="https://example.com/assets/style.css" />
 				<meta name="description" content="This is a description.">
 				<meta name="viewport" content="width=device-width, initial-scale=1">',
@@ -905,9 +905,9 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      *
      * @param string $html       Given HTML string.
      * @param string $expected   Expected found image.
-     * @param string $target_url Optional. Target URL. Default 'https://wordpress.org'.
+     * @param string $target_url Optional. Target URL. Default 'https://wp.org'.
      */
-    public function test_get_image($html, $expected, $target_url = 'https://wordpress.org')
+    public function test_get_image($html, $expected, $target_url = 'https://wp.org')
     {
         $controller = new WP_REST_URL_Details_Controller();
 
@@ -934,85 +934,85 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
 
             // Happy paths.
             'default'                                      => [
-                '<meta property="og:image" content="https://wordpress.org/images/myimage.jpg">',
-                'https://wordpress.org/images/myimage.jpg',
+                '<meta property="og:image" content="https://wp.org/images/myimage.jpg">',
+                'https://wp.org/images/myimage.jpg',
             ],
             'with whitespace'                              => [
-                '<meta  property=" og:image "   content="  https://wordpress.org/images/myimage.jpg "  >',
-                'https://wordpress.org/images/myimage.jpg',
+                '<meta  property=" og:image "   content="  https://wp.org/images/myimage.jpg "  >',
+                'https://wp.org/images/myimage.jpg',
             ],
             'with self-closing'                            => [
-                '<meta property="og:image" content="https://wordpress.org/images/myimage.jpg"/>',
-                'https://wordpress.org/images/myimage.jpg',
+                '<meta property="og:image" content="https://wp.org/images/myimage.jpg"/>',
+                'https://wp.org/images/myimage.jpg',
             ],
             'with self-closing and whitespace'             => [
-                '<meta  property=" og:image "   content="  https://wordpress.org/images/myimage.jpg "  />',
-                'https://wordpress.org/images/myimage.jpg',
+                '<meta  property=" og:image "   content="  https://wp.org/images/myimage.jpg "  />',
+                'https://wp.org/images/myimage.jpg',
             ],
             'with single quotes'                           => [
-                "<meta property='og:image' content='https://wordpress.org/images/myimage.jpg'>",
-                'https://wordpress.org/images/myimage.jpg',
+                "<meta property='og:image' content='https://wp.org/images/myimage.jpg'>",
+                'https://wp.org/images/myimage.jpg',
             ],
             'without quotes'                               => [
-                '<meta property=og:image content="https://wordpress.org/images/myimage.jpg">',
-                'https://wordpress.org/images/myimage.jpg',
+                '<meta property=og:image content="https://wp.org/images/myimage.jpg">',
+                'https://wp.org/images/myimage.jpg',
             ],
             'with url modifier'                            => [
-                '<meta property="og:image:url" content="https://wordpress.org/images/url-modifier.jpg" />
-				<meta property="og:image" content="https://wordpress.org/images/myimage.jpg">',
-                'https://wordpress.org/images/url-modifier.jpg',
+                '<meta property="og:image:url" content="https://wp.org/images/url-modifier.jpg" />
+				<meta property="og:image" content="https://wp.org/images/myimage.jpg">',
+                'https://wp.org/images/url-modifier.jpg',
             ],
             'with query string'                            => [
-                '<meta property="og:image" content="https://wordpress.org/images/withquerystring.jpg?foo=bar&bar=foo" />',
-                'https://wordpress.org/images/withquerystring.jpg?foo=bar&bar=foo',
+                '<meta property="og:image" content="https://wp.org/images/withquerystring.jpg?foo=bar&bar=foo" />',
+                'https://wp.org/images/withquerystring.jpg?foo=bar&bar=foo',
             ],
 
             // Happy paths with changing attributes order or adding attributes.
             'with content first'                           => [
-                '<meta content="https://wordpress.org/images/myimage.jpg" property="og:image">',
-                'https://wordpress.org/images/myimage.jpg',
+                '<meta content="https://wp.org/images/myimage.jpg" property="og:image">',
+                'https://wp.org/images/myimage.jpg',
             ],
             'with other attributes'                        => [
-                '<meta first="first" property="og:image" third="third" content="https://wordpress.org/images/myimage.jpg" fifth="fifth">',
-                'https://wordpress.org/images/myimage.jpg',
+                '<meta first="first" property="og:image" third="third" content="https://wp.org/images/myimage.jpg" fifth="fifth">',
+                'https://wp.org/images/myimage.jpg',
             ],
             'with other og meta'                           => [
                 '<meta property="og:image:height" content="720" />
 				<meta property="og:image:alt" content="Ignore this please" />
-				<meta property="og:image" content="https://wordpress.org/images/myimage.jpg" />
+				<meta property="og:image" content="https://wp.org/images/myimage.jpg" />
 				<link rel="stylesheet" href="https://example.com/assets/style.css" />',
-                'https://wordpress.org/images/myimage.jpg',
+                'https://wp.org/images/myimage.jpg',
             ],
 
             // Happy paths with relative url.
             'with relative url'                            => [
                 '<meta property="og:image" content="/images/myimage.jpg" />',
-                'https://wordpress.org/images/myimage.jpg',
+                'https://wp.org/images/myimage.jpg',
             ],
             'with relative url without starting slash'     => [
                 '<meta property="og:image" content="images/myimage.jpg" />',
-                'https://wordpress.org/images/myimage.jpg',
+                'https://wp.org/images/myimage.jpg',
             ],
             'with relative url and path'                   => [
                 '<meta property="og:image" content="images/myimage.jpg" />',
-                'https://wordpress.org/images/myimage.jpg',
-                'https://wordpress.org/my/path/here/',
+                'https://wp.org/images/myimage.jpg',
+                'https://wp.org/my/path/here/',
             ],
 
             // Happy paths with multiline attributes.
             'with multiline attributes'                    => [
                 '<meta
 					property="og:image"
-					content="https://wordpress.org/images/myimage.jpg"
+					content="https://wp.org/images/myimage.jpg"
 				>',
-                'https://wordpress.org/images/myimage.jpg',
+                'https://wp.org/images/myimage.jpg',
             ],
             'with multiline attributes in reverse order'   => [
                 '<meta
-					content="https://wordpress.org/images/myimage.jpg"
+					content="https://wp.org/images/myimage.jpg"
 					property="og:image"
 				>',
-                'https://wordpress.org/images/myimage.jpg',
+                'https://wp.org/images/myimage.jpg',
             ],
             'with multiline attributes and other elements' => [
                 '<meta
@@ -1025,29 +1025,29 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
 				/>
 				<meta
 					property="og:image"
-					content="https://wordpress.org/images/myimage.jpg"
+					content="https://wp.org/images/myimage.jpg"
 				>
 				<link rel="stylesheet" href="https://example.com/assets/style.css" />',
-                'https://wordpress.org/images/myimage.jpg',
+                'https://wp.org/images/myimage.jpg',
             ],
             'with multiline and other attributes'          => [
                 '<meta
 					first="first"
 					property="og:image:url"
 					third="third"
-					content="https://wordpress.org/images/myimage.jpg"
+					content="https://wp.org/images/myimage.jpg"
 					fifth="fifth"
 				>',
-                'https://wordpress.org/images/myimage.jpg',
+                'https://wp.org/images/myimage.jpg',
             ],
 
             // Happy paths with HTML tags in the content.
             'with other og meta'                           => [
                 '<meta property="og:image:height" content="720" />
 				<meta property="og:image:alt" content="<em>ignore this please</em>" />
-				<meta property="og:image" content="https://wordpress.org/images/myimage.jpg" />
+				<meta property="og:image" content="https://wp.org/images/myimage.jpg" />
 				<link rel="stylesheet" href="https://example.com/assets/style.css" />',
-                'https://wordpress.org/images/myimage.jpg',
+                'https://wp.org/images/myimage.jpg',
             ],
 
             // Unhappy paths.
@@ -1056,11 +1056,11 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
                 '',
             ],
             'without a property attribute'                 => [
-                '<meta content="https://wordpress.org/images/myimage.jpg">',
+                '<meta content="https://wp.org/images/myimage.jpg">',
                 '',
             ],
             'without a content attribute empty property'   => [
-                '<meta property="og:image" href="https://wordpress.org/images/myimage.jpg">',
+                '<meta property="og:image" href="https://wp.org/images/myimage.jpg">',
                 '',
             ],
         ];

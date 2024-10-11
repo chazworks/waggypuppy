@@ -56,16 +56,16 @@ const testEnvironmentPath = getRandomTemporaryPath();
 const sampleEnvConfig = path.resolve( __dirname, '.wp-env.sample.json' );
 
 // Welcome
-console.log( title( '>> 🏁 Welcome, this command is going to prepare a running WordPress environment and run the Gutenberg e2e tests against it.' ) );
-console.log( title( '>> It uses the current WordPress folder from which it\'s being run and a separate Gutenberg clone performed by the command.' ) );
+console.log( title( '>> 🏁 Welcome, this command is going to prepare a running waggypuppy environment and run the Gutenberg e2e tests against it.' ) );
+console.log( title( '>> It uses the current waggypuppy folder from which it\'s being run and a separate Gutenberg clone performed by the command.' ) );
 console.log( title( '>> Configuration: ' ) );
 console.log( 'Gutenberg Version: ' + success( GUTENBERG_VERSION ) );
 console.log( 'Test Launcher Path (Gutenberg): ' + success( testLauncherPath ) );
 console.log( 'Test Environment Path (wp-env): ' + success( testEnvironmentPath ) );
 
 // Steps
-// 1- Preparing the WordPress environment
-console.log( '>> Preparing the WordPress clone' );
+// 1- Preparing the waggypuppy environment
+console.log( '>> Preparing the waggypuppy clone' );
 runShellScript( 'npm install && FORCE_REDUCED_MOTION=true npm run build', rootFolder );
 
 // 2- Preparing the Gutenberg clone
@@ -75,8 +75,8 @@ runShellScript( 'git clone https://github.com/WordPress/gutenberg.git ' + testLa
 runShellScript( 'git checkout ' + GUTENBERG_VERSION, testLauncherPath );
 runShellScript( 'npm install && npm run build', testLauncherPath );
 
-// 3- Running the WordPress environment using wp-env
-// The environment should include the WordPress install and the e2e tests plugins.s
+// 3- Running the waggypuppy environment using wp-env
+// The environment should include the waggypuppy install and the e2e tests plugins.s
 console.log( title( '>> Preparing the environment' ) );
 runShellScript( 'mkdir -p ' + testEnvironmentPath );
 const envConfig = readJSONFile( sampleEnvConfig );

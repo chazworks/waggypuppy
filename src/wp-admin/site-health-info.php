@@ -2,7 +2,7 @@
 /**
  * Tools Administration Screen.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Administration
  */
 

@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_REST_Menu_Locations_Controller functionality.
  *
- * @package WordPress
+ * @package WP
  * @subpackage REST_API
  * @since 5.9.0
  *

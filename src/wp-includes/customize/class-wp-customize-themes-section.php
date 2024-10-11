@@ -2,7 +2,7 @@
 /**
  * Customize API: WP_Customize_Themes_Section class
  *
- * @package WordPress
+ * @package WP
  * @subpackage Customize
  * @since 4.4.0
  */
@@ -89,8 +89,8 @@ class WP_Customize_Themes_Section extends WP_Customize_Section
                             <?php
                             printf(
                                 /* translators: %s: Support forums URL. */
-                                __('An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
-                                __('https://wordpress.org/support/forums/')
+                                __('An unexpected error occurred. Something may be wrong with wp.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
+                                __('https://wp.org/support/forums/')
                             );
                             ?>
                         </p>
@@ -101,9 +101,9 @@ class WP_Customize_Themes_Section extends WP_Customize_Section
                     <p class="no-themes-local">
                         <?php
                         printf(
-                            /* translators: %s: "Search WordPress.org themes" button text. */
+                            /* translators: %s: "Search wp.org themes" button text. */
                             __('No themes found. Try a different search, or %s.'),
-                            sprintf('<button type="button" class="button-link search-dotorg-themes">%s</button>', __('Search WordPress.org themes'))
+                            sprintf('<button type="button" class="button-link search-dotorg-themes">%s</button>', __('Search wp.org themes'))
                         );
                         ?>
                     </p>

@@ -2,9 +2,9 @@
 /**
  * The template for displaying image attachments
  *
- * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
+ * @link https://developer.wp.org/themes/basics/template-hierarchy/
  *
- * @package WordPress
+ * @package WP
  * @subpackage Twenty_Twelve
  * @since Twenty Twelve 1.0
  */

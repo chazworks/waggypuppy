@@ -2,7 +2,7 @@
 /**
  * Ajax test case class
  *
- * @package    WordPress
+ * @package WP
  * @subpackage UnitTests
  * @since      3.4.0
  */

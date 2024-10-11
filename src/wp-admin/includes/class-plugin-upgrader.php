@@ -2,7 +2,7 @@
 /**
  * Upgrade API: Plugin_Upgrader class
  *
- * @package WordPress
+ * @package WP
  * @subpackage Upgrader
  * @since 4.6.0
  */
@@ -355,8 +355,8 @@ class Plugin_Upgrader extends WP_Upgrader
                 $result = new WP_Error(
                     'incompatible_wp_required_version',
                     sprintf(
-                        /* translators: 1: Current WordPress version, 2: WordPress version required by the new plugin version. */
-                        __('Your WordPress version is %1$s, however the new plugin version requires %2$s.'),
+                        /* translators: 1: Current waggypuppy version, 2: waggypuppy version required by the new plugin version. */
+                        __('Your waggypuppy version is %1$s, however the new plugin version requires %2$s.'),
                         $wp_version,
                         $r->requires
                     )
@@ -460,7 +460,7 @@ class Plugin_Upgrader extends WP_Upgrader
      *
      * @since 3.3.0
      *
-     * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+     * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
      *
      * @param string $source The path to the downloaded package source.
      * @return string|WP_Error The source as passed, or a WP_Error object on failure.
@@ -513,8 +513,8 @@ class Plugin_Upgrader extends WP_Upgrader
 
         if (! is_wp_version_compatible($requires_wp)) {
             $error = sprintf(
-                /* translators: 1: Current WordPress version, 2: Version required by the uploaded plugin. */
-                __('Your WordPress version is %1$s, however the uploaded plugin requires %2$s.'),
+                /* translators: 1: Current waggypuppy version, 2: Version required by the uploaded plugin. */
+                __('Your waggypuppy version is %1$s, however the uploaded plugin requires %2$s.'),
                 $wp_version,
                 $requires_wp
             );
@@ -674,7 +674,7 @@ class Plugin_Upgrader extends WP_Upgrader
      *
      * @since 2.8.0
      *
-     * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+     * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
      *
      * @param bool|WP_Error $removed            Whether the destination was cleared.
      *                                          True on success, WP_Error on failure.

@@ -2,7 +2,7 @@
 /**
  * Blocks API: WP_Block_Template class
  *
- * @package WordPress
+ * @package WP
  * @since 5.8.0
  */
 

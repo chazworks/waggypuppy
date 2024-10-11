@@ -2,7 +2,7 @@
 /**
  * Tests for WP_Block.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Blocks
  * @since 5.5.0
  *

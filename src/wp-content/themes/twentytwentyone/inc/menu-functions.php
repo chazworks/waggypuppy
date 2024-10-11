@@ -2,12 +2,12 @@
 /**
  * Functions and filters related to the menus.
  *
- * Makes the default WordPress navigation use an HTML structure similar
+ * Makes the default WP navigation use an HTML structure similar
  * to the Navigation block.
  *
- * @link https://make.wordpress.org/themes/2020/07/06/printing-navigation-block-html-from-a-legacy-menu-in-themes/
+ * @link https://make.wp.org/themes/2020/07/06/printing-navigation-block-html-from-a-legacy-menu-in-themes/
  *
- * @package WordPress
+ * @package WP
  * @subpackage Twenty_Twenty_One
  * @since Twenty Twenty-One 1.0
  */

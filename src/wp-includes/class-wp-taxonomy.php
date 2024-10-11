@@ -2,7 +2,7 @@
 /**
  * Taxonomy API: WP_Taxonomy class
  *
- * @package WordPress
+ * @package WP
  * @subpackage Taxonomy
  * @since 4.7.0
  */
@@ -495,7 +495,7 @@ final class WP_Taxonomy
      *
      * @since 4.7.0
      *
-     * @global WP $wp Current WordPress environment instance.
+     * @global WP $wp Current waggypuppy environment instance.
      */
     public function add_rewrite_rules()
     {
@@ -524,7 +524,7 @@ final class WP_Taxonomy
      *
      * @since 4.7.0
      *
-     * @global WP $wp Current WordPress environment instance.
+     * @global WP $wp Current waggypuppy environment instance.
      */
     public function remove_rewrite_rules()
     {

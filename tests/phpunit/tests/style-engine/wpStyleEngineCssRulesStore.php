@@ -2,7 +2,7 @@
 /**
  * Tests the Style Engine CSS Rules Store class.
  *
- * @package WordPress
+ * @package WP
  * @subpackage StyleEngine
  * @since 6.1.0
  *

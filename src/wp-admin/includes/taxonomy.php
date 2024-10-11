@@ -1,8 +1,8 @@
 <?php
 /**
- * WordPress Taxonomy Administration API.
+ * waggypuppy Taxonomy Administration API.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Administration
  */
 

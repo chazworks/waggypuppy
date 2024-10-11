@@ -1,8 +1,8 @@
 <?php
 /**
- * WordPress Administration Revisions API
+ * waggypuppy Administration Revisions API
  *
- * @package WordPress
+ * @package WP
  * @subpackage Administration
  * @since 3.6.0
  */

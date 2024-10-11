@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_Interactivity_API_Directives_Processor functionality.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Interactivity API
  *
  * @since 6.5.0

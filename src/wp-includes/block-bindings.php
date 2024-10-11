@@ -2,9 +2,9 @@
 /**
  * Block Bindings API
  *
- * Contains functions for managing block bindings in WordPress.
+ * Contains functions for managing block bindings in waggypuppy.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Block Bindings
  * @since 6.5.0
  */

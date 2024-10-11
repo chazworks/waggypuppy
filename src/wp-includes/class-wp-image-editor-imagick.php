@@ -1,13 +1,13 @@
 <?php
 /**
- * WordPress Imagick Image Editor
+ * waggypuppy Imagick Image Editor
  *
- * @package WordPress
+ * @package WP
  * @subpackage Image_Editor
  */
 
 /**
- * WordPress Image Editor Class for Image Manipulation through Imagick PHP Module
+ * waggypuppy Image Editor Class for Image Manipulation through Imagick PHP Module
  *
  * @since 3.5.0
  *
@@ -296,7 +296,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
      * point 1 above by aligning Imagick's timeout with PHP's timeout, assuming it is set.
      *
      * However seems it introduces more problems than it fixes,
-     * see https://core.trac.wordpress.org/ticket/58202.
+     * see https://core.trac.wp.org/ticket/58202.
      *
      * Note:
      *  - Imagick resource exhaustion does not issue catchable exceptions (yet).
@@ -383,7 +383,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
     /**
      * Efficiently resize the current image
      *
-     * This is a WordPress specific implementation of Imagick::thumbnailImage(),
+     * This is a waggypuppy specific implementation of Imagick::thumbnailImage(),
      * which resizes an image to given dimensions and removes any associated profiles.
      *
      * @since 4.5.0

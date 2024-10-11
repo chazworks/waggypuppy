@@ -2,7 +2,7 @@
 /**
  * Test WP_Font_Utils::sanitize_from_schema().
  *
- * @package WordPress
+ * @package WP
  * @subpackage Font Library
  *
  * @group fonts
@@ -33,7 +33,7 @@ class Tests_Fonts_WpFontUtils_SanitizeFromSchema extends WP_UnitTestCase
                 'data'     => [
                     'slug'       => 'open      -       sans</style><script>alert("xss")</script>',
                     'fontFamily' => 'Open Sans, sans-serif</style><script>alert("xss")</script>',
-                    'src'        => 'https://wordpress.org/example.json</style><script>alert("xss")</script>',
+                    'src'        => 'https://wp.org/example.json</style><script>alert("xss")</script>',
                 ],
                 'schema'   => [
                     'slug'       => 'sanitize_title',
@@ -43,7 +43,7 @@ class Tests_Fonts_WpFontUtils_SanitizeFromSchema extends WP_UnitTestCase
                 'expected' => [
                     'slug'       => 'open-sansalertxss',
                     'fontFamily' => 'Open Sans, sans-serif',
-                    'src'        => 'https://wordpress.org/example.json/stylescriptalert(xss)/script',
+                    'src'        => 'https://wp.org/example.json/stylescriptalert(xss)/script',
                 ],
             ],
 
@@ -51,7 +51,7 @@ class Tests_Fonts_WpFontUtils_SanitizeFromSchema extends WP_UnitTestCase
                 'data'     => [
                     'slug'       => 'open      -       sans</style><script>alert("xss")</script>',
                     'fontFamily' => 'Open Sans, sans-serif</style><script>alert("xss")</script>',
-                    'src'        => 'https://wordpress.org/example.json</style><script>alert("xss")</script>',
+                    'src'        => 'https://wp.org/example.json</style><script>alert("xss")</script>',
                     'nested'     => [
                         'key1'    => 'value1</style><script>alert("xss")</script>',
                         'key2'    => 'value2</style><script>alert("xss")</script>',
@@ -77,7 +77,7 @@ class Tests_Fonts_WpFontUtils_SanitizeFromSchema extends WP_UnitTestCase
                 'expected' => [
                     'slug'       => 'open-sansalertxss',
                     'fontFamily' => 'Open Sans, sans-serif',
-                    'src'        => 'https://wordpress.org/example.json/stylescriptalert(xss)/script',
+                    'src'        => 'https://wp.org/example.json/stylescriptalert(xss)/script',
                     'nested'     => [
                         'key1'    => 'value1',
                         'key2'    => 'value2',
@@ -115,11 +115,11 @@ class Tests_Fonts_WpFontUtils_SanitizeFromSchema extends WP_UnitTestCase
                     'fontFace' => [
                         [
                             'fontFamily' => 'Open Sans, sans-serif</style><script>alert("xss")</script>',
-                            'src'        => 'https://wordpress.org/example.json/stylescriptalert(xss)/script',
+                            'src'        => 'https://wp.org/example.json/stylescriptalert(xss)/script',
                         ],
                         [
                             'fontFamily' => 'Open Sans, sans-serif</style><script>alert("xss")</script>',
-                            'src'        => 'https://wordpress.org/example.json/stylescriptalert(xss)/script',
+                            'src'        => 'https://wp.org/example.json/stylescriptalert(xss)/script',
                         ],
                     ],
                 ],
@@ -139,11 +139,11 @@ class Tests_Fonts_WpFontUtils_SanitizeFromSchema extends WP_UnitTestCase
                     'fontFace' => [
                         [
                             'fontFamily' => 'Open Sans, sans-serif',
-                            'src'        => 'https://wordpress.org/example.json/stylescriptalert(xss)/script',
+                            'src'        => 'https://wp.org/example.json/stylescriptalert(xss)/script',
                         ],
                         [
                             'fontFamily' => 'Open Sans, sans-serif',
-                            'src'        => 'https://wordpress.org/example.json/stylescriptalert(xss)/script',
+                            'src'        => 'https://wp.org/example.json/stylescriptalert(xss)/script',
                         ],
                     ],
                 ],

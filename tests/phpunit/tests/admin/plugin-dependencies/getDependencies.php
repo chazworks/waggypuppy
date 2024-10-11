@@ -2,7 +2,7 @@
 /**
  * Tests for the WP_Plugin_Dependencies::get_dependencies() method.
  *
- * @package WordPress
+ * @package WP
  */
 
 require_once __DIR__ . '/base.php';

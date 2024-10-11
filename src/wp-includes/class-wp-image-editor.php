@@ -1,8 +1,8 @@
 <?php
 /**
- * Base WordPress Image Editor
+ * Base waggypuppy Image Editor
  *
- * @package WordPress
+ * @package WP
  * @subpackage Image_Editor
  */
 

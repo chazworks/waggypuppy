@@ -4,9 +4,9 @@
  *
  * Contains the closing of the #content div and all content after.
  *
- * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
+ * @link https://developer.wp.org/themes/basics/template-files/#template-partials
  *
- * @package WordPress
+ * @package WP
  * @subpackage Twenty_Nineteen
  * @since Twenty Nineteen 1.0
  */
@@ -22,10 +22,10 @@
             <?php if (! empty($blog_info)) : ?>
                 <a class="site-name" href="<?php echo esc_url(home_url('/')); ?>" rel="home"><?php bloginfo('name'); ?></a>,
             <?php endif; ?>
-            <a href="<?php echo esc_url(__('https://wordpress.org/', 'twentynineteen')); ?>" class="imprint">
+            <a href="<?php echo esc_url(__('https://wp.org/', 'twentynineteen')); ?>" class="imprint">
                 <?php
-                /* translators: %s: WordPress. */
-                printf(__('Proudly powered by %s.', 'twentynineteen'), 'WordPress');
+                /* translators: %s: WP. */
+                printf(__('Proudly powered by %s.', 'twentynineteen'), 'WP');
                 ?>
             </a>
             <?php

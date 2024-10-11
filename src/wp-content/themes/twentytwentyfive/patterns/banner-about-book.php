@@ -5,7 +5,7 @@
  * Categories: banner, featured
  * Description: Banner with book description and accompanying image for promotion.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Twenty_Twenty_Five
  * @since Twenty Twenty-Five 1.0
  */

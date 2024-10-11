@@ -104,7 +104,7 @@ class Tests_Shortcode extends WP_UnitTestCase
 
     public function shortcode_url()
     {
-        return 'http://www.wordpress.org/';
+        return 'http://www.wp.org/';
     }
 
     public function shortcode_img($atts)
@@ -285,12 +285,12 @@ class Tests_Shortcode extends WP_UnitTestCase
 
     public function test_positional_atts_mixed()
     {
-        $out = do_shortcode('[test-shortcode-tag 123 https://wordpress.org/ 0 "foo" bar]');
+        $out = do_shortcode('[test-shortcode-tag 123 https://wp.org/ 0 "foo" bar]');
         $this->assertSame('', $out);
         $this->assertSame(
             [
                 0 => '123',
-                1 => 'https://wordpress.org/',
+                1 => 'https://wp.org/',
                 2 => '0',
                 3 => 'foo',
                 4 => 'bar',
@@ -302,12 +302,12 @@ class Tests_Shortcode extends WP_UnitTestCase
 
     public function test_positional_and_named_atts()
     {
-        $out = do_shortcode('[test-shortcode-tag 123 url=https://wordpress.org/ foo bar="baz"]');
+        $out = do_shortcode('[test-shortcode-tag 123 url=https://wp.org/ foo bar="baz"]');
         $this->assertSame('', $out);
         $this->assertSame(
             [
                 0     => '123',
-                'url' => 'https://wordpress.org/',
+                'url' => 'https://wp.org/',
                 1     => 'foo',
                 'bar' => 'baz',
             ],
@@ -331,8 +331,8 @@ class Tests_Shortcode extends WP_UnitTestCase
 
     public function test_nested_tags()
     {
-        $out      = do_shortcode('[baztag][dumptag abc="foo" def=123 https://wordpress.org/][/baztag]');
-        $expected = "content = abc = foo\ndef = 123\n0 = https://wordpress.org\n";
+        $out      = do_shortcode('[baztag][dumptag abc="foo" def=123 https://wp.org/][/baztag]');
+        $expected = "content = abc = foo\ndef = 123\n0 = https://wp.org\n";
         $this->assertSame($expected, $out);
     }
 
@@ -642,23 +642,23 @@ EOF;
             ],
             [
                 '[url]',
-                'http://www.wordpress.org/',
+                'http://www.wp.org/',
             ],
             [
                 '<a href="[url]">',
-                '<a href="http://www.wordpress.org/">',
+                '<a href="http://www.wp.org/">',
             ],
             [
                 '<a href=[url] >',
-                '<a href=http://www.wordpress.org/ >',
+                '<a href=http://www.wp.org/ >',
             ],
             [
                 '<a href="[url]plugins/">',
-                '<a href="http://www.wordpress.org/plugins/">',
+                '<a href="http://www.wp.org/plugins/">',
             ],
             [
                 '<a href="bad[url]">',
-                '<a href="//www.wordpress.org/">',
+                '<a href="//www.wp.org/">',
             ],
             [
                 '<a onclick="bad[url]">',
@@ -864,8 +864,8 @@ EOF;
      */
     public function test_unnamed_attribute()
     {
-        $out      = do_shortcode('[dumptag=https://wordpress.org/]');
-        $expected = "0 = =https://wordpress.org\n";
+        $out      = do_shortcode('[dumptag=https://wp.org/]');
+        $expected = "0 = =https://wp.org\n";
         $this->assertSame($expected, $out);
     }
 

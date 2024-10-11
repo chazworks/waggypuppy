@@ -2,7 +2,7 @@
 /**
  * WP_Theme_JSON_Resolver class
  *
- * @package WordPress
+ * @package WP
  * @subpackage Theme
  * @since 5.8.0
  */
@@ -171,7 +171,7 @@ class WP_Theme_JSON_Resolver
         $config = static::translate($config);
 
         /**
-         * Filters the default data provided by WordPress for global styles & settings.
+         * Filters the default data provided by waggypuppy for global styles & settings.
          *
          * @since 6.1.0
          *
@@ -531,7 +531,7 @@ class WP_Theme_JSON_Resolver
                 [
                     'post_content' => '{"version": ' . WP_Theme_JSON::LATEST_SCHEMA . ', "isGlobalStylesUserThemeJSON": true }',
                     'post_status'  => 'publish',
-                    'post_title'   => 'Custom Styles', // Do not make string translatable, see https://core.trac.wordpress.org/ticket/54518.
+                    'post_title'   => 'Custom Styles', // Do not make string translatable, see https://core.trac.wp.org/ticket/54518.
                     'post_type'    => $post_type_filter,
                     'post_name'    => sprintf('wp-global-styles-%s', urlencode($stylesheet)),
                     'tax_input'    => [
@@ -628,7 +628,7 @@ class WP_Theme_JSON_Resolver
      *
      * There are four sources of data (origins) for a site:
      *
-     * - default => WordPress
+     * - default => waggypuppy
      * - blocks  => each one of the blocks provides data for itself
      * - theme   => the active theme
      * - custom  => data provided by the user
@@ -637,9 +637,9 @@ class WP_Theme_JSON_Resolver
      * and block's higher than default's.
      *
      * Unlike the getters
-     * {@link https://developer.wordpress.org/reference/classes/wp_theme_json_resolver/get_core_data/ get_core_data},
-     * {@link https://developer.wordpress.org/reference/classes/wp_theme_json_resolver/get_theme_data/ get_theme_data},
-     * and {@link https://developer.wordpress.org/reference/classes/wp_theme_json_resolver/get_user_data/ get_user_data},
+     * {@link https://developer.wp.org/reference/classes/wp_theme_json_resolver/get_core_data/ get_core_data},
+     * {@link https://developer.wp.org/reference/classes/wp_theme_json_resolver/get_theme_data/ get_theme_data},
+     * and {@link https://developer.wp.org/reference/classes/wp_theme_json_resolver/get_user_data/ get_user_data},
      * this method returns data after it has been merged with the previous origins.
      * This means that if the same piece of data is declared in different origins
      * (default, blocks, theme, custom), the last origin overrides the previous.

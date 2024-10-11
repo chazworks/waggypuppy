@@ -1,7 +1,7 @@
 <?php
 
 /**
- * A simple manually-instrumented profiler for WordPress.
+ * A simple manually-instrumented profiler for waggypuppy.
  *
  * This records basic execution time, and a summary of the actions and SQL queries run within each block.
  *
@@ -159,7 +159,7 @@ class WPProfiler
 
     public function _query_count($queries)
     {
-        // This requires the SAVEQUERIES patch at https://core.trac.wordpress.org/ticket/5218
+        // This requires the SAVEQUERIES patch at https://core.trac.wp.org/ticket/5218
         $out = [];
         foreach ($queries as $q) {
             if (empty($q[2])) {

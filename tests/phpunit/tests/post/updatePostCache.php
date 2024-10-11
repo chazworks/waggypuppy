@@ -2,7 +2,7 @@
 /**
  * Test `update_post_cache()`.
  *
- * @package WordPress
+ * @package WP
  */
 
 /**

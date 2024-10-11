@@ -23,8 +23,8 @@ if (is_multisite()) :
                     'domain' => 'foo.' . WP_TESTS_DOMAIN,
                     'path'   => '/',
                 ],
-                'wordpress.org/'               => [
-                    'domain' => 'wordpress.org',
+                'wp.org/'               => [
+                    'domain' => 'wp.org',
                     'path'   => '/',
                 ],
             ];
@@ -78,8 +78,8 @@ if (is_multisite()) :
 
         public function test_get_blog_details_with_site_id_int()
         {
-            $site = get_blog_details(self::$site_ids['wordpress.org/']);
-            $this->assertEquals(self::$site_ids['wordpress.org/'], $site->blog_id);
+            $site = get_blog_details(self::$site_ids['wp.org/']);
+            $this->assertEquals(self::$site_ids['wp.org/'], $site->blog_id);
         }
 
         public function test_get_blog_details_with_invalid_site_id_int()
@@ -90,8 +90,8 @@ if (is_multisite()) :
 
         public function test_get_blog_details_with_blog_id_in_fields()
         {
-            $site = get_blog_details(['blog_id' => self::$site_ids['wordpress.org/']]);
-            $this->assertEquals(self::$site_ids['wordpress.org/'], $site->blog_id);
+            $site = get_blog_details(['blog_id' => self::$site_ids['wp.org/']]);
+            $this->assertEquals(self::$site_ids['wp.org/'], $site->blog_id);
         }
 
         public function test_get_blog_details_with_invalid_blog_id_in_fields()
@@ -104,18 +104,18 @@ if (is_multisite()) :
         {
             $site = get_blog_details(
                 [
-                    'domain' => 'wordpress.org',
+                    'domain' => 'wp.org',
                     'path'   => '/',
                 ]
             );
-            $this->assertEquals(self::$site_ids['wordpress.org/'], $site->blog_id);
+            $this->assertEquals(self::$site_ids['wp.org/'], $site->blog_id);
         }
 
         public function test_get_blog_details_with_domain_and_invalid_path_in_fields()
         {
             $site = get_blog_details(
                 [
-                    'domain' => 'wordpress.org',
+                    'domain' => 'wp.org',
                     'path'   => '/zxy/',
                 ]
             );
@@ -139,8 +139,8 @@ if (is_multisite()) :
                 $this->markTestSkipped('This test is only valid in a subdomain configuration.');
             }
 
-            $site = get_blog_details(['domain' => 'wordpress.org']);
-            $this->assertSame(self::$site_ids['wordpress.org/'], $site->blog_id);
+            $site = get_blog_details(['domain' => 'wp.org']);
+            $this->assertSame(self::$site_ids['wp.org/'], $site->blog_id);
         }
 
         public function test_get_blog_details_with_only_domain_in_fields_subdirectory()
@@ -149,7 +149,7 @@ if (is_multisite()) :
                 $this->markTestSkipped('This test is only valid in a subdirectory configuration.');
             }
 
-            $site = get_blog_details(['domain' => 'wordpress.org']);
+            $site = get_blog_details(['domain' => 'wp.org']);
             $this->assertFalse($site);
         }
 
@@ -179,7 +179,7 @@ if (is_multisite()) :
         {
             $site = get_blog_details(
                 [
-                    'domain' => 'wordpress.org',
+                    'domain' => 'wp.org',
                     'path'   => '/',
                 ],
                 $get_all
@@ -199,7 +199,7 @@ if (is_multisite()) :
         {
             $site = get_blog_details(
                 [
-                    'domain' => 'wordpress.org',
+                    'domain' => 'wp.org',
                     'path'   => '/',
                 ],
                 $get_all

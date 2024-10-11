@@ -2,7 +2,7 @@
 
 /**
  * Note: this file exists only to remind developers to build the assets.
- * For the real index.php that gets built and boots WordPress,
+ * For the real index.php that gets built and boots waggypuppy,
  * please refer to _index.php.
  */
 
@@ -39,7 +39,7 @@ wp_load_translations_early();
 // Die with an error message.
 $die = sprintf(
     '<p>%s</p>',
-    __('You are running WordPress without JavaScript and CSS files. These need to be built.')
+    __('You are running waggypuppy without JavaScript and CSS files. These need to be built.')
 );
 
 $die .= '<p>' . sprintf(
@@ -49,11 +49,11 @@ $die .= '<p>' . sprintf(
 ) . '</p>';
 
 $die .= '<ul>';
-$die .= '<li>' . __('To build WordPress while developing, run:') . '<br /><br />';
+$die .= '<li>' . __('To build waggypuppy while developing, run:') . '<br /><br />';
 $die .= '<code style="color: green;">npm run dev</code></li>';
 $die .= '<li>' . __('To build files automatically when changing the source files, run:') . '<br /><br />';
 $die .= '<code style="color: green;">npm run watch</code></li>';
-$die .= '<li>' . __('To create a production build of WordPress, run:') . '<br /><br />';
+$die .= '<li>' . __('To create a production build of waggypuppy, run:') . '<br /><br />';
 $die .= '<code style="color: green;">npm run build</code></li>';
 $die .= '</ul>';
 
@@ -61,7 +61,7 @@ $die .= '<p>' . sprintf(
     /* translators: 1: npm URL, 2: Handbook URL. */
     __('This requires <a href="%1$s">npm</a>. <a href="%2$s">Learn more about setting up your local development environment</a>.'),
     'https://www.npmjs.com/get-npm',
-    __('https://make.wordpress.org/core/handbook/tutorials/installing-wordpress-locally/')
+    __('https://make.wp.org/core/handbook/tutorials/installing-wordpress-locally/')
 ) . '</p>';
 
-wp_die($die, __('WordPress &rsaquo; Error'));
+wp_die($die, __('waggypuppy &rsaquo; Error'));

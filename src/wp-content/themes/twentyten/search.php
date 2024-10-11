@@ -2,7 +2,7 @@
 /**
  * Template for displaying Search Results pages
  *
- * @package WordPress
+ * @package WP
  * @subpackage Twenty_Ten
  * @since Twenty Ten 1.0
  */

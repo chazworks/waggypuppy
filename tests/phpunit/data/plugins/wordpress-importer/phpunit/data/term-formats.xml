@@ -18,11 +18,11 @@
 
 <!-- generator="WordPress/5.0" created="2017-12-15 10:47" -->
 <rss version="2.0"
-	xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/"
+	xmlns:excerpt="http://wp.org/export/1.2/excerpt/"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
-	xmlns:wp="http://wordpress.org/export/1.2/"
+	xmlns:wp="http://wp.org/export/1.2/"
 >
 
 <channel>
@@ -74,7 +74,7 @@
 	<wp:term><wp:term_id>7</wp:term_id><wp:term_taxonomy>nav_menu</wp:term_taxonomy><wp:term_slug><![CDATA[menu]]></wp:term_slug><wp:term_name><![CDATA[Menu]]></wp:term_name>
 </wp:term>
 
-	<generator>https://wordpress.org/?v=5.0</generator>
+	<generator>https://wp.org/?v=5.0</generator>
 
 </channel>
 </rss>

@@ -2,7 +2,7 @@
 /**
  * Widget API: WP_Widget_Meta class
  *
- * @package WordPress
+ * @package WP
  * @subpackage Widgets
  * @since 4.4.0
  */
@@ -28,7 +28,7 @@ class WP_Widget_Meta extends WP_Widget
     {
         $widget_ops = [
             'classname'                   => 'widget_meta',
-            'description'                 => __('Login, RSS, &amp; WordPress.org links.'),
+            'description'                 => __('Login, RSS, &amp; wp.org links.'),
             'customize_selective_refresh' => true,
             'show_instance_in_rest'       => true,
         ];
@@ -79,20 +79,20 @@ class WP_Widget_Meta extends WP_Widget
 
             <?php
             /**
-             * Filters the "WordPress.org" list item HTML in the Meta widget.
+             * Filters the "wp.org" list item HTML in the Meta widget.
              *
              * @since 3.6.0
              * @since 4.9.0 Added the `$instance` parameter.
              *
-             * @param string $html     Default HTML for the WordPress.org list item.
+             * @param string $html     Default HTML for the wp.org list item.
              * @param array  $instance Array of settings for the current widget.
              */
             echo apply_filters(
                 'widget_meta_poweredby',
                 sprintf(
                     '<li><a href="%1$s">%2$s</a></li>',
-                    esc_url(__('https://wordpress.org/')),
-                    __('WordPress.org')
+                    esc_url(__('https://wp.org/')),
+                    __('wp.org')
                 ),
                 $instance
             );

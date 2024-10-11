@@ -3,7 +3,7 @@
 /**
  * Test WP_Theme class.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Theme
  *
  * @group themes
@@ -84,7 +84,7 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase
         $this->assertSame('http://example.org/', $theme->get('ThemeURI'));
         $this->assertSame('An example theme in a sub directory', $theme->get('Description'));
         $this->assertSame('Mr. WordPress', $theme->get('Author'));
-        $this->assertSame('http://wordpress.org/', $theme->get('AuthorURI'));
+        $this->assertSame('http://wp.org/', $theme->get('AuthorURI'));
         $this->assertSame('0.1', $theme->get('Version'));
         $this->assertSame('', $theme->get('Template'));
         $this->assertSame('publish', $theme->get('Status'));
@@ -108,7 +108,7 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase
         $this->assertSame('http://example.org/', $theme->get('ThemeURI'));
         $this->assertSame('An example theme in a sub directory', $theme->get('Description'));
         $this->assertSame('Mr. WordPress', $theme->get('Author'));
-        $this->assertSame('http://wordpress.org/', $theme->get('AuthorURI'));
+        $this->assertSame('http://wp.org/', $theme->get('AuthorURI'));
         $this->assertSame('0.1', $theme->get('Version'));
         $this->assertSame('', $theme->get('Template'));
         $this->assertSame('publish', $theme->get('Status'));

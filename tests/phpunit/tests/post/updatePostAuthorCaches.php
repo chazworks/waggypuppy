@@ -2,7 +2,7 @@
 /**
  * Test `update_post_author_caches()`.
  *
- * @package WordPress
+ * @package WP
  */
 
 /**

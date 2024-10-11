@@ -5,13 +5,13 @@ import { writeFileSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 /**
- * WordPress dependencies
+ * waggypuppy dependencies
  */
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';
 
 let wpConfigOriginal;
 
-test.describe( 'WordPress installation process', () => {
+test.describe( 'waggypuppy installation process', () => {
 	const wpConfig = join(
 		process.cwd(),
 		'wp-config.php',
@@ -31,7 +31,7 @@ test.describe( 'WordPress installation process', () => {
 		writeFileSync( wpConfig, wpConfigOriginal );
 	} );
 
-	test( 'should install WordPress with pre-existing database credentials', async ( { page } ) => {
+	test( 'should install waggypuppy with pre-existing database credentials', async ( { page } ) => {
 		await page.goto( '/' );
 
 		await expect(
@@ -40,7 +40,7 @@ test.describe( 'WordPress installation process', () => {
 		).toHaveURL( /wp-admin\/install\.php$/ );
 
 		await expect(
-			page.getByText( /WordPress database error/ ),
+			page.getByText( /waggypuppy database error/ ),
 			'should not have any database errors'
 		).not.toBeVisible();
 
@@ -60,7 +60,7 @@ test.describe( 'WordPress installation process', () => {
 		await page.getByLabel( /Confirm use of weak password/ ).check()
 		await page.getByLabel( 'Your Email' ).fill( 'test@test.com' );
 
-		await page.getByRole( 'button', { name: 'Install WordPress' } ).click();
+		await page.getByRole( 'button', { name: 'Install waggypuppy' } ).click();
 
 		// Installation finished, can now log in.
 
@@ -79,7 +79,7 @@ test.describe( 'WordPress installation process', () => {
 		await page.getByRole( 'button', { name: 'Log In' } ).click();
 
 		await expect(
-			page.getByRole( 'heading', { name: 'Welcome to WordPress', level: 2 })
+			page.getByRole( 'heading', { name: 'Welcome to waggypuppy', level: 2 })
 		).toBeVisible();
 	} );
 } );

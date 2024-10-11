@@ -2,7 +2,7 @@
 /**
  * WP_HTTP_IXR_Client
  *
- * @package WordPress
+ * @package WP
  * @since 3.1.0
  */
 #[AllowDynamicProperties]

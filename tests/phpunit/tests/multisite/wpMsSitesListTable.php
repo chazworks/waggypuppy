@@ -24,28 +24,28 @@ if (is_multisite()) :
         public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
         {
             self::$site_ids = [
-                'wordpress.org/'          => [
-                    'domain' => 'wordpress.org',
+                'wp.org/'          => [
+                    'domain' => 'wp.org',
                     'path'   => '/',
                 ],
-                'wordpress.org/foo/'      => [
-                    'domain' => 'wordpress.org',
+                'wp.org/foo/'      => [
+                    'domain' => 'wp.org',
                     'path'   => '/foo/',
                 ],
-                'wordpress.org/foo/bar/'  => [
-                    'domain' => 'wordpress.org',
+                'wp.org/foo/bar/'  => [
+                    'domain' => 'wp.org',
                     'path'   => '/foo/bar/',
                 ],
-                'wordpress.org/afoo/'     => [
-                    'domain' => 'wordpress.org',
+                'wp.org/afoo/'     => [
+                    'domain' => 'wp.org',
                     'path'   => '/afoo/',
                 ],
-                'make.wordpress.org/'     => [
-                    'domain' => 'make.wordpress.org',
+                'make.wp.org/'     => [
+                    'domain' => 'make.wp.org',
                     'path'   => '/',
                 ],
-                'make.wordpress.org/foo/' => [
-                    'domain' => 'make.wordpress.org',
+                'make.wp.org/foo/' => [
+                    'domain' => 'make.wp.org',
                     'path'   => '/foo/',
                 ],
                 'www.w.org/'              => [
@@ -117,10 +117,10 @@ if (is_multisite()) :
             unset($_REQUEST['s']);
 
             $expected = [
-                self::$site_ids['wordpress.org/foo/'],
-                self::$site_ids['wordpress.org/foo/bar/'],
-                self::$site_ids['wordpress.org/afoo/'],
-                self::$site_ids['make.wordpress.org/foo/'],
+                self::$site_ids['wp.org/foo/'],
+                self::$site_ids['wp.org/foo/bar/'],
+                self::$site_ids['wp.org/afoo/'],
+                self::$site_ids['make.wp.org/foo/'],
                 self::$site_ids['www.w.org/foo/'],
                 self::$site_ids['www.w.org/foo/bar/'],
             ];
@@ -144,7 +144,7 @@ if (is_multisite()) :
             unset($_REQUEST['s']);
 
             $expected = [
-                self::$site_ids['wordpress.org/foo/bar/'],
+                self::$site_ids['wp.org/foo/bar/'],
                 self::$site_ids['www.w.org/foo/bar/'],
             ];
 
@@ -231,10 +231,10 @@ if (is_multisite()) :
             unset($_REQUEST['s']);
 
             $expected = [
-                self::$site_ids['wordpress.org/foo/'],
-                self::$site_ids['wordpress.org/foo/bar/'],
-                self::$site_ids['wordpress.org/afoo/'],
-                self::$site_ids['make.wordpress.org/foo/'],
+                self::$site_ids['wp.org/foo/'],
+                self::$site_ids['wp.org/foo/bar/'],
+                self::$site_ids['wp.org/afoo/'],
+                self::$site_ids['make.wp.org/foo/'],
                 self::$site_ids['www.w.org/foo/'],
                 self::$site_ids['www.w.org/foo/bar/'],
             ];

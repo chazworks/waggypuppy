@@ -2,7 +2,7 @@
 /**
  * Tests WP_Classic_To_Block_Menu_Converter_Test
  *
- * @package WordPress
+ * @package WP
  */
 
 /**

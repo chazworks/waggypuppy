@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_Application_Passwords functionality.
  *
- * @package    WordPress
+ * @package WP
  * @subpackage REST API
  *
  * @group  restapi

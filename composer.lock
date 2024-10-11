@@ -2118,7 +2118,7 @@
                     "homepage": "https://github.com/WordPress/WordPress-Coding-Standards/graphs/contributors"
                 }
             ],
-            "description": "PHP_CodeSniffer rules (sniffs) to enforce WordPress coding conventions",
+            "description": "PHP_CodeSniffer rules (sniffs) to enforce WP coding conventions",
             "keywords": [
                 "phpcs",
                 "standards",

@@ -1,8 +1,8 @@
 <?php
 /**
- * WordPress Administration Template Footer
+ * waggypuppy Administration Template Footer
  *
- * @package WordPress
+ * @package WP
  * @subpackage Administration
  */
 
@@ -49,7 +49,7 @@ global $hook_suffix;
         /**
          * Filters the version/update text displayed in the admin footer.
          *
-         * WordPress prints the current version and update information,
+         * waggypuppy prints the current version and update information,
          * using core_update_footer() at priority 10.
          *
          * @since 2.3.0

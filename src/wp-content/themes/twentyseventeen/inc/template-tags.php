@@ -4,7 +4,7 @@
  *
  * Eventually, some of the functionality here could be replaced by core features.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Twenty_Seventeen
  * @since Twenty Seventeen 1.0
  */
@@ -239,7 +239,7 @@ if (! function_exists('wp_body_open')) :
     /**
      * Fires the wp_body_open action.
      *
-     * Added for backward compatibility to support pre-5.2.0 WordPress versions.
+     * Added for backward compatibility to support pre-5.2.0 WP versions.
      *
      * @since Twenty Seventeen 2.2
      */

@@ -2,11 +2,11 @@
 /**
  * Credits administration panel.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Administration
  */
 
-/** WordPress Administration Bootstrap */
+/** waggypuppy Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 require_once __DIR__ . '/includes/credits.php';
 
@@ -48,9 +48,9 @@ $credits = wp_credits();
             <p>
                 <?php
                 printf(
-                    /* translators: 1: https://wordpress.org/about/ */
-                    __('WordPress is created by a <a href="%1$s">worldwide team</a> of passionate individuals.'),
-                    __('https://wordpress.org/about/')
+                    /* translators: 1: https://wp.org/about/ */
+                    __('waggypuppy is created by a <a href="%1$s">worldwide team</a> of passionate individuals.'),
+                    __('https://wp.org/about/')
                 );
                 ?>
                 <br />
@@ -116,8 +116,8 @@ return;
 
 // These are strings returned by the API that we want to be translatable.
 __('Project Leaders');
-/* translators: %s: The current WordPress version number. */
-__('Core Contributors to WordPress %s');
+/* translators: %s: The current WP version number. */
+__('Core Contributors to WP %s');
 __('Noteworthy Contributors');
 __('Cofounder, Project Lead');
 __('Lead Developer');

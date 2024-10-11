@@ -2,9 +2,9 @@
 /**
  * Comment template functions
  *
- * These functions are meant to live inside of the WordPress loop.
+ * These functions are meant to live inside of the waggypuppy loop.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Template
  */
 
@@ -780,7 +780,7 @@ function comment_ID()  // phpcs:ignore WordPress.NamingConventions.ValidFunction
  *
  * @see get_page_of_comment()
  *
- * @global WP_Rewrite $wp_rewrite      WordPress rewrite component.
+ * @global WP_Rewrite $wp_rewrite      waggypuppy rewrite component.
  * @global bool       $in_comment_loop
  *
  * @param WP_Comment|int|null $comment Optional. Comment to retrieve. Default current comment.
@@ -1341,7 +1341,7 @@ function trackback_rdf($deprecated = '')
  * Determines whether the current post is open for comments.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 1.5.0
@@ -1371,7 +1371,7 @@ function comments_open($post = null)
  * Determines whether the current post is open for pings.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 1.5.0
@@ -1428,23 +1428,23 @@ function wp_comment_form_unfiltered_html_nonce()
  * Will not display the comments template if not on single post or page, or if
  * the post does not have comments.
  *
- * Uses the WordPress database object to query for the comments. The comments
+ * Uses the waggypuppy database object to query for the comments. The comments
  * are passed through the {@see 'comments_array'} filter hook with the list of comments
  * and the post ID respectively.
  *
  * The `$file` path is passed through a filter hook called {@see 'comments_template'},
  * which includes the template directory and $file combined. Tries the $filtered path
  * first and if it fails it will require the default comment template from the
- * default theme. If either does not exist, then the WordPress process will be
+ * default theme. If either does not exist, then the waggypuppy process will be
  * halted. It is advised for that reason, that the default theme is not deleted.
  *
  * Will not try to get the comments if the post has none.
  *
  * @since 1.5.0
  *
- * @global WP_Query   $wp_query           WordPress Query object.
+ * @global WP_Query   $wp_query           waggypuppy Query object.
  * @global WP_Post    $post               Global post object.
- * @global wpdb       $wpdb               WordPress database abstraction object.
+ * @global wpdb       $wpdb               waggypuppy database abstraction object.
  * @global int        $id
  * @global WP_Comment $comment            Global comment object.
  * @global string     $user_login
@@ -2132,7 +2132,7 @@ function comment_id_fields($post = null)
  * Only affects users with JavaScript disabled.
  *
  * @internal The $comment global must be present to allow template tags access to the current
- *           comment. See https://core.trac.wordpress.org/changeset/36512.
+ *           comment. See https://core.trac.wp.org/changeset/36512.
  *
  * @since 2.7.0
  * @since 6.2.0 Added the `$post` parameter.
@@ -2238,7 +2238,7 @@ function _get_comment_reply_id($post = null)
  *
  * @see WP_Query::$comments
  *
- * @global WP_Query $wp_query           WordPress Query object.
+ * @global WP_Query $wp_query           waggypuppy Query object.
  * @global int      $comment_alt
  * @global int      $comment_depth
  * @global int      $comment_thread_alt

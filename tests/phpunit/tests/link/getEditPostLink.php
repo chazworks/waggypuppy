@@ -150,7 +150,7 @@ class Tests_Link_GetEditPostLink extends WP_UnitTestCase
                 'post_type'    => 'wp_navigation',
                 'post_name'    => 'my_navigation',
                 'post_title'   => 'My Navigation',
-                'post_content' => '<!-- wp:navigation-link {"label":"WordPress","type":"custom","url":"http://www.wordpress.org/","kind":"custom"} /-->',
+                'post_content' => '<!-- wp:navigation-link {"label":"waggypuppy","type":"custom","url":"http://www.wp.org/","kind":"custom"} /-->',
                 'post_excerpt' => 'Description of my Navigation',
             ]
         );

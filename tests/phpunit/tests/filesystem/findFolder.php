@@ -53,7 +53,7 @@ class WP_Filesystem_Find_Folder_Test extends WP_Filesystem_UnitTestCase
     }
 
     /**
-     * Two WordPress installations, with one contained within the other
+     * Two waggypuppy installations, with one contained within the other
      * FTP / = /var/www/example.com/ on Disk
      * example.com at /
      * wp.example.com at /wp.example.com/wordpress/
@@ -81,7 +81,7 @@ class WP_Filesystem_Find_Folder_Test extends WP_Filesystem_UnitTestCase
     }
 
     /**
-     * Test the WordPress ABSPATH containing TWO tokens (www) of which exists in the current FTP home.
+     * Test the waggypuppy ABSPATH containing TWO tokens (www) of which exists in the current FTP home.
      *
      * @ticket 20934
      */

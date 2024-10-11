@@ -1,15 +1,15 @@
 <?php
 /**
- * WordPress Network Administration Bootstrap
+ * waggypuppy Network Administration Bootstrap
  *
- * @package WordPress
+ * @package WP
  * @subpackage Multisite
  * @since 3.1.0
  */
 
 const WP_NETWORK_ADMIN = true;
 
-/** Load WordPress Administration Bootstrap */
+/** Load waggypuppy Administration Bootstrap */
 require_once dirname(__DIR__) . '/admin.php';
 
 // Do not remove this check. It is required by individual network admin pages.

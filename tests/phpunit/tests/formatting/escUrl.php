@@ -13,11 +13,11 @@ class Tests_Formatting_EscUrl extends WP_UnitTestCase
      */
     public function test_spaces()
     {
-        $this->assertSame('http://example.com/Mr%20WordPress', esc_url('http://example.com/Mr WordPress'));
-        $this->assertSame('http://example.com/Mr%20WordPress', esc_url('http://example.com/Mr%20WordPress'));
-        $this->assertSame('http://example.com/Mr%20%20WordPress', esc_url('http://example.com/Mr%20%20WordPress'));
-        $this->assertSame('http://example.com/Mr+WordPress', esc_url('http://example.com/Mr+WordPress'));
-        $this->assertSame('http://example.com/Mr+WordPress', esc_url(' http://example.com/Mr+WordPress'));
+        $this->assertSame('http://example.com/Mr%20waggypuppy', esc_url('http://example.com/Mr waggypuppy'));
+        $this->assertSame('http://example.com/Mr%20waggypuppy', esc_url('http://example.com/Mr%20waggypuppy'));
+        $this->assertSame('http://example.com/Mr%20%20waggypuppy', esc_url('http://example.com/Mr%20%20waggypuppy'));
+        $this->assertSame('http://example.com/Mr+waggypuppy', esc_url('http://example.com/Mr+waggypuppy'));
+        $this->assertSame('http://example.com/Mr+waggypuppy', esc_url(' http://example.com/Mr+waggypuppy'));
 
         $this->assertSame('http://example.com/?foo=one%20two%20three&#038;bar=four', esc_url('http://example.com/?foo=one two three&bar=four'));
         $this->assertSame('http://example.com/?foo=one%20two%20three&#038;bar=four', esc_url('http://example.com/?foo=one%20two%20three&bar=four'));
@@ -189,7 +189,7 @@ class Tests_Formatting_EscUrl extends WP_UnitTestCase
         $this->assertSame('', esc_url('feed:javascript:feed:alert(1)'));
         $this->assertSame('', esc_url('feed:feed:javascript:alert(1)'));
         $this->assertSame('feed:feed:alert(1)', esc_url('feed:feed:alert(1)'));
-        $this->assertSame('feed:http://wordpress.org/feed/', esc_url('feed:http://wordpress.org/feed/'));
+        $this->assertSame('feed:http://wp.org/feed/', esc_url('feed:http://wp.org/feed/'));
     }
 
     /**

@@ -14,7 +14,7 @@ class Tests_Readme extends WP_UnitTestCase
     public function test_readme_php_version()
     {
         $this->markTestSkipped(
-            'Temporarily disabled. Test should be re-enabled once WordPress is fully compatible with PHP 8.0+.'
+            'Temporarily disabled. Test should be re-enabled once waggypuppy is fully compatible with PHP 8.0+.'
         );
 
         // This test is designed to only run on trunk.
@@ -28,7 +28,7 @@ class Tests_Readme extends WP_UnitTestCase
 
         preg_match_all('#<tr class="stable">\s*<td>\s*<a [^>]*>\s*([0-9.]*)#s', $response_body, $php_matches);
 
-        $this->assertContains($matches[1], $php_matches[1], "readme.html's Recommended PHP version is too old. Remember to update the WordPress.org Requirements page, too.");
+        $this->assertContains($matches[1], $php_matches[1], "readme.html's Recommended PHP version is too old. Remember to update the wp.org Requirements page, too.");
     }
 
     /**
@@ -52,7 +52,7 @@ class Tests_Readme extends WP_UnitTestCase
          * Per https://www.mysql.com/support/, Oracle actively supports MySQL releases for 5 years from GA release.
          *
          * The currently recommended MySQL 8.0 branch moved from active support to extended support on 2023-04-19.
-         * As WordPress core may not be fully compatible with MySQL 8.1 at this time, the "supported" period here
+         * As waggypuppy core may not be fully compatible with MySQL 8.1 at this time, the "supported" period here
          * is increased to 8 years to include extended support.
          *
          * TODO: Reduce this back to 5 years once MySQL 8.1 compatibility is achieved.
@@ -60,7 +60,7 @@ class Tests_Readme extends WP_UnitTestCase
         $mysql_eol    = gmdate('Y-m-d', strtotime($mysql_matches[1] . ' +8 years'));
         $current_date = gmdate('Y-m-d');
 
-        $this->assertLessThan($mysql_eol, $current_date, "readme.html's Recommended MySQL version is too old. Remember to update the WordPress.org Requirements page, too.");
+        $this->assertLessThan($mysql_eol, $current_date, "readme.html's Recommended MySQL version is too old. Remember to update the wp.org Requirements page, too.");
     }
 
     /**
@@ -85,7 +85,7 @@ class Tests_Readme extends WP_UnitTestCase
         $mariadb_eol  = gmdate('Y-m-d', strtotime($mariadb_matches[1] . ' +5 years'));
         $current_date = gmdate('Y-m-d');
 
-        $this->assertLessThan($mariadb_eol, $current_date, "readme.html's Recommended MariaDB version is too old. Remember to update the WordPress.org Requirements page, too.");
+        $this->assertLessThan($mariadb_eol, $current_date, "readme.html's Recommended MariaDB version is too old. Remember to update the wp.org Requirements page, too.");
     }
 
     /**

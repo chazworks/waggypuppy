@@ -4,12 +4,12 @@
  *
  * Requires wp-admin/includes/revision.php.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Administration
  * @since 2.6.0
  */
 
-/** WordPress Administration Bootstrap */
+/** waggypuppy Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 
 require ABSPATH . 'wp-admin/includes/revision.php';
@@ -156,8 +156,8 @@ get_current_screen()->add_help_tab(
 );
 
 $revisions_sidebar  = '<p><strong>' . __('For more information:') . '</strong></p>';
-$revisions_sidebar .= '<p>' . __('<a href="https://wordpress.org/documentation/article/revisions/">Revisions Management</a>') . '</p>';
-$revisions_sidebar .= '<p>' . __('<a href="https://wordpress.org/support/forums/">Support forums</a>') . '</p>';
+$revisions_sidebar .= '<p>' . __('<a href="https://wp.org/documentation/article/revisions/">Revisions Management</a>') . '</p>';
+$revisions_sidebar .= '<p>' . __('<a href="https://wp.org/support/forums/">Support forums</a>') . '</p>';
 
 get_current_screen()->set_help_sidebar($revisions_sidebar);
 

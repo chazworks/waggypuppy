@@ -2,7 +2,7 @@
 /**
  * Error Protection API: WP_Recovery_Mode_Cookie_Service class
  *
- * @package WordPress
+ * @package WP
  * @since 5.2.0
  */
 
@@ -213,7 +213,7 @@ final class WP_Recovery_Mode_Cookie_Service
                 /*
                  * translators: This string should only be translated if wp-config-sample.php is localized.
                  * You can check the localized release package or
-                 * https://i18n.svn.wordpress.org/<locale code>/branches/<wp version>/dist/wp-config-sample.php
+                 * https://i18n.svn.wp.org/<locale code>/branches/<wp version>/dist/wp-config-sample.php
                  */
                 __('put your unique phrase here'),
             ]

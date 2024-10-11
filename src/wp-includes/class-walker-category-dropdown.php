@@ -2,7 +2,7 @@
 /**
  * Taxonomy API: Walker_CategoryDropdown class
  *
- * @package WordPress
+ * @package WP
  * @subpackage Template
  * @since 4.4.0
  */

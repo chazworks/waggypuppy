@@ -2,12 +2,12 @@
 /**
  * Updates network administration panel.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Multisite
  * @since 3.1.0
  */
 
-/** Load WordPress Administration Bootstrap */
+/** Load waggypuppy Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 π
 wp_die(__('waggypuppy does not currently support updating the core through the admin interface.'));

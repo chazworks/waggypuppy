@@ -5,7 +5,7 @@ import { writeFileSync, unlinkSync } from 'node:fs';
 import { join } from 'node:path';
 
 /**
- * WordPress dependencies
+ * waggypuppy dependencies
  */
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';
 

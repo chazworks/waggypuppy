@@ -14,16 +14,16 @@ if (is_multisite()) :
         public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
         {
             self::$site_ids = [
-                'wordpress.org/'         => [
-                    'domain' => 'wordpress.org',
+                'wp.org/'         => [
+                    'domain' => 'wp.org',
                     'path'   => '/',
                 ],
-                'wordpress.org/foo/'     => [
-                    'domain' => 'wordpress.org',
+                'wp.org/foo/'     => [
+                    'domain' => 'wp.org',
                     'path'   => '/foo/',
                 ],
-                'wordpress.org/foo/bar/' => [
-                    'domain' => 'wordpress.org',
+                'wp.org/foo/bar/' => [
+                    'domain' => 'wp.org',
                     'path'   => '/foo/bar/',
                 ],
             ];
@@ -45,11 +45,11 @@ if (is_multisite()) :
 
         public function test_get_site_in_switched_state_returns_switched_site()
         {
-            switch_to_blog(self::$site_ids['wordpress.org/foo/']);
+            switch_to_blog(self::$site_ids['wp.org/foo/']);
             $site = get_site();
             restore_current_blog();
 
-            $this->assertSame(self::$site_ids['wordpress.org/foo/'], $site->id);
+            $this->assertSame(self::$site_ids['wp.org/foo/'], $site->id);
         }
     }
 

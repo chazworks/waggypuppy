@@ -2,9 +2,9 @@
 /**
  * Twenty Twenty-Two functions and definitions
  *
- * @link https://developer.wordpress.org/themes/basics/theme-functions/
+ * @link https://developer.wp.org/themes/basics/theme-functions/
  *
- * @package WordPress
+ * @package WP
  * @subpackage Twenty_Twenty_Two
  * @since Twenty Twenty-Two 1.0
  */
@@ -13,7 +13,7 @@
 if (! function_exists('twentytwentytwo_support')) :
 
     /**
-     * Sets up theme defaults and registers support for various WordPress features.
+     * Sets up theme defaults and registers support for various WP features.
      *
      * @since Twenty Twenty-Two 1.0
      *

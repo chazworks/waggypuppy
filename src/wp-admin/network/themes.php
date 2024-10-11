@@ -2,12 +2,12 @@
 /**
  * Multisite themes administration panel.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Multisite
  * @since 3.1.0
  */
 
-/** Load WordPress Administration Bootstrap */
+/** Load waggypuppy Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 
 if (! current_user_can('manage_network_themes')) {
@@ -326,18 +326,18 @@ if (current_user_can('update_themes') && wp_is_auto_update_enabled_for_type('the
             'title'   => __('Auto-updates'),
             'content' =>
                 '<p>' . __('Auto-updates can be enabled or disabled for each individual theme. Themes with auto-updates enabled will display the estimated date of the next auto-update. Auto-updates depends on the WP-Cron task scheduling system.') . '</p>' .
-                '<p>' . __('Please note: Third-party themes and plugins, or custom code, may override WordPress scheduling.') . '</p>',
+                '<p>' . __('Please note: Third-party themes and plugins, or custom code, may override waggypuppy scheduling.') . '</p>',
         ]
     );
 
-    $help_sidebar_autoupdates = '<p>' . __('<a href="https://wordpress.org/documentation/article/plugins-themes-auto-updates/">Documentation on Auto-updates</a>') . '</p>';
+    $help_sidebar_autoupdates = '<p>' . __('<a href="https://wp.org/documentation/article/plugins-themes-auto-updates/">Documentation on Auto-updates</a>') . '</p>';
 }
 
 get_current_screen()->set_help_sidebar(
     '<p><strong>' . __('For more information:') . '</strong></p>' .
-    '<p>' . __('<a href="https://codex.wordpress.org/Network_Admin_Themes_Screen">Documentation on Network Themes</a>') . '</p>' .
+    '<p>' . __('<a href="https://codex.wp.org/Network_Admin_Themes_Screen">Documentation on Network Themes</a>') . '</p>' .
     $help_sidebar_autoupdates .
-    '<p>' . __('<a href="https://wordpress.org/support/forums/">Support forums</a>') . '</p>'
+    '<p>' . __('<a href="https://wp.org/support/forums/">Support forums</a>') . '</p>'
 );
 
 get_current_screen()->set_screen_reader_content(

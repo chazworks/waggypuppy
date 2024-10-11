@@ -2,11 +2,11 @@
 /**
  * Tools Administration Screen.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Administration
  */
 
-/** WordPress Administration Bootstrap */
+/** waggypuppy Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 
 $action = ! empty($_REQUEST['action']) ? sanitize_text_field($_REQUEST['action']) : '';
@@ -87,7 +87,7 @@ get_current_screen()->add_help_tab(
 
 get_current_screen()->set_help_sidebar(
     '<p><strong>' . __('For more information:') . '</strong></p>' .
-    '<p>' . __('<a href="https://wordpress.org/documentation/article/site-health-screen/">Documentation on Site Health tool</a>') . '</p>'
+    '<p>' . __('<a href="https://wp.org/documentation/article/site-health-screen/">Documentation on Site Health tool</a>') . '</p>'
 );
 
 // Start by checking if this is a special request checking for the existence of certain filters.

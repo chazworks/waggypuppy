@@ -2064,7 +2064,7 @@
     'name' => 'core/freeform',
     'title' => 'Classic',
     'category' => 'text',
-    'description' => 'Use the classic WordPress editor.',
+    'description' => 'Use the classic waggypuppy editor.',
     'textdomain' => 'default',
     'attributes' => array(
       'content' => array(
@@ -5888,7 +5888,7 @@
     'name' => 'core/shortcode',
     'title' => 'Shortcode',
     'category' => 'widgets',
-    'description' => 'Insert additional custom elements with a WordPress shortcode.',
+    'description' => 'Insert additional custom elements with a waggypuppy shortcode.',
     'textdomain' => 'default',
     'attributes' => array(
       'text' => array(

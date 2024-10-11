@@ -1,14 +1,14 @@
 <?php
 /**
- * WordPress Translation Installation Administration API
+ * waggypuppy Translation Installation Administration API
  *
- * @package WordPress
+ * @package WP
  * @subpackage Administration
  */
 
 
 /**
- * Retrieve translations from WordPress Translation API.
+ * Retrieve translations from waggypuppy Translation API.
  *
  * @since 4.0.0
  *
@@ -22,7 +22,7 @@
  *
  *         @type array ...$0 {
  *             @type string   $language     Language code.
- *             @type string   $version      WordPress version.
+ *             @type string   $version      waggypuppy version.
  *             @type string   $updated      Date the translation was last updated, in MySQL datetime format.
  *             @type string   $english_name English name of the language.
  *             @type string   $native_name  Native name of the language.
@@ -40,7 +40,7 @@ function translations_api($type, $args = null)
     }
 
     /**
-     * Allows a plugin to override the WordPress.org Translation Installation API entirely.
+     * Allows a plugin to override the wp.org Translation Installation API entirely.
      *
      * @since 4.0.0
      *
@@ -51,7 +51,7 @@ function translations_api($type, $args = null)
     $res = apply_filters('translations_api', false, $type, $args);
 
     if (false === $res) {
-        $url      = 'http://api.wordpress.org/translations/' . $type . '/1.0/';
+        $url      = 'http://api.wp.org/translations/' . $type . '/1.0/';
         $http_url = $url;
         $ssl      = wp_http_supports(['ssl']);
         if ($ssl) {
@@ -78,9 +78,9 @@ function translations_api($type, $args = null)
                 __FUNCTION__,
                 sprintf(
                     /* translators: %s: Support forums URL. */
-                    __('An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
-                    __('https://wordpress.org/support/forums/')
-                ) . ' ' . __('(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)'),
+                    __('An unexpected error occurred. Something may be wrong with wp.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
+                    __('https://wp.org/support/forums/')
+                ) . ' ' . __('(waggypuppy could not establish a secure connection to wp.org. Please contact your server administrator.)'),
                 headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE
             );
 
@@ -92,8 +92,8 @@ function translations_api($type, $args = null)
                 'translations_api_failed',
                 sprintf(
                     /* translators: %s: Support forums URL. */
-                    __('An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
-                    __('https://wordpress.org/support/forums/')
+                    __('An unexpected error occurred. Something may be wrong with wp.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
+                    __('https://wp.org/support/forums/')
                 ),
                 $request->get_error_message()
             );
@@ -104,8 +104,8 @@ function translations_api($type, $args = null)
                     'translations_api_failed',
                     sprintf(
                         /* translators: %s: Support forums URL. */
-                        __('An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
-                        __('https://wordpress.org/support/forums/')
+                        __('An unexpected error occurred. Something may be wrong with wp.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
+                        __('https://wp.org/support/forums/')
                     ),
                     wp_remote_retrieve_body($request)
                 );
@@ -126,7 +126,7 @@ function translations_api($type, $args = null)
      *
      *         @type array ...$0 {
      *             @type string   $language     Language code.
-     *             @type string   $version      WordPress version.
+     *             @type string   $version      waggypuppy version.
      *             @type string   $updated      Date the translation was last updated, in MySQL datetime format.
      *             @type string   $english_name English name of the language.
      *             @type string   $native_name  Native name of the language.
@@ -143,7 +143,7 @@ function translations_api($type, $args = null)
 }
 
 /**
- * Get available translations from the WordPress.org API.
+ * Get available translations from the wp.org API.
  *
  * @since 4.0.0
  *
@@ -155,7 +155,7 @@ function translations_api($type, $args = null)
  *
  *     @type array ...$0 {
  *         @type string   $language     Language code.
- *         @type string   $version      WordPress version.
+ *         @type string   $version      waggypuppy version.
  *         @type string   $updated      Date the translation was last updated, in MySQL datetime format.
  *         @type string   $english_name English name of the language.
  *         @type string   $native_name  Native name of the language.
@@ -296,7 +296,7 @@ function wp_download_language_pack($download)
 }
 
 /**
- * Check if WordPress has access to the filesystem without asking for
+ * Check if waggypuppy has access to the filesystem without asking for
  * credentials.
  *
  * @since 4.0.0

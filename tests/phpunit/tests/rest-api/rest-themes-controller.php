@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_REST_Themes_Controller functionality.
  *
- * @package WordPress
+ * @package WP
  * @subpackage REST API
  *
  * @group restapi-themes
@@ -98,7 +98,7 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
      *
      * @since 5.0.0
      *
-     * @param WP_UnitTest_Factory $factory WordPress unit test factory.
+     * @param WP_UnitTest_Factory $factory waggypuppy unit test factory.
      */
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
@@ -674,8 +674,8 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
         $response = self::perform_active_theme_request();
         $result   = $response->get_data();
         $this->assertArrayHasKey('theme_uri', $result[0]);
-        $this->assertSame('http://wordpress.org/?search=1&term=2', $result[0]['theme_uri']['raw']);
-        $this->assertSame('http://wordpress.org/?search=1&#038;term=2', $result[0]['theme_uri']['rendered']);
+        $this->assertSame('http://wp.org/?search=1&term=2', $result[0]['theme_uri']['raw']);
+        $this->assertSame('http://wp.org/?search=1&#038;term=2', $result[0]['theme_uri']['rendered']);
     }
 
     /**
@@ -793,7 +793,7 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
     {
         remove_theme_support('editor-color-palette');
         $wordpress_blue = [
-            'name'  => 'WordPress Blue',
+            'name'  => 'waggypuppy Blue',
             'slug'  => 'wordpress-blue',
             'color' => '#0073AA',
         ];

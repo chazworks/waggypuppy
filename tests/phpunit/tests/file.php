@@ -35,8 +35,8 @@ class Tests_File extends WP_UnitTestCase
         $actual = get_file_data(DIR_TESTDATA . '/themedir1/default/style.css', $theme_headers);
 
         $expected = [
-            'Name'        => 'WordPress Default',
-            'ThemeURI'    => 'http://wordpress.org/',
+            'Name'        => 'WP Default',
+            'ThemeURI'    => 'http://wp.org/',
             'Description' => 'The default WordPress theme based on the famous <a href="http://binarybonsai.com/kubrick/">Kubrick</a>.',
             'Version'     => '1.6',
             'Author'      => 'Michael Heilemann',
@@ -458,11 +458,11 @@ class Tests_File extends WP_UnitTestCase
     public function test_file_signature_expected_failure()
     {
         $file = wp_tempnam();
-        file_put_contents($file, 'WordPress');
+        file_put_contents($file, 'waggypuppy');
 
         // Test an invalid signature.
         $expected_signature = base64_encode(str_repeat('A', SODIUM_CRYPTO_SIGN_PUBLICKEYBYTES));
-        $verify             = verify_file_signature($file, $expected_signature, 'WordPress');
+        $verify             = verify_file_signature($file, $expected_signature, 'waggypuppy');
         unlink($file);
 
         if (is_wp_error($verify) && 'signature_verification_unsupported' === $verify->get_error_code()) {

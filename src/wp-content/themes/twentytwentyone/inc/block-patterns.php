@@ -2,10 +2,10 @@
 /**
  * Block Patterns
  *
- * @link https://developer.wordpress.org/reference/functions/register_block_pattern/
- * @link https://developer.wordpress.org/reference/functions/register_block_pattern_category/
+ * @link https://developer.wp.org/reference/functions/register_block_pattern/
+ * @link https://developer.wp.org/reference/functions/register_block_pattern_category/
  *
- * @package WordPress
+ * @package WP
  * @subpackage Twenty_Twenty_One
  * @since Twenty Twenty-One 1.0
  */
@@ -50,7 +50,7 @@ if (function_exists('register_block_pattern')) {
                 'categories'    => ['twentytwentyone'],
                 'viewportWidth' => 1440,
                 'blockTypes'    => ['core/heading'],
-                'content'       => '<!-- wp:heading {"align":"wide","fontSize":"gigantic","style":{"typography":{"lineHeight":"1.1"}}} --><h2 class="alignwide has-text-align-wide has-gigantic-font-size" style="line-height:1.1">' . esc_html__('A new portfolio default theme for WordPress', 'twentytwentyone') . '</h2><!-- /wp:heading -->',
+                'content'       => '<!-- wp:heading {"align":"wide","fontSize":"gigantic","style":{"typography":{"lineHeight":"1.1"}}} --><h2 class="alignwide has-text-align-wide has-gigantic-font-size" style="line-height:1.1">' . esc_html__('A new portfolio default theme for WP', 'twentytwentyone') . '</h2><!-- /wp:heading -->',
             ]
         );
 
@@ -135,7 +135,7 @@ if (function_exists('register_block_pattern')) {
                 'categories'  => ['twentytwentyone'],
                 'blockTypes'  => ['core/columns'],
                 'description' => esc_html_x('A block with 3 columns that display contact information and social media links.', 'Block pattern description', 'twentytwentyone'),
-                'content'     => '<!-- wp:columns {"align":"wide"} --><div class="wp-block-columns alignwide"><!-- wp:column --><div class="wp-block-column"><!-- wp:paragraph --><p><a href="mailto:#">' . esc_html_x('example@example.com', 'Block pattern sample content', 'twentytwentyone') . '<br></a>' . esc_html_x('123-456-7890', 'Block pattern sample content', 'twentytwentyone') . '</p><!-- /wp:paragraph --></div><!-- /wp:column --><!-- wp:column --><div class="wp-block-column"><!-- wp:paragraph {"align":"center"} --><p class="has-text-align-center">' . esc_html_x('123 Main Street', 'Block pattern sample content', 'twentytwentyone') . '<br>' . esc_html_x('Cambridge, MA, 02139', 'Block pattern sample content', 'twentytwentyone') . '</p><!-- /wp:paragraph --></div><!-- /wp:column --><!-- wp:column {"verticalAlignment":"center"} --><div class="wp-block-column is-vertically-aligned-center"><!-- wp:social-links {"align":"right","className":"is-style-twentytwentyone-social-icons-color"} --><ul class="wp-block-social-links alignright is-style-twentytwentyone-social-icons-color"><!-- wp:social-link {"url":"https://wordpress.org","service":"wordpress"} /--><!-- wp:social-link {"url":"https://www.facebook.com/WordPress/","service":"facebook"} /--><!-- wp:social-link {"url":"https://twitter.com/WordPress","service":"twitter"} /--><!-- wp:social-link {"url":"https://www.youtube.com/wordpress","service":"youtube"} /--></ul><!-- /wp:social-links --></div><!-- /wp:column --></div><!-- /wp:columns -->',
+                'content'     => '<!-- wp:columns {"align":"wide"} --><div class="wp-block-columns alignwide"><!-- wp:column --><div class="wp-block-column"><!-- wp:paragraph --><p><a href="mailto:#">' . esc_html_x('example@example.com', 'Block pattern sample content', 'twentytwentyone') . '<br></a>' . esc_html_x('123-456-7890', 'Block pattern sample content', 'twentytwentyone') . '</p><!-- /wp:paragraph --></div><!-- /wp:column --><!-- wp:column --><div class="wp-block-column"><!-- wp:paragraph {"align":"center"} --><p class="has-text-align-center">' . esc_html_x('123 Main Street', 'Block pattern sample content', 'twentytwentyone') . '<br>' . esc_html_x('Cambridge, MA, 02139', 'Block pattern sample content', 'twentytwentyone') . '</p><!-- /wp:paragraph --></div><!-- /wp:column --><!-- wp:column {"verticalAlignment":"center"} --><div class="wp-block-column is-vertically-aligned-center"><!-- wp:social-links {"align":"right","className":"is-style-twentytwentyone-social-icons-color"} --><ul class="wp-block-social-links alignright is-style-twentytwentyone-social-icons-color"><!-- wp:social-link {"url":"https://wp.org","service":"wordpress"} /--><!-- wp:social-link {"url":"https://www.facebook.com/WP/","service":"facebook"} /--><!-- wp:social-link {"url":"https://twitter.com/WP","service":"twitter"} /--><!-- wp:social-link {"url":"https://www.youtube.com/wordpress","service":"youtube"} /--></ul><!-- /wp:social-links --></div><!-- /wp:column --></div><!-- /wp:columns -->',
             ]
         );
     }

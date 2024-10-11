@@ -1,8 +1,8 @@
 <?php
 /**
- * WordPress user administration API.
+ * waggypuppy user administration API.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Administration
  */
 
@@ -306,7 +306,7 @@ function get_user_to_edit($user_id)
  *
  * @since 2.0.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param int $user_id User ID.
  * @return array
@@ -340,7 +340,7 @@ function get_users_drafts($user_id)
  *
  * @since 2.0.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param int $id       User ID.
  * @param int $reassign Optional. Reassign posts and links to new User ID.

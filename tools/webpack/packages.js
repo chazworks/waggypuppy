@@ -10,7 +10,7 @@ const LiveReloadPlugin = require( 'webpack-livereload-plugin' );
 const UglifyJS = require( 'uglify-js' );
 
 /**
- * WordPress dependencies
+ * waggypuppy dependencies
  */
 const {
 	camelCaseDash,

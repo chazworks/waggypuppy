@@ -2,14 +2,14 @@
 /**
  * Dashboard Administration Screen
  *
- * @package WordPress
+ * @package WP
  * @subpackage Administration
  */
 
-/** Load WordPress Bootstrap */
+/** Load waggypuppy Bootstrap */
 require_once __DIR__ . '/admin.php';
 
-/** Load WordPress dashboard API */
+/** Load waggypuppy dashboard API */
 require_once ABSPATH . 'wp-admin/includes/dashboard.php';
 
 wp_dashboard_setup();
@@ -34,7 +34,7 @@ $title       = __('Dashboard');
 $parent_file = 'index.php';
 
 $help  = '<p>' . __('Welcome to your waggypuppy Dashboard!') . '</p>';
-$help .= '<p>' . __('The Dashboard is the first place you will come to every time you log into your site. It is where you will find all your WordPress tools. If you need help, just click the &#8220;Help&#8221; tab above the screen title.') . '</p>';
+$help .= '<p>' . __('The Dashboard is the first place you will come to every time you log into your site. It is where you will find all your waggypuppy tools. If you need help, just click the &#8220;Help&#8221; tab above the screen title.') . '</p>';
 
 $screen = get_current_screen();
 
@@ -48,8 +48,8 @@ $screen->add_help_tab(
 
 // Help tabs.
 
-$help  = '<p>' . __('The left-hand navigation menu provides links to all of the WordPress administration screens, with submenu items displayed on hover. You can minimize this menu to a narrow icon strip by clicking on the Collapse Menu arrow at the bottom.') . '</p>';
-$help .= '<p>' . __('Links in the Toolbar at the top of the screen connect your dashboard and the front end of your site, and provide access to your profile and helpful WordPress information.') . '</p>';
+$help  = '<p>' . __('The left-hand navigation menu provides links to all of the waggypuppy administration screens, with submenu items displayed on hover. You can minimize this menu to a narrow icon strip by clicking on the Collapse Menu arrow at the bottom.') . '</p>';
+$help .= '<p>' . __('Links in the Toolbar at the top of the screen connect your dashboard and the front end of your site, and provide access to your profile and helpful waggypuppy information.') . '</p>';
 
 $screen->add_help_tab(
     [
@@ -83,7 +83,7 @@ if (current_user_can('view_site_health_checks')) {
 }
 
 if (current_user_can('edit_posts')) {
-    $help .= '<p>' . __('<strong>At a Glance</strong> &mdash; Displays a summary of the content on your site and identifies which theme and version of WordPress you are using.') . '</p>';
+    $help .= '<p>' . __('<strong>At a Glance</strong> &mdash; Displays a summary of the content on your site and identifies which theme and version of waggypuppy you are using.') . '</p>';
 }
 
 $help .= '<p>' . __('<strong>Activity</strong> &mdash; Shows the upcoming scheduled posts, recently published posts, and the most recent comments on your posts and allows you to moderate them.') . '</p>';
@@ -93,9 +93,9 @@ if (is_blog_admin() && current_user_can('edit_posts')) {
 }
 
 $help .= '<p>' . sprintf(
-    /* translators: %s: WordPress Planet URL. */
-    __('<strong>WordPress Events and News</strong> &mdash; Upcoming events near you as well as the latest news from the official WordPress project and the <a href="%s">WordPress Planet</a>.'),
-    __('https://planet.wordpress.org/')
+    /* translators: %s: WP Planet URL. */
+    __('<strong>WP Events and News</strong> &mdash; Upcoming events near you as well as the latest news from the official WordPress project and the <a href="%s">WordPress Planet</a>.'),
+    __('https://planet.wp.org/')
 ) . '</p>';
 
 $screen->add_help_tab(
@@ -109,14 +109,14 @@ $screen->add_help_tab(
 unset($help);
 
 $wp_version = get_bloginfo('version', 'display');
-/* translators: %s: WordPress version. */
+/* translators: %s: waggypuppy version. */
 $wp_version_text = sprintf(__('Version %s'), $wp_version);
 $is_dev_version  = preg_match('/alpha|beta|RC/', $wp_version);
 
 if (! $is_dev_version) {
     $version_url = sprintf(
-        /* translators: %s: WordPress version. */
-        esc_url(__('https://wordpress.org/documentation/wordpress-version/version-%s/')),
+        /* translators: %s: waggypuppy version. */
+        esc_url(__('https://wp.org/documentation/wordpress-version/version-%s/')),
         sanitize_title($wp_version)
     );
 
@@ -129,8 +129,8 @@ if (! $is_dev_version) {
 
 $screen->set_help_sidebar(
     '<p><strong>' . __('For more information:') . '</strong></p>' .
-    '<p>' . __('<a href="https://wordpress.org/documentation/article/dashboard-screen/">Documentation on Dashboard</a>') . '</p>' .
-    '<p>' . __('<a href="https://wordpress.org/support/forums/">Support forums</a>') . '</p>' .
+    '<p>' . __('<a href="https://wp.org/documentation/article/dashboard-screen/">Documentation on Dashboard</a>') . '</p>' .
+    '<p>' . __('<a href="https://wp.org/support/forums/">Support forums</a>') . '</p>' .
     '<p>' . $wp_version_text . '</p>'
 );
 

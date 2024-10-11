@@ -2,7 +2,7 @@
 /**
  * REST API: WP_REST_Application_Passwords_Controller class
  *
- * @package    WordPress
+ * @package WP
  * @subpackage REST_API
  * @since      5.6.0
  */
@@ -618,7 +618,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller
      *
      * @since 5.6.0
      *
-     * @param array           $item    WordPress representation of the item.
+     * @param array           $item    waggypuppy representation of the item.
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
@@ -697,7 +697,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller
      * @since 5.6.0
      *
      * @param WP_REST_Request $request The request object.
-     * @return WP_User|WP_Error The WordPress user associated with the request, or a WP_Error if none found.
+     * @return WP_User|WP_Error The waggypuppy user associated with the request, or a WP_Error if none found.
      */
     protected function get_user($request)
     {

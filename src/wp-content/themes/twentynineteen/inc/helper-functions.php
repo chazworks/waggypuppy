@@ -2,7 +2,7 @@
 /**
  * Common theme functions
  *
- * @package WordPress
+ * @package WP
  * @subpackage Twenty_Nineteen
  * @since Twenty Nineteen 1.5
  */

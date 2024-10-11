@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_HTML_Decoder functionality.
  *
- * @package WordPress
+ * @package WP
  * @subpackage HTML-API
  */
 
@@ -135,14 +135,14 @@ class Tests_HtmlApi_WpHtmlDecoder extends WP_UnitTestCase
     public static function data_attributes_with_prefix_and_case_sensitive_match()
     {
         return [
-            ['http://wordpress.org', 'http', 'case-sensitive', true],
-            ['http://wordpress.org', 'http', 'ascii-case-insensitive', true],
-            ['http://wordpress.org', 'HTTP', 'case-sensitive', false],
-            ['http://wordpress.org', 'HTTP', 'ascii-case-insensitive', true],
-            ['http://wordpress.org', 'Http', 'case-sensitive', false],
-            ['http://wordpress.org', 'Http', 'ascii-case-insensitive', true],
-            ['http://wordpress.org', 'https', 'case-sensitive', false],
-            ['http://wordpress.org', 'https', 'ascii-case-insensitive', false],
+            ['http://wp.org', 'http', 'case-sensitive', true],
+            ['http://wp.org', 'http', 'ascii-case-insensitive', true],
+            ['http://wp.org', 'HTTP', 'case-sensitive', false],
+            ['http://wp.org', 'HTTP', 'ascii-case-insensitive', true],
+            ['http://wp.org', 'Http', 'case-sensitive', false],
+            ['http://wp.org', 'Http', 'ascii-case-insensitive', true],
+            ['http://wp.org', 'https', 'case-sensitive', false],
+            ['http://wp.org', 'https', 'ascii-case-insensitive', false],
         ];
     }
 }

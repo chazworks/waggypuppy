@@ -2,10 +2,10 @@
 /**
  * Block Patterns
  *
- * @link https://developer.wordpress.org/reference/functions/register_block_pattern/
- * @link https://developer.wordpress.org/reference/functions/register_block_pattern_category/
+ * @link https://developer.wp.org/reference/functions/register_block_pattern/
+ * @link https://developer.wp.org/reference/functions/register_block_pattern_category/
  *
- * @package WordPress
+ * @package WP
  * @subpackage Twenty_Fifteen
  * @since Twenty Fifteen 3.0
  */

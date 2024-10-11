@@ -3584,7 +3584,7 @@ HTML
             $data_provider_dependencies
         );
 
-        // Exclude packages that are not registered in WordPress.
+        // Exclude packages that are not registered in waggypuppy.
         $exclude                   = ['react-is', 'json2php'];
         $package_json_dependencies = array_diff($package_json_dependencies, $exclude);
 

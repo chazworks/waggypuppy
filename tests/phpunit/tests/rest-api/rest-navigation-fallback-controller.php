@@ -8,7 +8,7 @@
  * - is where the bulk of the logic is.
  * - is also consumed by the Navigation block's server side rendering.
  *
- * @package WordPress
+ * @package WP
  * @subpackage REST API
  *
  * @covers WP_REST_Navigation_Fallback_Controller

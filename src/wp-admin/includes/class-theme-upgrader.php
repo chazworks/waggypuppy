@@ -2,7 +2,7 @@
 /**
  * Upgrade API: Theme_Upgrader class
  *
- * @package WordPress
+ * @package WP
  * @subpackage Upgrader
  * @since 4.6.0
  */
@@ -455,8 +455,8 @@ class Theme_Upgrader extends WP_Upgrader
                 $result = new WP_Error(
                     'incompatible_wp_required_version',
                     sprintf(
-                        /* translators: 1: Current WordPress version, 2: WordPress version required by the new theme version. */
-                        __('Your WordPress version is %1$s, however the new theme version requires %2$s.'),
+                        /* translators: 1: Current waggypuppy version, 2: waggypuppy version required by the new theme version. */
+                        __('Your waggypuppy version is %1$s, however the new theme version requires %2$s.'),
                         $wp_version,
                         $r['requires']
                     )
@@ -562,7 +562,7 @@ class Theme_Upgrader extends WP_Upgrader
      *
      * @since 3.3.0
      *
-     * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+     * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
      *
      * @param string $source The path to the downloaded package source.
      * @return string|WP_Error The source as passed, or a WP_Error object on failure.
@@ -640,7 +640,7 @@ class Theme_Upgrader extends WP_Upgrader
                     __('Template is missing. Standalone themes need to have a %1$s or %2$s template file. <a href="%3$s">Child themes</a> need to have a %4$s header in the %5$s stylesheet.'),
                     '<code>templates/index.html</code>',
                     '<code>index.php</code>',
-                    __('https://developer.wordpress.org/themes/advanced-topics/child-themes/'),
+                    __('https://developer.wp.org/themes/advanced-topics/child-themes/'),
                     '<code>Template</code>',
                     '<code>style.css</code>'
                 )
@@ -662,8 +662,8 @@ class Theme_Upgrader extends WP_Upgrader
         }
         if (! is_wp_version_compatible($requires_wp)) {
             $error = sprintf(
-                /* translators: 1: Current WordPress version, 2: Version required by the uploaded theme. */
-                __('Your WordPress version is %1$s, however the uploaded theme requires %2$s.'),
+                /* translators: 1: Current waggypuppy version, 2: Version required by the uploaded theme. */
+                __('Your waggypuppy version is %1$s, however the uploaded theme requires %2$s.'),
                 $wp_version,
                 $requires_wp
             );

@@ -4,9 +4,9 @@
  *
  * Used to display archive-type pages for posts by an author.
  *
- * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
+ * @link https://developer.wp.org/themes/basics/template-hierarchy/
  *
- * @package WordPress
+ * @package WP
  * @subpackage Twenty_Twelve
  * @since Twenty Twelve 1.0
  */

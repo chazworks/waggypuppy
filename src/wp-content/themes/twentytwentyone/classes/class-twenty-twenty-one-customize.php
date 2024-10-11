@@ -2,7 +2,7 @@
 /**
  * Customizer settings for this theme.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Twenty_Twenty_One
  * @since Twenty Twenty-One 1.0
  */

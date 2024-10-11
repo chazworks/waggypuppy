@@ -2,7 +2,7 @@
 /**
  * HTML API: WP_HTML_Attribute_Token class
  *
- * @package WordPress
+ * @package WP
  * @subpackage HTML-API
  * @since 6.2.0
  */

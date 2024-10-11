@@ -2,7 +2,7 @@
 /**
  * Block Metadata Registry
  *
- * @package WordPress
+ * @package WP
  * @subpackage Blocks
  * @since 6.7.0
  */
@@ -39,7 +39,7 @@ class WP_Block_Metadata_Registry
     private static $last_matched_collection = null;
 
     /**
-     * Stores the WordPress 'wp-includes' directory path.
+     * Stores the waggypuppy 'wp-includes' directory path.
      *
      * @since 6.7.0
      * @var string|null
@@ -47,7 +47,7 @@ class WP_Block_Metadata_Registry
     private static $wpinc_dir = null;
 
     /**
-     * Stores the normalized WordPress plugin directory path.
+     * Stores the normalized waggypuppy plugin directory path.
      *
      * @since 6.7.0
      * @var string|null
@@ -226,7 +226,7 @@ class WP_Block_Metadata_Registry
      * - Path: '/wp-content/plugins/my-plugin/blocks/another-block'
      *   Identifier: 'another-block'
      *
-     * This default behavior matches the standard WordPress block structure.
+     * This default behavior matches the standard waggypuppy block structure.
      *
      * @since 6.7.0
      *
@@ -250,11 +250,11 @@ class WP_Block_Metadata_Registry
     }
 
     /**
-     * Gets the WordPress 'wp-includes' directory path.
+     * Gets the waggypuppy 'wp-includes' directory path.
      *
      * @since 6.7.0
      *
-     * @return string The WordPress 'wp-includes' directory path.
+     * @return string The waggypuppy 'wp-includes' directory path.
      */
     private static function get_wpinc_dir()
     {
@@ -265,11 +265,11 @@ class WP_Block_Metadata_Registry
     }
 
     /**
-     * Gets the normalized WordPress plugin directory path.
+     * Gets the normalized waggypuppy plugin directory path.
      *
      * @since 6.7.0
      *
-     * @return string The normalized WordPress plugin directory path.
+     * @return string The normalized waggypuppy plugin directory path.
      */
     private static function get_plugin_dir()
     {

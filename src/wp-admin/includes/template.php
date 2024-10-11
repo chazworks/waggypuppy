@@ -1,10 +1,10 @@
 <?php
 /**
- * Template WordPress Administration API.
+ * Template waggypuppy Administration API.
  *
  * A Big Mess. Also some neat functions that are nicely written.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Administration
  */
 
@@ -694,7 +694,7 @@ function _list_meta_row($entry, &$count)
  *
  * @since 1.2.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param WP_Post $post Optional. The post being edited.
  */
@@ -806,7 +806,7 @@ function meta_form($post = null)
  * @since 0.71
  * @since 4.4.0 Converted to use get_comment() instead of the global `$comment`.
  *
- * @global WP_Locale $wp_locale WordPress date and time locale object.
+ * @global WP_Locale $wp_locale waggypuppy date and time locale object.
  *
  * @param int|bool $edit      Accepts 1|true for editing the date, 0|false for adding the date.
  * @param int|bool $for_post  Accepts 1|true for applying the date to a post, 0|false for a comment.
@@ -938,7 +938,7 @@ function page_template_dropdown($default_template = '', $post_type = 'page')
  * @since 1.5.0
  * @since 4.4.0 `$post` argument was added.
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param int         $default_page Optional. The default page ID to be pre-selected. Default 0.
  * @param int         $parent_page  Optional. The parent page ID. Default 0.
@@ -2151,7 +2151,7 @@ function _admin_search_query()
  * @global string    $hook_suffix
  * @global string    $admin_body_class
  * @global string    $body_id
- * @global WP_Locale $wp_locale        WordPress date and time locale object.
+ * @global WP_Locale $wp_locale        waggypuppy date and time locale object.
  *
  * @param string $title      Optional. Title of the Iframe page. Default empty.
  * @param bool   $deprecated Not used.
@@ -2169,7 +2169,7 @@ function iframe_header($title = '', $deprecated = false)
     header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
     _wp_admin_html_begin();
     ?>
-<title><?php bloginfo('name'); ?> &rsaquo; <?php echo $title; ?> &#8212; <?php _e('WordPress'); ?></title>
+<title><?php bloginfo('name'); ?> &rsaquo; <?php echo $title; ?> &#8212; <?php _e('waggypuppy'); ?></title>
     <?php
     wp_enqueue_style('colors');
     ?>

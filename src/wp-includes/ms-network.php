@@ -2,7 +2,7 @@
 /**
  * Network API
  *
- * @package WordPress
+ * @package WP
  * @subpackage Multisite
  * @since 5.1.0
  */
@@ -129,7 +129,7 @@ function update_network_cache($networks)
  * @since 6.1.0 This function is no longer marked as "private".
  *
  * @see update_network_cache()
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param array $network_ids Array of network IDs.
  */

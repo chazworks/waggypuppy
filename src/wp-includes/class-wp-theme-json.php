@@ -2,7 +2,7 @@
 /**
  * WP_Theme_JSON class
  *
- * @package WordPress
+ * @package WP
  * @subpackage Theme
  * @since 5.8.0
  */
@@ -587,7 +587,7 @@ class WP_Theme_JSON
      * specificity than the visited styles, which in turn have a higher specificity than
      * the unvisited styles.
      *
-     * See https://core.trac.wordpress.org/ticket/56928.
+     * See https://core.trac.wp.org/ticket/56928.
      * Note: this will affect both top-level and block-level elements.
      *
      * @since 6.1.0

@@ -30,7 +30,7 @@ class WP_UnitTest_Factory_For_Comment extends WP_UnitTest_Factory_For_Thing
      * @since UT (3.7.0)
      * @since 6.2.0 Returns a WP_Error object on failure.
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param array $args The comment details.
      *

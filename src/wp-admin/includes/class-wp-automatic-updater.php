@@ -2,7 +2,7 @@
 /**
  * Upgrade API: WP_Automatic_Updater class
  *
- * @package WordPress
+ * @package WP
  * @subpackage Upgrader
  * @since 4.6.0
  */
@@ -64,7 +64,7 @@ class WP_Automatic_Updater
      * Checks whether access to a given directory is allowed.
      *
      * This is used when detecting version control checkouts. Takes into account
-     * the PHP `open_basedir` restrictions, so that WordPress does not try to access
+     * the PHP `open_basedir` restrictions, so that waggypuppy does not try to access
      * directories it is not allowed to.
      *
      * @since 6.2.0
@@ -187,7 +187,7 @@ class WP_Automatic_Updater
      *
      * @since 3.7.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param string $type    The type of update being checked: 'core', 'theme',
      *                        'plugin', 'translation'.
@@ -254,8 +254,8 @@ class WP_Automatic_Updater
          *  - `auto_update_theme`
          *  - `auto_update_translation`
          *
-         * Since WordPress 3.7, minor and development versions of core, and translations have
-         * been auto-updated by default. New installs on WordPress 5.6 or higher will also
+         * Since WP 3.7, minor and development versions of core, and translations have
+         * been auto-updated by default. New installs on WP 5.6 or higher will also
          * auto-update major versions by default. Starting in 5.6, older sites can opt-in to
          * major version auto-updates, and auto-updates for plugins and themes.
          *
@@ -333,11 +333,11 @@ class WP_Automatic_Updater
          * Filters whether to notify the site administrator of a new core update.
          *
          * By default, administrators are notified when the update offer received
-         * from WordPress.org sets a particular flag. This allows some discretion
+         * from wp.org sets a particular flag. This allows some discretion
          * in if and when to notify.
          *
          * This filter is only evaluated once per release. If the same email address
-         * was already notified of the same new version, WordPress won't repeatedly
+         * was already notified of the same new version, waggypuppy won't repeatedly
          * email the administrator.
          *
          * This filter is also used on about.php to check if a plugin has disabled
@@ -410,10 +410,10 @@ class WP_Automatic_Updater
         $upgrader_item = $item;
         switch ($type) {
             case 'core':
-                /* translators: %s: WordPress version. */
-                $skin->feedback(__('Updating to WordPress %s'), $item->version);
-                /* translators: %s: WordPress version. */
-                $item_name = sprintf(__('WordPress %s'), $item->version);
+                /* translators: %s: waggypuppy version. */
+                $skin->feedback(__('Updating to waggypuppy %s'), $item->version);
+                /* translators: %s: waggypuppy version. */
+                $item_name = sprintf(__('waggypuppy %s'), $item->version);
                 break;
             case 'theme':
                 $upgrader_item = $item->theme;
@@ -441,9 +441,9 @@ class WP_Automatic_Updater
                 break;
             case 'translation':
                 $language_item_name = $upgrader->get_name_for_update($item);
-                /* translators: %s: Project name (plugin, theme, or WordPress). */
+                /* translators: %s: Project name (plugin, theme, or waggypuppy). */
                 $item_name = sprintf(__('Translations for %s'), $language_item_name);
-                /* translators: 1: Project name (plugin, theme, or WordPress), 2: Language. */
+                /* translators: 1: Project name (plugin, theme, or waggypuppy), 2: Language. */
                 $skin->feedback(sprintf(__('Updating translations for %1$s (%2$s)&#8230;'), $language_item_name, $item->language));
                 break;
         }
@@ -533,7 +533,7 @@ class WP_Automatic_Updater
                 $upgrade_result->add('installation_failed', __('Installation failed.'));
                 $skin->error($upgrade_result);
             } else {
-                $skin->feedback(__('WordPress updated successfully.'));
+                $skin->feedback(__('waggypuppy updated successfully.'));
             }
         }
 
@@ -858,7 +858,7 @@ class WP_Automatic_Updater
          *
          * For certain 'transient' failures, like download_failed, we should allow retries.
          * In fact, let's schedule a special update for an hour from now. (It's possible
-         * the issue could actually be on WordPress.org's side.) If that one fails, then email.
+         * the issue could actually be on wp.org's side.) If that one fails, then email.
          */
         $send               = true;
         $transient_failures = ['incompatible_archive', 'download_failed', 'insane_distro', 'locked'];
@@ -948,14 +948,14 @@ class WP_Automatic_Updater
 
         switch ($type) {
             case 'success': // We updated.
-                /* translators: Site updated notification email subject. 1: Site title, 2: WordPress version. */
-                $subject = __('[%1$s] Your site has updated to WordPress %2$s');
+                /* translators: Site updated notification email subject. 1: Site title, 2: waggypuppy version. */
+                $subject = __('[%1$s] Your site has updated to waggypuppy %2$s');
                 break;
 
             case 'fail':   // We tried to update but couldn't.
             case 'manual': // We can't update (and made no attempt).
-                /* translators: Update available notification email subject. 1: Site title, 2: WordPress version. */
-                $subject = __('[%1$s] WordPress %2$s is available. Please update!');
+                /* translators: Update available notification email subject. 1: Site title, 2: waggypuppy version. */
+                $subject = __('[%1$s] waggypuppy %2$s is available. Please update!');
                 break;
 
             case 'critical': // We tried to update, started to copy files, then things went wrong.
@@ -976,8 +976,8 @@ class WP_Automatic_Updater
         switch ($type) {
             case 'success':
                 $body .= sprintf(
-                    /* translators: 1: Home URL, 2: WordPress version. */
-                    __('Howdy! Your site at %1$s has been updated automatically to WordPress %2$s.'),
+                    /* translators: 1: Home URL, 2: waggypuppy version. */
+                    __('Howdy! Your site at %1$s has been updated automatically to waggypuppy %2$s.'),
                     home_url(),
                     $core_update->current
                 );
@@ -988,13 +988,13 @@ class WP_Automatic_Updater
 
                 // Can only reference the About screen if their update was successful.
                 [$about_version] = explode('-', $core_update->current, 2);
-                /* translators: %s: WordPress version. */
-                $body .= sprintf(__('For more on version %s, see the About WordPress screen:'), $about_version);
+                /* translators: %s: waggypuppy version. */
+                $body .= sprintf(__('For more on version %s, see the About waggypuppy screen:'), $about_version);
                 $body .= "\n" . admin_url('about.php');
 
                 if ($newer_version_available) {
-                    /* translators: %s: WordPress latest version. */
-                    $body .= "\n\n" . sprintf(__('WordPress %s is also now available.'), $next_user_core_update->current) . ' ';
+                    /* translators: %s: waggypuppy latest version. */
+                    $body .= "\n\n" . sprintf(__('waggypuppy %s is also now available.'), $next_user_core_update->current) . ' ';
                     $body .= __('Updating is easy and only takes a few moments:');
                     $body .= "\n" . network_admin_url('update-core.php');
                 }
@@ -1004,8 +1004,8 @@ class WP_Automatic_Updater
             case 'fail':
             case 'manual':
                 $body .= sprintf(
-                    /* translators: 1: Home URL, 2: WordPress version. */
-                    __('Please update your site at %1$s to WordPress %2$s.'),
+                    /* translators: 1: Home URL, 2: waggypuppy version. */
+                    __('Please update your site at %1$s to waggypuppy %2$s.'),
                     home_url(),
                     $next_user_core_update->current
                 );
@@ -1027,15 +1027,15 @@ class WP_Automatic_Updater
             case 'critical':
                 if ($newer_version_available) {
                     $body .= sprintf(
-                        /* translators: 1: Home URL, 2: WordPress version. */
-                        __('Your site at %1$s experienced a critical failure while trying to update WordPress to version %2$s.'),
+                        /* translators: 1: Home URL, 2: waggypuppy version. */
+                        __('Your site at %1$s experienced a critical failure while trying to update waggypuppy to version %2$s.'),
                         home_url(),
                         $core_update->current
                     );
                 } else {
                     $body .= sprintf(
-                        /* translators: 1: Home URL, 2: WordPress latest version. */
-                        __('Your site at %1$s experienced a critical failure while trying to update to the latest version of WordPress, %2$s.'),
+                        /* translators: 1: Home URL, 2: waggypuppy latest version. */
+                        __('Your site at %1$s experienced a critical failure while trying to update to the latest version of waggypuppy, %2$s.'),
                         home_url(),
                         $core_update->current
                     );
@@ -1053,13 +1053,13 @@ class WP_Automatic_Updater
             // Support offer if available.
             $body .= "\n\n" . sprintf(
                 /* translators: %s: Support email address. */
-                __('The WordPress team is willing to help you. Forward this email to %s and the team will work with you to make sure your site is working.'),
+                __('The waggypuppy team is willing to help you. Forward this email to %s and the team will work with you to make sure your site is working.'),
                 $core_update->support_email
             );
         } else {
             // Add a note about the support forums.
-            $body .= "\n\n" . __('If you experience any issues or need support, the volunteers in the WordPress.org support forums may be able to help.');
-            $body .= "\n" . __('https://wordpress.org/support/forums/');
+            $body .= "\n\n" . __('If you experience any issues or need support, the volunteers in the wp.org support forums may be able to help.');
+            $body .= "\n" . __('https://wp.org/support/forums/');
         }
 
         // Updates are important!
@@ -1068,7 +1068,7 @@ class WP_Automatic_Updater
         }
 
         if ($critical_support) {
-            $body .= ' ' . __("Reach out to WordPress Core developers to ensure you'll never have this problem again.");
+            $body .= ' ' . __("Reach out to waggypuppy Core developers to ensure you'll never have this problem again.");
         }
 
         // If things are successful and we're now on the latest, mention plugins and themes if any are out of date.
@@ -1077,11 +1077,11 @@ class WP_Automatic_Updater
             $body .= "\n" . network_admin_url();
         }
 
-        $body .= "\n\n" . __('The WordPress Team') . "\n";
+        $body .= "\n\n" . __('The waggypuppy Team') . "\n";
 
         if ('critical' === $type && is_wp_error($result)) {
             $body .= "\n***\n\n";
-            /* translators: %s: WordPress version. */
+            /* translators: %s: waggypuppy version. */
             $body .= sprintf(__('Your site was running version %s.'), get_bloginfo('version'));
             $body .= ' ' . __('Some data that describes the error your site encountered has been put together.');
             $body .= ' ' . __('Your hosting company, support forum volunteers, or a friendly developer may be able to use this information to help you:');
@@ -1496,9 +1496,9 @@ class WP_Automatic_Updater
         }
 
         // Add a note about the support forums.
-        $body[] = __('If you experience any issues or need support, the volunteers in the WordPress.org support forums may be able to help.');
-        $body[] = __('https://wordpress.org/support/forums/');
-        $body[] = "\n" . __('The WordPress Team');
+        $body[] = __('If you experience any issues or need support, the volunteers in the wp.org support forums may be able to help.');
+        $body[] = __('https://wp.org/support/forums/');
+        $body[] = "\n" . __('The waggypuppy Team');
 
         if ('' !== get_option('blogname')) {
             $site_title = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
@@ -1556,18 +1556,18 @@ class WP_Automatic_Updater
         $failures = 0;
 
         /* translators: %s: Network home URL. */
-        $body[] = sprintf(__('WordPress site: %s'), network_home_url('/'));
+        $body[] = sprintf(__('waggypuppy site: %s'), network_home_url('/'));
 
         // Core.
         if (isset($this->update_results['core'])) {
             $result = $this->update_results['core'][0];
 
             if ($result->result && ! is_wp_error($result->result)) {
-                /* translators: %s: WordPress version. */
-                $body[] = sprintf(__('SUCCESS: WordPress was successfully updated to %s'), $result->name);
+                /* translators: %s: waggypuppy version. */
+                $body[] = sprintf(__('SUCCESS: waggypuppy was successfully updated to %s'), $result->name);
             } else {
-                /* translators: %s: WordPress version. */
-                $body[] = sprintf(__('FAILED: WordPress failed to update to %s'), $result->name);
+                /* translators: %s: waggypuppy version. */
+                $body[] = sprintf(__('FAILED: waggypuppy failed to update to %s'), $result->name);
                 ++$failures;
             }
 
@@ -1733,7 +1733,7 @@ This debugging email is sent when you are using a development version of waggypu
      *
      * @since 6.6.0
      *
-     * @global int $upgrading The Unix timestamp marking when upgrading WordPress began.
+     * @global int $upgrading The Unix timestamp marking when upgrading waggypuppy began.
      *
      * @return bool Whether a fatal error was detected.
      */

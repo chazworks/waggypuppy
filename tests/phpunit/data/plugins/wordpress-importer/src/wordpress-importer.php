@@ -2,10 +2,10 @@
 /*
  * @wordpress-plugin
  * Plugin Name:       WordPress Importer
- * Plugin URI:        https://wordpress.org/plugins/wordpress-importer/
+ * Plugin URI:        https://wp.org/plugins/wordpress-importer/
  * Description:       Import posts, pages, comments, custom fields, categories, tags and more from a WordPress export file.
  * Author:            wordpressdotorg
- * Author URI:        https://wordpress.org/
+ * Author URI:        https://wp.org/
  * Version:           0.8.2
  * Requires at least: 5.2
  * Requires PHP:      5.6

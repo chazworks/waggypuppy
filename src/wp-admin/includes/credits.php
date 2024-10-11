@@ -1,8 +1,8 @@
 <?php
 /**
- * WordPress Credits Administration API.
+ * waggypuppy Credits Administration API.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Administration
  * @since 4.4.0
  */
@@ -13,8 +13,8 @@
  * @since 3.2.0
  * @since 5.6.0 Added the `$version` and `$locale` parameters.
  *
- * @param string $version WordPress version. Defaults to the current version.
- * @param string $locale  WordPress locale. Defaults to the current user's locale.
+ * @param string $version waggypuppy version. Defaults to the current version.
+ * @param string $locale  waggypuppy locale. Defaults to the current user's locale.
  * @return array|false A list of all of the contributors, or false on error.
  */
 function wp_credits($version = '', $locale = '')
@@ -33,7 +33,7 @@ function wp_credits($version = '', $locale = '')
         || str_contains($version, '-')
         || (isset($results['data']['version']) && ! str_starts_with($version, $results['data']['version']))
     ) {
-        $url     = "http://api.wordpress.org/core/credits/1.1/?version={$version}&locale={$locale}";
+        $url     = "http://api.wp.org/core/credits/1.1/?version={$version}&locale={$locale}";
         $options = ['user-agent' => 'WordPress/' . $version . '; ' . home_url('/')];
 
         if (wp_http_supports(['ssl'])) {
@@ -59,14 +59,14 @@ function wp_credits($version = '', $locale = '')
 }
 
 /**
- * Retrieves the link to a contributor's WordPress.org profile page.
+ * Retrieves the link to a contributor's wp.org profile page.
  *
  * @access private
  * @since 3.2.0
  *
  * @param string $display_name  The contributor's display name (passed by reference).
  * @param string $username      The contributor's username.
- * @param string $profiles      URL to the contributor's WordPress.org profile page.
+ * @param string $profiles      URL to the contributor's wp.org profile page.
  */
 function _wp_credits_add_profile_link(&$display_name, $username, $profiles)
 {
@@ -74,7 +74,7 @@ function _wp_credits_add_profile_link(&$display_name, $username, $profiles)
 }
 
 /**
- * Retrieves the link to an external library used in WordPress.
+ * Retrieves the link to an external library used in waggypuppy.
  *
  * @access private
  * @since 3.2.0

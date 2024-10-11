@@ -79,7 +79,7 @@ class Tests_Query_Vars extends WP_UnitTestCase
 
             ],
             $wp->public_query_vars,
-            'Care should be taken when introducing new public query vars. See https://core.trac.wordpress.org/ticket/35115'
+            'Care should be taken when introducing new public query vars. See https://core.trac.wp.org/ticket/35115'
         );
     }
 }

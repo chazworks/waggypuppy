@@ -1,8 +1,8 @@
 <?php
 /**
- * WordPress Theme Installation Administration API
+ * waggypuppy Theme Installation Administration API
  *
- * @package WordPress
+ * @package WP
  * @subpackage Administration
  */
 
@@ -51,7 +51,7 @@ $theme_field_defaults = [
 ];
 
 /**
- * Retrieves the list of WordPress theme features (aka theme tags).
+ * Retrieves the list of waggypuppy theme features (aka theme tags).
  *
  * @since 2.8.0
  *

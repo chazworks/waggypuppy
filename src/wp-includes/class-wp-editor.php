@@ -1,8 +1,8 @@
 <?php
 /**
- * Facilitates adding of the WordPress editor as used on the Write and Edit screens.
+ * Facilitates adding of the waggypuppy editor as used on the Write and Edit screens.
  *
- * @package WordPress
+ * @package WP
  * @since 3.3.0
  *
  * Private, not included by default. See wp_editor() in wp-includes/general-template.php.
@@ -152,7 +152,7 @@ final class _WP_Editors
      *
      * @since 3.3.0
      *
-     * @global WP_Screen $current_screen WordPress current screen object.
+     * @global WP_Screen $current_screen waggypuppy current screen object.
      *
      * @param string $content   Initial content for the editor.
      * @param string $editor_id HTML ID for the textarea and TinyMCE and Quicktags instances.
@@ -452,7 +452,7 @@ final class _WP_Editors
                      * Filters the list of default TinyMCE plugins.
                      *
                      * The filter specifies which of the default plugins included
-                     * in WordPress should be added to the TinyMCE instance.
+                     * in waggypuppy should be added to the TinyMCE instance.
                      *
                      * @since 3.3.0
                      * @since 5.3.0 The `$editor_id` parameter was added.
@@ -1395,7 +1395,7 @@ final class _WP_Editors
                 'Table'                                => _x('Table', 'TinyMCE menu'),
                 'Format'                               => _x('Format', 'TinyMCE menu'),
 
-                // WordPress strings.
+                // waggypuppy strings.
                 'Toolbar Toggle'                       => [__('Toolbar Toggle'), 'accessZ'],
                 'Insert Read More tag'                 => [__('Insert Read More tag'), 'accessT'],
                 'Insert Page Break tag'                => [__('Insert Page Break tag'), 'accessP'],
@@ -1530,7 +1530,7 @@ final class _WP_Editors
      * Force uncompressed TinyMCE when a custom theme has been defined.
      *
      * The compressed TinyMCE file cannot deal with custom themes, so this makes
-     * sure that WordPress uses the uncompressed TinyMCE file if a theme is defined.
+     * sure that waggypuppy uses the uncompressed TinyMCE file if a theme is defined.
      * Even if the website is running on a production environment.
      *
      * @since 5.0.0

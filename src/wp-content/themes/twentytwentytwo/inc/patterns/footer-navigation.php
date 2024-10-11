@@ -15,9 +15,9 @@ return [
 					<!-- wp:paragraph {"align":"right"} -->
 					<p class="has-text-align-right">' .
                     sprintf(
-                        /* Translators: WordPress link. */
+                        /* Translators: WP link. */
                         esc_html__('Proudly powered by %s', 'twentytwentytwo'),
-                        '<a href="' . esc_url(__('https://wordpress.org', 'twentytwentytwo')) . '" rel="nofollow">WordPress</a>'
+                        '<a href="' . esc_url(__('https://wp.org', 'twentytwentytwo')) . '" rel="nofollow">WP</a>'
                     ) . '</p>
 					<!-- /wp:paragraph --></div>
 					<!-- /wp:group --></div>

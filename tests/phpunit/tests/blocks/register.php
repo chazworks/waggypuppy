@@ -2,7 +2,7 @@
 /**
  * Tests for register_block_type(), unregister_block_type(), get_dynamic_block_names(), and register_block_style().
  *
- * @package WordPress
+ * @package WP
  * @subpackage Blocks
  * @since 5.0.0
  *
@@ -861,7 +861,7 @@ class Tests_Blocks_Register extends WP_UnitTestCase
 
     /**
      * Tests that the function returns false when the `block.json` is not found
-     * in the WordPress core.
+     * in the waggypuppy core.
      *
      * @ticket 50263
      */

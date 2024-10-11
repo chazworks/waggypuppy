@@ -2,7 +2,7 @@
 /**
  * User API: WP_User_Query class
  *
- * @package WordPress
+ * @package WP
  * @subpackage Users
  * @since 4.4.0
  */
@@ -148,8 +148,8 @@ class WP_User_Query
      *              Deprecated the 'who' parameter.
      * @since 6.3.0 Added 'cache_results' parameter.
      *
-     * @global wpdb     $wpdb     WordPress database abstraction object.
-     * @global WP_Roles $wp_roles WordPress role management object.
+     * @global wpdb     $wpdb     waggypuppy database abstraction object.
+     * @global WP_Roles $wp_roles waggypuppy role management object.
      *
      * @param string|array $query {
      *     Optional. Array or string of query parameters.
@@ -781,7 +781,7 @@ class WP_User_Query
      *
      * @since 3.1.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      */
     public function query()
     {
@@ -809,7 +809,7 @@ class WP_User_Query
         /**
          * Filters the users array before the query takes place.
          *
-         * Return a non-null value to bypass WordPress' default user queries.
+         * Return a non-null value to bypass waggypuppy' default user queries.
          *
          * Filtering functions that require pagination information are encouraged to set
          * the `total_users` property of the WP_User_Query object, passed to the filter
@@ -825,7 +825,7 @@ class WP_User_Query
         $this->results = apply_filters_ref_array('users_pre_query', [null, &$this]);
 
         if (null === $this->results) {
-            // Beginning of the string is on a new line to prevent leading whitespace. See https://core.trac.wordpress.org/ticket/56841.
+            // Beginning of the string is on a new line to prevent leading whitespace. See https://core.trac.wp.org/ticket/56841.
             $this->request =
                 "SELECT {$this->query_fields}
 				 {$this->query_from}
@@ -856,7 +856,7 @@ class WP_User_Query
                      * @since 3.2.0
                      * @since 5.1.0 Added the `$this` parameter.
                      *
-                     * @global wpdb $wpdb WordPress database abstraction object.
+                     * @global wpdb $wpdb waggypuppy database abstraction object.
                      *
                      * @param string        $sql   The SELECT FOUND_ROWS() query for the current WP_User_Query.
                      * @param WP_User_Query $query The current WP_User_Query instance.
@@ -938,7 +938,7 @@ class WP_User_Query
      *
      * @since 3.1.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param string   $search  Search string.
      * @param string[] $columns Array of columns to search.
@@ -995,7 +995,7 @@ class WP_User_Query
      *
      * @since 4.2.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param string $orderby Alias for the field to order by.
      * @return string Value to used in the ORDER clause, if `$orderby` is valid.
@@ -1054,7 +1054,7 @@ class WP_User_Query
      *
      * @since 6.3.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param array  $args Query arguments.
      * @param string $sql  SQL statement.

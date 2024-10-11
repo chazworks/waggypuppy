@@ -6,11 +6,11 @@ require_once __DIR__ . '/trac.php';
 /**
  * Defines a basic fixture to run multiple tests.
  *
- * Resets the state of the WordPress installation before and after every test.
+ * Resets the state of the waggypuppy installation before and after every test.
  *
- * Includes utility functions and assertions useful for testing WordPress.
+ * Includes utility functions and assertions useful for testing waggypuppy.
  *
- * All WordPress unit tests should inherit from this class.
+ * All waggypuppy unit tests should inherit from this class.
  */
 abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
 {
@@ -34,7 +34,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     protected $factory;
 
     /**
-     * Fetches the factory object for generating WordPress fixtures.
+     * Fetches the factory object for generating waggypuppy fixtures.
      *
      * @return WP_UnitTest_Factory The fixture factory.
      */
@@ -145,7 +145,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     }
 
     /**
-     * After a test method runs, resets any state in WordPress the test method might have changed.
+     * After a test method runs, resets any state in waggypuppy the test method might have changed.
      */
     public function tear_down()
     {
@@ -408,7 +408,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
     }
 
     /**
-     * Flushes the WordPress object cache.
+     * Flushes the waggypuppy object cache.
      */
     public static function flush_cache()
     {
@@ -745,7 +745,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
      *
      * @param string $function_name The deprecated function.
      * @param string $replacement   The function that should have been called.
-     * @param string $version       The version of WordPress that deprecated the function.
+     * @param string $version       The version of waggypuppy that deprecated the function.
      * @param string $message       Optional. A message regarding the change.
      */
     public function deprecated_function_run($function_name, $replacement, $version, $message = '')
@@ -850,7 +850,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
      *
      * @param string $function_name The function to add.
      * @param string $message       A message explaining what has been done incorrectly.
-     * @param string $version       The version of WordPress where the message was added.
+     * @param string $version       The version of waggypuppy where the message was added.
      */
     public function doing_it_wrong_run($function_name, $message, $version)
     {
@@ -1372,8 +1372,8 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
         if (WP_TESTS_FORCE_KNOWN_BUGS || in_array($ticket_id, self::$forced_tickets, true)) {
             return;
         }
-        if (! TracTickets::isTracTicketClosed('https://core.trac.wordpress.org', $ticket_id)) {
-            $this->markTestSkipped(sprintf('WordPress Ticket #%d is not fixed', $ticket_id));
+        if (! TracTickets::isTracTicketClosed('https://core.trac.wp.org', $ticket_id)) {
+            $this->markTestSkipped(sprintf('WP Ticket #%d is not fixed', $ticket_id));
         }
     }
 
@@ -1402,8 +1402,8 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
         if (WP_TESTS_FORCE_KNOWN_BUGS || in_array('Plugin' . $ticket_id, self::$forced_tickets, true)) {
             return;
         }
-        if (! TracTickets::isTracTicketClosed('https://plugins.trac.wordpress.org', $ticket_id)) {
-            $this->markTestSkipped(sprintf('WordPress Plugin Ticket #%d is not fixed', $ticket_id));
+        if (! TracTickets::isTracTicketClosed('https://plugins.trac.wp.org', $ticket_id)) {
+            $this->markTestSkipped(sprintf('WP Plugin Ticket #%d is not fixed', $ticket_id));
         }
     }
 
@@ -1423,7 +1423,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
      * Custom preparations for the PHPUnit process isolation template.
      *
      * When restoring global state between tests, PHPUnit defines all the constants that were already defined, and then
-     * includes included files. This does not work with WordPress, as the included files define the constants.
+     * includes included files. This does not work with waggypuppy, as the included files define the constants.
      *
      * This method defines the constants after including files.
      *
@@ -1717,7 +1717,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
      *
      * @since 4.8.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param int    $post_id Post ID.
      * @param string $date    Post date, in the format YYYY-MM-DD HH:MM:SS.

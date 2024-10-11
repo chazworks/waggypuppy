@@ -1,11 +1,11 @@
 <?php
 /**
- * WordPress Ajax Process Execution
+ * waggypuppy Ajax Process Execution
  *
- * @package WordPress
+ * @package WP
  * @subpackage Administration
  *
- * @link https://developer.wordpress.org/plugins/javascript/ajax
+ * @link https://developer.wp.org/plugins/javascript/ajax
  */
 
 /**
@@ -18,7 +18,7 @@ if (! defined('WP_ADMIN')) {
     define('WP_ADMIN', true);
 }
 
-/** Load WordPress Bootstrap */
+/** Load waggypuppy Bootstrap */
 require_once dirname(__DIR__) . '/wp-load.php';
 
 /** Allow for cross-domain requests (from the front end). */
@@ -32,10 +32,10 @@ if (empty($_REQUEST['action']) || ! is_scalar($_REQUEST['action'])) {
     wp_die('0', 400);
 }
 
-/** Load WordPress Administration APIs */
+/** Load waggypuppy Administration APIs */
 require_once ABSPATH . 'wp-admin/includes/admin.php';
 
-/** Load Ajax Handlers for WordPress Core */
+/** Load Ajax Handlers for waggypuppy Core */
 require_once ABSPATH . 'wp-admin/includes/ajax-actions.php';
 
 send_nosniff_header();

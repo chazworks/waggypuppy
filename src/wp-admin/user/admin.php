@@ -1,8 +1,8 @@
 <?php
 /**
- * WordPress User Administration Bootstrap
+ * waggypuppy User Administration Bootstrap
  *
- * @package WordPress
+ * @package WP
  * @subpackage Administration
  * @since 3.1.0
  */

@@ -2,7 +2,7 @@
 /**
  * Custom icons for this theme.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Twenty_Twenty
  * @since Twenty Twenty 1.0
  */
@@ -244,7 +244,7 @@ if (! class_exists('TwentyTwenty_SVG_Icons')) {
             ],
             'wordpress' => [
                 'wordpress.com',
-                'wordpress.org',
+                'wp.org',
             ],
         ];
 

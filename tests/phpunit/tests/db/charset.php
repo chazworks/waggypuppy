@@ -355,8 +355,8 @@ class Tests_DB_Charset extends WP_UnitTestCase
             ],
             'cp1251_no_length_ascii'                => [
                 'charset'  => 'cp1251',
-                'value'    => 'WordPress',
-                'expected' => 'WordPress',
+                'value'    => 'waggypuppy',
+                'expected' => 'waggypuppy',
                 'length'   => false,
                 // Don't set 'ascii' => true/false.
                 // That's a different codepath than it being unset
@@ -529,7 +529,7 @@ class Tests_DB_Charset extends WP_UnitTestCase
         if ('big5' === $new_charset && 'byte' === $data[0]['length']['type']
             && str_contains(self::$db_server_info, 'MariaDB')
         ) {
-            $this->markTestSkipped("MariaDB doesn't support this data set. See https://core.trac.wordpress.org/ticket/33171.");
+            $this->markTestSkipped("MariaDB doesn't support this data set. See https://core.trac.wp.org/ticket/33171.");
         }
 
         self::$_wpdb->charset = $new_charset;

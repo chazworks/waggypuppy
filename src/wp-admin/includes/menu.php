@@ -2,7 +2,7 @@
 /**
  * Build Administration Menu.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Administration
  */
 

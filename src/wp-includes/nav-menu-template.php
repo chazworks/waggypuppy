@@ -2,7 +2,7 @@
 /**
  * Nav Menu API: Template functions
  *
- * @package WordPress
+ * @package WP
  * @subpackage Nav_Menus
  * @since 3.0.0
  */
@@ -200,7 +200,7 @@ function wp_nav_menu($args = [])
     $menu_items_with_children = [];
     foreach ((array) $menu_items as $menu_item) {
         /*
-         * Fix invalid `menu_item_parent`. See: https://core.trac.wordpress.org/ticket/56926.
+         * Fix invalid `menu_item_parent`. See: https://core.trac.wp.org/ticket/56926.
          * Compare as strings. Plugins may change the ID to a string.
          */
         if ((string) $menu_item->ID === (string) $menu_item->menu_item_parent) {
@@ -315,8 +315,8 @@ function wp_nav_menu($args = [])
  * @access private
  * @since 3.0.0
  *
- * @global WP_Query   $wp_query   WordPress Query object.
- * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+ * @global WP_Query   $wp_query   waggypuppy Query object.
+ * @global WP_Rewrite $wp_rewrite waggypuppy rewrite component.
  *
  * @param array $menu_items The current menu item objects to which to add the class property information.
  */
@@ -641,10 +641,10 @@ function _nav_menu_item_id_use_once($id, $item)
  *
  * This runs on the {@see 'nav_menu_css_class'} filter. The $args and $depth
  * parameters were added after the filter was originally introduced in
- * WordPress 3.0.0 so this needs to allow for cases in which the filter is
+ * WP 3.0.0 so this needs to allow for cases in which the filter is
  * called without them.
  *
- * @see https://core.trac.wordpress.org/ticket/56926
+ * @see https://core.trac.wp.org/ticket/56926
  *
  * @since 6.2.0
  *

@@ -2,13 +2,13 @@
 /**
  * Upgrader API: Bulk_Plugin_Upgrader_Skin class
  *
- * @package WordPress
+ * @package WP
  * @subpackage Upgrader
  * @since 4.6.0
  */
 
 /**
- * Bulk Plugin Upgrader Skin for WordPress Plugin Upgrades.
+ * Bulk Plugin Upgrader Skin for waggypuppy Plugin Upgrades.
  *
  * @since 3.0.0
  * @since 4.6.0 Moved to its own file from wp-admin/includes/class-wp-upgrader-skins.php.
@@ -84,7 +84,7 @@ class Bulk_Plugin_Upgrader_Skin extends Bulk_Upgrader_Skin
             'updates_page' => sprintf(
                 '<a href="%s" target="_parent">%s</a>',
                 self_admin_url('update-core.php'),
-                __('Go to WordPress Updates page')
+                __('Go to waggypuppy Updates page')
             ),
         ];
 

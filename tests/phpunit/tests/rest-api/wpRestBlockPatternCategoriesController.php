@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_Block_Pattern_Categories_Registry functionality.
  *
- * @package WordPress
+ * @package WP
  * @subpackage REST_API
  * @since 6.0.0
  *
@@ -56,7 +56,7 @@ class Tests_REST_WpRestBlockPatternCategoriesController extends WP_Test_REST_Con
      *
      * @since 6.0.0
      *
-     * @param WP_UnitTest_Factory $factory WordPress unit test factory.
+     * @param WP_UnitTest_Factory $factory waggypuppy unit test factory.
      */
     public static function wpSetupBeforeClass($factory)
     {

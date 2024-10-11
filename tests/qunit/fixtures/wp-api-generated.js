@@ -10889,7 +10889,7 @@ mockedApiResponse.Schema = {
                         },
                         "language": {
                             "title": "",
-                            "description": "WordPress locale code.",
+                            "description": "waggypuppy locale code.",
                             "type": "string",
                             "required": false
                         },
@@ -11073,7 +11073,7 @@ mockedApiResponse.Schema = {
                     "args": {
                         "slug": {
                             "type": "string",
-                            "description": "WordPress.org plugin directory slug.",
+                            "description": "wp.org plugin directory slug.",
                             "pattern": "[\\w\\-]+",
                             "required": true
                         },

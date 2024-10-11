@@ -5,7 +5,7 @@
  * Categories: featured, hero
  * Keywords: podcast, hero, stories
  *
- * @package WordPress
+ * @package WP
  * @subpackage Twenty_Twenty_Five
  * @since Twenty Twenty-Five 1.0
  */

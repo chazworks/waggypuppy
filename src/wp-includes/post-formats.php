@@ -2,7 +2,7 @@
 /**
  * Post format functions.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Post
  */
 
@@ -192,7 +192,7 @@ function _post_format_request($qvs)
  * @access private
  * @since 3.1.0
  *
- * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+ * @global WP_Rewrite $wp_rewrite waggypuppy rewrite component.
  *
  * @param string  $link
  * @param WP_Term $term

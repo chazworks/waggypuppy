@@ -2,7 +2,7 @@
 /**
  * Layout block support flag.
  *
- * @package WordPress
+ * @package WP
  * @since 5.8.0
  */
 

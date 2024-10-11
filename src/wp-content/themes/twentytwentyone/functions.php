@@ -2,21 +2,21 @@
 /**
  * Functions and definitions
  *
- * @link https://developer.wordpress.org/themes/basics/theme-functions/
+ * @link https://developer.wp.org/themes/basics/theme-functions/
  *
- * @package WordPress
+ * @package WP
  * @subpackage Twenty_Twenty_One
  * @since Twenty Twenty-One 1.0
  */
 
-// This theme requires WordPress 5.3 or later.
+// This theme requires WP 5.3 or later.
 if (version_compare($GLOBALS['wp_version'], '5.3', '<')) {
     require get_template_directory() . '/inc/back-compat.php';
 }
 
 if (! function_exists('twenty_twenty_one_setup')) {
     /**
-     * Sets up theme defaults and registers support for various WordPress features.
+     * Sets up theme defaults and registers support for various WP features.
      *
      * Note that this function is hooked into the after_setup_theme hook, which
      * runs before the init hook. The init hook is too late for some features, such
@@ -33,9 +33,9 @@ if (! function_exists('twenty_twenty_one_setup')) {
         add_theme_support('automatic-feed-links');
 
         /*
-         * Let WordPress manage the document title.
+         * Let WP manage the document title.
          * This theme does not use a hard-coded <title> tag in the document head,
-         * WordPress will provide it for us.
+         * WP will provide it for us.
          */
         add_theme_support('title-tag');
 
@@ -60,7 +60,7 @@ if (! function_exists('twenty_twenty_one_setup')) {
         /*
          * Enable support for Post Thumbnails on posts and pages.
          *
-         * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
+         * @link https://developer.wp.org/themes/functionality/featured-images-post-thumbnails/
          */
         add_theme_support('post-thumbnails');
         set_post_thumbnail_size(1568, 9999);
@@ -92,7 +92,7 @@ if (! function_exists('twenty_twenty_one_setup')) {
         /*
          * Add support for core custom logo.
          *
-         * @link https://codex.wordpress.org/Theme_Logo
+         * @link https://codex.wp.org/Theme_Logo
          */
         $logo_width  = 300;
         $logo_height = 100;
@@ -126,7 +126,7 @@ if (! function_exists('twenty_twenty_one_setup')) {
 
         $editor_stylesheet_path = './assets/css/style-editor.css';
 
-        // Note, the is_IE global variable is defined by WordPress and is used
+        // Note, the is_IE global variable is defined by WP and is used
         // to detect if the current browser is internet explorer.
         global $is_IE;
         if ($is_IE) {
@@ -330,7 +330,7 @@ if (! function_exists('twenty_twenty_one_setup')) {
         add_theme_support('custom-spacing');
 
         // Add support for custom units.
-        // This was removed in WordPress 5.6 but is still required to properly support WP 5.5.
+        // This was removed in WP 5.6 but is still required to properly support WP 5.5.
         add_theme_support('custom-units');
 
         // Remove feed icon link from legacy RSS widget.
@@ -344,7 +344,7 @@ add_action('after_setup_theme', 'twenty_twenty_one_setup');
  *
  * @since Twenty Twenty-One 1.0
  *
- * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
+ * @link https://developer.wp.org/themes/functionality/sidebars/#registering-a-sidebar
  *
  * @return void
  */
@@ -397,7 +397,7 @@ add_action('after_setup_theme', 'twenty_twenty_one_content_width', 0);
  */
 function twenty_twenty_one_scripts()
 {
-    // Note, the is_IE global variable is defined by WordPress and is used
+    // Note, the is_IE global variable is defined by WP and is used
     // to detect if the current browser is internet explorer.
     global $is_IE, $wp_scripts;
     if ($is_IE) {
@@ -539,7 +539,7 @@ require get_template_directory() . '/classes/class-twenty-twenty-one-svg-icons.p
 require get_template_directory() . '/classes/class-twenty-twenty-one-custom-colors.php';
 new Twenty_Twenty_One_Custom_Colors();
 
-// Enhance the theme by hooking into WordPress.
+// Enhance the theme by hooking into WP.
 require get_template_directory() . '/inc/template-functions.php';
 
 // Menu functions and filters.
@@ -655,7 +655,7 @@ if (! function_exists('wp_get_list_item_separator')) :
     /**
      * Retrieves the list item separator based on the locale.
      *
-     * Added for backward compatibility to support pre-6.0.0 WordPress versions.
+     * Added for backward compatibility to support pre-6.0.0 WP versions.
      *
      * @since 6.0.0
      */

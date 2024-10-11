@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_Widget_RSS functionality.
  *
- * @package    WordPress
+ * @package WP
  * @subpackage widgets
  */
 
@@ -98,8 +98,8 @@ class Tests_Widgets_wpWidgetRss extends WP_UnitTestCase
     {
         return [
             'when url is given' => [
-                'url' => 'https://wordpress.org/news/feed/',
-                '<section id="widget_rss-5" class="widget widget_rss"><h2><a class="rsswidget rss-widget-feed" href="https://wordpress.org/news/feed/">',
+                'url' => 'https://wp.org/news/feed/',
+                '<section id="widget_rss-5" class="widget widget_rss"><h2><a class="rsswidget rss-widget-feed" href="https://wp.org/news/feed/">',
             ],
         ];
     }
@@ -108,7 +108,7 @@ class Tests_Widgets_wpWidgetRss extends WP_UnitTestCase
     {
         $single_value_headers = [
             'Content-Type' => 'application/rss+xml; charset=UTF-8',
-            'link'         => '<https://wordpress.org/news/wp-json/>; rel="https://api.w.org/"',
+            'link'         => '<https://wp.org/news/wp-json/>; rel="https://api.w.org/"',
         ];
 
         return [

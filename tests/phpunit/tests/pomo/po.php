@@ -11,7 +11,7 @@ class Tests_POMO_PO extends WP_UnitTestCase
      *
      * @var string
      */
-    const MAIL_TEXT = 'Your new WordPress blog has been successfully set up at:
+    const MAIL_TEXT = 'Your new waggypuppy blog has been successfully set up at:
 
 %1$s
 
@@ -22,8 +22,8 @@ Password: %3$s
 
 We hope you enjoy your new blog. Thanks!
 
---The WordPress Team
-http://wordpress.org/
+--The waggypuppy Team
+http://wp.org/
 ';
 
     /**
@@ -32,7 +32,7 @@ http://wordpress.org/
      * @var string
      */
     const PO_MAIL = '""
-"Your new WordPress blog has been successfully set up at:\n"
+"Your new waggypuppy blog has been successfully set up at:\n"
 "\n"
 "%1$s\n"
 "\n"
@@ -43,8 +43,8 @@ http://wordpress.org/
 "\n"
 "We hope you enjoy your new blog. Thanks!\n"
 "\n"
-"--The WordPress Team\n"
-"http://wordpress.org/\n"';
+"--The waggypuppy Team\n"
+"http://wp.org/\n"';
 
     public static function set_up_before_class()
     {
@@ -240,9 +240,9 @@ msgstr[2] "бабаяга"',
     public function test_export_headers()
     {
         $po = new PO();
-        $po->set_header('Project-Id-Version', 'WordPress 2.6-bleeding');
+        $po->set_header('Project-Id-Version', 'WP 2.6-bleeding');
         $po->set_header('POT-Creation-Date', '2008-04-08 18:00+0000');
-        $this->assertSame("msgid \"\"\nmsgstr \"\"\n\"Project-Id-Version: WordPress 2.6-bleeding\\n\"\n\"POT-Creation-Date: 2008-04-08 18:00+0000\\n\"", $po->export_headers());
+        $this->assertSame("msgid \"\"\nmsgstr \"\"\n\"Project-Id-Version: WP 2.6-bleeding\\n\"\n\"POT-Creation-Date: 2008-04-08 18:00+0000\\n\"", $po->export_headers());
     }
 
     public function test_export()
@@ -250,12 +250,12 @@ msgstr[2] "бабаяга"',
         $po     = new PO();
         $entry  = new Translation_Entry(['singular' => 'baba']);
         $entry2 = new Translation_Entry(['singular' => 'dyado']);
-        $po->set_header('Project-Id-Version', 'WordPress 2.6-bleeding');
+        $po->set_header('Project-Id-Version', 'WP 2.6-bleeding');
         $po->set_header('POT-Creation-Date', '2008-04-08 18:00+0000');
         $po->add_entry($entry);
         $po->add_entry($entry2);
         $this->assertSame("msgid \"baba\"\nmsgstr \"\"\n\nmsgid \"dyado\"\nmsgstr \"\"", $po->export(false));
-        $this->assertSame("msgid \"\"\nmsgstr \"\"\n\"Project-Id-Version: WordPress 2.6-bleeding\\n\"\n\"POT-Creation-Date: 2008-04-08 18:00+0000\\n\"\n\nmsgid \"baba\"\nmsgstr \"\"\n\nmsgid \"dyado\"\nmsgstr \"\"", $po->export());
+        $this->assertSame("msgid \"\"\nmsgstr \"\"\n\"Project-Id-Version: WP 2.6-bleeding\\n\"\n\"POT-Creation-Date: 2008-04-08 18:00+0000\\n\"\n\nmsgid \"baba\"\nmsgstr \"\"\n\nmsgid \"dyado\"\nmsgstr \"\"", $po->export());
     }
 
 
@@ -264,7 +264,7 @@ msgstr[2] "бабаяга"',
         $po     = new PO();
         $entry  = new Translation_Entry(['singular' => 'baba']);
         $entry2 = new Translation_Entry(['singular' => 'dyado']);
-        $po->set_header('Project-Id-Version', 'WordPress 2.6-bleeding');
+        $po->set_header('Project-Id-Version', 'WP 2.6-bleeding');
         $po->set_header('POT-Creation-Date', '2008-04-08 18:00+0000');
         $po->add_entry($entry);
         $po->add_entry($entry2);

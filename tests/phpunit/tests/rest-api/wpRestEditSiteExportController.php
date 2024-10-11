@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_REST_Edit_Site_Export_Controller functionality.
  *
- * @package WordPress
+ * @package WP
  * @subpackage REST_API
  * @since 5.9.0
  *
@@ -36,7 +36,7 @@ class Tests_REST_WpRestEditSiteExportController extends WP_Test_REST_Controller_
      *
      * @since 5.9.0
      *
-     * @param WP_UnitTest_Factory $factory WordPress unit test factory.
+     * @param WP_UnitTest_Factory $factory waggypuppy unit test factory.
      */
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {

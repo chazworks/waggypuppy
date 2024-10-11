@@ -2,7 +2,7 @@
 /**
  * Block level presets support.
  *
- * @package WordPress
+ * @package WP
  * @since 6.2.0
  */
 

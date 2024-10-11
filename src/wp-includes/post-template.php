@@ -1,15 +1,15 @@
 <?php
 /**
- * WordPress Post Template Functions.
+ * waggypuppy Post Template Functions.
  *
  * Gets content for the current post in the loop.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Template
  */
 
 /**
- * Displays the ID of the current item in the WordPress Loop.
+ * Displays the ID of the current item in the waggypuppy Loop.
  *
  * @since 0.71
  */
@@ -19,11 +19,11 @@ function the_ID()  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName
 }
 
 /**
- * Retrieves the ID of the current item in the WordPress Loop.
+ * Retrieves the ID of the current item in the waggypuppy Loop.
  *
  * @since 2.1.0
  *
- * @return int|false The ID of the current item in the WordPress Loop. False if $post is not set.
+ * @return int|false The ID of the current item in the waggypuppy Loop. False if $post is not set.
  */
 function get_the_ID()  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
 {
@@ -451,7 +451,7 @@ function get_the_excerpt($post = null)
  * Determines whether the post has a custom excerpt.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 2.3.0
@@ -642,7 +642,7 @@ function body_class($css_class = '')
  *
  * @since 2.8.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param string|string[] $css_class Optional. Space-separated string or array of class names
  *                                   to add to the class list. Default empty.
@@ -1066,7 +1066,7 @@ function wp_link_pages($args = '')
  * @since 3.1.0
  * @access private
  *
- * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+ * @global WP_Rewrite $wp_rewrite waggypuppy rewrite component.
  *
  * @param int $i Page number.
  * @return string Link.
@@ -1279,7 +1279,7 @@ function wp_dropdown_pages($args = '')
  *
  * @see get_pages()
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param array|string $args {
  *     Optional. Array or string of arguments to generate a list of pages. See get_pages() for additional arguments.
@@ -1807,7 +1807,7 @@ function get_the_password_form($post = 0)
     /**
      * Filters the HTML output for the protected post password form.
      *
-     * If modifying the password field, please note that the WordPress database schema
+     * If modifying the password field, please note that the waggypuppy database schema
      * limits the password field to 255 characters regardless of the value of the
      * `minlength` or `maxlength` attributes or other validation that may be added to
      * the input.
@@ -1829,7 +1829,7 @@ function get_the_password_form($post = 0)
  * and then the check will be specific to that template.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 2.5.0

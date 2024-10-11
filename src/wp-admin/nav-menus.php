@@ -1,15 +1,15 @@
 <?php
 /**
- * WordPress Administration for Navigation Menus
+ * waggypuppy Administration for Navigation Menus
  * Interface functions
  *
  * @version 2.0.0
  *
- * @package WordPress
+ * @package WP
  * @subpackage Administration
  */
 
-/** Load WordPress Administration Bootstrap */
+/** Load waggypuppy Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 
 // Load all the nav menu interface functions.
@@ -767,8 +767,8 @@ endif;
 
 get_current_screen()->set_help_sidebar(
     '<p><strong>' . __('For more information:') . '</strong></p>' .
-    '<p>' . __('<a href="https://wordpress.org/documentation/article/appearance-menus-screen/">Documentation on Menus</a>') . '</p>' .
-    '<p>' . __('<a href="https://wordpress.org/support/forums/">Support forums</a>') . '</p>'
+    '<p>' . __('<a href="https://wp.org/documentation/article/appearance-menus-screen/">Documentation on Menus</a>') . '</p>' .
+    '<p>' . __('<a href="https://wp.org/support/forums/">Support forums</a>') . '</p>'
 );
 
 // Get the admin header.

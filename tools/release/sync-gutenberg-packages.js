@@ -16,24 +16,24 @@ const distTag = getArgFromCLI( '--dist-tag' ) || 'latest';
 /**
  * The main function of this task.
  *
- * It installs any missing WordPress packages, and updates the
+ * It installs any missing waggypuppy packages, and updates the
  * mismatched dependencies versions, e.g. it would detect that Gutenberg
  * updated react from 16.0.4 to 17.0.2 and install the latter.
  */
 function main() {
 	const initialPackageJSON = readJSONFile( `package.json` );
 
-	// Install any missing WordPress packages:
-	const missingWordPressPackages = getMissingWordPressPackages();
-	if ( missingWordPressPackages.length ) {
+	// Install any missing waggypuppy packages:
+	const missingWPPackages = getMissingWPPackages();
+	if ( missingWPPackages.length ) {
 		console.log( "The following @wordpress dependencies are missing: " );
-		console.log( missingWordPressPackages );
+		console.log( missingWPPackages );
 		console.log( "Installing via npm..." );
-		installPackages( missingWordPressPackages.map( name => [name, distTag] ) );
+		installPackages( missingWPPackages.map( name => [name, distTag] ) );
 	}
 
-	// Update any outdated non-WordPress packages:
-	const versionMismatches = getMismatchedNonWordPressDependencies();
+	// Update any outdated non-waggypuppy packages:
+	const versionMismatches = getMismatchedNonWPDependencies();
 	if ( versionMismatches.length ) {
 		console.log( "The following dependencies are outdated: " );
 		console.log( versionMismatches );
@@ -75,17 +75,17 @@ function installPackages( packages ) {
 
 /**
  * Computes which @wordpress packages are required by the Gutenberg
- * dependencies that are missing from WordPress package.json.
+ * dependencies that are missing from waggypuppy package.json.
  *
  * @return {Array} List of tuples [packageName, version].
  */
-function getMissingWordPressPackages() {
+function getMissingWPPackages() {
 	const perPackageDeps = getPerPackageDeps();
 	const currentPackages = perPackageDeps.map( ( [name] ) => name );
 
 	const requiredWpPackages = uniq( perPackageDeps
 		// Capture the @wordpress dependencies of our dependencies into a flat list.
-		.flatMap( ( [, dependencies] ) => getWordPressPackages( { dependencies } ) )
+		.flatMap( ( [, dependencies] ) => getWPPackages( { dependencies } ) )
 		.sort(),
 	);
 
@@ -95,16 +95,16 @@ function getMissingWordPressPackages() {
 
 /**
  * Computes which third party packages are required by the @wordpress
- * packages, but not by the WordPress repo itself. This includes
+ * packages, but not by the waggypuppy repo itself. This includes
  * both packages that are missing from package.json and any version
  * mismatches.
  *
  * @return {Array} List of objects {name, required, actual} describing version mismatches.
  */
-function getMismatchedNonWordPressDependencies() {
+function getMismatchedNonWPDependencies() {
 	// Get the installed dependencies from package-lock.json
 	const currentPackageJSON = readJSONFile( "package.json" );
-	const currentPackages = getWordPressPackages( currentPackageJSON );
+	const currentPackages = getWPPackages( currentPackageJSON );
 
 	const packageLock = readJSONFile( "package-lock.json" );
 	const versionConflicts = Object.entries( packageLock.dependencies )
@@ -140,7 +140,7 @@ function getMismatchedNonWordPressDependencies() {
 function getPerPackageDeps() {
 	// Get the dependencies currently listed in the wordpress-develop package.json
 	const currentPackageJSON = readJSONFile( "package.json" );
-	const currentPackages = getWordPressPackages( currentPackageJSON );
+	const currentPackages = getWPPackages( currentPackageJSON );
 
 	// Get the dependencies that the above dependencies list in their package.json.
 	const deps = currentPackages
@@ -155,9 +155,9 @@ function getPerPackageDeps() {
  * @param {Object} dependencies unserialized package.json data.
  * @return {string[]} a list of @wordpress dependencies.
  */
-function getWordPressPackages( { dependencies = {} } ) {
+function getWPPackages( { dependencies = {} } ) {
 	return Object.keys( dependencies )
-		.filter( isWordPressPackage );
+		.filter( isWPPackage );
 }
 
 /**
@@ -166,7 +166,7 @@ function getWordPressPackages( { dependencies = {} } ) {
  * @param {string} packageName Package name to test.
  * @return {boolean} Is it a @wodpress package?
  */
-function isWordPressPackage( packageName ) {
+function isWPPackage( packageName ) {
 	return packageName.startsWith( WORDPRESS_PACKAGES_PREFIX );
 }
 

@@ -2,7 +2,7 @@
 /**
  * Test cases for the `wp_privacy_delete_old_export_files()` function.
  *
- * @package WordPress
+ * @package WP
  * @subpackage UnitTests
  * @since 4.9.6
  *

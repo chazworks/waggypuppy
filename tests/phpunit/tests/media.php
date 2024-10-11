@@ -4038,7 +4038,7 @@ EOF;
         $iframe1      = '<iframe src="https://www.example.com" width="640" height="360"></iframe>';
         $img2         = get_image_tag(self::$large_id, '', '', '', 'medium');
         $img3         = get_image_tag(self::$large_id, '', '', '', 'thumbnail');
-        $iframe2      = '<iframe src="https://wordpress.org" width="640" height="360"></iframe>';
+        $iframe2      = '<iframe src="https://wp.org" width="640" height="360"></iframe>';
         $prio_img1    = str_replace(' src=', ' fetchpriority="high" src=', $img1);
         $lazy_img2    = wp_img_tag_add_loading_optimization_attrs($img2, 'the_content');
         $lazy_img3    = wp_img_tag_add_loading_optimization_attrs($img3, 'the_content');
@@ -6723,7 +6723,7 @@ EOF;
     /**
      * Returns a new WP_Query.
      *
-     * @global WP_Query $wp_query WordPress Query object.
+     * @global WP_Query $wp_query waggypuppy Query object.
      *
      * @return WP_Query a new query.
      */
@@ -6740,7 +6740,7 @@ EOF;
     /**
      * Sets a query as main query.
      *
-     * @global WP_Query $wp_the_query WordPress Query object.
+     * @global WP_Query $wp_the_query waggypuppy Query object.
      *
      * @param WP_Query $query query to be set as main query.
      */

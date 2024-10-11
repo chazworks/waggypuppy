@@ -1,5 +1,5 @@
 /**
- * WordPress dependencies
+ * waggypuppy dependencies
  */
 import { test } from '@wordpress/e2e-test-utils-playwright';
 

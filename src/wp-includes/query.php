@@ -1,13 +1,13 @@
 <?php
 /**
- * WordPress Query API
+ * waggypuppy Query API
  *
- * The query API attempts to get which part of WordPress the user is on. It
+ * The query API attempts to get which part of waggypuppy the user is on. It
  * also provides functionality for getting URL query information.
  *
- * @link https://developer.wordpress.org/themes/basics/the-loop/ More information on The Loop.
+ * @link https://developer.wp.org/themes/basics/the-loop/ More information on The Loop.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Query
  */
 
@@ -17,7 +17,7 @@
  * @since 1.5.0
  * @since 3.9.0 The `$default_value` argument was introduced.
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param string $query_var     The variable key to retrieve.
  * @param mixed  $default_value Optional. Value to return if the query variable is not set.
@@ -37,7 +37,7 @@ function get_query_var($query_var, $default_value = '')
  *
  * @since 3.1.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return WP_Term|WP_Post_Type|WP_Post|WP_User|null The queried object.
  */
@@ -54,7 +54,7 @@ function get_queried_object()
  *
  * @since 3.1.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return int ID of the queried object.
  */
@@ -69,7 +69,7 @@ function get_queried_object_id()
  *
  * @since 2.2.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param string $query_var Query variable key.
  * @param mixed  $value     Query variable value.
@@ -89,11 +89,11 @@ function set_query_var($query_var, $value)
  * more performant options for modifying the main query such as via the {@see 'pre_get_posts'}
  * action within WP_Query.
  *
- * This must not be used within the WordPress Loop.
+ * This must not be used within the waggypuppy Loop.
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param array|string $query Array or string of WP_Query arguments.
  * @return WP_Post[]|int[] Array of post objects or post IDs.
@@ -113,7 +113,7 @@ function query_posts($query)
  *
  * @since 2.3.0
  *
- * @global WP_Query $wp_query     WordPress Query object.
+ * @global WP_Query $wp_query     waggypuppy Query object.
  * @global WP_Query $wp_the_query Copy of the global WP_Query instance created during wp_reset_query().
  */
 function wp_reset_query()
@@ -128,7 +128,7 @@ function wp_reset_query()
  *
  * @since 3.0.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  */
 function wp_reset_postdata()
 {
@@ -150,7 +150,7 @@ function wp_reset_postdata()
  * and custom taxonomy based archives.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 1.5.0
@@ -161,7 +161,7 @@ function wp_reset_postdata()
  * @see is_date()
  * @see is_post_type_archive()
  * @see is_tax()
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for an existing archive page.
  */
@@ -181,12 +181,12 @@ function is_archive()
  * Determines whether the query is for an existing post type archive page.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 3.1.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param string|string[] $post_types Optional. Post type or array of posts types
  *                                    to check against. Default empty.
@@ -208,12 +208,12 @@ function is_post_type_archive($post_types = '')
  * Determines whether the query is for an existing attachment page.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 2.0.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param int|string|int[]|string[] $attachment Optional. Attachment ID, title, slug, or array of such
  *                                              to check against. Default empty.
@@ -238,12 +238,12 @@ function is_attachment($attachment = '')
  * check if the query is for one of the authors specified.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param int|string|int[]|string[] $author Optional. User ID, nickname, nicename, or array of such
  *                                          to check against. Default empty.
@@ -268,12 +268,12 @@ function is_author($author = '')
  * check if the query is for one of the categories specified.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param int|string|int[]|string[] $category Optional. Category ID, name, slug, or array of such
  *                                            to check against. Default empty.
@@ -298,12 +298,12 @@ function is_category($category = '')
  * check if the query is for one of the tags specified.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 2.3.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param int|string|int[]|string[] $tag Optional. Tag ID, name, slug, or array of such
  *                                       to check against. Default empty.
@@ -332,12 +332,12 @@ function is_tag($tag = '')
  * specified.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 2.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param string|string[]           $taxonomy Optional. Taxonomy slug or slugs to check against.
  *                                            Default empty.
@@ -363,12 +363,12 @@ function is_tax($taxonomy = '', $term = '')
  * Determines whether the query is for an existing date archive.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for an existing date archive.
  */
@@ -390,12 +390,12 @@ function is_date()
  * A conditional check to test whether the page is a date-based archive page displaying posts for the current day.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for an existing day archive.
  */
@@ -415,12 +415,12 @@ function is_day()
  * Determines whether the query is for a feed.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param string|string[] $feeds Optional. Feed type or array of feed types
  *                                         to check against. Default empty.
@@ -443,7 +443,7 @@ function is_feed($feeds = '')
  *
  * @since 3.0.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for a comments feed.
  */
@@ -472,12 +472,12 @@ function is_comment_feed()
  * Otherwise the same as {@see is_home()}.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 2.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for the front page of the site.
  */
@@ -505,13 +505,13 @@ function is_front_page()
  * on the page you set as the "Posts page".
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 1.5.0
  *
  * @see is_front_page()
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for the blog homepage.
  */
@@ -537,12 +537,12 @@ function is_home()
  * This function will return true only on the page you set as the "Privacy Policy page".
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 5.2.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for the Privacy Policy page.
  */
@@ -562,12 +562,12 @@ function is_privacy_policy()
  * Determines whether the query is for an existing month archive.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for an existing month archive.
  */
@@ -590,14 +590,14 @@ function is_month()
  * check if the query is for one of the pages specified.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 1.5.0
  *
  * @see is_single()
  * @see is_singular()
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param int|string|int[]|string[] $page Optional. Page ID, title, slug, or array of such
  *                                        to check against. Default empty.
@@ -619,12 +619,12 @@ function is_page($page = '')
  * Determines whether the query is for a paged result and not for the first page.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for a paged result.
  */
@@ -644,12 +644,12 @@ function is_paged()
  * Determines whether the query is for a post or page preview.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 2.0.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for a post or page preview.
  */
@@ -670,7 +670,7 @@ function is_preview()
  *
  * @since 2.1.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for the robots.txt file.
  */
@@ -691,7 +691,7 @@ function is_robots()
  *
  * @since 5.4.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for the favicon.ico file.
  */
@@ -711,12 +711,12 @@ function is_favicon()
  * Determines whether the query is for a search.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for a search.
  */
@@ -741,14 +741,14 @@ function is_search()
  * check if the query is for one of the Posts specified.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 1.5.0
  *
  * @see is_page()
  * @see is_singular()
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param int|string|int[]|string[] $post Optional. Post ID, title, slug, or array of such
  *                                        to check against. Default empty.
@@ -774,14 +774,14 @@ function is_single($post = '')
  * check if the query is for one of the Posts Types specified.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 1.5.0
  *
  * @see is_page()
  * @see is_single()
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param string|string[] $post_types Optional. Post type or array of post types
  *                                    to check against. Default empty.
@@ -804,12 +804,12 @@ function is_singular($post_types = '')
  * Determines whether the query is for a specific time.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for a specific time.
  */
@@ -829,12 +829,12 @@ function is_time()
  * Determines whether the query is for a trackback endpoint call.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for a trackback endpoint call.
  */
@@ -854,12 +854,12 @@ function is_trackback()
  * Determines whether the query is for an existing year archive.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for an existing year archive.
  */
@@ -879,12 +879,12 @@ function is_year()
  * Determines whether the query has resulted in a 404 (returns no results).
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is a 404 error.
  */
@@ -905,7 +905,7 @@ function is_404()
  *
  * @since 4.4.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for an embedded post.
  */
@@ -925,12 +925,12 @@ function is_embed()
  * Determines whether the query is the main query.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 3.3.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is the main query.
  */
@@ -952,7 +952,7 @@ function is_main_query()
                 '<code>pre_get_posts</code>',
                 '<code>WP_Query->is_main_query()</code>',
                 '<code>is_main_query()</code>',
-                __('https://developer.wordpress.org/reference/functions/is_main_query/')
+                __('https://developer.wp.org/reference/functions/is_main_query/')
             ),
             '3.7.0'
         );
@@ -966,11 +966,11 @@ function is_main_query()
  */
 
 /**
- * Determines whether current WordPress query has posts to loop over.
+ * Determines whether current waggypuppy query has posts to loop over.
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool True if posts are available, false if end of the loop.
  */
@@ -989,12 +989,12 @@ function have_posts()
  * Determines whether the caller is in the Loop.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 2.0.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool True if caller is within loop, false if loop hasn't started or ended.
  */
@@ -1014,7 +1014,7 @@ function in_the_loop()
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  */
 function rewind_posts()
 {
@@ -1032,7 +1032,7 @@ function rewind_posts()
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  */
 function the_post()
 {
@@ -1050,11 +1050,11 @@ function the_post()
  */
 
 /**
- * Determines whether current WordPress query has comments to loop over.
+ * Determines whether current waggypuppy query has comments to loop over.
  *
  * @since 2.2.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool True if comments are available, false if no more comments.
  */
@@ -1074,7 +1074,7 @@ function have_comments()
  *
  * @since 2.2.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  */
 function the_comment()
 {
@@ -1172,7 +1172,7 @@ function wp_old_slug_redirect()
  * @access private
  *
  * @see wp_old_slug_redirect()
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param string $post_type The current post type based on the query vars.
  * @return int The Post ID.
@@ -1218,7 +1218,7 @@ function _find_post_by_old_slug($post_type)
  * @access private
  *
  * @see wp_old_slug_redirect()
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param string $post_type The current post type based on the query vars.
  * @return int The Post ID.
@@ -1266,7 +1266,7 @@ function _find_post_by_old_date($post_type)
  * @since 1.5.0
  * @since 4.4.0 Added the ability to pass a post ID to `$post`.
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param WP_Post|object|int $post WP_Post instance or Post ID/object.
  * @return bool True when finished.
@@ -1287,7 +1287,7 @@ function setup_postdata($post)
  *
  * @since 5.2.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param WP_Post|object|int $post WP_Post instance or Post ID/object.
  * @return array|false Elements of post, or false on failure.

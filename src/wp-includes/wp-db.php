@@ -1,11 +1,11 @@
 <?php
 /**
- * WordPress database access abstraction class.
+ * waggypuppy database access abstraction class.
  *
  * This file is deprecated, use 'wp-includes/class-wpdb.php' instead.
  *
  * @deprecated 6.1.0
- * @package WordPress
+ * @package WP
  */
 
 if (function_exists('_deprecated_file')) {

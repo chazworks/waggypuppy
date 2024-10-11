@@ -1,6 +1,6 @@
 # src/js/enqueues/vendor
 
-In this directory you'll find vendor JavaScript packages that cannot be installed through npm, but are included in WordPress. Below we've documented the sources for those packages.
+In this directory you'll find vendor JavaScript packages that cannot be installed through npm, but are included in waggypuppy. Below we've documented the sources for those packages.
 
 ## Folder dependencies
 

@@ -2,7 +2,7 @@
 /**
  * Administration API: Core Ajax handlers
  *
- * @package WordPress
+ * @package WP
  * @subpackage Administration
  * @since 2.1.0
  */
@@ -279,7 +279,7 @@ function wp_ajax_imgedit_preview()
  *
  * @since 3.1.0
  *
- * @global WP_Embed $wp_embed WordPress Embed object.
+ * @global WP_Embed $wp_embed waggypuppy Embed object.
  */
 function wp_ajax_oembed_cache()
 {
@@ -2614,7 +2614,7 @@ function wp_ajax_upload_attachment()
     /*
      * This function does not use wp_send_json_success() / wp_send_json_error()
      * as the html4 Plupload handler requires a text/html Content-Type for older IE.
-     * See https://core.trac.wordpress.org/ticket/31037
+     * See https://core.trac.wp.org/ticket/31037
      */
 
     if (! current_user_can('upload_files')) {
@@ -3003,7 +3003,7 @@ function wp_ajax_wp_remove_post_lock()
 }
 
 /**
- * Handles dismissing a WordPress pointer via AJAX.
+ * Handles dismissing a waggypuppy pointer via AJAX.
  *
  * @since 3.1.0
  */
@@ -3446,7 +3446,7 @@ function wp_ajax_send_attachment_to_editor()
  * @since 3.5.0
  *
  * @global WP_Post  $post     Global post object.
- * @global WP_Embed $wp_embed WordPress Embed object.
+ * @global WP_Embed $wp_embed waggypuppy Embed object.
  */
 function wp_ajax_send_link_to_editor()
 {
@@ -3475,10 +3475,10 @@ function wp_ajax_send_link_to_editor()
 
     $post = get_post(isset($_POST['post_id']) ? $_POST['post_id'] : 0);
 
-    // Ping WordPress for an embed.
+    // Ping waggypuppy for an embed.
     $check_embed = $wp_embed->run_shortcode('[embed]' . $src . '[/embed]');
 
-    // Fallback that WordPress creates when no oEmbed was found.
+    // Fallback that waggypuppy creates when no oEmbed was found.
     $fallback = $wp_embed->maybe_make_link($src);
 
     if ($check_embed !== $fallback) {
@@ -3805,7 +3805,7 @@ function wp_ajax_query_themes()
  * @since 4.0.0
  *
  * @global WP_Post    $post          Global post object.
- * @global WP_Embed   $wp_embed      WordPress Embed object.
+ * @global WP_Embed   $wp_embed      waggypuppy Embed object.
  * @global WP_Scripts $wp_scripts
  * @global int        $content_width
  */
@@ -4194,7 +4194,7 @@ function wp_ajax_nopriv_generate_password()
 }
 
 /**
- * Handles saving the user's WordPress.org username via AJAX.
+ * Handles saving the user's wp.org username via AJAX.
  *
  * @since 4.4.0
  */
@@ -4222,7 +4222,7 @@ function wp_ajax_save_wporg_username()
  *
  * @see Theme_Upgrader
  *
- * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+ * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
  */
 function wp_ajax_install_theme()
 {
@@ -4349,7 +4349,7 @@ function wp_ajax_install_theme()
  *
  * @see Theme_Upgrader
  *
- * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+ * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
  */
 function wp_ajax_update_theme()
 {
@@ -4445,7 +4445,7 @@ function wp_ajax_update_theme()
  *
  * @see delete_theme()
  *
- * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+ * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
  */
 function wp_ajax_delete_theme()
 {
@@ -4520,7 +4520,7 @@ function wp_ajax_delete_theme()
  *
  * @see Plugin_Upgrader
  *
- * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+ * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
  */
 function wp_ajax_install_plugin()
 {
@@ -4681,7 +4681,7 @@ function wp_ajax_activate_plugin()
  *
  * @see Plugin_Upgrader
  *
- * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+ * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
  */
 function wp_ajax_update_plugin()
 {
@@ -4790,7 +4790,7 @@ function wp_ajax_update_plugin()
  *
  * @see delete_plugins()
  *
- * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+ * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
  */
 function wp_ajax_delete_plugin()
 {

@@ -3,7 +3,7 @@
 /**
  * Taxonomy API: WP_Term_Query class.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Taxonomy
  * @since 4.6.0
  */
@@ -347,7 +347,7 @@ class WP_Term_Query
      *
      * @since 4.6.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @return WP_Term[]|int[]|string[]|string Array of terms, or number of terms as numeric string
      *                                         when 'count' is passed as a query var.
@@ -757,7 +757,7 @@ class WP_Term_Query
         $this->sql_clauses['orderby'] = $orderby ? "$orderby $order" : '';
         $this->sql_clauses['limits']  = $limits;
 
-        // Beginning of the string is on a new line to prevent leading whitespace. See https://core.trac.wordpress.org/ticket/56841.
+        // Beginning of the string is on a new line to prevent leading whitespace. See https://core.trac.wp.org/ticket/56841.
         $this->request =
             "{$this->sql_clauses['select']}
 			 {$this->sql_clauses['from']}
@@ -770,7 +770,7 @@ class WP_Term_Query
         /**
          * Filters the terms array before the query takes place.
          *
-         * Return a non-null value to bypass WordPress' default term queries.
+         * Return a non-null value to bypass waggypuppy' default term queries.
          *
          * @since 5.3.0
          *
@@ -1107,7 +1107,7 @@ class WP_Term_Query
      *
      * @since 4.6.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param string $search Search string.
      * @return string Search SQL.
@@ -1164,7 +1164,7 @@ class WP_Term_Query
      *
      * @since 6.2.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param array  $args WP_Term_Query arguments.
      * @param string $sql  SQL statement.

@@ -2,7 +2,7 @@
 /**
  * Core Administration API
  *
- * @package WordPress
+ * @package WP
  * @subpackage Administration
  * @since 2.3.0
  */
@@ -18,82 +18,82 @@ if (! defined('WP_ADMIN')) {
     unset($admin_locale);
 }
 
-/** WordPress Administration Hooks */
+/** waggypuppy Administration Hooks */
 require_once ABSPATH . 'wp-admin/includes/admin-filters.php';
 
-/** WordPress Bookmark Administration API */
+/** waggypuppy Bookmark Administration API */
 require_once ABSPATH . 'wp-admin/includes/bookmark.php';
 
-/** WordPress Comment Administration API */
+/** waggypuppy Comment Administration API */
 require_once ABSPATH . 'wp-admin/includes/comment.php';
 
-/** WordPress Administration File API */
+/** waggypuppy Administration File API */
 require_once ABSPATH . 'wp-admin/includes/file.php';
 
-/** WordPress Image Administration API */
+/** waggypuppy Image Administration API */
 require_once ABSPATH . 'wp-admin/includes/image.php';
 
-/** WordPress Media Administration API */
+/** waggypuppy Media Administration API */
 require_once ABSPATH . 'wp-admin/includes/media.php';
 
-/** WordPress Import Administration API */
+/** waggypuppy Import Administration API */
 require_once ABSPATH . 'wp-admin/includes/import.php';
 
-/** WordPress Misc Administration API */
+/** waggypuppy Misc Administration API */
 require_once ABSPATH . 'wp-admin/includes/misc.php';
 
-/** WordPress Misc Administration API */
+/** waggypuppy Misc Administration API */
 require_once ABSPATH . 'wp-admin/includes/class-wp-privacy-policy-content.php';
 
-/** WordPress Options Administration API */
+/** waggypuppy Options Administration API */
 require_once ABSPATH . 'wp-admin/includes/options.php';
 
-/** WordPress Plugin Administration API */
+/** waggypuppy Plugin Administration API */
 require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-/** WordPress Post Administration API */
+/** waggypuppy Post Administration API */
 require_once ABSPATH . 'wp-admin/includes/post.php';
 
-/** WordPress Administration Screen API */
+/** waggypuppy Administration Screen API */
 require_once ABSPATH . 'wp-admin/includes/class-wp-screen.php';
 require_once ABSPATH . 'wp-admin/includes/screen.php';
 
-/** WordPress Taxonomy Administration API */
+/** waggypuppy Taxonomy Administration API */
 require_once ABSPATH . 'wp-admin/includes/taxonomy.php';
 
-/** WordPress Template Administration API */
+/** waggypuppy Template Administration API */
 require_once ABSPATH . 'wp-admin/includes/template.php';
 
-/** WordPress List Table Administration API and base class */
+/** waggypuppy List Table Administration API and base class */
 require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 require_once ABSPATH . 'wp-admin/includes/class-wp-list-table-compat.php';
 require_once ABSPATH . 'wp-admin/includes/list-table.php';
 
-/** WordPress Theme Administration API */
+/** waggypuppy Theme Administration API */
 require_once ABSPATH . 'wp-admin/includes/theme.php';
 
-/** WordPress Privacy Functions */
+/** waggypuppy Privacy Functions */
 require_once ABSPATH . 'wp-admin/includes/privacy-tools.php';
 
-/** WordPress Privacy List Table classes. */
+/** waggypuppy Privacy List Table classes. */
 // Previously in wp-admin/includes/user.php. Need to be loaded for backward compatibility.
 require_once ABSPATH . 'wp-admin/includes/class-wp-privacy-requests-table.php';
 require_once ABSPATH . 'wp-admin/includes/class-wp-privacy-data-export-requests-list-table.php';
 require_once ABSPATH . 'wp-admin/includes/class-wp-privacy-data-removal-requests-list-table.php';
 
-/** WordPress User Administration API */
+/** waggypuppy User Administration API */
 require_once ABSPATH . 'wp-admin/includes/user.php';
 
-/** WordPress Site Icon API */
+/** waggypuppy Site Icon API */
 require_once ABSPATH . 'wp-admin/includes/class-wp-site-icon.php';
 
-/** WordPress Update Administration API */
+/** waggypuppy Update Administration API */
 require_once ABSPATH . 'wp-admin/includes/update.php';
 
-/** WordPress Deprecated Administration API */
+/** waggypuppy Deprecated Administration API */
 require_once ABSPATH . 'wp-admin/includes/deprecated.php';
 
-/** WordPress Multisite support API */
+/** waggypuppy Multisite support API */
 if (is_multisite()) {
     require_once ABSPATH . 'wp-admin/includes/ms-admin-filters.php';
     require_once ABSPATH . 'wp-admin/includes/ms.php';

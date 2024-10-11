@@ -1,13 +1,13 @@
 <?php
 /**
- * WordPress Administration Bootstrap
+ * waggypuppy Administration Bootstrap
  *
- * @package WordPress
+ * @package WP
  * @subpackage Administration
  */
 
 /**
- * In WordPress Administration Screens
+ * In waggypuppy Administration Screens
  *
  * @since 2.3.2
  */

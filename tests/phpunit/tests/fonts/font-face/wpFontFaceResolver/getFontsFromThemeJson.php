@@ -2,7 +2,7 @@
 /**
  * Test case for WP_Font_Face_Resolver::get_fonts_from_theme_json().
  *
- * @package    WordPress
+ * @package WP
  * @subpackage Fonts
  *
  * @since 6.4.0

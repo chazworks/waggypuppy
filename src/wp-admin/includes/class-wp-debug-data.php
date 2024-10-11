@@ -1,8 +1,8 @@
 <?php
 /**
- * Class for providing debug data based on a users WordPress environment.
+ * Class for providing debug data based on a users waggypuppy environment.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Site_Health
  * @since 5.2.0
  */
@@ -109,11 +109,11 @@ class WP_Debug_Data
 
             $info['wp-paths-sizes']['fields'] = [
                 'wordpress_path' => [
-                    'label' => __('WordPress directory location'),
+                    'label' => __('waggypuppy directory location'),
                     'value' => untrailingslashit(ABSPATH),
                 ],
                 'wordpress_size' => [
-                    'label' => __('WordPress directory size'),
+                    'label' => __('waggypuppy directory size'),
                     'value' => $loading,
                     'debug' => 'loading...',
                 ],
@@ -551,7 +551,7 @@ class WP_Debug_Data
     }
 
     /**
-     * Gets the WordPress core section of the debug data.
+     * Gets the waggypuppy core section of the debug data.
      *
      * @since 6.7.0
      *
@@ -573,7 +573,7 @@ class WP_Debug_Data
         if (is_array($core_updates)) {
             foreach ($core_updates as $core => $update) {
                 if ('upgrade' === $update->response) {
-                    /* translators: %s: Latest WordPress version number. */
+                    /* translators: %s: Latest waggypuppy version number. */
                     $core_update_needed = ' ' . sprintf(__('(Latest version: %s)'), $update->version);
                 } else {
                     $core_update_needed = '';
@@ -686,22 +686,22 @@ class WP_Debug_Data
             'value' => get_user_count(),
         ];
 
-        // WordPress features requiring processing.
-        $wp_dotorg = wp_remote_get('https://wordpress.org', ['timeout' => 10]);
+        // waggypuppy features requiring processing.
+        $wp_dotorg = wp_remote_get('https://wp.org', ['timeout' => 10]);
 
         if (! is_wp_error($wp_dotorg)) {
             $fields['dotorg_communication'] = [
-                'label' => __('Communication with WordPress.org'),
-                'value' => __('WordPress.org is reachable'),
+                'label' => __('Communication with wp.org'),
+                'value' => __('wp.org is reachable'),
                 'debug' => 'true',
             ];
         } else {
             $fields['dotorg_communication'] = [
-                'label' => __('Communication with WordPress.org'),
+                'label' => __('Communication with wp.org'),
                 'value' => sprintf(
-                /* translators: 1: The IP address WordPress.org resolves to. 2: The error returned by the lookup. */
-                    __('Unable to reach WordPress.org at %1$s: %2$s'),
-                    gethostbyname('wordpress.org'),
+                /* translators: 1: The IP address wp.org resolves to. 2: The error returned by the lookup. */
+                    __('Unable to reach wp.org at %1$s: %2$s'),
+                    gethostbyname('wp.org'),
                     $wp_dotorg->get_error_message()
                 ),
                 'debug' => $wp_dotorg->get_error_message(),
@@ -709,13 +709,13 @@ class WP_Debug_Data
         }
 
         return [
-            'label'  => __('WordPress'),
+            'label'  => __('waggypuppy'),
             'fields' => $fields,
         ];
     }
 
     /**
-     * Gets the WordPress drop-in section of the debug data.
+     * Gets the waggypuppy drop-in section of the debug data.
      *
      * @since 6.7.0
      *
@@ -743,7 +743,7 @@ class WP_Debug_Data
             'show_count'  => true,
             'description' => sprintf(
                 /* translators: %s: wp-content directory name. */
-                __('Drop-ins are single files, found in the %s directory, that replace or enhance WordPress features in ways that are not possible for traditional plugins.'),
+                __('Drop-ins are single files, found in the %s directory, that replace or enhance waggypuppy features in ways that are not possible for traditional plugins.'),
                 '<code>' . str_replace(ABSPATH, '', WP_CONTENT_DIR) . '</code>'
             ),
             'fields'      => $fields,
@@ -751,7 +751,7 @@ class WP_Debug_Data
     }
 
     /**
-     * Gets the WordPress server section of the debug data.
+     * Gets the waggypuppy server section of the debug data.
      *
      * @since 6.7.0
      *
@@ -901,7 +901,7 @@ class WP_Debug_Data
             // If the file exists, grab the content of it.
             $htaccess_content = file_get_contents(ABSPATH . '.htaccess');
 
-            // Filter away the core WordPress rules.
+            // Filter away the core waggypuppy rules.
             $filtered_htaccess_content = trim(preg_replace('/\# BEGIN WordPress[\s\S]+?# END WordPress/si', '', $htaccess_content));
             $filtered_htaccess_content = ! empty($filtered_htaccess_content);
 
@@ -910,7 +910,7 @@ class WP_Debug_Data
                 $htaccess_rules_string = sprintf(__('Custom rules have been added to your %s file.'), '.htaccess');
             } else {
                 /* translators: %s: .htaccess */
-                $htaccess_rules_string = sprintf(__('Your %s file contains only core WordPress features.'), '.htaccess');
+                $htaccess_rules_string = sprintf(__('Your %s file contains only core waggypuppy features.'), '.htaccess');
             }
 
             $fields['htaccess_extra_rules'] = [
@@ -944,7 +944,7 @@ class WP_Debug_Data
     }
 
     /**
-     * Gets the WordPress media section of the debug data.
+     * Gets the waggypuppy media section of the debug data.
      *
      * @since 6.7.0
      *
@@ -1140,7 +1140,7 @@ class WP_Debug_Data
 
 
     /**
-     * Gets the WordPress plugins section of the debug data.
+     * Gets the waggypuppy plugins section of the debug data.
      *
      * @since 6.7.0
      *
@@ -1192,7 +1192,7 @@ class WP_Debug_Data
     }
 
     /**
-     * Gets the WordPress active plugins section of the debug data.
+     * Gets the waggypuppy active plugins section of the debug data.
      *
      * @since 6.7.0
      *
@@ -1208,7 +1208,7 @@ class WP_Debug_Data
     }
 
     /**
-     * Gets the WordPress inactive plugins section of the debug data.
+     * Gets the waggypuppy inactive plugins section of the debug data.
      *
      * @since 6.7.0
      *
@@ -1224,7 +1224,7 @@ class WP_Debug_Data
     }
 
     /**
-     * Gets the raw plugin data for the WordPress active and inactive sections of the debug data.
+     * Gets the raw plugin data for the waggypuppy active and inactive sections of the debug data.
      *
      * @since 6.7.0
      *
@@ -1346,7 +1346,7 @@ class WP_Debug_Data
     }
 
     /**
-     * Gets the WordPress constants section of the debug data.
+     * Gets the waggypuppy constants section of the debug data.
      *
      * @since 6.7.0
      *
@@ -1502,18 +1502,18 @@ class WP_Debug_Data
         ];
 
         return [
-            'label'       => __('WordPress Constants'),
-            'description' => __('These settings alter where and how parts of WordPress are loaded.'),
+            'label'       => __('waggypuppy Constants'),
+            'description' => __('These settings alter where and how parts of waggypuppy are loaded.'),
             'fields'      => $fields,
         ];
     }
 
     /**
-     * Gets the WordPress database section of the debug data.
+     * Gets the waggypuppy database section of the debug data.
      *
      * @since 6.7.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @return array
      */
@@ -1612,7 +1612,7 @@ class WP_Debug_Data
 
         $fields = [
             'wordpress'  => [
-                'label' => __('The main WordPress directory'),
+                'label' => __('The main waggypuppy directory'),
                 'value' => ($is_writable_abspath ? __('Writable') : __('Not writable')),
                 'debug' => ($is_writable_abspath ? 'writable' : 'not writable'),
             ],
@@ -1656,7 +1656,7 @@ class WP_Debug_Data
 
         return [
             'label'       => __('Filesystem Permissions'),
-            'description' => __('Shows whether WordPress is able to write to the directories it needs access to.'),
+            'description' => __('Shows whether waggypuppy is able to write to the directories it needs access to.'),
             'fields'      => $fields,
         ];
     }
@@ -1666,7 +1666,7 @@ class WP_Debug_Data
      *
      * @since 5.9.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param string $mysql_var Name of the MySQL system variable.
      * @return string|null The variable value on success. Null if the variable does not exist.
@@ -1762,7 +1762,7 @@ class WP_Debug_Data
      *
      * @since 5.2.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @return int The size of the database, in bytes.
      */
@@ -1782,7 +1782,7 @@ class WP_Debug_Data
     }
 
     /**
-     * Fetches the sizes of the WordPress directories: `wordpress` (ABSPATH), `plugins`, `themes`, and `uploads`.
+     * Fetches the sizes of the waggypuppy directories: `wordpress` (ABSPATH), `plugins`, `themes`, and `uploads`.
      * Intended to supplement the array returned by `WP_Debug_Data::debug_data()`.
      *
      * @since 5.2.0

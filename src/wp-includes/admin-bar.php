@@ -2,7 +2,7 @@
 /**
  * Toolbar API: Top-level Toolbar functionality
  *
- * @package WordPress
+ * @package WP
  * @subpackage Toolbar
  * @since 3.1.0
  */
@@ -118,7 +118,7 @@ function wp_admin_bar_render()
 }
 
 /**
- * Adds the WordPress logo menu.
+ * Adds the waggypuppy logo menu.
  *
  * @since 3.3.0
  *
@@ -159,7 +159,7 @@ function wp_admin_bar_wp_menu($wp_admin_bar)
     $wp_admin_bar->add_node($wp_logo_menu_args);
 
     if ($about_url) {
-        // Add "About WordPress" link.
+        // Add "About waggypuppy" link.
         $wp_admin_bar->add_node(
             [
                 'parent' => 'wp-logo',
@@ -182,13 +182,13 @@ function wp_admin_bar_wp_menu($wp_admin_bar)
         );
     }
 
-    // Add WordPress.org link.
+    // Add wp.org link.
     $wp_admin_bar->add_node(
         [
             'parent' => 'wp-logo-external',
             'id'     => 'wporg',
-            'title'  => __('WordPress.org'),
-            'href'   => __('https://wordpress.org/'),
+            'title'  => __('wp.org'),
+            'href'   => __('https://wp.org/'),
         ]
     );
 
@@ -198,7 +198,7 @@ function wp_admin_bar_wp_menu($wp_admin_bar)
             'parent' => 'wp-logo-external',
             'id'     => 'documentation',
             'title'  => __('Documentation'),
-            'href'   => __('https://wordpress.org/documentation/'),
+            'href'   => __('https://wp.org/documentation/'),
         ]
     );
 
@@ -207,8 +207,8 @@ function wp_admin_bar_wp_menu($wp_admin_bar)
         [
             'parent' => 'wp-logo-external',
             'id'     => 'learn',
-            'title'  => __('Learn WordPress'),
-            'href'   => 'https://learn.wordpress.org/',
+            'title'  => __('Learn waggypuppy'),
+            'href'   => 'https://learn.wp.org/',
         ]
     );
 
@@ -218,7 +218,7 @@ function wp_admin_bar_wp_menu($wp_admin_bar)
             'parent' => 'wp-logo-external',
             'id'     => 'support-forums',
             'title'  => __('Support'),
-            'href'   => __('https://wordpress.org/support/forums/'),
+            'href'   => __('https://wp.org/support/forums/'),
         ]
     );
 
@@ -228,7 +228,7 @@ function wp_admin_bar_wp_menu($wp_admin_bar)
             'parent' => 'wp-logo-external',
             'id'     => 'feedback',
             'title'  => __('Feedback'),
-            'href'   => __('https://wordpress.org/support/forum/requests-and-feedback'),
+            'href'   => __('https://wp.org/support/forum/requests-and-feedback'),
         ]
     );
 }
@@ -812,7 +812,7 @@ function wp_admin_bar_shortlink_menu($wp_admin_bar)
  * @since 5.5.0 Added a "View Post" link on Comments screen for a single post.
  *
  * @global WP_Term  $tag
- * @global WP_Query $wp_the_query WordPress Query object.
+ * @global WP_Query $wp_the_query waggypuppy Query object.
  * @global int      $user_id      The ID of the user being edited. Not to be confused with the
  *                                global $user_ID, which contains the ID of the current user.
  * @global int      $post_id      The ID of the post when editing comments for a single post.
@@ -1356,7 +1356,7 @@ function show_admin_bar($show)
  * Determines whether the admin bar should be showing.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wp.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 3.1.0

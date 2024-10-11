@@ -16,20 +16,20 @@ if (is_multisite()) :
         public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
         {
             self::$network_ids = [
-                'wordpress.org/'         => [
-                    'domain' => 'wordpress.org',
+                'wp.org/'         => [
+                    'domain' => 'wp.org',
                     'path'   => '/',
                 ],
-                'make.wordpress.org/'    => [
-                    'domain' => 'make.wordpress.org',
+                'make.wp.org/'    => [
+                    'domain' => 'make.wp.org',
                     'path'   => '/',
                 ],
-                'wordpress.org/one/'     => [
-                    'domain' => 'wordpress.org',
+                'wp.org/one/'     => [
+                    'domain' => 'wp.org',
                     'path'   => '/one/',
                 ],
-                'wordpress.org/one/b/'   => [
-                    'domain' => 'wordpress.org',
+                'wp.org/one/b/'   => [
+                    'domain' => 'wp.org',
                     'path'   => '/one/b/',
                 ],
                 'wordpress.net/'         => [
@@ -56,30 +56,30 @@ if (is_multisite()) :
             unset($id);
 
             self::$site_ids = [
-                'wordpress.org/'          => [
-                    'domain'     => 'wordpress.org',
+                'wp.org/'          => [
+                    'domain'     => 'wp.org',
                     'path'       => '/',
-                    'network_id' => self::$network_ids['wordpress.org/'],
+                    'network_id' => self::$network_ids['wp.org/'],
                 ],
-                'wordpress.org/foo/'      => [
-                    'domain'     => 'wordpress.org',
+                'wp.org/foo/'      => [
+                    'domain'     => 'wp.org',
                     'path'       => '/foo/',
-                    'network_id' => self::$network_ids['wordpress.org/'],
+                    'network_id' => self::$network_ids['wp.org/'],
                 ],
-                'wordpress.org/foo/bar/'  => [
-                    'domain'     => 'wordpress.org',
+                'wp.org/foo/bar/'  => [
+                    'domain'     => 'wp.org',
                     'path'       => '/foo/bar/',
-                    'network_id' => self::$network_ids['wordpress.org/'],
+                    'network_id' => self::$network_ids['wp.org/'],
                 ],
-                'make.wordpress.org/'     => [
-                    'domain'     => 'make.wordpress.org',
+                'make.wp.org/'     => [
+                    'domain'     => 'make.wp.org',
                     'path'       => '/',
-                    'network_id' => self::$network_ids['make.wordpress.org/'],
+                    'network_id' => self::$network_ids['make.wp.org/'],
                 ],
-                'make.wordpress.org/foo/' => [
-                    'domain'     => 'make.wordpress.org',
+                'make.wp.org/foo/' => [
+                    'domain'     => 'make.wp.org',
                     'path'       => '/foo/',
-                    'network_id' => self::$network_ids['make.wordpress.org/'],
+                    'network_id' => self::$network_ids['make.wp.org/'],
                 ],
                 'www.w.org/'              => [
                     'domain' => 'www.w.org',
@@ -135,13 +135,13 @@ if (is_multisite()) :
         public function data_get_network_by_path()
         {
             return [
-                ['wordpress.org/', 'wordpress.org', '/', 'A standard domain and path request should work.'],
+                ['wp.org/', 'wp.org', '/', 'A standard domain and path request should work.'],
                 ['wordpress.net/', 'wordpress.net', '/notapath/', 'A missing path on a top level domain should find the correct network.'],
                 ['www.wordpress.net/', 'www.wordpress.net', '/notapath/', 'A missing path should find the correct network.'],
-                ['wordpress.org/one/', 'www.wordpress.org', '/one/', 'Should find the path despite the www.'],
-                ['wordpress.org/one/', 'wordpress.org', '/one/page/', 'A request with two path segments should find the correct network.'],
-                ['wordpress.org/one/b/', 'wordpress.org', '/one/b/', 'A request with two valid path segments should find the correct network.'],
-                ['wordpress.org/', 'site1.wordpress.org', '/one/', 'Should not find path because domains do not match.'],
+                ['wp.org/one/', 'www.wp.org', '/one/', 'Should find the path despite the www.'],
+                ['wp.org/one/', 'wp.org', '/one/page/', 'A request with two path segments should find the correct network.'],
+                ['wp.org/one/b/', 'wp.org', '/one/b/', 'A request with two valid path segments should find the correct network.'],
+                ['wp.org/', 'site1.wp.org', '/one/', 'Should not find path because domains do not match.'],
                 ['wordpress.net/three/', 'wordpress.net', '/three/', 'A network can have a path.'],
                 ['www.wordpress.net/two/', 'www.wordpress.net', '/two/', 'A www network with a path can coexist with a non-www network.'],
                 ['wordpress.net/', 'site1.wordpress.net', '/notapath/', 'An invalid subdomain should find the top level network domain.'],
@@ -173,13 +173,13 @@ if (is_multisite()) :
         public function data_get_network_by_path_with_zero_path_segments()
         {
             return [
-                ['wordpress.org/', 'wordpress.org', '/', 'A standard domain and path request should work.'],
+                ['wp.org/', 'wp.org', '/', 'A standard domain and path request should work.'],
                 ['wordpress.net/', 'wordpress.net', '/notapath/', 'A network matching a top level domain should be found regardless of path.'],
                 ['www.wordpress.net/', 'www.wordpress.net', '/notapath/', 'A network matching a domain should be found regardless of path.'],
-                ['wordpress.org/', 'www.wordpress.org', '/one/', 'Should find the network despite the www and regardless of path.'],
-                ['wordpress.org/', 'site1.wordpress.org', '/one/', 'Should find the network with the corresponding top level domain regardless of path.'],
+                ['wp.org/', 'www.wp.org', '/one/', 'Should find the network despite the www and regardless of path.'],
+                ['wp.org/', 'site1.wp.org', '/one/', 'Should find the network with the corresponding top level domain regardless of path.'],
                 ['www.wordpress.net/', 'www.wordpress.net', '/two/', 'A www network can coexist with a non-www network.'],
-                ['make.wordpress.org/', 'make.wordpress.org', '/notapath/', 'A subdomain network should be found regardless of path.'],
+                ['make.wp.org/', 'make.wp.org', '/notapath/', 'A subdomain network should be found regardless of path.'],
                 ['wordpress.net/', 'x.y.wordpress.net', '/', 'An invalid two level subdomain should find the top level network domain.'],
             ];
         }
@@ -191,10 +191,10 @@ if (is_multisite()) :
         public function test_get_network_by_path_with_forced_single_path_segment_returns_single_path_network()
         {
             add_filter('network_by_path_segments_count', [$this, 'filter_network_path_segments']);
-            $network = get_network_by_path('wordpress.org', '/one/b/');
+            $network = get_network_by_path('wp.org', '/one/b/');
             remove_filter('network_by_path_segments_count', [$this, 'filter_network_path_segments']);
 
-            $this->assertSame(self::$network_ids['wordpress.org/one/'], $network->id);
+            $this->assertSame(self::$network_ids['wp.org/one/'], $network->id);
         }
 
         public function filter_network_path_segments()
@@ -226,20 +226,20 @@ if (is_multisite()) :
         public function data_get_site_by_path()
         {
             return [
-                ['wordpress.org/', 'wordpress.org', '/notapath/'],
-                ['wordpress.org/', 'www.wordpress.org', '/notapath/'],
-                ['wordpress.org/foo/bar/', 'wordpress.org', '/foo/bar/baz/'],
-                ['wordpress.org/foo/bar/', 'www.wordpress.org', '/foo/bar/baz/'],
-                ['wordpress.org/foo/bar/', 'wordpress.org', '/foo/bar/baz/', 3],
-                ['wordpress.org/foo/bar/', 'www.wordpress.org', '/foo/bar/baz/', 3],
-                ['wordpress.org/foo/bar/', 'wordpress.org', '/foo/bar/baz/', 2],
-                ['wordpress.org/foo/bar/', 'www.wordpress.org', '/foo/bar/baz/', 2],
-                ['wordpress.org/foo/', 'wordpress.org', '/foo/bar/baz/', 1],
-                ['wordpress.org/foo/', 'www.wordpress.org', '/foo/bar/baz/', 1],
-                ['wordpress.org/', 'wordpress.org', '/', 0],
-                ['wordpress.org/', 'www.wordpress.org', '/', 0],
-                ['make.wordpress.org/foo/', 'make.wordpress.org', '/foo/bar/baz/quz/', 4],
-                ['make.wordpress.org/foo/', 'www.make.wordpress.org', '/foo/bar/baz/quz/', 4],
+                ['wp.org/', 'wp.org', '/notapath/'],
+                ['wp.org/', 'www.wp.org', '/notapath/'],
+                ['wp.org/foo/bar/', 'wp.org', '/foo/bar/baz/'],
+                ['wp.org/foo/bar/', 'www.wp.org', '/foo/bar/baz/'],
+                ['wp.org/foo/bar/', 'wp.org', '/foo/bar/baz/', 3],
+                ['wp.org/foo/bar/', 'www.wp.org', '/foo/bar/baz/', 3],
+                ['wp.org/foo/bar/', 'wp.org', '/foo/bar/baz/', 2],
+                ['wp.org/foo/bar/', 'www.wp.org', '/foo/bar/baz/', 2],
+                ['wp.org/foo/', 'wp.org', '/foo/bar/baz/', 1],
+                ['wp.org/foo/', 'www.wp.org', '/foo/bar/baz/', 1],
+                ['wp.org/', 'wp.org', '/', 0],
+                ['wp.org/', 'www.wp.org', '/', 0],
+                ['make.wp.org/foo/', 'make.wp.org', '/foo/bar/baz/quz/', 4],
+                ['make.wp.org/foo/', 'www.make.wp.org', '/foo/bar/baz/quz/', 4],
                 ['www.w.org/', 'www.w.org', '/', 0],
                 ['www.w.org/', 'www.w.org', '/notapath'],
                 ['www.w.org/foo/bar/', 'www.w.org', '/foo/bar/baz/'],
@@ -252,8 +252,8 @@ if (is_multisite()) :
                 [false, 'w.org', '/foo/bar/baz/', 1],
 
                 // A site will not be found by its root domain when an invalid subdomain is requested.
-                [false, 'invalid.wordpress.org', '/'],
-                [false, 'invalid.wordpress.org', '/foo/bar/'],
+                [false, 'invalid.wp.org', '/'],
+                [false, 'invalid.wp.org', '/foo/bar/'],
             ];
         }
 
@@ -288,19 +288,19 @@ if (is_multisite()) :
         public function data_multisite_bootstrap()
         {
             return [
-                ['wordpress.org/', 'wordpress.org/', 'wordpress.org', '/'],
-                ['wordpress.org/', 'wordpress.org/', 'wordpress.org', '/2014/04/23/hello-world/'],
-                ['wordpress.org/', 'wordpress.org/', 'wordpress.org', '/sample-page/'],
-                ['wordpress.org/', 'wordpress.org/', 'wordpress.org', '/?p=1'],
-                ['wordpress.org/', 'wordpress.org/', 'wordpress.org', '/wp-admin/'],
-                ['wordpress.org/foo/', 'wordpress.org/', 'wordpress.org', '/foo/'],
-                ['wordpress.org/foo/', 'wordpress.org/', 'wordpress.org', '/FOO/'],
-                ['wordpress.org/foo/', 'wordpress.org/', 'wordpress.org', '/foo/2014/04/23/hello-world/'],
-                ['wordpress.org/foo/', 'wordpress.org/', 'wordpress.org', '/foo/sample-page/'],
-                ['wordpress.org/foo/', 'wordpress.org/', 'wordpress.org', '/foo/?p=1'],
-                ['wordpress.org/foo/', 'wordpress.org/', 'wordpress.org', '/foo/wp-admin/'],
-                ['make.wordpress.org/', 'make.wordpress.org/', 'make.wordpress.org', '/'],
-                ['make.wordpress.org/foo/', 'make.wordpress.org/', 'make.wordpress.org', '/foo/'],
+                ['wp.org/', 'wp.org/', 'wp.org', '/'],
+                ['wp.org/', 'wp.org/', 'wp.org', '/2014/04/23/hello-world/'],
+                ['wp.org/', 'wp.org/', 'wp.org', '/sample-page/'],
+                ['wp.org/', 'wp.org/', 'wp.org', '/?p=1'],
+                ['wp.org/', 'wp.org/', 'wp.org', '/wp-admin/'],
+                ['wp.org/foo/', 'wp.org/', 'wp.org', '/foo/'],
+                ['wp.org/foo/', 'wp.org/', 'wp.org', '/FOO/'],
+                ['wp.org/foo/', 'wp.org/', 'wp.org', '/foo/2014/04/23/hello-world/'],
+                ['wp.org/foo/', 'wp.org/', 'wp.org', '/foo/sample-page/'],
+                ['wp.org/foo/', 'wp.org/', 'wp.org', '/foo/?p=1'],
+                ['wp.org/foo/', 'wp.org/', 'wp.org', '/foo/wp-admin/'],
+                ['make.wp.org/', 'make.wp.org/', 'make.wp.org', '/'],
+                ['make.wp.org/foo/', 'make.wp.org/', 'make.wp.org', '/foo/'],
             ];
         }
 
@@ -312,11 +312,11 @@ if (is_multisite()) :
             global $current_blog;
 
             $expected = [
-                'network_id' => self::$network_ids['wordpress.org/'],
-                'site_id'    => self::$site_ids['wordpress.org/foo/bar/'],
+                'network_id' => self::$network_ids['wp.org/'],
+                'site_id'    => self::$site_ids['wp.org/foo/bar/'],
             ];
             add_filter('site_by_path_segments_count', [$this, 'filter_path_segments_to_two']);
-            ms_load_current_site_and_network('wordpress.org', '/foo/bar/');
+            ms_load_current_site_and_network('wp.org', '/foo/bar/');
             $actual = [
                 'network_id' => $current_blog->site_id,
                 'site_id'    => $current_blog->blog_id,

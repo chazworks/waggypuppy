@@ -3,7 +3,7 @@
 /**
  * Test cases for the `wp_unique_prefixed_id()` function.
  *
- * @package WordPress\UnitTests
+ * @package WP\UnitTests
  *
  * @since 6.4.0
  *

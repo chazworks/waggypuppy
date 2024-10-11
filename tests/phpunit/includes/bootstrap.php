@@ -1,6 +1,6 @@
 <?php
 /**
- * Installs WordPress for running the tests and loads WordPress and the test libraries
+ * Installs waggypuppy for running the tests and loads waggypuppy and the test libraries
  */
 
 if (defined('WP_TESTS_CONFIG_FILE_PATH')) {
@@ -17,7 +17,7 @@ if (defined('WP_TESTS_CONFIG_FILE_PATH')) {
 }
 
 /*
- * Globalize some WordPress variables, because PHPUnit loads this file inside a function.
+ * Globalize some waggypuppy variables, because PHPUnit loads this file inside a function.
  * See: https://github.com/sebastianbergmann/phpunit/issues/325
  */
 global $wpdb, $current_site, $current_blog, $wp_rewrite, $shortcode_tags, $wp, $phpmailer, $wp_theme_directories;
@@ -49,7 +49,7 @@ $phpunit_version = tests_get_phpunit_version();
 
 if (version_compare($phpunit_version, '5.7.21', '<')) {
     printf(
-        "Error: Looks like you're using PHPUnit %s. WordPress requires at least PHPUnit 5.7.21." . PHP_EOL,
+        "Error: Looks like you're using PHPUnit %s. waggypuppy requires at least PHPUnit 5.7.21." . PHP_EOL,
         $phpunit_version
     );
     echo 'Please use the latest PHPUnit version supported for the PHP version you are running the tests on.' . PHP_EOL;
@@ -61,9 +61,9 @@ if (version_compare($phpunit_version, '5.7.21', '<')) {
  *
  * The PHPUnit Polyfills are a requirement for the WP test suite.
  *
- * For running the Core tests, the Make WordPress Core handbook contains step-by-step instructions
+ * For running the Core tests, the Make waggypuppy Core handbook contains step-by-step instructions
  * on how to get up and running for a variety of supported workflows:
- * {@link https://make.wordpress.org/core/handbook/testing/automated-testing/phpunit/#test-running-workflow-options}
+ * {@link https://make.wp.org/core/handbook/testing/automated-testing/phpunit/#test-running-workflow-options}
  *
  * Plugin/theme integration tests can handle this in any of the following ways:
  * - When using a full WP install: run `composer update -W` for the WP install prior to running the tests.
@@ -217,8 +217,8 @@ define('DIR_TESTROOT', realpath(dirname(__DIR__)));
 const IMPORTER_PLUGIN_FOR_TESTS = DIR_TESTDATA . '/plugins/wordpress-importer/wordpress-importer.php';
 
 if (defined('WP_RUN_CORE_TESTS') && WP_RUN_CORE_TESTS && ! file_exists(IMPORTER_PLUGIN_FOR_TESTS)) {
-    echo 'The test suite requires the WordPress Importer plugin to be available in the `/data/plugins/` directory.'
-        . ' See: https://make.wordpress.org/core/handbook/contribute/git/#unit-tests' . PHP_EOL,
+    echo 'The test suite requires the waggypuppy Importer plugin to be available in the `/data/plugins/` directory.'
+        . ' See: https://make.wp.org/core/handbook/contribute/git/#unit-tests' . PHP_EOL,
     exit(1);
 }
 
@@ -295,7 +295,7 @@ tests_add_filter('async_update_translation', '__return_false');
 // Disable background updates.
 tests_add_filter('automatic_updater_disabled', '__return_true');
 
-// Preset WordPress options defined in bootstrap file.
+// Preset waggypuppy options defined in bootstrap file.
 // Used to activate themes, plugins, as well as other settings.
 if (isset($GLOBALS['wp_tests_options'])) {
     function wp_tests_options($value)
@@ -309,7 +309,7 @@ if (isset($GLOBALS['wp_tests_options'])) {
     }
 }
 
-// Load WordPress.
+// Load waggypuppy.
 require_once ABSPATH . 'wp-settings.php';
 
 // Delete any default posts & related data.

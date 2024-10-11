@@ -2,12 +2,12 @@
 /**
  * User administration panel
  *
- * @package WordPress
+ * @package WP
  * @subpackage Administration
  * @since 1.0.0
  */
 
-/** WordPress Administration Bootstrap */
+/** waggypuppy Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 
 if (! current_user_can('list_users')) {
@@ -79,9 +79,9 @@ unset($help);
 
 get_current_screen()->set_help_sidebar(
     '<p><strong>' . __('For more information:') . '</strong></p>' .
-    '<p>' . __('<a href="https://wordpress.org/documentation/article/users-screen/">Documentation on Managing Users</a>') . '</p>' .
-    '<p>' . __('<a href="https://wordpress.org/documentation/article/roles-and-capabilities/">Descriptions of Roles and Capabilities</a>') . '</p>' .
-    '<p>' . __('<a href="https://wordpress.org/support/forums/">Support forums</a>') . '</p>'
+    '<p>' . __('<a href="https://wp.org/documentation/article/users-screen/">Documentation on Managing Users</a>') . '</p>' .
+    '<p>' . __('<a href="https://wp.org/documentation/article/roles-and-capabilities/">Descriptions of Roles and Capabilities</a>') . '</p>' .
+    '<p>' . __('<a href="https://wp.org/support/forums/">Support forums</a>') . '</p>'
 );
 
 get_current_screen()->set_screen_reader_content(

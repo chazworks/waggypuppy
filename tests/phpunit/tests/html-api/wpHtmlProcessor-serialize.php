@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_HTML_Processor serialization functionality.
  *
- * @package WordPress
+ * @package WP
  * @subpackage HTML-API
  *
  * @since 6.7.0

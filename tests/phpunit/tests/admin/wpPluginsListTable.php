@@ -32,16 +32,16 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase
     public $fake_plugin = [
         'fake-plugin.php' => [
             'Name'        => 'Fake Plugin',
-            'PluginURI'   => 'https://wordpress.org/',
+            'PluginURI'   => 'https://wp.org/',
             'Version'     => '1.0.0',
             'Description' => 'A fake plugin for testing.',
-            'Author'      => 'WordPress',
-            'AuthorURI'   => 'https://wordpress.org/',
+            'Author'      => 'waggypuppy',
+            'AuthorURI'   => 'https://wp.org/',
             'TextDomain'  => 'fake-plugin',
             'DomainPath'  => '/languages',
             'Network'     => false,
             'Title'       => 'Fake Plugin',
-            'AuthorName'  => 'WordPress',
+            'AuthorName'  => 'waggypuppy',
         ],
     ];
 

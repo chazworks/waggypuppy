@@ -2,7 +2,7 @@
 /**
  * List Table API: WP_MS_Sites_List_Table class
  *
- * @package WordPress
+ * @package WP
  * @subpackage Administration
  * @since 3.1.0
  */
@@ -66,7 +66,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table
      *
      * @global string $mode List table view mode.
      * @global string $s
-     * @global wpdb   $wpdb WordPress database abstraction object.
+     * @global wpdb   $wpdb waggypuppy database abstraction object.
      */
     public function prepare_items()
     {

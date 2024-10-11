@@ -36,7 +36,7 @@ class Tests_Functions_wpListBookmarks extends WP_UnitTestCase
             'target as "_blank"'                         => [
                 'args'     => [
                     'link_name'   => 'With _blank',
-                    'link_url'    => 'https://www.wordpress.org',
+                    'link_url'    => 'https://www.wp.org',
                     'link_target' => '_blank',
                 ],
                 'expected' => 'rel="noopener"',
@@ -44,7 +44,7 @@ class Tests_Functions_wpListBookmarks extends WP_UnitTestCase
             'target as "_blank" and a link relationship' => [
                 'args'     => [
                     'link_name'   => 'With _blank and a link relationship',
-                    'link_url'    => 'https://www.wordpress.org',
+                    'link_url'    => 'https://www.wp.org',
                     'link_target' => '_blank',
                     'link_rel'    => 'me',
                 ],
@@ -53,7 +53,7 @@ class Tests_Functions_wpListBookmarks extends WP_UnitTestCase
             'target as "_top"'                           => [
                 'args'     => [
                     'link_name'   => 'With _top',
-                    'link_url'    => 'https://www.wordpress.org',
+                    'link_url'    => 'https://www.wp.org',
                     'link_target' => '_top',
                 ],
                 'expected' => 'rel="noopener"',
@@ -61,7 +61,7 @@ class Tests_Functions_wpListBookmarks extends WP_UnitTestCase
             'target as "_top" and a link relationship'   => [
                 'args'     => [
                     'link_name'   => 'With _top and a link relationship',
-                    'link_url'    => 'https://www.wordpress.org',
+                    'link_url'    => 'https://www.wp.org',
                     'link_target' => '_top',
                     'link_rel'    => 'me',
                 ],
@@ -96,14 +96,14 @@ class Tests_Functions_wpListBookmarks extends WP_UnitTestCase
             'target as "_none"'                         => [
                 'args' => [
                     'link_name'   => 'With _blank',
-                    'link_url'    => 'https://www.wordpress.org',
+                    'link_url'    => 'https://www.wp.org',
                     'link_target' => '_none',
                 ],
             ],
             'target as "_none" and a link relationship' => [
                 'args' => [
                     'link_name'   => 'With _blank and a link relationship',
-                    'link_url'    => 'https://www.wordpress.org',
+                    'link_url'    => 'https://www.wp.org',
                     'link_target' => '_none',
                     'link_rel'    => 'me',
                 ],

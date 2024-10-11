@@ -2,7 +2,7 @@
 /**
  * Additional features to allow styling of the templates.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Twenty_Seventeen
  * @since Twenty Seventeen 1.0
  */

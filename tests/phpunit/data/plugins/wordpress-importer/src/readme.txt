@@ -21,7 +21,7 @@ The WordPress Importer will import the following content from a WordPress export
 * Categories, tags and terms from custom taxonomies and term meta
 * Authors
 
-For further information and instructions please see the [documention on Importing Content](https://wordpress.org/support/article/importing-content/#wordpress).
+For further information and instructions please see the [documention on Importing Content](https://wp.org/support/article/importing-content/#wordpress).
 
 == Installation ==
 
@@ -86,7 +86,7 @@ If you would prefer to do things manually then follow these instructions:
 * Fix PHP notices.
 
 = 0.6.2 =
-* Add `wp_import_existing_post` filter, see [Trac ticket #33721](https://core.trac.wordpress.org/ticket/33721).
+* Add `wp_import_existing_post` filter, see [Trac ticket #33721](https://core.trac.wp.org/ticket/33721).
 
 = 0.6 =
 * Support for WXR 1.2 and multiple CDATA sections
@@ -109,7 +109,7 @@ an export file is uploaded to a server with bad permissions and WordPress 3.3 or
 = 0.3 =
 * Use an XML Parser if possible
 * Proper import support for nav menus
-* ... and much more, see [Trac ticket #15197](https://core.trac.wordpress.org/ticket/15197)
+* ... and much more, see [Trac ticket #15197](https://core.trac.wp.org/ticket/15197)
 
 = 0.1 =
 * Initial release
@@ -123,7 +123,7 @@ A message like "Fatal error: Allowed memory size of 8388608 bytes exhausted" ind
 
 For those with shared hosting, the best alternative may be to consult hosting support to determine the safest approach for running the import. A host may be willing to temporarily lift the memory limit and/or run the process directly from their end.
 
--- [Support Article: Importing Content](https://wordpress.org/support/article/importing-content/#before-importing)
+-- [Support Article: Importing Content](https://wp.org/support/article/importing-content/#before-importing)
 
 == Filters ==
 

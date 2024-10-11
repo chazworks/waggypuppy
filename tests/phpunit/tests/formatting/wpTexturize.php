@@ -222,7 +222,7 @@ class Tests_Formatting_wpTexturize extends WP_UnitTestCase
      */
     public function test_apostrophes_before_primes()
     {
-        $this->assertSame('WordPress 3.5&#8217;s release date', wptexturize("WordPress 3.5's release date"));
+        $this->assertSame('WP 3.5&#8217;s release date', wptexturize("WP 3.5's release date"));
     }
 
     /**

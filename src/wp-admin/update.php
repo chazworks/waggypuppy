@@ -2,7 +2,7 @@
 /**
  * Update/Install Plugin/Theme administration panel.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Administration
  */
 
@@ -12,7 +12,7 @@ if (! defined('IFRAME_REQUEST')
     define('IFRAME_REQUEST', true);
 }
 
-/** WordPress Administration Bootstrap */
+/** waggypuppy Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 
 require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';

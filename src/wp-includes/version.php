@@ -1,17 +1,17 @@
 <?php
 /**
- * WordPress Version
+ * waggypuppy Version
  *
- * Contains version information for the current WordPress release.
+ * Contains version information for the current waggypuppy release.
  *
- * @package WordPress
+ * @package WP
  * @since 1.2.0
  */
 
 /**
- * The WordPress version string.
+ * The waggypuppy version string.
  *
- * Holds the current version number for WordPress core. Used to bust caches
+ * Holds the current version number for waggypuppy core. Used to bust caches
  * and to enable development mode for scripts when running from the /src directory.
  *
  * @global string $wp_version
@@ -19,7 +19,7 @@
 $wp_version = '6.7-beta1-59152-src';
 
 /**
- * Holds the WordPress DB revision, increments when changes are made to the WordPress DB schema.
+ * Holds the waggypuppy DB revision, increments when changes are made to the waggypuppy DB schema.
  *
  * @global int $wp_db_version
  */

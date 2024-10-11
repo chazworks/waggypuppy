@@ -2,7 +2,7 @@
 /**
  * Test case for the Fonts tests.
  *
- * @package    WordPress
+ * @package WP
  * @subpackage Fonts
  */
 

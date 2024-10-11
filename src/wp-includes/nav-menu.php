@@ -2,7 +2,7 @@
 /**
  * Navigation Menu functions
  *
- * @package WordPress
+ * @package WP
  * @subpackage Nav_Menus
  * @since 3.0.0
  */
@@ -681,7 +681,7 @@ function wp_get_nav_menus($args = [])
 /**
  * Determines whether a menu item is valid.
  *
- * @link https://core.trac.wordpress.org/ticket/13958
+ * @link https://core.trac.wp.org/ticket/13958
  *
  * @since 3.2.0
  * @access private

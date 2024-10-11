@@ -2,7 +2,7 @@
 /**
  * Template for displaying content
  *
- * @package WordPress
+ * @package WP
  * @subpackage Twenty_Eleven
  * @since Twenty Eleven 1.0
  */

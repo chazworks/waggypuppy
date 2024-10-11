@@ -2,9 +2,9 @@
 /**
  * Object Cache API
  *
- * @link https://developer.wordpress.org/reference/classes/wp_object_cache/
+ * @link https://developer.wp.org/reference/classes/wp_object_cache/
  *
- * @package WordPress
+ * @package WP
  * @subpackage Cache
  */
 
@@ -345,11 +345,11 @@ function wp_cache_supports($feature)
 /**
  * Closes the cache.
  *
- * This function has ceased to do anything since WordPress 2.5. The
+ * This function has ceased to do anything since WP 2.5. The
  * functionality was removed along with the rest of the persistent cache.
  *
  * This does not mean that plugins can't implement this function when they need
- * to make sure that the cache is cleaned up after WordPress no longer needs it.
+ * to make sure that the cache is cleaned up after waggypuppy no longer needs it.
  *
  * @since 2.0.0
  *

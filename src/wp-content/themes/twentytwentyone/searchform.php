@@ -4,10 +4,10 @@
  *
  * Used any time that get_search_form() is called.
  *
- * @link https://developer.wordpress.org/reference/functions/wp_unique_id/
- * @link https://developer.wordpress.org/reference/functions/get_search_form/
+ * @link https://developer.wp.org/reference/functions/wp_unique_id/
+ * @link https://developer.wp.org/reference/functions/get_search_form/
  *
- * @package WordPress
+ * @package WP
  * @subpackage Twenty_Twenty_One
  * @since Twenty Twenty-One 1.0
  */

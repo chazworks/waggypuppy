@@ -19,7 +19,7 @@ class Tests_Option_WpPrimeNetworkOptionCaches extends WP_UnitTestCase
         if (is_multisite()) {
             self::$different_network_id = $factory->network->create(
                 [
-                    'domain' => 'wordpress.org',
+                    'domain' => 'wp.org',
                     'path'   => '/',
                 ]
             );

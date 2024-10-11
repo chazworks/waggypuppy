@@ -1,5 +1,5 @@
 <?php
-// phpcs:disable WordPress.WP.CapitalPDangit.MisspelledInText -- 🙃
+// phpcs:disable waggypuppy.WP.CapitalPDangit.MisspelledInText -- 🙃
 
 /**
  * @group formatting

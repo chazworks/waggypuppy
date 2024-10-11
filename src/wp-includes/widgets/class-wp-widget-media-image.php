@@ -2,7 +2,7 @@
 /**
  * Widget API: WP_Widget_Media_Image class
  *
- * @package WordPress
+ * @package WP
  * @subpackage Widgets
  * @since 4.8.0
  */
@@ -60,7 +60,7 @@ class WP_Widget_Media_Image extends WP_Widget_Media
      *
      * @see WP_REST_Controller::get_item_schema()
      * @see WP_REST_Controller::get_additional_fields()
-     * @link https://core.trac.wordpress.org/ticket/35574
+     * @link https://core.trac.wp.org/ticket/35574
      *
      * @return array Schema for properties.
      */

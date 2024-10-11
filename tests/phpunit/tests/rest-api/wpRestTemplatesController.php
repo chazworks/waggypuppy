@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_REST_Templates_Controller functionality.
  *
- * @package WordPress
+ * @package WP
  * @subpackage REST API
  *
  * @covers WP_REST_Templates_Controller

@@ -2,7 +2,7 @@
 /**
  * SVG Icons class
  *
- * @package WordPress
+ * @package WP
  * @subpackage Twenty_Twenty_One
  * @since Twenty Twenty-One 1.0
  */
@@ -148,7 +148,7 @@ class Twenty_Twenty_One_SVG_Icons
         ],
         'wordpress' => [
             'wordpress.com',
-            'wordpress.org',
+            'wp.org',
         ],
     ];
 

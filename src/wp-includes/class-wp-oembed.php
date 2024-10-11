@@ -4,10 +4,10 @@
  *
  * Used internally by the WP_Embed class, but is designed to be generic.
  *
- * @link https://developer.wordpress.org/advanced-administration/wordpress/oembed/
+ * @link https://developer.wp.org/advanced-administration/wordpress/oembed/
  * @link http://oembed.com/
  *
- * @package WordPress
+ * @package WP
  * @subpackage oEmbed
  */
 
@@ -131,7 +131,7 @@ class WP_oEmbed
         /**
          * Filters the list of sanctioned oEmbed providers.
          *
-         * Since WordPress 4.4, oEmbed discovery is enabled for all users and allows embedding of sanitized
+         * Since WP 4.4, oEmbed discovery is enabled for all users and allows embedding of sanitized
          * iframes. The providers in this list are sanctioned, meaning they are trusted and allowed to
          * embed any content, such as iframes, videos, JavaScript, and arbitrary HTML.
          *

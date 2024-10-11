@@ -25,28 +25,28 @@ class Tests_Multisite_wpMsThemesListTable extends WP_UnitTestCase
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$site_ids = [
-            'wordpress.org/'          => [
-                'domain' => 'wordpress.org',
+            'wp.org/'          => [
+                'domain' => 'wp.org',
                 'path'   => '/',
             ],
-            'wordpress.org/foo/'      => [
-                'domain' => 'wordpress.org',
+            'wp.org/foo/'      => [
+                'domain' => 'wp.org',
                 'path'   => '/foo/',
             ],
-            'wordpress.org/foo/bar/'  => [
-                'domain' => 'wordpress.org',
+            'wp.org/foo/bar/'  => [
+                'domain' => 'wp.org',
                 'path'   => '/foo/bar/',
             ],
-            'wordpress.org/afoo/'     => [
-                'domain' => 'wordpress.org',
+            'wp.org/afoo/'     => [
+                'domain' => 'wp.org',
                 'path'   => '/afoo/',
             ],
-            'make.wordpress.org/'     => [
-                'domain' => 'make.wordpress.org',
+            'make.wp.org/'     => [
+                'domain' => 'make.wp.org',
                 'path'   => '/',
             ],
-            'make.wordpress.org/foo/' => [
-                'domain' => 'make.wordpress.org',
+            'make.wp.org/foo/' => [
+                'domain' => 'make.wp.org',
                 'path'   => '/foo/',
             ],
             'www.w.org/'              => [

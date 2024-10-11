@@ -2,7 +2,7 @@
 /**
  * Tests for the WP_Filesystem_Direct::__construct() method.
  *
- * @package WordPress
+ * @package WP
  */
 
 /**

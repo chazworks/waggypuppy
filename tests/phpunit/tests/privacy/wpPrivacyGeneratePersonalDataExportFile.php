@@ -2,7 +2,7 @@
 /**
  * Test cases for the `wp_privacy_generate_personal_data_export_file()` function.
  *
- * @package WordPress
+ * @package WP
  * @subpackage UnitTests
  * @since 5.2.0
  *
@@ -241,12 +241,12 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestC
     {
         return [
             [10],
-            ['WordPress'],
+            ['waggypuppy'],
             [null],
             [true],
             [false],
             [new stdClass()],
-            [serialize([10, 'WordPress', null, true, false])],
+            [serialize([10, 'waggypuppy', null, true, false])],
             [
                 json_encode(
                     [

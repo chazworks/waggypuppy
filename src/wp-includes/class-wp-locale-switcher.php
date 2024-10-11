@@ -2,7 +2,7 @@
 /**
  * Locale API: WP_Locale_Switcher class
  *
- * @package WordPress
+ * @package WP
  * @subpackage i18n
  * @since 4.7.0
  */
@@ -224,11 +224,11 @@ class WP_Locale_Switcher
     }
 
     /**
-     * Filters the locale of the WordPress installation.
+     * Filters the locale of the waggypuppy installation.
      *
      * @since 4.7.0
      *
-     * @param string $locale The locale of the WordPress installation.
+     * @param string $locale The locale of the waggypuppy installation.
      * @return string The locale currently being switched to.
      */
     public function filter_locale($locale)
@@ -284,7 +284,7 @@ class WP_Locale_Switcher
      *
      * @since 4.7.0
      *
-     * @global WP_Locale $wp_locale WordPress date and time locale object.
+     * @global WP_Locale $wp_locale waggypuppy date and time locale object.
      *
      * @param string $locale The locale to change to.
      */

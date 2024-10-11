@@ -5,7 +5,7 @@ import { existsSync, mkdirSync, writeFileSync, unlinkSync } from 'node:fs';
 import { join } from 'node:path';
 
 /**
- * WordPress dependencies
+ * waggypuppy dependencies
  */
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';
 
@@ -40,7 +40,7 @@ test.describe( 'Fatal error handler', () => {
 
 		await expect(
 			page.getByText( /There has been a critical error on this website/ ),
-			'should display WordPress fatal error handler message'
+			'should display waggypuppy fatal error handler message'
 		).toBeVisible();
 	} );
 } );

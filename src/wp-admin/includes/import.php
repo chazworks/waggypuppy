@@ -1,8 +1,8 @@
 <?php
 /**
- * WordPress Administration Importer API.
+ * waggypuppy Administration Importer API.
  *
- * @package WordPress
+ * @package WP
  * @subpackage Administration
  */
 
@@ -41,7 +41,7 @@ function _usort_by_first_member($a, $b)
 }
 
 /**
- * Registers importer for WordPress.
+ * Registers importer for waggypuppy.
  *
  * @since 2.0.0
  *
@@ -134,7 +134,7 @@ function wp_import_handle_upload()
 }
 
 /**
- * Returns a list from WordPress.org of popular importer plugins.
+ * Returns a list from wp.org of popular importer plugins.
  *
  * @since 3.5.0
  *
@@ -152,7 +152,7 @@ function wp_get_popular_importers()
                 'locale'  => $locale,
                 'version' => wp_get_wp_version(),
             ],
-            'http://api.wordpress.org/core/importers/1.1/'
+            'http://api.wp.org/core/importers/1.1/'
         );
         $options = ['user-agent' => 'WordPress/' . wp_get_wp_version() . '; ' . home_url('/')];
 
@@ -179,7 +179,7 @@ function wp_get_popular_importers()
         foreach ($popular_importers['importers'] as &$importer) {
 			// phpcs:ignore WordPress.WP.I18n.LowLevelTranslationFunction,WordPress.WP.I18n.NonSingularStringLiteralText
             $importer['description'] = translate($importer['description']);
-            if ('WordPress' !== $importer['name']) {
+            if ('waggypuppy' !== $importer['name']) {
 				// phpcs:ignore WordPress.WP.I18n.LowLevelTranslationFunction,WordPress.WP.I18n.NonSingularStringLiteralText
                 $importer['name'] = translate($importer['name']);
             }
@@ -226,8 +226,8 @@ function wp_get_popular_importers()
             'importer-id' => 'tumblr',
         ],
         'wordpress'   => [
-            'name'        => 'WordPress',
-            'description' => __('Import posts, pages, comments, custom fields, categories, and tags from a WordPress export file.'),
+            'name'        => 'waggypuppy',
+            'description' => __('Import posts, pages, comments, custom fields, categories, and tags from a waggypuppy export file.'),
             'plugin-slug' => 'wordpress-importer',
             'importer-id' => 'wordpress',
         ],

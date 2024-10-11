@@ -4,9 +4,9 @@
  *
  * Contains the opening of the #site-footer div and all content after.
  *
- * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
+ * @link https://developer.wp.org/themes/basics/template-files/#template-partials
  *
- * @package WordPress
+ * @package WP
  * @subpackage Twenty_Twenty
  * @since Twenty Twenty 1.0
  */
@@ -38,8 +38,8 @@
                         ?>
 
                         <p class="powered-by-wordpress">
-                            <a href="<?php echo esc_url(__('https://wordpress.org/', 'twentytwenty')); ?>">
-                                <?php _e('Powered by WordPress', 'twentytwenty'); ?>
+                            <a href="<?php echo esc_url(__('https://wp.org/', 'twentytwenty')); ?>">
+                                <?php _e('Powered by WP', 'twentytwenty'); ?>
                             </a>
                         </p><!-- .powered-by-wordpress -->
 

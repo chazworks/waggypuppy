@@ -2,7 +2,7 @@
 /**
  * REST API: WP_REST_Plugins_Controller class
  *
- * @package WordPress
+ * @package WP
  * @subpackage REST_API
  * @since 5.5.0
  */
@@ -55,7 +55,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
                         'slug'   => [
                             'type'        => 'string',
                             'required'    => true,
-                            'description' => __('WordPress.org plugin directory slug.'),
+                            'description' => __('wp.org plugin directory slug.'),
                             'pattern'     => '[\w\-]+',
                         ],
                         'status' => [
@@ -274,7 +274,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
      *
      * @since 5.5.0
      *
-     * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+     * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
      *
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
@@ -979,7 +979,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
                     'context'     => ['view', 'edit', 'embed'],
                 ],
                 'requires_wp'  => [
-                    'description' => __('Minimum required version of WordPress.'),
+                    'description' => __('Minimum required version of waggypuppy.'),
                     'type'        => 'string',
                     'readonly'    => true,
                     'context'     => ['view', 'edit', 'embed'],

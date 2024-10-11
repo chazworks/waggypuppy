@@ -498,7 +498,7 @@ class MockClass extends stdClass
 }
 
 /**
- * Drops all tables from the WordPress database.
+ * Drops all tables from the waggypuppy database.
  */
 function drop_tables()
 {
