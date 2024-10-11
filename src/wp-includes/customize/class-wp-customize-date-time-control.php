@@ -224,7 +224,7 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control
      *
      * @see touch_time()
      *
-     * @global WP_Locale $wp_locale WordPress date and time locale object.
+     * @global WP_Locale $wp_locale waggypuppy date and time locale object.
      *
      * @return array
      */

@@ -281,7 +281,7 @@ class WP_Site_Query
      *
      * @since 4.6.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @return WP_Site[]|int[]|int List of WP_Site objects, a list of site IDs when 'fields' is set to 'ids',
      *                             or the number of sites when 'count' is passed as a query var.
@@ -438,7 +438,7 @@ class WP_Site_Query
      *
      * @since 4.6.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @return int|array A single count of site IDs if a count query. An array of site IDs if a full query.
      */
@@ -734,7 +734,7 @@ class WP_Site_Query
      *
      * @since 4.6.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      */
     private function set_found_sites()
     {
@@ -760,7 +760,7 @@ class WP_Site_Query
      *
      * @since 4.6.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param string   $search  Search string.
      * @param string[] $columns Array of columns to search.
@@ -789,7 +789,7 @@ class WP_Site_Query
      *
      * @since 4.6.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param string $orderby Alias for the field to order by.
      * @return string|false Value to used in the ORDER clause. False otherwise.

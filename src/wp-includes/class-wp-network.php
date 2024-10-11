@@ -88,7 +88,7 @@ class WP_Network
      *
      * @since 4.4.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param int $network_id The ID of the network to retrieve.
      * @return WP_Network|false The network's object if found. False if not.

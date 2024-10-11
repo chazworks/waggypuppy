@@ -107,7 +107,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table
      *
      * @since 4.9.6
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @return object Number of posts for each status.
      */

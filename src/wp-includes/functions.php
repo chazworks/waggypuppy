@@ -234,7 +234,7 @@ function date_i18n($format, $timestamp_with_offset = false, $gmt = false)
  *
  * @since 5.3.0
  *
- * @global WP_Locale $wp_locale WordPress date and time locale object.
+ * @global WP_Locale $wp_locale waggypuppy date and time locale object.
  *
  * @param string       $format    PHP date format.
  * @param int          $timestamp Optional. Unix timestamp. Defaults to current time.
@@ -332,7 +332,7 @@ function wp_date($format, $timestamp = null, $timezone = null)
  * @since 4.4.0
  * @since 5.4.0 The `$format` parameter was added.
  *
- * @global WP_Locale $wp_locale WordPress date and time locale object.
+ * @global WP_Locale $wp_locale waggypuppy date and time locale object.
  *
  * @param string $date   Formatted date string.
  * @param string $format Optional. Date format to check. Default empty string.
@@ -419,7 +419,7 @@ function wp_maybe_decline_date($date, $format = '')
  *
  * @since 2.3.0
  *
- * @global WP_Locale $wp_locale WordPress date and time locale object.
+ * @global WP_Locale $wp_locale waggypuppy date and time locale object.
  *
  * @param float $number   The number to convert based on locale.
  * @param int   $decimals Optional. Precision of the number of decimal places. Default 0.
@@ -892,7 +892,7 @@ function wp_extract_urls($content)
  * @since 5.6.0 The `$content` parameter is no longer optional, but passing `null` to skip it
  *              is still supported.
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param string|null $content Post content. If `null`, the `post_content` field from `$post` is used.
  * @param int|WP_Post $post    Post ID or post object.
@@ -1354,9 +1354,9 @@ function wp_remote_fopen($uri)
  *
  * @since 2.0.0
  *
- * @global WP       $wp           Current WordPress environment instance.
- * @global WP_Query $wp_query     WordPress Query object.
- * @global WP_Query $wp_the_query Copy of the WordPress Query object.
+ * @global WP       $wp           Current waggypuppy environment instance.
+ * @global WP_Query $wp_query     waggypuppy Query object.
+ * @global WP_Query $wp_the_query Copy of the waggypuppy Query object.
  *
  * @param string|array $query_vars Default WP_Query arguments.
  */
@@ -1598,7 +1598,7 @@ function cache_javascript_headers()
  *
  * @since 2.0.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @return int Number of database queries.
  */
@@ -1633,7 +1633,7 @@ function bool_from_yn($yn)
  *
  * @since 2.1.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  */
 function do_feed()
 {
@@ -1804,7 +1804,7 @@ function do_favicon()
  *
  * @since 2.1.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @return bool Whether the site is already installed.
  */
@@ -3770,7 +3770,7 @@ function wp_nonce_ays($action)
  * @since 5.5.0 The `$text_direction` argument has a priority over get_language_attributes()
  *              in the default handler.
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param string|WP_Error  $message Optional. Error message. If this is a WP_Error object,
  *                                  and not an Ajax or XML-RPC request, the error's messages are used.
@@ -5567,7 +5567,7 @@ function wp_ob_end_flush_all()
  *
  * @since 2.3.2
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  */
 function dead_db()
 {
@@ -6616,7 +6616,7 @@ function get_main_network_id()
  *
  * @since 5.1.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @return bool True if site meta is supported, false otherwise.
  */
@@ -6949,7 +6949,7 @@ function _cleanup_header_comment($str)
  *
  * @since 2.9.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  */
 function wp_scheduled_delete()
 {
@@ -9038,7 +9038,7 @@ function wp_get_wp_version()
  *
  * @since 5.2.0
  *
- * @global string $_wp_tests_wp_version The WordPress version string. Used only in Core tests.
+ * @global string $_wp_tests_wp_version The waggypuppy version string. Used only in Core tests.
  *
  * @param string $required Minimum required WordPress version.
  * @return bool True if required version is compatible or empty, false if not.

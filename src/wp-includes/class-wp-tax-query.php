@@ -378,7 +378,7 @@ class WP_Tax_Query
      *
      * @since 4.1.0
      *
-     * @global wpdb $wpdb The WordPress database abstraction object.
+     * @global wpdb $wpdb The waggypuppy database abstraction object.
      *
      * @param array $clause       Query clause (passed by reference).
      * @param array $parent_query Parent query array.

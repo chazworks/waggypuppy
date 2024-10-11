@@ -279,7 +279,7 @@ function wp_ajax_imgedit_preview()
  *
  * @since 3.1.0
  *
- * @global WP_Embed $wp_embed WordPress Embed object.
+ * @global WP_Embed $wp_embed waggypuppy Embed object.
  */
 function wp_ajax_oembed_cache()
 {
@@ -3446,7 +3446,7 @@ function wp_ajax_send_attachment_to_editor()
  * @since 3.5.0
  *
  * @global WP_Post  $post     Global post object.
- * @global WP_Embed $wp_embed WordPress Embed object.
+ * @global WP_Embed $wp_embed waggypuppy Embed object.
  */
 function wp_ajax_send_link_to_editor()
 {
@@ -3805,7 +3805,7 @@ function wp_ajax_query_themes()
  * @since 4.0.0
  *
  * @global WP_Post    $post          Global post object.
- * @global WP_Embed   $wp_embed      WordPress Embed object.
+ * @global WP_Embed   $wp_embed      waggypuppy Embed object.
  * @global WP_Scripts $wp_scripts
  * @global int        $content_width
  */
@@ -4222,7 +4222,7 @@ function wp_ajax_save_wporg_username()
  *
  * @see Theme_Upgrader
  *
- * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+ * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
  */
 function wp_ajax_install_theme()
 {
@@ -4349,7 +4349,7 @@ function wp_ajax_install_theme()
  *
  * @see Theme_Upgrader
  *
- * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+ * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
  */
 function wp_ajax_update_theme()
 {
@@ -4445,7 +4445,7 @@ function wp_ajax_update_theme()
  *
  * @see delete_theme()
  *
- * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+ * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
  */
 function wp_ajax_delete_theme()
 {
@@ -4520,7 +4520,7 @@ function wp_ajax_delete_theme()
  *
  * @see Plugin_Upgrader
  *
- * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+ * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
  */
 function wp_ajax_install_plugin()
 {
@@ -4681,7 +4681,7 @@ function wp_ajax_activate_plugin()
  *
  * @see Plugin_Upgrader
  *
- * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+ * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
  */
 function wp_ajax_update_plugin()
 {
@@ -4790,7 +4790,7 @@ function wp_ajax_update_plugin()
  *
  * @see delete_plugins()
  *
- * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+ * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
  */
 function wp_ajax_delete_plugin()
 {

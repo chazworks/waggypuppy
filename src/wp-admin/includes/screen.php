@@ -222,7 +222,7 @@ function add_screen_option($option, $args = [])
  *
  * @since 3.1.0
  *
- * @global WP_Screen $current_screen WordPress current screen object.
+ * @global WP_Screen $current_screen waggypuppy current screen object.
  *
  * @return WP_Screen|null Current screen object or null when screen not defined.
  */

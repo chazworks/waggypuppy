@@ -187,7 +187,7 @@ class WP_Automatic_Updater
      *
      * @since 3.7.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param string $type    The type of update being checked: 'core', 'theme',
      *                        'plugin', 'translation'.
@@ -1733,7 +1733,7 @@ This debugging email is sent when you are using a development version of waggypu
      *
      * @since 6.6.0
      *
-     * @global int $upgrading The Unix timestamp marking when upgrading WordPress began.
+     * @global int $upgrading The Unix timestamp marking when upgrading waggypuppy began.
      *
      * @return bool Whether a fatal error was detected.
      */

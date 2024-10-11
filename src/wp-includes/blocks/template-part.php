@@ -10,7 +10,7 @@
  *
  * @since 5.9.0
  *
- * @global WP_Embed $wp_embed WordPress Embed object.
+ * @global WP_Embed $wp_embed waggypuppy Embed object.
  *
  * @param array $attributes The block attributes.
  *

@@ -877,7 +877,7 @@ function wp_cache_switch_to_blog($blog_id)
 /**
  * Sets up Object Cache Global and assigns it.
  *
- * @global WP_Object_Cache $wp_object_cache WordPress Object Cache
+ * @global WP_Object_Cache $wp_object_cache waggypuppy Object Cache
  */
 function wp_cache_init()
 {

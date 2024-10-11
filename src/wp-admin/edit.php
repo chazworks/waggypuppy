@@ -93,7 +93,7 @@ if ($doaction) {
         // Validate the post status exists.
         if (get_post_status_object($post_status)) {
             /**
-             * @global wpdb $wpdb WordPress database abstraction object.
+             * @global wpdb $wpdb waggypuppy database abstraction object.
              */
             global $wpdb;
 

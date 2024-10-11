@@ -45,7 +45,7 @@ class Core_Upgrader extends WP_Upgrader
      *
      * @since 2.8.0
      *
-     * @global WP_Filesystem_Base $wp_filesystem                WordPress filesystem subclass.
+     * @global WP_Filesystem_Base $wp_filesystem                waggypuppy filesystem subclass.
      * @global callable           $_wp_filesystem_direct_method
      *
      * @param object $current Response object for whether WordPress is current.

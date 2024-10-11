@@ -259,7 +259,7 @@ Any changes to the directives between these markers will be overwritten.'
  *
  * @since 1.5.0
  *
- * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+ * @global WP_Rewrite $wp_rewrite waggypuppy rewrite component.
  *
  * @return bool|null True on write success, false on failure. Null in multisite.
  */
@@ -300,7 +300,7 @@ function save_mod_rewrite_rules()
  *
  * @since 2.8.0
  *
- * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+ * @global WP_Rewrite $wp_rewrite waggypuppy rewrite component.
  *
  * @return bool|null True on write success, false on failure. Null in multisite.
  */

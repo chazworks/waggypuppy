@@ -782,11 +782,11 @@ function locate_template($template_names, $load = false, $load_once = true, $arg
  * @global array      $posts
  * @global WP_Post    $post          Global post object.
  * @global bool       $wp_did_header
- * @global WP_Query   $wp_query      WordPress Query object.
- * @global WP_Rewrite $wp_rewrite    WordPress rewrite component.
- * @global wpdb       $wpdb          WordPress database abstraction object.
+ * @global WP_Query   $wp_query      waggypuppy Query object.
+ * @global WP_Rewrite $wp_rewrite    waggypuppy rewrite component.
+ * @global wpdb       $wpdb          waggypuppy database abstraction object.
  * @global string     $wp_version
- * @global WP         $wp            Current WordPress environment instance.
+ * @global WP         $wp            Current waggypuppy environment instance.
  * @global int        $id
  * @global WP_Comment $comment       Global comment object.
  * @global int        $user_ID

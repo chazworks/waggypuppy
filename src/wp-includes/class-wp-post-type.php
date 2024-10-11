@@ -695,8 +695,8 @@ final class WP_Post_Type
      *
      * @since 4.6.0
      *
-     * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
-     * @global WP         $wp         Current WordPress environment instance.
+     * @global WP_Rewrite $wp_rewrite waggypuppy rewrite component.
+     * @global WP         $wp         Current waggypuppy environment instance.
      */
     public function add_rewrite_rules()
     {
@@ -791,8 +791,8 @@ final class WP_Post_Type
      *
      * @since 4.6.0
      *
-     * @global WP_Rewrite $wp_rewrite          WordPress rewrite component.
-     * @global WP         $wp                  Current WordPress environment instance.
+     * @global WP_Rewrite $wp_rewrite          waggypuppy rewrite component.
+     * @global WP         $wp                  Current waggypuppy environment instance.
      * @global array      $post_type_meta_caps Used to remove meta capabilities.
      */
     public function remove_rewrite_rules()

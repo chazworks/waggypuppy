@@ -12,7 +12,7 @@
  *
  * @since 3.0.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @return string|false Base domain if network exists, otherwise false.
  */
@@ -49,7 +49,7 @@ function allow_subdomain_install()
  *
  * @since 3.0.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @return bool Whether subdirectory installation is allowed
  */
@@ -406,7 +406,7 @@ function network_step1($errors = false)
  *
  * @since 3.0.0
  *
- * @global wpdb $wpdb     WordPress database abstraction object.
+ * @global wpdb $wpdb     waggypuppy database abstraction object.
  * @global bool $is_nginx Whether the server software is Nginx or something else.
  *
  * @param false|WP_Error $errors Optional. Error object. Default false.

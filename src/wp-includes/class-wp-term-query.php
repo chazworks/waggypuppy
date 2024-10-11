@@ -347,7 +347,7 @@ class WP_Term_Query
      *
      * @since 4.6.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @return WP_Term[]|int[]|string[]|string Array of terms, or number of terms as numeric string
      *                                         when 'count' is passed as a query var.
@@ -1107,7 +1107,7 @@ class WP_Term_Query
      *
      * @since 4.6.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param string $search Search string.
      * @return string Search SQL.
@@ -1164,7 +1164,7 @@ class WP_Term_Query
      *
      * @since 6.2.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param array  $args WP_Term_Query arguments.
      * @param string $sql  SQL statement.

@@ -228,7 +228,7 @@ class WP_Upgrader
      *
      * @since 2.8.0
      *
-     * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+     * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
      *
      * @param string[] $directories                  Optional. Array of directories. If any of these do
      *                                               not exist, a WP_Error object will be returned.
@@ -352,7 +352,7 @@ class WP_Upgrader
      *
      * @since 2.8.0
      *
-     * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+     * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
      *
      * @param string $package        Full path to the package file.
      * @param bool   $delete_package Optional. Whether to delete the package file after attempting
@@ -440,7 +440,7 @@ class WP_Upgrader
      *
      * @since 4.3.0
      *
-     * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+     * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
      *
      * @param string $remote_destination The location on the remote filesystem to be cleared.
      * @return true|WP_Error True upon success, WP_Error on failure.
@@ -494,7 +494,7 @@ class WP_Upgrader
      * @since 2.8.0
      * @since 6.2.0 Use move_dir() instead of copy_dir() when possible.
      *
-     * @global WP_Filesystem_Base $wp_filesystem        WordPress filesystem subclass.
+     * @global WP_Filesystem_Base $wp_filesystem        waggypuppy filesystem subclass.
      * @global array              $wp_theme_directories
      *
      * @param array|string $args {
@@ -994,7 +994,7 @@ class WP_Upgrader
      *
      * @since 2.8.0
      *
-     * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+     * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
      *
      * @param bool $enable True to enable maintenance mode, false to disable.
      */
@@ -1029,7 +1029,7 @@ class WP_Upgrader
      *
      * @since 4.5.0
      *
-     * @global wpdb $wpdb The WordPress database abstraction object.
+     * @global wpdb $wpdb The waggypuppy database abstraction object.
      *
      * @param string $lock_name       The name of this unique lock.
      * @param int    $release_timeout Optional. The duration in seconds to respect an existing lock.
@@ -1092,7 +1092,7 @@ class WP_Upgrader
      *
      * @since 6.3.0
      *
-     * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+     * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
      *
      * @param string[] $args {
      *     Array of data for the temporary backup.
@@ -1166,7 +1166,7 @@ class WP_Upgrader
      * @since 6.3.0
      * @since 6.6.0 Added the `$temp_backups` parameter.
      *
-     * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+     * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
      *
      * @param array[] $temp_backups {
      *     Optional. An array of temporary backups.
@@ -1236,7 +1236,7 @@ class WP_Upgrader
      * @since 6.3.0
      * @since 6.6.0 Added the `$temp_backups` parameter.
      *
-     * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+     * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
      *
      * @param array[] $temp_backups {
      *     Optional. An array of temporary backups.

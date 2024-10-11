@@ -26,7 +26,7 @@ if ($doaction) {
 
     if ('delete_all' === $doaction && ! empty($_REQUEST['pagegen_timestamp'])) {
         /**
-         * @global wpdb $wpdb WordPress database abstraction object.
+         * @global wpdb $wpdb waggypuppy database abstraction object.
          */
         global $wpdb;
 

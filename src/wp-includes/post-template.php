@@ -642,7 +642,7 @@ function body_class($css_class = '')
  *
  * @since 2.8.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param string|string[] $css_class Optional. Space-separated string or array of class names
  *                                   to add to the class list. Default empty.
@@ -1066,7 +1066,7 @@ function wp_link_pages($args = '')
  * @since 3.1.0
  * @access private
  *
- * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+ * @global WP_Rewrite $wp_rewrite waggypuppy rewrite component.
  *
  * @param int $i Page number.
  * @return string Link.
@@ -1279,7 +1279,7 @@ function wp_dropdown_pages($args = '')
  *
  * @see get_pages()
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param array|string $args {
  *     Optional. Array or string of arguments to generate a list of pages. See get_pages() for additional arguments.

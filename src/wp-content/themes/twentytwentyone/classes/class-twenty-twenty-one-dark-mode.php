@@ -242,7 +242,7 @@ class Twenty_Twenty_One_Dark_Mode
      *
      * @since Twenty Twenty-One 1.0
      *
-     * @global WP_Screen $current_screen WordPress current screen object.
+     * @global WP_Screen $current_screen waggypuppy current screen object.
      *
      * @param string $classes The admin body-classes.
      * @return string

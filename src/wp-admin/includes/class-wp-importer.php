@@ -14,7 +14,7 @@ class WP_Importer
     /**
      * Returns array with imported permalinks from WordPress database.
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param string $importer_name
      * @param string $blog_id
@@ -52,7 +52,7 @@ class WP_Importer
     /**
      * Returns count of imported permalinks from WordPress database.
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param string $importer_name
      * @param string $blog_id
@@ -80,7 +80,7 @@ class WP_Importer
     /**
      * Sets array with imported comments from WordPress database.
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param string $blog_id
      * @return array
@@ -265,7 +265,7 @@ class WP_Importer
      *
      * @since 3.0.0
      *
-     * @global wpdb  $wpdb       WordPress database abstraction object.
+     * @global wpdb  $wpdb       waggypuppy database abstraction object.
      * @global int[] $wp_actions
      */
     public function stop_the_insanity()

@@ -320,7 +320,7 @@ class WP_Site_Health_Auto_Updates
      *
      * @since 5.2.0
      *
-     * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+     * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
      *
      * @return array|false The test results. False if they're not writeable.
      */

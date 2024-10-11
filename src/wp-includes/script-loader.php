@@ -79,7 +79,7 @@ function wp_register_tinymce_scripts($scripts, $force_uncompressed = false)
  *
  * @since 5.0.0
  *
- * @global WP_Locale $wp_locale WordPress date and time locale object.
+ * @global WP_Locale $wp_locale waggypuppy date and time locale object.
  *
  * @param WP_Scripts $scripts WP_Scripts object.
  */
@@ -336,8 +336,8 @@ function wp_default_packages_scripts($scripts)
  * @since 5.0.0
  * @since 6.4.0 Added relative time strings for the `wp-date` inline script output.
  *
- * @global WP_Locale $wp_locale WordPress date and time locale object.
- * @global wpdb      $wpdb      WordPress database abstraction object.
+ * @global WP_Locale $wp_locale waggypuppy date and time locale object.
+ * @global wpdb      $wpdb      waggypuppy database abstraction object.
  *
  * @param WP_Scripts $scripts WP_Scripts object.
  */
@@ -1939,7 +1939,7 @@ function wp_just_in_time_script_localization()
  *
  * @link https://api.jqueryui.com/datepicker/#options
  *
- * @global WP_Locale $wp_locale WordPress date and time locale object.
+ * @global WP_Locale $wp_locale waggypuppy date and time locale object.
  */
 function wp_localize_jquery_ui_datepicker()
 {
@@ -2572,7 +2572,7 @@ function wp_enqueue_global_styles()
  *
  * @since 5.6.0
  *
- * @global WP_Screen $current_screen WordPress current screen object.
+ * @global WP_Screen $current_screen waggypuppy current screen object.
  *
  * @return bool Whether scripts and styles should be enqueued.
  */
@@ -2640,7 +2640,7 @@ function wp_should_load_separate_core_block_assets()
  *
  * @since 5.0.0
  *
- * @global WP_Screen $current_screen WordPress current screen object.
+ * @global WP_Screen $current_screen waggypuppy current screen object.
  */
 function wp_enqueue_registered_block_scripts_and_styles()
 {

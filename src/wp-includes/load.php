@@ -151,7 +151,7 @@ function wp_populate_basic_auth_from_authorization_header()
  * @access private
  *
  * @global string $required_php_version The required PHP version string.
- * @global string $wp_version           The WordPress version string.
+ * @global string $wp_version           The waggypuppy version string.
  */
 function wp_check_php_mysql_versions()
 {
@@ -407,7 +407,7 @@ function wp_maintenance()
  *
  * @since 5.5.0
  *
- * @global int $upgrading The Unix timestamp marking when upgrading WordPress began.
+ * @global int $upgrading The Unix timestamp marking when upgrading waggypuppy began.
  *
  * @return bool True if maintenance mode is enabled, false otherwise.
  */
@@ -683,7 +683,7 @@ function wp_set_lang_dir()
  *
  * @since 2.5.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  */
 function require_wp_db()
 {
@@ -716,7 +716,7 @@ function require_wp_db()
  * @since 3.0.0
  * @access private
  *
- * @global wpdb   $wpdb         WordPress database abstraction object.
+ * @global wpdb   $wpdb         waggypuppy database abstraction object.
  * @global string $table_prefix The database table prefix.
  */
 function wp_set_wpdb_vars()
@@ -1348,7 +1348,7 @@ function is_login()
  *
  * @since 1.5.1
  *
- * @global WP_Screen $current_screen WordPress current screen object.
+ * @global WP_Screen $current_screen waggypuppy current screen object.
  *
  * @return bool True if inside WordPress administration interface, false otherwise.
  */
@@ -1373,7 +1373,7 @@ function is_admin()
  *
  * @since 3.1.0
  *
- * @global WP_Screen $current_screen WordPress current screen object.
+ * @global WP_Screen $current_screen waggypuppy current screen object.
  *
  * @return bool True if inside WordPress site administration pages.
  */
@@ -1401,7 +1401,7 @@ function is_blog_admin()
  *
  * @since 3.1.0
  *
- * @global WP_Screen $current_screen WordPress current screen object.
+ * @global WP_Screen $current_screen waggypuppy current screen object.
  *
  * @return bool True if inside WordPress network administration pages.
  */
@@ -1426,7 +1426,7 @@ function is_network_admin()
  *
  * @since 3.1.0
  *
- * @global WP_Screen $current_screen WordPress current screen object.
+ * @global WP_Screen $current_screen waggypuppy current screen object.
  *
  * @return bool True if inside WordPress user administration pages.
  */
@@ -1512,8 +1512,8 @@ function get_current_network_id()
  * @since 3.4.0
  * @access private
  *
- * @global WP_Textdomain_Registry $wp_textdomain_registry WordPress Textdomain Registry.
- * @global WP_Locale              $wp_locale              WordPress date and time locale object.
+ * @global WP_Textdomain_Registry $wp_textdomain_registry waggypuppy Textdomain Registry.
+ * @global WP_Locale              $wp_locale              waggypuppy date and time locale object.
  */
 function wp_load_translations_early()
 {

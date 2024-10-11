@@ -3117,7 +3117,7 @@ final class WP_Customize_Manager
      * @since 4.9.0
      *
      * @see wp_trash_post()
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param int|WP_Post $post The changeset post.
      * @return mixed A WP_Post object for the trashed post or an empty value on failure.
@@ -3536,7 +3536,7 @@ final class WP_Customize_Manager
      * @since 4.7.0
      *
      * @see _wp_customize_publish_changeset()
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param int $changeset_post_id ID for customize_changeset post. Defaults to the changeset for the current manager instance.
      * @return true|WP_Error True or error info.

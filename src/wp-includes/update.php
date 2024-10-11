@@ -16,8 +16,8 @@
  *
  * @since 2.3.0
  *
- * @global string $wp_version       Used to check against the newest WordPress version.
- * @global wpdb   $wpdb             WordPress database abstraction object.
+ * @global string $wp_version       Used to check against the newest waggypuppy version.
+ * @global wpdb   $wpdb             waggypuppy database abstraction object.
  * @global string $wp_local_package Locale code of the package.
  *
  * @param array $extra_stats Extra statistics to report to the wp.org API.
@@ -309,7 +309,7 @@ function wp_version_check($extra_stats = [], $force_check = false)
  *
  * @since 2.3.0
  *
- * @global string $wp_version The WordPress version string.
+ * @global string $wp_version The waggypuppy version string.
  *
  * @param array $extra_stats Extra statistics to report to the wp.org API.
  */
@@ -582,7 +582,7 @@ function wp_update_plugins($extra_stats = [])
  *
  * @since 2.7.0
  *
- * @global string $wp_version The WordPress version string.
+ * @global string $wp_version The waggypuppy version string.
  *
  * @param array $extra_stats Extra statistics to report to the wp.org API.
  */
@@ -988,7 +988,7 @@ function wp_get_update_data()
  *
  * @since 2.8.0
  *
- * @global string $wp_version The WordPress version string.
+ * @global string $wp_version The waggypuppy version string.
  */
 function _maybe_update_core()
 {
@@ -1114,7 +1114,7 @@ function wp_delete_all_temp_backups()
  *
  * @access private
  *
- * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+ * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
  */
 function _wp_delete_all_temp_backups()
 {

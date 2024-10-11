@@ -11,7 +11,7 @@
 /**
  * Declare these as global in case schema.php is included from a function.
  *
- * @global wpdb   $wpdb            WordPress database abstraction object.
+ * @global wpdb   $wpdb            waggypuppy database abstraction object.
  * @global array  $wp_queries
  * @global string $charset_collate
  */
@@ -27,7 +27,7 @@ $charset_collate = $wpdb->get_charset_collate();
  *
  * @since 3.3.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param string $scope   Optional. The tables for which to retrieve SQL. Can be all, global, ms_global, or blog tables. Defaults to all.
  * @param int    $blog_id Optional. The site ID for which to retrieve SQL. Default is the current site ID.
@@ -353,8 +353,8 @@ $wp_queries = wp_get_db_schema('all');
  * @since 1.5.0
  * @since 5.1.0 The $options parameter has been added.
  *
- * @global wpdb $wpdb                  WordPress database abstraction object.
- * @global int  $wp_db_version         WordPress database version.
+ * @global wpdb $wpdb                  waggypuppy database abstraction object.
+ * @global int  $wp_db_version         waggypuppy database version.
  * @global int  $wp_current_db_version The old (current) database version.
  *
  * @param array $options Optional. Custom option $key => $value pairs to use. Default empty array.
@@ -981,9 +981,9 @@ endif;
  *
  * @since 3.0.0
  *
- * @global wpdb       $wpdb         WordPress database abstraction object.
+ * @global wpdb       $wpdb         waggypuppy database abstraction object.
  * @global object     $current_site
- * @global WP_Rewrite $wp_rewrite   WordPress rewrite component.
+ * @global WP_Rewrite $wp_rewrite   waggypuppy rewrite component.
  *
  * @param int    $network_id        ID of network to populate.
  * @param string $domain            The domain name for the network. Example: "example.com".
@@ -1169,8 +1169,8 @@ function populate_network($network_id = 1, $domain = '', $email = '', $site_name
  *
  * @since 5.1.0
  *
- * @global wpdb $wpdb          WordPress database abstraction object.
- * @global int  $wp_db_version WordPress database version.
+ * @global wpdb $wpdb          waggypuppy database abstraction object.
+ * @global int  $wp_db_version waggypuppy database version.
  *
  * @param int   $network_id Network ID to populate meta for.
  * @param array $meta       Optional. Custom meta $key => $value pairs to use. Default empty array.
@@ -1325,7 +1325,7 @@ We hope you enjoy your new site. Thanks!
  *
  * @since 5.1.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param int   $site_id Site ID to populate meta for.
  * @param array $meta    Optional. Custom meta $key => $value pairs to use. Default empty array.

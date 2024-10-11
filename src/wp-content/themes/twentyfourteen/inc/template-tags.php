@@ -13,8 +13,8 @@ if (! function_exists('twentyfourteen_paging_nav')) :
      *
      * @since Twenty Fourteen 1.0
      *
-     * @global WP_Query   $wp_query   WordPress Query object.
-     * @global WP_Rewrite $wp_rewrite WordPress Rewrite object.
+     * @global WP_Query   $wp_query   waggypuppy Query object.
+     * @global WP_Rewrite $wp_rewrite waggypuppy Rewrite object.
      */
     function twentyfourteen_paging_nav()
     {

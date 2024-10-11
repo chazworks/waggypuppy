@@ -909,7 +909,7 @@ function activate_plugins($plugins, $redirect = '', $network_wide = false, $sile
  *
  * @since 2.6.0
  *
- * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+ * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
  *
  * @param string[] $plugins    List of plugin paths to delete, relative to the plugins directory.
  * @param string   $deprecated Not used.
@@ -2646,7 +2646,7 @@ function paused_plugins_notice()
  * @access private
  *
  * @global string $pagenow    The filename of the current screen.
- * @global string $wp_version The WordPress version string.
+ * @global string $wp_version The waggypuppy version string.
  */
 function deactivated_plugins_notice()
 {

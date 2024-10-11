@@ -208,7 +208,7 @@ class WP_Site_Health
      *
      * @since 5.2.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      */
     private function prepare_sql_data()
     {
@@ -1886,7 +1886,7 @@ class WP_Site_Health
      *
      * @since 6.3.0
      *
-     * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+     * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
      *
      * @return array The test results.
      */
@@ -3554,7 +3554,7 @@ class WP_Site_Health
      *
      * @since 6.1.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @return bool Whether to suggest using a persistent object cache.
      */

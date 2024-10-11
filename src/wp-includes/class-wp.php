@@ -132,7 +132,7 @@ class WP
      * @since 2.0.0
      * @since 6.0.0 A return value was added.
      *
-     * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+     * @global WP_Rewrite $wp_rewrite waggypuppy rewrite component.
      *
      * @param array|string $extra_query_vars Set the extra query variables.
      * @return bool Whether the request was parsed.
@@ -435,7 +435,7 @@ class WP
      * @since 4.4.0 `X-Pingback` header is added conditionally for single posts that allow pings.
      * @since 6.1.0 Runs after posts have been queried.
      *
-     * @global WP_Query $wp_query WordPress Query object.
+     * @global WP_Query $wp_query waggypuppy Query object.
      */
     public function send_headers()
     {
@@ -649,7 +649,7 @@ class WP
      *
      * @since 2.0.0
      *
-     * @global WP_Query     $wp_query     WordPress Query object.
+     * @global WP_Query     $wp_query     waggypuppy Query object.
      * @global string       $query_string Query string for the loop.
      * @global array        $posts        The found posts.
      * @global WP_Post|null $post         The current post, if available.
@@ -697,7 +697,7 @@ class WP
      *
      * @since 2.0.0
      *
-     * @global WP_Query $wp_the_query WordPress Query object.
+     * @global WP_Query $wp_the_query waggypuppy Query object.
      */
     public function query_posts()
     {
@@ -721,7 +721,7 @@ class WP
      *
      * @since 2.0.0
      *
-     * @global WP_Query $wp_query WordPress Query object.
+     * @global WP_Query $wp_query waggypuppy Query object.
      */
     public function handle_404()
     {

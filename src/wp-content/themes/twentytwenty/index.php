@@ -26,7 +26,7 @@ get_header();
 
     if (is_search()) {
         /**
-         * @global WP_Query $wp_query WordPress Query object.
+         * @global WP_Query $wp_query waggypuppy Query object.
          */
         global $wp_query;
 

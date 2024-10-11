@@ -50,7 +50,7 @@ switch ($action) {
 
         if ($n < 5) {
             /**
-             * @global int $wp_db_version WordPress database version.
+             * @global int $wp_db_version waggypuppy database version.
              */
             global $wp_db_version;
             update_site_option('wpmu_upgrade_site', $wp_db_version);

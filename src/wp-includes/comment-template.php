@@ -780,7 +780,7 @@ function comment_ID()  // phpcs:ignore __VAR_WP.NamingConventions.ValidFunctionN
  *
  * @see get_page_of_comment()
  *
- * @global WP_Rewrite $wp_rewrite      WordPress rewrite component.
+ * @global WP_Rewrite $wp_rewrite      waggypuppy rewrite component.
  * @global bool       $in_comment_loop
  *
  * @param WP_Comment|int|null $comment Optional. Comment to retrieve. Default current comment.
@@ -1442,9 +1442,9 @@ function wp_comment_form_unfiltered_html_nonce()
  *
  * @since 1.5.0
  *
- * @global WP_Query   $wp_query           WordPress Query object.
+ * @global WP_Query   $wp_query           waggypuppy Query object.
  * @global WP_Post    $post               Global post object.
- * @global wpdb       $wpdb               WordPress database abstraction object.
+ * @global wpdb       $wpdb               waggypuppy database abstraction object.
  * @global int        $id
  * @global WP_Comment $comment            Global comment object.
  * @global string     $user_login
@@ -2238,7 +2238,7 @@ function _get_comment_reply_id($post = null)
  *
  * @see WP_Query::$comments
  *
- * @global WP_Query $wp_query           WordPress Query object.
+ * @global WP_Query $wp_query           waggypuppy Query object.
  * @global int      $comment_alt
  * @global int      $comment_depth
  * @global int      $comment_thread_alt

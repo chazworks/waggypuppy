@@ -60,7 +60,7 @@ class WP_Sitemaps_Renderer
      *
      * @since 5.5.0
      *
-     * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+     * @global WP_Rewrite $wp_rewrite waggypuppy rewrite component.
      *
      * @return string The sitemap stylesheet URL.
      */
@@ -92,7 +92,7 @@ class WP_Sitemaps_Renderer
      *
      * @since 5.5.0
      *
-     * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+     * @global WP_Rewrite $wp_rewrite waggypuppy rewrite component.
      *
      * @return string The sitemap index stylesheet URL.
      */

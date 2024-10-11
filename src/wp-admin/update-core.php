@@ -31,7 +31,7 @@ if (! current_user_can('update_core') && ! current_user_can('update_themes') && 
  * @since 2.7.0
  *
  * @global string $wp_local_package Locale code of the package.
- * @global wpdb   $wpdb             WordPress database abstraction object.
+ * @global wpdb   $wpdb             waggypuppy database abstraction object.
  *
  * @param object $update
  */
@@ -847,7 +847,7 @@ function list_translation_updates()
  *
  * @since 2.7.0
  *
- * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+ * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
  *
  * @param bool $reinstall
  */

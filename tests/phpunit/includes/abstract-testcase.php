@@ -1717,7 +1717,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
      *
      * @since 4.8.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param int    $post_id Post ID.
      * @param string $date    Post date, in the format YYYY-MM-DD HH:MM:SS.

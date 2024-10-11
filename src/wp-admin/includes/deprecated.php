@@ -227,7 +227,7 @@ function use_codepress() {
  *
  * @deprecated 3.1.0 Use get_users()
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @return array List of user IDs.
  */
@@ -248,7 +248,7 @@ function get_author_user_ids() {
  *
  * @deprecated 3.1.0 Use get_users()
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param int $user_id User ID.
  * @return array|false List of editable authors. False if no editable users.
@@ -275,7 +275,7 @@ function get_editable_authors( $user_id ) {
  *
  * @deprecated 3.1.0 Use get_users()
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param int  $user_id       User ID.
  * @param bool $exclude_zeros Optional. Whether to exclude zeroes. Default true.
@@ -314,7 +314,7 @@ function get_editable_user_ids( $user_id, $exclude_zeros = true, $post_type = 'p
  *
  * @deprecated 3.1.0 Use get_users()
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  */
 function get_nonauthor_user_ids() {
 	_deprecated_function( __FUNCTION__, '3.1.0', 'get_users()' );
@@ -526,7 +526,7 @@ class WP_User_Search {
 	 * @since 2.1.0
 	 * @access public
 	 *
-	 * @global wpdb $wpdb WordPress database abstraction object.
+	 * @global wpdb $wpdb waggypuppy database abstraction object.
 	 */
 	public function prepare_query() {
 		global $wpdb;
@@ -566,7 +566,7 @@ class WP_User_Search {
 	 * @since 2.1.0
 	 * @access public
 	 *
-	 * @global wpdb $wpdb WordPress database abstraction object.
+	 * @global wpdb $wpdb waggypuppy database abstraction object.
 	 */
 	public function query() {
 		global $wpdb;
@@ -684,7 +684,7 @@ endif;
  * @deprecated 3.1.0 Use get_posts()
  * @see get_posts()
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param int    $user_id User ID to not retrieve posts from.
  * @param string $type    Optional. Post type to retrieve. Accepts 'draft', 'pending' or 'any' (all).

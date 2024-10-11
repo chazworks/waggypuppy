@@ -57,7 +57,7 @@ wp_raise_memory_limit('cron');
  * @ignore
  * @since 3.3.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @return string|int|false Value of the `doing_cron` transient, 0|false otherwise.
  */

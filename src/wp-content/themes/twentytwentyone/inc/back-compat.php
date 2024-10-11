@@ -32,7 +32,7 @@ add_action('after_switch_theme', 'twenty_twenty_one_switch_theme');
  *
  * @since Twenty Twenty-One 1.0
  *
- * @global string $wp_version WordPress version.
+ * @global string $wp_version waggypuppy version.
  *
  * @return void
  */
@@ -52,7 +52,7 @@ function twenty_twenty_one_upgrade_notice()
  *
  * @since Twenty Twenty-One 1.0
  *
- * @global string $wp_version WordPress version.
+ * @global string $wp_version waggypuppy version.
  *
  * @return void
  */
@@ -77,7 +77,7 @@ add_action('load-customize.php', 'twenty_twenty_one_customize');
  *
  * @since Twenty Twenty-One 1.0
  *
- * @global string $wp_version WordPress version.
+ * @global string $wp_version waggypuppy version.
  *
  * @return void
  */

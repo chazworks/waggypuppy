@@ -1513,7 +1513,7 @@ class WP_Debug_Data
      *
      * @since 6.7.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @return array
      */
@@ -1666,7 +1666,7 @@ class WP_Debug_Data
      *
      * @since 5.9.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param string $mysql_var Name of the MySQL system variable.
      * @return string|null The variable value on success. Null if the variable does not exist.
@@ -1762,7 +1762,7 @@ class WP_Debug_Data
      *
      * @since 5.2.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @return int The size of the database, in bytes.
      */

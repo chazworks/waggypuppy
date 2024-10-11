@@ -27,7 +27,7 @@ class WP_Fatal_Error_Handler
      *
      * @since 5.2.0
      *
-     * @global WP_Locale $wp_locale WordPress date and time locale object.
+     * @global WP_Locale $wp_locale waggypuppy date and time locale object.
      */
     public function handle()
     {

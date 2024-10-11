@@ -133,7 +133,7 @@ function get_the_category_by_ID($cat_id)  // phpcs:ignore __VAR_WP.NamingConvent
  *
  * @see wp_list_categories()
  *
- * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+ * @global WP_Rewrite $wp_rewrite waggypuppy rewrite component.
  *
  * @param string $separator Optional. Separator between the categories. By default, the links are placed
  *                          in an unordered list. An empty string will result in the default behavior.

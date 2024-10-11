@@ -17,7 +17,7 @@
  * @since 1.5.0
  * @since 3.9.0 The `$default_value` argument was introduced.
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param string $query_var     The variable key to retrieve.
  * @param mixed  $default_value Optional. Value to return if the query variable is not set.
@@ -37,7 +37,7 @@ function get_query_var($query_var, $default_value = '')
  *
  * @since 3.1.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return WP_Term|WP_Post_Type|WP_Post|WP_User|null The queried object.
  */
@@ -54,7 +54,7 @@ function get_queried_object()
  *
  * @since 3.1.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return int ID of the queried object.
  */
@@ -69,7 +69,7 @@ function get_queried_object_id()
  *
  * @since 2.2.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param string $query_var Query variable key.
  * @param mixed  $value     Query variable value.
@@ -93,7 +93,7 @@ function set_query_var($query_var, $value)
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param array|string $query Array or string of WP_Query arguments.
  * @return WP_Post[]|int[] Array of post objects or post IDs.
@@ -113,7 +113,7 @@ function query_posts($query)
  *
  * @since 2.3.0
  *
- * @global WP_Query $wp_query     WordPress Query object.
+ * @global WP_Query $wp_query     waggypuppy Query object.
  * @global WP_Query $wp_the_query Copy of the global WP_Query instance created during wp_reset_query().
  */
 function wp_reset_query()
@@ -128,7 +128,7 @@ function wp_reset_query()
  *
  * @since 3.0.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  */
 function wp_reset_postdata()
 {
@@ -161,7 +161,7 @@ function wp_reset_postdata()
  * @see is_date()
  * @see is_post_type_archive()
  * @see is_tax()
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for an existing archive page.
  */
@@ -186,7 +186,7 @@ function is_archive()
  *
  * @since 3.1.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param string|string[] $post_types Optional. Post type or array of posts types
  *                                    to check against. Default empty.
@@ -213,7 +213,7 @@ function is_post_type_archive($post_types = '')
  *
  * @since 2.0.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param int|string|int[]|string[] $attachment Optional. Attachment ID, title, slug, or array of such
  *                                              to check against. Default empty.
@@ -243,7 +243,7 @@ function is_attachment($attachment = '')
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param int|string|int[]|string[] $author Optional. User ID, nickname, nicename, or array of such
  *                                          to check against. Default empty.
@@ -273,7 +273,7 @@ function is_author($author = '')
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param int|string|int[]|string[] $category Optional. Category ID, name, slug, or array of such
  *                                            to check against. Default empty.
@@ -303,7 +303,7 @@ function is_category($category = '')
  *
  * @since 2.3.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param int|string|int[]|string[] $tag Optional. Tag ID, name, slug, or array of such
  *                                       to check against. Default empty.
@@ -337,7 +337,7 @@ function is_tag($tag = '')
  *
  * @since 2.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param string|string[]           $taxonomy Optional. Taxonomy slug or slugs to check against.
  *                                            Default empty.
@@ -368,7 +368,7 @@ function is_tax($taxonomy = '', $term = '')
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for an existing date archive.
  */
@@ -395,7 +395,7 @@ function is_date()
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for an existing day archive.
  */
@@ -420,7 +420,7 @@ function is_day()
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param string|string[] $feeds Optional. Feed type or array of feed types
  *                                         to check against. Default empty.
@@ -443,7 +443,7 @@ function is_feed($feeds = '')
  *
  * @since 3.0.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for a comments feed.
  */
@@ -477,7 +477,7 @@ function is_comment_feed()
  *
  * @since 2.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for the front page of the site.
  */
@@ -511,7 +511,7 @@ function is_front_page()
  * @since 1.5.0
  *
  * @see is_front_page()
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for the blog homepage.
  */
@@ -542,7 +542,7 @@ function is_home()
  *
  * @since 5.2.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for the Privacy Policy page.
  */
@@ -567,7 +567,7 @@ function is_privacy_policy()
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for an existing month archive.
  */
@@ -597,7 +597,7 @@ function is_month()
  *
  * @see is_single()
  * @see is_singular()
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param int|string|int[]|string[] $page Optional. Page ID, title, slug, or array of such
  *                                        to check against. Default empty.
@@ -624,7 +624,7 @@ function is_page($page = '')
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for a paged result.
  */
@@ -649,7 +649,7 @@ function is_paged()
  *
  * @since 2.0.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for a post or page preview.
  */
@@ -670,7 +670,7 @@ function is_preview()
  *
  * @since 2.1.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for the robots.txt file.
  */
@@ -691,7 +691,7 @@ function is_robots()
  *
  * @since 5.4.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for the favicon.ico file.
  */
@@ -716,7 +716,7 @@ function is_favicon()
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for a search.
  */
@@ -748,7 +748,7 @@ function is_search()
  *
  * @see is_page()
  * @see is_singular()
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param int|string|int[]|string[] $post Optional. Post ID, title, slug, or array of such
  *                                        to check against. Default empty.
@@ -781,7 +781,7 @@ function is_single($post = '')
  *
  * @see is_page()
  * @see is_single()
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param string|string[] $post_types Optional. Post type or array of post types
  *                                    to check against. Default empty.
@@ -809,7 +809,7 @@ function is_singular($post_types = '')
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for a specific time.
  */
@@ -834,7 +834,7 @@ function is_time()
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for a trackback endpoint call.
  */
@@ -859,7 +859,7 @@ function is_trackback()
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for an existing year archive.
  */
@@ -884,7 +884,7 @@ function is_year()
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is a 404 error.
  */
@@ -905,7 +905,7 @@ function is_404()
  *
  * @since 4.4.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is for an embedded post.
  */
@@ -930,7 +930,7 @@ function is_embed()
  *
  * @since 3.3.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool Whether the query is the main query.
  */
@@ -970,7 +970,7 @@ function is_main_query()
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool True if posts are available, false if end of the loop.
  */
@@ -994,7 +994,7 @@ function have_posts()
  *
  * @since 2.0.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool True if caller is within loop, false if loop hasn't started or ended.
  */
@@ -1014,7 +1014,7 @@ function in_the_loop()
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  */
 function rewind_posts()
 {
@@ -1032,7 +1032,7 @@ function rewind_posts()
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  */
 function the_post()
 {
@@ -1054,7 +1054,7 @@ function the_post()
  *
  * @since 2.2.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @return bool True if comments are available, false if no more comments.
  */
@@ -1074,7 +1074,7 @@ function have_comments()
  *
  * @since 2.2.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  */
 function the_comment()
 {
@@ -1172,7 +1172,7 @@ function wp_old_slug_redirect()
  * @access private
  *
  * @see wp_old_slug_redirect()
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param string $post_type The current post type based on the query vars.
  * @return int The Post ID.
@@ -1218,7 +1218,7 @@ function _find_post_by_old_slug($post_type)
  * @access private
  *
  * @see wp_old_slug_redirect()
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param string $post_type The current post type based on the query vars.
  * @return int The Post ID.
@@ -1266,7 +1266,7 @@ function _find_post_by_old_date($post_type)
  * @since 1.5.0
  * @since 4.4.0 Added the ability to pass a post ID to `$post`.
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param WP_Post|object|int $post WP_Post instance or Post ID/object.
  * @return bool True when finished.
@@ -1287,7 +1287,7 @@ function setup_postdata($post)
  *
  * @since 5.2.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param WP_Post|object|int $post WP_Post instance or Post ID/object.
  * @return array|false Elements of post, or false on failure.

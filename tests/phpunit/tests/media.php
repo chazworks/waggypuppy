@@ -6723,7 +6723,7 @@ EOF;
     /**
      * Returns a new WP_Query.
      *
-     * @global WP_Query $wp_query WordPress Query object.
+     * @global WP_Query $wp_query waggypuppy Query object.
      *
      * @return WP_Query a new query.
      */
@@ -6740,7 +6740,7 @@ EOF;
     /**
      * Sets a query as main query.
      *
-     * @global WP_Query $wp_the_query WordPress Query object.
+     * @global WP_Query $wp_the_query waggypuppy Query object.
      *
      * @param WP_Query $query query to be set as main query.
      */

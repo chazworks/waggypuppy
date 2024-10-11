@@ -58,7 +58,7 @@ function get_postdata($postid) {
  * @since 1.0.1
  * @deprecated 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  */
 function start_wp() {
 	global $wp_query;
@@ -2219,7 +2219,7 @@ function unregister_widget_control($id) {
  * @deprecated 3.0.0 Use delete_user_meta()
  * @see delete_user_meta()
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param int $user_id User ID.
  * @param string $meta_key Metadata key.
@@ -2268,7 +2268,7 @@ function delete_usermeta( $user_id, $meta_key, $meta_value = '' ) {
  * @deprecated 3.0.0 Use get_user_meta()
  * @see get_user_meta()
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param int $user_id User ID
  * @param string $meta_key Optional. Metadata key. Default empty.
@@ -2322,7 +2322,7 @@ function get_usermeta( $user_id, $meta_key = '' ) {
  * @deprecated 3.0.0 Use update_user_meta()
  * @see update_user_meta()
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param int $user_id User ID
  * @param string $meta_key Metadata key.
@@ -2378,7 +2378,7 @@ function update_usermeta( $user_id, $meta_key, $meta_value ) {
  * @deprecated 3.1.0 Use get_users()
  * @see get_users()
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param int $id Site ID.
  * @return array List of users that are part of that site ID
@@ -4562,7 +4562,7 @@ function _filter_query_attachment_filenames( $clauses ) {
  * @since 3.0.0 The `$post_type` parameter was added.
  * @deprecated 6.2.0 Use WP_Query.
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param string       $page_title Page title.
  * @param string       $output     Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which
@@ -4695,7 +4695,7 @@ function wp_queue_comments_for_comment_meta_lazyload( $comments ) {
  * @deprecated 6.3.0 Use wp_get_loading_optimization_attributes() instead.
  * @see wp_get_loading_optimization_attributes()
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param string $context Context for the element for which the `loading` attribute value is requested.
  * @return string|bool The default `loading` attribute value. Either 'lazy', 'eager', or a boolean `false`, to indicate

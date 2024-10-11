@@ -479,7 +479,7 @@ class WP_Date_Query
      *
      * @since 3.7.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param string $column The user-supplied column name.
      * @return string A validated column name value.
@@ -712,7 +712,7 @@ class WP_Date_Query
      *
      * @since 4.1.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param array $query        Date query clause.
      * @param array $parent_query Parent query of the current date query.
@@ -979,7 +979,7 @@ class WP_Date_Query
      *
      * @since 3.7.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param string   $column  The column to query against. Needs to be pre-validated!
      * @param string   $compare The comparison operator. Needs to be pre-validated!

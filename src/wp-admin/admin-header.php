@@ -16,8 +16,8 @@ if (! defined('WP_ADMIN')) {
  *
  * @global string    $title              The title of the current screen.
  * @global string    $hook_suffix
- * @global WP_Screen $current_screen     WordPress current screen object.
- * @global WP_Locale $wp_locale          WordPress date and time locale object.
+ * @global WP_Screen $current_screen     waggypuppy current screen object.
+ * @global WP_Locale $wp_locale          waggypuppy date and time locale object.
  * @global string    $pagenow            The filename of the current screen.
  * @global string    $update_title
  * @global int       $total_update_count

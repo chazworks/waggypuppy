@@ -65,7 +65,7 @@
  *
  * @since 1.5.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param string $option        Name of the option to retrieve. Expected to not be SQL-escaped.
  * @param mixed  $default_value Optional. Default value to return if the option does not exist.
@@ -255,7 +255,7 @@ function get_option($option, $default_value = false)
  *
  * @since 6.4.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param string[] $options An array of option names to be loaded.
  */
@@ -380,7 +380,7 @@ function get_options($options)
  * @since 6.4.0
  * @since 6.7.0 The autoload values 'yes' and 'no' are deprecated.
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param array $options Associative array of option names and their autoload values to set. The option names are
  *                       expected to not be SQL-escaped. The autoload values should be boolean values. For backward
@@ -591,7 +591,7 @@ function form_option($option)
  * @since 2.2.0
  * @since 5.3.1 The `$force_cache` parameter was added.
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param bool $force_cache Optional. Whether to force an update of the local cache
  *                          from the persistent cache. Default false.
@@ -688,7 +688,7 @@ function wp_prime_site_option_caches(array $options)
  *
  * @since 6.6.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param int      $network_id ID of the network. Can be null to default to the current network ID.
  * @param string[] $options    An array of option names to be loaded.
@@ -826,7 +826,7 @@ function wp_load_core_site_options($network_id = null)
  * @since 4.2.0 The `$autoload` parameter was added.
  * @since 6.7.0 The autoload values 'yes' and 'no' are deprecated.
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param string    $option   Name of the option to update. Expected to not be SQL-escaped.
  * @param mixed     $value    Option value. Must be serializable if non-scalar. Expected to not be SQL-escaped.
@@ -1052,7 +1052,7 @@ function update_option($option, $value, $autoload = null)
  * @since 6.6.0 The $autoload parameter's default value was changed to null.
  * @since 6.7.0 The autoload values 'yes' and 'no' are deprecated.
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param string    $option     Name of the option to add. Expected to not be SQL-escaped.
  * @param mixed     $value      Optional. Option value. Must be serializable if non-scalar.
@@ -1198,7 +1198,7 @@ function add_option($option, $value = '', $deprecated = '', $autoload = null)
  *
  * @since 1.2.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param string $option Name of the option to delete. Expected to not be SQL-escaped.
  * @return bool True if the option was deleted, false otherwise.
@@ -1627,7 +1627,7 @@ function set_transient($transient, $value, $expiration = 0)
  * The multi-table delete syntax is used to delete the transient record
  * from table a, and the corresponding transient_timeout record from table b.
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @since 4.9.0
  *
@@ -1997,7 +1997,7 @@ function update_site_option($option, $value)
  *
  * @see get_option()
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param int    $network_id    ID of the network. Can be null to default to the current network ID.
  * @param string $option        Name of the option to retrieve. Expected to not be SQL-escaped.
@@ -2132,7 +2132,7 @@ function get_network_option($network_id, $option, $default_value = false)
  *
  * @see add_option()
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param int    $network_id ID of the network. Can be null to default to the current network ID.
  * @param string $option     Name of the option to add. Expected to not be SQL-escaped.
@@ -2260,7 +2260,7 @@ function add_network_option($network_id, $option, $value)
  *
  * @see delete_option()
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param int    $network_id ID of the network. Can be null to default to the current network ID.
  * @param string $option     Name of the option to delete. Expected to not be SQL-escaped.
@@ -2365,7 +2365,7 @@ function delete_network_option($network_id, $option)
  *
  * @see update_option()
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param int    $network_id ID of the network. Can be null to default to the current network ID.
  * @param string $option     Name of the option. Expected to not be SQL-escaped.

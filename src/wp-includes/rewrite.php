@@ -130,7 +130,7 @@ const EP_ALL = EP_PERMALINK | EP_ATTACHMENT | EP_ROOT | EP_COMMENTS | EP_SEARCH 
  * @since 2.1.0
  * @since 4.4.0 Array support was added to the `$query` parameter.
  *
- * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+ * @global WP_Rewrite $wp_rewrite waggypuppy rewrite component.
  *
  * @param string       $regex Regular expression to match request against.
  * @param string|array $query The corresponding query vars for this rewrite rule.
@@ -153,8 +153,8 @@ function add_rewrite_rule($regex, $query, $after = 'bottom')
  *
  * @since 2.1.0
  *
- * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
- * @global WP         $wp         Current WordPress environment instance.
+ * @global WP_Rewrite $wp_rewrite waggypuppy rewrite component.
+ * @global WP         $wp         Current waggypuppy environment instance.
  *
  * @param string $tag   Name of the new rewrite tag.
  * @param string $regex Regular expression to substitute the tag for in rewrite rules.
@@ -183,7 +183,7 @@ function add_rewrite_tag($tag, $regex, $query = '')
  *
  * @since 4.5.0
  *
- * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+ * @global WP_Rewrite $wp_rewrite waggypuppy rewrite component.
  *
  * @param string $tag Name of the rewrite tag.
  */
@@ -199,7 +199,7 @@ function remove_rewrite_tag($tag)
  * @since 3.0.0
  *
  * @see WP_Rewrite::add_permastruct()
- * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+ * @global WP_Rewrite $wp_rewrite waggypuppy rewrite component.
  *
  * @param string $name   Name for permalink structure.
  * @param string $struct Permalink structure.
@@ -231,7 +231,7 @@ function add_permastruct($name, $struct, $args = [])
  * @since 4.5.0
  *
  * @see WP_Rewrite::remove_permastruct()
- * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+ * @global WP_Rewrite $wp_rewrite waggypuppy rewrite component.
  *
  * @param string $name Name for permalink structure.
  */
@@ -247,7 +247,7 @@ function remove_permastruct($name)
  *
  * @since 2.1.0
  *
- * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+ * @global WP_Rewrite $wp_rewrite waggypuppy rewrite component.
  *
  * @param string   $feedname Feed name. Should not start with '_'.
  * @param callable $callback Callback to run on feed display.
@@ -276,7 +276,7 @@ function add_feed($feedname, $callback)
  *
  * @since 3.0.0
  *
- * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+ * @global WP_Rewrite $wp_rewrite waggypuppy rewrite component.
  *
  * @param bool $hard Whether to update .htaccess (hard flush) or just update
  *                   rewrite_rules option (soft flush). Default is true (hard).
@@ -315,7 +315,7 @@ function flush_rewrite_rules($hard = true)
  * @since 2.1.0
  * @since 4.3.0 Added support for skipping query var registration by passing `false` to `$query_var`.
  *
- * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+ * @global WP_Rewrite $wp_rewrite waggypuppy rewrite component.
  *
  * @param string      $name      Name of the endpoint.
  * @param int         $places    Endpoint mask describing the places the endpoint should be added.
@@ -493,8 +493,8 @@ function wp_resolve_numeric_slug_conflicts($query_vars = [])
  *
  * @since 1.0.0
  *
- * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
- * @global WP         $wp         Current WordPress environment instance.
+ * @global WP_Rewrite $wp_rewrite waggypuppy rewrite component.
+ * @global WP         $wp         Current waggypuppy environment instance.
  *
  * @param string $url Permalink to check.
  * @return int Post ID, or 0 on failure.

@@ -151,7 +151,7 @@ final class WP_Site
      *
      * @since 4.5.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param int $site_id The ID of the site to retrieve.
      * @return WP_Site|false The site's object if found. False if not.

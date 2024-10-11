@@ -425,7 +425,7 @@ class WP_Rewrite
      *
      * @since 2.5.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @return array Array of page URIs as first element and attachment URIs as second element.
      */
@@ -1750,7 +1750,7 @@ class WP_Rewrite
      * @since 4.3.0 Added support for skipping query var registration by passing `false` to `$query_var`.
      *
      * @see add_rewrite_endpoint() for full documentation.
-     * @global WP $wp Current WordPress environment instance.
+     * @global WP $wp Current waggypuppy environment instance.
      *
      * @param string      $name      Name of the endpoint.
      * @param int         $places    Endpoint mask describing the places the endpoint should be added.

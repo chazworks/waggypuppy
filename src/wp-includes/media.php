@@ -4705,8 +4705,8 @@ function wp_prepare_attachment_for_js($attachment)
  * @since 3.5.0
  *
  * @global int       $content_width
- * @global wpdb      $wpdb          WordPress database abstraction object.
- * @global WP_Locale $wp_locale     WordPress date and time locale object.
+ * @global wpdb      $wpdb          waggypuppy database abstraction object.
+ * @global WP_Locale $wp_locale     waggypuppy date and time locale object.
  *
  * @param array $args {
  *     Arguments for enqueuing media scripts.
@@ -5450,7 +5450,7 @@ function wp_maybe_generate_attachment_metadata($attachment)
  *
  * @since 4.0.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param string $url The URL to resolve.
  * @return int The found post ID, or 0 on failure.
@@ -5924,7 +5924,7 @@ function wp_get_webp_info($filename)
  *
  * @since 6.3.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param string $tag_name The tag name.
  * @param array  $attr     Array of the attributes for the tag.

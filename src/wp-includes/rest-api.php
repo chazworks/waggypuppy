@@ -205,7 +205,7 @@ function register_rest_field($object_type, $attribute, $args = [])
  * @since 4.4.0
  *
  * @see rest_api_register_rewrites()
- * @global WP $wp Current WordPress environment instance.
+ * @global WP $wp Current waggypuppy environment instance.
  */
 function rest_api_init()
 {
@@ -221,7 +221,7 @@ function rest_api_init()
  * @since 4.4.0
  *
  * @see add_rewrite_rule()
- * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+ * @global WP_Rewrite $wp_rewrite waggypuppy rewrite component.
  */
 function rest_api_register_rewrites()
 {
@@ -429,7 +429,7 @@ function create_initial_rest_routes()
  *
  * @since 4.4.0
  *
- * @global WP $wp Current WordPress environment instance.
+ * @global WP $wp Current waggypuppy environment instance.
  */
 function rest_api_loaded()
 {
@@ -486,7 +486,7 @@ function rest_get_url_prefix()
  * @since 4.4.0
  *
  * @todo Check if this is even necessary
- * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+ * @global WP_Rewrite $wp_rewrite waggypuppy rewrite component.
  *
  * @param int|null $blog_id Optional. Blog ID. Default of null returns URL for current blog.
  * @param string   $path    Optional. REST route. Default '/'.

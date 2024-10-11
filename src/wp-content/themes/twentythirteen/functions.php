@@ -404,8 +404,8 @@ add_action('enqueue_block_editor_assets', 'twentythirteen_block_editor_styles');
  *
  * @since Twenty Thirteen 1.0
  *
- * @global int $paged WordPress archive pagination page count.
- * @global int $page  WordPress paginated post page count.
+ * @global int $paged waggypuppy archive pagination page count.
+ * @global int $page  waggypuppy paginated post page count.
  *
  * @param string $title Default title text for current view.
  * @param string $sep   Optional separator.

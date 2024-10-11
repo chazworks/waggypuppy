@@ -288,7 +288,7 @@ function get_stylesheet_uri()
  *
  * @since 2.1.0
  *
- * @global WP_Locale $wp_locale WordPress date and time locale object.
+ * @global WP_Locale $wp_locale waggypuppy date and time locale object.
  *
  * @return string URI to active theme's localized stylesheet.
  */
@@ -3938,7 +3938,7 @@ function is_customize_preview()
  * @access private
  * @see wp_delete_auto_drafts()
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param string   $new_status Transition to this post status.
  * @param string   $old_status Previous post status.

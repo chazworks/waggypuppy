@@ -22,8 +22,8 @@ const WPINC = 'wp-includes';
  * include version.php from another installation and don't override
  * these values if already set.
  *
- * @global string $wp_version             The WordPress version string.
- * @global int    $wp_db_version          WordPress database version.
+ * @global string $wp_version             The waggypuppy version string.
+ * @global int    $wp_db_version          waggypuppy database version.
  * @global string $tinymce_version        TinyMCE version.
  * @global string $required_php_version   The required PHP version string.
  * @global string $required_mysql_version The required MySQL version string.
@@ -126,7 +126,7 @@ require ABSPATH . WPINC . '/l10n/class-wp-translation-file-php.php';
 /**
  * @since 0.71
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  */
 global $wpdb;
 // Include the wpdb class and, if present, a db.php database drop-in.
@@ -411,7 +411,7 @@ add_action('after_setup_theme', [wp_interactivity(), 'add_hooks']);
 /**
  * @since 3.3.0
  *
- * @global WP_Embed $wp_embed WordPress Embed object.
+ * @global WP_Embed $wp_embed waggypuppy Embed object.
  */
 $GLOBALS['wp_embed'] = new WP_Embed();
 
@@ -422,7 +422,7 @@ $GLOBALS['wp_embed'] = new WP_Embed();
  *
  * @since 6.1.0
  *
- * @global WP_Textdomain_Registry $wp_textdomain_registry WordPress Textdomain Registry.
+ * @global WP_Textdomain_Registry $wp_textdomain_registry waggypuppy Textdomain Registry.
  */
 $GLOBALS['wp_textdomain_registry'] = new WP_Textdomain_Registry();
 $GLOBALS['wp_textdomain_registry']->init();
@@ -576,7 +576,7 @@ do_action('sanitize_comment_cookies');
  *
  * @since 2.0.0
  *
- * @global WP_Query $wp_the_query WordPress Query object.
+ * @global WP_Query $wp_the_query waggypuppy Query object.
  */
 $GLOBALS['wp_the_query'] = new WP_Query();
 
@@ -586,7 +586,7 @@ $GLOBALS['wp_the_query'] = new WP_Query();
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  */
 $GLOBALS['wp_query'] = $GLOBALS['wp_the_query'];
 
@@ -595,7 +595,7 @@ $GLOBALS['wp_query'] = $GLOBALS['wp_the_query'];
  *
  * @since 1.5.0
  *
- * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+ * @global WP_Rewrite $wp_rewrite waggypuppy rewrite component.
  */
 $GLOBALS['wp_rewrite'] = new WP_Rewrite();
 
@@ -604,7 +604,7 @@ $GLOBALS['wp_rewrite'] = new WP_Rewrite();
  *
  * @since 2.0.0
  *
- * @global WP $wp Current WordPress environment instance.
+ * @global WP $wp Current waggypuppy environment instance.
  */
 $GLOBALS['wp'] = new WP();
 
@@ -622,7 +622,7 @@ $GLOBALS['wp_widget_factory'] = new WP_Widget_Factory();
  *
  * @since 2.0.0
  *
- * @global WP_Roles $wp_roles WordPress role management object.
+ * @global WP_Roles $wp_roles waggypuppy role management object.
  */
 $GLOBALS['wp_roles'] = new WP_Roles();
 
@@ -652,7 +652,7 @@ unset($locale_file);
  *
  * @since 2.1.0
  *
- * @global WP_Locale $wp_locale WordPress date and time locale object.
+ * @global WP_Locale $wp_locale waggypuppy date and time locale object.
  */
 $GLOBALS['wp_locale'] = new WP_Locale();
 
@@ -661,7 +661,7 @@ $GLOBALS['wp_locale'] = new WP_Locale();
  *
  * @since 4.7.0
  *
- * @global WP_Locale_Switcher $wp_locale_switcher WordPress locale switcher object.
+ * @global WP_Locale_Switcher $wp_locale_switcher waggypuppy locale switcher object.
  */
 $GLOBALS['wp_locale_switcher'] = new WP_Locale_Switcher();
 $GLOBALS['wp_locale_switcher']->init();

@@ -1600,7 +1600,7 @@ function wp_zip_file_is_valid($file)
  *
  * @since 2.5.0
  *
- * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+ * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
  *
  * @param string $file Full path and filename of ZIP archive.
  * @param string $to   Full path on the filesystem to extract archive to.
@@ -1674,7 +1674,7 @@ function unzip_file($file, $to)
  *
  * @see unzip_file()
  *
- * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+ * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
  *
  * @param string   $file        Full path and filename of ZIP archive.
  * @param string   $to          Full path on the filesystem to extract archive to.
@@ -1866,7 +1866,7 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = [])
  *
  * @see unzip_file()
  *
- * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+ * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
  *
  * @param string   $file        Full path and filename of ZIP archive.
  * @param string   $to          Full path on the filesystem to extract archive to.
@@ -2005,7 +2005,7 @@ function _unzip_file_pclzip($file, $to, $needed_dirs = [])
  *
  * @since 2.5.0
  *
- * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+ * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
  *
  * @param string   $from      Source directory.
  * @param string   $to        Destination directory.
@@ -2089,7 +2089,7 @@ function copy_dir($from, $to, $skip_list = [])
  *
  * @since 6.2.0
  *
- * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+ * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
  *
  * @param string $from      Source directory.
  * @param string $to        Destination directory.
@@ -2160,7 +2160,7 @@ function move_dir($from, $to, $overwrite = false)
  *
  * @since 2.5.0
  *
- * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+ * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
  *
  * @param array|false  $args                         Optional. Connection args, These are passed
  *                                                   directly to the `WP_Filesystem_*()` classes.
@@ -2785,7 +2785,7 @@ function wp_opcache_invalidate($filepath, $force = false)
  * @see wp_opcache_invalidate()
  * @link https://www.php.net/manual/en/function.opcache-invalidate.php
  *
- * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+ * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
  *
  * @param string $dir The path to the directory for which the opcode cache is to be cleared.
  */

@@ -155,7 +155,7 @@ class Language_Pack_Upgrader extends WP_Upgrader
      *
      * @since 3.7.0
      *
-     * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+     * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
      *
      * @param object[] $language_updates Optional. Array of language packs to update. See {@see wp_get_translation_updates()}.
      *                                   Default empty array.
@@ -321,7 +321,7 @@ class Language_Pack_Upgrader extends WP_Upgrader
      *
      * @since 3.7.0
      *
-     * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+     * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
      *
      * @param string|WP_Error $source        The path to the downloaded package source.
      * @param string          $remote_source Remote file source location.
@@ -409,7 +409,7 @@ class Language_Pack_Upgrader extends WP_Upgrader
      *
      * @since 5.1.0
      *
-     * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+     * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
      *
      * @param string $remote_destination The location on the remote filesystem to be cleared.
      * @return bool|WP_Error True upon success, WP_Error on failure.

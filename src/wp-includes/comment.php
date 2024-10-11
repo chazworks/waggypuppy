@@ -24,7 +24,7 @@
  *
  * @since 1.2.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param string $author       Comment author name.
  * @param string $email        Comment author email.
@@ -328,7 +328,7 @@ function get_default_comment_status($post_type = 'post', $comment_type = 'commen
  * @since 4.7.0 Replaced caching the modified date in a local static variable
  *              with the Object Cache API.
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param string $timezone Which timezone to use in reference to 'gmt', 'blog', or 'server' locations.
  * @return string|false Last comment modified date on success, false on failure.
@@ -657,7 +657,7 @@ function sanitize_comment_cookies()
  *              to return a WP_Error object instead of dying.
  * @since 5.5.0 The `$avoid_die` parameter was renamed to `$wp_error`.
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param array $commentdata Contains information on the comment.
  * @param bool  $wp_error    When true, a disallowed comment will result in the function
@@ -867,7 +867,7 @@ function check_comment_flood_db()
  *
  * @since 4.7.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param bool   $is_flood  Is a comment flooding occurring?
  * @param string $ip        Comment author's IP address.
@@ -1003,7 +1003,7 @@ function separate_comments(&$comments)
  *
  * @uses Walker_Comment
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param WP_Comment[] $comments Optional. Array of WP_Comment objects. Defaults to `$wp_query->comments`.
  * @param int          $per_page Optional. Comments per page. Defaults to the value of `comments_per_page`
@@ -1061,7 +1061,7 @@ function get_comment_pages_count($comments = null, $per_page = null, $threaded =
  *
  * @since 2.7.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param int   $comment_id Comment ID.
  * @param array $args {
@@ -1232,7 +1232,7 @@ function get_page_of_comment($comment_id, $args = [])
  *
  * @since 4.5.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @return int[] Array of maximum lengths keyed by field name.
  */
@@ -1467,7 +1467,7 @@ function wp_count_comments($post_id = 0)
  *
  * @since 2.0.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param int|WP_Comment $comment_id   Comment ID or WP_Comment object.
  * @param bool           $force_delete Whether to bypass Trash and force deletion. Default false.
@@ -1999,7 +1999,7 @@ function wp_get_unapproved_comment_author_email()
  * @since 4.4.0 Introduced the `$comment_meta` argument.
  * @since 5.5.0 Default value for `$comment_type` argument changed to `comment`.
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param array $commentdata {
  *     Array of arguments for inserting a new comment.
@@ -2221,7 +2221,7 @@ function wp_throttle_comment_flood($block, $time_lastcomment, $time_newcomment)
  * @since 5.5.0 Introduced the `comment_type` argument.
  *
  * @see wp_insert_comment()
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param array $commentdata {
  *     Comment data.
@@ -2440,7 +2440,7 @@ function wp_new_comment_notify_postauthor($comment_id)
  *
  * @since 1.0.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param int|WP_Comment $comment_id     Comment ID or WP_Comment object.
  * @param string         $comment_status New comment status, either 'hold', 'approve', 'spam', or 'trash'.
@@ -2515,7 +2515,7 @@ function wp_set_comment_status($comment_id, $comment_status, $wp_error = false)
  * @since 5.5.0 The return values for an invalid comment or post ID
  *              were changed to false instead of 0.
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param array $commentarr Contains information on the comment.
  * @param bool  $wp_error   Optional. Whether to return a WP_Error on failure. Default false.
@@ -2756,7 +2756,7 @@ function wp_update_comment_count($post_id, $do_deferred = false)
  *
  * @since 2.5.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param int $post_id Post ID
  * @return bool True on success, false if the post does not exist.
@@ -3009,7 +3009,7 @@ function do_all_trackbacks()
  * @since 1.5.0
  * @since 4.7.0 `$post` can be a WP_Post object.
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param int|WP_Post $post Post ID or object to do trackbacks on.
  * @return void|false Returns false on failure.
@@ -3227,7 +3227,7 @@ function privacy_ping_filter($sites)
  *
  * @since 0.71
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param string $trackback_url URL to send trackbacks.
  * @param string $title         Title of post.
@@ -3392,7 +3392,7 @@ function update_comment_cache($comments, $update_meta_cache = true)
  * @since 6.3.0 Use wp_lazyload_comment_meta() for lazy-loading of comment meta.
  *
  * @see update_comment_cache()
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param int[] $comment_ids       Array of comment IDs.
  * @param bool  $update_meta_cache Optional. Whether to update the meta cache. Default true.
@@ -3887,7 +3887,7 @@ function wp_register_comment_personal_data_eraser($erasers)
  *
  * @since 4.9.6
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param string $email_address The comment author email address.
  * @param int    $page          Comment page number.
@@ -4009,7 +4009,7 @@ function wp_cache_set_comments_last_changed()
  *
  * @since 5.5.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  */
 function _wp_batch_update_comment_type()
 {

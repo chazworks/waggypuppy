@@ -950,11 +950,11 @@ $_new_bundled_files = [
  *
  * @since 2.7.0
  *
- * @global WP_Filesystem_Base $wp_filesystem          WordPress filesystem subclass.
+ * @global WP_Filesystem_Base $wp_filesystem          waggypuppy filesystem subclass.
  * @global array              $_old_files
  * @global array              $_old_requests_files
  * @global array              $_new_bundled_files
- * @global wpdb               $wpdb                   WordPress database abstraction object.
+ * @global wpdb               $wpdb                   waggypuppy database abstraction object.
  * @global string             $wp_version
  * @global string             $required_php_version
  * @global string             $required_mysql_version
@@ -1539,7 +1539,7 @@ function update_core($from, $to)
  * @since 6.2.0
  *
  * @global array              $_old_requests_files Requests files to be preloaded.
- * @global WP_Filesystem_Base $wp_filesystem       WordPress filesystem subclass.
+ * @global WP_Filesystem_Base $wp_filesystem       waggypuppy filesystem subclass.
  *
  * @param string $to Path to old WordPress installation.
  */

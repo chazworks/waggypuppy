@@ -28,11 +28,11 @@
  *
  * @since 2.3.0
  *
- * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+ * @global WP_Rewrite $wp_rewrite waggypuppy rewrite component.
  * @global bool       $is_IIS
- * @global WP_Query   $wp_query   WordPress Query object.
- * @global wpdb       $wpdb       WordPress database abstraction object.
- * @global WP         $wp         Current WordPress environment instance.
+ * @global WP_Query   $wp_query   waggypuppy Query object.
+ * @global wpdb       $wpdb       waggypuppy database abstraction object.
+ * @global WP         $wp         Current waggypuppy environment instance.
  *
  * @param string $requested_url Optional. The URL that was requested, used to
  *                              figure if redirect is needed.
@@ -915,7 +915,7 @@ function strip_fragment_from_url($url)
  *
  * @since 2.3.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @return string|false The correct URL if one is found. False on failure.
  */
@@ -1030,7 +1030,7 @@ function redirect_guess_404_permalink()
  *
  * @since 3.4.0
  *
- * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+ * @global WP_Rewrite $wp_rewrite waggypuppy rewrite component.
  */
 function wp_redirect_admin_locations()
 {

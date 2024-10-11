@@ -130,7 +130,7 @@ function block_core_calendar_has_published_posts()
  *
  * @since 5.9.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @return bool Has any published posts or not.
  */

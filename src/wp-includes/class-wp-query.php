@@ -1393,7 +1393,7 @@ class WP_Query
      *
      * @since 3.7.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param array $q Query variables.
      * @return string WHERE clause.
@@ -1602,7 +1602,7 @@ class WP_Query
      *
      * @since 3.7.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param array $q Query variables.
      * @return string ORDER BY clause.
@@ -1662,7 +1662,7 @@ class WP_Query
      *
      * @since 4.0.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param string $orderby Alias for the field to order by.
      * @return string|false Table-prefixed value to used in the ORDER clause. False otherwise.
@@ -1874,7 +1874,7 @@ class WP_Query
      *
      * @since 1.5.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @return WP_Post[]|int[] Array of post objects or post IDs.
      */
@@ -3618,7 +3618,7 @@ class WP_Query
      *
      * @since 3.5.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param array  $q      Query variables.
      * @param string $limits LIMIT clauses of the query.
@@ -4751,7 +4751,7 @@ class WP_Query
      *
      * @since 3.3.0
      *
-     * @global WP_Query $wp_the_query WordPress Query object.
+     * @global WP_Query $wp_the_query waggypuppy Query object.
      *
      * @return bool Whether the query is the main query.
      */
@@ -4930,7 +4930,7 @@ class WP_Query
      *
      * @since 6.1.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param array  $args Query arguments.
      * @param string $sql  SQL statement.

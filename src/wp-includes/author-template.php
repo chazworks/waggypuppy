@@ -367,7 +367,7 @@ function the_author_posts_link($deprecated = '')
  *
  * @since 2.1.0
  *
- * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+ * @global WP_Rewrite $wp_rewrite waggypuppy rewrite component.
  *
  * @param int    $author_id       Author ID.
  * @param string $author_nicename Optional. The author's nicename (slug). Default empty.
@@ -415,7 +415,7 @@ function get_author_posts_url($author_id, $author_nicename = '')
  *
  * @since 1.2.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @param string|array $args {
  *     Optional. Array or string of default arguments.
@@ -609,7 +609,7 @@ function wp_list_authors($args = '')
  *
  * @since 3.2.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
  *
  * @return bool Whether or not we have more than one author
  */

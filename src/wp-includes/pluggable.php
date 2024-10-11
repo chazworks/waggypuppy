@@ -122,7 +122,7 @@ if (! function_exists('cache_users')) :
      *
      * @since 3.0.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param int[] $user_ids User ID numbers list
      */
@@ -1899,7 +1899,7 @@ if (! function_exists('wp_notify_moderator')) :
      *
      * @since 1.0.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * Uses the {@see 'notify_moderator'} filter to determine whether the site moderator
      * should be notified, overriding the site setting.
@@ -2871,7 +2871,7 @@ if (! function_exists('wp_set_password')) :
      *
      * @since 2.5.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param string $password The plaintext new user password.
      * @param int    $user_id  User ID.

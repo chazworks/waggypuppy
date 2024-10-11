@@ -25,7 +25,7 @@ const WXR_VERSION = '1.2';
  * @since 2.1.0
  * @since 5.7.0 Added the `post_modified` and `post_modified_gmt` fields to the export file.
  *
- * @global wpdb    $wpdb WordPress database abstraction object.
+ * @global wpdb    $wpdb waggypuppy database abstraction object.
  * @global WP_Post $post Global post object.
  *
  * @param array $args {
@@ -373,7 +373,7 @@ function export_wp($args = [])
      *
      * @since 4.6.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param WP_Term $term Term object.
      */
@@ -407,7 +407,7 @@ function export_wp($args = [])
      *
      * @since 3.1.0
      *
-     * @global wpdb $wpdb WordPress database abstraction object.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
      *
      * @param int[] $post_ids Optional. Array of post IDs to filter the query by.
      */
@@ -593,7 +593,7 @@ function export_wp($args = [])
     <?php
     if ($post_ids) {
         /**
-         * @global WP_Query $wp_query WordPress Query object.
+         * @global WP_Query $wp_query waggypuppy Query object.
          */
         global $wp_query;
 

@@ -100,7 +100,7 @@ function the_post_thumbnail($size = 'post-thumbnail', $attr = '')
  *
  * @since 3.2.0
  *
- * @global WP_Query $wp_query WordPress Query object.
+ * @global WP_Query $wp_query waggypuppy Query object.
  *
  * @param WP_Query $wp_query Optional. A WP_Query instance. Defaults to the $wp_query global.
  */

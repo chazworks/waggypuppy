@@ -817,7 +817,7 @@ function bloginfo($show = '')
  *
  * @since 0.71
  *
- * @global string $wp_version The WordPress version string.
+ * @global string $wp_version The waggypuppy version string.
  *
  * @param string $show   Optional. Site info to retrieve. Default empty (site name).
  * @param string $filter Optional. How to filter what is retrieved. Default 'raw'.
@@ -1350,7 +1350,7 @@ function _wp_render_title_tag()
  *
  * @since 1.0.0
  *
- * @global WP_Locale $wp_locale WordPress date and time locale object.
+ * @global WP_Locale $wp_locale waggypuppy date and time locale object.
  *
  * @param string $sep         Optional. How to separate the various items within the page title.
  *                            Default '&raquo;'.
@@ -1679,7 +1679,7 @@ function single_term_title($prefix = '', $display = true)
  *
  * @since 0.71
  *
- * @global WP_Locale $wp_locale WordPress date and time locale object.
+ * @global WP_Locale $wp_locale waggypuppy date and time locale object.
  *
  * @param string $prefix  Optional. What to display before the title.
  * @param bool   $display Optional. Whether to display or retrieve title. Default true.
@@ -1997,8 +1997,8 @@ function get_archives_link($url, $text, $format = 'html', $before = '', $after =
  *
  * @see get_archives_link()
  *
- * @global wpdb      $wpdb      WordPress database abstraction object.
- * @global WP_Locale $wp_locale WordPress date and time locale object.
+ * @global wpdb      $wpdb      waggypuppy database abstraction object.
+ * @global WP_Locale $wp_locale waggypuppy date and time locale object.
  *
  * @param string|array $args {
  *     Default archive links arguments. Optional.
@@ -2271,11 +2271,11 @@ function calendar_week_mod($num)
  *
  * @since 1.0.0
  *
- * @global wpdb      $wpdb      WordPress database abstraction object.
+ * @global wpdb      $wpdb      waggypuppy database abstraction object.
  * @global int       $m
  * @global int       $monthnum
  * @global int       $year
- * @global WP_Locale $wp_locale WordPress date and time locale object.
+ * @global WP_Locale $wp_locale waggypuppy date and time locale object.
  * @global array     $posts
  *
  * @param bool $initial Optional. Whether to use initial calendar names. Default true.
@@ -3033,7 +3033,7 @@ function get_post_modified_time($format = 'U', $gmt = false, $post = null, $tran
  *
  * @since 0.71
  *
- * @global WP_Locale $wp_locale WordPress date and time locale object.
+ * @global WP_Locale $wp_locale waggypuppy date and time locale object.
  */
 function the_weekday()
 {
@@ -3065,7 +3065,7 @@ function the_weekday()
  *
  * @since 0.71
  *
- * @global WP_Locale $wp_locale       WordPress date and time locale object.
+ * @global WP_Locale $wp_locale       waggypuppy date and time locale object.
  * @global string    $currentday      The day of the current post in the loop.
  * @global string    $previousweekday The day of the previous post in the loop.
  *
@@ -4543,8 +4543,8 @@ function language_attributes($doctype = 'html')
  * @since 2.1.0
  * @since 4.9.0 Added the `aria_current` argument.
  *
- * @global WP_Query   $wp_query   WordPress Query object.
- * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+ * @global WP_Query   $wp_query   waggypuppy Query object.
+ * @global WP_Rewrite $wp_rewrite waggypuppy rewrite component.
  *
  * @param string|array $args {
  *     Optional. Array or string of arguments for generating paginated links for archives.
