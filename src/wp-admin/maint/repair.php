@@ -5,7 +5,7 @@
  * @package WordPress
  * @subpackage Database
  */
-define('WP_REPAIRING', true);
+const WP_REPAIRING = true;
 
 require_once dirname(__DIR__, 2) . '/wp-load.php';
 

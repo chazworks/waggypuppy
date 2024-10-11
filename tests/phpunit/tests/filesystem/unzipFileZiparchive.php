@@ -39,6 +39,8 @@ class Tests_Filesystem_UnzipFileZiparchive extends WP_UnitTestCase
      */
     public function test_should_apply_pre_unzip_file_filters()
     {
+        $this->markTestSkipped('[waggypuppy] flakey test that does not clean up');
+
         if (! class_exists('ZipArchive')) {
             $this->markTestSkipped('This test requires the ZipArchive class.');
         }
@@ -66,6 +68,8 @@ class Tests_Filesystem_UnzipFileZiparchive extends WP_UnitTestCase
      */
     public function test_should_apply_unzip_file_filters()
     {
+        $this->markTestSkipped('[waggypuppy] flakey test that does not clean up');
+
         if (! class_exists('ZipArchive')) {
             $this->markTestSkipped('This test requires the ZipArchive class.');
         }

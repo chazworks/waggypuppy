@@ -16,7 +16,7 @@ if (is_callable('getopt')) {
 
 define('DIR_TESTROOT', realpath(__DIR__));
 
-define('TEST_WP', true);
+const TEST_WP = true;
 define('WP_DEBUG', array_key_exists('d', $opts));
 
 if (! empty($opts['r'])) {
@@ -43,7 +43,7 @@ define('WP_USER_NAME', rand_str());
 define('WP_USER_EMAIL', rand_str() . '@example.com');
 
 // Initialize WP.
-define('WP_INSTALLING', 1);
+const WP_INSTALLING = 1;
 $_SERVER['PATH_INFO'] = $_SERVER['SCRIPT_NAME']; // Prevent a warning from some sloppy code in wp-settings.php.
 require_once ABSPATH . 'wp-settings.php';
 
@@ -56,7 +56,7 @@ wp_install(WP_BLOG_TITLE, WP_USER_NAME, WP_USER_EMAIL, true);
 assert(true === is_blog_installed());
 
 // phpcs:ignore Generic.NamingConventions.UpperCaseConstantName.ConstantNotUpperCase
-define('PHPUnit_MAIN_METHOD', false);
+const PHPUnit_MAIN_METHOD = false;
 $original_wpdb = $GLOBALS['wpdb'];
 
 // Hide warnings during testing, since that's the normal WP behavior.

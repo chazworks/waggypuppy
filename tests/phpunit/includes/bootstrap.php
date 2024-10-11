@@ -212,9 +212,9 @@ if ($missing_constants) {
 tests_reset__SERVER();
 
 define('WP_TESTS_TABLE_PREFIX', $table_prefix);
-define('DIR_TESTDATA', __DIR__ . '/../data');
+const DIR_TESTDATA = __DIR__ . '/../data';
 define('DIR_TESTROOT', realpath(dirname(__DIR__)));
-define('IMPORTER_PLUGIN_FOR_TESTS', DIR_TESTDATA . '/plugins/wordpress-importer/wordpress-importer.php');
+const IMPORTER_PLUGIN_FOR_TESTS = DIR_TESTDATA . '/plugins/wordpress-importer/wordpress-importer.php';
 
 if (defined('WP_RUN_CORE_TESTS') && WP_RUN_CORE_TESTS && ! file_exists(IMPORTER_PLUGIN_FOR_TESTS)) {
     echo 'The test suite requires the WordPress Importer plugin to be available in the `/data/plugins/` directory.'
@@ -236,12 +236,12 @@ if (! defined('WP_TESTS_FORCE_KNOWN_BUGS')) {
  * Cron tries to make an HTTP request to the site, which always fails,
  * because tests are run in CLI mode only.
  */
-define('DISABLE_WP_CRON', true);
+const DISABLE_WP_CRON = true;
 
-define('WP_MEMORY_LIMIT', -1);
-define('WP_MAX_MEMORY_LIMIT', -1);
+const WP_MEMORY_LIMIT = -1;
+const WP_MAX_MEMORY_LIMIT = -1;
 
-define('REST_TESTS_IMPOSSIBLY_HIGH_NUMBER', 99999999);
+const REST_TESTS_IMPOSSIBLY_HIGH_NUMBER = 99999999;
 
 $PHP_SELF            = '/index.php';
 $GLOBALS['PHP_SELF'] = '/index.php';

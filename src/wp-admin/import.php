@@ -6,7 +6,7 @@
  * @subpackage Administration
  */
 
-define('WP_LOAD_IMPORTERS', true);
+const WP_LOAD_IMPORTERS = true;
 
 /** Load WordPress Bootstrap */
 require_once __DIR__ . '/admin.php';

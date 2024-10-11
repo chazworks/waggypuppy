@@ -13,13 +13,13 @@ if (! defined('WP_RUN_CORE_TESTS') && in_array('run_core_tests', $argv, true)) {
     define('WP_RUN_CORE_TESTS', true);
 }
 
-define('WP_INSTALLING', true);
+const WP_INSTALLING = true;
 
 /*
  * Cron tries to make an HTTP request to the site, which always fails,
  * because tests are run in CLI mode only.
  */
-define('DISABLE_WP_CRON', true);
+const DISABLE_WP_CRON = true;
 
 require_once $config_file_path;
 require_once __DIR__ . '/functions.php';

@@ -62,19 +62,19 @@ if(!defined('FTP_FORCE')) define('FTP_FORCE', true);
  * @since 2.5.0
  * @var string
  */
-define('FTP_OS_Unix','u');
+const FTP_OS_Unix = 'u';
 
 /**
  * @since 2.5.0
  * @var string
  */
-define('FTP_OS_Windows','w');
+const FTP_OS_Windows = 'w';
 
 /**
  * @since 2.5.0
  * @var string
  */
-define('FTP_OS_Mac','m');
+const FTP_OS_Mac = 'm';
 
 /**
  * PemFTP base class

@@ -57,26 +57,26 @@ if (!defined('GETID3_INCLUDEPATH')) { // prevent path-exposing attacks that acce
 	exit;
 }
 
-define('GETID3_FLV_TAG_AUDIO',          8);
-define('GETID3_FLV_TAG_VIDEO',          9);
-define('GETID3_FLV_TAG_META',          18);
+const GETID3_FLV_TAG_AUDIO = 8;
+const GETID3_FLV_TAG_VIDEO = 9;
+const GETID3_FLV_TAG_META = 18;
 
-define('GETID3_FLV_VIDEO_H263',         2);
-define('GETID3_FLV_VIDEO_SCREEN',       3);
-define('GETID3_FLV_VIDEO_VP6FLV',       4);
-define('GETID3_FLV_VIDEO_VP6FLV_ALPHA', 5);
-define('GETID3_FLV_VIDEO_SCREENV2',     6);
-define('GETID3_FLV_VIDEO_H264',         7);
+const GETID3_FLV_VIDEO_H263 = 2;
+const GETID3_FLV_VIDEO_SCREEN = 3;
+const GETID3_FLV_VIDEO_VP6FLV = 4;
+const GETID3_FLV_VIDEO_VP6FLV_ALPHA = 5;
+const GETID3_FLV_VIDEO_SCREENV2 = 6;
+const GETID3_FLV_VIDEO_H264 = 7;
 
-define('H264_AVC_SEQUENCE_HEADER',          0);
-define('H264_PROFILE_BASELINE',            66);
-define('H264_PROFILE_MAIN',                77);
-define('H264_PROFILE_EXTENDED',            88);
-define('H264_PROFILE_HIGH',               100);
-define('H264_PROFILE_HIGH10',             110);
-define('H264_PROFILE_HIGH422',            122);
-define('H264_PROFILE_HIGH444',            144);
-define('H264_PROFILE_HIGH444_PREDICTIVE', 244);
+const H264_AVC_SEQUENCE_HEADER = 0;
+const H264_PROFILE_BASELINE = 66;
+const H264_PROFILE_MAIN = 77;
+const H264_PROFILE_EXTENDED = 88;
+const H264_PROFILE_HIGH = 100;
+const H264_PROFILE_HIGH10 = 110;
+const H264_PROFILE_HIGH422 = 122;
+const H264_PROFILE_HIGH444 = 144;
+const H264_PROFILE_HIGH444_PREDICTIVE = 244;
 
 class getid3_flv extends getid3_handler
 {
