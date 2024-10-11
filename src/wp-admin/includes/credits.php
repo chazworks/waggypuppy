@@ -34,7 +34,7 @@ function wp_credits($version = '', $locale = '')
         || (isset($results['data']['version']) && ! str_starts_with($version, $results['data']['version']))
     ) {
         $url     = "http://api.wp.org/core/credits/1.1/?version={$version}&locale={$locale}";
-        $options = ['user-agent' => '__VAR_WP/' . $version . '; ' . home_url('/')];
+        $options = ['user-agent' => 'WordPress/' . $version . '; ' . home_url('/')];
 
         if (wp_http_supports(['ssl'])) {
             $url = set_url_scheme($url, 'https');
@@ -104,10 +104,10 @@ function wp_credits_section_title($group_data = [])
             // Considered a special slug in the API response. (Also, will never be returned for en_US.)
             $title = _x('Translators', 'Translate this to be the equivalent of English Translators in your language for the credits page Translators section');
         } elseif (isset($group_data['placeholders'])) {
-			// phpcs:ignore __VAR_WP.WP.I18n.LowLevelTranslationFunction,__VAR_WP.WP.I18n.NonSingularStringLiteralText
+			// phpcs:ignore WordPress.WP.I18n.LowLevelTranslationFunction,WordPress.WP.I18n.NonSingularStringLiteralText
             $title = vsprintf(translate($group_data['name']), $group_data['placeholders']);
         } else {
-			// phpcs:ignore __VAR_WP.WP.I18n.LowLevelTranslationFunction,__VAR_WP.WP.I18n.NonSingularStringLiteralText
+			// phpcs:ignore WordPress.WP.I18n.LowLevelTranslationFunction,WordPress.WP.I18n.NonSingularStringLiteralText
             $title = translate($group_data['name']);
         }
 
@@ -157,7 +157,7 @@ function wp_credits_section_list($credits = [], $slug = '')
                 echo '<span class="wp-person-avatar"><img src="' . esc_url($data['url']) . '" srcset="' . esc_url($data2x['url']) . ' 2x" class="gravatar" alt="" /></span>' . "\n";
                 echo esc_html($person_data[0]) . "</a>\n\t";
                 if (! $compact && ! empty($person_data[3])) {
-					// phpcs:ignore __VAR_WP.WP.I18n.LowLevelTranslationFunction,__VAR_WP.WP.I18n.NonSingularStringLiteralText
+					// phpcs:ignore WordPress.WP.I18n.LowLevelTranslationFunction,WordPress.WP.I18n.NonSingularStringLiteralText
                     echo '<span class="title">' . translate($person_data[3]) . "</span>\n";
                 }
                 echo "</li>\n";

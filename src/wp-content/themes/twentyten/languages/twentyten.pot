@@ -1,4 +1,4 @@
-# Copyright (C) 2019 the __VAR_WP team
+# Copyright (C) 2019 the WordPress team
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
@@ -411,7 +411,7 @@ msgid "The 2010 theme for WP is stylish, customizable, simple, and readable -- m
 msgstr ""
 
 #. Author of the plugin/theme
-msgid "the __VAR_WP team"
+msgid "the WordPress team"
 msgstr ""
 
 #. Author URI of the plugin/theme

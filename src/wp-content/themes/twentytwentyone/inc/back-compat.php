@@ -83,7 +83,7 @@ add_action('load-customize.php', 'twenty_twenty_one_customize');
  */
 function twenty_twenty_one_preview()
 {
-    if (isset($_GET['preview'])) { // phpcs:ignore __VAR_WP.Security.NonceVerification
+    if (isset($_GET['preview'])) { // phpcs:ignore WordPress.Security.NonceVerification
         wp_die(
             sprintf(
                 /* translators: %s: WP Version. */

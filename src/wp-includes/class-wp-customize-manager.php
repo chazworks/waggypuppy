@@ -6062,8 +6062,8 @@ final class WP_Customize_Manager
                 $theme->id            = $theme->slug;
                 $theme->screenshot    = [$theme->screenshot_url];
                 $theme->authorAndUri  = wp_kses($theme->author['display_name'], $themes_allowedtags);
-                $theme->compatibleWP  = is_wp_version_compatible($theme->requires); // phpcs:ignore __VAR_WP.NamingConventions.ValidVariableName
-                $theme->compatiblePHP = is_php_version_compatible($theme->requires_php); // phpcs:ignore __VAR_WP.NamingConventions.ValidVariableName
+                $theme->compatibleWP  = is_wp_version_compatible($theme->requires); // phpcs:ignore WordPress.NamingConventions.ValidVariableName
+                $theme->compatiblePHP = is_php_version_compatible($theme->requires_php); // phpcs:ignore WordPress.NamingConventions.ValidVariableName
 
                 if (isset($theme->parent)) {
                     $theme->parent = $theme->parent['slug'];

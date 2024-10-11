@@ -1476,7 +1476,7 @@ function register_post_status($post_status, $args = [])
     }
 
     if (false === $args->label_count) {
-		// phpcs:ignore __VAR_WP.WP.I18n.NonSingularStringLiteralSingular,__VAR_WP.WP.I18n.NonSingularStringLiteralPlural
+		// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralSingular,WordPress.WP.I18n.NonSingularStringLiteralPlural
         $args->label_count = _n_noop($args->label, $args->label);
     }
 
@@ -8586,7 +8586,7 @@ function use_block_editor_for_post_type($post_type)
  *
  * @since 6.3.0 Adds `wp_pattern_sync_status` meta field to the wp_block post type so an unsynced option can be added.
  *
- * @link https://github.com/__VAR_WP/gutenberg/pull/51144
+ * @link https://github.com/WordPress/gutenberg/pull/51144
  */
 function wp_create_initial_post_meta()
 {

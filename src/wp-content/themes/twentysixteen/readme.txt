@@ -30,7 +30,7 @@ For more information about Twenty Sixteen please go to https://wp.org/documentat
 
 == Copyright ==
 
-Twenty Sixteen __VAR_WP Theme, Copyright 2014-2024 wp.org, and contributors.
+Twenty Sixteen WordPress Theme, Copyright 2014-2024 wp.org, and contributors.
 Twenty Sixteen is distributed under the terms of the GNU GPL
 
 This program is free software: you can redistribute it and/or modify

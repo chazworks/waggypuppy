@@ -36,11 +36,11 @@ if (isset($_GET['rsd'])) { // https://cyber.harvard.edu/blogs/gems/tech/rsd.html
     ?>
 <rsd version="1.0" xmlns="http://archipelago.phrasewise.com/rsd">
     <service>
-        <engineName>__VAR_WP</engineName>
+        <engineName>WordPress</engineName>
         <engineLink>https://wp.org/</engineLink>
         <homePageLink><?php bloginfo_rss('url'); ?></homePageLink>
         <apis>
-            <api name="__VAR_WP" blogID="1" preferred="true" apiLink="<?php echo site_url('xmlrpc.php', 'rpc'); ?>" />
+            <api name="WordPress" blogID="1" preferred="true" apiLink="<?php echo site_url('xmlrpc.php', 'rpc'); ?>" />
             <api name="Movable Type" blogID="1" preferred="false" apiLink="<?php echo site_url('xmlrpc.php', 'rpc'); ?>" />
             <api name="MetaWeblog" blogID="1" preferred="false" apiLink="<?php echo site_url('xmlrpc.php', 'rpc'); ?>" />
             <api name="Blogger" blogID="1" preferred="false" apiLink="<?php echo site_url('xmlrpc.php', 'rpc'); ?>" />

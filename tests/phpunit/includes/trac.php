@@ -14,7 +14,7 @@ class TracTickets
      *
      * @return bool|null True if the ticket is resolved, false if not resolved, null on error.
      */
-    public static function isTracTicketClosed($trac_url, $ticket_id)  // phpcs:ignore __VAR_WP.NamingConventions.ValidFunctionName.MethodNameInvalid
+    public static function isTracTicketClosed($trac_url, $ticket_id)  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
     {
         if (! extension_loaded('openssl')) {
             $trac_url = preg_replace('/^https:/', 'http:', $trac_url);
@@ -49,7 +49,7 @@ class TracTickets
         return ! in_array($ticket_id, self::$trac_ticket_cache[$trac_url], true);
     }
 
-	// phpcs:ignore __VAR_WP.NamingConventions.ValidFunctionName.MethodNameInvalid
+	// phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
     public static function usingLocalCache()
     {
         echo PHP_EOL . "\x1b[0m\x1b[30;43m\x1b[2K";
@@ -57,7 +57,7 @@ class TracTickets
         echo "\x1b[0m\x1b[2K";
     }
 
-	// phpcs:ignore __VAR_WP.NamingConventions.ValidFunctionName.MethodNameInvalid
+	// phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
     public static function forcingKnownBugs()
     {
         echo PHP_EOL . "\x1b[0m\x1b[37;41m\x1b[2K";

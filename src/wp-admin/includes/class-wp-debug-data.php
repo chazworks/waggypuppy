@@ -902,7 +902,7 @@ class WP_Debug_Data
             $htaccess_content = file_get_contents(ABSPATH . '.htaccess');
 
             // Filter away the core waggypuppy rules.
-            $filtered_htaccess_content = trim(preg_replace('/\# BEGIN __VAR_WP[\s\S]+?# END __VAR_WP/si', '', $htaccess_content));
+            $filtered_htaccess_content = trim(preg_replace('/\# BEGIN WordPress[\s\S]+?# END WordPress/si', '', $htaccess_content));
             $filtered_htaccess_content = ! empty($filtered_htaccess_content);
 
             if ($filtered_htaccess_content) {

@@ -23,7 +23,7 @@ For more information about Twenty Ten theme please go to https://codex.wp.org/Tw
 
 == Copyright ==
 
-Twenty Ten __VAR_WP Theme, Copyright 2010-2024 wp.org, Automattic Inc., and contributors.
+Twenty Ten WordPress Theme, Copyright 2010-2024 wp.org, Automattic Inc., and contributors.
 Twenty Ten is Distributed under the terms of the GNU GPL
 
 This program is free software: you can redistribute it and/or modify

@@ -28,11 +28,11 @@ permission notices:
 
 and
 
-  __VAR_WP - Web publishing software
+  WordPress - Web publishing software
 
   Copyright 2003-2024 by the contributors
 
-  __VAR_WP is released under the GPL
+  WordPress is released under the GPL
 
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 

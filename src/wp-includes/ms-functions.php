@@ -2432,7 +2432,7 @@ function force_ssl_content($force = '')
  * @param string $url URL.
  * @return string URL with https as the scheme.
  */
-function filter_SSL($url)   // phpcs:ignore __VAR_WP.NamingConventions.ValidFunctionName.FunctionNameInvalid
+function filter_SSL($url)   // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
 {
     if (! is_string($url)) {
         return get_bloginfo('url'); // Return home site URL with proper scheme.

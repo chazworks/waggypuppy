@@ -60,7 +60,7 @@ function wp_get_global_settings($path = [], $context = [])
      * A different alternative considered was to invalidate the cache upon certain
      * events such as options add/update/delete, user meta, etc.
      * It was judged not enough, hence this approach.
-     * See https://github.com/__VAR_WP/gutenberg/pull/45372
+     * See https://github.com/WordPress/gutenberg/pull/45372
      */
     $cache_group = 'theme_json';
     $cache_key   = 'wp_get_global_settings_' . $origin;
@@ -171,7 +171,7 @@ function wp_get_global_stylesheet($types = [])
      * A different alternative considered was to invalidate the cache upon certain
      * events such as options add/update/delete, user meta, etc.
      * It was judged not enough, hence this approach.
-     * @see https://github.com/__VAR_WP/gutenberg/pull/45372
+     * @see https://github.com/WordPress/gutenberg/pull/45372
      */
     $cache_group = 'theme_json';
     $cache_key   = 'wp_get_global_stylesheet';

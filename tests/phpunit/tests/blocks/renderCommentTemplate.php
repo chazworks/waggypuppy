@@ -174,7 +174,7 @@ class Tests_Blocks_RenderReusableCommentTemplate extends WP_UnitTestCase
      * Test that if pagination is set to display the last page by default (i.e. newest comments),
      * the query is set to look for page 1 (rather than page 0, which would cause an error).
      *
-     * Regression: https://github.com/__VAR_WP/gutenberg/issues/40758.
+     * Regression: https://github.com/WordPress/gutenberg/issues/40758.
      *
      * @ticket 55658
      * @covers ::build_comment_query_vars_from_block

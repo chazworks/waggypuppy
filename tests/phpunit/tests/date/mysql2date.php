@@ -12,7 +12,7 @@ class Tests_Date_mysql2date extends WP_UnitTestCase
 
     public function tear_down()
     {
-		// phpcs:ignore __VAR_WP.DateTime.RestrictedFunctions.timezone_change_date_default_timezone_set
+		// phpcs:ignore WordPress.DateTime.RestrictedFunctions.timezone_change_date_default_timezone_set
         date_default_timezone_set('UTC');
 
         // Reset the timezone option to the default value.
@@ -59,7 +59,7 @@ class Tests_Date_mysql2date extends WP_UnitTestCase
     public function test_mysql2date_should_format_time_with_changed_time_zone()
     {
         $timezone = 'Europe/Helsinki';
-		// phpcs:ignore __VAR_WP.DateTime.RestrictedFunctions.timezone_change_date_default_timezone_set
+		// phpcs:ignore WordPress.DateTime.RestrictedFunctions.timezone_change_date_default_timezone_set
         date_default_timezone_set($timezone);
         update_option('timezone_string', $timezone);
         $datetime = new DateTime('now', new DateTimeZone($timezone));

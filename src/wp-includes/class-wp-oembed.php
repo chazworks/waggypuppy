@@ -143,7 +143,7 @@ class WP_oEmbed
          * | Flickr       | flickr.com                                | 2.9.0   |
          * | Scribd       | scribd.com                                | 2.9.0   |
          * | Vimeo        | vimeo.com                                 | 2.9.0   |
-         * | __VAR_WP.tv | wordpress.tv                              | 2.9.0   |
+         * | WordPress.tv | wordpress.tv                              | 2.9.0   |
          * | YouTube      | youtube.com/watch                         | 2.9.0   |
          * | Crowdsignal  | polldaddy.com                             | 3.0.0   |
          * | SmugMug      | smugmug.com                               | 3.0.0   |

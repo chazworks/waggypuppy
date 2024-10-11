@@ -33,8 +33,8 @@
                 ?>
                 <a href="<?php echo esc_url(__('https://wp.org/', 'twentyeleven')); ?>" class="imprint" title="<?php esc_attr_e('Semantic Personal Publishing Platform', 'twentyeleven'); ?>">
                     <?php
-                    /* translators: %s: __VAR_WP */
-                    printf(__('Proudly powered by %s', 'twentyeleven'), '__VAR_WP');
+                    /* translators: %s: WordPress */
+                    printf(__('Proudly powered by %s', 'twentyeleven'), 'WordPress');
                     ?>
                 </a>
             </div>

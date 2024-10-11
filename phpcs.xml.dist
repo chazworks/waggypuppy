@@ -96,13 +96,13 @@
     <rule ref="Generic.WhiteSpace.LanguageConstructSpacing"/>
     <rule ref="PEAR.Files.IncludingFile.UseRequire"><type>warning</type></rule>
     <rule ref="PEAR.Files.IncludingFile.UseRequireOnce"><type>warning</type></rule>
-    <rule ref="__VAR_WP.NamingConventions.ValidFunctionName"/>
-    <rule ref="__VAR_WP.NamingConventions.ValidHookName"/>
-    <rule ref="__VAR_WP.NamingConventions.ValidVariableName"/>
+    <rule ref="WordPress.NamingConventions.ValidFunctionName"/>
+    <rule ref="WordPress.NamingConventions.ValidHookName"/>
+    <rule ref="WordPress.NamingConventions.ValidVariableName"/>
     <rule ref="Universal.NamingConventions.NoReservedKeywordParameterNames"/>
     <rule ref="PEAR.NamingConventions.ValidClassName"/>
     <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
-    <rule ref="__VAR_WP.Files.FileName"/>
+    <rule ref="WordPress.Files.FileName"/>
     <rule ref="Universal.WhiteSpace.CommaSpacing"/>
     <rule ref="Universal.WhiteSpace.CommaSpacing.TooMuchSpaceAfterCommaBeforeTrailingComment"><severity>0</severity></rule>
     <rule ref="Universal.WhiteSpace.CommaSpacing.SpaceBeforeInFunctionDeclaration"><severity>0</severity></rule>
@@ -148,7 +148,7 @@
 
     <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
     <rule ref="Squiz.WhiteSpace.CastSpacing"/>
-    <rule ref="__VAR_WP.PHP.TypeCasts"/>
+    <rule ref="WordPress.PHP.TypeCasts"/>
     <rule ref="PSR12.Keywords.ShortFormTypeKeywords"/>
     <rule ref="Generic.PHP.LowerCaseType"/>
 
@@ -193,7 +193,7 @@
         </properties>
     </rule>
 
-    <rule ref="__VAR_WP.Arrays.MultipleStatementAlignment">
+    <rule ref="WordPress.Arrays.MultipleStatementAlignment">
         <properties>
             <property name="maxColumn" value="60"/>
         </properties>
@@ -245,20 +245,20 @@
     </rule>
 
     <rule ref="PSR2.ControlStructures.ElseIfDeclaration"/>
-    <rule ref="__VAR_WP.PHP.YodaConditions"/>
+    <rule ref="WordPress.PHP.YodaConditions"/>
     <rule ref="Universal.Operators.DisallowShortTernary"/>
-    <rule ref="__VAR_WP.PHP.NoSilencedErrors"/>
+    <rule ref="WordPress.PHP.NoSilencedErrors"/>
     <rule ref="Universal.Operators.DisallowStandalonePostIncrementDecrement"><type>warning</type></rule>
-    <rule ref="__VAR_WP.DB.RestrictedFunctions"/>
-    <rule ref="__VAR_WP.DB.RestrictedClasses"/>
-    <rule ref="__VAR_WP.DB.PreparedSQL"/>
-    <rule ref="__VAR_WP.DB.PreparedSQLPlaceholders"/>
+    <rule ref="WordPress.DB.RestrictedFunctions"/>
+    <rule ref="WordPress.DB.RestrictedClasses"/>
+    <rule ref="WordPress.DB.PreparedSQL"/>
+    <rule ref="WordPress.DB.PreparedSQLPlaceholders"/>
     <rule ref="Squiz.PHP.DisallowMultipleAssignments"/>
     <rule ref="Generic.Formatting.DisallowMultipleStatements"/>
     <rule phpcs-only="true" ref="Universal.Operators.StrictComparisons"><type>warning</type></rule>
-    <rule ref="__VAR_WP.PHP.StrictInArray"/>
+    <rule ref="WordPress.PHP.StrictInArray"/>
     <rule ref="Generic.CodeAnalysis.AssignmentInCondition"/>
-    <rule ref="__VAR_WP.CodeAnalysis.AssignmentInTernaryCondition"/>
+    <rule ref="WordPress.CodeAnalysis.AssignmentInTernaryCondition"/>
 
     <rule ref="Generic.PHP.DiscourageGoto">
         <type>error</type>
@@ -270,9 +270,9 @@
         <message>eval() is a security risk so not allowed.</message>
     </rule>
 
-    <rule ref="__VAR_WP.PHP.RestrictedPHPFunctions"/>
-    <rule ref="__VAR_WP.PHP.POSIXFunctions"/>
-    <rule ref="__VAR_WP.PHP.DontExtract"/>
+    <rule ref="WordPress.PHP.RestrictedPHPFunctions"/>
+    <rule ref="WordPress.PHP.POSIXFunctions"/>
+    <rule ref="WordPress.PHP.DontExtract"/>
     <rule ref="Generic.PHP.BacktickOperator"/>
     <rule ref="Generic.Files.ByteOrderMark"/>
     <rule ref="Universal.PHP.LowercasePHPTag"/>
@@ -291,11 +291,11 @@
     <rule ref="Squiz.Classes.SelfMemberReference"/>
     <rule ref="Squiz.Classes.SelfMemberReference.NotUsed"><severity>0</severity></rule>
     <rule ref="Generic.VersionControl.GitMergeConflict"/>
-    <rule ref="__VAR_WP.WP.I18n"/>
-    <rule ref="__VAR_WP.WP.CapitalPDangit"/>
-    <rule ref="__VAR_WP.DateTime.RestrictedFunctions"/>
-    <rule ref="__VAR_WP.DateTime.CurrentTimeTimestamp"/>
-    <rule ref="__VAR_WP.WP.ClassNameCase"/>
+    <rule ref="WordPress.WP.I18n"/>
+    <rule ref="WordPress.WP.CapitalPDangit"/>
+    <rule ref="WordPress.DateTime.RestrictedFunctions"/>
+    <rule ref="WordPress.DateTime.CurrentTimeTimestamp"/>
+    <rule ref="WordPress.WP.ClassNameCase"/>
     <rule ref="Modernize.FunctionCalls.Dirname"/>
 
 
@@ -308,20 +308,20 @@
         <!-- Exclude the unit tests as no warnings are allowed there. Note: these issues should be fixed and the exclude removed! -->
         <exclude-pattern>/tests/phpunit/*</exclude-pattern>
     </rule>
-    <rule ref="__VAR_WP.DB.PreparedSQL.InterpolatedNotPrepared">
+    <rule ref="WordPress.DB.PreparedSQL.InterpolatedNotPrepared">
         <type>warning</type>
     </rule>
-    <rule ref="__VAR_WP.DB.PreparedSQL.NotPrepared">
+    <rule ref="WordPress.DB.PreparedSQL.NotPrepared">
         <type>warning</type>
     </rule>
-    <rule ref="__VAR_WP.Files.FileName.InvalidClassFileName">
+    <rule ref="WordPress.Files.FileName.InvalidClassFileName">
         <type>warning</type>
     </rule>
-    <rule ref="__VAR_WP.NamingConventions.ValidVariableName.VariableNotSnakeCase">
+    <rule ref="WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase">
         <type>warning</type>
     </rule>
 
-    <rule ref="__VAR_WP.NamingConventions.ValidVariableName">
+    <rule ref="WordPress.NamingConventions.ValidVariableName">
         <properties>
             <property name="allowed_custom_properties" type="array">
                 <!-- From database structure queries. -->
@@ -378,7 +378,7 @@
         </properties>
     </rule>
 
-    <rule ref="__VAR_WP.PHP.NoSilencedErrors">
+    <rule ref="WordPress.PHP.NoSilencedErrors">
         <properties>
             <property name="customAllowedFunctionsList" type="array">
                 <element value="ssh2_connect"/>
@@ -450,39 +450,39 @@
     </rule>
 
     <!-- Allow the WP DB Class and related tests for usage of direct database access functions. -->
-    <rule ref="__VAR_WP.DB.RestrictedFunctions">
+    <rule ref="WordPress.DB.RestrictedFunctions">
         <exclude-pattern>/src/wp-includes/class-wpdb\.php</exclude-pattern>
         <exclude-pattern>/tests/phpunit/tests/db/charset\.php</exclude-pattern>
     </rule>
 
     <!-- Allow the WP DB related tests for issues with prepared SQL placeholders
          (as the handling of those are being tested). -->
-    <rule ref="__VAR_WP.DB.PreparedSQLPlaceholders.UnfinishedPrepare">
+    <rule ref="WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare">
         <exclude-pattern>/tests/phpunit/tests/db\.php</exclude-pattern>
     </rule>
-    <rule ref="__VAR_WP.DB.PreparedSQLPlaceholders.UnsupportedPlaceholder">
+    <rule ref="WordPress.DB.PreparedSQLPlaceholders.UnsupportedPlaceholder">
         <exclude-pattern>/tests/phpunit/tests/db\.php</exclude-pattern>
     </rule>
-    <rule ref="__VAR_WP.DB.PreparedSQLPlaceholders.UnescapedLiteral">
+    <rule ref="WordPress.DB.PreparedSQLPlaceholders.UnescapedLiteral">
         <exclude-pattern>/tests/phpunit/tests/db\.php</exclude-pattern>
     </rule>
-    <rule ref="__VAR_WP.DB.PreparedSQL.NotPrepared">
+    <rule ref="WordPress.DB.PreparedSQL.NotPrepared">
         <exclude-pattern>/tests/phpunit/tests/admin/includesSchema\.php</exclude-pattern>
         <exclude-pattern>/tests/phpunit/tests/multisite/site\.php</exclude-pattern>
     </rule>
 
     <!-- Exclude the unit tests from the file name rules. -->
-    <rule ref="__VAR_WP.Files.FileName">
+    <rule ref="WordPress.Files.FileName">
         <exclude-pattern>/tests/phpunit/*</exclude-pattern>
     </rule>
 
     <!-- WPCS1620: template.php isn't a template tag file. -->
-    <rule ref="__VAR_WP.Files.FileName.InvalidTemplateTagFileName">
+    <rule ref="WordPress.Files.FileName.InvalidTemplateTagFileName">
         <exclude-pattern>/src/wp-includes/template\.php</exclude-pattern>
     </rule>
 
     <!-- Exclude some incorrectly named files that won't be renamed. -->
-    <rule ref="__VAR_WP.Files.FileName.InvalidClassFileName">
+    <rule ref="WordPress.Files.FileName.InvalidClassFileName">
         <exclude-pattern>/src/wp-admin/includes/class-wp-list-table-compat\.php</exclude-pattern>
         <exclude-pattern>/src/wp-includes/class-wp-dependency\.php</exclude-pattern>
         <exclude-pattern>/src/wp-includes/class-wp-editor\.php</exclude-pattern>
@@ -492,7 +492,7 @@
     </rule>
 
     <!-- WPCS1621: These files are expected to use _ instead of -. -->
-    <rule ref="__VAR_WP.Files.FileName.NotHyphenatedLowercase">
+    <rule ref="WordPress.Files.FileName.NotHyphenatedLowercase">
         <exclude-pattern>/src/_index\.php</exclude-pattern>
         <exclude-pattern>/src/wp-admin/_index\.php</exclude-pattern>
         <exclude-pattern>/src/wp-content/themes/twentythirteen/taxonomy-post_format\.php</exclude-pattern>
@@ -501,14 +501,14 @@
 
     <!-- Allow the I18n functions file for issues identified by the I18n sniff
          (such as calling the low-level translate() function). -->
-    <rule ref="__VAR_WP.WP.I18n">
+    <rule ref="WordPress.WP.I18n">
         <exclude-pattern>/src/wp-includes/l10n\.php</exclude-pattern>
         <exclude-pattern>/tests/phpunit/tests/l10n\.php</exclude-pattern>
         <exclude-pattern>/tests/phpunit/tests/l10n/loadTextdomainJustInTime\.php</exclude-pattern>
     </rule>
 
     <!-- Translator comments aren't needed in unit tests. -->
-    <rule ref="__VAR_WP.WP.I18n.MissingTranslatorsComment">
+    <rule ref="WordPress.WP.I18n.MissingTranslatorsComment">
         <exclude-pattern>/tests/*</exclude-pattern>
     </rule>
 

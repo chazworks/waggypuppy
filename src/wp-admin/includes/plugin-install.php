@@ -164,7 +164,7 @@ function plugins_api($action, $args = [])
 
         $http_args = [
             'timeout'    => 15,
-            'user-agent' => '__VAR_WP/' . wp_get_wp_version() . '; ' . home_url('/'),
+            'user-agent' => 'WordPress/' . wp_get_wp_version() . '; ' . home_url('/'),
         ];
         $request   = wp_remote_get($url, $http_args);
 

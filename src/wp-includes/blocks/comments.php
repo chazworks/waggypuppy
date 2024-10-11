@@ -157,8 +157,8 @@ function enqueue_legacy_post_comments_block_styles($block_name)
  *
  * @since 6.1.0
  *
- * @see https://github.com/__VAR_WP/gutenberg/pull/41807
- * @see https://github.com/__VAR_WP/gutenberg/pull/32514
+ * @see https://github.com/WordPress/gutenberg/pull/41807
+ * @see https://github.com/WordPress/gutenberg/pull/32514
  */
 function register_legacy_post_comments_block()
 {

@@ -176,7 +176,7 @@ if ($action) {
             $userids = $_REQUEST['users'];
 
             /** This action is documented in wp-admin/network/site-themes.php */
-            $referer = apply_filters('handle_network_bulk_actions-' . get_current_screen()->id, $referer, $action, $userids, $id); // phpcs:ignore __VAR_WP.NamingConventions.ValidHookName.UseUnderscores
+            $referer = apply_filters('handle_network_bulk_actions-' . get_current_screen()->id, $referer, $action, $userids, $id); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
             $update = $action;
             break;

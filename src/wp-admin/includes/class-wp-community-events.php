@@ -103,7 +103,7 @@ class WP_Community_Events
 
         $api_url                    = 'http://api.wp.org/events/1.0/';
         $request_args               = $this->get_request_args($location_search, $timezone);
-        $request_args['user-agent'] = '__VAR_WP/' . $wp_version . '; ' . home_url('/');
+        $request_args['user-agent'] = 'WordPress/' . $wp_version . '; ' . home_url('/');
 
         if (wp_http_supports(['ssl'])) {
             $api_url = set_url_scheme($api_url, 'https');

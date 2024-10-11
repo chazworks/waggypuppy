@@ -1,5 +1,5 @@
 === Twenty Twenty ===
-Contributors: the __VAR_WP team
+Contributors: the WordPress team
 Requires at least: 4.7
 Tested up to: 6.6
 Requires PHP: 5.2.4
@@ -116,7 +116,7 @@ Initial release
 
 == Copyright ==
 
-Twenty Twenty __VAR_WP Theme, Copyright 2019-2024 wp.org and contributors.
+Twenty Twenty WordPress Theme, Copyright 2019-2024 wp.org and contributors.
 Twenty Twenty is distributed under the terms of the GNU GPL.
 
 This program is free software: you can redistribute it and/or modify

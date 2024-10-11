@@ -102,7 +102,7 @@ https://wp.org/documentation/article/twenty-twenty-one-changelog/#Version_1.0
 
 == Copyright ==
 
-Twenty Twenty-One __VAR_WP Theme, 2020-2024 wp.org and contributors.
+Twenty Twenty-One WordPress Theme, 2020-2024 wp.org and contributors.
 Twenty Twenty-One is distributed under the terms of the GNU GPL.
 
 This program is free software: you can redistribute it and/or modify
@@ -138,9 +138,9 @@ Underscores is distributed under the terms of the GNU GPL v2 or later.
 Normalizing styles have been helped along thanks to the fine work of
 Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 
-Unless otherwise noted, the icons in this theme are derived from the __VAR_WP
+Unless otherwise noted, the icons in this theme are derived from the WordPress
 Icons Library, licensed under the terms of the GNU GPL v2 or later.
-https://github.com/__VAR_WP/gutenberg/tree/master/packages/icons
+https://github.com/WordPress/gutenberg/tree/master/packages/icons
 
 This theme bundles the following third-party resources:
 

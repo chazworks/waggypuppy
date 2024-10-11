@@ -94,7 +94,7 @@ if (is_blog_admin() && current_user_can('edit_posts')) {
 
 $help .= '<p>' . sprintf(
     /* translators: %s: WP Planet URL. */
-    __('<strong>WP Events and News</strong> &mdash; Upcoming events near you as well as the latest news from the official __VAR_WP project and the <a href="%s">__VAR_WP Planet</a>.'),
+    __('<strong>WP Events and News</strong> &mdash; Upcoming events near you as well as the latest news from the official WordPress project and the <a href="%s">WordPress Planet</a>.'),
     __('https://planet.wp.org/')
 ) . '</p>';
 

@@ -23,7 +23,7 @@ For more information about Twenty Thirteen please go to https://codex.wp.org/Twe
 
 == Copyright ==
 
-Twenty Thirteen __VAR_WP Theme, Copyright 2013-2024 wp.org, Automattic Inc., and contributors.
+Twenty Thirteen WordPress Theme, Copyright 2013-2024 wp.org, Automattic Inc., and contributors.
 Twenty Thirteen is Distributed under the terms of the GNU GPL
 
 This program is free software: you can redistribute it and/or modify

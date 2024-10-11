@@ -786,7 +786,7 @@ function set_screen_options()
                  * @param string $option        The option name.
                  * @param int    $value         The option value.
                  */
-                $screen_option = apply_filters('set-screen-option', $screen_option, $option, $value); // phpcs:ignore __VAR_WP.NamingConventions.ValidHookName.UseUnderscores
+                $screen_option = apply_filters('set-screen-option', $screen_option, $option, $value); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
             }
 
             /**
@@ -851,7 +851,7 @@ function iis7_rewrite_rule_exists($filename)
     }
 
     $xpath = new DOMXPath($doc);
-    $rules = $xpath->query('/configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'wordpress\')] | /configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'__VAR_WP\')]');
+    $rules = $xpath->query('/configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'wordpress\')] | /configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'WordPress\')]');
 
     if (0 === $rules->length) {
         return false;
@@ -887,7 +887,7 @@ function iis7_delete_rewrite_rule($filename)
     }
 
     $xpath = new DOMXPath($doc);
-    $rules = $xpath->query('/configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'wordpress\')] | /configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'__VAR_WP\')]');
+    $rules = $xpath->query('/configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'wordpress\')] | /configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'WordPress\')]');
 
     if ($rules->length > 0) {
         $child  = $rules->item(0);
@@ -932,7 +932,7 @@ function iis7_add_rewrite_rule($filename, $rewrite_rule)
     $xpath = new DOMXPath($doc);
 
     // First check if the rule already exists as in that case there is no need to re-add it.
-    $wordpress_rules = $xpath->query('/configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'wordpress\')] | /configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'__VAR_WP\')]');
+    $wordpress_rules = $xpath->query('/configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'wordpress\')] | /configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'WordPress\')]');
 
     if ($wordpress_rules->length > 0) {
         return true;
@@ -997,7 +997,7 @@ function iis7_add_rewrite_rule($filename, $rewrite_rule)
  * @param DOMDocument $doc
  * @param string      $filename
  */
-function saveDomDocument($doc, $filename)  // phpcs:ignore __VAR_WP.NamingConventions.ValidFunctionName.FunctionNameInvalid
+function saveDomDocument($doc, $filename)  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
 {
     $config = $doc->saveXML();
     $config = preg_replace("/([^\r])\n/", "$1\r\n", $config);

@@ -1796,7 +1796,7 @@ function wp_dashboard_browser_nag()
      * @param array|false $response An array containing web browser information, or
      *                              false on failure. See wp_check_browser_version().
      */
-    echo apply_filters('browse-happy-notice', $notice, $response); // phpcs:ignore __VAR_WP.NamingConventions.ValidHookName.UseUnderscores
+    echo apply_filters('browse-happy-notice', $notice, $response); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 }
 
 /**
@@ -1839,7 +1839,7 @@ function wp_check_browser_version()
         $url     = 'http://api.wp.org/core/browse-happy/1.1/';
         $options = [
             'body'       => ['useragent' => $_SERVER['HTTP_USER_AGENT']],
-            'user-agent' => '__VAR_WP/' . wp_get_wp_version() . '; ' . home_url('/'),
+            'user-agent' => 'WordPress/' . wp_get_wp_version() . '; ' . home_url('/'),
         ];
 
         if (wp_http_supports(['ssl'])) {

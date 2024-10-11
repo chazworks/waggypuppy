@@ -377,7 +377,7 @@ class Tests_DB extends WP_UnitTestCase
         global $wpdb;
         $id = 0;
         // This, obviously, is an incorrect prepare.
-		// phpcs:ignore __VAR_WP.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
         $prepared = $wpdb->prepare("SELECT * FROM $wpdb->users WHERE id = $id", $id);
         $this->assertSame("SELECT * FROM $wpdb->users WHERE id = 0", $prepared);
     }
@@ -397,11 +397,11 @@ class Tests_DB extends WP_UnitTestCase
     {
         global $wpdb;
 
-		// phpcs:ignore __VAR_WP.PHP.NoSilencedErrors.Discouraged
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
         $prepared = @$wpdb->prepare("SELECT * FROM $wpdb->users WHERE id = %d AND user_login = %s", 1, ['admin']);
         $this->assertSame("SELECT * FROM $wpdb->users WHERE id = 1 AND user_login = ''", $prepared);
 
-		// phpcs:ignore __VAR_WP.PHP.NoSilencedErrors.Discouraged
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
         $prepared = @$wpdb->prepare("SELECT * FROM $wpdb->users WHERE id = %d AND user_login = %s", [1], 'admin');
         $this->assertSame("SELECT * FROM $wpdb->users WHERE id = 0 AND user_login = 'admin'", $prepared);
     }
@@ -421,11 +421,11 @@ class Tests_DB extends WP_UnitTestCase
     {
         global $wpdb;
 
-		// phpcs:ignore __VAR_WP.PHP.NoSilencedErrors.Discouraged
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
         $prepared = @$wpdb->prepare("SELECT * FROM $wpdb->users WHERE id = %d AND user_login = %s", [1, ['admin']]);
         $this->assertSame("SELECT * FROM $wpdb->users WHERE id = 1 AND user_login = ''", $prepared);
 
-		// phpcs:ignore __VAR_WP.PHP.NoSilencedErrors.Discouraged
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
         $prepared = @$wpdb->prepare("SELECT * FROM $wpdb->users WHERE id = %d AND user_login = %s", [[1], 'admin']);
         $this->assertSame("SELECT * FROM $wpdb->users WHERE id = 0 AND user_login = 'admin'", $prepared);
     }
@@ -439,7 +439,7 @@ class Tests_DB extends WP_UnitTestCase
     {
         global $wpdb;
 
-		// phpcs:ignore __VAR_WP.PHP.NoSilencedErrors.Discouraged,__VAR_WP.DB.PreparedSQL
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged,WordPress.DB.PreparedSQL
         $prepared = @$wpdb->prepare($query, ...$args);
         $this->assertSame($expected, $prepared);
     }
@@ -622,7 +622,7 @@ class Tests_DB extends WP_UnitTestCase
 
         $wpdb->last_result = $last_result;
 
-		// phpcs:ignore __VAR_WP.DB.PreparedSQL.NotPrepared
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         $result = $wpdb->get_col($query, $column);
 
         if ($query) {
@@ -1567,7 +1567,7 @@ class Tests_DB extends WP_UnitTestCase
             $values = [$values];
         }
 
-		// phpcs:ignore __VAR_WP.DB.PreparedSQL
+		// phpcs:ignore WordPress.DB.PreparedSQL
         $sql = $wpdb->prepare($sql, ...$values);
         $this->assertSame($expected, $sql, 'The expected SQL does not match');
 
@@ -1591,7 +1591,7 @@ class Tests_DB extends WP_UnitTestCase
             $values = [$values];
         }
 
-		// phpcs:ignore __VAR_WP.DB.PreparedSQL
+		// phpcs:ignore WordPress.DB.PreparedSQL
         $sql = $wpdb->prepare($sql, $values);
         $this->assertSame($expected, $sql, 'The expected SQL does not match');
 
@@ -2062,7 +2062,7 @@ class Tests_DB extends WP_UnitTestCase
         $property->setAccessible(true);
         $property->setValue($wpdb, $allow);
 
-		// phpcs:ignore __VAR_WP.DB.PreparedSQL.NotPrepared
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         $actual = $wpdb->prepare($sql, $values);
 
         // Reset.
@@ -2178,7 +2178,7 @@ class Tests_DB extends WP_UnitTestCase
 
         $sql = str_replace('{ESCAPE}', $escape, $sql);
 
-		// phpcs:ignore __VAR_WP.DB.PreparedSQL.NotPrepared
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         $actual = $wpdb->prepare($sql, $values);
 
         $this->assertSame($expected, $actual);
@@ -2224,7 +2224,7 @@ class Tests_DB extends WP_UnitTestCase
 
         $part = $wpdb->prepare(' AND meta_value = %s', ' %s ');
         $this->assertStringNotContainsString('%s', $part);
-		// phpcs:ignore __VAR_WP.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
+		// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
         $query = $wpdb->prepare('SELECT * FROM {$wpdb->postmeta} WHERE meta_key = %s $part', ['foo', 'bar']);
         $this->assertNull($query);
     }
@@ -2234,7 +2234,7 @@ class Tests_DB extends WP_UnitTestCase
         global $wpdb;
 
         $actual = $wpdb->prepare(
-			// phpcs:ignore __VAR_WP.DB.PreparedSQLPlaceholders.UnquotedComplexPlaceholder
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnquotedComplexPlaceholder
             'WHERE second=%2$f AND first=%1$f',
             1.1,
             2.2
@@ -2250,7 +2250,7 @@ class Tests_DB extends WP_UnitTestCase
         global $wpdb;
 
         $actual = $wpdb->prepare(
-			// phpcs:ignore __VAR_WP.DB.PreparedSQLPlaceholders.UnquotedComplexPlaceholder
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnquotedComplexPlaceholder
             'WHERE second=%2$f AND first=%1$f',
             [1.1, 2.2]
         );
@@ -2269,7 +2269,7 @@ class Tests_DB extends WP_UnitTestCase
         $wpdb->query("CREATE TABLE {$wpdb->prefix}test_placeholder( a VARCHAR(100) );");
         $sql = $wpdb->prepare("INSERT INTO {$wpdb->prefix}test_placeholder VALUES(%s)", $value);
 
-		// phpcs:ignore __VAR_WP.DB.PreparedSQL.NotPrepared
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         $wpdb->query($sql);
 
         $actual = $wpdb->get_var("SELECT a FROM {$wpdb->prefix}test_placeholder");
@@ -2285,7 +2285,7 @@ class Tests_DB extends WP_UnitTestCase
         global $wpdb;
 
         $sql = $wpdb->prepare(' %s %1$c ', 'foo');
-		// phpcs:ignore __VAR_WP.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
         $sql = $wpdb->prepare(" $sql %s ", 'foo');
 
         $this->assertSame("  'foo' {$wpdb->placeholder_escape()}1\$c  'foo' ", $sql);

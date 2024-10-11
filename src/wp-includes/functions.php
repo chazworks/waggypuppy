@@ -182,7 +182,7 @@ function date_i18n($format, $timestamp_with_offset = false, $gmt = false)
 
     // If timestamp is omitted it should be current time (summed with offset, unless `$gmt` is true).
     if (! is_numeric($timestamp)) {
-		// phpcs:ignore __VAR_WP.DateTime.CurrentTimeTimestamp.Requested
+		// phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
         $timestamp = current_time('timestamp', $gmt);
     }
 
@@ -7066,7 +7066,7 @@ function get_file_data($file, $default_headers, $context = '')
  *
  * @return true True.
  */
-function __return_true()  // phpcs:ignore __VAR_WP.NamingConventions.ValidFunctionName.FunctionDoubleUnderscore,PHPCompatibility.FunctionNameRestrictions.ReservedFunctionNames.FunctionDoubleUnderscore
+function __return_true()  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionDoubleUnderscore,PHPCompatibility.FunctionNameRestrictions.ReservedFunctionNames.FunctionDoubleUnderscore
 {
     return true;
 }
@@ -7082,7 +7082,7 @@ function __return_true()  // phpcs:ignore __VAR_WP.NamingConventions.ValidFuncti
  *
  * @return false False.
  */
-function __return_false()  // phpcs:ignore __VAR_WP.NamingConventions.ValidFunctionName.FunctionDoubleUnderscore,PHPCompatibility.FunctionNameRestrictions.ReservedFunctionNames.FunctionDoubleUnderscore
+function __return_false()  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionDoubleUnderscore,PHPCompatibility.FunctionNameRestrictions.ReservedFunctionNames.FunctionDoubleUnderscore
 {
     return false;
 }
@@ -7096,7 +7096,7 @@ function __return_false()  // phpcs:ignore __VAR_WP.NamingConventions.ValidFunct
  *
  * @return int 0.
  */
-function __return_zero()  // phpcs:ignore __VAR_WP.NamingConventions.ValidFunctionName.FunctionDoubleUnderscore,PHPCompatibility.FunctionNameRestrictions.ReservedFunctionNames.FunctionDoubleUnderscore
+function __return_zero()  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionDoubleUnderscore,PHPCompatibility.FunctionNameRestrictions.ReservedFunctionNames.FunctionDoubleUnderscore
 {
     return 0;
 }
@@ -7110,7 +7110,7 @@ function __return_zero()  // phpcs:ignore __VAR_WP.NamingConventions.ValidFuncti
  *
  * @return array Empty array.
  */
-function __return_empty_array()  // phpcs:ignore __VAR_WP.NamingConventions.ValidFunctionName.FunctionDoubleUnderscore,PHPCompatibility.FunctionNameRestrictions.ReservedFunctionNames.FunctionDoubleUnderscore
+function __return_empty_array()  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionDoubleUnderscore,PHPCompatibility.FunctionNameRestrictions.ReservedFunctionNames.FunctionDoubleUnderscore
 {
     return [];
 }
@@ -7124,7 +7124,7 @@ function __return_empty_array()  // phpcs:ignore __VAR_WP.NamingConventions.Vali
  *
  * @return null Null value.
  */
-function __return_null()  // phpcs:ignore __VAR_WP.NamingConventions.ValidFunctionName.FunctionDoubleUnderscore,PHPCompatibility.FunctionNameRestrictions.ReservedFunctionNames.FunctionDoubleUnderscore
+function __return_null()  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionDoubleUnderscore,PHPCompatibility.FunctionNameRestrictions.ReservedFunctionNames.FunctionDoubleUnderscore
 {
     return null;
 }
@@ -7140,7 +7140,7 @@ function __return_null()  // phpcs:ignore __VAR_WP.NamingConventions.ValidFuncti
  *
  * @return string Empty string.
  */
-function __return_empty_string()  // phpcs:ignore __VAR_WP.NamingConventions.ValidFunctionName.FunctionDoubleUnderscore,PHPCompatibility.FunctionNameRestrictions.ReservedFunctionNames.FunctionDoubleUnderscore
+function __return_empty_string()  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionDoubleUnderscore,PHPCompatibility.FunctionNameRestrictions.ReservedFunctionNames.FunctionDoubleUnderscore
 {
     return '';
 }
