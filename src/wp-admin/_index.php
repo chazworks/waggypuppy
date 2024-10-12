@@ -116,11 +116,12 @@ if (is_blog_admin() && current_user_can('edit_posts')) {
         . '</p>';
 }
 
-$help .= '<p>' . sprintf(
-    /* translators: %s: WP Planet URL. */
-        __('<strong>WP Events and News</strong> &mdash; Upcoming events near you as well as the latest news from the official WordPress project and the <a href="%s">WordPress Planet</a>.'),
-        __('https://planet.wp.org/'),
-    ) . '</p>';
+// [waggypuppy 2024-10-12] news widget is no longer on the dashboard
+// $help .= '<p>' . sprintf(
+//     /* translators: %s: WP Planet URL. */
+//         __('<strong>WP Events and News</strong> &mdash; Upcoming events near you as well as the latest news from the official WordPress project and the <a href="%s">WordPress Planet</a>.'),
+//         __('https://planet.wp.org/'),
+//     ) . '</p>';
 
 $screen->add_help_tab(
     [
