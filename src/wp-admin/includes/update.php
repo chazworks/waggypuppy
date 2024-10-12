@@ -133,7 +133,7 @@ function find_core_auto_update()
  */
 function get_core_checksums($version, $locale)
 {
-    $http_url = 'http://api.wp.org/core/checksums/1.0/?' . http_build_query(compact('version', 'locale'), '', '&');
+    $http_url = 'http://api.waggypuppy.org/core/checksums/1.0/?' . http_build_query(compact('version', 'locale'), '', '&');
     $url = $http_url;
 
     $ssl = wp_http_supports(['ssl']);
