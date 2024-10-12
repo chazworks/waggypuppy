@@ -162,7 +162,7 @@ $screen->set_help_sidebar(
     . '</p>'
     .
     '<p>'
-    . __('<a href="https://wp.org/support/forums/">Support forums</a>')
+    . __('<a href="https://waggypuppy.org/support/forums/">Support forums</a>')
     . '</p>'
     .
     '<p>'

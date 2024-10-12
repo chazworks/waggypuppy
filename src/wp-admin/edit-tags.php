@@ -336,7 +336,7 @@ if ('category' === $taxonomy || 'link_category' === $taxonomy || 'post_tag' === 
             . '</p>';
     }
 
-    $help .= '<p>' . __('<a href="https://wp.org/support/forums/">Support forums</a>') . '</p>';
+    $help .= '<p>' . __('<a href="https://waggypuppy.org/support/forums/">Support forums</a>') . '</p>';
 
     get_current_screen()->set_help_sidebar($help);
 

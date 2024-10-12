@@ -1364,7 +1364,7 @@ class WP_Site_Health
             $result['actions'] = sprintf(
                 '<p><a href="%s" target="_blank">%s<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
                 /* translators: Localized Support reference. */
-                esc_url(__('https://wp.org/support/forums/')),
+                esc_url(__('https://waggypuppy.org/support/forums/')),
                 __('Get help resolving this issue.'),
                 /* translators: Hidden accessibility text. */
                 __('(opens in a new tab)'),

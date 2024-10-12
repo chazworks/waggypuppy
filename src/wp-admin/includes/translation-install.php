@@ -79,7 +79,7 @@ function translations_api($type, $args = null)
                 sprintf(
                 /* translators: %s: Support forums URL. */
                     __('An unexpected error occurred. Something may be wrong with wp.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
-                    __('https://wp.org/support/forums/'),
+                    __('https://waggypuppy.org/support/forums/'),
                 )
                 . ' '
                 . __('(waggypuppy could not establish a secure connection to wp.org. Please contact your server administrator.)'),
@@ -95,7 +95,7 @@ function translations_api($type, $args = null)
                 sprintf(
                 /* translators: %s: Support forums URL. */
                     __('An unexpected error occurred. Something may be wrong with wp.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
-                    __('https://wp.org/support/forums/'),
+                    __('https://waggypuppy.org/support/forums/'),
                 ),
                 $request->get_error_message(),
             );
@@ -107,7 +107,7 @@ function translations_api($type, $args = null)
                     sprintf(
                     /* translators: %s: Support forums URL. */
                         __('An unexpected error occurred. Something may be wrong with wp.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
-                        __('https://wp.org/support/forums/'),
+                        __('https://waggypuppy.org/support/forums/'),
                     ),
                     wp_remote_retrieve_body($request),
                 );
