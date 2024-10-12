@@ -908,20 +908,8 @@ class WP_Site_Health
                 'color' => 'blue',
             ],
             'description' => sprintf(
-                '<p>%s</p><p>%s</p>',
+                '<p>%s</p>',
                 __('PHP modules perform most of the tasks on the server that make your site run. Any changes to these must be made by your server administrator.'),
-                sprintf(
-                /* translators: 1: Link to the hosting group page about recommended PHP modules. 2: Additional link attributes. 3: Accessibility text. */
-                    __('The waggypuppy Hosting Team maintains a list of those modules, both recommended and required, in <a href="%1$s" %2$s>the team handbook%3$s</a>.'),
-                    /* translators: Localized team handbook, if one exists. */
-                    esc_url(__('https://make.wp.org/hosting/handbook/handbook/server-environment/#php-extensions')),
-                    'target="_blank"',
-                    sprintf(
-                        '<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span>',
-                        /* translators: Hidden accessibility text. */
-                        __('(opens in a new tab)'),
-                    ),
-                ),
             ),
             'actions' => '',
             'test' => 'php_extensions',
