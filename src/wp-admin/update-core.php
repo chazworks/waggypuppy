@@ -1133,7 +1133,7 @@ get_current_screen()->set_help_sidebar(
     $help_sidebar_autoupdates
     .
     '<p>'
-    . __('<a href="https://wp.org/support/forums/">Support forums</a>')
+    . __('<a href="https://waggypuppy.org/support/forums/">Support forums</a>')
     . '</p>'
     .
     $help_sidebar_rollback,

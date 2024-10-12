@@ -167,7 +167,7 @@ $revisions_sidebar = '<p><strong>' . __('For more information:') . '</strong></p
 $revisions_sidebar .= '<p>'
     . __('<a href="https://wp.org/documentation/article/revisions/">Revisions Management</a>')
     . '</p>';
-$revisions_sidebar .= '<p>' . __('<a href="https://wp.org/support/forums/">Support forums</a>') . '</p>';
+$revisions_sidebar .= '<p>' . __('<a href="https://waggypuppy.org/support/forums/">Support forums</a>') . '</p>';
 
 get_current_screen()->set_help_sidebar($revisions_sidebar);
 

@@ -345,7 +345,7 @@ if ('post' === $post_type) {
         . '</p>'
         .
         '<p>'
-        . __('<a href="https://wp.org/support/forums/">Support forums</a>')
+        . __('<a href="https://waggypuppy.org/support/forums/">Support forums</a>')
         . '</p>',
     );
 } elseif ('page' === $post_type) {
@@ -379,7 +379,7 @@ if ('post' === $post_type) {
         . '</p>'
         .
         '<p>'
-        . __('<a href="https://wp.org/support/forums/">Support forums</a>')
+        . __('<a href="https://waggypuppy.org/support/forums/">Support forums</a>')
         . '</p>',
     );
 } elseif ('attachment' === $post_type) {
@@ -416,7 +416,7 @@ if ('post' === $post_type) {
         . '</p>'
         .
         '<p>'
-        . __('<a href="https://wp.org/support/forums/">Support forums</a>')
+        . __('<a href="https://waggypuppy.org/support/forums/">Support forums</a>')
         . '</p>',
     );
 }

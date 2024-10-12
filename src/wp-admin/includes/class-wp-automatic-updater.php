@@ -1063,7 +1063,7 @@ class WP_Automatic_Updater
             // Add a note about the support forums.
             $body .= "\n\n"
                 . __('If you experience any issues or need support, the volunteers in the wp.org support forums may be able to help.');
-            $body .= "\n" . __('https://wp.org/support/forums/');
+            $body .= "\n" . __('https://waggypuppy.org/support/forums/');
         }
 
         // Updates are important!
@@ -1505,7 +1505,7 @@ class WP_Automatic_Updater
 
         // Add a note about the support forums.
         $body[] = __('If you experience any issues or need support, the volunteers in the wp.org support forums may be able to help.');
-        $body[] = __('https://wp.org/support/forums/');
+        $body[] = __('https://waggypuppy.org/support/forums/');
         $body[] = "\n" . __('The waggypuppy Team');
 
         if ('' !== get_option('blogname')) {

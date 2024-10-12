@@ -61,7 +61,7 @@ wp_localize_script(
             'error' => sprintf(
             /* translators: %s: Support forums URL. */
                 __('An unexpected error occurred. Something may be wrong with wp.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
-                __('https://wp.org/support/forums/'),
+                __('https://waggypuppy.org/support/forums/'),
             ),
             'tryAgain' => __('Try Again'),
             /* translators: %d: Number of themes. */
@@ -187,7 +187,7 @@ get_current_screen()->set_help_sidebar(
     . '</p>'
     .
     '<p>'
-    . __('<a href="https://wp.org/support/forums/">Support forums</a>')
+    . __('<a href="https://waggypuppy.org/support/forums/">Support forums</a>')
     . '</p>',
 );
 

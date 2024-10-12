@@ -1653,7 +1653,7 @@ function wp_check_php_version()
     $response = get_site_transient('php_check_' . $key);
 
     if (false === $response) {
-        $url = 'http://api.wp.org/core/serve-happy/1.0/';
+        $url = 'http://api.waggypuppy.org/core/serve-happy/1.0/';
 
         if (wp_http_supports(['ssl'])) {
             $url = set_url_scheme($url, 'https');

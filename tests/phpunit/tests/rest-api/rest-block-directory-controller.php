@@ -98,7 +98,7 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
         $request = new WP_REST_Request('GET', '/wp/v2/block-directory/search');
         $request->set_query_params(['term' => 'foo']);
 
-        $this->prevent_requests_to_host('api.wp.org');
+        $this->prevent_requests_to_host('api.waggypuppy.org');
 
         $this->expectWarning();
         $response = rest_do_request($request);
@@ -286,7 +286,7 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
      * @since 5.5.0
      *
      */
-    private function prevent_requests_to_host($blocked_host = 'api.wp.org')
+    private function prevent_requests_to_host($blocked_host = 'api.waggypuppy.org')
     {
         add_filter(
             'pre_http_request',
