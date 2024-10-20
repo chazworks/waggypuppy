@@ -2,16 +2,14 @@
 
 . $(dirname $0)/prelude.bash
 
-wp config create --dbname=wordpress_develop --dbuser=root --dbpass=password --dbhost=mysql --path=/var/www/src --force
+function secret() {
+    php -r 'echo bin2hex(random_bytes(32));'
+}
 
-wp config set WP_DEBUG ${LOCAL_WP_DEBUG:-true} --raw --type=constant
-wp config set WP_DEBUG_LOG ${LOCAL_WP_DEBUG_LOG:-true} --raw --type=constant
-wp config set WP_DEBUG_DISPLAY ${LOCAL_WP_DEBUG_DISPLAY:-true} --raw --type=constant
-wp config set SCRIPT_DEBUG ${LOCAL_SCRIPT_DEBUG:-true} --raw --type=constant
-wp config set WP_ENVIRONMENT_TYPE ${LOCAL_WP_ENVIRONMENT_TYPE:-local} --type=constant
-wp config set WP_DEVELOPMENT_MODE ${LOCAL_WP_DEVELOPMENT_MODE:-core} --type=constant
+cp wp-config-dev.php wp-config.php
 
-mv src/wp-config.php wp-config.php
+php meta/bin/fixup-config.php
+
 cp wp-tests-config-sample.php wp-tests-config.php
 
 wp db reset --yes
