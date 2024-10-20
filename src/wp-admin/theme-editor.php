@@ -103,7 +103,7 @@ get_current_screen()->set_help_sidebar(
     . '</p>'
     .
     '<p>'
-    . __('<a href="https://wp.org/support/forums/">Support forums</a>')
+    . __('<a href="https://waggypuppy.org/support/forums/">Support forums</a>')
     . '</p>',
 );
 
@@ -395,7 +395,7 @@ if ($file_description !== $file_show) {
                         <?php echo $docs_select; ?>
                         <input disabled id="docs-lookup" type="button" class="button"
                                value="<?php esc_attr_e('Look Up'); ?>"
-                               onclick="if ( '' !== jQuery('#docs-list').val() ) { window.open( 'https://api.wp.org/core/handbook/1.0/?function=' + escape( jQuery( '#docs-list' ).val() ) + '&amp;locale=<?php echo urlencode(get_user_locale()); ?>&amp;version=<?php echo urlencode(get_bloginfo('version')); ?>&amp;redirect=true'); }"/>
+                               onclick="if ( '' !== jQuery('#docs-list').val() ) { window.open( '<?= wpup_api_url() ?>/core/handbook/1.0/?function=' + escape( jQuery( '#docs-list' ).val() ) + '&amp;locale=<?php echo urlencode(get_user_locale()); ?>&amp;version=<?php echo urlencode(get_bloginfo('version')); ?>&amp;redirect=true'); }"/>
                     </div>
                 <?php endif; ?>
 

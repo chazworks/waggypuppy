@@ -567,7 +567,7 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
         $request = new WP_REST_Request('POST', self::BASE);
         $request->set_body_params(['slug' => 'foo']);
 
-        $this->prevent_requests_to_host('api.wp.org');
+        $this->prevent_requests_to_host('api.aspirecloud.org');
 
         $this->expectWarning();
         $response = rest_do_request($request);
@@ -585,7 +585,7 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
             static function () {
                 /*
                  * Mocks the request to:
-                 * https://api.wp.org/plugins/info/1.2/?action=plugin_information&request%5Bslug%5D=alex-says-this-block-definitely-doesnt-exist&request%5Bfields%5D%5Bsections%5D=0&request%5Bfields%5D%5Blanguage_packs%5D=1&request%5Blocale%5D=en_US&request%5Bwp_version%5D=5.9
+                 * https://api.aspirecloud.org/plugins/info/1.2/?action=plugin_information&request%5Bslug%5D=alex-says-this-block-definitely-doesnt-exist&request%5Bfields%5D%5Bsections%5D=0&request%5Bfields%5D%5Blanguage_packs%5D=1&request%5Blocale%5D=en_US&request%5Bwp_version%5D=5.9
                  */
                 return [
                     'headers' => [],
@@ -1237,7 +1237,7 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
      * @since 5.5.0
      *
      */
-    private function prevent_requests_to_host($blocked_host = 'api.wp.org')
+    private function prevent_requests_to_host($blocked_host = 'api.aspirecloud.org')
     {
         add_filter(
             'pre_http_request',

@@ -10,8 +10,8 @@
 /**
  * Controller which provides REST endpoint for block patterns.
  *
- * This simply proxies the endpoint at http://api.wp.org/patterns/1.0/. That isn't necessary for
- * functionality, but is desired for privacy. It prevents api.wp.org from knowing the user's IP address.
+ * This simply proxies the endpoint at http://api.aspirecloud.org/patterns/1.0/. That isn't necessary for
+ * functionality, but is desired for privacy. It prevents api.aspirecloud.org from knowing the user's IP address.
  *
  * @since 5.8.0
  *
@@ -119,7 +119,7 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller
         $raw_patterns = get_site_transient($transient_key);
 
         if (!$raw_patterns) {
-            $api_url = 'http://api.wp.org/patterns/1.0/?' . build_query($query_args);
+            $api_url = wpup_api_url('/patterns/1.0/?' . build_query($query_args));
             if (wp_http_supports(['ssl'])) {
                 $api_url = set_url_scheme($api_url, 'https');
             }
@@ -144,7 +144,7 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller
                     sprintf(
                     /* translators: %s: Support forums URL. */
                         __('An unexpected error occurred. Something may be wrong with wp.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
-                        __('https://wp.org/support/forums/'),
+                        __('https://waggypuppy.org/support/forums/'),
                     ),
                     [
                         'response' => wp_remote_retrieve_body($wporg_response),
@@ -180,7 +180,7 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller
     /**
      * Prepare a raw block pattern before it gets output in a REST API response.
      *
-     * @param object $item Raw pattern from api.wp.org, before any changes.
+     * @param object $item Raw pattern from api.aspirecloud.org, before any changes.
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response
      * @since 5.9.0 Renamed `$raw_pattern` to `$item` to match parent class for PHP 8 named parameter support.

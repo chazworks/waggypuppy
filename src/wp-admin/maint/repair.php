@@ -91,7 +91,7 @@ if (!defined('WP_ALLOW_REPAIR') || !WP_ALLOW_REPAIR) {
         /* translators: 1: wp-config.php, 2: Secret key service URL. */
         echo '<p>'
             . sprintf(__('While you are editing your %1$s file, take a moment to make sure you have all 8 keys and that they are unique. You can generate these using the <a href="%2$s">wp.org secret key service</a>.'),
-                '<code>wp-config.php</code>', 'https://api.wp.org/secret-key/1.1/salt/')
+                '<code>wp-config.php</code>', wpup_api_url('/secret-key/1.1/salt/'))
             . '</p>';
     }
 } elseif (isset($_GET['repair'])) {

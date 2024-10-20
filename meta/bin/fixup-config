@@ -1,0 +1,5 @@
+#!/bin/bash
+
+. $(dirname $0)/prelude.bash
+
+exec php meta/bin/fixup-config.php "$@"

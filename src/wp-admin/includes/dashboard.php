@@ -93,7 +93,8 @@ function wp_dashboard_setup()
     }
 
     // WP Events and News.
-    wp_add_dashboard_widget('dashboard_primary', __('WP Events and News'), 'wp_dashboard_events_news');
+    // [waggypuppy 2024-10-12] no longer accepting propaganda from upstream
+    // wp_add_dashboard_widget('dashboard_primary', __('WP Events and News'), 'wp_dashboard_events_news');
 
     if (is_network_admin()) {
         /**
@@ -1882,7 +1883,7 @@ function wp_check_browser_version()
     $response = get_site_transient('browser_' . $key);
 
     if (false === $response) {
-        $url = 'http://api.wp.org/core/browse-happy/1.1/';
+        $url = wpup_api_url('/core/browse-happy/1.1/');
         $options = [
             'body' => ['useragent' => $_SERVER['HTTP_USER_AGENT']],
             'user-agent' => 'WordPress/' . wp_get_wp_version() . '; ' . home_url('/'),

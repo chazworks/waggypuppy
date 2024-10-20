@@ -41,7 +41,7 @@ const DB_COLLATE = '';
  * Authentication unique keys and salts.
  *
  * Change these to different unique phrases! You can generate these using
- * the {@link https://api.wp.org/secret-key/1.1/salt/ wp.org secret-key service}.
+ * the {@link https://api.aspirecloud.org/secret-key/1.1/salt/ wp.org secret-key service}.
  *
  * You can change these at any point in time to invalidate all existing cookies.
  * This will force all users to have to log in again.
