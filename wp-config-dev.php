@@ -10,6 +10,8 @@ const DB_COLLATE = '';
 
 $table_prefix = 'wp_';
 
+const WPUP_API_URL = 'http://api.aspiredev.org';
+
 ## BEGIN: keys
 const AUTH_KEY = 'deadbeef';
 const SECURE_AUTH_KEY = 'deadbeef';

@@ -383,7 +383,7 @@ window.wp = window.wp || {};
 			request: {},
 		},
 
-		// Send request to api.waggypuppy.org/themes.
+		// Send request to api.aspirecloud.org/themes.
 		apiCall: function ( request, paginated ) {
 			return wp.ajax.send( 'query-themes', {
 				data: {
@@ -1765,7 +1765,7 @@ window.wp = window.wp || {};
 			);
 			$( '.drawer-toggle' ).attr( 'aria-expanded', 'false' );
 
-			// Get the themes by sending Ajax POST request to api.waggypuppy.org/themes
+			// Get the themes by sending Ajax POST request to api.aspirecloud.org/themes
 			// or searching the local cache.
 			this.collection.query( request );
 
@@ -1875,7 +1875,7 @@ window.wp = window.wp || {};
 			// Create a new collection with the proper theme data
 			// for each section.
 			if ( 'block-themes' === section ) {
-				// Get the themes by sending Ajax POST request to api.waggypuppy.org/themes
+				// Get the themes by sending Ajax POST request to api.aspirecloud.org/themes
 				// or searching the local cache.
 				this.collection.query( { tag: 'full-site-editing' } );
 			} else {
@@ -1954,7 +1954,7 @@ window.wp = window.wp || {};
 			filter = _.union( [ filter, this.filtersChecked() ] );
 			request = { tag: [ filter ] };
 
-			// Get the themes by sending Ajax POST request to api.waggypuppy.org/themes
+			// Get the themes by sending Ajax POST request to api.aspirecloud.org/themes
 			// or searching the local cache.
 			this.collection.query( request );
 		},
@@ -1992,7 +1992,7 @@ window.wp = window.wp || {};
 				filteringBy.append( '<span class="tag">' + name + '</span>' );
 			} );
 
-			// Get the themes by sending Ajax POST request to api.waggypuppy.org/themes
+			// Get the themes by sending Ajax POST request to api.aspirecloud.org/themes
 			// or searching the local cache.
 			this.collection.query( request );
 		},
@@ -2019,7 +2019,7 @@ window.wp = window.wp || {};
 					username: username,
 				},
 				success: function () {
-					// Get the themes by sending Ajax POST request to api.waggypuppy.org/themes
+					// Get the themes by sending Ajax POST request to api.aspirecloud.org/themes
 					// or searching the local cache.
 					that.collection.query( request );
 				},

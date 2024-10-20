@@ -1322,7 +1322,7 @@ class WP_Site_Health
         ];
 
         $wp_dotorg = wp_remote_get(
-            'https://api.waggypuppy.org',
+            wpup_api_url(),
             [
                 'timeout' => 10,
             ],
@@ -1343,7 +1343,7 @@ class WP_Site_Health
                     sprintf(
                     /* translators: 1: The IP address wp.org resolves to. 2: The error returned by the lookup. */
                         __('Your site is unable to reach wp.org at %1$s, and returned the error: %2$s'),
-                        gethostbyname('api.waggypuppy.org'),
+                        gethostbyname(parse_url(wpup_api_url(), PHP_URL_HOST)),
                         $wp_dotorg->get_error_message(),
                     ),
                 ),

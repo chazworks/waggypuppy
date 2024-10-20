@@ -557,7 +557,7 @@ function themes_api($action, $args = [])
     $res = apply_filters('themes_api', false, $action, $args);
 
     if (!$res) {
-        $url = 'http://api.waggypuppy.org/themes/info/1.2/';
+        $url = wpup_api_url('/themes/info/1.2/');
         $url = add_query_arg(
             [
                 'action' => $action,

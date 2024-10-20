@@ -377,7 +377,7 @@ try {
     $no_api = isset($_POST['noapi']);
 
     if (!$no_api) {
-        $secret_keys = wp_remote_get('https://api.waggypuppy.org/secret-key/1.1/salt/');
+        $secret_keys = wp_remote_get(wpup_api_url('/secret-key/1.1/salt/'));
     }
 
     if ($no_api || is_wp_error($secret_keys)) {

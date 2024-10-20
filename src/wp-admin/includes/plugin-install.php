@@ -146,7 +146,7 @@ function plugins_api($action, $args = [])
     $res = apply_filters('plugins_api', false, $action, $args);
 
     if (false === $res) {
-        $url = 'http://api.waggypuppy.org/plugins/info/1.2/';
+        $url = wpup_api_url('/plugins/info/1.2/');
         $url = add_query_arg(
             [
                 'action' => $action,
